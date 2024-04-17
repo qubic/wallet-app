@@ -1,6 +1,7 @@
 # Qubic Wallet
 Official wallet app for the QUBIC network (https://qubic.org/). Find more about QUBIC on (https://doc.qubic.world/). Find us on discord (https://discord.com/invite/2vDMR8m). 
->>>>>>> cf75fbb (Initial commit after migration from Q-Hub repo)
+
+(Initial commit after migration from Q-Hub repo)
 
 ## Functionality
 
