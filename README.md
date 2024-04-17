@@ -1,6 +1,10 @@
 # Qubic Wallet
 
+<<<<<<< HEAD
 This is a fully functional wallet for the Qubic project (https://discord.com/invite/2vDMR8m). Works great in Android and Windows (check releases pages). Tested and works on MacOS and iOS (no releases provided, you will have to manually compile it).
+=======
+This is a fully functional wallet for the Qubic project (https://discord.com/invite/2vDMR8m). It is developed using flutter and runs in Android and Microsoft Windows.
+>>>>>>> 5a73535 (Update README.md)
 
 ## Functionality
 
