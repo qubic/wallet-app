@@ -58,7 +58,7 @@ class _SendState extends State<Send> {
     decimalDigits: 0,
   );
 
-  List<bool> expanded = [false];
+  bool expanded = false;
   List<DropdownMenuItem<TargetTickType>> tickList = [
     const DropdownMenuItem(
         value: TargetTickType.autoCurrentPlus20,
@@ -260,7 +260,7 @@ class _SendState extends State<Send> {
   }
 
   List<Widget> getOverrideTick() {
-    if ((targetTickType == TargetTickType.manual) && (expanded[0] == true)) {
+    if ((targetTickType == TargetTickType.manual) && (expanded == true)) {
       return [
         ThemedControls.spacerVerticalSmall(),
         Row(
@@ -542,7 +542,7 @@ class _SendState extends State<Send> {
                                   expansionCallback:
                                       (int index, bool isExpanded) {
                                     setState(() {
-                                      expanded[index] = !isExpanded;
+                                      expanded = !expanded;
                                     });
                                   },
                                   children: [
@@ -565,7 +565,7 @@ class _SendState extends State<Send> {
                                             ThemePaddings.normalPadding,
                                           ),
                                           child: getAdvancedOptions()),
-                                      isExpanded: expanded[0],
+                                      isExpanded: expanded,
                                     )
                                   ])))
                     ],

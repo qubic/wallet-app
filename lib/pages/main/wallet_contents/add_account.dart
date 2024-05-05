@@ -270,9 +270,12 @@ class _AddAccountState extends State<AddAccount> {
                                   showQRScanner();
                                 },
                                 text: "Use QR Code",
-                                icon: ThemedControls.invertedColors(
-                                    child: Image.asset(
-                                        "assets/images/Group 2294.png")))),
+                                icon: !LightThemeColors.shouldInvertIcon
+                                    ? ThemedControls.invertedColors(
+                                        child: Image.asset(
+                                            "assets/images/Group 2294.png"))
+                                    : Image.asset(
+                                        "assets/images/Group 2294.png"))),
                       ThemedControls.spacerVerticalNormal(),
                       Align(
                           alignment: Alignment.topLeft,
