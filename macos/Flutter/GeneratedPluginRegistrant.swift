@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import dargon2_flutter_desktop
-import flutter_inappwebview
+import flutter_inappwebview_macos
 import flutter_secure_storage_macos
 import mobile_scanner
 import package_info_plus
