@@ -41,6 +41,8 @@ class WalletApp extends StatelessWidget {
       title: 'Qubic Wallet',
       routerConfig: appRouter,
       scaffoldMessengerKey: snackbarKey,
+      debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.dark,
 
       /// Theme config for FlexColorScheme version 7.3.x. Make sure you use
 // same or higher package version, but still same major version. If you
