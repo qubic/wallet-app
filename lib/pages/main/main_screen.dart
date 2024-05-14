@@ -226,7 +226,7 @@ class _MainScreenState extends State<MainScreen> {
       if (UniversalPlatform.isDesktop && !settingsStore.cmdUtilsAvailable) {
         return DownloadCmdUtils();
       }
-      return getMain();
+      return ScaffoldMessenger(child: Scaffold(body: getMain()));
     });
   }
 }

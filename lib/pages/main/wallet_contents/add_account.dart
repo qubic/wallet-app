@@ -80,6 +80,7 @@ class _AddAccountState extends State<AddAccount> {
                   if (foundSuccess) {
                     if (!detected) {
                       Navigator.pop(context);
+
                       _globalSnackBar.show(
                           "Successfully scanned QR Code", true);
                     }

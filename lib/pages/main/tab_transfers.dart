@@ -104,14 +104,15 @@ class _TabTransfersState extends State<TabTransfers> {
                   SliverList(
                       delegate: SliverChildListDelegate([
                     Container(
-                        child: Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                ThemePaddings.bigPadding,
-                                ThemePaddings.normalPadding,
-                                ThemePaddings.bigPadding,
-                                ThemePaddings.miniPadding),
-                            child: Text("Epoch Transfers",
-                                style: TextStyles.sliverCardPreLabel)))
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              ThemePaddings.bigPadding,
+                              ThemePaddings.normalPadding,
+                              ThemePaddings.bigPadding,
+                              ThemePaddings.miniPadding),
+                          child: ThemedControls.pageHeader(
+                              headerText: "Epoch transfers")),
+                    )
                   ])),
                   Observer(builder: (context) {
                     if (appStore.currentTransactions.isEmpty) {

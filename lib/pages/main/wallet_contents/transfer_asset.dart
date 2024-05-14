@@ -689,7 +689,6 @@ class _TransferAssetState extends State<TransferAsset> {
 
     Navigator.pop(context);
     //Timer(const Duration(seconds: 1), () => Navigator.pop(context));
-
     _globalSnackBar.show("Submitted transaction to Qubic network");
 
     setState(() {

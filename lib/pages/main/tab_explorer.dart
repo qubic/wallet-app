@@ -74,6 +74,7 @@ class _TabExplorerState extends State<TabExplorer> {
       });
     }, onError: (e) {
       _globalSnackBar.show(e.toString().replaceAll("Exception: ", ""), true);
+
       explorerStore.decreasePendingRequests();
     });
   }
