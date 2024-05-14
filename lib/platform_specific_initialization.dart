@@ -19,13 +19,13 @@ class PlatformSpecificInitilization {
     final file =
         File('$path/databases/com.google.android.datatransport.events');
     await file.writeAsString('Fake');
+
+    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
   Future<void> _iOS() async {}
 
   Future<void> _mobile() async {
-    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
-
     await SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
