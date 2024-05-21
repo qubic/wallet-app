@@ -219,6 +219,15 @@ class ThemedControls {
         buttonStyle: ButtonStyles.primaryButtonBig);
   }
 
+  static Widget primaryButtonBigDisabled({required String text, Widget? icon}) {
+    return themedButton(
+        onPressed: () {},
+        label: text,
+        icon: icon,
+        textStyle: TextStyles.primaryButtonText,
+        buttonStyle: ButtonStyles.primaryButtonBigDisabled);
+  }
+
   static Widget primaryButtonSmall(
       {required void Function()? onPressed,
       required String text,

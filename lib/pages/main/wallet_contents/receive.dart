@@ -100,7 +100,7 @@ class _ReceiveState extends State<Receive> {
                   ])),
               ThemedControls.spacerVerticalSmall(),
               ToggleableQRCode(
-                  qRCodeData: widget.item.publicId, expanded: false),
+                  qRCodeData: widget.item.publicId, expanded: true),
             ],
           )))
         ]));

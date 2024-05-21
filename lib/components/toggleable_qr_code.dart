@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -24,6 +26,10 @@ class _ToggleableQRCodeState extends State<ToggleableQRCode> {
   late bool expanded = widget.expanded;
 
   Widget getButton() {
+    if (expanded) {
+      return Container();
+    }
+
     return ThemedControls.primaryButtonNormal(
         onPressed: () {
           setState(() {

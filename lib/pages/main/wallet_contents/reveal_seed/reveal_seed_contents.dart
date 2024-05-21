@@ -78,7 +78,7 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
                     ])
                   ])),
               ThemedControls.spacerVerticalSmall(),
-              ToggleableQRCode(qRCodeData: seedId!, expanded: false),
+              ToggleableQRCode(qRCodeData: seedId!, expanded: true),
             ],
           ))
         ]));

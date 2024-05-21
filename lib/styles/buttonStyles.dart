@@ -16,4 +16,12 @@ abstract class ButtonStyles {
           LightThemeColors.buttonBackground.withOpacity(0.1)),
       shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0))));
+
+  static ButtonStyle primaryButtonBigDisabled = ButtonStyle(
+      overlayColor: MaterialStatePropertyAll<Color>(
+          LightThemeColors.extraStrongBackground.withOpacity(0.1)),
+      backgroundColor: const MaterialStatePropertyAll<Color>(
+          LightThemeColors.buttonBackgroundDisabled),
+      shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(40.0))));
 }

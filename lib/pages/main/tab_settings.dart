@@ -199,6 +199,34 @@ class _TabSettingsState extends State<TabSettings> {
       lightTheme: theme,
       sections: [
         SettingsSection(
+          title: getSettingsHeader("Accounts and data", true),
+          tiles: <SettingsTile>[
+            SettingsTile.navigation(
+              leading: ChangeForeground(
+                  child: const Icon(Icons.logout),
+                  color: LightThemeColors.gradient1),
+              title: Text('Sign out', style: TextStyles.textNormal),
+              trailing: Container(),
+              onPressed: (BuildContext context) {
+                appStore.signOut();
+                timedController.stopFetchTimer();
+                context.go('/signIn');
+              },
+            ),
+            SettingsTile.navigation(
+              leading: ChangeForeground(
+                  child: const Icon(Icons.cleaning_services_outlined),
+                  color: LightThemeColors.gradient1),
+              title: Text('Wipe wallet data', style: TextStyles.textNormal),
+              trailing: Container(),
+              onPressed: (BuildContext context) async {
+                //MODAL TO CHECK IF USER AGREES
+                await wipeWalletDataDialog(context);
+              },
+            ),
+          ],
+        ),
+        SettingsSection(
           title: getSettingsHeader("Security", true),
           tiles: <SettingsTile>[
             SettingsTile.navigation(
@@ -236,34 +264,6 @@ class _TabSettingsState extends State<TabSettings> {
                   withNavBar: false, // OPTIONAL VALUE. True by default.
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );
-              },
-            ),
-          ],
-        ),
-        SettingsSection(
-          title: getSettingsHeader("Accounts and data", true),
-          tiles: <SettingsTile>[
-            SettingsTile.navigation(
-              leading: ChangeForeground(
-                  child: const Icon(Icons.logout),
-                  color: LightThemeColors.gradient1),
-              title: Text('Sign out', style: TextStyles.textNormal),
-              trailing: Container(),
-              onPressed: (BuildContext context) {
-                appStore.signOut();
-                timedController.stopFetchTimer();
-                context.go('/signIn');
-              },
-            ),
-            SettingsTile.navigation(
-              leading: ChangeForeground(
-                  child: const Icon(Icons.cleaning_services_outlined),
-                  color: LightThemeColors.gradient1),
-              title: Text('Wipe wallet data', style: TextStyles.textNormal),
-              trailing: Container(),
-              onPressed: (BuildContext context) async {
-                //MODAL TO CHECK IF USER AGREES
-                await wipeWalletDataDialog(context);
               },
             ),
           ],

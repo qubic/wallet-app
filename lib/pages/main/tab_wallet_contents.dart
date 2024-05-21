@@ -133,7 +133,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           .titleMedium
                           ?.color!
                           .withOpacity(0.3)),
-                  const Text("No Qubic IDs in wallet yet"),
+                  const Text("No Qubic Accounts in wallet yet"),
                   ThemedControls.spacerVerticalNormal(),
                   FilledButton.icon(
                       onPressed: () {
@@ -146,7 +146,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                         );
                       },
                       icon: const Icon(Icons.add_box),
-                      label: const Text("Add new ID"))
+                      label: const Text("Add new Accounts"))
                 ],
               ),
             )));
@@ -160,7 +160,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
           context: context,
           builder: (BuildContext context) {
             return getAlertDialog("Max accounts limit reached",
-                "You can only have up to 15 Qubic IDs in your wallet. If you need to add another ID please remove one from your existing IDs",
+                "You can only have up to 15 Qubic Accounts in your wallet. If you need to add another ID please remove one from your existing Accounts",
                 primaryButtonLabel: "OK", primaryButtonFunction: () {
               Navigator.of(context).pop();
             }, secondaryButtonFunction: () {
@@ -254,7 +254,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 ThemePaddings.smallPadding,
                                 ThemePaddings.normalPadding,
                                 ThemePaddings.miniPadding),
-                            child: Text("Qubic IDs in wallet",
+                            child: Text("Qubic Accounts in wallet",
                                 style: TextStyles.sliverCardPreLabel)))
                   ])),
                   Observer(builder: (context) {

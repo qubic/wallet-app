@@ -76,8 +76,7 @@ class _AddAccountWarningState extends State<AddAccountWarning> {
                           ThemePaddings.smallPadding,
                           ThemePaddings.normalPadding,
                           ThemePaddings.smallPadding),
-                      child:
-                          Text("Take me back", textAlign: TextAlign.center))))),
+                      child: Text("Cancel", textAlign: TextAlign.center))))),
       Padding(
           padding: EdgeInsets.only(bottom: ThemePaddings.normalPadding),
           child: FilledButton(

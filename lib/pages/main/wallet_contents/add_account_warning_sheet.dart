@@ -37,11 +37,11 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
         direction: Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          GradientForeground(
-              child: Image.asset(
-            "assets/images/attention-circle-color-16.png",
-          )),
-          ThemedControls.spacerHorizontalNormal(),
+          // GradientForeground(
+          //     child: Image.asset(
+          //   "assets/images/attention-circle-color-16.png",
+          // )),
+          // ThemedControls.spacerHorizontalNormal(),
           Expanded(child: Text(text, style: TextStyles.textLarge))
         ]);
   }
@@ -68,11 +68,13 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
     return [
       Expanded(
           child: ThemedControls.transparentButtonBig(
-              onPressed: widget.onReject, text: "Take me back")),
+              onPressed: widget.onReject, text: "Cancel")),
       ThemedControls.spacerHorizontalSmall(),
       Expanded(
-          child: ThemedControls.primaryButtonBig(
-              onPressed: transferNowHandler, text: "Proceed")),
+          child: hasAccepted
+              ? ThemedControls.primaryButtonBig(
+                  onPressed: transferNowHandler, text: "Proceed")
+              : ThemedControls.primaryButtonBigDisabled(text: "Proceed")),
     ];
   }
 
