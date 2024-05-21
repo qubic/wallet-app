@@ -99,7 +99,12 @@ class _AddAccountState extends State<AddAccount> {
                             const EdgeInsets.all(ThemePaddings.normalPadding),
                         child: Text(
                             "Please point the camera to a QR Code containing the private seed",
-                            style: TextStyles.assetSecondaryTextLabel,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                            ),
                             textAlign: TextAlign.center))))
           ]);
         });

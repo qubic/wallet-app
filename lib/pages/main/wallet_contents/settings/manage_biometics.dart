@@ -207,17 +207,18 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   }
 
   Widget getButtons() {
-    return !isLoading
-        ? Expanded(
-            child: ThemedControls.primaryButtonBigWithChild(
-                child: Padding(
-                    padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-                    child:
-                        Text("Go back", style: TextStyles.primaryButtonText)),
-                onPressed: () {
-                  Navigator.pop(context);
-                }))
-        : Container();
+    return Container();
+    // return !isLoading
+    //     ? Expanded(
+    //         child: ThemedControls.primaryButtonBigWithChild(
+    //             child: Padding(
+    //                 padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+    //                 child:
+    //                     Text("Go back", style: TextStyles.primaryButtonText)),
+    //             onPressed: () {
+    //               Navigator.pop(context);
+    //             }))
+    //     : Container();
   }
 
   void saveIdHandler() async {
