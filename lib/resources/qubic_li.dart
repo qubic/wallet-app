@@ -313,6 +313,7 @@ class QubicLi {
       throw Exception(
           'Failed to contact server for fetching current balances.');
     }
+
     _assert200Response(response.statusCode);
 
     late dynamic parsedJson;

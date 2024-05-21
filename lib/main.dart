@@ -14,6 +14,8 @@ import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 
+import 'helpers/global_snack_bar.dart';
+
 Future<void> main() async {
   DArgon2Flutter.init(); //Initialize DArgon 2
   setupDI(); //Dependency injection
@@ -40,7 +42,7 @@ class WalletApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Qubic Wallet',
       routerConfig: appRouter,
-      scaffoldMessengerKey: snackbarKey,
+      scaffoldMessengerKey: GlobalSnackBar.key,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
 

@@ -37,6 +37,8 @@ class _TabTransfersState extends State<TabTransfers> {
   ComputedTransactionStatus? filterStatus;
   TransactionFilter? filter;
 
+  final _scrollController = ScrollController();
+
   Widget clearFiltersButton(BuildContext context) {
     return TextButton(
         onPressed: () {
@@ -60,122 +62,136 @@ class _TabTransfersState extends State<TabTransfers> {
             },
             child: Container(
                 color: LightThemeColors.backkground,
-                child: CustomScrollView(slivers: [
-                  SliverAppBar(
-                      backgroundColor: LightThemeColors.backkground,
-                      actions: <Widget>[
-                        TickRefresh(),
-                        ThemedControls.spacerHorizontalSmall(),
-                        SliverButton(
-                          icon: const Icon(Icons.filter_list,
-                              color: LightThemeColors.primary),
-                          onPressed: () {
-                            pushNewScreen(
-                              context,
-                              screen: const FilterTransactions(),
-                              withNavBar:
-                                  false, // OPTIONAL VALUE. True by default.
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino,
-                            );
-                          },
-                        ),
-                        ThemedControls.spacerHorizontalSmall(),
-                      ],
-                      floating: false,
-                      pinned: true,
-                      collapsedHeight: sliverCollapsed,
-                      //title: Text("Flexible space title"),
-                      expandedHeight: sliverExpanded,
-                      flexibleSpace: Stack(children: [
-                        Positioned.fill(
-                            child: Column(children: [
-                          Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  0,
-                                  ThemePaddings.normalPadding,
-                                  0,
-                                  ThemePaddings.normalPadding),
-                              child: Center(
-                                  child: TickIndicatorStyled(
-                                      textStyle: TextStyles.blackTickText)))
-                        ])),
-                      ])),
-                  SliverList(
-                      delegate: SliverChildListDelegate([
-                    Container(
-                      child: Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                              ThemePaddings.bigPadding,
-                              ThemePaddings.normalPadding,
-                              ThemePaddings.bigPadding,
-                              ThemePaddings.miniPadding),
-                          child: ThemedControls.pageHeader(
-                              headerText: "Epoch transfers")),
-                    )
-                  ])),
-                  Observer(builder: (context) {
-                    if (appStore.currentTransactions.isEmpty) {
-                      return SliverList(
-                          delegate: SliverChildListDelegate([
-                        Container(
-                            child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    ThemePaddings.bigPadding,
-                                    ThemePaddings.normalPadding,
-                                    ThemePaddings.bigPadding,
-                                    ThemePaddings.miniPadding),
-                                child: getEmptyTransactions(
-                                    context: context,
-                                    hasFiltered: false,
-                                    numberOfFilters: null,
-                                    onTap: () {})))
-                      ]));
-                    }
-                    List<TransactionVm> filteredResults = [];
+                child: Scrollbar(
+                    controller: _scrollController,
+                    child: CustomScrollView(
+                        controller: _scrollController,
+                        slivers: [
+                          SliverAppBar(
+                              backgroundColor: LightThemeColors.backkground,
+                              actions: <Widget>[
+                                TickRefresh(),
+                                ThemedControls.spacerHorizontalSmall(),
+                                SliverButton(
+                                  icon: const Icon(Icons.filter_list,
+                                      color: LightThemeColors.primary),
+                                  onPressed: () {
+                                    pushNewScreen(
+                                      context,
+                                      screen: const FilterTransactions(),
+                                      withNavBar:
+                                          false, // OPTIONAL VALUE. True by default.
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino,
+                                    );
+                                  },
+                                ),
+                                ThemedControls.spacerHorizontalSmall(),
+                              ],
+                              floating: false,
+                              pinned: true,
+                              collapsedHeight: sliverCollapsed,
+                              //title: Text("Flexible space title"),
+                              expandedHeight: sliverExpanded,
+                              flexibleSpace: Stack(children: [
+                                Positioned.fill(
+                                    child: Column(children: [
+                                  Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0,
+                                          ThemePaddings.normalPadding,
+                                          0,
+                                          ThemePaddings.normalPadding),
+                                      child: Center(
+                                          child: TickIndicatorStyled(
+                                              textStyle:
+                                                  TextStyles.blackTickText)))
+                                ])),
+                              ])),
+                          SliverList(
+                              delegate: SliverChildListDelegate([
+                            Container(
+                              child: Padding(
+                                  padding: const EdgeInsets.fromLTRB(
+                                      ThemePaddings.bigPadding,
+                                      ThemePaddings.normalPadding,
+                                      ThemePaddings.bigPadding,
+                                      ThemePaddings.miniPadding),
+                                  child: ThemedControls.pageHeader(
+                                      headerText: "Epoch transfers")),
+                            )
+                          ])),
+                          Observer(builder: (context) {
+                            if (appStore.currentTransactions.isEmpty) {
+                              return SliverList(
+                                  delegate: SliverChildListDelegate([
+                                Container(
+                                    child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            ThemePaddings.bigPadding,
+                                            ThemePaddings.normalPadding,
+                                            ThemePaddings.bigPadding,
+                                            ThemePaddings.miniPadding),
+                                        child: getEmptyTransactions(
+                                            context: context,
+                                            hasFiltered: false,
+                                            numberOfFilters: null,
+                                            onTap: () {})))
+                              ]));
+                            }
+                            List<TransactionVm> filteredResults = [];
 
-                    appStore.currentTransactions.reversed.forEach((tran) {
-                      if ((appStore.transactionFilter == null) ||
-                          (appStore.transactionFilter!.matchesVM(tran))) {
-                        filteredResults.add(tran);
-                      }
-                    });
-                    if (filteredResults.isEmpty) {
-                      return SliverList(
-                          delegate: SliverChildListDelegate([
-                        Container(
-                            child: Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    ThemePaddings.bigPadding,
-                                    ThemePaddings.normalPadding,
-                                    ThemePaddings.bigPadding,
-                                    ThemePaddings.miniPadding),
-                                child: getEmptyTransactions(
-                                    context: context,
-                                    hasFiltered: true,
-                                    numberOfFilters:
-                                        appStore.transactionFilter == null
-                                            ? null
-                                            : appStore.transactionFilter!
-                                                .totalActiveFilters,
-                                    onTap: () {
-                                      appStore.clearTransactionFilters();
-                                    })))
-                      ]));
-                    }
-                    return SliverList(
-                      delegate: SliverChildBuilderDelegate((context, index) {
-                        return Container(
-                            color: LightThemeColors.backkground,
-                            child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: ThemePaddings.bigPadding,
-                                    vertical: ThemePaddings.normalPadding / 2),
-                                child: TransactionItem(
-                                    item: filteredResults[index])));
-                      }, childCount: filteredResults.length),
-                    );
-                  }),
-                ]))));
+                            appStore.currentTransactions.reversed
+                                .forEach((tran) {
+                              if ((appStore.transactionFilter == null) ||
+                                  (appStore.transactionFilter!
+                                      .matchesVM(tran))) {
+                                filteredResults.add(tran);
+                              }
+                            });
+                            if (filteredResults.isEmpty) {
+                              return SliverList(
+                                  delegate: SliverChildListDelegate([
+                                Container(
+                                    child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            ThemePaddings.bigPadding,
+                                            ThemePaddings.normalPadding,
+                                            ThemePaddings.bigPadding,
+                                            ThemePaddings.miniPadding),
+                                        child: getEmptyTransactions(
+                                            context: context,
+                                            hasFiltered: true,
+                                            numberOfFilters:
+                                                appStore.transactionFilter ==
+                                                        null
+                                                    ? null
+                                                    : appStore
+                                                        .transactionFilter!
+                                                        .totalActiveFilters,
+                                            onTap: () {
+                                              appStore
+                                                  .clearTransactionFilters();
+                                            })))
+                              ]));
+                            }
+                            return SliverList(
+                              delegate:
+                                  SliverChildBuilderDelegate((context, index) {
+                                return Container(
+                                    color: LightThemeColors.backkground,
+                                    child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal:
+                                                ThemePaddings.bigPadding,
+                                            vertical:
+                                                ThemePaddings.normalPadding /
+                                                    2),
+                                        child: TransactionItem(
+                                            item: filteredResults[index])));
+                              }, childCount: filteredResults.length),
+                            );
+                          }),
+                        ])))));
   }
 }

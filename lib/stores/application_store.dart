@@ -25,6 +25,9 @@ abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
 
   @observable
+  String globalError = "";
+
+  @observable
   int currentTick = 0;
 
   @observable
@@ -96,6 +99,12 @@ abstract class _ApplicationStore with Store {
 
     return result;
     //Get all shares
+  }
+
+  @action
+  void reportGlobalError(String error) {
+    globalError = error + "~" + DateTime.now().toString();
+    //Show a snackbar
   }
 
   @action

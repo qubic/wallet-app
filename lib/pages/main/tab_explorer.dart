@@ -42,6 +42,8 @@ class _TabExplorerState extends State<TabExplorer> {
   final QubicLi li = getIt<QubicLi>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
+
+  final _scrollController = ScrollController();
   //Pagination Related
   int numberOfPages = 0;
   int currentPage = 1;
@@ -380,66 +382,69 @@ class _TabExplorerState extends State<TabExplorer> {
             onRefresh: () async {
               refreshOverview();
             },
-            child: CustomScrollView(slivers: [
-              SliverAppBar(
-                backgroundColor: LightThemeColors.backkground,
-                actions: <Widget>[
-                  ExplorerLoadingIndicator(),
-                  ThemedControls.spacerHorizontalSmall(),
-                  if (isDesktop)
-                    Observer(builder: (context) {
-                      if (appStore.pendingRequests == 0) {
-                        return Ink(
-                            decoration: const ShapeDecoration(
-                              color: LightThemeColors.backkground,
-                              shape: CircleBorder(),
-                            ),
-                            child: SizedBox(
-                                width: 32,
-                                height: 32,
-                                child: IconButton(
-                                  padding: EdgeInsets.zero,
-                                  color: LightThemeColors.cardBackground,
-                                  highlightColor:
-                                      LightThemeColors.extraStrongBackground,
-                                  onPressed: () {
-                                    refreshOverview();
-                                  },
-                                  icon: const Icon(Icons.refresh,
-                                      color: LightThemeColors.primary,
-                                      size: 20),
-                                )));
-                      } else {
-                        return Container();
-                      }
-                    }),
-                  SliverButton(
-                    icon: const Icon(Icons.filter_list,
-                        color: LightThemeColors.primary),
-                    onPressed: () {
-                      pushNewScreen(
-                        context,
-                        screen: const ExplorerSearch(),
-                        withNavBar: false, // OPTIONAL VALUE. True by default.
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                      );
-                    },
+            child: Scrollbar(
+                controller: _scrollController,
+                child: CustomScrollView(slivers: [
+                  SliverAppBar(
+                    backgroundColor: LightThemeColors.backkground,
+                    actions: <Widget>[
+                      ExplorerLoadingIndicator(),
+                      ThemedControls.spacerHorizontalSmall(),
+                      if (isDesktop)
+                        Observer(builder: (context) {
+                          if (appStore.pendingRequests == 0) {
+                            return Ink(
+                                decoration: const ShapeDecoration(
+                                  color: LightThemeColors.backkground,
+                                  shape: CircleBorder(),
+                                ),
+                                child: SizedBox(
+                                    width: 32,
+                                    height: 32,
+                                    child: IconButton(
+                                      padding: EdgeInsets.zero,
+                                      color: LightThemeColors.cardBackground,
+                                      highlightColor: LightThemeColors
+                                          .extraStrongBackground,
+                                      onPressed: () {
+                                        refreshOverview();
+                                      },
+                                      icon: const Icon(Icons.refresh,
+                                          color: LightThemeColors.primary,
+                                          size: 20),
+                                    )));
+                          } else {
+                            return Container();
+                          }
+                        }),
+                      SliverButton(
+                        icon: const Icon(Icons.filter_list,
+                            color: LightThemeColors.primary),
+                        onPressed: () {
+                          pushNewScreen(
+                            context,
+                            screen: const ExplorerSearch(),
+                            withNavBar:
+                                false, // OPTIONAL VALUE. True by default.
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                      ),
+                      ThemedControls.spacerHorizontalSmall(),
+                    ],
+                    floating: false,
+                    pinned: false,
+                    collapsedHeight: 60,
+                    //title: Text("Flexible space title"),
+                    expandedHeight: 0,
                   ),
-                  ThemedControls.spacerHorizontalSmall(),
-                ],
-                floating: false,
-                pinned: false,
-                collapsedHeight: 60,
-                //title: Text("Flexible space title"),
-                expandedHeight: 0,
-              ),
-              SliverList(
-                delegate: SliverChildBuilderDelegate((context, index) {
-                  return getExplorerContents()[index];
-                }, childCount: getExplorerContents().length),
-              ),
-            ])));
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      return getExplorerContents()[index];
+                    }, childCount: getExplorerContents().length),
+                  ),
+                ]))));
     // child: SingleChildScrollView(
     //   physics: const AlwaysScrollableScrollPhysics(),
     //   child: Padding(

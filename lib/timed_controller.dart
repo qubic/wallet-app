@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/globals.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -18,7 +16,6 @@ class TimedController {
 
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
-  final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   TimedController();
 
   /// Fetch balances assets and transactions from the network
@@ -43,6 +40,10 @@ class TimedController {
         _apiService.getNetworkBalances(myIds).then((balances) {
           debugPrint("Got balances for ${balances.length} IDs");
           appStore.setAmounts(balances);
+        }, onError: (e) {
+          appStore
+              .reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+          //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
         });
       }
 
@@ -59,7 +60,8 @@ class TimedController {
             .then((transactions) => appStore.updateTransactions(transactions));
       }
     } on Exception catch (e) {
-      _globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
+      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
     }
   }
 
@@ -74,7 +76,8 @@ class TimedController {
         appStore.setMarketInfo(marketInfo);
       });
     } on Exception catch (e) {
-      _globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
+      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
     }
   }
 
@@ -89,7 +92,8 @@ class TimedController {
       _getNetworkBalancesAndAssets();
       lastFetch = DateTime.now();
     } on Exception catch (e) {
-      _globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
+      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
     }
   }
 
@@ -103,7 +107,8 @@ class TimedController {
       _getMarketInfo();
       lastFetchSlow = DateTime.now();
     } on Exception catch (e) {
-      _globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
+      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
     }
   }
 

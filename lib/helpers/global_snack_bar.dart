@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:qubic_wallet/globals.dart';
 
 /// A global snackbar that can be shown from anywhere in the app
 class GlobalSnackBar {
+  static GlobalKey<ScaffoldMessengerState> key =
+      GlobalKey<ScaffoldMessengerState>();
+
   bool _isVisible = false;
 
   /// The visibility of the snackbar
@@ -30,7 +34,8 @@ class GlobalSnackBar {
       showCloseIcon: true,
       duration: const Duration(seconds: 2),
       behavior: SnackBarBehavior.floating,
-      content: Text(message),
+      content: Padding(
+          padding: const EdgeInsets.only(bottom: 180.0), child: Text(message)),
       onVisible: () {
         _isVisible = true;
         if (shownCallback == null) return;

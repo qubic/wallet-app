@@ -31,6 +31,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
               name: '_ApplicationStore.totalShares'))
       .value;
 
+  late final _$globalErrorAtom =
+      Atom(name: '_ApplicationStore.globalError', context: context);
+
+  @override
+  String get globalError {
+    _$globalErrorAtom.reportRead();
+    return super.globalError;
+  }
+
+  @override
+  set globalError(String value) {
+    _$globalErrorAtom.reportWrite(value, super.globalError, () {
+      super.globalError = value;
+    });
+  }
+
   late final _$currentTickAtom =
       Atom(name: '_ApplicationStore.currentTick', context: context);
 
@@ -242,6 +258,17 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
       ActionController(name: '_ApplicationStore', context: context);
 
   @override
+  void reportGlobalError(String error) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.reportGlobalError');
+    try {
+      return super.reportGlobalError(error);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void incrementPendingRequests() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.incrementPendingRequests');
@@ -322,6 +349,7 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   @override
   String toString() {
     return '''
+globalError: ${globalError},
 currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
 currentQubicIDs: ${currentQubicIDs},

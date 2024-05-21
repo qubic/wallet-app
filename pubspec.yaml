@@ -49,6 +49,7 @@ dependencies:
   dio: ^5.3.3
   percent_indicator: ^4.2.3
   decimal: ^2.3.3
+  animated_snack_bar: ^0.4.0
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,7 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
@@ -12,12 +14,15 @@ import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
+import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
+
+import '../../helpers/global_snack_bar.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -32,6 +37,10 @@ class _MainScreenState extends State<MainScreen> {
   final _timedController = getIt<TimedController>();
   final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
+  final ApplicationStore applicationStore = getIt<ApplicationStore>();
+
+  late final ReactionDisposer _disposeSnackbarAuto;
+  final _globalSnackBar = getIt<GlobalSnackBar>();
 
   @override
   void initState() {
@@ -43,11 +52,34 @@ class _MainScreenState extends State<MainScreen> {
     if (!getIt.isRegistered<PersistentTabController>()) {
       getIt.registerSingleton<PersistentTabController>(_controller);
     }
+
+    _disposeSnackbarAuto = autorun((_) {
+      if (applicationStore.globalError != "") {
+        var errorPos = applicationStore.globalError.indexOf("~");
+        var error = (errorPos == -1)
+            ? applicationStore.globalError
+            : applicationStore.globalError.substring(0, errorPos);
+
+        AnimatedSnackBar.material(
+          error,
+          type: AnimatedSnackBarType.error,
+        ).show(context);
+
+        //_globalSnackBar.show(applicationStore.globalError);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timedController.stopFetchTimer();
+    _disposeSnackbarAuto();
+    super.dispose();
   }
 
   List<Widget> _buildScreens() {
     return [
-      const TabWalletContents(),
+      const ScaffoldMessenger(child: Scaffold(body: TabWalletContents())),
       const TabTransfers(),
       const TabExplorer(),
       const TabSettings()
@@ -226,7 +258,7 @@ class _MainScreenState extends State<MainScreen> {
       if (UniversalPlatform.isDesktop && !settingsStore.cmdUtilsAvailable) {
         return DownloadCmdUtils();
       }
-      return ScaffoldMessenger(child: Scaffold(body: getMain()));
+      return getMain();
     });
   }
 }
