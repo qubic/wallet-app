@@ -35,7 +35,7 @@ class IdListItemSelect extends StatelessWidget {
             labelOffset: -0,
             textStyle: TextStyles.accountAmount,
             labelStyle: TextStyles.accountAmountLabel,
-            currencyName: '\$QUBIC',
+            currencyName: 'QUBIC',
           ),
           Text(item.publicId, // "MYSSHMYSSHMYSSHMYSSH.MYSSHMYSSH....",
               style: TextStyles.accountPublicId),

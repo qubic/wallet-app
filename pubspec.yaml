@@ -34,7 +34,7 @@ dependencies:
   skeleton_text: ^3.0.1
   qr_flutter: ^4.1.0
   share_plus: ^7.1.0
-  mobile_scanner: ^3.4.1
+  mobile_scanner: ^5.1.1
   flutter_multi_formatter: ^2.11.11
   pagination_flutter: ^0.0.8
   sticky_headers: "^0.3.0"

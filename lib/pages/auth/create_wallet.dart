@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qubic_wallet/components/w_behind_keyboard.dart';
@@ -127,9 +128,7 @@ class _CreateWalletState extends State<CreateWallet> {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            WBehindKeyboard(
-                                child:
-                                    Expanded(child: Center(child: getLogo()))),
+                            WBehindKeyboard(child: Center(child: getLogo())),
                             Container(
                                 alignment: Alignment.center,
                                 child: Builder(builder: (context) {
@@ -185,39 +184,21 @@ class _CreateWalletState extends State<CreateWallet> {
                               autofillHints: null,
                             ),
                             const SizedBox(height: ThemePaddings.normalPadding),
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.info_outline,
-                                      size: TextStyles.smallInfoText.fontSize! *
-                                          1.5,
-                                      color: LightThemeColors.gradient1),
-                                  const SizedBox(
-                                      width: ThemePaddings.smallPadding),
-                                  Flexible(
-                                      child: Text(
-                                          "A password is asked to give you access to your wallet contents. It cannot be recovered if lost.",
-                                          maxLines: 5,
-                                          softWrap: true,
-                                          style: TextStyles.smallInfoText))
-                                ]),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: Text(
+                                    "- A password is asked to give you access to your wallet contents. It cannot be recovered if lost.",
+                                    maxLines: 5,
+                                    softWrap: true,
+                                    style: TextStyles.smallInfoText)),
                             const SizedBox(height: ThemePaddings.smallPadding),
-                            Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.warning_amber_outlined,
-                                      size: TextStyles.smallInfoText.fontSize! *
-                                          1.5,
-                                      color: LightThemeColors.gradient1),
-                                  const SizedBox(
-                                      width: ThemePaddings.smallPadding),
-                                  Flexible(
-                                      child: Text(
-                                          "If a wallet already exists in this device, it will be overwritten. Nonetheless, your \$QUBIC and assets are tied to your private seeds will not be deleted and can be added to your new wallet.",
-                                          maxLines: 5,
-                                          softWrap: true,
-                                          style: TextStyles.smallInfoText))
-                                ]),
+                            SizedBox(
+                                width: MediaQuery.of(context).size.width,
+                                child: Text(
+                                    "- If a wallet already exists in this device, it will be overwritten. Nonetheless, your QUBIC and assets are tied to your private seeds will not be deleted and can be added to your new wallet.",
+                                    maxLines: 5,
+                                    softWrap: true,
+                                    style: TextStyles.smallInfoText)),
                             const SizedBox(height: ThemePaddings.normalPadding),
                             SizedBox(
                                 width: double.infinity,

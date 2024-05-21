@@ -12,7 +12,7 @@ void showTamperedWalletAlert(BuildContext context) {
 }
 
 ///
-/// Sends a transaction of value $QUBIC from the sourceId to the QX address
+/// Sends a transaction of value QUBIC from the sourceId to the QX address
 /// Also involves moving around tokens from the sourceId to the destinationId
 Future<bool> sendAssetTransferTransactionDialog(
     BuildContext context,
@@ -44,7 +44,7 @@ Future<bool> sendAssetTransferTransactionDialog(
 }
 
 ///
-/// Sends a transaction of value $QUBIC from the sourceId to the destinationId
+/// Sends a transaction of value QUBIC from the sourceId to the destinationId
 Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
     String destinationId, int value, int destinationTick) async {
   String seed = await getIt.get<ApplicationStore>().getSeedByPublicId(sourceId);

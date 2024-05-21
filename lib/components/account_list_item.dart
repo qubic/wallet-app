@@ -383,7 +383,7 @@ class AccountListItem extends StatelessWidget {
                               labelOffset: -0,
                               textStyle: TextStyles.accountAmount,
                               labelStyle: TextStyles.accountAmountLabel,
-                              currencyName: '\$QUBIC',
+                              currencyName: 'QUBIC',
                             )),
                         Container(
                             width: double.infinity,

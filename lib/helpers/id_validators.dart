@@ -13,12 +13,12 @@ class CustomFormFieldValidators {
       }
 
       if (lessThan == 0) {
-        return "Insufficient \$QUBIC in ID. ID has no funds";
+        return "Insufficient QUBIC in ID. ID has no funds";
       }
 
       String toParse = (valueCandidate as String)
           .replaceAll(" ", "")
-          .replaceAll("\$QUBIC", "")
+          .replaceAll("QUBIC", "")
           .replaceAll(",", "");
 
       int? parsedVal = int.tryParse(toParse);
@@ -26,7 +26,7 @@ class CustomFormFieldValidators {
         return "Is not a numeric value";
       }
       if (parsedVal > lessThan) {
-        return "Insufficient \$QUBIC in ID";
+        return "Insufficient QUBIC in ID";
       }
 
       return null;

@@ -88,7 +88,7 @@ class QubicAmount extends StatelessWidget {
       List<Widget> numbers = [];
 
       numbers.add(Text(amount.toString(), style: TextStyles.qubicAmount));
-      numbers.add(Text(" \$QUBIC", style: TextStyles.qubicAmount));
+      numbers.add(Text(" QUBIC", style: TextStyles.qubicAmount));
       return Row(
           mainAxisAlignment: MainAxisAlignment.center, children: numbers);
     }
@@ -131,7 +131,7 @@ class QubicAmount extends StatelessWidget {
     } else {
       numbers.addAll(getUptoThousands(context, units));
     }
-    numbers.add(Text(" \$QUBIC", style: TextStyles.qubicAmountLabel));
+    numbers.add(Text(" QUBIC", style: TextStyles.qubicAmountLabel));
     return Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,

@@ -74,7 +74,7 @@ class _SendState extends State<Send> {
   ];
 
   final CurrencyInputFormatter inputFormatter = CurrencyInputFormatter(
-      trailingSymbol: "\$QUBIC",
+      trailingSymbol: "\QUBIC",
       useSymbolPadding: true,
       thousandSeparator: ThousandSeparator.Comma,
       mantissaLength: 0);
@@ -95,7 +95,7 @@ class _SendState extends State<Send> {
     return int.parse(amount.text
         .replaceAll(",", "")
         .replaceAll(" ", "")
-        .replaceAll("\$QUBIC", ""));
+        .replaceAll("QUBIC", ""));
   }
 
   showAlertDialog(BuildContext context, String title, String message) {

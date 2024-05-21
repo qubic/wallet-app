@@ -33,7 +33,7 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
                       child: Row(children: [
                         Text(contents, style: TextStyles.textExtraLargeBold),
                         ThemedControls.spacerHorizontalMini(),
-                        Text("\$QUBIC", style: TextStyles.secondaryTextSmall)
+                        Text("QUBIC", style: TextStyles.secondaryTextSmall)
                       ]))
                 ])));
   }
@@ -68,16 +68,16 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
                   labelOffset: -0,
                   textStyle: TextStyles.textEnormous.copyWith(fontSize: 36),
                   labelStyle: TextStyles.accountAmountLabel,
-                  currencyName: '\$QUBIC')),
+                  currencyName: 'QUBIC')),
           ThemedControls.spacerVerticalSmall(),
           Row(children: [
             Expanded(
                 child: incPanel("Total incoming",
-                    info.incomingAmount.asThousands().toString() + "\$QUBIC")),
+                    info.incomingAmount.asThousands().toString() + "QUBIC")),
             ThemedControls.spacerHorizontalMini(),
             Expanded(
                 child: incPanel("Total outgoing",
-                    info.outgoingAmount.asThousands().toString() + "\$QUBIC")),
+                    info.outgoingAmount.asThousands().toString() + "QUBIC")),
           ]),
           ThemedControls.spacerVerticalSmall(),
           IPs != null

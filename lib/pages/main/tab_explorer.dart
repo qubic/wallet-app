@@ -257,7 +257,7 @@ class _TabExplorerState extends State<TabExplorer> {
             Flex(direction: Axis.horizontal, children: [
               Expanded(
                   flex: 1,
-                  child: tickPanel("Total Supply (\$QUBIC)",
+                  child: tickPanel("Total Supply (QUBIC)",
                       explorerStore.networkOverview!.supply.asThousands())),
               ThemedControls.spacerHorizontalMini(),
               Expanded(

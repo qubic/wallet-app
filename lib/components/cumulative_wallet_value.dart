@@ -68,7 +68,7 @@ class CumulativeWalletValue extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                              "${appStore.marketInfo!.priceAsDecimal.toString()} USD per \$QUBIC",
+                              "${appStore.marketInfo!.priceAsDecimal.toString()} USD per QUBIC",
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineSmall!
