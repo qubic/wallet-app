@@ -172,7 +172,7 @@ class _TabSettingsState extends State<TabSettings> {
                 0, ThemePaddings.bigPadding, 0, ThemePaddings.smallPadding),
         child: Transform.translate(
             offset: const Offset(-16, 0),
-            child: Text('Security', style: TextStyles.textBold)));
+            child: Text(text, style: TextStyles.textBold)));
   }
 
   Widget getSettings() {

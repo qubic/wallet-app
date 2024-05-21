@@ -375,8 +375,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
           child: ThemedControls.primaryButtonBigWithChild(
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: Text("Proceed with filters",
-                      style: TextStyles.primaryButtonText)),
+                  child: Text("Apply", style: TextStyles.primaryButtonText)),
               onPressed: saveIdHandler))
     ];
   }
