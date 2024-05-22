@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -359,12 +360,16 @@ class AccountListItem extends StatelessWidget {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Row(children: [
-                          Expanded(
-                              child: Text(item.name,
-                                  style: TextStyles.accountName)),
-                          getCardMenu(context)
-                        ]),
+                        Flex(
+                            direction: Axis.horizontal,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                  fit: FlexFit.loose,
+                                  child: Text(item.name,
+                                      style: TextStyles.accountName)),
+                              getCardMenu(context)
+                            ]),
                         SizedBox(height: ThemePaddings.smallPadding),
                         AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
