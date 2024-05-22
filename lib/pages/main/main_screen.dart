@@ -98,7 +98,7 @@ class _MainScreenState extends State<MainScreen> {
             : Image.asset("assets/images/menu-IDs-inactive.png"),
         contentPadding: 0,
         iconSize: 36,
-        title: ("IDs"),
+        title: ("Accounts"),
         textStyle: TextStyles.menuActive,
         activeColorPrimary: LightThemeColors.menuActive,
         inactiveColorPrimary: LightThemeColors.menuInactive,
@@ -243,7 +243,7 @@ class _MainScreenState extends State<MainScreen> {
           duration: Duration(milliseconds: 200),
         ),
         navBarStyle:
-            NavBarStyle.style11, // Choose the nav bar style with this property.
+            NavBarStyle.style8, // Choose the nav bar style with this property.
       ))
     ]));
   }

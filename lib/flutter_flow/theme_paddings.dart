@@ -75,8 +75,8 @@ class LightThemeColors {
   static const navbarBackground = menuBg;
   static const panelBackground = Color.fromARGB(255, 23, 23, 23);
 
-  static const menuActive = primary;
-  static const menuInactive = Color(0x99131313);
+  static const menuActive = Color.fromARGB(255, 27, 222, 245);
+  static const menuInactive = Color.fromARGB(255, 152, 157, 162);
 }
 
 class xLightThemeColors {

@@ -295,19 +295,22 @@ class _TabExplorerState extends State<TabExplorer> {
                                 //     alignment: Alignment.centerLeft,
                                 //     child: getPagination())
                               ])
-                            : Column(children: [
-                                ThemedControls.pageHeader(
-                                    headerText: "Tick Overview",
-                                    subheaderText: "Latest ticks"),
+                            : Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                    ThemedControls.pageHeader(
+                                        headerText: "Tick Overview",
+                                        subheaderText: "Latest ticks"),
 
-                                getPagination()
-                                // Container(
-                                //     height: 50.0,
-                                //     color: Theme.of(context).colorScheme.background,
-                                //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                //     alignment: Alignment.centerLeft,
-                                //     child: getPagination())
-                              ]))),
+                                    getPagination()
+                                    // Container(
+                                    //     height: 50.0,
+                                    //     color: Theme.of(context).colorScheme.background,
+                                    //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                    //     alignment: Alignment.centerLeft,
+                                    //     child: getPagination())
+                                  ]))),
                 content: Observer(builder: (context) {
                   List<Widget> items = [];
                   int min = (currentPage - 1) * itemsPerPage;
@@ -352,7 +355,9 @@ class _TabExplorerState extends State<TabExplorer> {
                                             .primary)))));
                     if (lineCount == maxPerLine) {
                       items.add(Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: width > 400
+                              ? MainAxisAlignment.spaceEvenly
+                              : MainAxisAlignment.spaceAround,
                           children: lineWidget));
                       lineWidget = [];
                       lineCount = 0;
@@ -384,7 +389,8 @@ class _TabExplorerState extends State<TabExplorer> {
             },
             child: Scrollbar(
                 controller: _scrollController,
-                child: CustomScrollView(slivers: [
+                child:
+                    CustomScrollView(controller: _scrollController, slivers: [
                   SliverAppBar(
                     backgroundColor: LightThemeColors.backkground,
                     actions: <Widget>[

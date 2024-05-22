@@ -149,7 +149,7 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
           Text("Loading...",
               style: Theme.of(context)
                   .textTheme
-                  .displayMedium!
+                  .titleMedium!
                   .copyWith(fontFamily: ThemeFonts.primary))
         ]));
   }
