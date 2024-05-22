@@ -158,10 +158,7 @@ class _TabSettingsState extends State<TabSettings> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
-        children: [
-          getHeader(),
-          Padding(padding: ThemeEdgeInsets.pageInsets, child: getSettings())
-        ]);
+        children: [getHeader(), getSettings()]);
   }
 
   Widget getSettingsHeader(String text, bool isFirst) {
