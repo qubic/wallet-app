@@ -54,6 +54,32 @@ class _ReceiveState extends State<Receive> {
             padding: const EdgeInsets.all(ThemePaddings.normalPadding)));
   }
 
+  List<Widget> getActions() {
+    return [
+      ThemedControls.primaryButtonNormal(
+          onPressed: () {
+            copyToClipboard(widget.item.publicId);
+          },
+          text: "Copy address",
+          icon: !LightThemeColors.shouldInvertIcon
+              ? ThemedControls.invertedColors(
+                  child: Image.asset("assets/images/Group 2400.png"))
+              : Image.asset("assets/images/Group 2400.png")),
+      MediaQuery.of(context).size.width < 400
+          ? ThemedControls.spacerVerticalSmall()
+          : ThemedControls.spacerHorizontalSmall(),
+      ThemedControls.transparentButtonNormal(
+          onPressed: () {
+            Share.share('${widget.item.publicId}');
+          },
+          text: "Share",
+          icon: LightThemeColors.shouldInvertIcon
+              ? ThemedControls.invertedColors(
+                  child: Image.asset("assets/images/Group 2389.png"))
+              : Image.asset("assets/images/Group 2389.png"))
+    ];
+  }
+
   Widget getScrollView() {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -74,29 +100,9 @@ class _ReceiveState extends State<Receive> {
                     ThemedControls.spacerVerticalMini(),
                     Text(widget.item.publicId),
                     ThemedControls.spacerVerticalNormal(),
-                    Row(children: [
-                      ThemedControls.primaryButtonNormal(
-                          onPressed: () {
-                            copyToClipboard(widget.item.publicId);
-                          },
-                          text: "Copy address",
-                          icon: !LightThemeColors.shouldInvertIcon
-                              ? ThemedControls.invertedColors(
-                                  child: Image.asset(
-                                      "assets/images/Group 2400.png"))
-                              : Image.asset("assets/images/Group 2400.png")),
-                      ThemedControls.spacerHorizontalSmall(),
-                      ThemedControls.transparentButtonNormal(
-                          onPressed: () {
-                            Share.share('${widget.item.publicId}');
-                          },
-                          text: "Share",
-                          icon: LightThemeColors.shouldInvertIcon
-                              ? ThemedControls.invertedColors(
-                                  child: Image.asset(
-                                      "assets/images/Group 2389.png"))
-                              : Image.asset("assets/images/Group 2389.png"))
-                    ])
+                    MediaQuery.of(context).size.width < 400
+                        ? Column(children: getActions())
+                        : Row(children: getActions())
                   ])),
               ThemedControls.spacerVerticalSmall(),
               ToggleableQRCode(

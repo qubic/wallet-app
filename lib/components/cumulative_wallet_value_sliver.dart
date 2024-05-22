@@ -26,11 +26,14 @@ class CumulativeWalletValueSliver extends StatelessWidget {
     return assets;
   }
 
-  Widget getTotalQubics() {
+  Widget getTotalQubics(BuildContext context) {
     return AmountFormatted(
       amount: appStore.totalAmounts,
       isInHeader: true,
       currencyName: 'QUBIC',
+      textStyle: MediaQuery.of(context).size.width < 400
+          ? TextStyles.sliverBig.copyWith(fontSize: 26)
+          : TextStyles.sliverBig,
     );
   }
 
@@ -73,7 +76,7 @@ class CumulativeWalletValueSliver extends StatelessWidget {
                     if (appStore.totalAmountsInUSD == -1) {
                       return Container();
                     }
-                    return getTotalQubics();
+                    return getTotalQubics(context);
                   }),
                   Observer(builder: (context) {
                     if (appStore.totalAmountsInUSD == -1) {

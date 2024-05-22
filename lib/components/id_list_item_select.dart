@@ -33,7 +33,9 @@ class IdListItemSelect extends StatelessWidget {
             amount: item.amount,
             isInHeader: false,
             labelOffset: -0,
-            textStyle: TextStyles.accountAmount,
+            textStyle: MediaQuery.of(context).size.width < 400
+                ? TextStyles.accountAmount.copyWith(fontSize: 22)
+                : TextStyles.accountAmount,
             labelStyle: TextStyles.accountAmountLabel,
             currencyName: 'QUBIC',
           ),

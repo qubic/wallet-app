@@ -212,28 +212,31 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                       children: [
                         Positioned.fill(child: GradientContainer()),
                         Positioned.fill(
-                            child: Column(children: [
-                          Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  0,
-                                  ThemePaddings.normalPadding,
-                                  0,
-                                  ThemePaddings.normalPadding),
-                              child: Center(
-                                  child: TickIndicatorStyled(
-                                      textStyle: TextStyles.whiteTickText))),
-                          Transform.translate(
-                              offset: Offset(0, -10 * (1 - _sliverShowPercent)),
-                              child: Opacity(
-                                  opacity: _sliverShowPercent,
-                                  child: CumulativeWalletValueSliver())),
-                        ])),
+                            child: SingleChildScrollView(
+                          child: Column(children: [
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    0,
+                                    ThemePaddings.normalPadding,
+                                    0,
+                                    ThemePaddings.normalPadding),
+                                child: Center(
+                                    child: TickIndicatorStyled(
+                                        textStyle: TextStyles.whiteTickText))),
+                            Transform.translate(
+                                offset:
+                                    Offset(0, -10 * (1 - _sliverShowPercent)),
+                                child: Opacity(
+                                    opacity: _sliverShowPercent,
+                                    child: CumulativeWalletValueSliver())),
+                          ]),
+                        )),
                         Positioned(
                           bottom: -7,
                           left: 0,
                           right: 0,
                           child: Container(
-                            height: 33,
+                            height: 20,
                             decoration: const BoxDecoration(
                               color: LightThemeColors.backkground,
                               borderRadius: BorderRadius.vertical(

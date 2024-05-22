@@ -147,8 +147,11 @@ class QubicLi {
       throw Exception('Failed to contact server for submitting transaction.');
     }
     print(response.body);
-    _assert200Response(response.statusCode);
-
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     try {
       parsedJson = jsonDecode(response.body);
@@ -161,7 +164,11 @@ class QubicLi {
 
   /// Gets current tick form the Qubic network
   Future<int> getCurrentTick() async {
-    _assertAuthorized();
+    try {
+      _assertAuthorized();
+    } catch (e) {
+      rethrow;
+    }
     appStore.incrementPendingRequests();
     late http.Response response;
     try {
@@ -175,8 +182,11 @@ class QubicLi {
       appStore.decreasePendingRequests();
       throw Exception('Failed to contact server for fetching ticks.');
     }
-    _assert200Response(response.statusCode);
-
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     late CurrentTickDto tickDto;
     try {
@@ -196,7 +206,11 @@ class QubicLi {
 
   // Gets the Qubic network overview for use in explorer
   Future<NetworkOverviewDto> getNetworkOverview() async {
-    _assertAuthorized();
+    try {
+      _assertAuthorized();
+    } catch (e) {
+      rethrow;
+    }
     appStore.incrementPendingRequests();
     late http.Response response;
     try {
@@ -213,8 +227,11 @@ class QubicLi {
       appStore.decreasePendingRequests();
       throw Exception('Failed to contact server for fetching tick overview.');
     }
-    _assert200Response(response.statusCode);
-
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     late NetworkOverviewDto networkOverviewDto;
     try {
@@ -236,7 +253,11 @@ class QubicLi {
   ///@param publicIds - List of public IDs to get transactions for
   ///@return List of transactions
   Future<List<TransactionDto>> getTransactions(List<String> publicIds) async {
-    _assertAuthorized();
+    try {
+      _assertAuthorized();
+    } catch (e) {
+      rethrow;
+    }
     appStore.incrementPendingRequests();
     _gettingNetworkTransactions = true;
     late http.Response response;
@@ -259,8 +280,11 @@ class QubicLi {
       throw Exception(
           'Failed to contact server for fetching current transactions.');
     }
-    _assert200Response(response.statusCode);
-
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     late var transactions = <TransactionDto>[];
 
@@ -288,8 +312,11 @@ class QubicLi {
   /// @return List of balances
   Future<List<CurrentBalanceDto>> getNetworkBalances(
       List<String> publicIds) async {
-    _assertAuthorized();
-
+    try {
+      _assertAuthorized();
+    } catch (e) {
+      rethrow;
+    }
     _gettingNetworkBalances = true;
 
     appStore.incrementPendingRequests();
@@ -314,8 +341,11 @@ class QubicLi {
           'Failed to contact server for fetching current balances.');
     }
 
-    _assert200Response(response.statusCode);
-
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     late var balances = <CurrentBalanceDto>[];
 
@@ -339,7 +369,11 @@ class QubicLi {
 
   // Gets the balances (and transactions) of a list of public IDs
   Future<List<BalanceDto>> getCurrentBalances(List<String> publicIds) async {
-    _assertAuthorized();
+    try {
+      _assertAuthorized();
+    } catch (e) {
+      rethrow;
+    }
     appStore.incrementPendingRequests();
     _gettingCurrentBalances = true;
     late http.Response response;
@@ -361,8 +395,11 @@ class QubicLi {
       _gettingCurrentBalances = false;
       throw Exception('Failed to contact server for fetching balances.');
     }
-    _assert200Response(response.statusCode);
-
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     late var balances = <BalanceDto>[];
 
@@ -385,7 +422,11 @@ class QubicLi {
 
   /// Gets current tick form the Qubic network
   Future<List<ExplorerQueryDto>> getExplorerQuery(String query) async {
-    _assertAuthorized();
+    try {
+      _assertAuthorized();
+    } catch (e) {
+      rethrow;
+    }
     explorerStore.incrementPendingRequests();
     late http.Response response;
     try {
@@ -400,7 +441,11 @@ class QubicLi {
       explorerStore.decreasePendingRequests();
       throw Exception('Failed to contact server for explorer query.');
     }
-    _assert200Response(response.statusCode);
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     late List<ExplorerQueryDto> resultDto = [];
     try {
@@ -423,7 +468,11 @@ class QubicLi {
   }
 
   Future<ExplorerTickInfoDto> getExplorerTickInfo(int tick) async {
-    _assertAuthorized();
+    try {
+      _assertAuthorized();
+    } catch (e) {
+      rethrow;
+    }
     explorerStore.incrementPendingRequests();
     late http.Response response;
     try {
@@ -441,7 +490,11 @@ class QubicLi {
     if (response.statusCode == 500) {
       throw Exception('Tick info not available yet.');
     }
-    _assert200Response(response.statusCode);
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     late ExplorerTickInfoDto resultDto;
     try {
@@ -461,7 +514,11 @@ class QubicLi {
   }
 
   Future<ExplorerIdInfoDto> getExplorerIdInfo(String publicId) async {
-    _assertAuthorized();
+    try {
+      _assertAuthorized();
+    } catch (e) {
+      rethrow;
+    }
     explorerStore.incrementPendingRequests();
     late http.Response response;
     try {
@@ -476,7 +533,11 @@ class QubicLi {
       explorerStore.decreasePendingRequests();
       throw Exception('Failed to contact server for explorer id info.');
     }
-    _assert200Response(response.statusCode);
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     late ExplorerIdInfoDto resultDto;
     try {
@@ -499,7 +560,11 @@ class QubicLi {
   /// @param publicIds - List of public IDs to get assets for
   /// @return List of assets
   Future<List<QubicAssetDto>> getCurrentAssets(List<String> publicIds) async {
-    _assertAuthorized();
+    try {
+      _assertAuthorized();
+    } catch (e) {
+      rethrow;
+    }
     _gettingNetworkAssets = true;
     appStore.incrementPendingRequests();
     late http.Response response;
@@ -521,7 +586,11 @@ class QubicLi {
       _gettingNetworkAssets = false;
       throw Exception('Failed to contact server for fetching current assets.');
     }
-    _assert200Response(response.statusCode);
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
 
     late dynamic parsedJson;
     late List<QubicAssetDto> assets = <QubicAssetDto>[];
@@ -559,8 +628,11 @@ class QubicLi {
       appStore.decreasePendingRequests();
       throw Exception('Failed to contact server for fetching market info.');
     }
-    _assert200Response(response.statusCode);
-
+    try {
+      _assert200Response(response.statusCode);
+    } catch (e) {
+      rethrow;
+    }
     late dynamic parsedJson;
     late MarketInfoDto marketInfo;
 

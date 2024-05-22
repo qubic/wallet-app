@@ -407,7 +407,11 @@ class _TransferAssetState extends State<TransferAsset> {
                         onPressed: () async {
                           showPickerBottomSheet();
                         },
-                        icon: Image.asset("assets/images/bookmark-24.png"))
+                        icon: LightThemeColors.shouldInvertIcon
+                            ? ThemedControls.invertedColors(
+                                child: Image.asset(
+                                    "assets/images/bookmark-24.png"))
+                            : Image.asset("assets/images/bookmark-24.png"))
                     //const Icon(Icons.book))
                     : Container(),
                 ThemedControls.spacerHorizontalMini()
@@ -568,7 +572,7 @@ class _TransferAssetState extends State<TransferAsset> {
                                   expansionCallback:
                                       (int index, bool isExpanded) {
                                     setState(() {
-                                      expanded[index] = !isExpanded;
+                                      expanded[index] = !expanded[index];
                                     });
                                   },
                                   children: [
@@ -605,32 +609,36 @@ class _TransferAssetState extends State<TransferAsset> {
     return [
       !isLoading
           ? Expanded(
-              child: TextButton(
+              child: ThemedControls.transparentButtonBigWithChild(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("CANCEL",
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                            color: Theme.of(context).primaryColor,
-                            fontWeight: FontWeight.bold,
-                          ))))
+                  child: Padding(
+                    padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                    child: Text("Cancel",
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                            )),
+                  )))
           : Container(),
       ThemedControls.spacerHorizontalNormal(),
       Expanded(
-          child: FilledButton(
+          child: ThemedControls.primaryButtonBigWithChild(
               onPressed: transferNowHandler,
-              child: SizedBox(
-                  width: 130,
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
                   child: !isLoading
-                      ? const SizedBox(
+                      ? SizedBox(
                           width: double.infinity,
-                          child:
-                              Text("TRANSFER NOW", textAlign: TextAlign.center))
+                          child: Text("Transfer",
+                              textAlign: TextAlign.center,
+                              style: TextStyles.primaryButtonText))
                       : Padding(
                           padding: const EdgeInsets.fromLTRB(57, 0, 57, 0),
                           child: SizedBox(
-                              height: 15,
-                              width: 15,
+                              height: 23,
+                              width: 23,
                               child: CircularProgressIndicator(
                                   strokeWidth: 2,
                                   color: Theme.of(context)
