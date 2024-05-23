@@ -158,7 +158,7 @@ class _SendState extends State<Send> {
                 }
                 if (foundSuccess) {
                   Navigator.pop(context);
-                  _globalSnackBar.show("Successfully scanned QR Code", true);
+                  _globalSnackBar.show("Successfully scanned QR Code");
                 }
               },
             ),

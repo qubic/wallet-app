@@ -59,7 +59,7 @@ class IdListItem extends StatelessWidget {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: const Text("Rename Qubic ID"),
+      title: const Text("Rename Qubic Account"),
       content: FormBuilder(
           key: _formKey,
           child: SizedBox(
@@ -119,9 +119,9 @@ class IdListItem extends StatelessWidget {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: const Text("Remove Qubic ID"),
+      title: const Text("Remove Qubic Account"),
       content: const Text(
-          "Are you sure you want to remove this Qubic ID from your wallet? (Any funds associated with this ID will not be removed)\n\nMAKE SURE YOU HAVE A BACKUP OF YOUR PRIVATE SEED BEFORE REMOVING THIS ID!"),
+          "Are you sure you want to remove this Qubic Account from your wallet? (Any funds associated with this Account will not be removed)\n\nMAKE SURE YOU HAVE A BACKUP OF YOUR PRIVATE SEED BEFORE REMOVING THIS ACCOUNT!"),
       actions: [
         cancelButton,
         continueButton,

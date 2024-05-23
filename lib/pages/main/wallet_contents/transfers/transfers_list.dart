@@ -149,7 +149,7 @@ class _TransfersListState extends State<TransfersList> {
         .where(((element) =>
             element.publicId == generatedPublicId!.replaceAll(",", "_")))
         .isNotEmpty) {
-      _globalSnackBar.show('This ID already exists in your wallet');
+      _globalSnackBar.show('This Account already exists in your wallet');
       return;
     }
 

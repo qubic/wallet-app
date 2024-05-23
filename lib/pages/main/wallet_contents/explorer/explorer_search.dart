@@ -192,15 +192,21 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
       isLoading = true;
     });
 
-    List<ExplorerQueryDto>? result = await qubicLi.getExplorerQuery(
-        _formKey.currentState!.fields["searchTerm"]!.value as String);
-    setState(() {
-      lastSearchQuery =
-          _formKey.currentState!.fields["searchTerm"]!.value as String;
-      searchResults = result;
-      isLoading = false;
-      FocusManager.instance.primaryFocus?.unfocus();
-    });
+    try {
+      List<ExplorerQueryDto>? result = await qubicLi.getExplorerQuery(
+          _formKey.currentState!.fields["searchTerm"]!.value as String);
+      setState(() {
+        lastSearchQuery =
+            _formKey.currentState!.fields["searchTerm"]!.value as String;
+        searchResults = result;
+        isLoading = false;
+        FocusManager.instance.primaryFocus?.unfocus();
+      });
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   TextEditingController privateSeed = TextEditingController();

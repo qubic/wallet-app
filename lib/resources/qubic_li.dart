@@ -620,9 +620,13 @@ class QubicLi {
     try {
       var headers = QubicLi.getHeaders();
       headers.addAll({'Content-Type': 'application/json'});
-      response = await http.get(
-          Uri.https(Config.walletDomain, Config.URL_MarketInfo),
-          headers: headers);
+      response = await http
+          .get(Uri.https(Config.walletDomain, Config.URL_MarketInfo),
+              headers: headers)
+          .catchError((e) {
+        appStore.decreasePendingRequests();
+        throw Exception('Failed to contact server for fetching market info.');
+      });
       appStore.decreasePendingRequests();
     } catch (e) {
       appStore.decreasePendingRequests();
@@ -644,7 +648,6 @@ class QubicLi {
     try {
       marketInfo = MarketInfoDto.fromJson(parsedJson);
     } catch (e) {
-      rethrow;
       throw Exception(
           'Failed to fetch market info. Server response is missing required info');
     }

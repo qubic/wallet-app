@@ -69,16 +69,13 @@ class TimedController {
   /// If the call fails, it shows a snackbar with the error message
   /// If the call succeeds, it updates the store with the results
   _getMarketInfo() async {
-    try {
-      _apiService.getMarketInfo().then((marketInfo) {
-        debugPrint(
-            "Got market info: ${marketInfo.capitalization} ${marketInfo.price} ${marketInfo.currency} ${marketInfo.supply}");
-        appStore.setMarketInfo(marketInfo);
-      });
-    } on Exception catch (e) {
+    _apiService.getMarketInfo().then((marketInfo) {
+      debugPrint(
+          "Got market info: ${marketInfo.capitalization} ${marketInfo.price} ${marketInfo.currency} ${marketInfo.supply}");
+      appStore.setMarketInfo(marketInfo);
+    }).onError((e, stackTrace) {
       appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
-    }
+    });
   }
 
   /// Called by the main timer
@@ -94,6 +91,8 @@ class TimedController {
     } on Exception catch (e) {
       appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
       //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
+    } catch (e) {
+      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
     }
   }
 

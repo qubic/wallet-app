@@ -142,7 +142,7 @@ class _AssetsState extends State<Assets> {
         .where(((element) =>
             element.publicId == generatedPublicId!.replaceAll(",", "_")))
         .isNotEmpty) {
-      _globalSnackBar.show("This ID already exists in your wallet", true);
+      _globalSnackBar.show("This account already exists in your wallet");
 
       return;
     }

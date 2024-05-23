@@ -55,7 +55,7 @@ class _AboutWalletState extends State<AboutWallet> {
       setState(() {
         isLoading = false;
       });
-      snackBar.show(e.toString().replaceAll("Exception: ", ""), true);
+      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
     });
   }
 
@@ -220,8 +220,8 @@ class _AboutWalletState extends State<AboutWallet> {
                           Clipboard.setData(ClipboardData(
                               text:
                                   "WZFSPXPLXKNWFDLNMZHQTGMSRIHBEBITVDUXOSVSZGBREGIUVNWVZBIETEQF"));
-                          snackBar.show(
-                              "Donation address copied to clipboard", false);
+                          appStore.reportGlobalNotification(
+                              "Donation address copied to clipboard");
                         })
                   ])
                 ],

@@ -158,7 +158,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           isLoading = false;
         });
 
-        snackBar.show("Password changed successfully", true);
+        appStore.reportGlobalNotification("Password changed successfully");
       } else {
         showAlertDialog(context, "Error", "Failed to save new password");
         setState(() {

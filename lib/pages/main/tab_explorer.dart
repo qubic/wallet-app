@@ -65,20 +65,24 @@ class _TabExplorerState extends State<TabExplorer> {
 
   void refreshOverview() {
     explorerStore.incrementPendingRequests();
+    try {
+      li.getNetworkOverview().then((value) {
+        explorerStore.setNetworkOverview(value);
+        explorerStore.decreasePendingRequests();
+        setState(() {
+          numberOfPages =
+              (explorerStore.networkOverview!.ticks.length / itemsPerPage)
+                  .ceil();
+          currentPage = 1;
+        });
+      }, onError: (e) {
+        _globalSnackBar.showError(e.toString().replaceAll("Exception: ", ""));
 
-    li.getNetworkOverview().then((value) {
-      explorerStore.setNetworkOverview(value);
-      explorerStore.decreasePendingRequests();
-      setState(() {
-        numberOfPages =
-            (explorerStore.networkOverview!.ticks.length / itemsPerPage).ceil();
-        currentPage = 1;
+        explorerStore.decreasePendingRequests();
       });
-    }, onError: (e) {
-      _globalSnackBar.show(e.toString().replaceAll("Exception: ", ""), true);
-
-      explorerStore.decreasePendingRequests();
-    });
+    } on Exception catch (e) {
+      _globalSnackBar.showError(e.toString().replaceAll("Exception: ", ""));
+    }
   }
 
   @override

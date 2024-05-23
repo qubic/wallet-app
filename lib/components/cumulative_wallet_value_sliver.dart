@@ -41,7 +41,7 @@ class CumulativeWalletValueSliver extends StatelessWidget {
     return AmountFormatted(
       amount: appStore.totalAmountsInUSD.toInt(),
       isInHeader: true,
-      currencyName: '\$USD',
+      currencyName: 'USD',
       labelOffset: -2,
       textStyle: TextStyles.sliverSmall,
     );
@@ -53,7 +53,7 @@ class CumulativeWalletValueSliver extends StatelessWidget {
         amount: 1,
         stringOverride: appStore.marketInfo!.price,
         isInHeader: true,
-        currencyName: '\$USD / QUBIC',
+        currencyName: 'USD / QUBIC',
         labelOffset: -2,
         textStyle: TextStyles.sliverSmall);
   }

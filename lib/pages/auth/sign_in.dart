@@ -1,9 +1,11 @@
+import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:mobx/mobx.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -40,10 +42,14 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 
   final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
   String? signInError;
+  late final ReactionDisposer _disposeSnackbarAuto;
 
   late final AnimationController _rotationController;
 
   late final Animation _animation;
+
+  late AnimatedSnackBar errorBar;
+  late AnimatedSnackBar notificationBar;
 
   //FJS
 
@@ -51,6 +57,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    final ApplicationStore applicationStore = getIt<ApplicationStore>();
 
     _rotationController = AnimationController(
       vsync: this,
@@ -70,13 +77,81 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
             "USE THIS VERSION AT YOUR OWN RISK\n\nYour current version is outdated and will possibly not work. Please update your wallet version to ${qubicHubStore.minVersion}.\n\nYou can still access your funds and back up your seeds, but other functionality may be broken.  ");
       }
     }, onError: (e) {
-      _globalSnackbar.show(e.toString().replaceAll("Exception: ", ""));
+      _globalSnackbar.showError(e.toString().replaceAll("Exception: ", ""));
+    });
+
+    _disposeSnackbarAuto = autorun((_) {
+      if (applicationStore.globalError != "") {
+        var errorPos = applicationStore.globalError.indexOf("~");
+        var error = (errorPos == -1)
+            ? applicationStore.globalError
+            : applicationStore.globalError.substring(0, errorPos);
+
+        // AnimatedSnackBar.material(error,
+        //         type: AnimatedSnackBarType.error,
+        //         snackBarStrategy: StackSnackBarStrategy())
+        //     .show(context);
+
+        errorBar = AnimatedSnackBar(
+            builder: ((context) {
+              return Ink(
+                  child: InkWell(
+                      onTap: (() {
+                        errorBar.remove();
+                      }),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: LightThemeColors.cardBackground.withRed(100),
+                        ),
+                        padding:
+                            const EdgeInsets.all(ThemePaddings.normalPadding),
+                        child: Text(
+                          error,
+                          style: TextStyles.labelTextSmall,
+                        ),
+                      )));
+            }),
+            snackBarStrategy: RemoveSnackBarStrategy());
+        errorBar.show(context);
+      }
+
+      if (applicationStore.globalNotification != "") {
+        var notificationPos = applicationStore.globalNotification.indexOf("~");
+        var notification = (notificationPos == -1)
+            ? applicationStore.globalError
+            : applicationStore.globalError.substring(0, notificationPos);
+
+        notificationBar = AnimatedSnackBar(
+            builder: ((context) {
+              return Ink(
+                  child: InkWell(
+                      onTap: (() {
+                        errorBar.remove();
+                      }),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: LightThemeColors.cardBackground),
+                        padding:
+                            const EdgeInsets.all(ThemePaddings.normalPadding),
+                        child: Text(
+                          notification,
+                          style: TextStyles.labelTextSmall,
+                        ),
+                      )));
+            }),
+            snackBarStrategy: RemoveSnackBarStrategy());
+        notificationBar.show(context);
+      }
     });
   }
 
   @override
   void dispose() {
     _rotationController.dispose();
+
+    _disposeSnackbarAuto();
     super.dispose();
   }
 

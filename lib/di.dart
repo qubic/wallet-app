@@ -19,15 +19,15 @@ final GetIt getIt = GetIt.instance;
 
 /// Setups Dependency injection
 void setupDI() {
-  //Providers
-  getIt.registerSingleton<GlobalSnackBar>(GlobalSnackBar());
-
   //Stores
   getIt.registerSingleton<ApplicationStore>(ApplicationStore());
   getIt.registerSingleton<SettingsStore>(SettingsStore());
   getIt.registerSingleton<ExplorerStore>(ExplorerStore());
   getIt.registerSingleton<QubicHubStore>(QubicHubStore());
   getIt.registerSingleton<SecureStorage>(SecureStorage());
+
+//Providers
+  getIt.registerSingleton<GlobalSnackBar>(GlobalSnackBar());
 
   getIt.registerSingleton<QubicLi>(QubicLi());
   getIt.registerSingleton<QubicHub>(QubicHub());

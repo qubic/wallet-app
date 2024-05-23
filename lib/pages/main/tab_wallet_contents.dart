@@ -276,7 +276,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                     child: Padding(
                                         padding: EdgeInsets.all(
                                             ThemePaddings.smallPadding),
-                                        child: Expanded(
+                                        child: Center(
                                             child: Container(
                                                 width: double.infinity,
                                                 padding: EdgeInsets.all(
@@ -287,7 +287,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                                   ThemedControls
                                                       .spacerVerticalBig(),
                                                   Text(
-                                                      "You don't have any Qubic Accounts in your wallet yet"),
+                                                    "You don't have any Qubic Accounts in your wallet yet",
+                                                    textAlign: TextAlign.center,
+                                                  ),
                                                   ThemedControls
                                                       .spacerVerticalBig(),
                                                   ThemedControls

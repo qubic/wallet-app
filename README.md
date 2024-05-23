@@ -6,10 +6,10 @@ Official wallet app for the QUBIC network (https://qubic.org/). Find more about 
 
 ## Functionality
 
-- [x] Multi account: Add and manage multiple IDs
+- [x] Multi account: Add and manage multiple accounts
 - [x] Transfers: Send and receive QUBIC
 - [x] Manual resend: Manual resend failed transfers
-- [x] Block Explorer: View complete tick / transacation / ID info
+- [x] Block Explorer: View complete tick / transacation / account info
 - [x] Assets: View shares in your accounts
 - [x] Asset transfers: Allow to send and receive shares
 

@@ -47,6 +47,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
+  late final _$globalNotificationAtom =
+      Atom(name: '_ApplicationStore.globalNotification', context: context);
+
+  @override
+  String get globalNotification {
+    _$globalNotificationAtom.reportRead();
+    return super.globalNotification;
+  }
+
+  @override
+  set globalNotification(String value) {
+    _$globalNotificationAtom.reportWrite(value, super.globalNotification, () {
+      super.globalNotification = value;
+    });
+  }
+
   late final _$currentTickAtom =
       Atom(name: '_ApplicationStore.currentTick', context: context);
 
@@ -269,6 +285,17 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  void reportGlobalNotification(String notificationText) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.reportGlobalNotification');
+    try {
+      return super.reportGlobalNotification(notificationText);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void incrementPendingRequests() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.incrementPendingRequests');
@@ -350,6 +377,7 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   String toString() {
     return '''
 globalError: ${globalError},
+globalNotification: ${globalNotification},
 currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
 currentQubicIDs: ${currentQubicIDs},

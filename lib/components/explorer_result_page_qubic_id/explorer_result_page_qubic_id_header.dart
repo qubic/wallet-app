@@ -73,11 +73,11 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
           Row(children: [
             Expanded(
                 child: incPanel("Total incoming",
-                    info.incomingAmount.asThousands().toString() + "QUBIC")),
+                    info.incomingAmount.asThousands().toString())),
             ThemedControls.spacerHorizontalMini(),
             Expanded(
                 child: incPanel("Total outgoing",
-                    info.outgoingAmount.asThousands().toString() + "QUBIC")),
+                    info.outgoingAmount.asThousands().toString())),
           ]),
           ThemedControls.spacerVerticalSmall(),
           IPs != null

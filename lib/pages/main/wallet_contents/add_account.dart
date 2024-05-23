@@ -81,8 +81,7 @@ class _AddAccountState extends State<AddAccount> {
                     if (!detected) {
                       Navigator.pop(context);
 
-                      _globalSnackBar.show(
-                          "Successfully scanned QR Code", true);
+                      _globalSnackBar.show("Successfully scanned QR Code");
                     }
                     detected = true;
                   }
@@ -126,8 +125,12 @@ class _AddAccountState extends State<AddAccount> {
                 Tooltip(
                     triggerMode: TooltipTriggerMode.tap,
                     message:
-                        "An account name is a human-readable name that you can use to identify your Qubic ID in the wallet. It can be changed at any time.",
-                    child: Image.asset("assets/images/question-active-16.png")),
+                        "An account name is a human-readable name that you can use to identify your Qubic private seeds in your wallet. The account name is kept only in your device. It can be changed at any time.",
+                    child: LightThemeColors.shouldInvertIcon
+                        ? ThemedControls.invertedColors(
+                            child: Image.asset(
+                                "assets/images/question-active-16.png"))
+                        : Image.asset("assets/images/question-active-16.png")),
               ]),
               ThemedControls.spacerVerticalMini(),
               FormBuilder(
@@ -155,9 +158,13 @@ class _AddAccountState extends State<AddAccount> {
                         Tooltip(
                             triggerMode: TooltipTriggerMode.tap,
                             message:
-                                "A seed is made by 55 lowercase letters and is used to generate your Qubic Address. It is recommended to make it as random as possible. Always keep it secret and never share with anyone",
-                            child: Image.asset(
-                                "assets/images/question-active-16.png")),
+                                "A private seed is made by 55 lowercase letters and is used to generate your Qubic Address. It is recommended to make it as random as possible. Always keep it secret and never share with anyone",
+                            child: LightThemeColors.shouldInvertIcon
+                                ? ThemedControls.invertedColors(
+                                    child: Image.asset(
+                                        "assets/images/question-active-16.png"))
+                                : Image.asset(
+                                    "assets/images/question-active-16.png")),
                         Expanded(child: Container()),
                         ThemedControls.transparentButtonSmall(
                             onPressed: () {
@@ -286,7 +293,7 @@ class _AddAccountState extends State<AddAccount> {
                       Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                              "Please backup your seed in a safe safe place.\nKeep it a secret and do not share with anyone.",
+                              "Please backup your private seed in a safe safe place. Keep it secret and do not ever share it with anyone. Access to your private seed means access to your funds.",
                               style: TextStyles.assetSecondaryTextLabel)),
                       const SizedBox(height: ThemePaddings.normalPadding),
                       Builder(builder: (context) {
@@ -302,10 +309,24 @@ class _AddAccountState extends State<AddAccount> {
                                             .secondaryTypography)),
                                 ThemedControls.spacerVerticalMini(),
                                 generatedPublicId == null
-                                    ? Text(
-                                        "Please provide a valid private seed",
-                                        style: TextStyles.textNormal.copyWith(
-                                            fontStyle: FontStyle.italic))
+                                    ? privateSeed.value.text.isEmpty
+                                        ? Text("No private seed provided",
+                                            textAlign: TextAlign.right,
+                                            style: TextStyles.textNormal
+                                                .copyWith(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight
+                                                        .normal,
+                                                    fontStyle:
+                                                        FontStyle.italic))
+                                        : Text("Invalid private seed provided",
+                                            style: TextStyles.textNormal
+                                                .copyWith(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontStyle:
+                                                        FontStyle.italic))
                                     : SelectableText(generatedPublicId!,
                                         style: TextStyles.textNormal)
                               ])),
@@ -372,7 +393,7 @@ class _AddAccountState extends State<AddAccount> {
         .where(((element) =>
             element.publicId == generatedPublicId!.replaceAll(",", "_")))
         .isNotEmpty) {
-      _globalSnackBar.show("This ID already exists in your wallet", true);
+      _globalSnackBar.show("This account already exists in your wallet");
 
       return;
     }

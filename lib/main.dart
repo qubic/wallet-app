@@ -42,7 +42,7 @@ class WalletApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Qubic Wallet',
       routerConfig: appRouter,
-      scaffoldMessengerKey: GlobalSnackBar.key,
+      scaffoldMessengerKey: snackbarKey,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
 

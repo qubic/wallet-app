@@ -75,8 +75,8 @@ class TransactionItem extends StatelessWidget {
                     item.amount,
                     appStore.currentTick + 30);
                 if (success) {
-                  _globalSnackBar.show(
-                      "Submitted new transaction to Qubic network", true);
+                  _globalSnackBar
+                      .show("Submitted new transaction to Qubic network");
                 }
                 await _timedController.interruptFetchTimer();
 

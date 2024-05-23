@@ -42,6 +42,9 @@ class _MainScreenState extends State<MainScreen> {
   late final ReactionDisposer _disposeSnackbarAuto;
   final _globalSnackBar = getIt<GlobalSnackBar>();
 
+  late AnimatedSnackBar errorBar;
+  late AnimatedSnackBar notificationBar;
+
   @override
   void initState() {
     super.initState();
@@ -60,12 +63,62 @@ class _MainScreenState extends State<MainScreen> {
             ? applicationStore.globalError
             : applicationStore.globalError.substring(0, errorPos);
 
-        AnimatedSnackBar.material(
-          error,
-          type: AnimatedSnackBarType.error,
-        ).show(context);
+        // AnimatedSnackBar.material(error,
+        //         type: AnimatedSnackBarType.error,
+        //         snackBarStrategy: StackSnackBarStrategy())
+        //     .show(context);
 
-        //_globalSnackBar.show(applicationStore.globalError);
+        errorBar = AnimatedSnackBar(
+            builder: ((context) {
+              return Ink(
+                  child: InkWell(
+                      onTap: (() {
+                        errorBar.remove();
+                      }),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: LightThemeColors.cardBackground.withRed(100),
+                        ),
+                        padding:
+                            const EdgeInsets.all(ThemePaddings.normalPadding),
+                        child: Text(
+                          error,
+                          style: TextStyles.labelTextSmall,
+                        ),
+                      )));
+            }),
+            snackBarStrategy: RemoveSnackBarStrategy());
+        errorBar.show(context);
+      }
+
+      if (applicationStore.globalNotification != "") {
+        var notificationPos = applicationStore.globalNotification.indexOf("~");
+        var notification = (notificationPos == -1)
+            ? applicationStore.globalError
+            : applicationStore.globalError.substring(0, notificationPos);
+
+        notificationBar = AnimatedSnackBar(
+            builder: ((context) {
+              return Ink(
+                  child: InkWell(
+                      onTap: (() {
+                        errorBar.remove();
+                      }),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: LightThemeColors.cardBackground),
+                        padding:
+                            const EdgeInsets.all(ThemePaddings.normalPadding),
+                        child: Text(
+                          notification,
+                          style: TextStyles.labelTextSmall,
+                        ),
+                      )));
+            }),
+            snackBarStrategy: RemoveSnackBarStrategy());
+        notificationBar.show(context);
       }
     });
   }

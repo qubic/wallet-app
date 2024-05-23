@@ -80,7 +80,7 @@ class CurrencyAmount extends StatelessWidget {
       List<Widget> numbers = [];
 
       numbers.add(Text(amount.toString(), style: textStyle));
-      numbers.add(Text(" \$USD", style: textStyle));
+      numbers.add(Text(" USD", style: textStyle));
       return Row(
           mainAxisAlignment: MainAxisAlignment.center, children: numbers);
     }

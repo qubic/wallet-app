@@ -28,6 +28,9 @@ abstract class _ApplicationStore with Store {
   String globalError = "";
 
   @observable
+  String globalNotification = "";
+
+  @observable
   int currentTick = 0;
 
   @observable
@@ -103,8 +106,13 @@ abstract class _ApplicationStore with Store {
 
   @action
   void reportGlobalError(String error) {
-    globalError = error + "~" + DateTime.now().toString();
+    globalError = "$error~${DateTime.now()}";
     //Show a snackbar
+  }
+
+  @action
+  void reportGlobalNotification(String notificationText) {
+    globalNotification = "$notificationText~${DateTime.now()}";
   }
 
   @action
