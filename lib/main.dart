@@ -34,15 +34,21 @@ Future<void> main() async {
   runApp(const WalletApp());
 }
 
-class WalletApp extends StatelessWidget {
+class WalletApp extends StatefulWidget {
   const WalletApp({super.key});
 
+  @override
+  State<WalletApp> createState() => _WalletAppState();
+}
+
+class _WalletAppState extends State<WalletApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Qubic Wallet',
       routerConfig: appRouter,
-      scaffoldMessengerKey: snackbarKey,
+
+      scaffoldMessengerKey: scaffoldMessengerKey,
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.dark,
 

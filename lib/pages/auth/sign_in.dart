@@ -119,8 +119,8 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
       if (applicationStore.globalNotification != "") {
         var notificationPos = applicationStore.globalNotification.indexOf("~");
         var notification = (notificationPos == -1)
-            ? applicationStore.globalError
-            : applicationStore.globalError.substring(0, notificationPos);
+            ? applicationStore.globalNotification
+            : applicationStore.globalNotification.substring(0, notificationPos);
 
         notificationBar = AnimatedSnackBar(
             builder: ((context) {

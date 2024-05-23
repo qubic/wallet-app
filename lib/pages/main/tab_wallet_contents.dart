@@ -15,6 +15,7 @@ import 'package:qubic_wallet/components/tick_indicator.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account.dart';

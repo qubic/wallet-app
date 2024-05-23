@@ -28,6 +28,8 @@ abstract class Config {
 
   static const checkForTamperedUtils = true;
 
+  static const useNativeSnackbar = false;
+
   // The qubic-hub.com backend
   static const servicesDomain = "wallet.qubic-hub.com";
   static const URL_VersionInfo = "/versionInfo.php";

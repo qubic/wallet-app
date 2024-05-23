@@ -71,15 +71,15 @@ class _MainScreenState extends State<MainScreen> {
         errorBar = AnimatedSnackBar(
             builder: ((context) {
               return Ink(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: LightThemeColors.cardBackground.withRed(100),
+                  ),
                   child: InkWell(
                       onTap: (() {
                         errorBar.remove();
                       }),
                       child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: LightThemeColors.cardBackground.withRed(100),
-                        ),
                         padding:
                             const EdgeInsets.all(ThemePaddings.normalPadding),
                         child: Text(
@@ -95,20 +95,20 @@ class _MainScreenState extends State<MainScreen> {
       if (applicationStore.globalNotification != "") {
         var notificationPos = applicationStore.globalNotification.indexOf("~");
         var notification = (notificationPos == -1)
-            ? applicationStore.globalError
-            : applicationStore.globalError.substring(0, notificationPos);
+            ? applicationStore.globalNotification
+            : applicationStore.globalNotification.substring(0, notificationPos);
 
         notificationBar = AnimatedSnackBar(
             builder: ((context) {
               return Ink(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: LightThemeColors.cardBackground),
                   child: InkWell(
                       onTap: (() {
-                        errorBar.remove();
+                        notificationBar.remove();
                       }),
                       child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: LightThemeColors.cardBackground),
                         padding:
                             const EdgeInsets.all(ThemePaddings.normalPadding),
                         child: Text(
@@ -309,9 +309,9 @@ class _MainScreenState extends State<MainScreen> {
     // return getMain();
     return Observer(builder: (context) {
       if (UniversalPlatform.isDesktop && !settingsStore.cmdUtilsAvailable) {
-        return DownloadCmdUtils();
+        return Scaffold(body: DownloadCmdUtils());
       }
-      return getMain();
+      return Scaffold(body: getMain());
     });
   }
 }
