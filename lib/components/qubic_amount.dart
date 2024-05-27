@@ -51,9 +51,9 @@ class QubicAmount extends StatelessWidget {
     }
     if (hasComma) {
       numberList.add(Text(",",
-          style: isZeroWithValue
+          style: numberized == "0"
               ? TextStyles.qubicAmountLight
-              : TextStyles.qubicAmountLight));
+              : TextStyles.qubicAmount));
     }
     return numberList;
   }
