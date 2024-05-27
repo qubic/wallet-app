@@ -13,49 +13,39 @@ class QubicAmount extends StatelessWidget {
         style: opaque ? TextStyles.qubicAmount : TextStyles.qubicAmountLight);
   }
 
-  List<Widget> getUptoThousands(BuildContext context, int units) {
-    if (units >= 100) {
-      return [getText(context, units.toString(), true)];
-    }
+  List<Widget> padAndFormatWithCommas(int number) {
+    // Convert the number to a string
+    String numberStr = number.toString();
+    // Calculate the padding required to reach 15 digits
+    int paddingLength = 15 - numberStr.length;
 
-    if (units >= 10) {
-      return [
-        getText(context, "0", false),
-        getText(context, units.toString(), true)
-      ];
-    }
-    return [
-      getText(context, "00", false),
-      getText(context, units.toString(), true)
-    ];
-  }
+    // Pad the number with zeros on the left to ensure it has at least 15 digits
+    String paddedNumber = numberStr.padLeft(15, '0');
 
-  List<Widget> getNumber(BuildContext context, String numberized, bool hasComma,
-      bool isZeroWithValue) {
-    List<Widget> numberList = [];
+    // Create a list of Widgets
+    List<Widget> widgets = [];
 
-    if (numberized == "0") {
-      numberList.add(Text("000",
-          style: isZeroWithValue
-              ? TextStyles.qubicAmount
-              : TextStyles.qubicAmountLight));
-    } else {
-      var preNumber = 3 - numberized.length;
-      for (int i = 0; i < preNumber; i++) {
-        numberList.add(Text("0",
-            style: isZeroWithValue
-                ? TextStyles.qubicAmount
-                : TextStyles.qubicAmountLight));
+    for (int i = 0; i < paddedNumber.length; i++) {
+      bool isPadding = i < paddingLength;
+      bool isComma = (paddedNumber.length - i) % 3 == 0 && i != 0;
+
+      if (isComma) {
+        bool commaIsPadding = (i - 1) <
+            paddingLength; // comma is padding when previous digit is padding
+
+        widgets.add(Text(',',
+            style: commaIsPadding
+                ? TextStyles.qubicAmountLight
+                : TextStyles.qubicAmount));
       }
-      numberList.add(Text(numberized, style: TextStyles.qubicAmount));
-    }
-    if (hasComma) {
-      numberList.add(Text(",",
-          style: numberized == "0"
+
+      widgets.add(Text(paddedNumber[i],
+          style: isPadding
               ? TextStyles.qubicAmountLight
               : TextStyles.qubicAmount));
     }
-    return numberList;
+
+    return widgets;
   }
 
   @override
@@ -93,44 +83,7 @@ class QubicAmount extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center, children: numbers);
     }
 
-    final int trillions = (amount! / 1000000000000).floor();
-    final int billions =
-        ((amount! - trillions * 1000000000000) / 1000000000).floor();
-    final int millions =
-        ((amount! - trillions * 1000000000000 - billions * 1000000000) /
-                1000000)
-            .floor();
-    final int thousands = ((amount! -
-                trillions * 1000000000000 -
-                billions * 1000000000 -
-                millions * 1000000) /
-            1000)
-        .floor();
-    final int units = (amount! -
-            trillions * 1000000000000 -
-            billions * 1000000000 -
-            millions * 1000000 -
-            thousands * 1000)
-        .floor();
-
-    final trillionsString = trillions.toString();
-    final billionsString = billions.toString();
-    final millionsString = millions.toString();
-    final thousandsString = thousands.toString();
-    final unitsString = units.toString();
-
-    List<Widget> numbers = [];
-    numbers.addAll(
-        getNumber(context, trillionsString, true, amount! > 1000000000000));
-    numbers
-        .addAll(getNumber(context, billionsString, true, amount! > 1000000000));
-    numbers.addAll(getNumber(context, millionsString, true, amount! > 1000000));
-    numbers.addAll(getNumber(context, thousandsString, true, amount! > 1000));
-    if (amount! >= 1000) {
-      numbers.addAll(getNumber(context, unitsString, false, amount! > 0));
-    } else {
-      numbers.addAll(getUptoThousands(context, units));
-    }
+    List<Widget> numbers = padAndFormatWithCommas(amount!.floor());
     numbers.add(Text(" QUBIC", style: TextStyles.qubicAmountLabel));
     return Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
