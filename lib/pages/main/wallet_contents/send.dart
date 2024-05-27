@@ -532,7 +532,7 @@ class _SendState extends State<Send> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                                "Balance in ID: ${formatter.format(widget.item.amount)} \$QUBIC",
+                                "Balance in ID: ${formatter.format(widget.item.amount)} \QUBIC",
                                 style: Theme.of(context).textTheme.bodySmall!),
                           ]),
                       const SizedBox(height: ThemePaddings.bigPadding),
