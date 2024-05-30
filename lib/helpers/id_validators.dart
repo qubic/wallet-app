@@ -230,7 +230,7 @@ class CustomFormFieldValidators {
       }
 
       if (valueCandidate is String && valueCandidate.length != 60) {
-        return "Must be 55 characters long";
+        return "Must be 60 characters long";
       }
 
       bool valid = true;

@@ -58,7 +58,8 @@ class _FilterTransactionsState extends State<FilterTransactions> {
         Text("Any status", style: TextStyles.textNormal),
       );
     } else {
-      out.add(Icon(getTransactionStatusIcon(e)));
+      out.add(Icon(getTransactionStatusIcon(e),
+          color: getTransactionStatusColor(e)));
       out.add(const Text(" "));
       out.add(Text(getTransactionStatusText(e), style: TextStyles.textNormal));
     }
