@@ -73,7 +73,7 @@ class TransactionItem extends StatelessWidget {
                     item.sourceId,
                     item.destId,
                     item.amount,
-                    appStore.currentTick + 30);
+                    appStore.currentTick + 20);
                 if (success) {
                   _globalSnackBar
                       .show("Submitted new transaction to Qubic network");

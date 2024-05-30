@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:qubic_wallet/config.dart';
@@ -9,6 +11,8 @@ import 'package:qubic_wallet/stores/application_store.dart';
 class GlobalSnackBar {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
+  Timer? normalTimer;
+  Timer? errorTimer;
   void show(String message) {
     if (Config.useNativeSnackbar) {
       scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
@@ -19,7 +23,14 @@ class GlobalSnackBar {
         content: Text(message),
       ));
     } else {
+      if (normalTimer != null) {
+        normalTimer!.cancel();
+      }
       appStore.reportGlobalNotification(message);
+      appStore.reportGlobalError("");
+      //normalTimer = Timer(const Duration(milliseconds: ), () {
+      appStore.reportGlobalNotification("");
+      //});
     }
   }
 
@@ -33,7 +44,11 @@ class GlobalSnackBar {
         content: Text(error),
       ));
     } else {
+      appStore.reportGlobalNotification("");
       appStore.reportGlobalError(error);
+      errorTimer = Timer(const Duration(seconds: 2), () {
+        appStore.reportGlobalError("");
+      });
     }
   }
 }

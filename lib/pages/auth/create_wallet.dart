@@ -163,6 +163,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                 FormBuilderValidators.required(),
                               ]),
                               enabled: !isLoading,
+                              onSubmitted: (value) => createHandler(),
                               decoration:
                                   ThemeInputDecorations.bigInputbox.copyWith(
                                 hintText: "New wallet password",
@@ -204,64 +205,23 @@ class _CreateWalletState extends State<CreateWallet> {
                                 width: double.infinity,
                                 height: 56,
                                 child: ThemedControls.primaryButtonBigWithChild(
-                                    onPressed: () async {
-                                  if (isLoading) {
-                                    return;
-                                  }
-                                  setState(() {
-                                    signInError = null;
-                                  });
-
-                                  _formKey.currentState?.validate();
-
-                                  if (_formKey.currentState!.isValid) {
-                                    setState(() {
-                                      isLoading = true;
-                                      signInError = null;
-                                    });
-                                    if (await appStore.signUp(_formKey
-                                        .currentState!
-                                        .instantValue["password"])) {
-                                      try {
-                                        await getIt<QubicLi>().authenticate();
-                                        setState(() {
-                                          isLoading = false;
-                                        });
-                                        context.goNamed("mainScreen");
-                                      } catch (e) {
-                                        showAlertDialog(
-                                            context,
-                                            "Error contacting Qubic Network",
-                                            e.toString());
-                                        setState(() {
-                                          isLoading = false;
-                                        });
+                                    onPressed: createHandler,
+                                    child: Builder(builder: (context) {
+                                      if (isLoading) {
+                                        return SizedBox(
+                                            height: 20,
+                                            width: 20,
+                                            child: CircularProgressIndicator(
+                                                strokeWidth: 2,
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .inversePrimary));
+                                      } else {
+                                        return Text("Create new wallet",
+                                            style:
+                                                TextStyles.primaryButtonText);
                                       }
-                                    } else {
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                      setState(() {
-                                        signInError =
-                                            "You have provided an invalid password";
-                                      });
-                                    }
-                                  }
-                                }, child: Builder(builder: (context) {
-                                  if (isLoading) {
-                                    return SizedBox(
-                                        height: 20,
-                                        width: 20,
-                                        child: CircularProgressIndicator(
-                                            strokeWidth: 2,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .inversePrimary));
-                                  } else {
-                                    return Text("Create new wallet",
-                                        style: TextStyles.primaryButtonText);
-                                  }
-                                }))),
+                                    }))),
                             const SizedBox(height: ThemePaddings.normalPadding),
                             SizedBox(
                                 width: double.infinity,
@@ -273,5 +233,46 @@ class _CreateWalletState extends State<CreateWallet> {
                                     text: "Back")),
                           ])))))
     ]));
+  }
+
+  void createHandler() async {
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      signInError = null;
+    });
+
+    _formKey.currentState?.validate();
+
+    if (_formKey.currentState!.isValid) {
+      setState(() {
+        isLoading = true;
+        signInError = null;
+      });
+      if (await appStore
+          .signUp(_formKey.currentState!.instantValue["password"])) {
+        try {
+          await getIt<QubicLi>().authenticate();
+          setState(() {
+            isLoading = false;
+          });
+          context.goNamed("mainScreen");
+        } catch (e) {
+          showAlertDialog(
+              context, "Error contacting Qubic Network", e.toString());
+          setState(() {
+            isLoading = false;
+          });
+        }
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        setState(() {
+          signInError = "You have provided an invalid password";
+        });
+      }
+    }
   }
 }

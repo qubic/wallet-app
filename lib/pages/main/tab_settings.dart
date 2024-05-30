@@ -205,6 +205,8 @@ class _TabSettingsState extends State<TabSettings> {
               title: Text('Sign out', style: TextStyles.textNormal),
               trailing: Container(),
               onPressed: (BuildContext context) {
+                appStore.reportGlobalError("");
+                appStore.reportGlobalNotification("");
                 appStore.signOut();
                 timedController.stopFetchTimer();
                 context.go('/signIn');

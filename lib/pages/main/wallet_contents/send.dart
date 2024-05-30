@@ -408,6 +408,7 @@ class _SendState extends State<Send> {
                               readOnly: isLoading,
                               controller: destinationID,
                               enableSuggestions: false,
+                              onSubmitted: (value) => transferNowHandler(),
                               keyboardType: TextInputType.visiblePassword,
                               validator: FormBuilderValidators.compose([
                                 FormBuilderValidators.required(),
@@ -515,7 +516,7 @@ class _SendState extends State<Send> {
                         controller: amount,
                         enableSuggestions: false,
                         textAlign: TextAlign.start,
-
+                        onSubmitted: (value) => transferNowHandler(),
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           CustomFormFieldValidators.isLessThanParsed(

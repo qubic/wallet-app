@@ -42,8 +42,8 @@ class _MainScreenState extends State<MainScreen> {
   late final ReactionDisposer _disposeSnackbarAuto;
   final _globalSnackBar = getIt<GlobalSnackBar>();
 
-  late AnimatedSnackBar errorBar;
-  late AnimatedSnackBar notificationBar;
+  late AnimatedSnackBar? errorBar;
+  late AnimatedSnackBar? notificationBar;
 
   @override
   void initState() {
@@ -67,29 +67,30 @@ class _MainScreenState extends State<MainScreen> {
         //         type: AnimatedSnackBarType.error,
         //         snackBarStrategy: StackSnackBarStrategy())
         //     .show(context);
-
-        errorBar = AnimatedSnackBar(
-            builder: ((context) {
-              return Ink(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: LightThemeColors.cardBackground.withRed(100),
-                  ),
-                  child: InkWell(
-                      onTap: (() {
-                        errorBar.remove();
-                      }),
-                      child: Container(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(
-                          error,
-                          style: TextStyles.labelTextSmall,
-                        ),
-                      )));
-            }),
-            snackBarStrategy: RemoveSnackBarStrategy());
-        errorBar.show(context);
+        if (error != "") {
+          errorBar = AnimatedSnackBar(
+              builder: ((context) {
+                return Ink(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: LightThemeColors.cardBackground.withRed(100),
+                    ),
+                    child: InkWell(
+                        onTap: (() {
+                          AnimatedSnackBar.removeAll();
+                        }),
+                        child: Container(
+                          padding:
+                              const EdgeInsets.all(ThemePaddings.normalPadding),
+                          child: Text(
+                            error,
+                            style: TextStyles.labelTextSmall,
+                          ),
+                        )));
+              }),
+              snackBarStrategy: RemoveSnackBarStrategy())
+            ..show(context);
+        }
       }
 
       if (applicationStore.globalNotification != "") {
@@ -98,27 +99,29 @@ class _MainScreenState extends State<MainScreen> {
             ? applicationStore.globalNotification
             : applicationStore.globalNotification.substring(0, notificationPos);
 
-        notificationBar = AnimatedSnackBar(
-            builder: ((context) {
-              return Ink(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: LightThemeColors.cardBackground),
-                  child: InkWell(
-                      onTap: (() {
-                        notificationBar.remove();
-                      }),
-                      child: Container(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(
-                          notification,
-                          style: TextStyles.labelTextSmall,
-                        ),
-                      )));
-            }),
-            snackBarStrategy: RemoveSnackBarStrategy());
-        notificationBar.show(context);
+        if (notification != "") {
+          notificationBar = AnimatedSnackBar(
+              builder: ((context) {
+                return Ink(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: LightThemeColors.cardBackground),
+                    child: InkWell(
+                        onTap: (() {
+                          AnimatedSnackBar.removeAll();
+                        }),
+                        child: Container(
+                          padding:
+                              const EdgeInsets.all(ThemePaddings.normalPadding),
+                          child: Text(
+                            notification,
+                            style: TextStyles.labelTextSmall,
+                          ),
+                        )));
+              }),
+              snackBarStrategy: RemoveSnackBarStrategy())
+            ..show(context);
+        }
       }
     });
   }

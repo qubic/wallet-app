@@ -91,29 +91,30 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
         //         type: AnimatedSnackBarType.error,
         //         snackBarStrategy: StackSnackBarStrategy())
         //     .show(context);
-
-        errorBar = AnimatedSnackBar(
-            builder: ((context) {
-              return Ink(
-                  child: InkWell(
-                      onTap: (() {
-                        errorBar.remove();
-                      }),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: LightThemeColors.cardBackground.withRed(100),
-                        ),
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(
-                          error,
-                          style: TextStyles.labelTextSmall,
-                        ),
-                      )));
-            }),
-            snackBarStrategy: RemoveSnackBarStrategy());
-        errorBar.show(context);
+        if (error != "") {
+          errorBar = AnimatedSnackBar(
+              builder: ((context) {
+                return Ink(
+                    child: InkWell(
+                        onTap: (() {
+                          errorBar.remove();
+                        }),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: LightThemeColors.cardBackground.withRed(100),
+                          ),
+                          padding:
+                              const EdgeInsets.all(ThemePaddings.normalPadding),
+                          child: Text(
+                            error + "SIN",
+                            style: TextStyles.labelTextSmall,
+                          ),
+                        )));
+              }),
+              snackBarStrategy: RemoveSnackBarStrategy());
+          errorBar.show(context);
+        }
       }
 
       if (applicationStore.globalNotification != "") {
@@ -122,27 +123,29 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
             ? applicationStore.globalNotification
             : applicationStore.globalNotification.substring(0, notificationPos);
 
-        notificationBar = AnimatedSnackBar(
-            builder: ((context) {
-              return Ink(
-                  child: InkWell(
-                      onTap: (() {
-                        errorBar.remove();
-                      }),
-                      child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: LightThemeColors.cardBackground),
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(
-                          notification,
-                          style: TextStyles.labelTextSmall,
-                        ),
-                      )));
-            }),
-            snackBarStrategy: RemoveSnackBarStrategy());
-        notificationBar.show(context);
+        if (notification != "") {
+          notificationBar = AnimatedSnackBar(
+              builder: ((context) {
+                return Ink(
+                    child: InkWell(
+                        onTap: (() {
+                          errorBar.remove();
+                        }),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: LightThemeColors.cardBackground),
+                          padding:
+                              const EdgeInsets.all(ThemePaddings.normalPadding),
+                          child: Text(
+                            notification + "SIN",
+                            style: TextStyles.labelTextSmall,
+                          ),
+                        )));
+              }),
+              snackBarStrategy: RemoveSnackBarStrategy());
+          notificationBar.show(context);
+        }
       }
     });
   }
@@ -231,49 +234,55 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
     }
   }
 
-  Widget signInButton() {
-    return Expanded(
-        child: ThemedControls.primaryButtonBigWithChild(onPressed: () async {
-      if (isLoading) {
-        return;
-      }
+  void signInHandler() async {
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      signInError = null;
+    });
+    _formKey.currentState?.validate();
+    if (_formKey.currentState!.isValid) {
       setState(() {
+        isLoading = true;
         signInError = null;
       });
-      _formKey.currentState?.validate();
-      if (_formKey.currentState!.isValid) {
-        setState(() {
-          isLoading = true;
-          signInError = null;
-        });
-        if (await appStore
-            .signIn(_formKey.currentState!.instantValue["password"])) {
-          authSuccess();
-        } else {
-          setState(() {
-            isLoading = false;
-          });
-          setState(() {
-            signInError = "You have provided an invalid password";
-          });
-        }
-      }
-    }, child: Builder(builder: (context) {
-      if (isLoading) {
-        return Padding(
-            padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-            child: SizedBox(
-                height: 22,
-                width: 20,
-                child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Theme.of(context).colorScheme.inversePrimary)));
+      if (await appStore
+          .signIn(_formKey.currentState!.instantValue["password"])) {
+        authSuccess();
       } else {
-        return Padding(
-            padding: EdgeInsets.all(ThemePaddings.normalPadding),
-            child: Text("Sign in", style: TextStyles.primaryButtonText));
+        setState(() {
+          isLoading = false;
+        });
+        setState(() {
+          signInError = "You have provided an invalid password";
+        });
       }
-    })));
+    }
+  }
+
+  Widget signInButton() {
+    return Expanded(
+        child: ThemedControls.primaryButtonBigWithChild(
+            onPressed: signInHandler,
+            child: Builder(builder: (context) {
+              if (isLoading) {
+                return Padding(
+                    padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+                    child: SizedBox(
+                        height: 22,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color:
+                                Theme.of(context).colorScheme.inversePrimary)));
+              } else {
+                return Padding(
+                    padding: EdgeInsets.all(ThemePaddings.normalPadding),
+                    child:
+                        Text("Sign in", style: TextStyles.primaryButtonText));
+              }
+            })));
   }
 
   List<Widget> getCTA() {
@@ -349,6 +358,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
         decoration: ThemeInputDecorations.bigInputbox.copyWith(
           hintText: "Wallet password",
         ),
+        onSubmitted: (value) => signInHandler(),
         enabled: !isLoading,
         obscureText: obscuringText,
         autocorrect: false,

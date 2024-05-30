@@ -40,16 +40,30 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   }
 
   Widget getCTA() {
-    List<Widget> children = [Expanded(child: signInButton())];
+    List<Widget> children = [
+      Flexible(child: authenticateButton(), flex: 3, fit: FlexFit.tight)
+    ];
     if (settingsStore.settings.biometricEnabled && !widget.passOnly) {
-      children.add(const VerticalDivider());
-      children.add(Expanded(child: biometricsButton()));
+      children.add(const SizedBox(width: ThemePaddings.normalPadding));
+      children.add(
+        Flexible(fit: FlexFit.tight, child: biometricsButton()),
+      );
     }
-    return Padding(
-        padding: const EdgeInsets.only(bottom: ThemePaddings.normalPadding),
-        child: Row(
-            mainAxisAlignment: MainAxisAlignment.center, children: children));
+    return Flex(
+      direction: Axis.horizontal,
+      children: children,
+    );
   }
+  //   List<Widget> children = [Expanded(child: authenticateButton())];
+  //   if (settingsStore.settings.biometricEnabled && !widget.passOnly) {
+  //     children.add(const VerticalDivider());
+  //     children.add(Expanded(child: biometricsButton()));
+  //   }
+  //   return Padding(
+  //       padding: const EdgeInsets.only(bottom: ThemePaddings.normalPadding),
+  //       child: Row(
+  //           mainAxisAlignment: MainAxisAlignment.center, children: children));
+  // }
 
   Widget biometricsButton() {
     return ThemedControls.transparentButtonBigWithChild(
@@ -71,66 +85,75 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
           }
         },
         child: Padding(
-            padding: const EdgeInsets.fromLTRB(
-                ThemePaddings.normalPadding,
+            padding: EdgeInsets.fromLTRB(
+                MediaQuery.of(context).size.width < 400
+                    ? ThemePaddings.smallPadding
+                    : ThemePaddings.normalPadding,
                 ThemePaddings.miniPadding - 1,
-                ThemePaddings.normalPadding,
+                MediaQuery.of(context).size.width < 400
+                    ? ThemePaddings.smallPadding
+                    : ThemePaddings.normalPadding,
                 ThemePaddings.miniPadding - 1),
             child: SizedBox(
                 height: 42,
-                width: 42,
+                width: MediaQuery.of(context).size.width < 400 ? 32 : 42,
                 child: Icon(Icons.fingerprint,
-                    size: 42, color: Theme.of(context).colorScheme.primary))));
+                    size: MediaQuery.of(context).size.width < 400 ? 32 : 42,
+                    color: Theme.of(context).colorScheme.primary))));
   }
 
-  Widget signInButton() {
-    return ThemedControls.primaryButtonBigWithChild(onPressed: () async {
-      if (isLoading) {
-        return;
-      }
+  void authenticateHandler() async {
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      signInError = null;
+    });
+    _formKey.currentState?.validate();
+    if (_formKey.currentState!.isValid) {
       setState(() {
+        isLoading = true;
         signInError = null;
       });
-      _formKey.currentState?.validate();
-      if (_formKey.currentState!.isValid) {
+      if (await appStore
+          .signIn(_formKey.currentState!.instantValue["password"])) {
         setState(() {
-          isLoading = true;
-          signInError = null;
+          isLoading = false;
         });
-        if (await appStore
-            .signIn(_formKey.currentState!.instantValue["password"])) {
-          setState(() {
-            isLoading = false;
-          });
 
-          widget.onSuccess();
-        } else {
-          setState(() {
-            isLoading = false;
-            signInError = "You provided an invalid password";
-          });
-        }
-      }
-    }, child: Builder(builder: (context) {
-      if (isLoading) {
-        return Padding(
-            padding: const EdgeInsets.all(
-              ThemePaddings.normalPadding,
-            ),
-            child: SizedBox(
-                height: 21,
-                width: 21,
-                child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    color: Theme.of(context).colorScheme.inversePrimary)));
+        widget.onSuccess();
       } else {
-        return const Padding(
-            padding: EdgeInsets.all(
-              ThemePaddings.normalPadding,
-            ),
-            child: SizedBox(height: 21, child: Text("Authenticate")));
+        setState(() {
+          isLoading = false;
+          signInError = "You provided an invalid password";
+        });
       }
-    }));
+    }
+  }
+
+  Widget authenticateButton() {
+    return ThemedControls.primaryButtonBigWithChild(
+        onPressed: authenticateHandler,
+        child: Builder(builder: (context) {
+          if (isLoading) {
+            return Padding(
+                padding: const EdgeInsets.all(
+                  ThemePaddings.normalPadding,
+                ),
+                child: SizedBox(
+                    height: 21,
+                    width: 21,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.inversePrimary)));
+          } else {
+            return const Padding(
+                padding: EdgeInsets.all(
+                  ThemePaddings.normalPadding,
+                ),
+                child: SizedBox(height: 21, child: Text("Authenticate")));
+          }
+        }));
   }
 
   bool isLoading = false;
@@ -158,9 +181,9 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                                   color: Theme.of(context).colorScheme.error)));
                 }
               })),
-              Text("Existing wallet password",
+              Text("Current wallet password",
                   style: TextStyles.labelTextNormal),
-              ThemedControls.spacerVerticalMini(),
+              ThemedControls.spacerVerticalSmall(),
               FormBuilderTextField(
                 name: "password",
                 validator: FormBuilderValidators.compose([
@@ -169,6 +192,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                 decoration: ThemeInputDecorations.bigInputbox.copyWith(
                   hintText: "Wallet password",
                 ),
+                onSubmitted: (value) => authenticateHandler(),
                 style: TextStyles.inputBoxNormalStyle,
                 enabled: !isLoading,
                 obscureText: obscuringText,

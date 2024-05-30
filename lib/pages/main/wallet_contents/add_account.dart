@@ -138,6 +138,9 @@ class _AddAccountState extends State<AddAccount> {
                   child: Column(
                     children: [
                       FormBuilderTextField(
+                        onSubmitted: (String? text) {
+                          saveIdHandler();
+                        },
                         name: "accountName",
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
@@ -196,6 +199,9 @@ class _AddAccountState extends State<AddAccount> {
                           CustomFormFieldValidators.isPublicIdAvailable(
                               currentQubicIDs: appStore.currentQubicIDs)
                         ]),
+                        onSubmitted: (value) {
+                          saveIdHandler();
+                        },
                         onChanged: (value) async {
                           var v = CustomFormFieldValidators.isSeed();
                           if (value != null &&

@@ -32,6 +32,8 @@ class _ChangePasswordState extends State<ChangePassword> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final SecureStorage secureStorage = getIt<SecureStorage>();
   final GlobalSnackBar snackBar = getIt<GlobalSnackBar>();
+  final TimedController timedController = getIt<TimedController>();
+
   bool showingPassword = false;
 
   @override
@@ -72,6 +74,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(),
                           ]),
+                          onSubmitted: (String? text) {
+                            saveIdHandler();
+                          },
                           enabled: !isLoading,
                           decoration:
                               ThemeInputDecorations.bigInputbox.copyWith(
@@ -119,7 +124,10 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
                   child: !isLoading
-                      ? Text("Save password",
+                      ? Text(
+                          MediaQuery.of(context).size.width < 400
+                              ? "Save"
+                              : "Save password",
                           textAlign: TextAlign.center,
                           style: TextStyles.primaryButtonText)
                       : SizedBox(
@@ -154,11 +162,14 @@ class _ChangePasswordState extends State<ChangePassword> {
 
       if (await secureStorage
           .savePassword(_formKey.currentState!.instantValue["password"])) {
+        timedController.interruptFetchTimer();
+        timedController.fetchData();
         setState(() {
           isLoading = false;
         });
 
-        appStore.reportGlobalNotification("Password changed successfully");
+        snackBar.show("Password changed successfully");
+        //appStore.reportGlobalNotification("Password changed successfully");
       } else {
         showAlertDialog(context, "Error", "Failed to save new password");
         setState(() {
