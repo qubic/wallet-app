@@ -24,15 +24,23 @@ class ApplicationStore = _ApplicationStore with _$ApplicationStore;
 abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
 
+  /// If there are stored wallet settings in the device
+  @observable
+  bool hasStoredWalletSettings = false;
+
+  /// Holds a global error to be shown in snackbar
   @observable
   String globalError = "";
 
+  /// Holds a global notification to be shown in snackbar
   @observable
   String globalNotification = "";
 
+  /// Current tick
   @observable
   int currentTick = 0;
 
+  /// Is the user signed in
   @observable
   bool isSignedIn = false;
 
@@ -161,6 +169,18 @@ abstract class _ApplicationStore with Store {
       currentQubicIDs = ObservableList.of(results);
     } catch (e) {
       isSignedIn = false;
+    }
+  }
+
+  /// Checks if the wallet is initialized (contains password stored in secure storage)
+  /// updates hasStoredWalletSettings
+  @action
+  Future<void> checkWalletIsInitialized() async {
+    try {
+      final result = await secureStorage.criticalSettingsExist();
+      hasStoredWalletSettings = result;
+    } catch (e) {
+      hasStoredWalletSettings = false;
     }
   }
 

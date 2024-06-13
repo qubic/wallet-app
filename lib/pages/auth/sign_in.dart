@@ -1,17 +1,20 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mobx/mobx.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/pages/auth/sign_up.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/qubic_hub_service.dart';
@@ -50,6 +53,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
 
   late AnimatedSnackBar errorBar;
   late AnimatedSnackBar notificationBar;
+  bool obscuringText = true;
 
   //FJS
 
@@ -97,7 +101,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                 return Ink(
                     child: InkWell(
                         onTap: (() {
-                          errorBar.remove();
+                          AnimatedSnackBar.removeAll();
                         }),
                         child: Container(
                           decoration: BoxDecoration(
@@ -129,7 +133,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                 return Ink(
                     child: InkWell(
                         onTap: (() {
-                          errorBar.remove();
+                          AnimatedSnackBar.removeAll();
                         }),
                         child: Container(
                           decoration: BoxDecoration(
@@ -279,8 +283,8 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
               } else {
                 return Padding(
                     padding: EdgeInsets.all(ThemePaddings.normalPadding),
-                    child:
-                        Text("Sign in", style: TextStyles.primaryButtonText));
+                    child: Text("Unlock wallet",
+                        style: TextStyles.primaryButtonText));
               }
             })));
   }
@@ -299,19 +303,26 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(
-            width: 150,
+
             //    MediaQuery.of(context).size.height *                                              0.15,
-            child: Image(image: AssetImage('assets/images/logo.png'))),
+            child: Image(image: AssetImage('assets/images/blue-logo.png'))),
         ConstrainedBox(
             constraints: const BoxConstraints(
-              minHeight: 0.0,
+              minHeight: 12.0,
               minWidth: 10.0,
-              maxHeight: 45.0,
+              maxHeight: 40.0,
               maxWidth: 10.0,
             ),
             child: Container()),
+        Text("Welcome to the",
+            textAlign: TextAlign.center,
+            style: TextStyles.pageTitle
+                .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
         Text("Qubic Wallet",
-            textAlign: TextAlign.center, style: TextStyles.pageTitle),
+            textAlign: TextAlign.center,
+            style: TextStyles.pageTitle.copyWith(
+                fontSize: ThemeFontSizes.loginTitle.toDouble(),
+                color: LightThemeColors.titleColor)),
         Observer(builder: (BuildContext context) {
           if (qubicHubStore.versionInfo == null) {
             return Container();
@@ -339,24 +350,29 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   }
 
   List<Widget> getLoginForm() {
-    bool obscuringText = true;
-
     return [
       getSignInError(),
-      Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("Unlock wallet", style: TextStyles.labelText),
-          ]),
       const SizedBox(height: ThemePaddings.smallPadding),
       FormBuilderTextField(
         name: "password",
         validator: FormBuilderValidators.compose([
-          FormBuilderValidators.required(),
+          FormBuilderValidators.required(
+              errorText: "Please fill in a password"),
         ]),
         decoration: ThemeInputDecorations.bigInputbox.copyWith(
           hintText: "Wallet password",
+          suffixIcon: Padding(
+            padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
+            child: IconButton(
+              icon:
+                  Icon(obscuringText ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                setState(() {
+                  obscuringText = !obscuringText;
+                });
+              },
+            ),
+          ),
         ),
         onSubmitted: (value) => signInHandler(),
         enabled: !isLoading,
@@ -382,54 +398,100 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                       child: Text("Create new wallet",
                           style: TextStyles.transparentButtonText)),
                   onPressed: () {
-                    context.goNamed("createWallet");
+                    pushNewScreen(
+                      context,
+                      screen: SignUp(),
+                      withNavBar: false, // OPTIONAL VALUE. True by default.
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    );
+                    //context.goNamed("createWallet");
                   }))
         ]));
       })
     ];
   }
 
-  bool isLoading = false;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(children: [
+  Widget buildSignUp(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+          ThemePaddings.bigPadding,
+          ThemePaddings.bigPadding,
+          ThemePaddings.bigPadding,
+          ThemePaddings.bigPadding),
+      child: Container(
+          width: double.infinity,
+          child: Flex(
+              direction: Axis.vertical,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(child: getLogo()),
+                SizedBox(
+                    width: double.infinity,
+                    child:
+                        ThemedControls.primaryButtonBigWithChild(onPressed: () {
+                      pushNewScreen(
+                        context,
+                        screen: SignUp(),
+                        withNavBar: false, // OPTIONAL VALUE. True by default.
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                      );
+                    }, child: Builder(builder: (context) {
+                      return Padding(
+                          padding: EdgeInsets.all(ThemePaddings.normalPadding),
+                          child: Text("Create a new wallet",
+                              style: TextStyles.primaryButtonText));
+                    })))
+              ])),
+    );
+    // return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+    //   Center(child: getLogo()),
+    //   Expanded(child: Container()),
+    //   Text("aaa")
+    // ]);
+  }
+
+  Widget buildLogin(BuildContext context) {
+    return Stack(children: [
       Container(
-          constraints: const BoxConstraints.expand(),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment(-1.0, 0.0),
-            end: Alignment(1.0, 0.0),
-            transform:
-                GradientRotation(_animation.value), //GradientRotation(3.19911),
-            stops: [
-              0.001,
-              1,
-            ],
-            colors: [
-              LightThemeColors.gradient1,
-              LightThemeColors.gradient2,
-//              Color(0xFFBF0FFF),
-              //            Color(0xFF0F27FF),
-            ],
-          ))),
+        constraints: const BoxConstraints.expand(),
+//           decoration: BoxDecoration(
+//               gradient: LinearGradient(
+//             begin: Alignment(-1.0, 0.0),
+//             end: Alignment(1.0, 0.0),
+//             transform:
+//                 GradientRotation(_animation.value), //GradientRotation(3.19911),
+//             stops: [
+//               0.001,
+//               1,
+//             ],
+//             colors: [
+//               LightThemeColors.gradient1,
+//               LightThemeColors.gradient2,
+// //              Color(0xFFBF0FFF),
+//               //            Color(0xFF0F27FF),
+//             ],
+//           ))
+      ),
       Container(
-          constraints: const BoxConstraints.expand(),
-          decoration: BoxDecoration(
-              gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            stops: const [
-              0.4,
-              0.68,
-              0.8,
-            ],
-            colors: [
-              const Color(0x00FFFFFF),
-              LightThemeColors.strongBackground.withOpacity(0.5),
-              LightThemeColors.strongBackground
-            ],
-          ))),
+        constraints: const BoxConstraints.expand(),
+        // decoration: BoxDecoration(
+        //     gradient: LinearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   stops: const [
+        //     0.4,
+        //     0.68,
+        //     0.8,
+        //   ],
+        //   colors: [
+        //     const Color(0x00FFFFFF),
+        //     LightThemeColors.strongBackground.withOpacity(0.5),
+        //     LightThemeColors.strongBackground
+        //   ],
+        // ))
+      ),
       SafeArea(
           child: Container(
               child: Padding(
@@ -451,6 +513,20 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                                     ThemePaddings.bigPadding),
                                 child: Column(children: getLoginForm()))
                           ]))))),
-    ]));
+    ]);
+  }
+
+  bool isLoading = false;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        backgroundColor: Color.fromARGB(255, 15, 23, 31),
+        body: Observer(builder: (BuildContext context) {
+          if (appStore.hasStoredWalletSettings) {
+            return buildLogin(context);
+          } else {
+            return buildSignUp(context);
+          }
+        }));
   }
 }

@@ -75,6 +75,22 @@ class SecureStorage {
     return result;
   }
 
+  /// Checks if the critical settings exist in the secure storage
+  /// Returns true if the critical settings exist
+  /// Returns false if the critical settings do not exist
+  Future<bool> criticalSettingsExist() async {
+    try {
+      CriticalSettings csettings = await getCriticalSettings();
+      if (csettings.storedPasswordHash == null ||
+          csettings.storedPasswordHash!.trim().isEmpty) {
+        return false;
+      }
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   Future<CriticalSettings> getCriticalSettings() async {
     String? json = await storage.read(key: SecureStorageKeys.criticalSettings);
     if (json == null) {

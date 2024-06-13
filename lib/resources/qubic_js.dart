@@ -16,7 +16,7 @@ class QubicJs {
   InAppWebViewController? controller;
   bool validatedFileStream = false;
   final INDEX_MD5 =
-      "5d98bc9b31b9ac035bb863cffd037449"; //MD5 of the index.html file to prevent tampering in run time
+      "caa898eacf8c3fd476ad8421ee7b7e93"; //MD5 of the index.html file to prevent tampering in run time
   initialize() async {
     if (controller != null) {
       debugPrint("QubicJS: Controller already set. No need to initialize");

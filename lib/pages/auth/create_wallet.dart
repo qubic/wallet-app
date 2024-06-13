@@ -257,10 +257,14 @@ class _CreateWalletState extends State<CreateWallet> {
           setState(() {
             isLoading = false;
           });
-          context.goNamed("mainScreen");
+          if (context.mounted) {
+            context.goNamed("mainScreen");
+          }
         } catch (e) {
-          showAlertDialog(
-              context, "Error contacting Qubic Network", e.toString());
+          if (context.mounted) {
+            showAlertDialog(
+                context, "Error contacting Qubic Network", e.toString());
+          }
           setState(() {
             isLoading = false;
           });

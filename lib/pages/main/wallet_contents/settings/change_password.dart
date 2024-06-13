@@ -35,7 +35,9 @@ class _ChangePasswordState extends State<ChangePassword> {
   final TimedController timedController = getIt<TimedController>();
 
   bool showingPassword = false;
+  bool showingRepeatPassword = false;
 
+  String currentPassword = "";
   @override
   void initState() {
     super.initState();
@@ -62,7 +64,6 @@ class _ChangePasswordState extends State<ChangePassword> {
                   "Your password is used to access your wallet. Choose a strong password that you can remember. There is no way to reset your password if you forget it",
                   style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: ThemePaddings.hugePadding),
-              Text("Set new password", style: TextStyles.labelText),
               ThemedControls.spacerVerticalMini(),
               FormBuilder(
                   key: _formKey,
@@ -72,8 +73,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                         FormBuilderTextField(
                           name: "password",
                           validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(),
+                            FormBuilderValidators.required(
+                                errorText: "Please fill in a password"),
+                            FormBuilderValidators.minLength(8,
+                                errorText:
+                                    "Password must be at least 8 characters long")
                           ]),
+                          onChanged: (value) => currentPassword = value ?? "",
                           onSubmitted: (String? text) {
                             saveIdHandler();
                           },
@@ -91,6 +97,42 @@ class _ChangePasswordState extends State<ChangePassword> {
                                   onPressed: () {
                                     setState(() =>
                                         showingPassword = !showingPassword);
+                                  },
+                                )),
+                          ),
+                          obscureText: !showingPassword,
+                          autocorrect: false,
+                          autofillHints: null,
+                        ),
+                        ThemedControls.spacerVerticalSmall(),
+                        FormBuilderTextField(
+                          name: "passwordRepeat",
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(
+                                errorText:
+                                    "Please fill in your password again"),
+                            (value) {
+                              if (value == currentPassword) return null;
+                              return "Passwords do not match";
+                            }
+                          ]),
+                          onSubmitted: (String? text) {
+                            saveIdHandler();
+                          },
+                          enabled: !isLoading,
+                          decoration:
+                              ThemeInputDecorations.bigInputbox.copyWith(
+                            hintText: "Repeat new password",
+                            suffixIcon: Padding(
+                                padding: EdgeInsets.only(
+                                    right: ThemePaddings.smallPadding),
+                                child: IconButton(
+                                  icon: Icon(showingRepeatPassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off),
+                                  onPressed: () {
+                                    setState(() => showingRepeatPassword =
+                                        !showingRepeatPassword);
                                   },
                                 )),
                           ),

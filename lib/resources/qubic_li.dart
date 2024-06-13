@@ -46,7 +46,9 @@ class QubicLi {
   static Map<String, String> getHeaders() {
     return {
       'Accept': 'application/json',
-      'Accept-Encoding': 'gzip, deflate, br',
+//      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Encoding': 'identity',
+
       'Accept-Language': 'en-US,en;q=0.9',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
@@ -91,7 +93,7 @@ class QubicLi {
       response = await http.post(
           Uri.https(Config.walletDomain, Config.URL_Login),
           body: json.encode({
-            'username': Config.authUser,
+            'userName': Config.authUser,
             'password': Config.authPass,
             'twoFactorCode': ""
           }),
@@ -101,11 +103,12 @@ class QubicLi {
       appStore.decreasePendingRequests();
       throw Exception('Failed to contact server.');
     }
-
+    print(response);
     if (response.statusCode == 200) {
       late dynamic parsedJson;
       late AuthLoginDto loginDto;
       try {
+        print(response.body);
         parsedJson = jsonDecode(response.body);
       } catch (e) {
         throw Exception('Failed to authenticate. Could not parse response');

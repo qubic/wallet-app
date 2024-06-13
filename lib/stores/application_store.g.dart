@@ -31,6 +31,23 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
               name: '_ApplicationStore.totalShares'))
       .value;
 
+  late final _$hasStoredWalletSettingsAtom =
+      Atom(name: '_ApplicationStore.hasStoredWalletSettings', context: context);
+
+  @override
+  bool get hasStoredWalletSettings {
+    _$hasStoredWalletSettingsAtom.reportRead();
+    return super.hasStoredWalletSettings;
+  }
+
+  @override
+  set hasStoredWalletSettings(bool value) {
+    _$hasStoredWalletSettingsAtom
+        .reportWrite(value, super.hasStoredWalletSettings, () {
+      super.hasStoredWalletSettings = value;
+    });
+  }
+
   late final _$globalErrorAtom =
       Atom(name: '_ApplicationStore.globalError', context: context);
 
@@ -181,6 +198,16 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   @override
   Future<void> biometricSignIn() {
     return _$biometricSignInAsyncAction.run(() => super.biometricSignIn());
+  }
+
+  late final _$checkWalletIsInitializedAsyncAction = AsyncAction(
+      '_ApplicationStore.checkWalletIsInitialized',
+      context: context);
+
+  @override
+  Future<void> checkWalletIsInitialized() {
+    return _$checkWalletIsInitializedAsyncAction
+        .run(() => super.checkWalletIsInitialized());
   }
 
   late final _$signInAsyncAction =
@@ -376,6 +403,7 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   @override
   String toString() {
     return '''
+hasStoredWalletSettings: ${hasStoredWalletSettings},
 globalError: ${globalError},
 globalNotification: ${globalNotification},
 currentTick: ${currentTick},

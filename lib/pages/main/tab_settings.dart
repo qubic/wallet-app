@@ -124,6 +124,7 @@ class _TabSettingsState extends State<TabSettings> {
                       });
                       await secureStorage.deleteWallet();
                       await settingsStore.loadSettings();
+                      appStore.checkWalletIsInitialized();
                       appStore.signOut();
                       timedController.stopFetchTimer();
                       context.go('/signIn');
@@ -202,12 +203,13 @@ class _TabSettingsState extends State<TabSettings> {
               leading: ChangeForeground(
                   child: const Icon(Icons.logout),
                   color: LightThemeColors.gradient1),
-              title: Text('Sign out', style: TextStyles.textNormal),
+              title: Text('Lock wallet', style: TextStyles.textNormal),
               trailing: Container(),
               onPressed: (BuildContext context) {
                 appStore.reportGlobalError("");
                 appStore.reportGlobalNotification("");
                 appStore.signOut();
+                appStore.checkWalletIsInitialized();
                 timedController.stopFetchTimer();
                 context.go('/signIn');
               },

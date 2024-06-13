@@ -61,6 +61,8 @@ class LightThemeColors {
   static const onGradient = Color(0xFFFFFFFF);
   static const pillColor = Color(0x40FFFFFF);
 
+  static const titleColor = Color.fromARGB(255, 97, 240, 254);
+
   static const textTitle = primary;
   static const textLabel = primary;
   static const textLightGrey = color6;
@@ -161,6 +163,8 @@ abstract class ThemeFontSizes {
   static const sectionTitle = extraLarge;
   static const pageTitle = huge;
   static const pageSubtitle = large;
+
+  static const loginTitle = 36;
 }
 
 abstract class ThemeFonts {
