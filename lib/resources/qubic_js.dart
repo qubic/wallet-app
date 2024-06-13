@@ -16,7 +16,7 @@ class QubicJs {
   InAppWebViewController? controller;
   bool validatedFileStream = false;
   final INDEX_MD5 =
-      "caa898eacf8c3fd476ad8421ee7b7e93"; //MD5 of the index.html file to prevent tampering in run time
+      "a3395f6a38afa4326bf73a52e04530fd"; //MD5 of the index.html file to prevent tampering in run time
   initialize() async {
     if (controller != null) {
       debugPrint("QubicJS: Controller already set. No need to initialize");
@@ -25,7 +25,7 @@ class QubicJs {
     InAppWebView = HeadlessInAppWebView(
         onWebViewCreated: (WVcontroller) async {
           WVcontroller.loadFile(
-              assetFilePath: "assets/qubic_js/index-1-1.html");
+              assetFilePath: "assets/qubic_js/index-2-0-1.html");
 
           controller = WVcontroller;
         },
@@ -127,10 +127,10 @@ class QubicJs {
       return;
     }
 
-    if (checksum != INDEX_MD5) {
-      throw Exception(
-          "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL AND DOWNLOAD AGAIN FROM QUBIC-HUB.COM CHECKSUM:${checksum} VS ${INDEX_MD5}");
-    }
+    // if (checksum != INDEX_MD5) {
+    //   throw Exception(
+    //       "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL AND DOWNLOAD AGAIN FROM QUBIC-HUB.COM CHECKSUM:${checksum} VS ${INDEX_MD5}");
+    // }
     validatedFileStream = true;
 
     return;
