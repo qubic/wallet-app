@@ -9,7 +9,9 @@ import 'package:qubic_wallet/components/gradient_container.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
+import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/about_wallet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
@@ -40,7 +42,7 @@ class _TabSettingsState extends State<TabSettings> {
   final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
   final SecureStorage secureStorage = getIt<SecureStorage>();
   final QubicLi li = getIt<QubicLi>();
-
+  final _globalSnackBar = getIt<GlobalSnackBar>();
   final TimedController timedController = getIt<TimedController>();
 
   //Pagination Related
@@ -61,85 +63,6 @@ class _TabSettingsState extends State<TabSettings> {
   @override
   void dispose() {
     super.dispose();
-  }
-
-  Future<void> wipeWalletDataDialog(BuildContext context) async {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Wipe wallet data?',
-              textAlign: TextAlign.left, style: TextStyles.alertHeader),
-          content: SingleChildScrollView(
-            child: Column(children: [
-              Container(
-                  padding: EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: Row(children: [
-                    GradientForeground(
-                        child: Image.asset("assets/images/info-color-16.png")),
-                    ThemedControls.spacerHorizontalSmall(),
-                    Expanded(child: Text("All wallet data will be lost"))
-                  ])),
-              ThemedControls.spacerVerticalMini(),
-              Container(
-                  padding: EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: Row(children: [
-                    GradientForeground(
-                        child: Image.asset("assets/images/info-color-16.png")),
-                    ThemedControls.spacerHorizontalSmall(),
-                    Expanded(child: Text("No funds or assets will be lost"))
-                  ])),
-              ThemedControls.spacerVerticalMini(),
-              Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: LightThemeColors.primary.withOpacity(0.05)),
-                  padding: EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: Row(children: [
-                    SizedBox(
-                      height: 16,
-                      width: 16,
-                      child: GradientForeground(
-                          child: Image.asset("assets/images/Group 2358.png")),
-                    ),
-                    ThemedControls.spacerHorizontalSmall(),
-                    Expanded(
-                        child: Text(
-                            "MAKE SURE THAT YOU HAVE BACKED UP YOUR PRIVATE SEEDS"))
-                  ]))
-            ]),
-          ),
-          actions: isLoading
-              ? <Widget>[const CircularProgressIndicator()]
-              : <Widget>[
-                  ThemedControls.transparentButtonBigText(
-                    text: "Yes",
-                    onPressed: () async {
-                      var result = await reAuthDialog(context);
-                      if (!result) {
-                        return;
-                      }
-                      setState(() {
-                        isLoading = true;
-                      });
-                      await secureStorage.deleteWallet();
-                      await settingsStore.loadSettings();
-                      appStore.checkWalletIsInitialized();
-                      appStore.signOut();
-                      timedController.stopFetchTimer();
-                      context.go('/signIn');
-                    },
-                  ),
-                  ThemedControls.primaryButtonBig(
-                    text: "No",
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                ],
-        );
-      },
-    );
   }
 
   Widget getHeader() {
@@ -218,11 +141,30 @@ class _TabSettingsState extends State<TabSettings> {
               leading: ChangeForeground(
                   child: const Icon(Icons.cleaning_services_outlined),
                   color: LightThemeColors.gradient1),
-              title: Text('Wipe wallet data', style: TextStyles.textNormal),
+              title: Text('Erase wallet data', style: TextStyles.textNormal),
               trailing: Container(),
               onPressed: (BuildContext context) async {
                 //MODAL TO CHECK IF USER AGREES
-                await wipeWalletDataDialog(context);
+                showModalBottomSheet<void>(
+                    context: context,
+                    isScrollControlled: true,
+                    useRootNavigator: true,
+                    backgroundColor: LightThemeColors.backkground,
+                    builder: (BuildContext context) {
+                      return EraseWalletSheet(onAccept: () async {
+                        if (!context.mounted) return;
+                        await secureStorage.deleteWallet();
+                        await settingsStore.loadSettings();
+                        appStore.checkWalletIsInitialized();
+                        appStore.signOut();
+                        timedController.stopFetchTimer();
+                        Navigator.pop(context);
+                        context.go("/signin");
+                        _globalSnackBar.show("Wallet data erased from device");
+                      }, onReject: () async {
+                        Navigator.pop(context);
+                      });
+                    });
               },
             ),
           ],

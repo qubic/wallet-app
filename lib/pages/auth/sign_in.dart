@@ -14,9 +14,11 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
 import 'package:qubic_wallet/pages/auth/sign_up.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
+import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/qubic_hub_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
@@ -25,6 +27,7 @@ import 'package:qubic_wallet/styles/buttonStyles.dart';
 import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/timed_controller.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -42,6 +45,9 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
   final QubicHubService qubicHubService = getIt<QubicHubService>();
+
+  final TimedController timedController = getIt<TimedController>();
+  final SecureStorage secureStorage = getIt<SecureStorage>();
 
   final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
   String? signInError;
@@ -111,7 +117,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                           padding:
                               const EdgeInsets.all(ThemePaddings.normalPadding),
                           child: Text(
-                            error + "SIN",
+                            error,
                             style: TextStyles.labelTextSmall,
                           ),
                         )));
@@ -142,7 +148,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
                           padding:
                               const EdgeInsets.all(ThemePaddings.normalPadding),
                           child: Text(
-                            notification + "SIN",
+                            notification,
                             style: TextStyles.labelTextSmall,
                           ),
                         )));
@@ -389,24 +395,56 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
               direction: Axis.horizontal,
               children: getCTA()),
           SizedBox(height: ThemePaddings.normalPadding),
+          // SizedBox(
+          //     width: double.infinity,
+          //     height: 56,
+          //     child: ThemedControls.transparentButtonBigWithChild(
+          //         child: Padding(
+          //             padding: EdgeInsets.all(ThemePaddings.smallPadding),
+          //             child: Text("Create new wallet",
+          //                 style: TextStyles.transparentButtonText)),
+          //         onPressed: () {
+          //           pushNewScreen(
+          //             context,
+          //             screen: SignUp(),
+          //             withNavBar: false, // OPTIONAL VALUE. True by default.
+          //             pageTransitionAnimation:
+          //                 PageTransitionAnimation.cupertino,
+          //           );
+          //           //context.goNamed("createWallet");
+          //         })),
           SizedBox(
               width: double.infinity,
               height: 56,
               child: ThemedControls.transparentButtonBigWithChild(
                   child: Padding(
                       padding: EdgeInsets.all(ThemePaddings.smallPadding),
-                      child: Text("Create new wallet",
+                      child: Text("Erase wallet data",
                           style: TextStyles.transparentButtonText)),
                   onPressed: () {
-                    pushNewScreen(
-                      context,
-                      screen: SignUp(),
-                      withNavBar: false, // OPTIONAL VALUE. True by default.
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    );
-                    //context.goNamed("createWallet");
-                  }))
+                    showModalBottomSheet<void>(
+                        context: context,
+                        isScrollControlled: true,
+                        useRootNavigator: true,
+                        backgroundColor: LightThemeColors.backkground,
+                        builder: (BuildContext context) {
+                          return EraseWalletSheet(onAccept: () async {
+                            await secureStorage.deleteWallet();
+                            await settingsStore.loadSettings();
+                            appStore.checkWalletIsInitialized();
+                            appStore.signOut();
+                            timedController.stopFetchTimer();
+                            Navigator.pop(context);
+                            _globalSnackbar
+                                .show("Wallet data erased from device");
+                          }, onReject: () async {
+                            Navigator.pop(context);
+                          });
+                        });
+                  }
+
+                  //context.goNamed("createWallet");
+                  ))
         ]));
       })
     ];
