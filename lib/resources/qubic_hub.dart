@@ -47,7 +47,7 @@ class QubicHub {
   static Map<String, String> getHeaders() {
     return {
       'Accept': 'application/json',
-      'Accept-Encoding': 'gzip, deflate, br',
+      'Accept-Encoding': 'gzip, deflate',
       'Accept-Language': 'en-US,en;q=0.9',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive',
