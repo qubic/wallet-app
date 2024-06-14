@@ -47,24 +47,27 @@ class TransactionDetails extends StatelessWidget {
                         style: TextStyles.transparentButtonText))),
             ThemedControls.spacerHorizontalNormal(),
             Expanded(
-              child: ThemedControls.primaryButtonBigWithChild(
-                  onPressed: () {
-                    // Perform some action
+              child: (appStore.currentTick >= item.targetTick)
+                  ? ThemedControls.primaryButtonBigWithChild(
+                      onPressed: () {
+                        // Perform some action
 
-                    pushNewScreen(
-                      context,
-                      screen: ExplorerResultPage(
-                          resultType: ExplorerResultType.tick,
-                          tick: item.targetTick,
-                          focusedTransactionHash: item.id),
-                      //TransactionsForId(publicQubicId: item.publicId),
-                      withNavBar: false, // OPTIONAL VALUE. True by default.
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    );
-                  },
-                  child: Text('View in explorer',
-                      style: TextStyles.primaryButtonText)),
+                        pushNewScreen(
+                          context,
+                          screen: ExplorerResultPage(
+                              resultType: ExplorerResultType.tick,
+                              tick: item.targetTick,
+                              focusedTransactionHash: item.id),
+                          //TransactionsForId(publicQubicId: item.publicId),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      },
+                      child: Text('View in explorer',
+                          style: TextStyles.primaryButtonText))
+                  : ThemedControls.primaryButtonBigDisabled(
+                      text: "View in explorer"),
             ),
           ],
         ));
