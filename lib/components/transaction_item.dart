@@ -131,10 +131,11 @@ class TransactionItem extends StatelessWidget {
                 value: CardItem.details,
                 child: Text('View details'),
               ),
-              const PopupMenuItem<CardItem>(
-                value: CardItem.explorer,
-                child: Text('View in explorer'),
-              ),
+              if (appStore.currentTick >= item.targetTick)
+                const PopupMenuItem<CardItem>(
+                  value: CardItem.explorer,
+                  child: Text('View in explorer'),
+                ),
               const PopupMenuItem<CardItem>(
                 value: CardItem.clipboardCopy,
                 child: Text('Copy to clipboard'),
