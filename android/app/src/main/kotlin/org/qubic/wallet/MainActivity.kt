@@ -1,4 +1,4 @@
-package com.qubic_hub.qubic_wallet
+package org.qubic.wallet
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

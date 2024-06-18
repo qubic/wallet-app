@@ -59,6 +59,7 @@ dev_dependencies:
   mobx_codegen: ^2.3.0
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.5
+  change_app_package_name: ^1.2.0
 
 flutter_native_splash:
   color: "#333333"
