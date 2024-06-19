@@ -41,7 +41,7 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
           //     child: Image.asset(
           //   "assets/images/attention-circle-color-16.png",
           // )),
-          // ThemedControls.spacerHorizontalNormal(),
+          ThemedControls.spacerHorizontalNormal(),
           Expanded(child: Text(text, style: TextStyles.textLarge))
         ]);
   }
@@ -85,6 +85,12 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
     widget.onAccept();
   }
 
+  void _toggleCheckbox(bool? value) {
+    setState(() {
+      hasAccepted = value!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -104,14 +110,18 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Checkbox(
+                          ListTile(
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 0.0),
+                            leading: Checkbox(
                               value: hasAccepted,
-                              onChanged: (value) {
-                                setState(() {
-                                  hasAccepted = value!;
-                                });
-                              }),
-                          const Text("I understand the above")
+                              onChanged: _toggleCheckbox,
+                            ),
+                            title: const Text("I understand the above"),
+                            onTap: () {
+                              _toggleCheckbox(!hasAccepted);
+                            },
+                          ),
                         ]),
                     const SizedBox(height: ThemePaddings.normalPadding),
                     Row(

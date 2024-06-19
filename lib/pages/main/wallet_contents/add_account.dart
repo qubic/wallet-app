@@ -124,6 +124,7 @@ class _AddAccountState extends State<AddAccount> {
                 ThemedControls.spacerHorizontalSmall(),
                 Tooltip(
                     triggerMode: TooltipTriggerMode.tap,
+                    showDuration: Duration(seconds: 5),
                     message:
                         "An account name is a human-readable name that you can use to identify your Qubic private seeds in your wallet. The account name is kept only in your device. It can be changed at any time.",
                     child: LightThemeColors.shouldInvertIcon
@@ -160,6 +161,7 @@ class _AddAccountState extends State<AddAccount> {
                         ThemedControls.spacerHorizontalSmall(),
                         Tooltip(
                             triggerMode: TooltipTriggerMode.tap,
+                            showDuration: Duration(seconds: 5),
                             message:
                                 "A private seed is made by 55 lowercase letters and is used to generate your Qubic Address. It is recommended to make it as random as possible. Always keep it secret and never share with anyone",
                             child: LightThemeColors.shouldInvertIcon
