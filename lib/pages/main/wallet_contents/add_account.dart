@@ -10,7 +10,6 @@ import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/random.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/add_account_warning.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_warning_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -93,9 +92,8 @@ class _AddAccountState extends State<AddAccount> {
                 child: Container(
                     color: Colors.white60,
                     width: double.infinity,
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
+                    child: const Padding(
+                        padding: EdgeInsets.all(ThemePaddings.normalPadding),
                         child: Text(
                             "Please point the camera to a QR Code containing the private seed",
                             style: TextStyle(
@@ -408,7 +406,9 @@ class _AddAccountState extends State<AddAccount> {
 
     showModalBottomSheet<void>(
         context: context,
+        isDismissible: false,
         isScrollControlled: true,
+        useSafeArea: true,
         backgroundColor: LightThemeColors.backkground,
         builder: (BuildContext context) {
           return AddAccountWarningSheet(onAccept: () async {

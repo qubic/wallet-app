@@ -162,7 +162,7 @@ class TextStyles {
 
   //Account cards
   static TextStyle accountName = const TextStyle(
-    fontSize: ThemeFontSizes.normal,
+    fontSize: ThemeFontSizes.extraLarge,
     fontWeight: FontWeight.bold,
     color: LightThemeColors.primary,
   );
