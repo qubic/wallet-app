@@ -79,6 +79,8 @@ class _TransferAssetState extends State<TransferAsset> {
 
   String? generatedPublicId;
 
+  late List<QubicListVm> knownQubicIDs;
+
   @override
   void initState() {
     transactionCostCtrl.text = "1,000,000 QUBIC";
@@ -90,6 +92,10 @@ class _TransferAssetState extends State<TransferAsset> {
         maxTextLength: 3,
         thousandSeparator: ThousandSeparator.Comma,
         mantissaLength: 0);
+
+    knownQubicIDs = appStore.currentQubicIDs
+        .where((account) => account.publicId != widget.item.publicId)
+        .toList();
 
     super.initState();
   }
@@ -218,27 +224,30 @@ class _TransferAssetState extends State<TransferAsset> {
                           headerText: "Select address",
                           subheaderText: "from your wallet accounts")),
                   Expanded(
-                    child: ListView.builder(
-                        itemCount: appStore.currentQubicIDs.length,
+                    child: ListView.separated(
+                        itemCount: knownQubicIDs.length,
+                        separatorBuilder: (context, index) {
+                          return const Divider(
+                            indent: ThemePaddings.bigPadding,
+                            endIndent: ThemePaddings.bigPadding,
+                            color: LightThemeColors.primary,
+                          );
+                        },
                         itemBuilder: (BuildContext context, int index) {
-                          return appStore.currentQubicIDs[index].publicId ==
-                                  widget.item.publicId
-                              ? Container()
-                              : InkWell(
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: ThemePaddings.bigPadding,
-                                          vertical: ThemePaddings.smallPadding),
-                                      child: IdListItemSelect(
-                                          item:
-                                              appStore.currentQubicIDs[index])),
-                                  onTap: () {
-                                    destinationID.text = appStore
-                                        .currentQubicIDs[index].publicId;
+                          return InkWell(
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: ThemePaddings.bigPadding,
+                                    vertical: ThemePaddings.smallPadding),
+                                child: IdListItemSelect(
+                                    item: knownQubicIDs[index])),
+                            onTap: () {
+                              destinationID.text =
+                                  knownQubicIDs[index].publicId;
 
-                                    Navigator.pop(context);
-                                  },
-                                );
+                              Navigator.pop(context);
+                            },
+                          );
                         }),
                   )
                 ],

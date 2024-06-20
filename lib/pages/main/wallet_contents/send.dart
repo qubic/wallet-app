@@ -5,6 +5,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/di.dart';
@@ -74,15 +75,19 @@ class _SendState extends State<Send> {
   ];
 
   final CurrencyInputFormatter inputFormatter = CurrencyInputFormatter(
-      trailingSymbol: "\QUBIC",
+      trailingSymbol: "QUBIC",
       useSymbolPadding: true,
       thousandSeparator: ThousandSeparator.Comma,
       mantissaLength: 0);
 
   String? generatedPublicId;
+  late List<QubicListVm> knownQubicIDs;
 
   @override
   void initState() {
+    knownQubicIDs = appStore.currentQubicIDs
+        .where((account) => account.publicId != widget.item.publicId)
+        .toList();
     super.initState();
   }
 
@@ -211,34 +216,29 @@ class _SendState extends State<Send> {
                           subheaderText: "from your wallet accounts")),
                   Expanded(
                     child: ListView.separated(
-                        itemCount: appStore.currentQubicIDs.length,
+                        itemCount: knownQubicIDs.length,
                         separatorBuilder: (context, index) {
-                          if (index == 0) return Container();
-                          return Divider(
+                          return const Divider(
                             indent: ThemePaddings.bigPadding,
                             endIndent: ThemePaddings.bigPadding,
                             color: LightThemeColors.primary,
                           );
                         },
                         itemBuilder: (BuildContext context, int index) {
-                          return appStore.currentQubicIDs[index].publicId ==
-                                  widget.item.publicId
-                              ? Container()
-                              : InkWell(
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: ThemePaddings.bigPadding,
-                                          vertical: ThemePaddings.smallPadding),
-                                      child: IdListItemSelect(
-                                          item:
-                                              appStore.currentQubicIDs[index])),
-                                  onTap: () {
-                                    destinationID.text = appStore
-                                        .currentQubicIDs[index].publicId;
+                          return InkWell(
+                            child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: ThemePaddings.bigPadding,
+                                    vertical: ThemePaddings.smallPadding),
+                                child: IdListItemSelect(
+                                    item: knownQubicIDs[index])),
+                            onTap: () {
+                              destinationID.text =
+                                  knownQubicIDs[index].publicId;
 
-                                    Navigator.pop(context);
-                                  },
-                                );
+                              Navigator.pop(context);
+                            },
+                          );
                         }),
                   )
                 ],
