@@ -210,8 +210,16 @@ class _SendState extends State<Send> {
                           headerText: "Select address",
                           subheaderText: "from your wallet accounts")),
                   Expanded(
-                    child: ListView.builder(
+                    child: ListView.separated(
                         itemCount: appStore.currentQubicIDs.length,
+                        separatorBuilder: (context, index) {
+                          if (index == 0) return Container();
+                          return Divider(
+                            indent: ThemePaddings.bigPadding,
+                            endIndent: ThemePaddings.bigPadding,
+                            color: LightThemeColors.primary,
+                          );
+                        },
                         itemBuilder: (BuildContext context, int index) {
                           return appStore.currentQubicIDs[index].publicId ==
                                   widget.item.publicId
