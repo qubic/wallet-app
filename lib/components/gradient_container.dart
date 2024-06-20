@@ -23,8 +23,10 @@ class GradientContainer extends StatelessWidget {
             1,
           ],
           colors: [
-            LightThemeColors.gradient1,
-            LightThemeColors.gradient2.darken()
+            LightThemeColors.color1,
+            LightThemeColors.color1,
+            //LightThemeColors.gradient1,
+            //LightThemeColors.gradient2.darken()
           ],
         )));
   }

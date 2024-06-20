@@ -277,7 +277,7 @@ class AccountListItem extends StatelessWidget {
                         child: Image.asset("assets/images/send.png"))
                     : Image.asset("assets/images/send.png"))
             : Container(),
-        ThemedControls.transparentButtonBig(
+        ThemedControls.primaryButtonBig(
           onPressed: () {
             pushNewScreen(
               context,
@@ -286,7 +286,7 @@ class AccountListItem extends StatelessWidget {
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );
           },
-          icon: LightThemeColors.shouldInvertIcon
+          icon: !LightThemeColors.shouldInvertIcon
               ? ThemedControls.invertedColors(
                   child: Image.asset("assets/images/receive.png"))
               : Image.asset("assets/images/receive.png"),

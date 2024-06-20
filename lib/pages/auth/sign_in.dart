@@ -307,6 +307,18 @@ class _SignInState extends State<SignIn>
     return results;
   }
 
+  Widget getVersionInfo() {
+    return Observer(builder: (BuildContext context) {
+      if (qubicHubStore.versionInfo == null) {
+        return Container();
+      }
+      return Text("v${qubicHubStore.versionInfo}",
+          textAlign: TextAlign.center,
+          style: TextStyles.labelTextSmall
+              .copyWith(color: LightThemeColors.color3));
+    });
+  }
+
   Widget getLogo() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -332,13 +344,6 @@ class _SignInState extends State<SignIn>
             style: TextStyles.pageTitle.copyWith(
                 fontSize: ThemeFontSizes.loginTitle.toDouble(),
                 color: LightThemeColors.titleColor)),
-        Observer(builder: (BuildContext context) {
-          if (qubicHubStore.versionInfo == null) {
-            return Container();
-          }
-          return Text("Version ${qubicHubStore.versionInfo}",
-              textAlign: TextAlign.center, style: TextStyles.labelText);
-        }),
       ],
     );
   }
@@ -574,12 +579,22 @@ class _SignInState extends State<SignIn>
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromARGB(255, 15, 23, 31),
-        body: Observer(builder: (BuildContext context) {
-          if (appStore.hasStoredWalletSettings) {
-            return buildLogin(context);
-          } else {
-            return buildSignUp(context);
-          }
-        }));
+        body: Stack(
+          children: [
+            Observer(
+              builder: (BuildContext context) {
+                if (appStore.hasStoredWalletSettings) {
+                  return buildLogin(context);
+                } else {
+                  return buildSignUp(context);
+                }
+              },
+            ),
+            Positioned(
+                bottom: ThemePaddings.miniPadding,
+                right: ThemePaddings.smallPadding,
+                child: getVersionInfo())
+          ],
+        ));
   }
 }
