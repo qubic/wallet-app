@@ -591,9 +591,9 @@ class _SignInState extends State<SignIn>
               },
             ),
             Positioned(
-                bottom: ThemePaddings.miniPadding,
-                right: ThemePaddings.smallPadding,
-                child: getVersionInfo())
+                bottom: ThemePaddings.normalPadding,
+                right: ThemePaddings.bigPadding,
+                child: _isKeyboardVisible ? Container() : getVersionInfo())
           ],
         ));
   }
