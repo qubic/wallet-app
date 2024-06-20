@@ -47,6 +47,16 @@ class ThemedControls {
     );
   }
 
+  static Widget primaryButtonBigDisabledWithChild({required Widget child}) {
+    return FilledButton(
+      style: ButtonStyles.primaryButtonBigDisabled,
+      onPressed: () {
+        return null;
+      },
+      child: child,
+    );
+  }
+
   // A transparent button with child widgets
   static Widget transparentButtonBigWithChild(
       {required void Function()? onPressed, required Widget child}) {
@@ -89,6 +99,10 @@ class ThemedControls {
 
   static Widget spacerHorizontalSmall() {
     return const SizedBox(width: ThemePaddings.smallPadding);
+  }
+
+  static Widget spacerHorizontalNull() {
+    return const SizedBox(width: 0);
   }
 
   static Widget spacerHorizontalMini() {

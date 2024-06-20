@@ -38,6 +38,13 @@ class AccountListItem extends StatelessWidget {
 
   showRenameDialog(BuildContext context) {
     late BuildContext dialogContext;
+    final _controller = TextEditingController();
+
+    _controller.text = item.name;
+    _controller.selection = TextSelection(
+      baseOffset: 0,
+      extentOffset: item.name.length,
+    );
 
     // set up the buttons
     Widget cancelButton = ThemedControls.transparentButtonNormal(
@@ -69,21 +76,24 @@ class AccountListItem extends StatelessWidget {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Rename Qubic Account", style: TextStyles.alertHeader),
+      title: Text("Rename Account", style: TextStyles.alertHeader),
+      scrollable: true,
       content: FormBuilder(
           key: _formKey,
           child: SizedBox(
-              height: 60,
+              height: 72,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   FormBuilderTextField(
                     name: 'accountName',
-                    initialValue: item.name,
+                    //initialValue: item.name,
                     decoration: ThemeInputDecorations.normalInputbox.copyWith(
                       hintText: "New name",
                     ),
+                    controller: _controller,
+                    focusNode: FocusNode()..requestFocus(),
                     style: TextStyles.inputBoxNormalStyle,
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
@@ -257,6 +267,8 @@ class AccountListItem extends StatelessWidget {
   Widget getButtonBar(BuildContext context) {
     return ButtonBar(
       alignment: MainAxisAlignment.start,
+      overflowDirection: VerticalDirection.down,
+      overflowButtonSpacing: ThemePaddings.smallPadding,
       buttonPadding: const EdgeInsets.fromLTRB(ThemeFontSizes.large,
           ThemeFontSizes.large, ThemeFontSizes.large, ThemeFontSizes.large),
       children: [
@@ -293,7 +305,7 @@ class AccountListItem extends StatelessWidget {
           text: "Receive",
         ),
         item.assets.keys.isNotEmpty
-            ? ThemedControls.transparentButtonBig(
+            ? ThemedControls.primaryButtonBig(
                 text: "Assets",
                 onPressed: () {
                   pushNewScreen(
@@ -334,6 +346,7 @@ class AccountListItem extends StatelessWidget {
                   amount: item.assets[key]!.ownedAmount,
                   isInHeader: false,
                   labelOffset: -0,
+                  labelHorizOffset: -6,
                   textStyle: MediaQuery.of(context).size.width < 400
                       ? TextStyles.accountAmount.copyWith(fontSize: 16)
                       : TextStyles.accountAmount,
@@ -373,6 +386,9 @@ class AccountListItem extends StatelessWidget {
                               getCardMenu(context)
                             ]),
                         SizedBox(height: ThemePaddings.smallPadding),
+                        Text(item.publicId),
+                        SizedBox(height: ThemePaddings.smallPadding),
+
                         AnimatedSwitcher(
                             duration: const Duration(milliseconds: 500),
                             transitionBuilder:
@@ -388,6 +404,7 @@ class AccountListItem extends StatelessWidget {
                               amount: item.amount,
                               isInHeader: false,
                               labelOffset: -0,
+                              labelHorizOffset: -6,
                               textStyle: MediaQuery.of(context).size.width < 400
                                   ? TextStyles.accountAmount
                                       .copyWith(fontSize: 22)
@@ -401,20 +418,19 @@ class AccountListItem extends StatelessWidget {
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: getAssets(context))),
-                        SizedBox(height: ThemePaddings.smallPadding),
-                        CopyableText(
-                            copiedText: item.publicId,
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    color: LightThemeColors.color1,
-                                    borderRadius: BorderRadius.circular(4)),
-                                child: FittedBox(
-                                    child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 6, vertical: 12),
-                                        child: Text(item.publicId,
-                                            style:
-                                                TextStyles.accountPublicId))))),
+                        // CopyableText(
+                        //     copiedText: item.publicId,
+                        //     child: Container(
+                        //         decoration: BoxDecoration(
+                        //             color: LightThemeColors.color1,
+                        //             borderRadius: BorderRadius.circular(4)),
+                        //         child: FittedBox(
+                        //             child: Padding(
+                        //                 padding: const EdgeInsets.symmetric(
+                        //                     horizontal: 6, vertical: 12),
+                        //                 child: Text(item.publicId,
+                        //                     style:
+                        //                         TextStyles.accountPublicId))))),
                       ])),
               getButtonBar(context),
             ])));

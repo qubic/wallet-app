@@ -61,29 +61,50 @@ class _EraseWalletSheetState extends State<EraseWalletSheet> {
                 headerText:
                     "Are you sure you want to erase existing wallet data?"),
             Text(
-                "This action cannot be undone. All your accounts will be removed from your device."),
+                "This action cannot be undone. All your accounts will be removed from your device.",
+                style: TextStyles.textLarge),
             ThemedControls.spacerVerticalSmall(),
             Text(
-                "You will only be able to recover your accounts if you have a backup of your private seeds."),
+                "You will only be able to recover your accounts if you have a backup of your private seeds.",
+                style: TextStyles.textLarge),
           ]))
     ]);
   }
 
+//transferNowHandler
   List<Widget> getButtons() {
     return [
       Expanded(
-          child: ThemedControls.transparentButtonBig(
-              onPressed: widget.onReject, text: "Cancel")),
+          child: ThemedControls.transparentButtonBigWithChild(
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                  child: Text("Cancel",
+                      textAlign: TextAlign.center,
+                      style: TextStyles.transparentButtonText)),
+              onPressed: widget.onReject)),
       ThemedControls.spacerHorizontalSmall(),
       Expanded(
           child: hasAccepted
-              ? ThemedControls.primaryButtonBig(
-                  onPressed: transferNowHandler, text: "Proceed")
-              : ThemedControls.primaryButtonBigDisabled(text: "Proceed")),
+              ? ThemedControls.primaryButtonBigWithChild(
+                  onPressed: acceptedHandler,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                    child: Text("Proceed",
+                        textAlign: TextAlign.center,
+                        style: TextStyles.primaryButtonText),
+                  ))
+              : ThemedControls.primaryButtonBigDisabledWithChild(
+                  child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                  child: Text("Proceed",
+                      textAlign: TextAlign.center,
+                      style: TextStyles.primaryButtonText),
+                ))),
     ];
   }
 
-  void transferNowHandler() async {
+  void acceptedHandler() async {
     if (!hasAccepted) {
       return;
     }
@@ -104,21 +125,24 @@ class _EraseWalletSheetState extends State<EraseWalletSheet> {
                   children: [
                     ThemedControls.spacerVerticalNormal(),
                     const Divider(),
+                    ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                      leading: Checkbox(
+                        value: hasAccepted,
+                        onChanged: (value) {
+                          setState(() {
+                            hasAccepted = value!;
+                          });
+                        },
+                      ),
+                      title: const Text("Yes, erase my wallet data."),
+                      onTap: () {
+                        setState(() {
+                          hasAccepted = !hasAccepted;
+                        });
+                      },
+                    ),
                     ThemedControls.spacerVerticalNormal(),
-                    Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Checkbox(
-                              value: hasAccepted,
-                              onChanged: (value) {
-                                setState(() {
-                                  hasAccepted = value!;
-                                });
-                              }),
-                          const Text("Yes, erase my wallet data.")
-                        ]),
-                    const SizedBox(height: ThemePaddings.normalPadding),
                     Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -37,10 +37,6 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
         direction: Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // GradientForeground(
-          //     child: Image.asset(
-          //   "assets/images/attention-circle-color-16.png",
-          // )),
           ThemedControls.spacerHorizontalNormal(),
           Expanded(child: Text(text, style: TextStyles.textLarge))
         ]);
@@ -67,14 +63,32 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
   List<Widget> getButtons() {
     return [
       Expanded(
-          child: ThemedControls.transparentButtonBig(
-              onPressed: widget.onReject, text: "Cancel")),
+          child: ThemedControls.transparentButtonBigWithChild(
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                  child: Text("Cancel",
+                      textAlign: TextAlign.center,
+                      style: TextStyles.transparentButtonText)),
+              onPressed: widget.onReject)),
       ThemedControls.spacerHorizontalSmall(),
       Expanded(
           child: hasAccepted
-              ? ThemedControls.primaryButtonBig(
-                  onPressed: transferNowHandler, text: "Proceed")
-              : ThemedControls.primaryButtonBigDisabled(text: "Proceed")),
+              ? ThemedControls.primaryButtonBigWithChild(
+                  onPressed: transferNowHandler,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                    child: Text("Proceed",
+                        textAlign: TextAlign.center,
+                        style: TextStyles.primaryButtonText),
+                  ))
+              : ThemedControls.primaryButtonBigDisabledWithChild(
+                  child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                  child: Text("Proceed",
+                      textAlign: TextAlign.center,
+                      style: TextStyles.primaryButtonText),
+                ))),
     ];
   }
 
@@ -106,23 +120,17 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
                     ThemedControls.spacerVerticalNormal(),
                     const Divider(),
                     ThemedControls.spacerVerticalNormal(),
-                    Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 0.0),
-                            leading: Checkbox(
-                              value: hasAccepted,
-                              onChanged: _toggleCheckbox,
-                            ),
-                            title: const Text("I understand the above"),
-                            onTap: () {
-                              _toggleCheckbox(!hasAccepted);
-                            },
-                          ),
-                        ]),
+                    ListTile(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                      leading: Checkbox(
+                        value: hasAccepted,
+                        onChanged: _toggleCheckbox,
+                      ),
+                      title: const Text("I understand the above"),
+                      onTap: () {
+                        _toggleCheckbox(!hasAccepted);
+                      },
+                    ),
                     const SizedBox(height: ThemePaddings.normalPadding),
                     Row(
                         crossAxisAlignment: CrossAxisAlignment.center,

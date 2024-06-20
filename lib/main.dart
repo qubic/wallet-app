@@ -78,7 +78,7 @@ class _WalletAppState extends State<WalletApp> {
 
         useMaterial3: true,
         // To use the Playground font, add GoogleFonts package and uncomment
-        fontFamily: GoogleFonts.poppins().fontFamily,
+        fontFamily: ThemeFonts.primary,
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 2,
         visualDensity: FlexColorScheme.comfortablePlatformDensity,

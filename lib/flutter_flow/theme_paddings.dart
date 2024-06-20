@@ -169,5 +169,5 @@ abstract class ThemeFontSizes {
 
 abstract class ThemeFonts {
   static final primary = GoogleFonts.spaceGrotesk().fontFamily;
-  static final secondary = GoogleFonts.spaceGrotesk().fontFamily;
+  static final secondary = GoogleFonts.poppins().fontFamily;
 }

@@ -14,6 +14,7 @@ class AmountFormatted extends StatelessWidget {
   late final TextStyle? textStyle;
   late final String? stringOverride;
   late final double labelOffset;
+  late final double labelHorizOffset;
   AmountFormatted({
     super.key,
     required this.amount,
@@ -21,6 +22,7 @@ class AmountFormatted extends StatelessWidget {
     required this.currencyName,
     this.stringOverride,
     this.labelOffset = -4,
+    this.labelHorizOffset = 0,
     textStyle,
     labelStyle,
   }) {
@@ -49,7 +51,7 @@ class AmountFormatted extends StatelessWidget {
                 style: textStyle),
             const SizedBox(width: 6, height: 6),
             Transform.translate(
-                offset: Offset(0, labelOffset),
+                offset: Offset(labelHorizOffset, labelOffset),
                 child: CurrencyLabel(
                     currencyName: currencyName,
                     isInHeader: isInHeader,
@@ -70,7 +72,7 @@ class AmountFormatted extends StatelessWidget {
                 style: textStyle),
             const SizedBox(width: 6, height: 6),
             Transform.translate(
-                offset: Offset(0, labelOffset),
+                offset: Offset(labelHorizOffset, labelOffset),
                 child: CurrencyLabel(
                     currencyName: currencyName,
                     isInHeader: isInHeader,
