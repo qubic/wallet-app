@@ -37,7 +37,8 @@ class SignIn extends StatefulWidget {
   _SignInState createState() => _SignInState();
 }
 
-class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
+class _SignInState extends State<SignIn>
+    with SingleTickerProviderStateMixin, WidgetsBindingObserver {
   final _formKey = GlobalKey<FormBuilderState>();
   final LocalAuthentication auth = LocalAuthentication();
 
@@ -67,6 +68,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     final ApplicationStore applicationStore = getIt<ApplicationStore>();
 
     _rotationController = AnimationController(
@@ -165,6 +167,7 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
     _rotationController.dispose();
 
     _disposeSnackbarAuto();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 
@@ -421,35 +424,37 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
           SizedBox(
               width: double.infinity,
               height: 56,
-              child: ThemedControls.transparentButtonBigWithChild(
-                  child: Padding(
-                      padding: EdgeInsets.all(ThemePaddings.smallPadding),
-                      child: Text("Erase wallet data",
-                          style: TextStyles.transparentButtonText)),
-                  onPressed: () {
-                    showModalBottomSheet<void>(
-                        context: context,
-                        isScrollControlled: true,
-                        useRootNavigator: true,
-                        backgroundColor: LightThemeColors.backkground,
-                        builder: (BuildContext context) {
-                          return EraseWalletSheet(onAccept: () async {
-                            await secureStorage.deleteWallet();
-                            await settingsStore.loadSettings();
-                            appStore.checkWalletIsInitialized();
-                            appStore.signOut();
-                            timedController.stopFetchTimer();
-                            Navigator.pop(context);
-                            _globalSnackbar
-                                .show("Wallet data erased from device");
-                          }, onReject: () async {
-                            Navigator.pop(context);
-                          });
-                        });
-                  }
+              child: _isKeyboardVisible
+                  ? Container()
+                  : ThemedControls.transparentButtonBigWithChild(
+                      child: Padding(
+                          padding: EdgeInsets.all(ThemePaddings.smallPadding),
+                          child: Text("Erase wallet data",
+                              style: TextStyles.transparentButtonText)),
+                      onPressed: () {
+                        showModalBottomSheet<void>(
+                            context: context,
+                            isScrollControlled: true,
+                            useRootNavigator: true,
+                            backgroundColor: LightThemeColors.backkground,
+                            builder: (BuildContext context) {
+                              return EraseWalletSheet(onAccept: () async {
+                                await secureStorage.deleteWallet();
+                                await settingsStore.loadSettings();
+                                appStore.checkWalletIsInitialized();
+                                appStore.signOut();
+                                timedController.stopFetchTimer();
+                                Navigator.pop(context);
+                                _globalSnackbar
+                                    .show("Wallet data erased from device");
+                              }, onReject: () async {
+                                Navigator.pop(context);
+                              });
+                            });
+                      }
 
-                  //context.goNamed("createWallet");
-                  ))
+                      //context.goNamed("createWallet");
+                      ))
         ]));
       })
     ];
@@ -560,6 +565,16 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
   }
 
   bool isLoading = false;
+  bool _isKeyboardVisible = false;
+
+  @override
+  void didChangeMetrics() {
+    final value = WidgetsBinding.instance.window.viewInsets.bottom;
+    setState(() {
+      _isKeyboardVisible = value > 0.0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -576,9 +591,9 @@ class _SignInState extends State<SignIn> with SingleTickerProviderStateMixin {
               },
             ),
             Positioned(
-                bottom: ThemePaddings.miniPadding,
-                right: ThemePaddings.smallPadding,
-                child: getVersionInfo())
+                bottom: ThemePaddings.normalPadding,
+                right: ThemePaddings.bigPadding,
+                child: _isKeyboardVisible ? Container() : getVersionInfo())
           ],
         ));
   }

@@ -22,6 +22,7 @@ class AuthenticatePassword extends StatefulWidget {
 }
 
 class _AuthenticatePasswordState extends State<AuthenticatePassword> {
+  bool obscuringTextPass = true;
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
@@ -159,7 +160,6 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    bool obscuringText = true;
     return FormBuilder(
         key: _formKey,
         child: Column(
@@ -191,11 +191,25 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                 ]),
                 decoration: ThemeInputDecorations.bigInputbox.copyWith(
                   hintText: "Wallet password",
+                  suffixIcon: Padding(
+                    padding: const EdgeInsets.only(
+                        right: ThemePaddings.smallPadding),
+                    child: IconButton(
+                      icon: Icon(obscuringTextPass
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          obscuringTextPass = !obscuringTextPass;
+                        });
+                      },
+                    ),
+                  ),
                 ),
                 onSubmitted: (value) => authenticateHandler(),
                 style: TextStyles.inputBoxNormalStyle,
                 enabled: !isLoading,
-                obscureText: obscuringText,
+                obscureText: obscuringTextPass,
                 autocorrect: false,
                 autofillHints: null,
               ),

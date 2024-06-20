@@ -148,7 +148,7 @@ class TransactionItem extends StatelessWidget {
             ]);
   }
 
-  //Gets the labels for Source and Destination in transcations. Also copies to clipboard
+  //Gets the labels for Source and Destination in transactions. Also copies to clipboard
   Widget getFromTo(BuildContext context, String prepend, String id) {
     return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       Observer(builder: (context) {

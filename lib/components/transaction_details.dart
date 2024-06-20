@@ -44,6 +44,7 @@ class TransactionDetails extends StatelessWidget {
                           ClipboardData(text: item.toReadableString()));
                     },
                     child: Text('Copy to clipboard',
+                        textAlign: TextAlign.center,
                         style: TextStyles.transparentButtonText))),
             ThemedControls.spacerHorizontalNormal(),
             Expanded(
@@ -65,6 +66,7 @@ class TransactionDetails extends StatelessWidget {
                         );
                       },
                       child: Text('View in explorer',
+                          textAlign: TextAlign.center,
                           style: TextStyles.primaryButtonText))
                   : ThemedControls.primaryButtonBigDisabled(
                       text: "View in explorer"),
