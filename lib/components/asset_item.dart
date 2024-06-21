@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfer_asset.dart';
@@ -33,6 +35,11 @@ class _AssetItemState extends State<AssetItem> {
   void dispose() {
     super.dispose();
   }
+
+  final NumberFormat formatter = NumberFormat.decimalPatternDigits(
+    locale: 'en_us',
+    decimalDigits: 0,
+  );
 
   Widget getAssetButtonBar(QubicAssetDto asset) {
     return Container(
@@ -83,7 +90,8 @@ class _AssetItemState extends State<AssetItem> {
                               child: Text(widget.asset.assetName,
                                   style: TextStyles.accountName)),
                         ]),
-                        Text("Valid for tick " + widget.asset.tick.toString(),
+                        Text(
+                            "Valid for tick : ${widget.asset.tick.asThousands()}",
                             style: TextStyles.assetSecondaryTextLabel),
                         SizedBox(height: ThemePaddings.normalPadding),
                         Row(
@@ -91,7 +99,8 @@ class _AssetItemState extends State<AssetItem> {
                             children: [
                               Text("Owned",
                                   style: TextStyles.assetSecondaryTextLabel),
-                              Text("${widget.asset.ownedAmount ?? "-"}",
+                              Text(
+                                  "${formatter.format(widget.asset.ownedAmount) ?? "-"}",
                                   style:
                                       TextStyles.assetSecondaryTextLabelValue),
                             ]),
@@ -100,7 +109,8 @@ class _AssetItemState extends State<AssetItem> {
                             children: [
                               Text("Possessed",
                                   style: TextStyles.assetSecondaryTextLabel),
-                              Text("${widget.asset.possessedAmount ?? "-"}",
+                              Text(
+                                  "${formatter.format(widget.asset.possessedAmount) ?? "-"}",
                                   style:
                                       TextStyles.assetSecondaryTextLabelValue),
                             ]),
