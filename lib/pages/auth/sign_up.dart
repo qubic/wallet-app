@@ -5,8 +5,10 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
+import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -17,10 +19,12 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:settings_ui/settings_ui.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SignUp extends StatefulWidget {
@@ -32,18 +36,46 @@ class SignUp extends StatefulWidget {
 }
 
 class _ReceiveState extends State<SignUp> {
+  bool isLoading = false; //Is the form loading
+
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  bool obscuringTextPass = true;
-  bool obscuringTextPassRepeat = true;
+  bool obscuringTextPass = true; //Hide password text
+  bool obscuringTextPassRepeat = true; //Hide password repeat text
   final _formKey = GlobalKey<FormBuilderState>();
   final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
 
   String currentPassword = "";
-
   String? signUpError;
+
+  //Variable for local authentication
+  final LocalAuthentication auth = LocalAuthentication();
+  bool? canCheckBiometrics; //If true, the device has biometrics
+  List<BiometricType>? availableBiometrics; //Is empty, no biometric is enrolled
+  final SettingsStore settingsStore = getIt<SettingsStore>();
+  bool? canUseBiometrics = false;
+  bool enabledBiometrics = false;
+
   @override
   void initState() {
     super.initState();
+    auth.canCheckBiometrics.then((value) {
+      setState(() {
+        canCheckBiometrics = value;
+      });
+      if (!value) {
+        setState(() {
+          canUseBiometrics = false;
+        });
+        return;
+      }
+      auth.getAvailableBiometrics().then((value) {
+        setState(() {
+          availableBiometrics = value;
+          canUseBiometrics = value.isNotEmpty;
+          enabledBiometrics = settingsStore.settings.biometricEnabled;
+        });
+      });
+    });
   }
 
   @override
@@ -51,6 +83,44 @@ class _ReceiveState extends State<SignUp> {
     super.dispose();
   }
 
+  Widget biometricsControls() {
+    if (canUseBiometrics == null) return Container();
+    if (canCheckBiometrics == null) return Container();
+    if (canCheckBiometrics! == false) return Container();
+    var theme = SettingsThemeData(
+      settingsSectionBackground: LightThemeColors.cardBackground,
+      //Theme.of(context).cardTheme.color,
+      settingsListBackground: LightThemeColors.backkground,
+      dividerColor: Colors.transparent,
+      titleTextColor: Theme.of(context).colorScheme.onBackground,
+    );
+    return Flex(direction: Axis.horizontal, children: [
+      Flexible(
+          fit: FlexFit.tight,
+          flex: 4,
+          child: Text(
+            "Enable biometric access to your wallet",
+          )),
+      Flexible(
+          fit: FlexFit.tight,
+          child: Switch(
+              activeColor: LightThemeColors.primary,
+              activeTrackColor: LightThemeColors.buttonPrimary,
+              trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
+                  (Set<MaterialState> states) {
+                return Colors.orange.withOpacity(0);
+                return null; // Use the default color.
+              }),
+              value: enabledBiometrics,
+              onChanged: (value) {
+                setState(() {
+                  enabledBiometrics = value;
+                });
+              }))
+    ]);
+  }
+
+  // Show generic error message (not bound to field)
   Widget getSignUpError() {
     return Container(
         alignment: Alignment.center,
@@ -66,6 +136,7 @@ class _ReceiveState extends State<SignUp> {
         }));
   }
 
+  //Gets the sign up form
   List<Widget> getSignUpForm() {
     return [
       getSignUpError(),
@@ -133,9 +204,11 @@ class _ReceiveState extends State<SignUp> {
         autofillHints: null,
       ),
       const SizedBox(height: ThemePaddings.normalPadding),
+      biometricsControls()
     ];
   }
 
+  //Gets the container scroll view
   Widget getScrollView() {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -157,6 +230,7 @@ class _ReceiveState extends State<SignUp> {
         ]));
   }
 
+  //Get the footer buttons
   List<Widget> getButtons() {
     return [
       Expanded(
@@ -179,6 +253,7 @@ class _ReceiveState extends State<SignUp> {
     ];
   }
 
+  //Handles form submission
   Future<void> handleSubmit() async {
     if (!context.mounted) return;
 
@@ -199,10 +274,6 @@ class _ReceiveState extends State<SignUp> {
         try {
           await appStore.checkWalletIsInitialized();
           await getIt<QubicLi>().authenticate();
-          setState(() {
-            isLoading = false;
-          });
-          context.goNamed("mainScreen");
         } catch (e) {
           showAlertDialog(
               context, "Error contacting Qubic Network", e.toString());
@@ -210,6 +281,18 @@ class _ReceiveState extends State<SignUp> {
             isLoading = false;
           });
         }
+        try {
+          await settingsStore.loadSettings();
+          await settingsStore.setBiometrics(enabledBiometrics);
+
+          setState(() {
+            isLoading = false;
+          });
+        } catch (e) {
+          showAlertDialog(
+              context, "Error storing biometric info", e.toString());
+        }
+        context.goNamed("mainScreen");
       } else {
         setState(() {
           isLoading = false;
@@ -219,13 +302,9 @@ class _ReceiveState extends State<SignUp> {
       setState(() {
         isLoading = false;
       });
-      // setState(() {
-      //   signUpError = "You have provided an invalid password";
-      // });
     }
   }
 
-  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -240,9 +319,5 @@ class _ReceiveState extends State<SignUp> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: getButtons())
             ])));
-    // minimum: ThemeEdgeInsets.pageInsets,
-    // child: Column(children: [
-    //   Expanded(child: getScrollView()),
-    // ])));
   }
 }

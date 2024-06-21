@@ -64,6 +64,7 @@ class _SignInState extends State<SignIn>
 
   bool isLoading = false;
   bool _isKeyboardVisible = false;
+  double viewInsets = 0.0;
 
   double rotation = 3.19911;
   @override
@@ -404,30 +405,12 @@ class _SignInState extends State<SignIn>
               direction: Axis.horizontal,
               children: getCTA()),
           SizedBox(height: ThemePaddings.normalPadding),
-          // SizedBox(
-          //     width: double.infinity,
-          //     height: 56,
-          //     child: ThemedControls.transparentButtonBigWithChild(
-          //         child: Padding(
-          //             padding: EdgeInsets.all(ThemePaddings.smallPadding),
-          //             child: Text("Create new wallet",
-          //                 style: TextStyles.transparentButtonText)),
-          //         onPressed: () {
-          //           pushNewScreen(
-          //             context,
-          //             screen: SignUp(),
-          //             withNavBar: false, // OPTIONAL VALUE. True by default.
-          //             pageTransitionAnimation:
-          //                 PageTransitionAnimation.cupertino,
-          //           );
-          //           //context.goNamed("createWallet");
-          //         })),
-          SizedBox(
-              width: double.infinity,
-              height: 56,
-              child: _isKeyboardVisible
-                  ? Container()
-                  : ThemedControls.transparentButtonBigWithChild(
+          _isKeyboardVisible
+              ? Container()
+              : SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ThemedControls.transparentButtonBigWithChild(
                       child: Padding(
                           padding:
                               const EdgeInsets.all(ThemePaddings.smallPadding),
@@ -478,21 +461,22 @@ class _SignInState extends State<SignIn>
                 Expanded(child: getLogo()),
                 SizedBox(
                     width: double.infinity,
-                    child:
-                        ThemedControls.primaryButtonBigWithChild(onPressed: () {
-                      pushNewScreen(
-                        context,
-                        screen: SignUp(),
-                        withNavBar: false, // OPTIONAL VALUE. True by default.
-                        pageTransitionAnimation:
-                            PageTransitionAnimation.cupertino,
-                      );
-                    }, child: Builder(builder: (context) {
-                      return Padding(
-                          padding: EdgeInsets.all(ThemePaddings.normalPadding),
-                          child: Text("Create a new wallet",
-                              style: TextStyles.primaryButtonText));
-                    })))
+                    child: ThemedControls.primaryButtonBigWithChild(
+                        onPressed: () {
+                          pushNewScreen(
+                            context,
+                            screen: SignUp(),
+                            withNavBar:
+                                false, // OPTIONAL VALUE. True by default.
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                        child: Padding(
+                            padding:
+                                EdgeInsets.all(ThemePaddings.normalPadding),
+                            child: Text("Create a new wallet",
+                                style: TextStyles.primaryButtonText)))),
               ])),
     );
     // return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -590,7 +574,7 @@ class _SignInState extends State<SignIn>
               },
             ),
             Positioned(
-                bottom: ThemePaddings.normalPadding,
+                bottom: 2,
                 right: ThemePaddings.bigPadding,
                 child: _isKeyboardVisible ? Container() : getVersionInfo())
           ],
