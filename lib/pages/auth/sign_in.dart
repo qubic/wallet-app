@@ -62,7 +62,8 @@ class _SignInState extends State<SignIn>
   late AnimatedSnackBar notificationBar;
   bool obscuringText = true;
 
-  //FJS
+  bool isLoading = false;
+  bool _isKeyboardVisible = false;
 
   double rotation = 3.19911;
   @override
@@ -563,9 +564,6 @@ class _SignInState extends State<SignIn>
                           ]))))),
     ]);
   }
-
-  bool isLoading = false;
-  bool _isKeyboardVisible = false;
 
   @override
   void didChangeMetrics() {
