@@ -18,7 +18,8 @@ import 'package:collection/collection.dart';
 
 class TransactionsForId extends StatefulWidget {
   final String publicQubicId;
-  const TransactionsForId({super.key, required this.publicQubicId});
+  final QubicListVm? item;
+  const TransactionsForId({super.key, required this.publicQubicId, this.item});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -159,7 +160,9 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                         crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
                           ThemedControls.pageHeader(
-                              headerText: "Transfers for",
+                              headerText: (widget.item == null
+                                  ? "Transfers for "
+                                  : "Transfers for \"${widget.item?.name}\""),
                               subheaderText: widget.publicQubicId),
                           Observer(builder: (context) {
                             List<Widget> results = [];
@@ -177,7 +180,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                               }
                             });
                             if (added == 0) {
-                              results.add(getEmptyTransactions(
+                              results.add(getEmptyTransactionsForSingleID(
                                   context: context,
                                   hasFiltered: false,
                                   numberOfFilters: null,
