@@ -554,9 +554,12 @@ class _TransferAssetState extends State<TransferAsset> {
                                   showQRScanner();
                                 },
                                 text: "Use QR Code",
-                                icon: ThemedControls.invertedColors(
-                                    child: Image.asset(
-                                        "assets/images/Group 2294.png")))),
+                                icon: !LightThemeColors.shouldInvertIcon
+                                    ? ThemedControls.invertedColors(
+                                        child: Image.asset(
+                                            "assets/images/Group 2294.png"))
+                                    : Image.asset(
+                                        "assets/images/Group 2294.png"))),
                       ThemedControls.spacerVerticalMini(),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         Expanded(
