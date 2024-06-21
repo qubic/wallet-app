@@ -112,7 +112,16 @@ class _ReceiveState extends State<SignUp> {
                 return null; // Use the default color.
               }),
               value: enabledBiometrics,
-              onChanged: (value) {
+              onChanged: (value) async {
+                if (value == true) {
+                  final bool didAuthenticate = await auth.authenticate(
+                      localizedReason: ' ',
+                      options:
+                          const AuthenticationOptions(biometricOnly: true));
+                  if (!didAuthenticate) {
+                    return;
+                  }
+                }
                 setState(() {
                   enabledBiometrics = value;
                 });
