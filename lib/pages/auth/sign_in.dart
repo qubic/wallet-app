@@ -429,9 +429,10 @@ class _SignInState extends State<SignIn>
                   ? Container()
                   : ThemedControls.transparentButtonBigWithChild(
                       child: Padding(
-                          padding: EdgeInsets.all(ThemePaddings.smallPadding),
+                          padding:
+                              const EdgeInsets.all(ThemePaddings.smallPadding),
                           child: Text("Erase wallet data",
-                              style: TextStyles.transparentButtonText)),
+                              style: TextStyles.destructiveButtonText)),
                       onPressed: () {
                         showModalBottomSheet<void>(
                             context: context,
