@@ -62,20 +62,22 @@ dev_dependencies:
   change_app_package_name: ^1.2.0
 
 flutter_native_splash:
-  color: "#333333"
+  color: "#0C131B"
   image: "assets/images/logo_blue.png"
   android_12:
-    color: "#333333"
+    color: "#0C131B"
     image: "assets/images/qubic_android.png"
 
 flutter_launcher_icons:
+  adaptive_icon_background: "#0C131B" # only available for Android 8.0 devices and above
+  adaptive_icon_foreground: "assets/images/icon-foreground-432x432.png" # only available for Android 8.0 devices and above
   image_path_android: "assets/launcher-icons/icon-1024x1024.png"
   image_path_ios: "assets/launcher-icons/icon-1024x1024.png"
   android: true
   ios: true
   min_sdk_android: 21
   remove_alpha_ios: true
-  background_color_ios: "#000000"
+  background_color_ios: "#0C131B"
   windows:
     generate: true
     image_path: "assets/launcher-icons/icon-1024x1024.png"
