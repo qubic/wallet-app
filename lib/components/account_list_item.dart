@@ -203,7 +203,8 @@ class AccountListItem extends StatelessWidget {
               if (menuItem == CardItem.viewTransactions) {
                 pushNewScreen(
                   context,
-                  screen: TransactionsForId(publicQubicId: item.publicId),
+                  screen: TransactionsForId(
+                      publicQubicId: item.publicId, item: item),
                   withNavBar: false, // OPTIONAL VALUE. True by default.
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );

@@ -11,6 +11,41 @@ Widget getEmptyTransactions(
     required bool hasFiltered,
     int? numberOfFilters,
     required void Function()? onTap}) {
+  String message = hasFiltered
+      ? "No transactions in this epoch for your accounts match your filters"
+      : "No transactions in this epoch for your accounts";
+
+  return getEmptyTransactionsWidget(
+      context: context,
+      hasFiltered: hasFiltered,
+      numberOfFilters: numberOfFilters,
+      message: message,
+      onTap: onTap);
+}
+
+Widget getEmptyTransactionsForSingleID(
+    {required BuildContext context,
+    required bool hasFiltered,
+    int? numberOfFilters,
+    required void Function()? onTap}) {
+  String message = hasFiltered
+      ? "No transactions in this epoch match your filters"
+      : "No transactions in this epoch";
+
+  return getEmptyTransactionsWidget(
+      context: context,
+      hasFiltered: hasFiltered,
+      numberOfFilters: numberOfFilters,
+      message: message,
+      onTap: onTap);
+}
+
+Widget getEmptyTransactionsWidget(
+    {required BuildContext context,
+    required bool hasFiltered,
+    int? numberOfFilters,
+    required String message,
+    required void Function()? onTap}) {
   Color? transpColor =
       Theme.of(context).textTheme.titleMedium?.color!.withOpacity(0.3);
   return Column(children: [
@@ -20,9 +55,7 @@ Widget getEmptyTransactions(
         child: Image.asset('assets/images/transactions-color-146.png')),
     ThemedControls.spacerVerticalHuge(),
     Text(
-      hasFiltered
-          ? "No transactions in this epoch for your accounts match your filters"
-          : "No transactions in this epoch for your accounts",
+      message,
       textAlign: TextAlign.center,
       style: TextStyles.transparentButtonText,
     ),
@@ -31,37 +64,6 @@ Widget getEmptyTransactions(
       ThemedControls.primaryButtonNormal(
           onPressed: onTap, text: "Clear active filters")
   ]);
-
-  // Center(
-  //     child: Image.asset('assets/images/transactions-color-146.png'),
-  //     DottedBorder(
-  //         color: transpColor!,
-  //         strokeWidth: 3,
-  //         borderType: BorderType.RRect,
-  //         radius: const Radius.circular(20),
-  //         dashPattern: const [10, 5],
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(ThemePaddings.bigPadding),
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             children: [
-  //               Icon(Icons.compare_arrows,
-  //                   size: 100,
-  //                   color: Theme.of(context)
-  //                       .textTheme
-  //                       .titleMedium
-  //                       ?.color!
-  //                       .withOpacity(0.3)),
-  //               Text(
-  //                 hasFiltered
-  //                     ? "No transcations found matching your filters"
-  //                     : "No transactions in this epoch \nfor your IDs",
-  //                 textAlign: TextAlign.center,
-  //               ),
-  //               const SizedBox(height: ThemePaddings.normalPadding),
-  //             ],
-  //           ),
-  //         )));
 }
 
 IconData getTransactionStatusIcon(ComputedTransactionStatus status) {
