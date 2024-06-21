@@ -169,9 +169,29 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                             int added = 0;
                             appStore.currentTransactions.reversed
                                 .forEach((tran) {
-                              if ((appStore.transactionFilter == null) ||
-                                  (appStore.transactionFilter!
-                                      .matchesVM(tran))) {
+                              bool matchesItem =
+                                  true; //If this widget has a specific item, only show transactions that involve that item
+                              if (widget.item != null) {
+                                matchesItem =
+                                    widget.item!.publicId == tran.destId ||
+                                        widget.item!.publicId == tran.sourceId;
+                              }
+
+                              bool matchesFilter = appStore.transactionFilter ==
+                                      null ||
+                                  appStore.transactionFilter!.matchesVM(
+                                      tran); //If there are active filters, only show transactions that match the filters
+
+                              if (matchesItem && matchesFilter) {
+                                //Show on both cases
+                                // if ((widget.item == null ||
+                                //             ((widget.item!.publicId ==
+                                //                     tran.destId) ||
+                                //                 (widget.item!.publicId ==
+                                //                     tran.sourceId))) &&
+                                //         (appStore.transactionFilter == null) ||
+                                //     (appStore.transactionFilter!
+                                //         .matchesVM(tran))) {
                                 added++;
 
                                 results.add(TransactionItem(item: tran));
