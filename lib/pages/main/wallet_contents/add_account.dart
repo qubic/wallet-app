@@ -302,6 +302,12 @@ class _AddAccountState extends State<AddAccount> {
                               "Please backup your private seed in a safe safe place. Keep it secret and do not ever share it with anyone. Access to your private seed means access to your funds.",
                               style: TextStyles.assetSecondaryTextLabel)),
                       const SizedBox(height: ThemePaddings.normalPadding),
+                      ThemedControls.spacerVerticalNormal(),
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: Text("Qubic Address (Public ID)",
+                              style: TextStyles.labelTextNormal)),
+                      ThemedControls.spacerVerticalMini(),
                       Builder(builder: (context) {
                         return ThemedControls.card(
                             child: Flex(direction: Axis.horizontal, children: [
@@ -309,10 +315,6 @@ class _AddAccountState extends State<AddAccount> {
                               child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                Text("Qubic Address (Public ID)",
-                                    style: TextStyles.labelTextNormal.copyWith(
-                                        color: LightThemeColors
-                                            .secondaryTypography)),
                                 ThemedControls.spacerVerticalMini(),
                                 generatedPublicId == null
                                     ? privateSeed.value.text.isEmpty
