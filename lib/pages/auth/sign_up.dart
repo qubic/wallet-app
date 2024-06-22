@@ -76,7 +76,7 @@ class _ReceiveState extends State<SignUp> {
       auth.getAvailableBiometrics().then((value) {
         setState(() {
           availableBiometrics = value;
-          canUseBiometrics = value.contains(BiometricType.strong);
+          canUseBiometrics = value.isNotEmpty;
           enabledBiometrics = settingsStore.settings.biometricEnabled;
           if (canUseBiometrics!) totalSteps = 2; //Total signin steps
         });

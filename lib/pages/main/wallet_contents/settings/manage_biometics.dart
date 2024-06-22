@@ -56,7 +56,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       auth.getAvailableBiometrics().then((value) {
         setState(() {
           availableBiometrics = value;
-          canUseBiometrics = value.contains(BiometricType.strong);
+          canUseBiometrics = value.isNotEmpty;
           enabled = settingsStore.settings.biometricEnabled;
         });
       });
