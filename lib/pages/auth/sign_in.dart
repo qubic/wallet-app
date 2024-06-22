@@ -28,6 +28,7 @@ import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -201,37 +202,46 @@ class _SignInState extends State<SignIn>
   }
 
   Widget biometricsButton() {
-    if (isLoading) {
-      return Container();
-    }
-    return TextButton(onPressed: () async {
-      if (isLoading) {
-        return;
-      }
-      setState(() {
-        isLoading = true;
-      });
-      final bool didAuthenticate = await auth.authenticate(
-          localizedReason: ' ',
-          options: const AuthenticationOptions(biometricOnly: true));
+    return TextButton(
+        style: ButtonStyles.textButtonBig.copyWith(
+          shadowColor: MaterialStateProperty.all<Color>(
+              LightThemeColors.buttonBackground),
+          elevation: MaterialStateProperty.all<double>(0.0),
+        ),
+        onPressed: () async {
+          if (isLoading) {
+            return;
+          }
+          setState(() {
+            isLoading = true;
+          });
+          final bool didAuthenticate = await auth.authenticate(
+              localizedReason: ' ',
+              options: AuthenticationOptions(
+                  biometricOnly: UniversalPlatform.isDesktop ? false : true));
 
-      if (didAuthenticate) {
-        await appStore.biometricSignIn();
-        await authSuccess();
-      }
-      setState(() {
-        isLoading = false;
-      });
-    }, child: Builder(builder: (context) {
-      return Padding(
-          padding: const EdgeInsets.fromLTRB(
-              ThemePaddings.normalPadding, 0, ThemePaddings.normalPadding, 0),
-          child: SizedBox(
-              height: 40,
-              width: 42,
-              child: Icon(Icons.fingerprint,
-                  size: 42, color: Theme.of(context).colorScheme.primary)));
-    }));
+          if (didAuthenticate) {
+            await appStore.biometricSignIn();
+            await authSuccess();
+          }
+          setState(() {
+            isLoading = false;
+          });
+        },
+        child: Builder(builder: (context) {
+          return Padding(
+              padding: const EdgeInsets.fromLTRB(ThemePaddings.normalPadding, 2,
+                  ThemePaddings.normalPadding, 2),
+              child: SizedBox(
+                  height: 42,
+                  width: 42,
+                  child: Icon(
+                      UniversalPlatform.isDesktop
+                          ? Icons.security
+                          : Icons.fingerprint,
+                      size: 34,
+                      color: LightThemeColors.primary)));
+        }));
   }
 
   Future<void> authSuccess() async {
@@ -294,8 +304,8 @@ class _SignInState extends State<SignIn>
               } else {
                 return Padding(
                     padding: EdgeInsets.all(ThemePaddings.normalPadding),
-                    child: Text("Unlock wallet",
-                        style: TextStyles.primaryButtonText));
+                    child:
+                        Text("Sign in", style: TextStyles.primaryButtonText));
               }
             })));
   }

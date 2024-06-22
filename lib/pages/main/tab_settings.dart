@@ -26,6 +26,7 @@ import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:settings_ui/settings_ui.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class TabSettings extends StatefulWidget {
   const TabSettings({super.key});
@@ -124,7 +125,7 @@ class _TabSettingsState extends State<TabSettings> {
           tiles: <SettingsTile>[
             SettingsTile.navigation(
               leading: ChangeForeground(
-                  child: const Icon(Icons.logout),
+                  child: const Icon(Icons.lock),
                   color: LightThemeColors.gradient1),
               title: Text('Lock wallet', style: TextStyles.textNormal),
               trailing: Container(),
@@ -174,7 +175,7 @@ class _TabSettingsState extends State<TabSettings> {
           tiles: <SettingsTile>[
             SettingsTile.navigation(
                 leading: ChangeForeground(
-                    child: const Icon(Icons.lock),
+                    child: const Icon(Icons.password),
                     color: LightThemeColors.gradient1),
                 trailing: getTrailingArrow(),
                 title: Text('Change password', style: TextStyles.textNormal),
@@ -188,10 +189,16 @@ class _TabSettingsState extends State<TabSettings> {
                 }),
             SettingsTile.navigation(
               leading: ChangeForeground(
-                  child: const Icon(Icons.fingerprint),
-                  color: LightThemeColors.gradient1),
+                  color: LightThemeColors.gradient1,
+                  child: Icon(UniversalPlatform.isDesktop
+                      ? Icons.security
+                      : Icons.fingerprint)),
               trailing: getTrailingArrow(),
-              title: Text('Biometric unlock', style: TextStyles.textNormal),
+              title: Text(
+                  UniversalPlatform.isDesktop
+                      ? 'OS unlock'
+                      : 'Biometric unlock',
+                  style: TextStyles.textNormal),
               value: Observer(builder: (context) {
                 return settingsStore.settings.biometricEnabled
                     ? Text("Enabled",

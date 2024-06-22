@@ -72,14 +72,9 @@ class _ReauthenticateState extends State<Reauthenticate> {
   Widget getContents() {
     return Column(
       children: [
-        Expanded(
-            child: Align(
-          alignment: Alignment.topLeft,
-          child:
-              ThemedControls.pageHeader(headerText: "Authentication required"),
-        )),
-        Expanded(
-            child: Align(
+        ThemedControls.pageHeader(headerText: "Authentication required"),
+        Expanded(child: Container()),
+        Align(
           alignment: Alignment.center,
           child: AuthenticatePassword(
             onSuccess: () {
@@ -87,21 +82,9 @@ class _ReauthenticateState extends State<Reauthenticate> {
             },
             passOnly: widget.passwordOnly,
           ),
-        )),
-        Expanded(
-            child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Container(),
-        ))
+        ),
       ],
     );
-    // return Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     crossAxisAlignment: CrossAxisAlignment.center,
-    //     children: [
-    //       Expanded(child: getHeader()),
-
-    //     ]);
   }
 
   @override

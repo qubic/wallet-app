@@ -9,6 +9,7 @@ import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class AuthenticatePassword extends StatefulWidget {
   final Function onSuccess;
@@ -79,10 +80,16 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
 
           final bool didAuthenticate = await auth.authenticate(
               localizedReason: ' ',
-              options: const AuthenticationOptions(biometricOnly: true));
+              options: AuthenticationOptions(
+                  biometricOnly: UniversalPlatform.isDesktop ? false : true));
 
           if (didAuthenticate) {
             widget.onSuccess();
+          } else {
+            setState(() {
+              isLoading = false;
+              signInError = "Authentication cancelled. Please try again";
+            });
           }
         },
         child: Padding(
@@ -98,9 +105,12 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
             child: SizedBox(
                 height: 42,
                 width: MediaQuery.of(context).size.width < 400 ? 32 : 42,
-                child: Icon(Icons.fingerprint,
+                child: Icon(
+                    UniversalPlatform.isDesktop
+                        ? Icons.security
+                        : Icons.fingerprint,
                     size: MediaQuery.of(context).size.width < 400 ? 32 : 42,
-                    color: Theme.of(context).colorScheme.primary))));
+                    color: LightThemeColors.primary))));
   }
 
   void authenticateHandler() async {
@@ -168,7 +178,8 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
             children: [
               Container(child: Builder(builder: (context) {
                 if (signInError == null) {
-                  return Container(child: const SizedBox(height: 33));
+                  return Container();
+//                  return Container(child: const SizedBox(height: 33));
                 } else {
                   return Padding(
                       padding: const EdgeInsets.only(
@@ -181,11 +192,10 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                                   color: Theme.of(context).colorScheme.error)));
                 }
               })),
-              Text("Current wallet password",
-                  style: TextStyles.labelTextNormal),
-              ThemedControls.spacerVerticalSmall(),
               FormBuilderTextField(
                 name: "password",
+                autofocus:
+                    !settingsStore.settings.biometricEnabled || widget.passOnly,
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                 ]),

@@ -16,6 +16,7 @@ import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -26,6 +27,7 @@ import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -55,6 +57,9 @@ class _ReceiveState extends State<SignUp> {
   bool? canUseBiometrics = false;
   bool enabledBiometrics = false;
 
+  int stepNumber = 1;
+  int totalSteps = 1;
+
   @override
   void initState() {
     super.initState();
@@ -71,8 +76,9 @@ class _ReceiveState extends State<SignUp> {
       auth.getAvailableBiometrics().then((value) {
         setState(() {
           availableBiometrics = value;
-          canUseBiometrics = value.isNotEmpty;
+          canUseBiometrics = value.contains(BiometricType.strong);
           enabledBiometrics = settingsStore.settings.biometricEnabled;
+          if (canUseBiometrics!) totalSteps = 2; //Total signin steps
         });
       });
     });
@@ -85,6 +91,7 @@ class _ReceiveState extends State<SignUp> {
 
   Widget biometricsControls() {
     if (canUseBiometrics == null) return Container();
+    if (canUseBiometrics! == false) return Container();
     if (canCheckBiometrics == null) return Container();
     if (canCheckBiometrics! == false) return Container();
     var theme = SettingsThemeData(
@@ -94,12 +101,18 @@ class _ReceiveState extends State<SignUp> {
       dividerColor: Colors.transparent,
       titleTextColor: Theme.of(context).colorScheme.onBackground,
     );
+
+    String enableText = "Enable biometric access to your wallet";
+    if (UniversalPlatform.isWindows) {
+      enableText = "Enable OS authentication to your wallet";
+    }
+
     return Flex(direction: Axis.horizontal, children: [
       Flexible(
           fit: FlexFit.tight,
           flex: 4,
           child: Text(
-            "Enable biometric access to your wallet",
+            enableText,
           )),
       Flexible(
           fit: FlexFit.tight,
@@ -116,8 +129,9 @@ class _ReceiveState extends State<SignUp> {
                 if (value == true) {
                   final bool didAuthenticate = await auth.authenticate(
                       localizedReason: ' ',
-                      options:
-                          const AuthenticationOptions(biometricOnly: true));
+                      options: AuthenticationOptions(
+                          biometricOnly:
+                              UniversalPlatform.isWindows ? false : true));
                   if (!didAuthenticate) {
                     return;
                   }
@@ -153,11 +167,11 @@ class _ReceiveState extends State<SignUp> {
         name: "password",
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: "Please fill in a password"),
+              errorText: "Please fill in your password"),
           FormBuilderValidators.minLength(8,
               errorText: "Password must be at least 8 characters long")
         ]),
-        onSubmitted: (value) => handleSubmit(),
+        onSubmitted: (value) => handleProceed(),
         onChanged: (value) => currentPassword = value ?? "",
         decoration: ThemeInputDecorations.bigInputbox.copyWith(
           hintText: "Enter password",
@@ -190,7 +204,7 @@ class _ReceiveState extends State<SignUp> {
             return "Passwords do not match";
           }
         ]),
-        onSubmitted: (value) => handleSubmit(),
+        onSubmitted: (value) => handleProceed(),
         decoration: ThemeInputDecorations.bigInputbox.copyWith(
           hintText: "Repeat password",
           suffixIcon: Padding(
@@ -212,31 +226,53 @@ class _ReceiveState extends State<SignUp> {
         autocorrect: false,
         autofillHints: null,
       ),
-      const SizedBox(height: ThemePaddings.normalPadding),
-      biometricsControls()
     ];
+  }
+
+  Widget getStep2() {
+    String title = "Sign in with biometrics";
+    String subheader =
+        "You can sign in to your wallet and issue transfers using your biometric data (fingerprint / face) without a password.";
+
+    if (UniversalPlatform.isWindows) {
+      title = "Sign in with OS authentication";
+      subheader =
+          "You can sign in to your wallet and issue transfers using your OS authentication without a password.";
+    }
+
+    return Container(
+        child: Expanded(
+            child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ThemedControls.pageHeader(headerText: title, subheaderText: ""),
+        Text(subheader, style: TextStyles.textNormal),
+        ThemedControls.spacerVerticalNormal(),
+        biometricsControls()
+      ],
+    )));
+  }
+
+  Widget getStep1() {
+    return Container(
+        child: Expanded(
+            child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ThemedControls.pageHeader(
+            headerText: "Create new wallet", subheaderText: ""),
+        Text("Fill in a password that will be used to unlock your new wallet",
+            style: TextStyles.textNormal),
+        FormBuilder(key: _formKey, child: Column(children: getSignUpForm()))
+      ],
+    )));
   }
 
   //Gets the container scroll view
   Widget getScrollView() {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
-        child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ThemedControls.pageHeader(
-                  headerText: "Create new wallet", subheaderText: ""),
-              Text(
-                  "Fill in a a password that will be used to unlock your new wallet",
-                  style: TextStyles.textNormal),
-              FormBuilder(
-                  key: _formKey, child: Column(children: getSignUpForm()))
-            ],
-          )))
-        ]));
+        child: Row(children: [stepNumber == 1 ? getStep1() : getStep2()]));
   }
 
   //Get the footer buttons
@@ -244,7 +280,7 @@ class _ReceiveState extends State<SignUp> {
     return [
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
-              onPressed: handleSubmit,
+              onPressed: handleProceed,
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.normalPadding),
                   child: !isLoading
@@ -262,51 +298,72 @@ class _ReceiveState extends State<SignUp> {
     ];
   }
 
-  //Handles form submission
-  Future<void> handleSubmit() async {
-    if (!context.mounted) return;
-
-    if (isLoading) {
+  //Handles form submission and navigation from create password to biometrics setup
+  Future<void> step1ToStep2Submit() async {
+    _formKey.currentState?.validate();
+    if (!_formKey.currentState!.isValid) {
+      setState(() {
+        isLoading = false;
+      });
       return;
     }
+
+    showModalBottomSheet<void>(
+        context: context,
+        isScrollControlled: true,
+        useRootNavigator: true,
+        backgroundColor: LightThemeColors.backkground,
+        builder: (BuildContext context) {
+          return CreatePasswordSheet(onAccept: () async {
+            if (totalSteps == 2) {
+              Navigator.pop(context);
+              setState(() {
+                stepNumber = 2;
+                isLoading = false;
+              });
+            } else {
+              setState(() {
+                isLoading = true;
+                signUpError = null;
+              });
+              await submitFinalize();
+            }
+          }, onReject: () async {
+            Navigator.pop(context);
+          });
+        });
+  }
+
+  //Handles last step of sign up
+  Future<void> submitFinalize() async {
+    if (!context.mounted) return;
+
     setState(() {
+      isLoading = true;
       signUpError = null;
     });
-    _formKey.currentState?.validate();
-    if (_formKey.currentState!.isValid) {
-      setState(() {
-        isLoading = true;
-        signUpError = null;
-      });
-      if (await appStore
-          .signUp(_formKey.currentState!.instantValue["password"])) {
-        try {
-          await appStore.checkWalletIsInitialized();
-          await getIt<QubicLi>().authenticate();
-        } catch (e) {
-          showAlertDialog(
-              context, "Error contacting Qubic Network", e.toString());
-          setState(() {
-            isLoading = false;
-          });
-        }
-        try {
-          await settingsStore.loadSettings();
-          await settingsStore.setBiometrics(enabledBiometrics);
-
-          setState(() {
-            isLoading = false;
-          });
-        } catch (e) {
-          showAlertDialog(
-              context, "Error storing biometric info", e.toString());
-        }
-        context.goNamed("mainScreen");
-      } else {
+    if (await appStore.signUp(currentPassword)) {
+      try {
+        await appStore.checkWalletIsInitialized();
+        await getIt<QubicLi>().authenticate();
+      } catch (e) {
+        showAlertDialog(
+            context, "Error contacting Qubic Network", e.toString());
         setState(() {
           isLoading = false;
         });
       }
+      try {
+        await settingsStore.loadSettings();
+        await settingsStore.setBiometrics(enabledBiometrics);
+
+        setState(() {
+          isLoading = false;
+        });
+      } catch (e) {
+        showAlertDialog(context, "Error storing biometric info", e.toString());
+      }
+      context.goNamed("mainScreen");
     } else {
       setState(() {
         isLoading = false;
@@ -314,19 +371,42 @@ class _ReceiveState extends State<SignUp> {
     }
   }
 
+  //Handles clicking of proceed button
+  Future<void> handleProceed() async {
+    if (!context.mounted) return;
+    if (isLoading) return;
+
+    setState(() {
+      isLoading = true;
+    });
+
+    if (stepNumber == 1) {
+      if (totalSteps == 2) {
+        await step1ToStep2Submit();
+      } else {
+        await submitFinalize();
+      }
+    }
+    if (stepNumber == 2) {
+      await submitFinalize();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-        ),
-        body: SafeArea(
-            minimum: ThemeEdgeInsets.pageInsets,
-            child: Column(children: [
-              Expanded(child: getScrollView()),
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: getButtons())
-            ])));
+    return PopScope(
+        canPop: !isLoading,
+        child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+            ),
+            body: SafeArea(
+                minimum: ThemeEdgeInsets.pageInsets,
+                child: Column(children: [
+                  Expanded(child: getScrollView()),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: getButtons())
+                ]))));
   }
 }

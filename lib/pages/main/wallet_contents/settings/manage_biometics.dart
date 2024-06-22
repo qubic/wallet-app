@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
@@ -12,6 +13,7 @@ import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class ManageBiometrics extends StatefulWidget {
   const ManageBiometrics({super.key});
@@ -30,6 +32,13 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   List<BiometricType>? availableBiometrics; //Is empty, no biometric is enrolled
   bool? canUseBiometrics = false;
 
+  String _scope = "biometric";
+  String _title = "Manage biometric unlock";
+  String _description =
+      "You can enable strong authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password";
+  IconData _icon = Icons.fingerprint;
+  String _settingsLabel = "Biometric unlock";
+
   bool enabled = false;
   @override
   void initState() {
@@ -47,11 +56,22 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       auth.getAvailableBiometrics().then((value) {
         setState(() {
           availableBiometrics = value;
-          canUseBiometrics = value.isNotEmpty;
+          canUseBiometrics = value.contains(BiometricType.strong);
           enabled = settingsStore.settings.biometricEnabled;
         });
       });
     });
+
+    if (UniversalPlatform.isDesktop) {
+      setState(() {
+        _scope = "OS";
+        _title = "Manage OS unlock";
+        _description =
+            "You can enable strong authentication via your OS. If you enable this, you can sign in to your wallet and issue transfers without using your password";
+        _settingsLabel = "OS unlock";
+        _icon = Icons.security;
+      });
+    }
   }
 
   @override
@@ -87,7 +107,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       const SizedBox(height: ThemePaddings.hugePadding),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         GradientForeground(
-            child: Icon(Icons.fingerprint,
+            child: Icon(_icon,
                 size: 100, color: Theme.of(context).colorScheme.primary)),
       ]),
       const SizedBox(height: ThemePaddings.hugePadding),
@@ -110,8 +130,9 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
                       }
                       final bool didAuthenticate = await auth.authenticate(
                           localizedReason: ' ',
-                          options:
-                              const AuthenticationOptions(biometricOnly: true));
+                          options: AuthenticationOptions(
+                              biometricOnly:
+                                  UniversalPlatform.isDesktop ? false : true));
                       if (!didAuthenticate) {
                         return false;
                       }
@@ -127,8 +148,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
                     await settingsStore.setBiometrics(value);
                   },
                   initialValue: enabled,
-                  title:
-                      Text('Use biometric access', style: TextStyles.labelText),
+                  title: Text(_settingsLabel, style: TextStyles.labelText),
                 ),
               ],
             ),
@@ -139,20 +159,22 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   Widget showPossibleErrors() {
     String? errorText;
     String? errorDescription;
-    if (canCheckBiometrics == false) {
-      errorText = "Biometric authentication not available";
-      errorDescription =
-          "Your device does not support biometric authentication";
+    if ((canCheckBiometrics == false) || (availableBiometrics == null)) {
+      errorText = UniversalPlatform.isDesktop
+          ? "OS authentication not available"
+          : "Biometric authentication not available";
+      errorDescription = UniversalPlatform.isDesktop
+          ? "Your OS does not support OS authentication"
+          : "Your device does not support biometric authentication";
     }
-    if (availableBiometrics == null) {
-      errorText = "Biometric authentication not available";
-      errorDescription =
-          "Your device does not support biometric authentication";
-    }
+
     if (availableBiometrics != null && availableBiometrics!.isEmpty) {
-      errorText = "No biometric data has been registered in the device.";
-      errorDescription =
-          "Your device supports biometric authentication but you have not registered your biometric data yet. Please navigate to your device control panel, register your biometric data and try again";
+      errorText = UniversalPlatform.isDesktop
+          ? "No authentication info is registred in your OS"
+          : "No biometric data has been registered in the device.";
+      errorDescription = UniversalPlatform.isDesktop
+          ? "You have not setup authentication in your OS. Please navigate to your OS control panel and setup authentication"
+          : "Your device supports biometric authentication but you have not registered your biometric data yet. Please navigate to your device control panel, register your biometric data and try again";
     }
     if (errorText == null) {
       return Container();
@@ -192,10 +214,8 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
                   child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: "Manage biometric unlock"),
-              Text(
-                  "You can enable strong authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without a password",
-                  style: Theme.of(context).textTheme.bodyMedium),
+              ThemedControls.pageHeader(headerText: _title),
+              Text(_description, style: Theme.of(context).textTheme.bodyMedium),
               canUseBiometrics == null
                   ? loadingIndicator()
                   : canUseBiometrics! == true
