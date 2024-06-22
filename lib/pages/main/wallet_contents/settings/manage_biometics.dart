@@ -35,7 +35,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   String _scope = "biometric";
   String _title = "Manage biometric unlock";
   String _description =
-      "You can enable strong authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password";
+      "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password";
   IconData _icon = Icons.fingerprint;
   String _settingsLabel = "Biometric unlock";
 
@@ -67,7 +67,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
         _scope = "OS";
         _title = "Manage OS unlock";
         _description =
-            "You can enable strong authentication via your OS. If you enable this, you can sign in to your wallet and issue transfers without using your password";
+            "You can enable authentication via your OS. If you enable this, you can sign in to your wallet and issue transfers without using your password";
         _settingsLabel = "OS unlock";
         _icon = Icons.security;
       });

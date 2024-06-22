@@ -102,9 +102,9 @@ class _ReceiveState extends State<SignUp> {
       titleTextColor: Theme.of(context).colorScheme.onBackground,
     );
 
-    String enableText = "Enable biometric access to your wallet";
-    if (UniversalPlatform.isWindows) {
-      enableText = "Enable OS authentication to your wallet";
+    String enableText = "Biometric unlock";
+    if (UniversalPlatform.isDesktop) {
+      enableText = "OS unlock";
     }
 
     return Flex(direction: Axis.horizontal, children: [
@@ -131,7 +131,7 @@ class _ReceiveState extends State<SignUp> {
                       localizedReason: ' ',
                       options: AuthenticationOptions(
                           biometricOnly:
-                              UniversalPlatform.isWindows ? false : true));
+                              UniversalPlatform.isDesktop ? false : true));
                   if (!didAuthenticate) {
                     return;
                   }
@@ -165,6 +165,7 @@ class _ReceiveState extends State<SignUp> {
       getSignUpError(),
       FormBuilderTextField(
         name: "password",
+        autofocus: true,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
               errorText: "Please fill in your password"),
@@ -230,14 +231,14 @@ class _ReceiveState extends State<SignUp> {
   }
 
   Widget getStep2() {
-    String title = "Sign in with biometrics";
+    String title = "Biometric unlock";
     String subheader =
-        "You can sign in to your wallet and issue transfers using your biometric data (fingerprint / face) without a password.";
+        "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password.";
 
-    if (UniversalPlatform.isWindows) {
-      title = "Sign in with OS authentication";
+    if (UniversalPlatform.isDesktop) {
+      title = "OS unlock";
       subheader =
-          "You can sign in to your wallet and issue transfers using your OS authentication without a password.";
+          "You can enable authentication via your OS. If you enable this, you can sign in to your wallet and issue transfers without using your password.";
     }
 
     return Container(
