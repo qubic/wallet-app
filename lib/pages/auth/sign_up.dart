@@ -330,6 +330,10 @@ class _ReceiveState extends State<SignUp> {
               await submitFinalize();
             }
           }, onReject: () async {
+            setState(() {
+              isLoading = false;
+              signUpError = null;
+            });
             Navigator.pop(context);
           });
         });
