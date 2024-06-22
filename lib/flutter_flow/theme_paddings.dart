@@ -23,7 +23,7 @@ class LightThemeColors {
   static const shouldInvertIcon = true;
   static const primary = Color(0xFFDDDDDD);
   static const surface = Color(0xFF222229);
-  static const backkground = Color(0xFF101820);
+  static const background = Color(0xFF101820);
   static const successIncoming = Color(0xFF179C6C);
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);

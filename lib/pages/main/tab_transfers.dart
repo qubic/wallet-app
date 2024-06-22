@@ -61,14 +61,14 @@ class _TabTransfersState extends State<TabTransfers> {
               await _timedController.interruptFetchTimer();
             },
             child: Container(
-                color: LightThemeColors.backkground,
+                color: LightThemeColors.background,
                 child: Scrollbar(
                     controller: _scrollController,
                     child: CustomScrollView(
                         controller: _scrollController,
                         slivers: [
                           SliverAppBar(
-                              backgroundColor: LightThemeColors.backkground,
+                              backgroundColor: LightThemeColors.background,
                               actions: <Widget>[
                                 TickRefresh(),
                                 ThemedControls.spacerHorizontalSmall(),
@@ -179,7 +179,7 @@ class _TabTransfersState extends State<TabTransfers> {
                               delegate:
                                   SliverChildBuilderDelegate((context, index) {
                                 return Container(
-                                    color: LightThemeColors.backkground,
+                                    color: LightThemeColors.background,
                                     child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal:

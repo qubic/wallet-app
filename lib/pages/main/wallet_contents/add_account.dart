@@ -411,7 +411,7 @@ class _AddAccountState extends State<AddAccount> {
         isDismissible: false,
         isScrollControlled: true,
         useSafeArea: true,
-        backgroundColor: LightThemeColors.backkground,
+        backgroundColor: LightThemeColors.background,
         builder: (BuildContext context) {
           return AddAccountWarningSheet(onAccept: () async {
             Navigator.pop(context);

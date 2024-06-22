@@ -369,8 +369,8 @@ class _SendState extends State<Send> {
           ThemedControls.spacerVerticalMini(),
           Theme(
               data: Theme.of(context).copyWith(
-                  canvasColor: LightThemeColors.backkground,
-                  scaffoldBackgroundColor: LightThemeColors.backkground,
+                  canvasColor: LightThemeColors.background,
+                  scaffoldBackgroundColor: LightThemeColors.background,
                   brightness: Brightness.dark,
                   dropdownMenuTheme: DropdownMenuThemeData(
                     textStyle: TextStyles.inputBoxNormalStyle,

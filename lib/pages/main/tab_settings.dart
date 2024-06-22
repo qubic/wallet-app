@@ -101,7 +101,7 @@ class _TabSettingsState extends State<TabSettings> {
     var theme = SettingsThemeData(
       settingsSectionBackground: LightThemeColors.cardBackground,
       //Theme.of(context).cardTheme.color,
-      settingsListBackground: LightThemeColors.backkground,
+      settingsListBackground: LightThemeColors.background,
       dividerColor: Colors.transparent,
       titleTextColor: Theme.of(context).colorScheme.onBackground,
     );
@@ -150,7 +150,7 @@ class _TabSettingsState extends State<TabSettings> {
                     context: context,
                     isScrollControlled: true,
                     useRootNavigator: true,
-                    backgroundColor: LightThemeColors.backkground,
+                    backgroundColor: LightThemeColors.background,
                     builder: (BuildContext context) {
                       return EraseWalletSheet(onAccept: () async {
                         if (!context.mounted) return;
