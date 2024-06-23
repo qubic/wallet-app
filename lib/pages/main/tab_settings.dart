@@ -135,7 +135,7 @@ class _TabSettingsState extends State<TabSettings> {
                 appStore.signOut();
                 appStore.checkWalletIsInitialized();
                 timedController.stopFetchTimer();
-                context.go('/signIn');
+                context.go('/signInNoAuth');
               },
             ),
             SettingsTile.navigation(
@@ -160,7 +160,7 @@ class _TabSettingsState extends State<TabSettings> {
                         appStore.signOut();
                         timedController.stopFetchTimer();
                         Navigator.pop(context);
-                        context.go("/signin");
+                        context.go("/signInNoAuth");
                         _globalSnackBar.show("Wallet data erased from device");
                       }, onReject: () async {
                         Navigator.pop(context);

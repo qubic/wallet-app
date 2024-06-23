@@ -13,9 +13,15 @@ import 'package:universal_platform/universal_platform.dart';
 
 class AuthenticatePassword extends StatefulWidget {
   final Function onSuccess;
-  final bool passOnly;
+  final bool passOnly; // If true, only password authentication is required
+  final bool
+      autoLocalAuth; // If true, automatically authenticate with local auth
+
   const AuthenticatePassword(
-      {super.key, required this.onSuccess, this.passOnly = false});
+      {super.key,
+      required this.onSuccess,
+      this.passOnly = false,
+      this.autoLocalAuth = true});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -30,10 +36,17 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   final LocalAuthentication auth = LocalAuthentication();
 
   String? signInError;
+  double formOpacity = 1;
 
   @override
   void initState() {
     super.initState;
+    if (settingsStore.settings.biometricEnabled && !widget.passOnly) {
+      setState(() {
+        formOpacity = 0;
+      });
+      handleBiometricsAuth();
+    }
   }
 
   @override
@@ -56,61 +69,61 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
       children: children,
     );
   }
-  //   List<Widget> children = [Expanded(child: authenticateButton())];
-  //   if (settingsStore.settings.biometricEnabled && !widget.passOnly) {
-  //     children.add(const VerticalDivider());
-  //     children.add(Expanded(child: biometricsButton()));
-  //   }
-  //   return Padding(
-  //       padding: const EdgeInsets.only(bottom: ThemePaddings.normalPadding),
-  //       child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.center, children: children));
-  // }
+
+  Future<void> handleBiometricsAuth() async {
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      isLoading = true;
+      signInError = null;
+    });
+
+    final bool didAuthenticate = await auth.authenticate(
+        localizedReason: ' ',
+        options: AuthenticationOptions(
+            biometricOnly: UniversalPlatform.isDesktop ? false : true));
+
+    if (didAuthenticate) {
+      widget.onSuccess();
+    } else {
+      setState(() {
+        isLoading = false;
+        signInError = "Authentication cancelled. Please try again";
+        setState(() {
+          formOpacity = 1;
+        });
+      });
+    }
+  }
 
   Widget biometricsButton() {
-    return ThemedControls.transparentButtonBigWithChild(
-        onPressed: () async {
-          if (isLoading) {
-            return;
-          }
-          setState(() {
-            isLoading = true;
-            signInError = null;
-          });
-
-          final bool didAuthenticate = await auth.authenticate(
-              localizedReason: ' ',
-              options: AuthenticationOptions(
-                  biometricOnly: UniversalPlatform.isDesktop ? false : true));
-
-          if (didAuthenticate) {
-            widget.onSuccess();
-          } else {
-            setState(() {
-              isLoading = false;
-              signInError = "Authentication cancelled. Please try again";
-            });
-          }
-        },
-        child: Padding(
-            padding: EdgeInsets.fromLTRB(
-                MediaQuery.of(context).size.width < 400
-                    ? ThemePaddings.smallPadding
-                    : ThemePaddings.normalPadding,
-                ThemePaddings.miniPadding - 1,
-                MediaQuery.of(context).size.width < 400
-                    ? ThemePaddings.smallPadding
-                    : ThemePaddings.normalPadding,
-                ThemePaddings.miniPadding - 1),
-            child: SizedBox(
-                height: 42,
-                width: MediaQuery.of(context).size.width < 400 ? 32 : 42,
-                child: Icon(
-                    UniversalPlatform.isDesktop
-                        ? Icons.security
-                        : Icons.fingerprint,
-                    size: MediaQuery.of(context).size.width < 400 ? 32 : 42,
-                    color: LightThemeColors.primary))));
+    return AnimatedOpacity(
+        opacity: isLoading ? 0.1 : 1,
+        duration: const Duration(milliseconds: 200),
+        child: ThemedControls.transparentButtonBigWithChild(
+            onPressed: () async {
+              await handleBiometricsAuth();
+            },
+            child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.width < 400
+                        ? ThemePaddings.smallPadding
+                        : ThemePaddings.normalPadding,
+                    ThemePaddings.miniPadding - 1,
+                    MediaQuery.of(context).size.width < 400
+                        ? ThemePaddings.smallPadding
+                        : ThemePaddings.normalPadding,
+                    ThemePaddings.miniPadding - 1),
+                child: SizedBox(
+                    height: 42,
+                    width: MediaQuery.of(context).size.width < 400 ? 32 : 42,
+                    child: Icon(
+                        UniversalPlatform.isDesktop
+                            ? Icons.security
+                            : Icons.fingerprint,
+                        size: MediaQuery.of(context).size.width < 400 ? 32 : 42,
+                        color: LightThemeColors.primary)))));
   }
 
   void authenticateHandler() async {
@@ -170,61 +183,68 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return FormBuilder(
-        key: _formKey,
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(child: Builder(builder: (context) {
-                if (signInError == null) {
-                  return Container();
+    return AnimatedOpacity(
+        opacity: formOpacity,
+        duration: const Duration(milliseconds: 200),
+        child: FormBuilder(
+            key: _formKey,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(child: Builder(builder: (context) {
+                    if (signInError == null) {
+                      return Container();
 //                  return Container(child: const SizedBox(height: 33));
-                } else {
-                  return Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: ThemePaddings.normalPadding),
-                      child: Text(signInError!,
-                          style: Theme.of(context)
-                              .primaryTextTheme
-                              .bodySmall
-                              ?.copyWith(
-                                  color: Theme.of(context).colorScheme.error)));
-                }
-              })),
-              FormBuilderTextField(
-                name: "password",
-                autofocus:
-                    !settingsStore.settings.biometricEnabled || widget.passOnly,
-                validator: FormBuilderValidators.compose([
-                  FormBuilderValidators.required(),
-                ]),
-                decoration: ThemeInputDecorations.bigInputbox.copyWith(
-                  hintText: "Wallet password",
-                  suffixIcon: Padding(
-                    padding: const EdgeInsets.only(
-                        right: ThemePaddings.smallPadding),
-                    child: IconButton(
-                      icon: Icon(obscuringTextPass
-                          ? Icons.visibility
-                          : Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          obscuringTextPass = !obscuringTextPass;
-                        });
-                      },
+                    } else {
+                      return Center(
+                        child: Padding(
+                            padding: const EdgeInsets.only(
+                                bottom: ThemePaddings.normalPadding),
+                            child: Text(signInError!,
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .error))),
+                      );
+                    }
+                  })),
+                  FormBuilderTextField(
+                    name: "password",
+                    autofocus: !settingsStore.settings.biometricEnabled ||
+                        widget.passOnly,
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(),
+                    ]),
+                    decoration: ThemeInputDecorations.bigInputbox.copyWith(
+                      hintText: "Wallet password",
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.only(
+                            right: ThemePaddings.smallPadding),
+                        child: IconButton(
+                          icon: Icon(obscuringTextPass
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              obscuringTextPass = !obscuringTextPass;
+                            });
+                          },
+                        ),
+                      ),
                     ),
+                    onSubmitted: (value) => authenticateHandler(),
+                    style: TextStyles.inputBoxNormalStyle,
+                    enabled: !isLoading,
+                    obscureText: obscuringTextPass,
+                    autocorrect: false,
+                    autofillHints: null,
                   ),
-                ),
-                onSubmitted: (value) => authenticateHandler(),
-                style: TextStyles.inputBoxNormalStyle,
-                enabled: !isLoading,
-                obscureText: obscuringTextPass,
-                autocorrect: false,
-                autofillHints: null,
-              ),
-              const SizedBox(height: ThemePaddings.normalPadding),
-              Center(child: getCTA()),
-            ]));
+                  const SizedBox(height: ThemePaddings.normalPadding),
+                  Center(child: getCTA()),
+                ])));
   }
 }

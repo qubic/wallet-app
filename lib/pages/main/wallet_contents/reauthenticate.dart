@@ -10,8 +10,11 @@ import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class Reauthenticate extends StatefulWidget {
-  final bool passwordOnly;
-  const Reauthenticate({super.key, this.passwordOnly = false});
+  final bool passwordOnly; // If true, only password authentication is required
+  final bool
+      autoLocalAuth; // If true, automatically authenticate with local auth
+  const Reauthenticate(
+      {super.key, this.passwordOnly = false, this.autoLocalAuth = true});
 
   @override
   // ignore: library_private_types_in_public_api
