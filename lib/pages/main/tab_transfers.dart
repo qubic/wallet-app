@@ -178,6 +178,48 @@ class _TabTransfersState extends State<TabTransfers> {
                             return SliverList(
                               delegate:
                                   SliverChildBuilderDelegate((context, index) {
+                                if (index == 0) {
+                                  return Container(
+                                      color: LightThemeColors.backkground,
+                                      child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal:
+                                                ThemePaddings.bigPadding,
+                                          ),
+                                          child: Flex(
+                                              direction: MediaQuery.of(context)
+                                                          .size
+                                                          .width <
+                                                      400
+                                                  ? Axis.vertical
+                                                  : Axis.horizontal,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                    "Showing ${filteredResults.length} transaction${filteredResults.length > 1 ? "s" : ""}",
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .colorScheme
+                                                                .secondary,
+                                                            fontFamily:
+                                                                ThemeFonts
+                                                                    .secondary)),
+                                                appStore.transactionFilter ==
+                                                            null ||
+                                                        appStore.transactionFilter!
+                                                                .totalActiveFilters ==
+                                                            0
+                                                    ? Container()
+                                                    : clearFiltersButton(
+                                                        context)
+                                              ])));
+                                }
                                 return Container(
                                     color: LightThemeColors.background,
                                     child: Padding(
@@ -188,8 +230,9 @@ class _TabTransfersState extends State<TabTransfers> {
                                                 ThemePaddings.normalPadding /
                                                     2),
                                         child: TransactionItem(
-                                            item: filteredResults[index])));
-                              }, childCount: filteredResults.length),
+                                          item: filteredResults[index - 1],
+                                        )));
+                              }, childCount: filteredResults.length + 1),
                             );
                           }),
                         ])))));

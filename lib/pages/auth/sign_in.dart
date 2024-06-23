@@ -1,22 +1,17 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mobx/mobx.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
 import 'package:qubic_wallet/pages/auth/sign_up.dart';
-import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/qubic_hub_service.dart';
@@ -31,7 +26,8 @@ import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class SignIn extends StatefulWidget {
-  const SignIn({super.key});
+  String? disableLocalAuth;
+  SignIn({super.key, this.disableLocalAuth});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -55,15 +51,12 @@ class _SignInState extends State<SignIn>
   String? signInError;
   late final ReactionDisposer _disposeSnackbarAuto;
 
-  late final AnimationController _rotationController;
-
-  late final Animation _animation;
-
   late AnimatedSnackBar errorBar;
   late AnimatedSnackBar notificationBar;
   bool obscuringText = true;
 
   bool isLoading = false;
+  double formOpacity = 1;
   bool _isKeyboardVisible = false;
   double viewInsets = 0.0;
 
@@ -74,18 +67,7 @@ class _SignInState extends State<SignIn>
     WidgetsBinding.instance.addObserver(this);
     final ApplicationStore applicationStore = getIt<ApplicationStore>();
 
-    _rotationController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 600),
-    );
-
-    //_animation = Tween(begin: 3.19911, end: 5.0).animate(CurvedAnimation(
-    _animation = Tween(begin: 3.39911, end: 3.29911).animate(CurvedAnimation(
-      parent: _rotationController,
-      curve: Curves.fastOutSlowIn,
-    ));
-
-    _rotationController.repeat();
+    //Get version info
     qubicHubService.loadVersionInfo().then((value) {
       if (qubicHubStore.updateNeeded) {
         showAlertDialog(context, "Update required",
@@ -95,6 +77,7 @@ class _SignInState extends State<SignIn>
       _globalSnackbar.showError(e.toString().replaceAll("Exception: ", ""));
     });
 
+    //Setup snackbars
     _disposeSnackbarAuto = autorun((_) {
       if (applicationStore.globalError != "") {
         var errorPos = applicationStore.globalError.indexOf("~");
@@ -102,10 +85,6 @@ class _SignInState extends State<SignIn>
             ? applicationStore.globalError
             : applicationStore.globalError.substring(0, errorPos);
 
-        // AnimatedSnackBar.material(error,
-        //         type: AnimatedSnackBarType.error,
-        //         snackBarStrategy: StackSnackBarStrategy())
-        //     .show(context);
         if (error != "") {
           errorBar = AnimatedSnackBar(
               builder: ((context) {
@@ -163,12 +142,20 @@ class _SignInState extends State<SignIn>
         }
       }
     });
+
+    //Automatic local authentication on login
+
+    if (((widget.disableLocalAuth == null)) &&
+        (settingsStore.settings.biometricEnabled)) {
+      setState(() {
+        formOpacity = 0;
+      });
+      handleBiometricsAuth();
+    }
   }
 
   @override
   void dispose() {
-    _rotationController.dispose();
-
     _disposeSnackbarAuto();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -201,47 +188,58 @@ class _SignInState extends State<SignIn>
     );
   }
 
-  Widget biometricsButton() {
-    return TextButton(
-        style: ButtonStyles.textButtonBig.copyWith(
-          shadowColor: MaterialStateProperty.all<Color>(
-              LightThemeColors.buttonBackground),
-          elevation: MaterialStateProperty.all<double>(0.0),
-        ),
-        onPressed: () async {
-          if (isLoading) {
-            return;
-          }
-          setState(() {
-            isLoading = true;
-          });
-          final bool didAuthenticate = await auth.authenticate(
-              localizedReason: ' ',
-              options: AuthenticationOptions(
-                  biometricOnly: UniversalPlatform.isDesktop ? false : true));
+  Future<void> handleBiometricsAuth() async {
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      isLoading = true;
+    });
+    final bool didAuthenticate = await auth.authenticate(
+        localizedReason: ' ',
+        options: AuthenticationOptions(
+            biometricOnly: UniversalPlatform.isDesktop ? false : true));
 
-          if (didAuthenticate) {
-            await appStore.biometricSignIn();
-            await authSuccess();
-          }
-          setState(() {
-            isLoading = false;
-          });
-        },
-        child: Builder(builder: (context) {
-          return Padding(
-              padding: const EdgeInsets.fromLTRB(ThemePaddings.normalPadding, 2,
-                  ThemePaddings.normalPadding, 2),
-              child: SizedBox(
-                  height: 42,
-                  width: 42,
-                  child: Icon(
-                      UniversalPlatform.isDesktop
-                          ? Icons.security
-                          : Icons.fingerprint,
-                      size: 34,
-                      color: LightThemeColors.primary)));
-        }));
+    if (didAuthenticate) {
+      await appStore.biometricSignIn();
+      await authSuccess();
+    }
+    setState(() {
+      isLoading = false;
+      formOpacity = 1;
+    });
+  }
+
+  Widget biometricsButton() {
+    return AnimatedOpacity(
+        duration: const Duration(milliseconds: 200),
+        opacity: isLoading ? 0.1 : 1,
+        child: TextButton(
+            style: ButtonStyles.textButtonBig.copyWith(
+              shadowColor: MaterialStateProperty.all<Color>(
+                  LightThemeColors.buttonBackground),
+              elevation: MaterialStateProperty.all<double>(0.0),
+            ),
+            onPressed: () async {
+              await handleBiometricsAuth();
+            },
+            child: Builder(builder: (context) {
+              return Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                      ThemePaddings.normalPadding,
+                      2,
+                      ThemePaddings.normalPadding,
+                      2),
+                  child: SizedBox(
+                      height: 42,
+                      width: 42,
+                      child: Icon(
+                          UniversalPlatform.isDesktop
+                              ? Icons.security
+                              : Icons.fingerprint,
+                          size: 34,
+                          color: LightThemeColors.primary)));
+            })));
   }
 
   Future<void> authSuccess() async {
@@ -319,6 +317,7 @@ class _SignInState extends State<SignIn>
     return results;
   }
 
+  //Gets the version info
   Widget getVersionInfo() {
     return Observer(builder: (BuildContext context) {
       if (qubicHubStore.versionInfo == null) {
@@ -331,6 +330,7 @@ class _SignInState extends State<SignIn>
     });
   }
 
+  //Gets the logo in sign i form
   Widget getLogo() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -360,6 +360,7 @@ class _SignInState extends State<SignIn>
     );
   }
 
+  //Shows a sign in error
   Widget getSignInError() {
     return Container(
         alignment: Alignment.center,
@@ -375,7 +376,8 @@ class _SignInState extends State<SignIn>
         }));
   }
 
-  List<Widget> getLoginForm() {
+  //Gets the sign in  form
+  List<Widget> getSignInForm() {
     return [
       getSignInError(),
       const SizedBox(height: ThemePaddings.smallPadding),
@@ -455,6 +457,7 @@ class _SignInState extends State<SignIn>
     ];
   }
 
+  //Builds the signup screen
   Widget buildSignUp(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -489,52 +492,16 @@ class _SignInState extends State<SignIn>
                                 style: TextStyles.primaryButtonText)))),
               ])),
     );
-    // return Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-    //   Center(child: getLogo()),
-    //   Expanded(child: Container()),
-    //   Text("aaa")
-    // ]);
   }
 
-  Widget buildLogin(BuildContext context) {
+  // Builds the signin screen
+  Widget buildSignIn(BuildContext context) {
     return Stack(children: [
       Container(
         constraints: const BoxConstraints.expand(),
-//           decoration: BoxDecoration(
-//               gradient: LinearGradient(
-//             begin: Alignment(-1.0, 0.0),
-//             end: Alignment(1.0, 0.0),
-//             transform:
-//                 GradientRotation(_animation.value), //GradientRotation(3.19911),
-//             stops: [
-//               0.001,
-//               1,
-//             ],
-//             colors: [
-//               LightThemeColors.gradient1,
-//               LightThemeColors.gradient2,
-// //              Color(0xFFBF0FFF),
-//               //            Color(0xFF0F27FF),
-//             ],
-//           ))
       ),
       Container(
         constraints: const BoxConstraints.expand(),
-        // decoration: BoxDecoration(
-        //     gradient: LinearGradient(
-        //   begin: Alignment.topCenter,
-        //   end: Alignment.bottomCenter,
-        //   stops: const [
-        //     0.4,
-        //     0.68,
-        //     0.8,
-        //   ],
-        //   colors: [
-        //     const Color(0x00FFFFFF),
-        //     LightThemeColors.strongBackground.withOpacity(0.5),
-        //     LightThemeColors.strongBackground
-        //   ],
-        // ))
       ),
       SafeArea(
           child: Container(
@@ -555,7 +522,10 @@ class _SignInState extends State<SignIn>
                                     ThemePaddings.bigPadding,
                                     ThemePaddings.bigPadding,
                                     ThemePaddings.bigPadding),
-                                child: Column(children: getLoginForm()))
+                                child: AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 200),
+                                    opacity: formOpacity,
+                                    child: Column(children: getSignInForm())))
                           ]))))),
     ]);
   }
@@ -577,7 +547,7 @@ class _SignInState extends State<SignIn>
             Observer(
               builder: (BuildContext context) {
                 if (appStore.hasStoredWalletSettings) {
-                  return buildLogin(context);
+                  return buildSignIn(context);
                 } else {
                   return buildSignUp(context);
                 }

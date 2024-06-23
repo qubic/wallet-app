@@ -318,7 +318,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                   child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: "Filter transactions"),
+              ThemedControls.pageHeader(headerText: "Filter transfers"),
               appStore.transactionFilter!.totalActiveFilters > 0
                   ? TextButton(
                       onPressed: () {
