@@ -222,58 +222,59 @@ class _TabSettingsState extends State<TabSettings> {
             title: getSettingsHeader("Other", true),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                  leading: ChangeForeground(
-                      child: const Icon(Icons.account_balance_wallet_outlined),
-                      color: LightThemeColors.gradient1),
-                  trailing: Observer(builder: (BuildContext context) {
-                    if (qubicHubStore.updateAvailable) {
-                      return const Icon(Icons.info, color: Colors.red);
-                    }
-                    return getTrailingArrow();
-                  }),
-                  title: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Wallet info', style: TextStyles.textNormal),
-                        Observer(builder: (BuildContext context) {
-                          if (qubicHubStore.versionInfo == null) {
-                            return const Text("Loading...");
-                          }
-                          return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Version ${qubicHubStore.versionInfo!}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                            fontFamily: ThemeFonts.secondary)),
-                                qubicHubStore.updateAvailable
-                                    ? Text("Update available",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall!
-                                            .copyWith(
-                                                color: Colors.red,
-                                                fontFamily:
-                                                    ThemeFonts.secondary))
-                                    : Container(),
-                              ]);
-                        })
-                      ]),
-                  onPressed: (BuildContext? context) async {
-                    pushNewScreen(
-                      context!,
-                      screen: const AboutWallet(),
-                      withNavBar: false, // OPTIONAL VALUE. True by default.
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    );
-                  }),
+                leading: ChangeForeground(
+                    child: const Icon(Icons.account_balance_wallet_outlined),
+                    color: LightThemeColors.gradient1),
+                trailing: Observer(builder: (BuildContext context) {
+                  if (qubicHubStore.updateAvailable) {
+                    return const Icon(Icons.info, color: Colors.red);
+                  }
+                  return getTrailingArrow();
+                }),
+                title: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Wallet info', style: TextStyles.textNormal),
+                      Observer(builder: (BuildContext context) {
+                        if (qubicHubStore.versionInfo == null) {
+                          return const Text("Loading...");
+                        }
+                        return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                  "Version ${qubicHubStore.versionInfo!}${qubicHubStore.buildNumber!.isNotEmpty ? " (${qubicHubStore.buildNumber!})" : ""}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          fontFamily: ThemeFonts.secondary)),
+                              qubicHubStore.updateAvailable
+                                  ? Text("Update available",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall!
+                                          .copyWith(
+                                              color: Colors.red,
+                                              fontFamily: ThemeFonts.secondary))
+                                  : Container(),
+                            ]);
+                      })
+                    ]),
+                // onPressed: (BuildContext? context) async {
+                //   pushNewScreen(
+                //     context!,
+                //     screen: const AboutWallet(),
+                //     withNavBar: false, // OPTIONAL VALUE. True by default.
+                //     pageTransitionAnimation:
+                //         PageTransitionAnimation.cupertino,
+                //   );
+                // }),
+              ),
             ])
       ],
     );
