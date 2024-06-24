@@ -187,27 +187,29 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget getMain() {
-    return PersistentTabView(
-      controller: _controller,
-      navBarHeight: 56,
-      navBarBuilder: (navBarConfig) => Style1BottomNavBar(
-          navBarConfig: navBarConfig,
-          navBarDecoration: const NavBarDecoration(
-              border: Border(
-                top: BorderSide(width: 1, color: LightThemeColors.navBorder),
-              ),
-              color: LightThemeColors.navBg)),
+    return SafeArea(
+      child: PersistentTabView(
+        controller: _controller,
+        navBarHeight: 56,
+        navBarBuilder: (navBarConfig) => Style1BottomNavBar(
+            navBarConfig: navBarConfig,
+            navBarDecoration: const NavBarDecoration(
+                border: Border(
+                  top: BorderSide(width: 1, color: LightThemeColors.navBorder),
+                ),
+                color: LightThemeColors.navBg)),
 
-      tabs: _tabs(),
+        tabs: _tabs(),
 
-      backgroundColor: LightThemeColors.navBg,
+        backgroundColor: LightThemeColors.navBg,
 
-      // Default is Colors.white.
-      handleAndroidBackButtonPress: true, // Default is true.
-      navBarOverlap: const NavBarOverlap.none(),
-      resizeToAvoidBottomInset:
-          true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-      stateManagement: true, // Default is true.
+        // Default is Colors.white.
+        handleAndroidBackButtonPress: true, // Default is true.
+        navBarOverlap: const NavBarOverlap.none(),
+        resizeToAvoidBottomInset:
+            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+        stateManagement: true, // Default is true.
+      ),
     );
     // return SafeArea(
     //     child: Column(children: [
