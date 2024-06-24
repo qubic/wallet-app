@@ -46,7 +46,8 @@ class LightThemeColors {
 
   static const disabledStateBg = color2;
 
-  static const inputFieldBg = color3;
+  static const inputFieldBg = Color(0xFF151E27);
+  static const inputFieldHint = Color(0xFF4B5565);
 
   static const secondaryTypography = color6;
   static const buttonTap = color8;
@@ -54,7 +55,7 @@ class LightThemeColors {
   static const extraStrongBackground = menuBg;
   static const strongBackground = Color(0xFF060606);
 
-  static const inputBorderColor = color3;
+  static const inputBorderColor = Color(0xFF202E3C);
 
 //  static const gradient1 = Color(0xFF0F27FF);
   static const gradient1 = buttonPrimary;

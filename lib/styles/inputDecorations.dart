@@ -11,22 +11,22 @@ abstract class ThemeInputDecorations {
         fontSize: ThemeFontSizes.small,
         fontWeight: FontWeight.normal),
     enabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     focusedBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     border: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     errorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(40)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
     focusedErrorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(40)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
     disabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     filled: true,
     hintStyle: TextStyle(
@@ -44,28 +44,27 @@ abstract class ThemeInputDecorations {
         fontSize: ThemeFontSizes.small,
         fontWeight: FontWeight.normal),
     enabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     focusedBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     border: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     errorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(40)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
     focusedErrorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(40)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
     disabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     filled: true,
     hintStyle: TextStyle(
-        color: LightThemeColors.primary.withOpacity(0.4),
-        fontSize: ThemeFontSizes.label),
-    fillColor: LightThemeColors.extraStrongBackground,
+        color: LightThemeColors.inputFieldHint, fontSize: ThemeFontSizes.label),
+    fillColor: LightThemeColors.inputFieldBg,
   );
 
   static InputDecoration normalInputbox = InputDecoration(
@@ -77,28 +76,27 @@ abstract class ThemeInputDecorations {
         fontSize: ThemeFontSizes.small,
         fontWeight: FontWeight.normal),
     enabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(26)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     focusedBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(26)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     border: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(26)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     errorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(26)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
     focusedErrorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(26)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
     disabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(26)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     filled: true,
     hintStyle: TextStyle(
-        color: LightThemeColors.primary.withOpacity(0.4),
-        fontSize: ThemeFontSizes.label),
-    fillColor: LightThemeColors.extraStrongBackground,
+        color: LightThemeColors.inputFieldHint, fontSize: ThemeFontSizes.label),
+    fillColor: LightThemeColors.inputFieldBg,
   );
 
   static InputDecoration normalMultiLineInputbox = InputDecoration(
@@ -110,27 +108,26 @@ abstract class ThemeInputDecorations {
         fontSize: ThemeFontSizes.small,
         fontWeight: FontWeight.normal),
     enabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     focusedBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     border: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     errorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(16)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
     focusedErrorBorder: OutlineInputBorder(
-        borderRadius: const BorderRadius.all(Radius.circular(16)),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
     disabledBorder: const OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
+        borderRadius: BorderRadius.all(Radius.circular(2)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     filled: true,
     hintStyle: TextStyle(
-        color: LightThemeColors.primary.withOpacity(0.4),
-        fontSize: ThemeFontSizes.label),
-    fillColor: LightThemeColors.extraStrongBackground,
+        color: LightThemeColors.inputFieldHint, fontSize: ThemeFontSizes.label),
+    fillColor: LightThemeColors.inputFieldBg,
   );
 }

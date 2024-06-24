@@ -160,7 +160,7 @@ class ThemedControls {
                       LightThemeColors.gradient1,
                       LightThemeColors.gradient2
                     ]),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(12),
               ),
               child: Padding(
                   padding: const EdgeInsets.symmetric(
@@ -307,7 +307,7 @@ class ThemedControls {
             ThemePaddings.normalPadding,
             ThemePaddings.smallPadding + 2),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
+          borderRadius: BorderRadius.circular(12),
           color: LightThemeColors.cardBackground,
           border:
               Border.all(color: LightThemeColors.inputBorderColor, width: 0.8),
@@ -322,7 +322,7 @@ class ThemedControls {
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 0),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
               color: LightThemeColors.inputBorderColor,
               style: BorderStyle.solid,
