@@ -70,14 +70,14 @@ class _SignInState extends State<SignIn>
     final ApplicationStore applicationStore = getIt<ApplicationStore>();
 
     //Get version info
-    qubicHubService.loadVersionInfo().then((value) {
-      if (qubicHubStore.updateNeeded) {
-        showAlertDialog(context, "Update required",
-            "USE THIS VERSION AT YOUR OWN RISK\n\nYour current version is outdated and will possibly not work. Please update your wallet version to ${qubicHubStore.minVersion}.\n\nYou can still access your funds and back up your seeds, but other functionality may be broken.  ");
-      }
-    }, onError: (e) {
-      _globalSnackbar.showError(e.toString().replaceAll("Exception: ", ""));
-    });
+    // qubicHubService.loadVersionInfo().then((value) {
+    //   if (qubicHubStore.updateNeeded) {
+    //     showAlertDialog(context, "Update required",
+    //         "USE THIS VERSION AT YOUR OWN RISK\n\nYour current version is outdated and will possibly not work. Please update your wallet version to ${qubicHubStore.minVersion}.\n\nYou can still access your funds and back up your seeds, but other functionality may be broken.  ");
+    //   }
+    // }, onError: (e) {
+    //   _globalSnackbar.showError(e.toString().replaceAll("Exception: ", ""));
+    // });
 
     //Setup snackbars
     _disposeSnackbarAuto = autorun((_) {

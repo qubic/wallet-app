@@ -180,7 +180,7 @@ class _TabTransfersState extends State<TabTransfers> {
                                   SliverChildBuilderDelegate((context, index) {
                                 if (index == 0) {
                                   return Container(
-                                      color: LightThemeColors.backkground,
+                                      color: LightThemeColors.background,
                                       child: Padding(
                                           padding: const EdgeInsets.symmetric(
                                             horizontal:

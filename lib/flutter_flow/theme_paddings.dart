@@ -86,7 +86,7 @@ class xLightThemeColors {
 
   static const primary = Color(0xFF131313);
   static const surface = Color(0xFFFFFFFF);
-  static const backkground = Color(0xFFF1F3F4);
+  static const background = Color(0xFFF1F3F4);
   static const successIncoming = Color(0xFF179C6C);
   static const pending = Color(0xFFEAB754);
   static const error = Color(0xFFFF007B);

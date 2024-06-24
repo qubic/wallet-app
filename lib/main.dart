@@ -97,7 +97,7 @@ class _WalletAppState extends State<WalletApp> {
       //     surface: LightThemeColors.surface,
       //     onSurface: LightThemeColors.primary,
       //     seedColor: LightThemeColors.panelBackground,
-      //     surfaceTint: LightThemeColors.backkground,
+      //     surfaceTint: LightThemeColors.background,
       //   ),
 
       //   useMaterial3: true,
