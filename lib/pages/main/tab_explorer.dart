@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pagination_flutter/pagination.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/epoch_indicator.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_loading_indicator.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
@@ -332,7 +332,7 @@ class _TabExplorerState extends State<TabExplorer> {
                   for (var i = min; i < max; i++) {
                     lineWidget.add(TextButton(
                         onPressed: () {
-                          pushNewScreen(
+                          pushScreen(
                             context,
                             screen: ExplorerResultPage(
                                 resultType: ExplorerResultType.tick,
@@ -431,7 +431,7 @@ class _TabExplorerState extends State<TabExplorer> {
                         icon: const Icon(Icons.filter_list,
                             color: LightThemeColors.primary),
                         onPressed: () {
-                          pushNewScreen(
+                          pushScreen(
                             context,
                             screen: const ExplorerSearch(),
                             withNavBar:

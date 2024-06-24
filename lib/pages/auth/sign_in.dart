@@ -6,7 +6,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mobx/mobx.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -508,7 +508,7 @@ class _SignInState extends State<SignIn>
                     width: double.infinity,
                     child: ThemedControls.primaryButtonBigWithChild(
                         onPressed: () {
-                          pushNewScreen(
+                          pushScreen(
                             context,
                             screen: SignUp(),
                             withNavBar:

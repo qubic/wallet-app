@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/components/gradient_container.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
@@ -180,7 +180,7 @@ class _TabSettingsState extends State<TabSettings> {
                 trailing: getTrailingArrow(),
                 title: Text('Change password', style: TextStyles.textNormal),
                 onPressed: (BuildContext? context) async {
-                  pushNewScreen(
+                  pushScreen(
                     context!,
                     screen: const ChangePassword(),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
@@ -208,7 +208,7 @@ class _TabSettingsState extends State<TabSettings> {
                     : const Text("Disabled");
               }),
               onPressed: (BuildContext? context) {
-                pushNewScreen(
+                pushScreen(
                   context!,
                   screen: const ManageBiometrics(),
                   withNavBar: false, // OPTIONAL VALUE. True by default.

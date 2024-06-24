@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -51,7 +51,7 @@ class _AssetItemState extends State<AssetItem> {
             ThemedControls.primaryButtonBig(
                 onPressed: () {
                   // Perform some action
-                  pushNewScreen(
+                  pushScreen(
                     context,
                     screen: TransferAsset(
                         item: widget.account, asset: widget.asset),

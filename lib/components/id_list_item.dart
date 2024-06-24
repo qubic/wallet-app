@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/components/qubic_asset.dart';
 import 'package:qubic_wallet/di.dart';
@@ -155,7 +155,7 @@ class IdListItem extends StatelessWidget {
           }
 
           if (menuItem == CardItem.viewInExplorer) {
-            pushNewScreen(
+            pushScreen(
               context,
               screen: ExplorerResultPage(
                 resultType: ExplorerResultType.publicId,
@@ -167,7 +167,7 @@ class IdListItem extends StatelessWidget {
           }
 
           if (menuItem == CardItem.viewTransactions) {
-            pushNewScreen(
+            pushScreen(
               context,
               screen: TransactionsForId(publicQubicId: item.publicId),
               withNavBar: false, // OPTIONAL VALUE. True by default.
@@ -176,7 +176,7 @@ class IdListItem extends StatelessWidget {
           }
 
           if (menuItem == CardItem.reveal) {
-            pushNewScreen(
+            pushScreen(
               context,
               screen: RevealSeed(item: item),
               withNavBar: false, // OPTIONAL VALUE. True by default.
@@ -218,7 +218,7 @@ class IdListItem extends StatelessWidget {
             ? TextButton(
                 onPressed: () {
                   // Perform some action
-                  pushNewScreen(
+                  pushScreen(
                     context,
                     screen: Send(item: item),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
@@ -234,7 +234,7 @@ class IdListItem extends StatelessWidget {
             : Container(),
         TextButton(
           onPressed: () {
-            pushNewScreen(
+            pushScreen(
               context,
               screen: Receive(item: item),
               withNavBar: false, // OPTIONAL VALUE. True by default.
@@ -255,7 +255,7 @@ class IdListItem extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         )),
                 onPressed: () {
-                  pushNewScreen(
+                  pushScreen(
                     context,
                     screen: Assets(PublicId: item.publicId),
                     withNavBar: false, // OPTIONAL VALUE. True by default.

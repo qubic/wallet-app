@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 
 // ignore: unused_import
 import 'package:intl/intl.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/components/radiant_gradient_mask.dart';
 import 'package:qubic_wallet/di.dart';
@@ -32,7 +32,7 @@ class ExplorerResultQubicId extends StatelessWidget {
     return Row(children: [
       ThemedControls.primaryButtonNormal(
           onPressed: () {
-            pushNewScreen(
+            pushScreen(
               context,
               screen: ExplorerResultPage(
                   resultType: ExplorerResultType.publicId, qubicId: item.id),

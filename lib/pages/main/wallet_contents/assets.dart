@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mobx/mobx.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qubic_wallet/components/asset_item.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';

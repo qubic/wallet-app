@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/components/radiant_gradient_mask.dart';
 import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
@@ -75,7 +75,7 @@ class ExplorerResultTick extends StatelessWidget {
     return Row(children: [
       ThemedControls.primaryButtonNormal(
           onPressed: () {
-            pushNewScreen(
+            pushScreen(
               context,
               screen: ExplorerResultPage(
                   resultType: ExplorerResultType.tick, tick: info.tick),

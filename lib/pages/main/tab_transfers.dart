@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/gradient_container.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/components/tick_indication_styled.dart';
@@ -76,7 +76,7 @@ class _TabTransfersState extends State<TabTransfers> {
                                   icon: const Icon(Icons.filter_list,
                                       color: LightThemeColors.primary),
                                   onPressed: () {
-                                    pushNewScreen(
+                                    pushScreen(
                                       context,
                                       screen: const FilterTransactions(),
                                       withNavBar:

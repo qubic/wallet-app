@@ -617,10 +617,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: e1a30a66d734f9e498b1b6522d6a75ded28242bad2359a9158df38a1c30bcf1f
+      sha256: b465e99ce64ba75e61c8c0ce3d87b66d8ac07f0b35d0a7e0263fcfc10f99e836
       url: "https://pub.dev"
     source: hosted
-    version: "10.2.0"
+    version: "13.2.5"
   google_fonts:
     dependency: "direct main"
     description:
@@ -1001,10 +1001,10 @@ packages:
     dependency: "direct main"
     description:
       name: persistent_bottom_nav_bar_v2
-      sha256: "2fbaf1e8b18108d8a303304a306d68bcfb78abfd553295f489a8a315dff479e2"
+      sha256: c725f11e0c3d5dad388f8eb9bcfbf701d1a472cad71d2b5fb344ac149e3da7ff
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.8"
+    version: "5.2.3"
   petitparser:
     dependency: transitive
     description:

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/account_list_item.dart';
 import 'package:qubic_wallet/components/cumulative_wallet_value_sliver.dart';
 import 'package:qubic_wallet/components/gradient_container.dart';
@@ -139,7 +139,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                   ThemedControls.spacerVerticalNormal(),
                   FilledButton.icon(
                       onPressed: () {
-                        pushNewScreen(
+                        pushScreen(
                           context,
                           screen: const AddAccount(),
                           withNavBar: false, // OPTIONAL VALUE. True by default.
@@ -172,7 +172,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
       return;
     }
-    pushNewScreen(
+    pushScreen(
       context,
       screen: const AddAccount(),
       withNavBar: false, // OPTIONAL VALUE. True by default.
