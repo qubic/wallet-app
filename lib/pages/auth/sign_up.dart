@@ -97,7 +97,7 @@ class _ReceiveState extends State<SignUp> {
     var theme = SettingsThemeData(
       settingsSectionBackground: LightThemeColors.cardBackground,
       //Theme.of(context).cardTheme.color,
-      settingsListBackground: LightThemeColors.backkground,
+      settingsListBackground: LightThemeColors.background,
       dividerColor: Colors.transparent,
       titleTextColor: Theme.of(context).colorScheme.onBackground,
     );
@@ -313,7 +313,7 @@ class _ReceiveState extends State<SignUp> {
         context: context,
         isScrollControlled: true,
         useRootNavigator: true,
-        backgroundColor: LightThemeColors.backkground,
+        backgroundColor: LightThemeColors.background,
         builder: (BuildContext context) {
           return CreatePasswordSheet(onAccept: () async {
             if (totalSteps == 2) {

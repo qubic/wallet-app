@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
@@ -186,13 +187,13 @@ class _TabWalletContentsState extends State<TabWalletContents> {
               await _timedController.interruptFetchTimer();
             },
             child: Container(
-              color: LightThemeColors.backkground,
+              color: LightThemeColors.background,
               child: CustomScrollView(
                 controller: _scrollController,
                 physics: AlwaysScrollableScrollPhysics(),
                 slivers: [
                   SliverAppBar(
-                    backgroundColor: LightThemeColors.backkground,
+                    backgroundColor: LightThemeColors.background,
 
                     actions: <Widget>[
                       TickRefresh(),
@@ -239,7 +240,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           child: Container(
                             height: 20,
                             decoration: const BoxDecoration(
-                              color: LightThemeColors.backkground,
+                              color: LightThemeColors.background,
                               borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(40),
                               ),
@@ -258,7 +259,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 ThemePaddings.smallPadding,
                                 ThemePaddings.normalPadding,
                                 ThemePaddings.miniPadding),
-                            child: Text("Qubic Accounts in wallet",
+                            child: Text("Accounts in Wallet",
                                 style: TextStyles.sliverCardPreLabel)))
                   ])),
                   Observer(builder: (context) {
@@ -267,55 +268,75 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           delegate:
                               SliverChildBuilderDelegate((context, index) {
                         return Container(
-                            color: LightThemeColors.backkground,
+                            color: LightThemeColors.background,
                             child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: ThemePaddings.smallPadding,
                                     vertical: ThemePaddings.normalPadding / 2),
-                                child: DottedBorder(
-                                    color: LightThemeColors.color3,
-                                    child: Padding(
-                                        padding: EdgeInsets.all(
-                                            ThemePaddings.smallPadding),
-                                        child: Center(
-                                            child: Container(
-                                                width: double.infinity,
-                                                padding: EdgeInsets.all(
-                                                    ThemePaddings.bigPadding),
-                                                color: LightThemeColors
-                                                    .cardBackground,
-                                                child: Column(children: [
-                                                  ThemedControls
-                                                      .spacerVerticalBig(),
-                                                  Text(
-                                                    "You don't have any Qubic Accounts in your wallet yet",
-                                                    textAlign: TextAlign.center,
-                                                  ),
-                                                  ThemedControls
-                                                      .spacerVerticalBig(),
-                                                  ThemedControls
-                                                      .primaryButtonBigWithChild(
-                                                          onPressed: addAccount,
-                                                          child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .min,
-                                                              children: [
-                                                                Icon(Icons.add),
-                                                                ThemedControls
-                                                                    .spacerHorizontalSmall(),
-                                                                Text(
-                                                                    "Add new Account"),
-                                                              ])),
-                                                  ThemedControls
-                                                      .spacerVerticalBig(),
-                                                ])))))));
+                                child: Card(
+                                    color: LightThemeColors.cardBackground,
+                                    elevation: 0,
+                                    child: Column(children: [
+                                      ThemedControls.spacerVerticalBig(),
+                                      Padding(
+                                        padding: const EdgeInsets.all(
+                                            20.0), // Set the padding value
+                                        child: Text(
+                                            "You don't have any Qubic Accounts in your wallet yet",
+                                            textAlign: TextAlign.center),
+                                      ),
+                                      ThemedControls.spacerVerticalBig(),
+                                      ThemedControls.primaryButtonBigWithChild(
+                                          onPressed: addAccount,
+                                          child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(Icons.add),
+                                                ThemedControls
+                                                    .spacerHorizontalSmall(),
+                                                Text("Add new Account"),
+                                              ])),
+                                      ThemedControls.spacerVerticalBig(),
+                                    ]))));
+                      }, childCount: 1));
+                    } else if (appStore.currentQubicIDs.length == 10) {
+                      return SliverList(
+                          delegate:
+                              SliverChildBuilderDelegate((context, index) {
+                        return Container(
+                            constraints: const BoxConstraints(
+                                minWidth: 400, maxWidth: 500),
+                            child: Container(
+                                color: LightThemeColors.color3,
+                                child: Padding(
+                                    padding: EdgeInsets.all(
+                                        ThemePaddings.smallPadding),
+                                    child: Center(
+                                        child: Column(children: [
+                                      ThemedControls.spacerVerticalBig(),
+                                      Text(
+                                        "You don't have any Qubic Accounts in your wallet yet",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      ThemedControls.spacerVerticalBig(),
+                                      ThemedControls.primaryButtonBigWithChild(
+                                          onPressed: addAccount,
+                                          child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(Icons.add),
+                                                ThemedControls
+                                                    .spacerHorizontalSmall(),
+                                                Text("Add new Account"),
+                                              ])),
+                                      ThemedControls.spacerVerticalBig(),
+                                    ])))));
                       }, childCount: 1));
                     } else {
                       return SliverList(
                         delegate: SliverChildBuilderDelegate((context, index) {
                           return Container(
-                              color: LightThemeColors.backkground,
+                              color: LightThemeColors.background,
                               child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: ThemePaddings.smallPadding,

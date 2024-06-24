@@ -220,7 +220,7 @@ class TextStyles {
   static TextStyle textNormalOnPrimary = const TextStyle(
     fontSize: ThemeFontSizes.normal,
     fontWeight: FontWeight.w400,
-    color: LightThemeColors.backkground,
+    color: LightThemeColors.background,
   );
 
   static TextStyle textLarge = const TextStyle(

@@ -465,7 +465,7 @@ class _SignInState extends State<SignIn>
                             context: context,
                             isScrollControlled: true,
                             useRootNavigator: true,
-                            backgroundColor: LightThemeColors.backkground,
+                            backgroundColor: LightThemeColors.background,
                             builder: (BuildContext context) {
                               return EraseWalletSheet(onAccept: () async {
                                 await secureStorage.deleteWallet();

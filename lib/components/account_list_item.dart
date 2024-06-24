@@ -215,7 +215,7 @@ class AccountListItem extends StatelessWidget {
                     context: context,
                     isScrollControlled: true,
                     useRootNavigator: true,
-                    backgroundColor: LightThemeColors.backkground,
+                    backgroundColor: LightThemeColors.background,
                     builder: (BuildContext context) {
                       return RevealSeedWarningSheet(
                           item: item,

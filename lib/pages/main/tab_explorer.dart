@@ -396,7 +396,7 @@ class _TabExplorerState extends State<TabExplorer> {
                 child:
                     CustomScrollView(controller: _scrollController, slivers: [
                   SliverAppBar(
-                    backgroundColor: LightThemeColors.backkground,
+                    backgroundColor: LightThemeColors.background,
                     actions: <Widget>[
                       ExplorerLoadingIndicator(),
                       ThemedControls.spacerHorizontalSmall(),
@@ -405,7 +405,7 @@ class _TabExplorerState extends State<TabExplorer> {
                           if (appStore.pendingRequests == 0) {
                             return Ink(
                                 decoration: const ShapeDecoration(
-                                  color: LightThemeColors.backkground,
+                                  color: LightThemeColors.background,
                                   shape: CircleBorder(),
                                 ),
                                 child: SizedBox(
