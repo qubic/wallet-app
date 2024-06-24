@@ -1,5 +1,6 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
@@ -50,6 +51,7 @@ class _SignInState extends State<SignIn>
   final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
   String? signInError;
   late final ReactionDisposer _disposeSnackbarAuto;
+  late final ReactionDisposer _disposeLocalAuth;
 
   late AnimatedSnackBar errorBar;
   late AnimatedSnackBar notificationBar;
@@ -143,20 +145,23 @@ class _SignInState extends State<SignIn>
       }
     });
 
-    //Automatic local authentication on login
+    _disposeLocalAuth = autorun((_) {
+      //Automatic local authentication on login
 
-    if (((widget.disableLocalAuth == null)) &&
-        (settingsStore.settings.biometricEnabled)) {
-      setState(() {
-        formOpacity = 0;
-      });
-      handleBiometricsAuth();
-    }
+      if (((widget.disableLocalAuth == null)) &&
+          (settingsStore.settings.biometricEnabled)) {
+        setState(() {
+          formOpacity = 0;
+        });
+        handleBiometricsAuth();
+      }
+    });
   }
 
   @override
   void dispose() {
     _disposeSnackbarAuto();
+    _disposeLocalAuth();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -195,19 +200,46 @@ class _SignInState extends State<SignIn>
     setState(() {
       isLoading = true;
     });
-    final bool didAuthenticate = await auth.authenticate(
-        localizedReason: ' ',
-        options: AuthenticationOptions(
-            biometricOnly: UniversalPlatform.isDesktop ? false : true));
+    try {
+      final bool didAuthenticate = await auth.authenticate(
+          localizedReason: ' ',
+          options: AuthenticationOptions(
+              biometricOnly: UniversalPlatform.isDesktop ? false : true));
 
-    if (didAuthenticate) {
-      await appStore.biometricSignIn();
-      await authSuccess();
+      if (didAuthenticate) {
+        await appStore.biometricSignIn();
+        await authSuccess();
+      }
+      setState(() {
+        isLoading = false;
+        formOpacity = 1;
+      });
+    } on PlatformException catch (err) {
+      if ((err.message != null) &&
+          (err.message!
+              .contains("API is locked out due to too many attempts"))) {
+        setState(() {
+          isLoading = false;
+          formOpacity = 1;
+          signInError = err.message ??
+              "Too many failed attempts to authenticate you. Please lock and unlock your phone via PIN / pattern and try again";
+        });
+      } else if (err.message != null) {
+        setState(() {
+          isLoading = false;
+          formOpacity = 1;
+          signInError = err.message ??
+              "An error has occurred while trying to authenticate you";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        formOpacity = 1;
+        signInError =
+            "An error has occurred while trying to authenticate you. Please try again";
+      });
     }
-    setState(() {
-      isLoading = false;
-      formOpacity = 1;
-    });
   }
 
   Widget biometricsButton() {

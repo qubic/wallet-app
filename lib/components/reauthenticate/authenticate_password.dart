@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:qubic_wallet/di.dart';
@@ -76,23 +77,44 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
     }
     setState(() {
       isLoading = true;
-      signInError = null;
     });
+    try {
+      final bool didAuthenticate = await auth.authenticate(
+          localizedReason: ' ',
+          options: AuthenticationOptions(
+              biometricOnly: UniversalPlatform.isDesktop ? false : true));
 
-    final bool didAuthenticate = await auth.authenticate(
-        localizedReason: ' ',
-        options: AuthenticationOptions(
-            biometricOnly: UniversalPlatform.isDesktop ? false : true));
-
-    if (didAuthenticate) {
-      widget.onSuccess();
-    } else {
+      if (didAuthenticate) {
+        widget.onSuccess();
+      }
       setState(() {
         isLoading = false;
-        signInError = "Authentication cancelled. Please try again";
+        formOpacity = 1;
+      });
+    } on PlatformException catch (err) {
+      if ((err.message != null) &&
+          (err.message!
+              .contains("API is locked out due to too many attempts"))) {
         setState(() {
+          isLoading = false;
           formOpacity = 1;
+          signInError = err.message ??
+              "Too many failed attempts to authenticate you. Please lock and unlock your phone via PIN / pattern and try again";
         });
+      } else if (err.message != null) {
+        setState(() {
+          isLoading = false;
+          formOpacity = 1;
+          signInError = err.message ??
+              "An error has occurred while trying to authenticate you";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        formOpacity = 1;
+        signInError =
+            "An error has occurred while trying to authenticate you. Please try again";
       });
     }
   }
