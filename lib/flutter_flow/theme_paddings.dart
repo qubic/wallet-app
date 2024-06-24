@@ -66,7 +66,7 @@ class LightThemeColors {
 
   static const titleColor = Color.fromARGB(255, 97, 240, 254);
 
-  static const textTitle = primary;
+  static const textTitle = Color(0xFFFFFFFF);
   static const textLabel = primary;
   static const textLightGrey = color6;
   static const textInputPlaceholder = Color.fromARGB(1, 116, 116, 116);
