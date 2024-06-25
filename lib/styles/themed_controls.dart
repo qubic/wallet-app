@@ -211,6 +211,16 @@ class ThemedControls {
         buttonStyle: ButtonStyles.textButtonBig);
   }
 
+  // A transparent button with child widgets
+  static Widget transparentButtonWithChild(
+      {required void Function()? onPressed, required Widget child}) {
+    return TextButton(
+      style: ButtonStyles.textButtonBig,
+      onPressed: onPressed,
+      child: child,
+    );
+  }
+
   static Widget transparentButtonSmall(
       {required void Function()? onPressed,
       required String text,

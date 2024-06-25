@@ -12,6 +12,7 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:intl/intl.dart';
 
 class CumulativeWalletValueSliver extends StatefulWidget {
   const CumulativeWalletValueSliver({super.key});
@@ -23,6 +24,8 @@ class CumulativeWalletValueSliver extends StatefulWidget {
 
 class _CumulativeWalletValueSliverState
     extends State<CumulativeWalletValueSliver> {
+  final NumberFormat numberFormat = NumberFormat.decimalPattern("en_US");
+
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   bool showingTotalBalance = true;
@@ -45,27 +48,24 @@ class _CumulativeWalletValueSliverState
   }
 
   Widget getTotalQubics(BuildContext context) {
-    return AmountFormatted(
-      amount: appStore.totalAmounts,
-      isInHeader: true,
-      currencyName: 'QUBIC',
-      hideLabel: true,
-      textStyle: MediaQuery.of(context).size.width < 400
-          ? TextStyles.sliverBig.copyWith(fontSize: 26)
-          : TextStyles.sliverBig,
-    );
+    return Text(numberFormat.format(appStore.totalAmounts),
+        style: MediaQuery.of(context).size.width < 400
+            ? TextStyles.sliverBig.copyWith(fontSize: 26)
+            : TextStyles.sliverBig);
   }
 
   Widget getTotalUSD() {
-    return AmountFormatted(
-      amount: appStore.totalAmountsInUSD.toInt(),
-      prefix: "\$",
-      isInHeader: true,
-      hideLabel: true,
-      currencyName: 'USD',
-      labelOffset: -2,
-      textStyle: TextStyles.sliverSmall,
-    );
+    return Text("\$${numberFormat.format(appStore.totalAmountsInUSD.toInt())}",
+        style: TextStyles.sliverSmall);
+    // return AmountFormatted(
+    //   amount: appStore.totalAmountsInUSD.toInt(),
+    //   prefix: "\$",
+    //   isInHeader: true,
+    //   hideLabel: true,
+    //   currencyName: 'USD',
+    //   labelOffset: -2,
+    //   textStyle: TextStyles.sliverSmall,
+    // );
   }
 
   Widget getConversion() {
@@ -89,17 +89,20 @@ class _CumulativeWalletValueSliverState
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Total balance ", style: TextStyles.secondaryText),
-                IconButton(
+                ThemedControls.transparentButtonWithChild(
                     onPressed: () async {
                       setState(() {
                         showingTotalBalance = !showingTotalBalance;
                       });
                       settingsStore.setTotalBalanceVisible(showingTotalBalance);
                     },
-                    icon: showingTotalBalance
-                        ? Image.asset("assets/images/eye-closed-small.png")
-                        : Image.asset("assets/images/eye-open-small.png"))
+                    child: Row(children: [
+                      Text("Total balance ", style: TextStyles.secondaryText),
+                      ThemedControls.spacerHorizontalSmall(),
+                      showingTotalBalance
+                          ? Image.asset("assets/images/eye-closed.png")
+                          : Image.asset("assets/images/eye-open.png")
+                    ]))
               ]),
           Observer(builder: (context) {
             if (appStore.totalAmountsInUSD == -1) {
@@ -119,10 +122,11 @@ class _CumulativeWalletValueSliverState
                 child: getTotalUSD());
           }),
           SizedBox(
-                  height: MediaQuery.of(context).size.width < 400 ? 25 : 35,
-                  width: MediaQuery.of(context).size.width < 400 ? 240 : 300,
+                  height: MediaQuery.of(context).size.width < 400 ? 15 : 20,
+                  width: MediaQuery.of(context).size.width < 400 ? 200 : 240,
                   child: Container(
-                      color: Colors.white, alignment: Alignment.center))
+                      color: Color.fromARGB(145, 255, 255, 255),
+                      alignment: Alignment.center))
               .animate(target: showingTotalBalance ? 0 : 1)
               .scaleX(
                   duration: const Duration(milliseconds: 300),
@@ -130,14 +134,14 @@ class _CumulativeWalletValueSliverState
                   end: 1,
                   curve: Curves.easeInOut)
               .scaleY(
-                  duration: const Duration(milliseconds: 600),
+                  duration: const Duration(milliseconds: 300),
                   begin: 0,
                   end: 1,
                   curve: Curves.easeInOut)
               .moveY(
                   duration: const Duration(milliseconds: 300),
-                  begin: MediaQuery.of(context).size.width < 400 ? -50 : -65,
-                  end: MediaQuery.of(context).size.width < 400 ? -50 : -65,
+                  begin: MediaQuery.of(context).size.width < 400 ? -45 : -55,
+                  end: MediaQuery.of(context).size.width < 400 ? -45 : -55,
                   curve: Curves.easeInOut)
               .fadeIn(duration: const Duration(milliseconds: 200))
               .blurXY(

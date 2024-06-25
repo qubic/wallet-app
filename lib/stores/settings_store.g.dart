@@ -41,6 +41,22 @@ mixin _$SettingsStore on _SettingsStore, Store {
     });
   }
 
+  late final _$totalBalanceVisibleAtom =
+      Atom(name: '_SettingsStore.totalBalanceVisible', context: context);
+
+  @override
+  bool get totalBalanceVisible {
+    _$totalBalanceVisibleAtom.reportRead();
+    return super.totalBalanceVisible;
+  }
+
+  @override
+  set totalBalanceVisible(bool value) {
+    _$totalBalanceVisibleAtom.reportWrite(value, super.totalBalanceVisible, () {
+      super.totalBalanceVisible = value;
+    });
+  }
+
   late final _$loadSettingsAsyncAction =
       AsyncAction('_SettingsStore.loadSettings', context: context);
 
@@ -86,7 +102,8 @@ mixin _$SettingsStore on _SettingsStore, Store {
   String toString() {
     return '''
 cmdUtilsAvailable: ${cmdUtilsAvailable},
-settings: ${settings}
+settings: ${settings},
+totalBalanceVisible: ${totalBalanceVisible}
     ''';
   }
 }

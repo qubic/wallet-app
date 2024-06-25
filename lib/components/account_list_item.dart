@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 import 'package:qubic_wallet/components/amount_formatted.dart';
@@ -23,28 +26,57 @@ import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 enum CardItem { delete, rename, reveal, viewTransactions, viewInExplorer }
 
-class AccountListItem extends StatelessWidget {
+class AccountListItem extends StatefulWidget {
   final QubicListVm item;
-  final _formKey = GlobalKey<FormBuilderState>();
 
   AccountListItem({super.key, required this.item});
 
+  @override
+  State<AccountListItem> createState() => _AccountListItemState();
+}
+
+class _AccountListItemState extends State<AccountListItem> {
+  final _formKey = GlobalKey<FormBuilderState>();
+
+  final SettingsStore settingsStore = getIt<SettingsStore>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
+
+  bool totalBalanceVisible = true;
+  late ReactionDisposer disposer;
+
+  @override
+  void initState() {
+    super.initState();
+    totalBalanceVisible = settingsStore.settings.totalBalanceVisible ?? true;
+
+    disposer = autorun((_) {
+      setState(() {
+        totalBalanceVisible = settingsStore.totalBalanceVisible;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    disposer();
+    super.dispose();
+  }
 
   showRenameDialog(BuildContext context) {
     late BuildContext dialogContext;
-    final _controller = TextEditingController();
+    final controller = TextEditingController();
 
-    _controller.text = item.name;
-    _controller.selection = TextSelection(
+    controller.text = widget.item.name;
+    controller.selection = TextSelection(
       baseOffset: 0,
-      extentOffset: item.name.length,
+      extentOffset: widget.item.name.length,
     );
 
     // set up the buttons
@@ -57,7 +89,8 @@ class AccountListItem extends StatelessWidget {
     Widget continueButton = ThemedControls.primaryButtonNormal(
       text: "Rename",
       onPressed: () {
-        if (_formKey.currentState?.instantValue["accountName"] == item.name) {
+        if (_formKey.currentState?.instantValue["accountName"] ==
+            widget.item.name) {
           Navigator.pop(dialogContext);
           return;
         }
@@ -67,8 +100,8 @@ class AccountListItem extends StatelessWidget {
           return;
         }
 
-        appStore.setName(
-            item.publicId, _formKey.currentState?.instantValue["accountName"]);
+        appStore.setName(widget.item.publicId,
+            _formKey.currentState?.instantValue["accountName"]);
 
         //appStore.removeID(item.publicId);
         Navigator.pop(dialogContext);
@@ -93,14 +126,14 @@ class AccountListItem extends StatelessWidget {
                     decoration: ThemeInputDecorations.normalInputbox.copyWith(
                       hintText: "New name",
                     ),
-                    controller: _controller,
+                    controller: controller,
                     focusNode: FocusNode()..requestFocus(),
                     style: TextStyles.inputBoxNormalStyle,
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
                       CustomFormFieldValidators.isNameAvailable(
                           currentQubicIDs: appStore.currentQubicIDs,
-                          ignorePublicId: item.name)
+                          ignorePublicId: widget.item.name)
                     ]),
                   ),
                 ],
@@ -134,7 +167,7 @@ class AccountListItem extends StatelessWidget {
     Widget continueButton = ThemedControls.primaryButtonNormal(
       text: "Yes",
       onPressed: () async {
-        await appStore.removeID(item.publicId);
+        await appStore.removeID(widget.item.publicId);
         Navigator.pop(dialogContext);
       },
     );
@@ -194,7 +227,7 @@ class AccountListItem extends StatelessWidget {
                   context,
                   screen: ExplorerResultPage(
                     resultType: ExplorerResultType.publicId,
-                    qubicId: item.publicId,
+                    qubicId: widget.item.publicId,
                   ),
                   withNavBar: false,
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
@@ -205,7 +238,7 @@ class AccountListItem extends StatelessWidget {
                 pushScreen(
                   context,
                   screen: TransactionsForId(
-                      publicQubicId: item.publicId, item: item),
+                      publicQubicId: widget.item.publicId, item: widget.item),
                   withNavBar: false, // OPTIONAL VALUE. True by default.
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );
@@ -219,7 +252,7 @@ class AccountListItem extends StatelessWidget {
                     backgroundColor: LightThemeColors.background,
                     builder: (BuildContext context) {
                       return RevealSeedWarningSheet(
-                          item: item,
+                          item: widget.item,
                           onAccept: () async {
                             if (await reAuthDialog(context) == false) {
                               Navigator.pop(context);
@@ -228,7 +261,7 @@ class AccountListItem extends StatelessWidget {
                             Navigator.pop(context);
                             pushScreen(
                               context,
-                              screen: RevealSeed(item: item),
+                              screen: RevealSeed(item: widget.item),
                               withNavBar:
                                   false, // OPTIONAL VALUE. True by default.
                               pageTransitionAnimation:
@@ -249,7 +282,8 @@ class AccountListItem extends StatelessWidget {
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewInExplorer,
                     child: Text('View in explorer'),
-                    enabled: item.amount != null && item.amount! > 0,
+                    enabled:
+                        widget.item.amount != null && widget.item.amount! > 0,
                   ),
                   const PopupMenuItem<CardItem>(
                     value: CardItem.reveal,
@@ -274,13 +308,13 @@ class AccountListItem extends StatelessWidget {
       buttonPadding: const EdgeInsets.fromLTRB(ThemeFontSizes.large,
           ThemeFontSizes.large, ThemeFontSizes.large, ThemeFontSizes.large),
       children: [
-        item.amount != null
+        widget.item.amount != null
             ? ThemedControls.primaryButtonBig(
                 onPressed: () {
                   // Perform some action
                   pushScreen(
                     context,
-                    screen: Send(item: item),
+                    screen: Send(item: widget.item),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -295,7 +329,7 @@ class AccountListItem extends StatelessWidget {
           onPressed: () {
             pushScreen(
               context,
-              screen: Receive(item: item),
+              screen: Receive(item: widget.item),
               withNavBar: false, // OPTIONAL VALUE. True by default.
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );
@@ -306,13 +340,13 @@ class AccountListItem extends StatelessWidget {
               : Image.asset("assets/images/receive.png"),
           text: "Receive",
         ),
-        item.assets.keys.isNotEmpty
+        widget.item.assets.keys.isNotEmpty
             ? ThemedControls.primaryButtonBig(
                 text: "Assets",
                 onPressed: () {
                   pushScreen(
                     context,
-                    screen: Assets(PublicId: item.publicId),
+                    screen: Assets(PublicId: widget.item.publicId),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
@@ -322,11 +356,11 @@ class AccountListItem extends StatelessWidget {
     );
   }
 
-  List<Widget> getAssets(BuildContext context) {
+  Widget getAssets(BuildContext context) {
     List<Widget> shares = [];
 
-    for (var key in item.assets.keys) {
-      var asset = item.assets[key];
+    for (var key in widget.item.assets.keys) {
+      var asset = widget.item.assets[key];
       bool isToken = asset!.contractIndex == QubicSCID.qX.contractIndex &&
           asset!.contractName != "QX";
       String text = isToken ? " Token" : " Share";
@@ -341,11 +375,11 @@ class AccountListItem extends StatelessWidget {
             return SizeTransition(sizeFactor: animation, child: child);
             //return ScaleTransition(scale: animation, child: child);
           },
-          child: item.assets[key] != null
+          child: widget.item.assets[key] != null
               ? AmountFormatted(
                   key: ValueKey<String>(
-                      "qubicAsset${item.publicId}-${key}-${item.assets[key]}"),
-                  amount: item.assets[key]!.ownedAmount,
+                      "qubicAsset${widget.item.publicId}-${key}-${widget.item.assets[key]}"),
+                  amount: widget.item.assets[key]!.ownedAmount,
                   isInHeader: false,
                   labelOffset: -0,
                   labelHorizOffset: -6,
@@ -353,11 +387,21 @@ class AccountListItem extends StatelessWidget {
                       ? TextStyles.accountAmount.copyWith(fontSize: 16)
                       : TextStyles.accountAmount,
                   labelStyle: TextStyles.accountAmountLabel,
-                  currencyName: item.assets[key]!.assetName + text,
+                  currencyName: widget.item.assets[key]!.assetName + text,
                 )
               : Container()));
     }
-    return shares;
+    return AnimatedCrossFade(
+        firstChild: Container(
+            width: double.infinity,
+            alignment: Alignment.centerRight,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end, children: shares)),
+        secondChild: Text("*******"),
+        crossFadeState: totalBalanceVisible
+            ? CrossFadeState.showFirst
+            : CrossFadeState.showSecond,
+        duration: 300.ms);
   }
 
   @override
@@ -383,56 +427,49 @@ class AccountListItem extends StatelessWidget {
                             children: [
                               Flexible(
                                   fit: FlexFit.loose,
-                                  child: Text(item.name,
+                                  child: Text(widget.item.name,
                                       style: TextStyles.accountName)),
                               getCardMenu(context)
                             ]),
-                        SizedBox(height: ThemePaddings.smallPadding),
-                        Text(item.publicId),
-                        SizedBox(height: ThemePaddings.smallPadding),
-
-                        AnimatedSwitcher(
-                            duration: const Duration(milliseconds: 500),
-                            transitionBuilder:
-                                (Widget child, Animation<double> animation) {
-                              //return FadeTransition(opacity: animation, child: child);
-                              return SizeTransition(
-                                  sizeFactor: animation, child: child);
-                              //return ScaleTransition(scale: animation, child: child);
-                            },
-                            child: AmountFormatted(
-                              key: ValueKey<String>(
-                                  "qubicAmount${item.publicId}-${item.amount}"),
-                              amount: item.amount,
-                              isInHeader: false,
-                              labelOffset: -0,
-                              labelHorizOffset: -6,
-                              textStyle: MediaQuery.of(context).size.width < 400
+                        ThemedControls.spacerVerticalSmall(),
+                        Text(widget.item.publicId),
+                        ThemedControls.spacerVerticalSmall(),
+                        AnimatedCrossFade(
+                          duration: const Duration(milliseconds: 300),
+                          firstChild: AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500),
+                              transitionBuilder:
+                                  (Widget child, Animation<double> animation) {
+                                //return FadeTransition(opacity: animation, child: child);
+                                return SizeTransition(
+                                    sizeFactor: animation, child: child);
+                                //return ScaleTransition(scale: animation, child: child);
+                              },
+                              child: AmountFormatted(
+                                key: ValueKey<String>(
+                                    "qubicAmount${widget.item.publicId}-${widget.item.amount}"),
+                                amount: widget.item.amount,
+                                isInHeader: false,
+                                labelOffset: -0,
+                                labelHorizOffset: -6,
+                                textStyle:
+                                    MediaQuery.of(context).size.width < 400
+                                        ? TextStyles.accountAmount
+                                            .copyWith(fontSize: 22)
+                                        : TextStyles.accountAmount,
+                                labelStyle: TextStyles.accountAmountLabel,
+                                currencyName: 'QUBIC',
+                              )),
+                          secondChild: Text("******",
+                              style: MediaQuery.of(context).size.width < 400
                                   ? TextStyles.accountAmount
                                       .copyWith(fontSize: 22)
-                                  : TextStyles.accountAmount,
-                              labelStyle: TextStyles.accountAmountLabel,
-                              currencyName: 'QUBIC',
-                            )),
-                        Container(
-                            width: double.infinity,
-                            alignment: Alignment.centerRight,
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: getAssets(context))),
-                        // CopyableText(
-                        //     copiedText: item.publicId,
-                        //     child: Container(
-                        //         decoration: BoxDecoration(
-                        //             color: LightThemeColors.color1,
-                        //             borderRadius: BorderRadius.circular(4)),
-                        //         child: FittedBox(
-                        //             child: Padding(
-                        //                 padding: const EdgeInsets.symmetric(
-                        //                     horizontal: 6, vertical: 12),
-                        //                 child: Text(item.publicId,
-                        //                     style:
-                        //                         TextStyles.accountPublicId))))),
+                                  : TextStyles.accountAmount),
+                          crossFadeState: totalBalanceVisible
+                              ? CrossFadeState.showFirst
+                              : CrossFadeState.showSecond,
+                        ),
+                        getAssets(context)
                       ])),
               getButtonBar(context),
             ])));

@@ -19,12 +19,16 @@ abstract class _SettingsStore with Store {
   @observable
   Settings settings = Settings();
 
+  @observable
+  bool totalBalanceVisible = true;
+
   @action
   Future<void> loadSettings() async {
     Settings newSettings;
     try {
       newSettings = await secureStorage.getWalletSettings();
       settings = Settings.clone(newSettings);
+      totalBalanceVisible = settings.totalBalanceVisible ?? true;
     } catch (e) {
       settings = Settings.clone(Settings());
     }
@@ -33,6 +37,7 @@ abstract class _SettingsStore with Store {
   @action
   Future<void> setTotalBalanceVisible(bool value) async {
     settings.totalBalanceVisible = value;
+    totalBalanceVisible = value;
     settings = Settings.clone(settings);
     await secureStorage.setWalletSettings(settings);
   }
