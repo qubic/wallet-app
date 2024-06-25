@@ -179,8 +179,9 @@ class _ReceiveState extends State<SignUp> {
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
             child: IconButton(
-              icon: Icon(
-                  obscuringTextPass ? Icons.visibility : Icons.visibility_off),
+              icon: obscuringTextPass
+                  ? Image.asset("assets/images/eye-open.png")
+                  : Image.asset("assets/images/eye-closed.png"),
               onPressed: () {
                 setState(() {
                   obscuringTextPass = !obscuringTextPass;
@@ -211,9 +212,9 @@ class _ReceiveState extends State<SignUp> {
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
             child: IconButton(
-              icon: Icon(obscuringTextPassRepeat
-                  ? Icons.visibility
-                  : Icons.visibility_off),
+              icon: obscuringTextPassRepeat
+                  ? Image.asset("assets/images/eye-open.png")
+                  : Image.asset("assets/images/eye-closed.png"),
               onPressed: () {
                 setState(() {
                   obscuringTextPassRepeat = !obscuringTextPassRepeat;

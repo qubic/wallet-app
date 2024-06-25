@@ -49,6 +49,15 @@ mixin _$SettingsStore on _SettingsStore, Store {
     return _$loadSettingsAsyncAction.run(() => super.loadSettings());
   }
 
+  late final _$setTotalBalanceVisibleAsyncAction =
+      AsyncAction('_SettingsStore.setTotalBalanceVisible', context: context);
+
+  @override
+  Future<void> setTotalBalanceVisible(bool value) {
+    return _$setTotalBalanceVisibleAsyncAction
+        .run(() => super.setTotalBalanceVisible(value));
+  }
+
   late final _$setBiometricsAsyncAction =
       AsyncAction('_SettingsStore.setBiometrics', context: context);
 

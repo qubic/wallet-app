@@ -424,8 +424,9 @@ class _SignInState extends State<SignIn>
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
             child: IconButton(
-              icon:
-                  Icon(obscuringText ? Icons.visibility : Icons.visibility_off),
+              icon: obscuringText
+                  ? Image.asset("assets/images/eye-open.png")
+                  : Image.asset("assets/images/eye-closed.png"),
               onPressed: () {
                 setState(() {
                   obscuringText = !obscuringText;

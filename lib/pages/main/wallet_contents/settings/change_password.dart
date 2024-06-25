@@ -91,9 +91,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 padding: EdgeInsets.only(
                                     right: ThemePaddings.smallPadding),
                                 child: IconButton(
-                                  icon: Icon(showingPassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
+                                  icon: showingPassword
+                                      ? Image.asset(
+                                          "assets/images/eye-closed.png")
+                                      : Image.asset(
+                                          "assets/images/eye-open.png"),
                                   onPressed: () {
                                     setState(() =>
                                         showingPassword = !showingPassword);
@@ -127,16 +129,18 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 padding: EdgeInsets.only(
                                     right: ThemePaddings.smallPadding),
                                 child: IconButton(
-                                  icon: Icon(showingRepeatPassword
-                                      ? Icons.visibility
-                                      : Icons.visibility_off),
+                                  icon: showingRepeatPassword
+                                      ? Image.asset(
+                                          "assets/images/eye-closed.png")
+                                      : Image.asset(
+                                          "assets/images/eye-open.png"),
                                   onPressed: () {
                                     setState(() => showingRepeatPassword =
                                         !showingRepeatPassword);
                                   },
                                 )),
                           ),
-                          obscureText: !showingPassword,
+                          obscureText: !showingRepeatPassword,
                           autocorrect: false,
                           autofillHints: null,
                         ),

@@ -31,6 +31,13 @@ abstract class _SettingsStore with Store {
   }
 
   @action
+  Future<void> setTotalBalanceVisible(bool value) async {
+    settings.totalBalanceVisible = value;
+    settings = Settings.clone(settings);
+    await secureStorage.setWalletSettings(settings);
+  }
+
+  @action
   Future<void> setBiometrics(bool value) async {
     settings.biometricEnabled = value;
     settings = Settings.clone(settings);

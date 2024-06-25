@@ -3,6 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 
 class TextStyles {
+  static TextStyle secondaryText = const TextStyle(
+    fontSize: ThemeFontSizes.normal,
+    fontWeight: FontWeight.w400,
+    color: LightThemeColors.textColorSecondary,
+  );
+
   static TextStyle pageTitle = const TextStyle(
     fontSize: ThemeFontSizes.pageTitle,
     fontWeight: FontWeight.bold,
@@ -16,7 +22,7 @@ class TextStyles {
   );
 
   static TextStyle menuActive = const TextStyle(
-    fontSize: ThemeFontSizes.tiny,
+    fontSize: ThemeFontSizes.small,
     fontWeight: FontWeight.w500,
   );
 
@@ -125,7 +131,7 @@ class TextStyles {
 
   static TextStyle sliverBig = const TextStyle(
       fontSize: ThemeFontSizes.enormous,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w700,
       color: LightThemeColors.onGradient);
 
   static TextStyle sliverCardPreLabel = const TextStyle(
@@ -134,9 +140,9 @@ class TextStyles {
       color: LightThemeColors.primary);
 
   static TextStyle sliverSmall = const TextStyle(
-      fontSize: ThemeFontSizes.normal,
+      fontSize: ThemeFontSizes.large,
       fontWeight: FontWeight.w500,
-      color: LightThemeColors.onGradient);
+      color: LightThemeColors.secondaryTypography);
 
   static TextStyle sliverCurrencyLabel = const TextStyle(
       fontSize: ThemeFontSizes.tiny,

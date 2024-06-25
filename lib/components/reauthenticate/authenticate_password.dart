@@ -247,9 +247,9 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                         padding: const EdgeInsets.only(
                             right: ThemePaddings.smallPadding),
                         child: IconButton(
-                          icon: Icon(obscuringTextPass
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                          icon: obscuringTextPass
+                              ? Image.asset("assets/images/eye-open.png")
+                              : Image.asset("assets/images/eye-closed.png"),
                           onPressed: () {
                             setState(() {
                               obscuringTextPass = !obscuringTextPass;

@@ -15,17 +15,22 @@ class AmountFormatted extends StatelessWidget {
   late final String? stringOverride;
   late final double labelOffset;
   late final double labelHorizOffset;
-  AmountFormatted({
-    super.key,
-    required this.amount,
-    required this.isInHeader,
-    required this.currencyName,
-    this.stringOverride,
-    this.labelOffset = -4,
-    this.labelHorizOffset = 0,
-    textStyle,
-    labelStyle,
-  }) {
+  late final bool hideLabel;
+  late final String? prefix;
+  late final String? suffix;
+  AmountFormatted(
+      {super.key,
+      required this.amount,
+      required this.isInHeader,
+      required this.currencyName,
+      this.stringOverride,
+      this.labelOffset = -4,
+      this.labelHorizOffset = 0,
+      textStyle,
+      labelStyle,
+      this.hideLabel = false,
+      this.prefix,
+      this.suffix}) {
     this.textStyle = textStyle ?? TextStyles.sliverBig;
     this.labelStyle = labelStyle ?? TextStyles.sliverCurrencyLabel;
   }
@@ -43,19 +48,23 @@ class AmountFormatted extends StatelessWidget {
           textBaseline: TextBaseline.ideographic,
           children: [
             Text(
-                stringOverride == null
-                    ? numberFormat.format(
-                        amount!,
-                      )
-                    : stringOverride!,
+                (prefix ?? "") +
+                    (stringOverride == null
+                        ? numberFormat.format(
+                            amount!,
+                          )
+                        : stringOverride!) +
+                    (suffix ?? ""),
                 style: textStyle),
             const SizedBox(width: 6, height: 6),
-            Transform.translate(
-                offset: Offset(labelHorizOffset, labelOffset),
-                child: CurrencyLabel(
-                    currencyName: currencyName,
-                    isInHeader: isInHeader,
-                    style: labelStyle))
+            hideLabel
+                ? Container()
+                : Transform.translate(
+                    offset: Offset(labelHorizOffset, labelOffset),
+                    child: CurrencyLabel(
+                        currencyName: currencyName,
+                        isInHeader: isInHeader,
+                        style: labelStyle))
           ]);
     } else {
       return Row(
@@ -64,19 +73,23 @@ class AmountFormatted extends StatelessWidget {
           textBaseline: TextBaseline.ideographic,
           children: [
             Text(
-                stringOverride == null
-                    ? numberFormat.format(
-                        amount!,
-                      )
-                    : stringOverride!,
+                (prefix ?? "") +
+                    (stringOverride == null
+                        ? numberFormat.format(
+                            amount!,
+                          )
+                        : stringOverride!) +
+                    (suffix ?? ""),
                 style: textStyle),
             const SizedBox(width: 6, height: 6),
-            Transform.translate(
-                offset: Offset(labelHorizOffset, labelOffset),
-                child: CurrencyLabel(
-                    currencyName: currencyName,
-                    isInHeader: isInHeader,
-                    style: labelStyle))
+            hideLabel
+                ? Container()
+                : Transform.translate(
+                    offset: Offset(labelHorizOffset, labelOffset),
+                    child: CurrencyLabel(
+                        currencyName: currencyName,
+                        isInHeader: isInHeader,
+                        style: labelStyle))
           ]);
     }
 

@@ -38,10 +38,10 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final TimedController _timedController = getIt<TimedController>();
 
   final double sliverCollapsed = 80;
-  final double sliverExpanded = 203;
+  final double sliverExpanded = 185;
 
   double _sliverShowPercent = 1;
-
+  final bool showTickOnTop = false;
   ScrollController _scrollController = ScrollController();
   String? signInError;
   // int? currentTick;
@@ -223,8 +223,10 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                     0,
                                     ThemePaddings.normalPadding),
                                 child: Center(
-                                    child: TickIndicatorStyled(
-                                        textStyle: TextStyles.whiteTickText))),
+                                    child: showTickOnTop
+                                        ? TickIndicatorStyled(
+                                            textStyle: TextStyles.whiteTickText)
+                                        : Container())),
                             Transform.translate(
                                 offset:
                                     Offset(0, -10 * (1 - _sliverShowPercent)),

@@ -190,7 +190,7 @@ class _MainScreenState extends State<MainScreen> {
     return SafeArea(
       child: PersistentTabView(
         controller: _controller,
-        navBarHeight: 56,
+        navBarHeight: 60,
         navBarBuilder: (navBarConfig) => Style1BottomNavBar(
             navBarConfig: navBarConfig,
             navBarDecoration: const NavBarDecoration(
