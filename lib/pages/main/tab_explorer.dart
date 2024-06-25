@@ -116,7 +116,8 @@ class _TabExplorerState extends State<TabExplorer> {
             Icons.account_tree,
             size: 100,
           )),
-          const Text("Loading explorer data for this epoch"),
+          Text("Loading explorer data for this epoch",
+              style: TextStyles.secondaryText),
           ThemedControls.spacerVerticalBig(),
           Observer(builder: (context) {
             if (explorerStore.pendingRequests > 0) {

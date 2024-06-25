@@ -20,7 +20,7 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextStyle panelHeaderStyle = TextStyles.secondaryTextSmall;
+    TextStyle panelHeaderStyle = TextStyles.secondaryText;
     TextStyle panelHeaderValue = TextStyles.textNormal;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [

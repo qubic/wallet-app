@@ -57,7 +57,7 @@ Widget getEmptyTransactionsWidget(
     Text(
       message,
       textAlign: TextAlign.center,
-      style: TextStyles.transparentButtonText,
+      style: TextStyles.secondaryText,
     ),
     ThemedControls.spacerVerticalHuge(),
     if ((hasFiltered) && (numberOfFilters != null))

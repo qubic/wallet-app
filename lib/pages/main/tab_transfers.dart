@@ -199,17 +199,8 @@ class _TabTransfersState extends State<TabTransfers> {
                                               children: [
                                                 Text(
                                                     "Showing ${filteredResults.length} transaction${filteredResults.length > 1 ? "s" : ""}",
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodySmall!
-                                                        .copyWith(
-                                                            color: Theme.of(
-                                                                    context)
-                                                                .colorScheme
-                                                                .secondary,
-                                                            fontFamily:
-                                                                ThemeFonts
-                                                                    .secondary)),
+                                                    style: TextStyles
+                                                        .secondaryText),
                                                 appStore.transactionFilter ==
                                                             null ||
                                                         appStore.transactionFilter!

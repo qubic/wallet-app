@@ -285,6 +285,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                             20.0), // Set the padding value
                                         child: Text(
                                             "You don't have any Qubic Accounts in your wallet yet",
+                                            style:
+                                                TextStyles.secondaryTextNormal,
                                             textAlign: TextAlign.center),
                                       ),
                                       ThemedControls.spacerVerticalBig(),
@@ -318,6 +320,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                       ThemedControls.spacerVerticalBig(),
                                       Text(
                                         "You don't have any Qubic Accounts in your wallet yet",
+                                        style: TextStyles.secondaryText,
                                         textAlign: TextAlign.center,
                                       ),
                                       ThemedControls.spacerVerticalBig(),

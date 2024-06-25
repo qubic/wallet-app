@@ -195,10 +195,10 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                        Text(errorText, style: TextStyles.labelText),
+                        Text(errorText, style: TextStyles.secondaryText),
                         ThemedControls.spacerVerticalNormal(),
                         Text(errorDescription ?? "",
-                            style: TextStyles.textNormal)
+                            style: TextStyles.secondaryText)
                       ]))
                 ]),
           ]),
@@ -215,7 +215,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(headerText: _title),
-              Text(_description, style: Theme.of(context).textTheme.bodyMedium),
+              Text(_description, style: TextStyles.secondaryText),
               canUseBiometrics == null
                   ? loadingIndicator()
                   : canUseBiometrics! == true

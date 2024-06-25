@@ -542,7 +542,7 @@ class _SendState extends State<Send> {
                           children: [
                             Text(
                                 "Balance in ID: ${formatter.format(widget.item.amount)} QUBIC",
-                                style: Theme.of(context).textTheme.bodySmall!),
+                                style: TextStyles.secondaryText),
                           ]),
                       const SizedBox(height: ThemePaddings.bigPadding),
                       ClipRRect(

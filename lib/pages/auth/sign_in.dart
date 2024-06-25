@@ -325,7 +325,7 @@ class _SignInState extends State<SignIn>
                 return Padding(
                     padding: const EdgeInsets.all(ThemePaddings.normalPadding),
                     child: SizedBox(
-                        height: 22,
+                        height: 23,
                         width: 20,
                         child: CircularProgressIndicator(
                             strokeWidth: 2,

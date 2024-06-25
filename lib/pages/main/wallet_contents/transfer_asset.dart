@@ -497,7 +497,7 @@ class _TransferAssetState extends State<TransferAsset> {
         children: [
           Text(
               "${widget.asset.assetName}${QubicAssetDto.isSmartContractShare(widget.asset) ? " shares" : " Tokens"} owned by ID: ${formatter.format(widget.asset.ownedAmount)}",
-              style: Theme.of(context).textTheme.bodySmall!),
+              style: TextStyles.secondaryText),
         ]);
   }
 
@@ -507,7 +507,7 @@ class _TransferAssetState extends State<TransferAsset> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text("Balance in ID: ${formatter.format(widget.item.amount)} QUBIC",
-              style: Theme.of(context).textTheme.bodySmall!)
+              style: TextStyles.secondaryText)
         ]);
   }
 

@@ -161,18 +161,17 @@ class TransactionItem extends StatelessWidget {
             Expanded(
                 child: Text("$prepend wallet account \"${source.name}\"",
                     textAlign: TextAlign.start,
-                    style: TextStyles.lightGreyTextSmallBold)),
+                    style: TextStyles.secondaryText)),
           ]);
         }
         return Row(children: [
           Text("$prepend address ",
-              textAlign: TextAlign.start,
-              style: TextStyles.lightGreyTextSmallBold)
+              textAlign: TextAlign.start, style: TextStyles.secondaryText)
         ]);
       }),
 
       TextWithMidEllipsis(id,
-          style: TextStyles.textSmall, textAlign: TextAlign.start),
+          style: TextStyles.textNormal, textAlign: TextAlign.start),
 
       // FittedBox(
       //     child: Text(id,
@@ -230,9 +229,9 @@ class TransactionItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TransactionDirectionItem(item: item),
-                  Text("Tick: ${item.targetTick.asThousands()}",
+                  Text("Tick ${item.targetTick.asThousands()}",
                       textAlign: TextAlign.end,
-                      style: TextStyles.assetSecondaryTextLabel),
+                      style: TextStyles.secondaryText),
                 ]),
             ThemedControls.spacerVerticalNormal(),
 //            isScreenWide

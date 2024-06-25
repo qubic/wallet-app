@@ -73,14 +73,14 @@ class _RevealSeedWarningSheetState extends State<RevealSeedWarningSheet> {
   List<Widget> getButtons() {
     return [
       Expanded(
-          child: ThemedControls.transparentButtonBig(
+          child: ThemedControls.transparentButtonBigPadded(
               onPressed: widget.onReject, text: "Cancel")),
       ThemedControls.spacerHorizontalSmall(),
       Expanded(
           child: hasAccepted
-              ? ThemedControls.primaryButtonBig(
+              ? ThemedControls.primaryButtonBigPadded(
                   onPressed: transferNowHandler, text: "Proceed")
-              : ThemedControls.primaryButtonBigDisabled(text: "Proceed")),
+              : ThemedControls.primaryButtonBigDisabledPadded(text: "Proceed")),
     ];
   }
 
@@ -99,42 +99,32 @@ class _RevealSeedWarningSheetState extends State<RevealSeedWarningSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: ThemeEdgeInsets.bottomSheetInsets,
-        child: SingleChildScrollView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            child: Column(children: [
-              getText(),
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ThemedControls.spacerVerticalNormal(),
-                    const Divider(),
-                    ThemedControls.spacerVerticalNormal(),
-                    Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          ListTile(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 0.0),
-                            leading: Checkbox(
-                              value: hasAccepted,
-                              onChanged: _toggleCheckbox,
-                            ),
-                            title: const Text("I understand the above"),
-                            onTap: () {
-                              _toggleCheckbox(!hasAccepted);
-                            },
-                          ),
-                        ]),
-                    const SizedBox(height: ThemePaddings.normalPadding),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: getButtons())
-                  ])
-            ])));
+    return Container(
+        width: double.infinity,
+        child: Padding(
+            padding: ThemeEdgeInsets.bottomSheetInsets,
+            child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(children: [
+                  getText(),
+                  ThemedControls.spacerVerticalNormal(),
+                  const Divider(),
+                  ListTile(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                    leading: Checkbox(
+                      value: hasAccepted,
+                      onChanged: _toggleCheckbox,
+                    ),
+                    title: const Text("I understand the above"),
+                    onTap: () {
+                      _toggleCheckbox(!hasAccepted);
+                    },
+                  ),
+                  ThemedControls.spacerVerticalNormal(),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: getButtons())
+                ]))));
   }
 }

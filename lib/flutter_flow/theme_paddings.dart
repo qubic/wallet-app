@@ -41,7 +41,7 @@ class LightThemeColors {
   static const color3 = Color(0xFF5E5E5E);
   static const color4 = Color(0xFF787878);
   static const color5 = Color(0xFF919191);
-  static const color6 = Color(0xFFABABAB);
+  static const color6 = Color(0xFF808B9B);
   static const color7 = Color(0xFFCCCCCC);
   static const color8 = Color(0xFFE6E6E6);
   static const color9 = Color(0xFFD1D1D1);

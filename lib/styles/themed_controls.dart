@@ -177,22 +177,25 @@ class ThemedControls {
       {required void Function()? onPressed,
       String? label,
       Widget? icon,
+      EdgeInsets? padding,
       required TextStyle textStyle,
       required ButtonStyle buttonStyle}) {
     assert(icon != null || label != null);
     return TextButton(
       style: buttonStyle,
       onPressed: onPressed,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          icon ?? Container(),
-          icon != null && label != null
-              ? const SizedBox(width: ThemePaddings.smallPadding)
-              : Container(),
-          label != null ? Text(label, style: textStyle) : Container(),
-        ],
-      ),
+      child: Padding(
+          padding: padding ?? const EdgeInsets.all(0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              icon ?? Container(),
+              icon != null && label != null
+                  ? const SizedBox(width: ThemePaddings.smallPadding)
+                  : Container(),
+              label != null ? Text(label, style: textStyle) : Container(),
+            ],
+          )),
     );
   }
 
@@ -220,6 +223,19 @@ class ThemedControls {
         buttonStyle: ButtonStyles.textButtonBig);
   }
 
+  static Widget primaryButtonBigPadded(
+      {required void Function()? onPressed,
+      required String text,
+      Widget? icon}) {
+    return themedButton(
+        onPressed: onPressed,
+        label: text,
+        icon: icon,
+        textStyle: TextStyles.primaryButtonText,
+        buttonStyle: ButtonStyles.primaryButtonBig,
+        padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3));
+  }
+
   /// A primary button with bigger text
   static Widget primaryButtonBig(
       {required void Function()? onPressed,
@@ -240,6 +256,17 @@ class ThemedControls {
         icon: icon,
         textStyle: TextStyles.primaryButtonText,
         buttonStyle: ButtonStyles.primaryButtonBigDisabled);
+  }
+
+  static Widget primaryButtonBigDisabledPadded(
+      {required String text, Widget? icon}) {
+    return themedButton(
+        onPressed: () {},
+        label: text,
+        icon: icon,
+        textStyle: TextStyles.primaryButtonText,
+        buttonStyle: ButtonStyles.primaryButtonBigDisabled,
+        padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3));
   }
 
   static Widget primaryButtonSmall(
@@ -278,6 +305,19 @@ class ThemedControls {
         icon: icon,
         textStyle: TextStyles.transparentButtonText,
         buttonStyle: ButtonStyles.textButtonBig);
+  }
+
+  static Widget transparentButtonBigPadded(
+      {required void Function()? onPressed,
+      required String text,
+      Widget? icon}) {
+    return themedButton(
+        onPressed: onPressed,
+        label: text,
+        icon: icon,
+        textStyle: TextStyles.transparentButtonText,
+        buttonStyle: ButtonStyles.textButtonBig,
+        padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3));
   }
 
   //A primary button with normal text

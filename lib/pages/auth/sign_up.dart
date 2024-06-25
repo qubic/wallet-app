@@ -248,7 +248,7 @@ class _ReceiveState extends State<SignUp> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ThemedControls.pageHeader(headerText: title, subheaderText: ""),
-        Text(subheader, style: TextStyles.textNormal),
+        Text(subheader, style: TextStyles.secondaryText),
         ThemedControls.spacerVerticalNormal(),
         biometricsControls()
       ],
@@ -264,7 +264,7 @@ class _ReceiveState extends State<SignUp> {
         ThemedControls.pageHeader(
             headerText: "Create new wallet", subheaderText: ""),
         Text("Fill in a password that will be used to unlock your new wallet",
-            style: TextStyles.textNormal),
+            style: TextStyles.secondaryText),
         FormBuilder(key: _formKey, child: Column(children: getSignUpForm()))
       ],
     )));

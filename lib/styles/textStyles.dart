@@ -163,7 +163,7 @@ class TextStyles {
   static TextStyle alertText = const TextStyle(
     fontSize: ThemeFontSizes.normal,
     fontWeight: FontWeight.w400,
-    color: LightThemeColors.textLightGrey,
+    color: LightThemeColors.secondaryTypography,
   );
 
   //Account cards
@@ -189,10 +189,7 @@ class TextStyles {
   );
 
   //Asset cards
-  static TextStyle assetSecondaryTextLabel = const TextStyle(
-      fontSize: ThemeFontSizes.small,
-      fontWeight: FontWeight.w400,
-      color: LightThemeColors.secondaryTypography);
+  static TextStyle assetSecondaryTextLabel = secondaryText;
   static TextStyle assetSecondaryTextLabelValue = const TextStyle(
       fontSize: ThemeFontSizes.normal,
       fontWeight: FontWeight.w400,
