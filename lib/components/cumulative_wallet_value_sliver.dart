@@ -108,9 +108,14 @@ class _CumulativeWalletValueSliverState
             if (appStore.totalAmountsInUSD == -1) {
               return Container();
             }
-            return getTotalQubics(context)
-                .animate(target: showingTotalBalance ? 0 : 1)
-                .fadeOut();
+            return AnimatedCrossFade(
+              firstChild: getTotalQubics(context),
+              secondChild: Text("*********", style: TextStyles.sliverBig),
+              crossFadeState: showingTotalBalance
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              duration: 300.ms,
+            );
           }),
           Observer(builder: (context) {
             if (appStore.totalAmountsInUSD == -1) {
@@ -121,34 +126,34 @@ class _CumulativeWalletValueSliverState
                 duration: const Duration(milliseconds: 300),
                 child: getTotalUSD());
           }),
-          SizedBox(
-                  height: MediaQuery.of(context).size.width < 400 ? 15 : 20,
-                  width: MediaQuery.of(context).size.width < 400 ? 200 : 240,
-                  child: Container(
-                      color: Color.fromARGB(145, 255, 255, 255),
-                      alignment: Alignment.center))
-              .animate(target: showingTotalBalance ? 0 : 1)
-              .scaleX(
-                  duration: const Duration(milliseconds: 300),
-                  begin: 0,
-                  end: 1,
-                  curve: Curves.easeInOut)
-              .scaleY(
-                  duration: const Duration(milliseconds: 300),
-                  begin: 0,
-                  end: 1,
-                  curve: Curves.easeInOut)
-              .moveY(
-                  duration: const Duration(milliseconds: 300),
-                  begin: MediaQuery.of(context).size.width < 400 ? -45 : -55,
-                  end: MediaQuery.of(context).size.width < 400 ? -45 : -55,
-                  curve: Curves.easeInOut)
-              .fadeIn(duration: const Duration(milliseconds: 200))
-              .blurXY(
-                  duration: const Duration(milliseconds: 300),
-                  begin: 7,
-                  end: 10,
-                  curve: Curves.easeInOut),
+          // SizedBox(
+          //         height: MediaQuery.of(context).size.width < 400 ? 15 : 20,
+          //         width: MediaQuery.of(context).size.width < 400 ? 200 : 240,
+          //         child: Container(
+          //             color: Color.fromARGB(145, 255, 255, 255),
+          //             alignment: Alignment.center))
+          //     .animate(target: showingTotalBalance ? 0 : 1)
+          //     .scaleX(
+          //         duration: const Duration(milliseconds: 300),
+          //         begin: 0,
+          //         end: 1,
+          //         curve: Curves.easeInOut)
+          //     .scaleY(
+          //         duration: const Duration(milliseconds: 300),
+          //         begin: 0,
+          //         end: 1,
+          //         curve: Curves.easeInOut)
+          //     .moveY(
+          //         duration: const Duration(milliseconds: 300),
+          //         begin: MediaQuery.of(context).size.width < 400 ? -45 : -55,
+          //         end: MediaQuery.of(context).size.width < 400 ? -45 : -55,
+          //         curve: Curves.easeInOut)
+          //     .fadeIn(duration: const Duration(milliseconds: 200))
+          //     .blurXY(
+          //         duration: const Duration(milliseconds: 300),
+          //         begin: 7,
+          //         end: 10,
+          //         curve: Curves.easeInOut),
         ]);
   }
 }

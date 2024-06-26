@@ -136,7 +136,9 @@ class _MainScreenState extends State<MainScreen> {
   List<PersistentTabConfig> _tabs() {
     return [
       PersistentTabConfig(
-          screen: const TabWalletContents(),
+          screen: Container(
+              color: LightThemeColors.background,
+              child: SafeArea(child: TabWalletContents())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,
@@ -148,7 +150,9 @@ class _MainScreenState extends State<MainScreen> {
             inactiveForegroundColor: LightThemeColors.menuInactive,
           )),
       PersistentTabConfig(
-          screen: const TabTransfers(),
+          screen: Container(
+              color: LightThemeColors.background,
+              child: SafeArea(child: TabTransfers())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,
@@ -160,7 +164,9 @@ class _MainScreenState extends State<MainScreen> {
             inactiveForegroundColor: LightThemeColors.menuInactive,
           )),
       PersistentTabConfig(
-          screen: const TabExplorer(),
+          screen: Container(
+              color: LightThemeColors.background,
+              child: SafeArea(child: TabExplorer())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,
@@ -172,7 +178,9 @@ class _MainScreenState extends State<MainScreen> {
             inactiveForegroundColor: LightThemeColors.menuInactive,
           )),
       PersistentTabConfig(
-          screen: const TabSettings(),
+          screen: Container(
+              color: LightThemeColors.background,
+              child: SafeArea(child: TabSettings())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,
@@ -187,29 +195,27 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget getMain() {
-    return SafeArea(
-      child: PersistentTabView(
-        controller: _controller,
-        navBarHeight: 60,
-        navBarBuilder: (navBarConfig) => Style1BottomNavBar(
-            navBarConfig: navBarConfig,
-            navBarDecoration: const NavBarDecoration(
-                border: Border(
-                  top: BorderSide(width: 1, color: LightThemeColors.navBorder),
-                ),
-                color: LightThemeColors.navBg)),
+    return PersistentTabView(
+      controller: _controller,
+      navBarHeight: 60,
+      navBarBuilder: (navBarConfig) => Style1BottomNavBar(
+          navBarConfig: navBarConfig,
+          navBarDecoration: const NavBarDecoration(
+              border: Border(
+                top: BorderSide(width: 1, color: LightThemeColors.navBorder),
+              ),
+              color: LightThemeColors.navBg)),
 
-        tabs: _tabs(),
+      tabs: _tabs(),
 
-        backgroundColor: LightThemeColors.navBg,
+      backgroundColor: LightThemeColors.navBg,
 
-        // Default is Colors.white.
-        handleAndroidBackButtonPress: true, // Default is true.
-        navBarOverlap: const NavBarOverlap.none(),
-        resizeToAvoidBottomInset:
-            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-        stateManagement: true, // Default is true.
-      ),
+      // Default is Colors.white.
+      handleAndroidBackButtonPress: true, // Default is true.
+      navBarOverlap: const NavBarOverlap.none(),
+      resizeToAvoidBottomInset:
+          true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+      stateManagement: true, // Default is true.
     );
     // return SafeArea(
     //     child: Column(children: [

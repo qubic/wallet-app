@@ -465,21 +465,24 @@ class _SignInState extends State<SignIn>
                         showModalBottomSheet<void>(
                             context: context,
                             isScrollControlled: true,
+                            useSafeArea: true,
                             useRootNavigator: true,
                             backgroundColor: LightThemeColors.background,
                             builder: (BuildContext context) {
-                              return EraseWalletSheet(onAccept: () async {
-                                await secureStorage.deleteWallet();
-                                await settingsStore.loadSettings();
-                                appStore.checkWalletIsInitialized();
-                                appStore.signOut();
-                                timedController.stopFetchTimer();
-                                Navigator.pop(context);
-                                _globalSnackbar
-                                    .show("Wallet data erased from device");
-                              }, onReject: () async {
-                                Navigator.pop(context);
-                              });
+                              return SafeArea(
+                                child: EraseWalletSheet(onAccept: () async {
+                                  await secureStorage.deleteWallet();
+                                  await settingsStore.loadSettings();
+                                  appStore.checkWalletIsInitialized();
+                                  appStore.signOut();
+                                  timedController.stopFetchTimer();
+                                  Navigator.pop(context);
+                                  _globalSnackbar
+                                      .show("Wallet data erased from device");
+                                }, onReject: () async {
+                                  Navigator.pop(context);
+                                }),
+                              );
                             });
                       }
 

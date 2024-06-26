@@ -187,9 +187,10 @@ class TransactionItem extends StatelessWidget {
         useRootNavigator: true,
         showDragHandle: false,
         useSafeArea: true,
+        isScrollControlled: true,
         context: context,
         builder: (BuildContext context) {
-          return TransactionDetails(item: item);
+          return SafeArea(child: TransactionDetails(item: item));
         });
   }
 
@@ -234,17 +235,6 @@ class TransactionItem extends StatelessWidget {
                       style: TextStyles.secondaryText),
                 ]),
             ThemedControls.spacerVerticalNormal(),
-//            isScreenWide
-            // ? Flex(
-            //     direction: Axis.horizontal,
-            //     crossAxisAlignment: CrossAxisAlignment.center,
-            //     children: [
-            //         Expanded(
-            //             child: getFromTo(context, "From", item.sourceId)),
-            //         Image.asset("assets/images/arrow-color-16.png"),
-            //         Expanded(child: getFromTo(context, "To", item.destId))
-            //       ])
-            //:
             Column(children: [
               Flex(direction: Axis.horizontal, children: [
                 Expanded(child: getFromTo(context, "From", item.sourceId)),

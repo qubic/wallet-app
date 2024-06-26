@@ -248,29 +248,31 @@ class _AccountListItemState extends State<AccountListItem> {
                 showModalBottomSheet<void>(
                     context: context,
                     isScrollControlled: true,
+                    useSafeArea: true,
                     useRootNavigator: true,
                     backgroundColor: LightThemeColors.background,
                     builder: (BuildContext context) {
-                      return RevealSeedWarningSheet(
-                          item: widget.item,
-                          onAccept: () async {
-                            if (await reAuthDialog(context) == false) {
-                              Navigator.pop(context);
-                              return;
-                            }
-                            Navigator.pop(context);
-                            pushScreen(
-                              context,
-                              screen: RevealSeed(item: widget.item),
-                              withNavBar:
-                                  false, // OPTIONAL VALUE. True by default.
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino,
-                            );
-                          },
-                          onReject: () async {
-                            Navigator.pop(context);
-                          });
+                      return SafeArea(
+                          child: RevealSeedWarningSheet(
+                              item: widget.item,
+                              onAccept: () async {
+                                if (await reAuthDialog(context) == false) {
+                                  Navigator.pop(context);
+                                  return;
+                                }
+                                Navigator.pop(context);
+                                pushScreen(
+                                  context,
+                                  screen: RevealSeed(item: widget.item),
+                                  withNavBar:
+                                      false, // OPTIONAL VALUE. True by default.
+                                  pageTransitionAnimation:
+                                      PageTransitionAnimation.cupertino,
+                                );
+                              },
+                              onReject: () async {
+                                Navigator.pop(context);
+                              }));
                     });
               }
             },
@@ -397,7 +399,7 @@ class _AccountListItemState extends State<AccountListItem> {
             alignment: Alignment.centerRight,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end, children: shares)),
-        secondChild: Text("*******"),
+        secondChild: shares.isNotEmpty ? Text("*******") : Container(),
         crossFadeState: totalBalanceVisible
             ? CrossFadeState.showFirst
             : CrossFadeState.showSecond,

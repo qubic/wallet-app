@@ -314,9 +314,11 @@ class _ReceiveState extends State<SignUp> {
         context: context,
         isScrollControlled: true,
         useRootNavigator: true,
+        useSafeArea: true,
         backgroundColor: LightThemeColors.background,
         builder: (BuildContext context) {
-          return CreatePasswordSheet(onAccept: () async {
+          return SafeArea(
+              child: CreatePasswordSheet(onAccept: () async {
             if (totalSteps == 2) {
               Navigator.pop(context);
               setState(() {
@@ -336,7 +338,7 @@ class _ReceiveState extends State<SignUp> {
               signUpError = null;
             });
             Navigator.pop(context);
-          });
+          }));
         });
   }
 

@@ -88,14 +88,15 @@ class TransactionDetails extends StatelessWidget {
           if (source != null) {
             return Container(
                 width: double.infinity,
-                child: Text("$prepend wallet ID \"${source.name}\":",
+                child: Text("$prepend wallet ID \"${source.name}\"",
                     textAlign: TextAlign.start,
                     style: TextStyles.lightGreyTextSmallBold));
           }
           return Container(
               width: double.infinity,
-              child: Text("$prepend address: ",
-                  textAlign: TextAlign.start, style: TextStyles.textNormal));
+              child: Text("$prepend address",
+                  textAlign: TextAlign.start,
+                  style: TextStyles.lightGreyTextSmallBold));
         }),
         Text(id,
             style: Theme.of(context)
@@ -128,7 +129,10 @@ class TransactionDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
+        constraints: BoxConstraints(
+            minWidth: 400,
+            maxWidth: 500,
+            maxHeight: MediaQuery.of(context).size.height * 0.8),
         child: Card(
             child: Padding(
                 padding: const EdgeInsets.fromLTRB(
@@ -173,38 +177,43 @@ class TransactionDetails extends StatelessWidget {
                           ]),
                       ThemedControls.spacerVerticalNormal(),
                       Expanded(
-                          child: SingleChildScrollView(
-                              child: Column(children: [
-                        getCopyableDetails(context, "Transaction ID", item.id),
-                        ThemedControls.spacerVerticalSmall(),
-                        getFromTo(context, "From ", item.sourceId),
-                        ThemedControls.spacerVerticalSmall(),
-                        getFromTo(context, "To ", item.destId),
-                        ThemedControls.spacerVerticalSmall(),
-                        getCopyableDetails(context, "Lead to money flow",
-                            item.moneyFlow ? "Yes" : "No"),
-                        ThemedControls.spacerVerticalSmall(),
-                        getCopyableDetails(
-                            context,
-                            "Created date",
-                            item.broadcasted != null
-                                ? formatter.format(item.created!.toLocal())
-                                : "Unknown"),
-                        ThemedControls.spacerVerticalSmall(),
-                        getCopyableDetails(
-                            context,
-                            "Broadcasted date",
-                            item.broadcasted != null
-                                ? formatter.format(item.broadcasted!.toLocal())
-                                : "Unknown"),
-                        ThemedControls.spacerVerticalSmall(),
-                        getCopyableDetails(
-                            context,
-                            "Confirmed date",
-                            item.confirmed != null
-                                ? formatter.format(item.confirmed!.toLocal())
-                                : "N/A")
-                      ]))),
+                          child: Scrollbar(
+                        thumbVisibility: true,
+                        child: SingleChildScrollView(
+                            child: Column(children: [
+                          getCopyableDetails(
+                              context, "Transaction ID", item.id),
+                          ThemedControls.spacerVerticalSmall(),
+                          getFromTo(context, "From", item.sourceId),
+                          ThemedControls.spacerVerticalSmall(),
+                          getFromTo(context, "To", item.destId),
+                          ThemedControls.spacerVerticalSmall(),
+                          getCopyableDetails(context, "Lead to money flow",
+                              item.moneyFlow ? "Yes" : "No"),
+                          ThemedControls.spacerVerticalSmall(),
+                          getCopyableDetails(
+                              context,
+                              "Created date",
+                              item.broadcasted != null
+                                  ? formatter.format(item.created!.toLocal())
+                                  : "Unknown"),
+                          ThemedControls.spacerVerticalSmall(),
+                          getCopyableDetails(
+                              context,
+                              "Broadcasted date",
+                              item.broadcasted != null
+                                  ? formatter
+                                      .format(item.broadcasted!.toLocal())
+                                  : "Unknown"),
+                          ThemedControls.spacerVerticalSmall(),
+                          getCopyableDetails(
+                              context,
+                              "Confirmed date",
+                              item.confirmed != null
+                                  ? formatter.format(item.confirmed!.toLocal())
+                                  : "N/A")
+                        ])),
+                      )),
                       getButtonBar(context),
                     ]))));
   }

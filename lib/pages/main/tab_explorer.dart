@@ -124,6 +124,9 @@ class _TabExplorerState extends State<TabExplorer> {
               return const CircularProgressIndicator();
             } else {
               return FilledButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          LightThemeColors.buttonBackground)),
                   onPressed: () async {
                     refreshOverview();
                   },

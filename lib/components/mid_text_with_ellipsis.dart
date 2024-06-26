@@ -18,8 +18,9 @@ class TextWithMidEllipsis extends StatelessWidget {
       builder: (context, constraint) {
         if (constraint.maxWidth <= _textSize(data, style).width &&
             data.length > 10) {
-          var endPart = data.trim().substring(data.length - 30);
+          var endPart = data.trim().substring(data.length - 10);
           return Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Flexible(
                 child: Text(

@@ -66,7 +66,7 @@ class TransactionResend extends StatelessWidget {
         useSafeArea: true,
         context: context,
         builder: (BuildContext context) {
-          return TransactionDetails(item: item);
+          return SafeArea(child: TransactionDetails(item: item));
         });
   }
 

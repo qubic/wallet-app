@@ -123,6 +123,7 @@ class _SendState extends State<Send> {
 
   void showQRScanner() {
     showModalBottomSheet<void>(
+        useSafeArea: true,
         context: context,
         builder: (BuildContext context) {
           return Stack(children: [
@@ -182,6 +183,7 @@ class _SendState extends State<Send> {
   void showPickerBottomSheet() {
     showModalBottomSheet<void>(
         context: context,
+        useSafeArea: true,
         isScrollControlled: true,
         builder: (BuildContext context) {
           return Container(

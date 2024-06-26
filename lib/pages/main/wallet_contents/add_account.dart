@@ -53,6 +53,7 @@ class _AddAccountState extends State<AddAccount> {
     detected = false;
     showModalBottomSheet<void>(
         context: context,
+        useSafeArea: true,
         builder: (BuildContext context) {
           bool foundSuccess = false;
           return Stack(children: [
@@ -413,13 +414,14 @@ class _AddAccountState extends State<AddAccount> {
         useSafeArea: true,
         backgroundColor: LightThemeColors.background,
         builder: (BuildContext context) {
-          return AddAccountWarningSheet(onAccept: () async {
+          return SafeArea(
+              child: AddAccountWarningSheet(onAccept: () async {
             Navigator.pop(context);
             await _saveId();
             getIt<TimedController>().interruptFetchTimer();
           }, onReject: () async {
             Navigator.pop(context);
-          });
+          }));
         });
 
     // showDialog(

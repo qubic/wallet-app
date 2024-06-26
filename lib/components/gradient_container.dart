@@ -23,8 +23,8 @@ class GradientContainer extends StatelessWidget {
             1,
           ],
           colors: [
-            Color.fromARGB(255, 12, 19, 27),
-            Color.fromARGB(255, 12, 19, 27)
+            LightThemeColors.background,
+            LightThemeColors.background
             //LightThemeColors.color1,
             //LightThemeColors.color1,
             //LightThemeColors.gradient1,
