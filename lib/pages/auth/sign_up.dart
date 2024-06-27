@@ -102,7 +102,7 @@ class _ReceiveState extends State<SignUp> {
       titleTextColor: Theme.of(context).colorScheme.onBackground,
     );
 
-    String enableText = "Biometric unlock";
+    String enableText = "Biometric Unlock";
     if (UniversalPlatform.isDesktop) {
       enableText = "OS unlock";
     }

@@ -187,16 +187,16 @@ class IdListItem extends StatelessWidget {
         itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
               const PopupMenuItem<CardItem>(
                 value: CardItem.viewTransactions,
-                child: Text('View transfers'),
+                child: Text('View Transfers'),
               ),
               PopupMenuItem<CardItem>(
                 value: CardItem.viewInExplorer,
-                child: Text('View in explorer'),
+                child: Text('View in Explorer'),
                 enabled: item.amount != null && item.amount! > 0,
               ),
               const PopupMenuItem<CardItem>(
                 value: CardItem.reveal,
-                child: Text('Reveal private seed'),
+                child: Text('Reveal private Seed'),
               ),
               const PopupMenuItem<CardItem>(
                 value: CardItem.rename,

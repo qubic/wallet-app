@@ -97,7 +97,7 @@ class _CumulativeWalletValueSliverState
                       settingsStore.setTotalBalanceVisible(showingTotalBalance);
                     },
                     child: Row(children: [
-                      Text("Total balance ", style: TextStyles.secondaryText),
+                      Text("Total Balance ", style: TextStyles.secondaryText),
                       ThemedControls.spacerHorizontalSmall(),
                       showingTotalBalance
                           ? Image.asset("assets/images/eye-closed.png")

@@ -123,13 +123,13 @@ class _TabSettingsState extends State<TabSettings> {
         lightTheme: theme,
         sections: [
           SettingsSection(
-            title: getSettingsHeader("Accounts and data", true),
+            title: getSettingsHeader("Accounts and Data", true),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 leading: ChangeForeground(
                     child: const Icon(Icons.lock),
                     color: LightThemeColors.gradient1),
-                title: Text('Lock wallet', style: TextStyles.textNormal),
+                title: Text('Lock Wallet', style: TextStyles.textNormal),
                 trailing: Container(),
                 onPressed: (BuildContext context) {
                   appStore.reportGlobalError("");
@@ -144,7 +144,7 @@ class _TabSettingsState extends State<TabSettings> {
                 leading: ChangeForeground(
                     child: const Icon(Icons.cleaning_services_outlined),
                     color: LightThemeColors.gradient1),
-                title: Text('Erase wallet data', style: TextStyles.textNormal),
+                title: Text('Erase Wallet Data', style: TextStyles.textNormal),
                 trailing: Container(),
                 onPressed: (BuildContext context) async {
                   //MODAL TO CHECK IF USER AGREES
@@ -183,7 +183,7 @@ class _TabSettingsState extends State<TabSettings> {
                       child: const Icon(Icons.password),
                       color: LightThemeColors.gradient1),
                   trailing: getTrailingArrow(),
-                  title: Text('Change password', style: TextStyles.textNormal),
+                  title: Text('Change Password', style: TextStyles.textNormal),
                   onPressed: (BuildContext? context) async {
                     pushScreen(
                       context!,
@@ -202,8 +202,8 @@ class _TabSettingsState extends State<TabSettings> {
                 trailing: getTrailingArrow(),
                 title: Text(
                     UniversalPlatform.isDesktop
-                        ? 'OS unlock'
-                        : 'Biometric unlock',
+                        ? 'OS Unlock'
+                        : 'Biometric Unlock',
                     style: TextStyles.textNormal),
                 value: Observer(builder: (context) {
                   return settingsStore.settings.biometricEnabled
@@ -245,7 +245,7 @@ class _TabSettingsState extends State<TabSettings> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Wallet info', style: TextStyles.textNormal),
+                        Text('Wallet Info', style: TextStyles.textNormal),
                         Observer(builder: (BuildContext context) {
                           if (qubicHubStore.versionInfo == null) {
                             return const Text("Loading...");

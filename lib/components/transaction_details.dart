@@ -65,11 +65,11 @@ class TransactionDetails extends StatelessWidget {
                               PageTransitionAnimation.cupertino,
                         );
                       },
-                      child: Text('View in explorer',
+                      child: Text('View in Explorer',
                           textAlign: TextAlign.center,
                           style: TextStyles.primaryButtonText))
                   : ThemedControls.primaryButtonBigDisabled(
-                      text: "View in explorer"),
+                      text: "View in Explorer"),
             ),
           ],
         ));
