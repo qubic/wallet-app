@@ -90,7 +90,7 @@ class _ReceiveState extends State<Receive> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Receive funds and assets",
+                  headerText: "Receive Funds and Assets",
                   subheaderText: "in \"${widget.item.name}\""),
               ThemedControls.card(
                   child: Column(

@@ -526,7 +526,7 @@ class _SignInState extends State<SignIn>
                         child: Padding(
                             padding: const EdgeInsets.all(
                                 ThemePaddings.normalPadding),
-                            child: Text("Create a new wallet",
+                            child: Text("Create a New Wallet",
                                 style: TextStyles.primaryButtonText)))),
               ])),
     );
