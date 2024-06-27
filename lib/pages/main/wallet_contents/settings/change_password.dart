@@ -58,7 +58,7 @@ class _ChangePasswordState extends State<ChangePassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                headerText: "Change password",
+                headerText: "Change Password",
               ),
               Text(
                   "Your password is used to access your wallet. Choose a strong password that you can remember. There is no way to reset your password if you forget it",

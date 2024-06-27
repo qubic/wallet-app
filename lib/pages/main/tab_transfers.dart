@@ -117,7 +117,7 @@ class _TabTransfersState extends State<TabTransfers> {
                                   ThemePaddings.normalPadding,
                                   ThemePaddings.miniPadding),
                               child: ThemedControls.pageHeader(
-                                  headerText: "Epoch transfers")),
+                                  headerText: "Epoch Transfers")),
                         )
                       ])),
                       Observer(builder: (context) {

@@ -236,7 +236,7 @@ class _TabExplorerState extends State<TabExplorer> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             ThemedControls.pageHeader(
-                headerText: "Epoch explorer",
+                headerText: "Epoch Explorer",
                 subheaderText: "Epoch " + getCurrentEpoch().toString(),
                 subheaderPill: true),
 
@@ -293,7 +293,7 @@ class _TabExplorerState extends State<TabExplorer> {
                             ? Row(children: [
                                 ThemedControls.pageHeader(
                                     headerText: "Tick Overview",
-                                    subheaderText: "Latest ticks"),
+                                    subheaderText: "Latest Ticks"),
                                 Expanded(child: Container()),
                                 getPagination()
                                 // Container(
@@ -309,7 +309,7 @@ class _TabExplorerState extends State<TabExplorer> {
                                 children: [
                                     ThemedControls.pageHeader(
                                         headerText: "Tick Overview",
-                                        subheaderText: "Latest ticks"),
+                                        subheaderText: "Latest Ticks"),
 
                                     getPagination()
                                     // Container(

@@ -180,7 +180,7 @@ class _AddAccountState extends State<AddAccount> {
                               var seed = getRandomSeed();
                               privateSeed.text = seed;
                             },
-                            text: "Create random",
+                            text: "Create Random",
                             icon: LightThemeColors.shouldInvertIcon
                                 ? ThemedControls.invertedColors(
                                     child: Image.asset(

@@ -84,7 +84,7 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                ThemedControls.pageHeader(headerText: "Explorer search"),
+                ThemedControls.pageHeader(headerText: "Explorer Search"),
                 ThemedControls.spacerVerticalBig(),
                 Text("Tick / TX ID / Public ID", style: TextStyles.labelText),
                 ThemedControls.spacerVerticalSmall(),
