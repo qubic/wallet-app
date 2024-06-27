@@ -43,7 +43,7 @@ class TransactionDetails extends StatelessWidget {
                       await Clipboard.setData(
                           ClipboardData(text: item.toReadableString()));
                     },
-                    child: Text('Copy to clipboard',
+                    child: Text('Copy to Clipboard',
                         textAlign: TextAlign.center,
                         style: TextStyles.transparentButtonText))),
             ThemedControls.spacerHorizontalNormal(),
@@ -149,7 +149,7 @@ class TransactionDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ThemedControls.pageHeader(
-                            headerText: "Transfer details",
+                            headerText: "Transfer Details",
                           ),
                           ThemedControls.spacerVerticalNormal(),
                           TransactionStatusItem(item: item),

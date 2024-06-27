@@ -165,7 +165,7 @@ class _AccountListItemState extends State<AccountListItem> {
         text: "Cancel");
 
     Widget continueButton = ThemedControls.primaryButtonNormal(
-      text: "Yes",
+      text: "Delete Account",
       onPressed: () async {
         await appStore.removeID(widget.item.publicId);
         Navigator.pop(dialogContext);
