@@ -116,10 +116,10 @@ class _AddAccountState extends State<AddAccount> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: "Add new account"),
+              ThemedControls.pageHeader(headerText: "Add New Account"),
               ThemedControls.spacerVerticalSmall(),
               Row(children: [
-                Text("Account name", style: TextStyles.labelTextNormal),
+                Text("Account Name", style: TextStyles.labelTextNormal),
                 ThemedControls.spacerHorizontalSmall(),
                 Tooltip(
                     triggerMode: TooltipTriggerMode.tap,
@@ -156,7 +156,7 @@ class _AddAccountState extends State<AddAccount> {
                       ),
                       ThemedControls.spacerVerticalNormal(),
                       Row(children: [
-                        Text("Private seed", style: TextStyles.labelTextNormal),
+                        Text("Private Seed", style: TextStyles.labelTextNormal),
                         ThemedControls.spacerHorizontalSmall(),
                         Tooltip(
                             triggerMode: TooltipTriggerMode.tap,
@@ -300,7 +300,7 @@ class _AddAccountState extends State<AddAccount> {
                       Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                              "Please backup your private seed in a safe safe place. Keep it secret and do not ever share it with anyone. Access to your private seed means access to your funds.",
+                              "Please backup your private seed in a safe place. Keep it secret and do not ever share it with anyone. Access to your private seed means access to your funds.",
                               style: TextStyles.assetSecondaryTextLabel)),
                       const SizedBox(height: ThemePaddings.normalPadding),
                       ThemedControls.spacerVerticalNormal(),

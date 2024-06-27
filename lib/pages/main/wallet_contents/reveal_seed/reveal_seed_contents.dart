@@ -51,7 +51,7 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Private seed",
+                  headerText: "Private Seed",
                   subheaderText: "of \"${widget.item.name}\""),
               ThemedControls.card(
                   child: Column(
@@ -67,7 +67,7 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
                           onPressed: () {
                             copyToClipboard(seedId!);
                           },
-                          text: "Copy private seed",
+                          text: "Copy Private Seed",
                           icon: ThemedControls.invertedColors(
                               child: LightThemeColors.shouldInvertIcon
                                   ? ThemedControls.invertedColors(

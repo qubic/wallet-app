@@ -148,7 +148,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                         );
                       },
                       icon: const Icon(Icons.add_box),
-                      label: const Text("Add new Accounts"))
+                      label: const Text("Add New Accounts"))
                 ],
               ),
             )));
@@ -298,7 +298,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                                 Icon(Icons.add),
                                                 ThemedControls
                                                     .spacerHorizontalSmall(),
-                                                Text("Add new Account"),
+                                                Text("Add New Account"),
                                               ])),
                                       ThemedControls.spacerVerticalBig(),
                                     ]))));
@@ -332,7 +332,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                                 Icon(Icons.add),
                                                 ThemedControls
                                                     .spacerHorizontalSmall(),
-                                                Text("Add new Account"),
+                                                Text("Add New Account"),
                                               ])),
                                       ThemedControls.spacerVerticalBig(),
                                     ])))));
