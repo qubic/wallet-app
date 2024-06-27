@@ -247,7 +247,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
         .toList());
 
     return ClipRRect(
-        borderRadius: BorderRadius.circular(40.0),
+        borderRadius: BorderRadius.circular(12.0),
         clipBehavior: Clip.hardEdge,
         child: Container(
             child: FormBuilderDropdown(

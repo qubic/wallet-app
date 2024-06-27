@@ -334,8 +334,8 @@ class _SignInState extends State<SignIn>
               } else {
                 return Padding(
                     padding: EdgeInsets.all(ThemePaddings.normalPadding),
-                    child:
-                        Text("Sign in", style: TextStyles.primaryButtonText));
+                    child: Text("Unlock Wallet",
+                        style: TextStyles.primaryButtonText));
               }
             })));
   }
@@ -408,40 +408,44 @@ class _SignInState extends State<SignIn>
         }));
   }
 
+  // Gets the password field for signing in
+  Widget getPasswordField() {
+    return FormBuilderTextField(
+      name: "password",
+      validator: FormBuilderValidators.compose([
+        FormBuilderValidators.required(errorText: "Please fill in a password"),
+      ]),
+      decoration: ThemeInputDecorations.bigInputbox.copyWith(
+        hintText: "Wallet password",
+        suffixIcon: Padding(
+          padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
+          child: IconButton(
+            icon: obscuringText
+                ? Image.asset("assets/images/eye-open.png")
+                : Image.asset("assets/images/eye-closed.png"),
+            onPressed: () {
+              setState(() {
+                obscuringText = !obscuringText;
+              });
+            },
+          ),
+        ),
+      ),
+      onSubmitted: (value) => signInHandler(),
+      enabled: !isLoading,
+      obscureText: obscuringText,
+      autocorrect: false,
+      autofillHints: null,
+    );
+  }
+
   //Gets the sign in  form
   List<Widget> getSignInForm() {
     return [
       getSignInError(),
-      const SizedBox(height: ThemePaddings.smallPadding),
-      FormBuilderTextField(
-        name: "password",
-        validator: FormBuilderValidators.compose([
-          FormBuilderValidators.required(
-              errorText: "Please fill in a password"),
-        ]),
-        decoration: ThemeInputDecorations.bigInputbox.copyWith(
-          hintText: "Wallet password",
-          suffixIcon: Padding(
-            padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
-            child: IconButton(
-              icon: obscuringText
-                  ? Image.asset("assets/images/eye-open.png")
-                  : Image.asset("assets/images/eye-closed.png"),
-              onPressed: () {
-                setState(() {
-                  obscuringText = !obscuringText;
-                });
-              },
-            ),
-          ),
-        ),
-        onSubmitted: (value) => signInHandler(),
-        enabled: !isLoading,
-        obscureText: obscuringText,
-        autocorrect: false,
-        autofillHints: null,
-      ),
-      const SizedBox(height: ThemePaddings.normalPadding),
+      ThemedControls.spacerVerticalNormal(),
+      getPasswordField(),
+      ThemedControls.spacerVerticalNormal(),
       Observer(builder: (context) {
         return Center(
             child: Column(children: [
@@ -496,11 +500,9 @@ class _SignInState extends State<SignIn>
   //Builds the signup screen
   Widget buildSignUp(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(
-          ThemePaddings.bigPadding,
-          ThemePaddings.bigPadding,
-          ThemePaddings.bigPadding,
-          ThemePaddings.bigPadding),
+      padding: const EdgeInsets.all(
+        ThemePaddings.bigPadding,
+      ),
       child: Container(
           width: double.infinity,
           child: Flex(
@@ -514,7 +516,7 @@ class _SignInState extends State<SignIn>
                         onPressed: () {
                           pushScreen(
                             context,
-                            screen: SignUp(),
+                            screen: const SignUp(),
                             withNavBar:
                                 false, // OPTIONAL VALUE. True by default.
                             pageTransitionAnimation:
@@ -522,8 +524,8 @@ class _SignInState extends State<SignIn>
                           );
                         },
                         child: Padding(
-                            padding:
-                                EdgeInsets.all(ThemePaddings.normalPadding),
+                            padding: const EdgeInsets.all(
+                                ThemePaddings.normalPadding),
                             child: Text("Create a new wallet",
                                 style: TextStyles.primaryButtonText)))),
               ])),
@@ -533,36 +535,27 @@ class _SignInState extends State<SignIn>
   // Builds the signin screen
   Widget buildSignIn(BuildContext context) {
     return Stack(children: [
-      Container(
-        constraints: const BoxConstraints.expand(),
-      ),
-      Container(
-        constraints: const BoxConstraints.expand(),
-      ),
       SafeArea(
-          child: Container(
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      0, ThemePaddings.bigPadding, 0, 0),
-                  child: FormBuilder(
-                      key: _formKey,
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Center(child: getLogo()),
+          child: Padding(
+              padding:
+                  const EdgeInsets.fromLTRB(0, ThemePaddings.bigPadding, 0, 0),
+              child: FormBuilder(
+                  key: _formKey,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Center(child: getLogo()),
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.all(
+                              ThemePaddings.bigPadding,
                             ),
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    ThemePaddings.bigPadding,
-                                    ThemePaddings.bigPadding,
-                                    ThemePaddings.bigPadding,
-                                    ThemePaddings.bigPadding),
-                                child: AnimatedOpacity(
-                                    duration: const Duration(milliseconds: 200),
-                                    opacity: formOpacity,
-                                    child: Column(children: getSignInForm())))
-                          ]))))),
+                            child: AnimatedOpacity(
+                                duration: const Duration(milliseconds: 200),
+                                opacity: formOpacity,
+                                child: Column(children: getSignInForm())))
+                      ])))),
     ]);
   }
 
