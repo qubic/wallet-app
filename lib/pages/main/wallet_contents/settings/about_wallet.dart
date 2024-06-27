@@ -171,7 +171,7 @@ class _AboutWalletState extends State<AboutWallet> {
                             image: AssetImage('assets/images/logo.png')))),
                 ThemedControls.spacerHorizontalNormal(),
                 ThemedControls.pageHeader(
-                    headerText: "About Qubic wallet",
+                    headerText: "About Qubic Wallet",
                     subheaderText: "Version ${qubicHubStore.versionInfo}"),
               ]),
               Row(children: [
