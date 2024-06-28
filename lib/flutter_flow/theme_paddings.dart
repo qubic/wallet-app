@@ -17,6 +17,9 @@ abstract class ThemePaddings {
 
   /// 32px
   static const hugePadding = 32.0;
+
+  // 44px
+  static const bottomPaddingMobile = 44.0;
 }
 
 class LightThemeColors {

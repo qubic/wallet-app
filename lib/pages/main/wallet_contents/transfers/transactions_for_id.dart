@@ -158,10 +158,9 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                         // runAlignment: WrapAlignment.center,
                         // alignment: WrapAlignment.center,
                         // crossAxisAlignment: WrapCrossAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Container(
-                            width: double.infinity,
-                          ),
                           ThemedControls.pageHeader(
                               headerText: (widget.item == null
                                   ? "Transfers for "
@@ -200,7 +199,10 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                                   numberOfFilters: null,
                                   onTap: () {}));
                             }
-                            return Column(children: results);
+                            return Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: results);
                           })
                         ]);
                   })),
