@@ -39,6 +39,8 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   IconData _icon = Icons.fingerprint;
   String _settingsLabel = "Biometric Unlock";
 
+  BiometricType? biometricType; //The type of biometric available
+
   bool enabled = false;
   @override
   void initState() {
@@ -58,20 +60,60 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
           availableBiometrics = value;
           canUseBiometrics = value.isNotEmpty;
           enabled = settingsStore.settings.biometricEnabled;
+          if ((value.contains(BiometricType.face)) && (biometricType == null)) {
+            setState(() {
+              biometricType = BiometricType.face;
+              _description =
+                  "You can enable authentication via Face ID. If you enable this, you can sign in to your wallet and issue transfers without using your password";
+              _title = "Manage unlock with Face ID";
+              _settingsLabel = "Unlock with Face ID";
+              _icon = Icons.face_outlined;
+            });
+          }
+          if ((value.contains(BiometricType.fingerprint)) &&
+              (biometricType == null)) {
+            setState(() {
+              biometricType = BiometricType.fingerprint;
+              _description =
+                  "You can enable authentication via Touch ID. If you enable this, you can unlock your wallet and issue transfers without using your password";
+              _title = "Manage unlock with Touch ID";
+              _settingsLabel = "Unlock with Touch ID";
+              _icon = Icons.fingerprint;
+            });
+          }
+          if ((value.contains(BiometricType.iris)) && (biometricType == null)) {
+            setState(() {
+              biometricType = BiometricType.iris;
+              _description =
+                  "You can enable authentication with your iris. If you enable this, you can unlock your wallet and issue transfers without using your password";
+              _title = "Manage unlock with Iris";
+              _settingsLabel = "Unlock with Iris";
+              _icon = Icons.remove_red_eye_outlined;
+            });
+          }
+          if ((value.contains(BiometricType.strong)) &&
+              (biometricType == null)) {
+            setState(() {
+              biometricType = BiometricType.strong;
+
+              if (UniversalPlatform.isDesktop) {
+                _description =
+                    "You can enable authentication through your OS. If you enable this, you can unlock  your wallet and issue transfers using your OS authentication";
+                _title = "Manage unlock with OS";
+                _settingsLabel = "Unlock with OS";
+                _icon = Icons.shield;
+              } else {
+                _description =
+                    "You can enable authentication with biometrics. If you enable this, you can unlock your wallet and issue transfers without using your password";
+                _title = "Manage unlock with Biometric";
+                _settingsLabel = "Unlock with Biometric";
+                _icon = Icons.fingerprint;
+              }
+            });
+          }
         });
       });
     });
-
-    if (UniversalPlatform.isDesktop) {
-      setState(() {
-        _scope = "OS";
-        _title = "Manage OS unlock";
-        _description =
-            "You can enable authentication via your OS. If you enable this, you can sign in to your wallet and issue transfers without using your password";
-        _settingsLabel = "OS unlock";
-        _icon = Icons.security;
-      });
-    }
   }
 
   @override

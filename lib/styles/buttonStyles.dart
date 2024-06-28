@@ -9,7 +9,7 @@ abstract class ButtonStyles {
       shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
               side: const BorderSide(
-                  width: 2, color: LightThemeColors.dangerColor),
+                  width: 1.5, color: LightThemeColors.dangerColor),
               borderRadius: BorderRadius.circular(12.0))));
 
   static ButtonStyle primaryButtonBig = ButtonStyle(

@@ -145,7 +145,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   }
 
   Widget biometricsButton() {
-    String label = "Biometric Unlock";
+    String label = "Unlock with Biometrics";
     if (biometricType == BiometricType.face) {
       label = "Unlock with Face ID";
     } else if (biometricType == BiometricType.fingerprint) {
@@ -156,7 +156,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
       if (UniversalPlatform.isAndroid) {
         label = "Unlock with Biometric";
       } else {
-        label = "OS Unlock";
+        label = "Unlock with OS";
       }
     } else if (biometricType == BiometricType.weak) {
       label = "Alternative Unlock";
@@ -164,14 +164,17 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
     return AnimatedOpacity(
         opacity: isLoading ? 0.1 : 1,
         duration: const Duration(milliseconds: 200),
-        child: ThemedControls.transparentButtonBigWithChild(
-            onPressed: () async {
-              await handleBiometricsAuth();
-            },
-            child: Padding(
-                padding: const EdgeInsets.all(ThemePaddings.smallPadding + 2),
-                child:
-                    Text(label, style: TextStyles.transparentButtonPrimary))));
+        child: SizedBox(
+          height: 48,
+          child: ThemedControls.transparentButtonBigWithChild(
+              onPressed: () async {
+                await handleBiometricsAuth();
+              },
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 2),
+                  child:
+                      Text(label, style: TextStyles.transparentButtonPrimary))),
+        ));
   }
 
   void _authenticateHandler() async {
@@ -204,28 +207,28 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   }
 
   Widget authenticateButton() {
-    return ThemedControls.primaryButtonBigWithChild(
-        onPressed: _authenticateHandler,
-        child: Builder(builder: (context) {
-          if (isLoading) {
-            return Padding(
-                padding: const EdgeInsets.all(
-                  ThemePaddings.normalPadding,
-                ),
-                child: SizedBox(
-                    height: 21,
-                    width: 21,
-                    child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Theme.of(context).colorScheme.inversePrimary)));
-          } else {
-            return const Padding(
-                padding: EdgeInsets.all(
-                  ThemePaddings.normalPadding,
-                ),
-                child: SizedBox(height: 21, child: Text("Authenticate")));
-          }
-        }));
+    return SizedBox(
+      height: 48,
+      child: ThemedControls.primaryButtonBigWithChild(
+          onPressed: _authenticateHandler,
+          child: Builder(builder: (context) {
+            if (isLoading) {
+              return Padding(
+                  padding: const EdgeInsets.all(
+                    ThemePaddings.normalPadding,
+                  ),
+                  child: SizedBox(
+                      height: 21,
+                      width: 21,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          color:
+                              Theme.of(context).colorScheme.inversePrimary)));
+            } else {
+              return Text("Authenticate", style: TextStyles.primaryButtonText);
+            }
+          })),
+    );
   }
 
   bool isLoading = false;
