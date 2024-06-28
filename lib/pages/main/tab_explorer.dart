@@ -238,7 +238,7 @@ class _TabExplorerState extends State<TabExplorer> {
             ThemedControls.pageHeader(
                 headerText: "Epoch Explorer",
                 subheaderText: "Epoch " + getCurrentEpoch().toString(),
-                subheaderPill: true),
+                subheaderPill: false),
 
             ThemedControls.spacerVerticalNormal(),
             Text("Overview", style: TextStyles.labelTextNormal),

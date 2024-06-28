@@ -154,11 +154,14 @@ class _TransactionsForIdState extends State<TransactionsForId> {
               child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Observer(builder: (context) {
-                    return Wrap(
-                        runAlignment: WrapAlignment.center,
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
+                    return Column(
+                        // runAlignment: WrapAlignment.center,
+                        // alignment: WrapAlignment.center,
+                        // crossAxisAlignment: WrapCrossAlignment.center,
                         children: [
+                          Container(
+                            width: double.infinity,
+                          ),
                           ThemedControls.pageHeader(
                               headerText: (widget.item == null
                                   ? "Transfers for "
@@ -183,15 +186,6 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                                       tran); //If there are active filters, only show transactions that match the filters
 
                               if (matchesItem && matchesFilter) {
-                                //Show on both cases
-                                // if ((widget.item == null ||
-                                //             ((widget.item!.publicId ==
-                                //                     tran.destId) ||
-                                //                 (widget.item!.publicId ==
-                                //                     tran.sourceId))) &&
-                                //         (appStore.transactionFilter == null) ||
-                                //     (appStore.transactionFilter!
-                                //         .matchesVM(tran))) {
                                 added++;
 
                                 results.add(TransactionItem(item: tran));
