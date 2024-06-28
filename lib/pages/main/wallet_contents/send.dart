@@ -402,10 +402,10 @@ class _SendState extends State<Send> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Send funds",
+                  headerText: "Send Funds",
                   subheaderText: "from \"${widget.item.name}\""),
               ThemedControls.spacerVerticalSmall(),
-              Text("Destination address", style: TextStyles.labelTextNormal),
+              Text("Destination Address", style: TextStyles.labelTextNormal),
               ThemedControls.spacerVerticalMini(),
               FormBuilder(
                   key: _formKey,

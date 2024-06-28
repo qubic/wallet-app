@@ -542,7 +542,7 @@ class _TransferAssetState extends State<TransferAsset> {
                       "Transfer ${widget.asset.assetName} ${QubicAssetDto.isSmartContractShare(widget.asset) ? "shares" : "tokens"}",
                   subheaderText: "from \"${widget.item.name}\""),
               ThemedControls.spacerVerticalSmall(),
-              Text("Destination address", style: TextStyles.labelTextNormal),
+              Text("Destination Address", style: TextStyles.labelTextNormal),
               ThemedControls.spacerVerticalMini(),
               FormBuilder(
                   key: _formKey,
@@ -598,7 +598,7 @@ class _TransferAssetState extends State<TransferAsset> {
                                       headerBuilder: (BuildContext context,
                                           bool isExpanded) {
                                         return const ListTile(
-                                          title: Text('Advanced options'),
+                                          title: Text('Advanced Options'),
                                         );
                                       },
                                       body: Padding(

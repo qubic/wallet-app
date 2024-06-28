@@ -42,7 +42,7 @@ class _ReauthenticateState extends State<Reauthenticate> {
         Align(
           alignment: Alignment.topLeft,
           child:
-              ThemedControls.pageHeader(headerText: "Authentication required"),
+              ThemedControls.pageHeader(headerText: "Authentication Required"),
         ),
         Align(
           alignment: Alignment.center,
@@ -75,7 +75,7 @@ class _ReauthenticateState extends State<Reauthenticate> {
   Widget getContents() {
     return Column(
       children: [
-        ThemedControls.pageHeader(headerText: "Authentication required"),
+        ThemedControls.pageHeader(headerText: "Authentication Required"),
         Expanded(child: Container()),
         Align(
           alignment: Alignment.center,
