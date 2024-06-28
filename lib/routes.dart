@@ -44,15 +44,15 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/signIn',
       name: 'signIn',
-      builder: (context, state) => SignIn(),
-      pageBuilder: defaultPageBuilder(SignIn()),
+      builder: (context, state) => const SignIn(),
+      pageBuilder: defaultPageBuilder(const SignIn()),
     ),
     GoRoute(
       path: '/signInNoAuth',
       name: 'signInNoAuth',
       builder: (context, state) =>
           SignIn(disableLocalAuth: state.pathParameters['disableLocalAuth']),
-      pageBuilder: defaultPageBuilder(SignIn(disableLocalAuth: "true")),
+      pageBuilder: defaultPageBuilder(const SignIn(disableLocalAuth: "true")),
     ),
     GoRoute(
       path: '/',
