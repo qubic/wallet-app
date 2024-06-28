@@ -63,6 +63,9 @@ class _SignInState extends State<SignIn>
   double viewInsets = 0.0;
 
   double rotation = 3.19911;
+
+  int timesPressed = 0;
+
   @override
   void initState() {
     super.initState();
@@ -351,11 +354,15 @@ class _SignInState extends State<SignIn>
 
   //Gets the version info
   Widget getVersionInfo() {
+    if (timesPressed < 5) {
+      return Container();
+    }
     return Observer(builder: (BuildContext context) {
       if (qubicHubStore.versionInfo == null) {
         return Container();
       }
-      return Text("v${qubicHubStore.versionInfo}",
+      return Text(
+          "v${qubicHubStore.versionInfo} (build ${qubicHubStore.buildNumber})",
           textAlign: TextAlign.center,
           style: TextStyles.labelTextSmall
               .copyWith(color: LightThemeColors.color3));
@@ -364,32 +371,38 @@ class _SignInState extends State<SignIn>
 
   //Gets the logo in sign i form
   Widget getLogo() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SizedBox(
+    return GestureDetector(
+        onTap: () {
+          setState(() {
+            timesPressed++;
+          });
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(
 
-            //    MediaQuery.of(context).size.height *                                              0.15,
-            child: Image(image: AssetImage('assets/images/blue-logo.png'))),
-        ConstrainedBox(
-            constraints: const BoxConstraints(
-              minHeight: 12.0,
-              minWidth: 10.0,
-              maxHeight: 40.0,
-              maxWidth: 10.0,
-            ),
-            child: Container()),
-        Text("Welcome to the",
-            textAlign: TextAlign.center,
-            style: TextStyles.pageTitle
-                .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
-        Text("Qubic Wallet",
-            textAlign: TextAlign.center,
-            style: TextStyles.pageTitle.copyWith(
-                fontSize: ThemeFontSizes.loginTitle.toDouble(),
-                color: LightThemeColors.titleColor)),
-      ],
-    );
+                //    MediaQuery.of(context).size.height *                                              0.15,
+                child: Image(image: AssetImage('assets/images/blue-logo.png'))),
+            ConstrainedBox(
+                constraints: const BoxConstraints(
+                  minHeight: 12.0,
+                  minWidth: 10.0,
+                  maxHeight: 40.0,
+                  maxWidth: 10.0,
+                ),
+                child: Container()),
+            Text("Welcome to the",
+                textAlign: TextAlign.center,
+                style: TextStyles.pageTitle
+                    .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
+            Text("Qubic Wallet",
+                textAlign: TextAlign.center,
+                style: TextStyles.pageTitle.copyWith(
+                    fontSize: ThemeFontSizes.loginTitle.toDouble(),
+                    color: LightThemeColors.titleColor)),
+          ],
+        ));
   }
 
   //Shows a sign in error

@@ -173,11 +173,11 @@ mixin _$QubicHubStore on _QubicHubStore, Store {
   }
 
   @override
-  void setBuildNumer(String buildNumber) {
+  void setBuildNumber(String buildNumber) {
     final _$actionInfo = _$_QubicHubStoreActionController.startAction(
-        name: '_QubicHubStore.setBuildNumer');
+        name: '_QubicHubStore.setBuildNumber');
     try {
-      return super.setBuildNumer(buildNumber);
+      return super.setBuildNumber(buildNumber);
     } finally {
       _$_QubicHubStoreActionController.endAction(_$actionInfo);
     }

@@ -35,7 +35,7 @@ Future<void> main() async {
   getIt.get<SettingsStore>().loadSettings();
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   getIt.get<QubicHubStore>().setVersion(packageInfo.version);
-  getIt.get<QubicHubStore>().setBuildNumer(packageInfo.buildNumber);
+  getIt.get<QubicHubStore>().setBuildNumber(packageInfo.buildNumber);
 
   getIt.get<ApplicationStore>().checkWalletIsInitialized();
 

@@ -412,9 +412,10 @@ class _ReceiveState extends State<SignUp> {
                 minimum: ThemeEdgeInsets.pageInsets,
                 child: Column(children: [
                   Expanded(child: getScrollView()),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: getButtons())
+                  SafeArea(
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: getButtons()))
                 ]))));
   }
 }
