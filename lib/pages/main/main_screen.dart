@@ -138,7 +138,7 @@ class _MainScreenState extends State<MainScreen> {
       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,
-              child: SafeArea(child: TabWalletContents())),
+              child: const SafeArea(child: const TabWalletContents())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,
@@ -152,7 +152,7 @@ class _MainScreenState extends State<MainScreen> {
       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,
-              child: SafeArea(child: TabTransfers())),
+              child: const SafeArea(child: TabTransfers())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,
@@ -166,7 +166,7 @@ class _MainScreenState extends State<MainScreen> {
       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,
-              child: SafeArea(child: TabExplorer())),
+              child: const SafeArea(child: TabExplorer())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,
@@ -180,7 +180,7 @@ class _MainScreenState extends State<MainScreen> {
       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,
-              child: SafeArea(child: TabSettings())),
+              child: const SafeArea(child: TabSettings())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,

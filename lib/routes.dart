@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/pages/auth/create_wallet.dart';
 import 'package:qubic_wallet/pages/auth/sign_in.dart';
 import 'package:qubic_wallet/pages/main/main_screen.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -54,12 +53,6 @@ final appRouter = GoRouter(
       builder: (context, state) =>
           SignIn(disableLocalAuth: state.pathParameters['disableLocalAuth']),
       pageBuilder: defaultPageBuilder(SignIn(disableLocalAuth: "true")),
-    ),
-    GoRoute(
-      path: '/createWallet',
-      name: 'createWallet',
-      builder: (context, state) => const CreateWallet(),
-      pageBuilder: defaultPageBuilder(const CreateWallet()),
     ),
     GoRoute(
       path: '/',

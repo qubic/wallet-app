@@ -502,10 +502,7 @@ class _SignInState extends State<SignIn>
                                 }),
                               );
                             });
-                      }
-
-                      //context.goNamed("createWallet");
-                      ))
+                      }))
         ]));
       })
     ];

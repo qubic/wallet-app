@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qubic_wallet/components/gradient_container.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/components/tick_indication_styled.dart';
-import 'package:qubic_wallet/components/tick_indicator.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
@@ -65,7 +63,7 @@ class _TabTransfersState extends State<TabTransfers> {
                 controller: _scrollController,
                 child: CustomScrollView(
                     controller: _scrollController,
-                    physics: AlwaysScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     slivers: [
                       SliverAppBar(
                           backgroundColor: LightThemeColors.background,
