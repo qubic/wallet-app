@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
@@ -233,38 +236,6 @@ class _SignInState extends State<SignIn>
     }
   }
 
-  Widget biometricsButton() {
-    return AnimatedOpacity(
-        duration: const Duration(milliseconds: 200),
-        opacity: isLoading ? 0.1 : 1,
-        child: TextButton(
-            style: ButtonStyles.textButtonBig.copyWith(
-              shadowColor: MaterialStateProperty.all<Color>(
-                  LightThemeColors.buttonBackground),
-              elevation: MaterialStateProperty.all<double>(0.0),
-            ),
-            onPressed: () async {
-              await handleBiometricsAuth();
-            },
-            child: Builder(builder: (context) {
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      ThemePaddings.normalPadding,
-                      2,
-                      ThemePaddings.normalPadding,
-                      2),
-                  child: SizedBox(
-                      height: 42,
-                      width: 42,
-                      child: Icon(
-                          UniversalPlatform.isDesktop
-                              ? Icons.security
-                              : Icons.fingerprint,
-                          size: 34,
-                          color: LightThemeColors.primary)));
-            })));
-  }
-
   Future<void> authSuccess() async {
     try {
       await getIt<QubicLi>().authenticate();
@@ -307,8 +278,88 @@ class _SignInState extends State<SignIn>
     }
   }
 
+  Widget eraseWalletButton() {
+    return SizedBox(
+        width: double.infinity,
+        child: ThemedControls.transparentButtonBigWithChild(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: ThemePaddings.bigPadding),
+                child: Text("Erase Wallet Data",
+                    style: TextStyles.destructiveButtonText)),
+            onPressed: () {
+              showModalBottomSheet<void>(
+                  context: context,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  useRootNavigator: true,
+                  backgroundColor: LightThemeColors.background,
+                  builder: (BuildContext context) {
+                    return SafeArea(
+                      child: EraseWalletSheet(onAccept: () async {
+                        await _secureStorage.deleteWallet();
+                        await _settingsStore.loadSettings();
+                        _appStore.checkWalletIsInitialized();
+                        _appStore.signOut();
+                        _timedController.stopFetchTimer();
+                        Navigator.pop(context);
+                        _globalSnackbar.show("Wallet data erased from device");
+                      }, onReject: () async {
+                        Navigator.pop(context);
+                      }),
+                    );
+                  });
+            }));
+  }
+
+  Widget biometricsButton() {
+    return SizedBox(
+        width: double.infinity,
+        child: ThemedControls.transparentButtonBigWithChild(
+            onPressed: handleBiometricsAuth,
+            child: Builder(builder: (context) {
+              return Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 2),
+                  child: Text("Biometric Unlock",
+                      style: TextStyles.transparentButtonPrimary));
+            })));
+  }
+
+  Widget biometricsButtonOld() {
+    return AnimatedOpacity(
+        duration: const Duration(milliseconds: 200),
+        opacity: isLoading ? 0.1 : 1,
+        child: TextButton(
+            style: ButtonStyles.textButtonBig.copyWith(
+              shadowColor: MaterialStateProperty.all<Color>(
+                  LightThemeColors.buttonBackground),
+              elevation: MaterialStateProperty.all<double>(0.0),
+            ),
+            onPressed: () async {
+              await handleBiometricsAuth();
+            },
+            child: Builder(builder: (context) {
+              return Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                      ThemePaddings.normalPadding,
+                      2,
+                      ThemePaddings.normalPadding,
+                      2),
+                  child: SizedBox(
+                      height: 42,
+                      width: 42,
+                      child: Icon(
+                          UniversalPlatform.isDesktop
+                              ? Icons.security
+                              : Icons.fingerprint,
+                          size: 34,
+                          color: LightThemeColors.primary)));
+            })));
+  }
+
   Widget signInButton() {
-    return Expanded(
+    return SizedBox(
+        width: double.infinity,
         child: ThemedControls.primaryButtonBigWithChild(
             onPressed: signInHandler,
             child: Builder(builder: (context) {
@@ -329,15 +380,6 @@ class _SignInState extends State<SignIn>
                         style: TextStyles.primaryButtonText));
               }
             })));
-  }
-
-  List<Widget> getCTA() {
-    List<Widget> results = [signInButton()];
-    if (_settingsStore.settings.biometricEnabled) {
-      results.add(const VerticalDivider());
-      results.add(biometricsButton());
-    }
-    return results;
   }
 
   //Gets the version info
@@ -389,6 +431,11 @@ class _SignInState extends State<SignIn>
       children: [
         SizedBox(
             child: GestureDetector(
+                onDoubleTap: () {
+                  setState(() {
+                    timesPressed++;
+                  });
+                },
                 onTap: () {
                   setState(() {
                     timesPressed++;
@@ -418,8 +465,9 @@ class _SignInState extends State<SignIn>
             return const SizedBox(height: 25);
           } else {
             return Padding(
-                padding:
-                    const EdgeInsets.only(bottom: ThemePaddings.smallPadding),
+                padding: const EdgeInsets.only(
+                    top: ThemePaddings.normalPadding,
+                    bottom: ThemePaddings.smallPadding),
                 child: ThemedControls.errorLabel(signInError!));
           }
         }));
@@ -466,45 +514,11 @@ class _SignInState extends State<SignIn>
       Observer(builder: (context) {
         return Center(
             child: Column(children: [
-          Flex(
-              mainAxisAlignment: MainAxisAlignment.center,
-              direction: Axis.horizontal,
-              children: getCTA()),
+          signInButton(),
+          if (_settingsStore.settings.biometricEnabled)
+            ThemedControls.spacerVerticalNormal(),
+          if (_settingsStore.settings.biometricEnabled) biometricsButton(),
           const SizedBox(height: ThemePaddings.normalPadding),
-          if (isKeyboardVisible)
-            SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ThemedControls.transparentButtonBigWithChild(
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.smallPadding),
-                        child: Text("Erase Wallet Data",
-                            style: TextStyles.destructiveButtonText)),
-                    onPressed: () {
-                      showModalBottomSheet<void>(
-                          context: context,
-                          isScrollControlled: true,
-                          useSafeArea: true,
-                          useRootNavigator: true,
-                          backgroundColor: LightThemeColors.background,
-                          builder: (BuildContext context) {
-                            return SafeArea(
-                              child: EraseWalletSheet(onAccept: () async {
-                                await _secureStorage.deleteWallet();
-                                await _settingsStore.loadSettings();
-                                _appStore.checkWalletIsInitialized();
-                                _appStore.signOut();
-                                _timedController.stopFetchTimer();
-                                Navigator.pop(context);
-                                _globalSnackbar
-                                    .show("Wallet data erased from device");
-                              }, onReject: () async {
-                                Navigator.pop(context);
-                              }),
-                            );
-                          });
-                    }))
         ]));
       })
     ];
@@ -547,36 +561,50 @@ class _SignInState extends State<SignIn>
 
   // Builds the signin screen
   Widget buildSignIn(BuildContext context) {
-    return Stack(children: [
+    return SafeArea(
+        child: Stack(children: [
       SafeArea(
+        child: Padding(
+            padding:
+                const EdgeInsets.fromLTRB(0, ThemePaddings.bigPadding, 0, 0),
+            child: FormBuilder(
+                key: _formKey,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: getLogo()),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: ThemePaddings.bigPadding,
+                          ),
+                          child: AnimatedOpacity(
+                              duration: const Duration(milliseconds: 200),
+                              opacity: formOpacity,
+                              child: Column(children: getSignInForm())))
+                    ]))),
+      ),
+      Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
           child: Padding(
-              padding:
-                  const EdgeInsets.fromLTRB(0, ThemePaddings.bigPadding, 0, 0),
-              child: FormBuilder(
-                  key: _formKey,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Center(child: getLogo()),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(
-                              ThemePaddings.bigPadding,
-                            ),
-                            child: AnimatedOpacity(
-                                duration: const Duration(milliseconds: 200),
-                                opacity: formOpacity,
-                                child: Column(children: getSignInForm())))
-                      ])))),
-    ]);
+              padding: const EdgeInsets.symmetric(
+                  horizontal: ThemePaddings.bigPadding),
+              child: eraseWalletButton()
+                  .animate(target: isKeyboardVisible ? 1 : 0)
+                  .moveY(
+                      begin: 0,
+                      end: 100,
+                      duration: const Duration(milliseconds: 50)))),
+    ]));
   }
 
   @override
   void didChangeMetrics() {
     final value = WidgetsBinding.instance.window.viewInsets.bottom;
     setState(() {
-      isKeyboardVisible = value > 0.0;
+      isKeyboardVisible = value > 50.0;
     });
   }
 
