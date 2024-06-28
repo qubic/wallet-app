@@ -279,17 +279,17 @@ class _AccountListItemState extends State<AccountListItem> {
             itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
                   const PopupMenuItem<CardItem>(
                     value: CardItem.viewTransactions,
-                    child: Text('View transfers'),
+                    child: Text('View Transfers'),
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewInExplorer,
-                    child: Text('View in explorer'),
+                    child: Text('View in Explorer'),
                     enabled:
                         widget.item.amount != null && widget.item.amount! > 0,
                   ),
                   const PopupMenuItem<CardItem>(
                     value: CardItem.reveal,
-                    child: Text('Reveal private seed'),
+                    child: Text('Reveal Private Seed'),
                   ),
                   const PopupMenuItem<CardItem>(
                     value: CardItem.rename,

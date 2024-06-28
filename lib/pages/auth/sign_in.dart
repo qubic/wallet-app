@@ -476,7 +476,7 @@ class _SignInState extends State<SignIn>
                       child: Padding(
                           padding:
                               const EdgeInsets.all(ThemePaddings.smallPadding),
-                          child: Text("Erase wallet data",
+                          child: Text("Erase Wallet Data",
                               style: TextStyles.destructiveButtonText)),
                       onPressed: () {
                         showModalBottomSheet<void>(

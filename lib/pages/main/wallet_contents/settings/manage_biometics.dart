@@ -33,11 +33,11 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   bool? canUseBiometrics = false;
 
   String _scope = "biometric";
-  String _title = "Manage biometric unlock";
+  String _title = "Manage Biometric Unlock";
   String _description =
       "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password";
   IconData _icon = Icons.fingerprint;
-  String _settingsLabel = "Biometric unlock";
+  String _settingsLabel = "Biometric Unlock";
 
   bool enabled = false;
   @override
