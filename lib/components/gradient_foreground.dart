@@ -20,8 +20,10 @@ class GradientForeground extends StatelessWidget {
           1,
         ],
         colors: [
-          LightThemeColors.gradient2,
-          LightThemeColors.gradient1,
+          LightThemeColors.buttonBackground,
+          LightThemeColors.buttonBackground
+          // LightThemeColors.gradient2,
+          // LightThemeColors.gradient1,
         ], // Gradient colors for the icon
       ).createShader(bounds),
       child: child != null ? child : Container(),

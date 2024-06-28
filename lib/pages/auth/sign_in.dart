@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
@@ -15,7 +18,6 @@ import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
 import 'package:qubic_wallet/pages/auth/sign_up.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
-import 'package:qubic_wallet/services/qubic_hub_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -27,8 +29,9 @@ import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class SignIn extends StatefulWidget {
-  String? disableLocalAuth;
-  SignIn({super.key, this.disableLocalAuth});
+  final String?
+      disableLocalAuth; //if not null then local auth is disabled. TODO: Change this to a boolean
+  const SignIn({super.key, this.disableLocalAuth});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -37,47 +40,39 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn>
     with SingleTickerProviderStateMixin, WidgetsBindingObserver {
-  final _formKey = GlobalKey<FormBuilderState>();
-  final LocalAuthentication auth = LocalAuthentication();
-
-  final ApplicationStore appStore = getIt<ApplicationStore>();
-  final SettingsStore settingsStore = getIt<SettingsStore>();
-  final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
-  final QubicHubService qubicHubService = getIt<QubicHubService>();
-
-  final TimedController timedController = getIt<TimedController>();
-  final SecureStorage secureStorage = getIt<SecureStorage>();
-
+  //DI objects
+  final LocalAuthentication _auth = LocalAuthentication();
+  final ApplicationStore _appStore = getIt<ApplicationStore>();
+  final SettingsStore _settingsStore = getIt<SettingsStore>();
+  final QubicHubStore _qubicHubStore = getIt<QubicHubStore>();
+  final TimedController _timedController = getIt<TimedController>();
+  final SecureStorage _secureStorage = getIt<SecureStorage>();
   final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
+
+  //Unlock wallet form
+  final _formKey = GlobalKey<FormBuilderState>();
   String? signInError;
+
+  //Disposers
   late final ReactionDisposer _disposeSnackbarAuto;
   late final ReactionDisposer _disposeLocalAuth;
 
+  //Snackbar
   late AnimatedSnackBar errorBar;
   late AnimatedSnackBar notificationBar;
-  bool obscuringText = true;
 
+  //Local state
   bool isLoading = false;
   double formOpacity = 1;
-  bool _isKeyboardVisible = false;
-  double viewInsets = 0.0;
+  bool isKeyboardVisible = false;
+  bool obscuringText = true; //Hide password or not
+  int timesPressed = 0; //Number of times logo has been clicked
 
-  double rotation = 3.19911;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     final ApplicationStore applicationStore = getIt<ApplicationStore>();
-
-    //Get version info
-    // qubicHubService.loadVersionInfo().then((value) {
-    //   if (qubicHubStore.updateNeeded) {
-    //     showAlertDialog(context, "Update required",
-    //         "USE THIS VERSION AT YOUR OWN RISK\n\nYour current version is outdated and will possibly not work. Please update your wallet version to ${qubicHubStore.minVersion}.\n\nYou can still access your funds and back up your seeds, but other functionality may be broken.  ");
-    //   }
-    // }, onError: (e) {
-    //   _globalSnackbar.showError(e.toString().replaceAll("Exception: ", ""));
-    // });
 
     //Setup snackbars
     _disposeSnackbarAuto = autorun((_) {
@@ -145,11 +140,10 @@ class _SignInState extends State<SignIn>
       }
     });
 
+    //Automatic local authentication on launch of widget
     _disposeLocalAuth = autorun((_) {
-      //Automatic local authentication on login
-
       if (((widget.disableLocalAuth == null)) &&
-          (settingsStore.settings.biometricEnabled)) {
+          (_settingsStore.settings.biometricEnabled)) {
         setState(() {
           formOpacity = 0;
         });
@@ -201,13 +195,13 @@ class _SignInState extends State<SignIn>
       isLoading = true;
     });
     try {
-      final bool didAuthenticate = await auth.authenticate(
+      final bool didAuthenticate = await _auth.authenticate(
           localizedReason: ' ',
           options: AuthenticationOptions(
               biometricOnly: UniversalPlatform.isDesktop ? false : true));
 
       if (didAuthenticate) {
-        await appStore.biometricSignIn();
+        await _appStore.biometricSignIn();
         await authSuccess();
       }
       setState(() {
@@ -242,7 +236,96 @@ class _SignInState extends State<SignIn>
     }
   }
 
+  Future<void> authSuccess() async {
+    try {
+      await getIt<QubicLi>().authenticate();
+      setState(() {
+        isLoading = false;
+      });
+      context.goNamed("mainScreen");
+    } catch (e) {
+      showAlertDialog(context, "Error contacting Qubic Network", e.toString());
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void signInHandler() async {
+    if (isLoading) {
+      return;
+    }
+    setState(() {
+      signInError = null;
+    });
+    _formKey.currentState?.validate();
+    if (_formKey.currentState!.isValid) {
+      setState(() {
+        isLoading = true;
+        signInError = null;
+      });
+      if (await _appStore
+          .signIn(_formKey.currentState!.instantValue["password"])) {
+        authSuccess();
+      } else {
+        setState(() {
+          isLoading = false;
+        });
+        setState(() {
+          signInError = "You have provided an invalid password";
+        });
+      }
+    }
+  }
+
+  Widget eraseWalletButton() {
+    return SizedBox(
+        width: double.infinity,
+        child: ThemedControls.transparentButtonBigWithChild(
+            child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: ThemePaddings.bigPadding),
+                child: Text("Erase Wallet Data",
+                    style: TextStyles.destructiveButtonText)),
+            onPressed: () {
+              showModalBottomSheet<void>(
+                  context: context,
+                  isScrollControlled: true,
+                  useSafeArea: true,
+                  useRootNavigator: true,
+                  backgroundColor: LightThemeColors.background,
+                  builder: (BuildContext context) {
+                    return SafeArea(
+                      child: EraseWalletSheet(onAccept: () async {
+                        await _secureStorage.deleteWallet();
+                        await _settingsStore.loadSettings();
+                        _appStore.checkWalletIsInitialized();
+                        _appStore.signOut();
+                        _timedController.stopFetchTimer();
+                        Navigator.pop(context);
+                        _globalSnackbar.show("Wallet data erased from device");
+                      }, onReject: () async {
+                        Navigator.pop(context);
+                      }),
+                    );
+                  });
+            }));
+  }
+
   Widget biometricsButton() {
+    return SizedBox(
+        width: double.infinity,
+        child: ThemedControls.transparentButtonBigWithChild(
+            onPressed: handleBiometricsAuth,
+            child: Builder(builder: (context) {
+              return Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 2),
+                  child: Text("Biometric Unlock",
+                      style: TextStyles.transparentButtonPrimary));
+            })));
+  }
+
+  Widget biometricsButtonOld() {
     return AnimatedOpacity(
         duration: const Duration(milliseconds: 200),
         opacity: isLoading ? 0.1 : 1,
@@ -274,50 +357,9 @@ class _SignInState extends State<SignIn>
             })));
   }
 
-  Future<void> authSuccess() async {
-    try {
-      await getIt<QubicLi>().authenticate();
-      setState(() {
-        isLoading = false;
-      });
-      context.goNamed("mainScreen");
-    } catch (e) {
-      showAlertDialog(context, "Error contacting Qubic Network", e.toString());
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  void signInHandler() async {
-    if (isLoading) {
-      return;
-    }
-    setState(() {
-      signInError = null;
-    });
-    _formKey.currentState?.validate();
-    if (_formKey.currentState!.isValid) {
-      setState(() {
-        isLoading = true;
-        signInError = null;
-      });
-      if (await appStore
-          .signIn(_formKey.currentState!.instantValue["password"])) {
-        authSuccess();
-      } else {
-        setState(() {
-          isLoading = false;
-        });
-        setState(() {
-          signInError = "You have provided an invalid password";
-        });
-      }
-    }
-  }
-
   Widget signInButton() {
-    return Expanded(
+    return SizedBox(
+        width: double.infinity,
         child: ThemedControls.primaryButtonBigWithChild(
             onPressed: signInHandler,
             child: Builder(builder: (context) {
@@ -333,52 +375,42 @@ class _SignInState extends State<SignIn>
                                 Theme.of(context).colorScheme.inversePrimary)));
               } else {
                 return Padding(
-                    padding: EdgeInsets.all(ThemePaddings.normalPadding),
+                    padding: const EdgeInsets.all(ThemePaddings.normalPadding),
                     child: Text("Unlock Wallet",
                         style: TextStyles.primaryButtonText));
               }
             })));
   }
 
-  List<Widget> getCTA() {
-    List<Widget> results = [signInButton()];
-    if (settingsStore.settings.biometricEnabled) {
-      results.add(const VerticalDivider());
-      results.add(biometricsButton());
-    }
-    return results;
-  }
-
   //Gets the version info
   Widget getVersionInfo() {
+    if (timesPressed < 5) {
+      return Container();
+    }
     return Observer(builder: (BuildContext context) {
-      if (qubicHubStore.versionInfo == null) {
+      if (_qubicHubStore.versionInfo == null) {
         return Container();
       }
-      return Text("v${qubicHubStore.versionInfo}",
+      return Text(
+          "v${_qubicHubStore.versionInfo} (build ${_qubicHubStore.buildNumber})",
           textAlign: TextAlign.center,
           style: TextStyles.labelTextSmall
               .copyWith(color: LightThemeColors.color3));
     });
   }
 
-  //Gets the logo in sign i form
-  Widget getLogo() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        const SizedBox(
-
-            //    MediaQuery.of(context).size.height *                                              0.15,
-            child: Image(image: AssetImage('assets/images/blue-logo.png'))),
-        ConstrainedBox(
-            constraints: const BoxConstraints(
-              minHeight: 12.0,
-              minWidth: 10.0,
-              maxHeight: 40.0,
-              maxWidth: 10.0,
-            ),
-            child: Container()),
+  //Gets the main text under the logo
+  Widget getMainTextLabels() {
+    return Observer(builder: (builder) {
+      if (_appStore.hasStoredWalletSettings) {
+        return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          Text("Welcome back!",
+              textAlign: TextAlign.center,
+              style: TextStyles.pageTitle
+                  .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
+        ]);
+      }
+      return Column(children: [
         Text("Welcome to the",
             textAlign: TextAlign.center,
             style: TextStyles.pageTitle
@@ -388,6 +420,38 @@ class _SignInState extends State<SignIn>
             style: TextStyles.pageTitle.copyWith(
                 fontSize: ThemeFontSizes.loginTitle.toDouble(),
                 color: LightThemeColors.titleColor)),
+      ]);
+    });
+  }
+
+  //Gets the logo (tappable to show version info)
+  Widget getLogo() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
+            child: GestureDetector(
+                onDoubleTap: () {
+                  setState(() {
+                    timesPressed++;
+                  });
+                },
+                onTap: () {
+                  setState(() {
+                    timesPressed++;
+                  });
+                },
+                child: const Image(
+                    image: AssetImage('assets/images/blue-logo.png')))),
+        ConstrainedBox(
+            constraints: const BoxConstraints(
+              minHeight: 12.0,
+              minWidth: 10.0,
+              maxHeight: 40.0,
+              maxWidth: 10.0,
+            ),
+            child: Container()),
+        getMainTextLabels()
       ],
     );
   }
@@ -401,8 +465,9 @@ class _SignInState extends State<SignIn>
             return const SizedBox(height: 25);
           } else {
             return Padding(
-                padding:
-                    const EdgeInsets.only(bottom: ThemePaddings.smallPadding),
+                padding: const EdgeInsets.only(
+                    top: ThemePaddings.normalPadding,
+                    bottom: ThemePaddings.smallPadding),
                 child: ThemedControls.errorLabel(signInError!));
           }
         }));
@@ -449,49 +514,11 @@ class _SignInState extends State<SignIn>
       Observer(builder: (context) {
         return Center(
             child: Column(children: [
-          Flex(
-              mainAxisAlignment: MainAxisAlignment.center,
-              direction: Axis.horizontal,
-              children: getCTA()),
-          SizedBox(height: ThemePaddings.normalPadding),
-          _isKeyboardVisible
-              ? Container()
-              : SizedBox(
-                  width: double.infinity,
-                  height: 56,
-                  child: ThemedControls.transparentButtonBigWithChild(
-                      child: Padding(
-                          padding:
-                              const EdgeInsets.all(ThemePaddings.smallPadding),
-                          child: Text("Erase Wallet Data",
-                              style: TextStyles.destructiveButtonText)),
-                      onPressed: () {
-                        showModalBottomSheet<void>(
-                            context: context,
-                            isScrollControlled: true,
-                            useSafeArea: true,
-                            useRootNavigator: true,
-                            backgroundColor: LightThemeColors.background,
-                            builder: (BuildContext context) {
-                              return SafeArea(
-                                child: EraseWalletSheet(onAccept: () async {
-                                  await secureStorage.deleteWallet();
-                                  await settingsStore.loadSettings();
-                                  appStore.checkWalletIsInitialized();
-                                  appStore.signOut();
-                                  timedController.stopFetchTimer();
-                                  Navigator.pop(context);
-                                  _globalSnackbar
-                                      .show("Wallet data erased from device");
-                                }, onReject: () async {
-                                  Navigator.pop(context);
-                                }),
-                              );
-                            });
-                      }
-
-                      //context.goNamed("createWallet");
-                      ))
+          signInButton(),
+          if (_settingsStore.settings.biometricEnabled)
+            ThemedControls.spacerVerticalNormal(),
+          if (_settingsStore.settings.biometricEnabled) biometricsButton(),
+          const SizedBox(height: ThemePaddings.normalPadding),
         ]));
       })
     ];
@@ -534,48 +561,62 @@ class _SignInState extends State<SignIn>
 
   // Builds the signin screen
   Widget buildSignIn(BuildContext context) {
-    return Stack(children: [
+    return SafeArea(
+        child: Stack(children: [
       SafeArea(
+        child: Padding(
+            padding:
+                const EdgeInsets.fromLTRB(0, ThemePaddings.bigPadding, 0, 0),
+            child: FormBuilder(
+                key: _formKey,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: getLogo()),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: ThemePaddings.bigPadding,
+                          ),
+                          child: AnimatedOpacity(
+                              duration: const Duration(milliseconds: 200),
+                              opacity: formOpacity,
+                              child: Column(children: getSignInForm())))
+                    ]))),
+      ),
+      Positioned(
+          bottom: 0,
+          left: 0,
+          right: 0,
           child: Padding(
-              padding:
-                  const EdgeInsets.fromLTRB(0, ThemePaddings.bigPadding, 0, 0),
-              child: FormBuilder(
-                  key: _formKey,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Center(child: getLogo()),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(
-                              ThemePaddings.bigPadding,
-                            ),
-                            child: AnimatedOpacity(
-                                duration: const Duration(milliseconds: 200),
-                                opacity: formOpacity,
-                                child: Column(children: getSignInForm())))
-                      ])))),
-    ]);
+              padding: const EdgeInsets.symmetric(
+                  horizontal: ThemePaddings.bigPadding),
+              child: eraseWalletButton()
+                  .animate(target: isKeyboardVisible ? 1 : 0)
+                  .moveY(
+                      begin: 0,
+                      end: 100,
+                      duration: const Duration(milliseconds: 50)))),
+    ]));
   }
 
   @override
   void didChangeMetrics() {
     final value = WidgetsBinding.instance.window.viewInsets.bottom;
     setState(() {
-      _isKeyboardVisible = value > 0.0;
+      isKeyboardVisible = value > 50.0;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromARGB(255, 15, 23, 31),
+        backgroundColor: const Color.fromARGB(255, 15, 23, 31),
         body: Stack(
           children: [
             Observer(
               builder: (BuildContext context) {
-                if (appStore.hasStoredWalletSettings) {
+                if (_appStore.hasStoredWalletSettings) {
                   return buildSignIn(context);
                 } else {
                   return buildSignUp(context);
@@ -585,7 +626,7 @@ class _SignInState extends State<SignIn>
             Positioned(
                 bottom: 2,
                 right: ThemePaddings.bigPadding,
-                child: _isKeyboardVisible ? Container() : getVersionInfo())
+                child: isKeyboardVisible ? Container() : getVersionInfo())
           ],
         ));
   }

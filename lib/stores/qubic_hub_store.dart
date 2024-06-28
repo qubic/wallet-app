@@ -77,7 +77,7 @@ abstract class _QubicHubStore with Store {
   }
 
   @action
-  void setBuildNumer(String buildNumber) {
+  void setBuildNumber(String buildNumber) {
     this.buildNumber = buildNumber;
   }
 

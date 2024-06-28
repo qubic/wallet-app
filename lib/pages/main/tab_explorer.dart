@@ -1,18 +1,14 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pagination_flutter/pagination.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qubic_wallet/components/epoch_indicator.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_loading_indicator.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
-import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/helpers/epoch_helperts.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
@@ -101,8 +97,6 @@ class _TabExplorerState extends State<TabExplorer> {
   }
 
   Widget getEmptyExplorer() {
-    Color? transpColor =
-        Theme.of(context).textTheme.titleMedium?.color!.withOpacity(0.3);
     return Center(
         child: Padding(
       padding: const EdgeInsets.symmetric(
@@ -112,7 +106,7 @@ class _TabExplorerState extends State<TabExplorer> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GradientForeground(
-              child: Icon(
+              child: const Icon(
             Icons.account_tree,
             size: 100,
           )),
@@ -237,8 +231,8 @@ class _TabExplorerState extends State<TabExplorer> {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             ThemedControls.pageHeader(
                 headerText: "Epoch Explorer",
-                subheaderText: "Epoch " + getCurrentEpoch().toString(),
-                subheaderPill: true),
+                subheaderText: "Epoch ${getCurrentEpoch()}",
+                subheaderPill: false),
 
             ThemedControls.spacerVerticalNormal(),
             Text("Overview", style: TextStyles.labelTextNormal),
@@ -381,13 +375,9 @@ class _TabExplorerState extends State<TabExplorer> {
             //Ends here
           ]));
     }));
-
-    //Text("Explorer info"));
-
     return cards;
   }
 
-  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -450,7 +440,6 @@ class _TabExplorerState extends State<TabExplorer> {
                     floating: false,
                     pinned: false,
                     collapsedHeight: 60,
-                    //title: Text("Flexible space title"),
                     expandedHeight: 0,
                   ),
                   SliverList(
@@ -459,15 +448,5 @@ class _TabExplorerState extends State<TabExplorer> {
                     }, childCount: getExplorerContents().length),
                   ),
                 ]))));
-    // child: SingleChildScrollView(
-    //   physics: const AlwaysScrollableScrollPhysics(),
-    //   child: Padding(
-    //       padding: ThemeEdgeInsets.pageInsets,
-    //       child: Wrap(
-    //           runAlignment: WrapAlignment.center,
-    //           alignment: WrapAlignment.center,
-    //           crossAxisAlignment: WrapCrossAlignment.center,
-    //           children: getExplorerContents())),
-    // )));
   }
 }

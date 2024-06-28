@@ -222,9 +222,11 @@ class TransactionItem extends StatelessWidget {
                   //                      TransactionStatusItem(item: item)
                   getCardMenu(context)
                 ])),
-            Container(
-                width: double.infinity,
-                child: FittedBox(child: QubicAmount(amount: item.amount))),
+            Center(
+                child: Container(
+                    constraints: BoxConstraints(maxWidth: 500),
+                    width: double.infinity,
+                    child: FittedBox(child: QubicAmount(amount: item.amount)))),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,

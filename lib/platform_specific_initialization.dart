@@ -6,7 +6,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
-import 'package:qubic_wallet/resources/qubic_js.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_manager/window_manager.dart';

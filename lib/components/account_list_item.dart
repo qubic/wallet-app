@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-
 import 'package:qubic_wallet/components/amount_formatted.dart';
-import 'package:qubic_wallet/components/copyable_text.dart';
-import 'package:qubic_wallet/components/currency_amount.dart';
-import 'package:qubic_wallet/components/qubic_amount.dart';
-import 'package:qubic_wallet/components/qubic_asset.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
@@ -36,7 +29,7 @@ enum CardItem { delete, rename, reveal, viewTransactions, viewInExplorer }
 class AccountListItem extends StatefulWidget {
   final QubicListVm item;
 
-  AccountListItem({super.key, required this.item});
+  const AccountListItem({super.key, required this.item});
 
   @override
   State<AccountListItem> createState() => _AccountListItemState();
@@ -45,27 +38,27 @@ class AccountListItem extends StatefulWidget {
 class _AccountListItemState extends State<AccountListItem> {
   final _formKey = GlobalKey<FormBuilderState>();
 
-  final SettingsStore settingsStore = getIt<SettingsStore>();
-  final ApplicationStore appStore = getIt<ApplicationStore>();
+  final SettingsStore _settingsStore = getIt<SettingsStore>();
+  final ApplicationStore _appStore = getIt<ApplicationStore>();
 
   bool totalBalanceVisible = true;
-  late ReactionDisposer disposer;
+  late ReactionDisposer _disposer;
 
   @override
   void initState() {
     super.initState();
-    totalBalanceVisible = settingsStore.settings.totalBalanceVisible ?? true;
+    totalBalanceVisible = _settingsStore.settings.totalBalanceVisible ?? true;
 
-    disposer = autorun((_) {
+    _disposer = autorun((_) {
       setState(() {
-        totalBalanceVisible = settingsStore.totalBalanceVisible;
+        totalBalanceVisible = _settingsStore.totalBalanceVisible;
       });
     });
   }
 
   @override
   void dispose() {
-    disposer();
+    _disposer();
     super.dispose();
   }
 
@@ -100,10 +93,10 @@ class _AccountListItemState extends State<AccountListItem> {
           return;
         }
 
-        appStore.setName(widget.item.publicId,
+        _appStore.setName(widget.item.publicId,
             _formKey.currentState?.instantValue["accountName"]);
 
-        //appStore.removeID(item.publicId);
+        //_appStore.removeID(item.publicId);
         Navigator.pop(dialogContext);
       },
     );
@@ -132,7 +125,7 @@ class _AccountListItemState extends State<AccountListItem> {
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
                       CustomFormFieldValidators.isNameAvailable(
-                          currentQubicIDs: appStore.currentQubicIDs,
+                          currentQubicIDs: _appStore.currentQubicIDs,
                           ignorePublicId: widget.item.name)
                     ]),
                   ),
@@ -167,7 +160,7 @@ class _AccountListItemState extends State<AccountListItem> {
     Widget continueButton = ThemedControls.primaryButtonNormal(
       text: "Delete Account",
       onPressed: () async {
-        await appStore.removeID(widget.item.publicId);
+        await _appStore.removeID(widget.item.publicId);
         Navigator.pop(dialogContext);
       },
     );
@@ -211,9 +204,6 @@ class _AccountListItemState extends State<AccountListItem> {
                 color: LightThemeColors.primary.withAlpha(140)),
             // Callback that sets the selected popup menu item.
             onSelected: (CardItem menuItem) async {
-              // setState(() {
-              //   selectedMenu = item;
-              // });
               if (menuItem == CardItem.rename) {
                 showRenameDialog(context);
               }

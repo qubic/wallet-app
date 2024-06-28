@@ -37,13 +37,14 @@ class TickIndicatorStyled extends StatelessWidget {
       }),
       Observer(builder: (context) {
         if (appStore.pendingRequests > 0) {
-          return SizedBox(
+          return const SizedBox(
               width: 10,
               height: 10,
               child: CircularProgressIndicator(
-                  strokeWidth: 2, color: textStyle.color));
+                  strokeWidth: 2, color: LightThemeColors.buttonBackground));
         }
-        return Container();
+
+        return const SizedBox(width: 10, height: 10);
       })
     ]);
   }
