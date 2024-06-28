@@ -308,12 +308,10 @@ class _SignInState extends State<SignIn>
   Widget eraseWalletButton() {
     return SizedBox(
         width: double.infinity,
+        height: 48,
         child: ThemedControls.dangerButtonBigWithClild(
-            child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: ThemePaddings.bigPadding),
-                child: Text("Erase Wallet Data",
-                    style: TextStyles.destructiveButtonText)),
+            child: Text("Erase Wallet Data",
+                style: TextStyles.destructiveButtonText),
             onPressed: () {
               showModalBottomSheet<void>(
                   context: context,
@@ -342,16 +340,16 @@ class _SignInState extends State<SignIn>
   Widget biometricsButton() {
     String label = "Biometric Unlock";
     if (biometricType == BiometricType.face) {
-      label = "Face Unlock";
+      label = "Unlock with Face ID";
     } else if (biometricType == BiometricType.fingerprint) {
-      label = "Fingerprint Unlock";
+      label = "Unlock with Touch ID";
     } else if (biometricType == BiometricType.iris) {
-      label = "Iris Unlock";
+      label = "Unlock with Iris";
     } else if (biometricType == BiometricType.strong) {
       if (UniversalPlatform.isAndroid) {
-        label = "Biometric Unlock";
+        label = "Unlock with Biometric";
       } else {
-        label = "OS Unlock";
+        label = "Unlock with OS";
       }
     } else if (biometricType == BiometricType.weak) {
       label = "Alternative Unlock";
@@ -359,37 +357,29 @@ class _SignInState extends State<SignIn>
 
     return SizedBox(
         width: double.infinity,
+        height: 48,
         child: ThemedControls.transparentButtonBigWithChild(
             onPressed: handleBiometricsAuth,
-            child: Builder(builder: (context) {
-              return Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 2),
-                  child:
-                      Text(label, style: TextStyles.transparentButtonPrimary));
-            })));
+            child: Text(label, style: TextStyles.transparentButtonPrimary)));
   }
 
   Widget signInButton() {
     return SizedBox(
         width: double.infinity,
+        height: 48,
         child: ThemedControls.primaryButtonBigWithChild(
             onPressed: signInHandler,
             child: Builder(builder: (context) {
               if (isLoading) {
-                return Padding(
-                    padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-                    child: SizedBox(
-                        height: 23,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color:
-                                Theme.of(context).colorScheme.inversePrimary)));
+                return SizedBox(
+                    height: 22,
+                    width: 22,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.inversePrimary));
               } else {
-                return Padding(
-                    padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-                    child: Text("Unlock Wallet",
-                        style: TextStyles.primaryButtonText));
+                return Text("Unlock Wallet",
+                    style: TextStyles.primaryButtonText);
               }
             })));
   }
@@ -551,6 +541,7 @@ class _SignInState extends State<SignIn>
                 Expanded(child: getLogo()),
                 SizedBox(
                     width: double.infinity,
+                    height: 48,
                     child: ThemedControls.primaryButtonBigWithChild(
                         onPressed: () {
                           pushScreen(
@@ -562,11 +553,8 @@ class _SignInState extends State<SignIn>
                                 PageTransitionAnimation.cupertino,
                           );
                         },
-                        child: Padding(
-                            padding: const EdgeInsets.all(
-                                ThemePaddings.normalPadding),
-                            child: Text("Create a New Wallet",
-                                style: TextStyles.primaryButtonText)))),
+                        child: Text("Create a New Wallet",
+                            style: TextStyles.primaryButtonText))),
               ])),
     );
   }

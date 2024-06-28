@@ -2,6 +2,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
@@ -42,6 +43,8 @@ class _TabSettingsState extends State<TabSettings> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
   final SecureStorage secureStorage = getIt<SecureStorage>();
+  final LocalAuthentication auth = LocalAuthentication();
+
   final QubicLi li = getIt<QubicLi>();
   final _globalSnackBar = getIt<GlobalSnackBar>();
   final TimedController timedController = getIt<TimedController>();
@@ -51,7 +54,11 @@ class _TabSettingsState extends State<TabSettings> {
   int currentPage = 1;
   int itemsPerPage = 1000;
 
+  BiometricType? biometricType; //The type of biometric available
+  String unlockLabel = "Unlock with Biometrics";
   PackageInfo? packageInfo; // = await PackageInfo.fromPlatform();
+  IconData icon = Icons.fingerprint;
+
   bool isLoading = false;
   @override
   void initState() {
@@ -59,6 +66,44 @@ class _TabSettingsState extends State<TabSettings> {
     PackageInfo.fromPlatform().then((value) => setState(() {
           packageInfo = value;
         }));
+    auth.canCheckBiometrics.then((value) {
+      auth.getAvailableBiometrics().then((value) {
+        if ((value.contains(BiometricType.face)) && (biometricType == null)) {
+          setState(() {
+            biometricType = BiometricType.face;
+            unlockLabel = "Unlock with Face ID";
+            icon = Icons.face_outlined;
+          });
+        }
+        if ((value.contains(BiometricType.fingerprint)) &&
+            (biometricType == null)) {
+          setState(() {
+            biometricType = BiometricType.fingerprint;
+            unlockLabel = "Unlock with Touch ID";
+            icon = Icons.fingerprint;
+          });
+        }
+        if ((value.contains(BiometricType.iris)) && (biometricType == null)) {
+          setState(() {
+            biometricType = BiometricType.iris;
+            unlockLabel = "Unlock with Iris";
+            icon = Icons.remove_red_eye_outlined;
+          });
+        }
+        if ((value.contains(BiometricType.strong)) && (biometricType == null)) {
+          setState(() {
+            biometricType = BiometricType.strong;
+            if (UniversalPlatform.isWindows) {
+              unlockLabel = "Unlock with OS";
+              icon = Icons.security;
+            } else {
+              unlockLabel = "Unlock with Biometrics";
+              icon = Icons.fingerprint;
+            }
+          });
+        }
+      });
+    });
   }
 
   @override
@@ -195,16 +240,9 @@ class _TabSettingsState extends State<TabSettings> {
                   }),
               SettingsTile.navigation(
                 leading: ChangeForeground(
-                    color: LightThemeColors.gradient1,
-                    child: Icon(UniversalPlatform.isDesktop
-                        ? Icons.security
-                        : Icons.fingerprint)),
+                    color: LightThemeColors.gradient1, child: Icon(icon)),
                 trailing: getTrailingArrow(),
-                title: Text(
-                    UniversalPlatform.isDesktop
-                        ? 'OS Unlock'
-                        : 'Biometric Unlock',
-                    style: TextStyles.textNormal),
+                title: Text(unlockLabel, style: TextStyles.textNormal),
                 value: Observer(builder: (context) {
                   return settingsStore.settings.biometricEnabled
                       ? Text("Enabled",

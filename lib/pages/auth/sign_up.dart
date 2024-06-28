@@ -281,22 +281,21 @@ class _ReceiveState extends State<SignUp> {
   List<Widget> getButtons() {
     return [
       Expanded(
-          child: ThemedControls.primaryButtonBigWithChild(
-              onPressed: handleProceed,
-              child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-                  child: !isLoading
-                      ? Text("Proceed",
-                          textAlign: TextAlign.center,
-                          style: TextStyles.primaryButtonText)
-                      : SizedBox(
-                          height: 23,
-                          width: 23,
-                          child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .inversePrimary)))))
+          child: SizedBox(
+        height: 48,
+        child: ThemedControls.primaryButtonBigWithChild(
+            onPressed: handleProceed,
+            child: !isLoading
+                ? Text("Proceed",
+                    textAlign: TextAlign.center,
+                    style: TextStyles.primaryButtonText)
+                : SizedBox(
+                    height: 23,
+                    width: 23,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Theme.of(context).colorScheme.inversePrimary))),
+      ))
     ];
   }
 
