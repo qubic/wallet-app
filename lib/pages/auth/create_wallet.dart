@@ -217,7 +217,7 @@ class _CreateWalletState extends State<CreateWallet> {
                                                     .colorScheme
                                                     .inversePrimary));
                                       } else {
-                                        return Text("Create New Wallet",
+                                        return Text("Create new wallet",
                                             style:
                                                 TextStyles.primaryButtonText);
                                       }
