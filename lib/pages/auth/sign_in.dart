@@ -371,38 +371,39 @@ class _SignInState extends State<SignIn>
 
   //Gets the logo in sign i form
   Widget getLogo() {
-    return GestureDetector(
-        onTap: () {
-          setState(() {
-            timesPressed++;
-          });
-        },
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(
 
-                //    MediaQuery.of(context).size.height *                                              0.15,
-                child: Image(image: AssetImage('assets/images/blue-logo.png'))),
-            ConstrainedBox(
-                constraints: const BoxConstraints(
-                  minHeight: 12.0,
-                  minWidth: 10.0,
-                  maxHeight: 40.0,
-                  maxWidth: 10.0,
-                ),
-                child: Container()),
-            Text("Welcome to the",
-                textAlign: TextAlign.center,
-                style: TextStyles.pageTitle
-                    .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
-            Text("Qubic Wallet",
-                textAlign: TextAlign.center,
-                style: TextStyles.pageTitle.copyWith(
-                    fontSize: ThemeFontSizes.loginTitle.toDouble(),
-                    color: LightThemeColors.titleColor)),
-          ],
-        ));
+            //    MediaQuery.of(context).size.height *                                              0.15,
+            child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    timesPressed++;
+                  });
+                },
+                child:
+                    Image(image: AssetImage('assets/images/blue-logo.png')))),
+        ConstrainedBox(
+            constraints: const BoxConstraints(
+              minHeight: 12.0,
+              minWidth: 10.0,
+              maxHeight: 40.0,
+              maxWidth: 10.0,
+            ),
+            child: Container()),
+        Text("Welcome to the",
+            textAlign: TextAlign.center,
+            style: TextStyles.pageTitle
+                .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
+        Text("Qubic Wallet",
+            textAlign: TextAlign.center,
+            style: TextStyles.pageTitle.copyWith(
+                fontSize: ThemeFontSizes.loginTitle.toDouble(),
+                color: LightThemeColors.titleColor)),
+      ],
+    );
   }
 
   //Shows a sign in error
