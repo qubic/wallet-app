@@ -147,14 +147,14 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   Widget biometricsButton() {
     String label = "Biometric Unlock";
     if (biometricType == BiometricType.face) {
-      label = "Face Unlock";
+      label = "Unlock with Face ID";
     } else if (biometricType == BiometricType.fingerprint) {
-      label = "Fingerprint Unlock";
+      label = "Unlock with Touch ID";
     } else if (biometricType == BiometricType.iris) {
-      label = "Iris Unlock";
+      label = "Unlock with Iris";
     } else if (biometricType == BiometricType.strong) {
       if (UniversalPlatform.isAndroid) {
-        label = "Biometric Unlock";
+        label = "Unlock with Biometric";
       } else {
         label = "OS Unlock";
       }
