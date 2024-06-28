@@ -57,6 +57,15 @@ class ThemedControls {
     );
   }
 
+  static Widget dangerButtonBigWithClild(
+      {required void Function()? onPressed, required Widget child}) {
+    return TextButton(
+      style: ButtonStyles.dangerButtonBig,
+      onPressed: onPressed,
+      child: child,
+    );
+  }
+
   // A transparent button with child widgets
   static Widget transparentButtonBigWithChild(
       {required void Function()? onPressed, required Widget child}) {

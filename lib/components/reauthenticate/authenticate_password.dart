@@ -14,9 +14,9 @@ import 'package:universal_platform/universal_platform.dart';
 
 class AuthenticatePassword extends StatefulWidget {
   final Function onSuccess;
-  final bool passOnly; // If true, only password authentication is required
+  final bool passOnly; // If true, only password _authentication is required
   final bool
-      autoLocalAuth; // If true, automatically authenticate with local auth
+      autoLocalAuth; // If true, automatically _authenticate with local _auth
 
   const AuthenticatePassword(
       {super.key,
@@ -34,10 +34,11 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
-  final LocalAuthentication auth = LocalAuthentication();
+  final LocalAuthentication _auth = LocalAuthentication();
 
-  String? signInError;
-  double formOpacity = 1;
+  String? signInError; //Error of signing in
+  double formOpacity = 1; //Hide the form when biometric is shown
+  BiometricType? biometricType; //The type of biometric available
 
   @override
   void initState() {
@@ -46,6 +47,33 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
       setState(() {
         formOpacity = 0;
       });
+      _auth.canCheckBiometrics.then((value) {
+        _auth.getAvailableBiometrics().then((value) {
+          if ((value.contains(BiometricType.face)) && (biometricType == null)) {
+            setState(() {
+              biometricType = BiometricType.face;
+            });
+          }
+          if ((value.contains(BiometricType.fingerprint)) &&
+              (biometricType == null)) {
+            setState(() {
+              biometricType = BiometricType.fingerprint;
+            });
+          }
+          if ((value.contains(BiometricType.iris)) && (biometricType == null)) {
+            setState(() {
+              biometricType = BiometricType.iris;
+            });
+          }
+          if ((value.contains(BiometricType.strong)) &&
+              (biometricType == null)) {
+            setState(() {
+              biometricType = BiometricType.strong;
+            });
+          }
+        });
+      });
+
       handleBiometricsAuth();
     }
   }
@@ -57,16 +85,13 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
 
   Widget getCTA() {
     List<Widget> children = [
-      Flexible(child: authenticateButton(), flex: 3, fit: FlexFit.tight)
+      SizedBox(width: double.infinity, child: authenticateButton())
     ];
     if (settingsStore.settings.biometricEnabled && !widget.passOnly) {
-      children.add(const SizedBox(width: ThemePaddings.normalPadding));
-      children.add(
-        Flexible(fit: FlexFit.tight, child: biometricsButton()),
-      );
+      children.add(ThemedControls.spacerVerticalNormal());
+      children.add(SizedBox(width: double.infinity, child: biometricsButton()));
     }
-    return Flex(
-      direction: Axis.horizontal,
+    return Column(
       children: children,
     );
   }
@@ -79,7 +104,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
       isLoading = true;
     });
     try {
-      final bool didAuthenticate = await auth.authenticate(
+      final bool didAuthenticate = await _auth.authenticate(
           localizedReason: ' ',
           options: AuthenticationOptions(
               biometricOnly: UniversalPlatform.isDesktop ? false : true));
@@ -99,7 +124,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
           isLoading = false;
           formOpacity = 1;
           signInError = err.message ??
-              "Too many failed attempts to authenticate you. Please lock and unlock your phone via PIN / pattern and try again";
+              "Too many failed attempts to _authenticate you. Please lock and unlock your phone via PIN / pattern and try again";
         });
       } else if (err.message != null) {
         setState(() {
@@ -120,6 +145,22 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   }
 
   Widget biometricsButton() {
+    String label = "Biometric Unlock";
+    if (biometricType == BiometricType.face) {
+      label = "Face Unlock";
+    } else if (biometricType == BiometricType.fingerprint) {
+      label = "Fingerprint Unlock";
+    } else if (biometricType == BiometricType.iris) {
+      label = "Iris Unlock";
+    } else if (biometricType == BiometricType.strong) {
+      if (UniversalPlatform.isAndroid) {
+        label = "Biometric Unlock";
+      } else {
+        label = "OS Unlock";
+      }
+    } else if (biometricType == BiometricType.weak) {
+      label = "Alternative Unlock";
+    }
     return AnimatedOpacity(
         opacity: isLoading ? 0.1 : 1,
         duration: const Duration(milliseconds: 200),
@@ -128,27 +169,12 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
               await handleBiometricsAuth();
             },
             child: Padding(
-                padding: EdgeInsets.fromLTRB(
-                    MediaQuery.of(context).size.width < 400
-                        ? ThemePaddings.smallPadding
-                        : ThemePaddings.normalPadding,
-                    ThemePaddings.miniPadding - 1,
-                    MediaQuery.of(context).size.width < 400
-                        ? ThemePaddings.smallPadding
-                        : ThemePaddings.normalPadding,
-                    ThemePaddings.miniPadding - 1),
-                child: SizedBox(
-                    height: 42,
-                    width: MediaQuery.of(context).size.width < 400 ? 32 : 42,
-                    child: Icon(
-                        UniversalPlatform.isDesktop
-                            ? Icons.security
-                            : Icons.fingerprint,
-                        size: MediaQuery.of(context).size.width < 400 ? 32 : 42,
-                        color: LightThemeColors.primary)))));
+                padding: const EdgeInsets.all(ThemePaddings.smallPadding + 2),
+                child:
+                    Text(label, style: TextStyles.transparentButtonPrimary))));
   }
 
-  void authenticateHandler() async {
+  void _authenticateHandler() async {
     if (isLoading) {
       return;
     }
@@ -179,7 +205,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
 
   Widget authenticateButton() {
     return ThemedControls.primaryButtonBigWithChild(
-        onPressed: authenticateHandler,
+        onPressed: _authenticateHandler,
         child: Builder(builder: (context) {
           if (isLoading) {
             return Padding(
@@ -217,7 +243,6 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                   Container(child: Builder(builder: (context) {
                     if (signInError == null) {
                       return Container();
-//                  return Container(child: const SizedBox(height: 33));
                     } else {
                       return Center(
                         child: Padding(
@@ -258,7 +283,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                         ),
                       ),
                     ),
-                    onSubmitted: (value) => authenticateHandler(),
+                    onSubmitted: (value) => _authenticateHandler(),
                     style: TextStyles.inputBoxNormalStyle,
                     enabled: !isLoading,
                     obscureText: obscuringTextPass,

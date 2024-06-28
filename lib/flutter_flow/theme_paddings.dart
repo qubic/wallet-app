@@ -30,6 +30,8 @@ class LightThemeColors {
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);
 
+  static const dangerColor = Color(0xFF381D1E);
+
   static const textColorSecondary = Color(0xFF808B9B);
 
   static const menuBg = Color(0xFF192531);

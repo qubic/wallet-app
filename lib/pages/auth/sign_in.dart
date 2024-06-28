@@ -67,12 +67,39 @@ class _SignInState extends State<SignIn>
   bool isKeyboardVisible = false;
   bool obscuringText = true; //Hide password or not
   int timesPressed = 0; //Number of times logo has been clicked
+  BiometricType? biometricType; //The type of biometric available
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     final ApplicationStore applicationStore = getIt<ApplicationStore>();
+
+    _auth.canCheckBiometrics.then((value) {
+      _auth.getAvailableBiometrics().then((value) {
+        if ((value.contains(BiometricType.face)) && (biometricType == null)) {
+          setState(() {
+            biometricType = BiometricType.face;
+          });
+        }
+        if ((value.contains(BiometricType.fingerprint)) &&
+            (biometricType == null)) {
+          setState(() {
+            biometricType = BiometricType.fingerprint;
+          });
+        }
+        if ((value.contains(BiometricType.iris)) && (biometricType == null)) {
+          setState(() {
+            biometricType = BiometricType.iris;
+          });
+        }
+        if ((value.contains(BiometricType.strong)) && (biometricType == null)) {
+          setState(() {
+            biometricType = BiometricType.strong;
+          });
+        }
+      });
+    });
 
     //Setup snackbars
     _disposeSnackbarAuto = autorun((_) {
@@ -281,7 +308,7 @@ class _SignInState extends State<SignIn>
   Widget eraseWalletButton() {
     return SizedBox(
         width: double.infinity,
-        child: ThemedControls.transparentButtonBigWithChild(
+        child: ThemedControls.dangerButtonBigWithClild(
             child: Padding(
                 padding: const EdgeInsets.symmetric(
                     vertical: ThemePaddings.bigPadding),
@@ -313,6 +340,23 @@ class _SignInState extends State<SignIn>
   }
 
   Widget biometricsButton() {
+    String label = "Biometric Unlock";
+    if (biometricType == BiometricType.face) {
+      label = "Face Unlock";
+    } else if (biometricType == BiometricType.fingerprint) {
+      label = "Fingerprint Unlock";
+    } else if (biometricType == BiometricType.iris) {
+      label = "Iris Unlock";
+    } else if (biometricType == BiometricType.strong) {
+      if (UniversalPlatform.isAndroid) {
+        label = "Biometric Unlock";
+      } else {
+        label = "OS Unlock";
+      }
+    } else if (biometricType == BiometricType.weak) {
+      label = "Alternative Unlock";
+    }
+
     return SizedBox(
         width: double.infinity,
         child: ThemedControls.transparentButtonBigWithChild(
@@ -320,40 +364,8 @@ class _SignInState extends State<SignIn>
             child: Builder(builder: (context) {
               return Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 2),
-                  child: Text("Biometric Unlock",
-                      style: TextStyles.transparentButtonPrimary));
-            })));
-  }
-
-  Widget biometricsButtonOld() {
-    return AnimatedOpacity(
-        duration: const Duration(milliseconds: 200),
-        opacity: isLoading ? 0.1 : 1,
-        child: TextButton(
-            style: ButtonStyles.textButtonBig.copyWith(
-              shadowColor: MaterialStateProperty.all<Color>(
-                  LightThemeColors.buttonBackground),
-              elevation: MaterialStateProperty.all<double>(0.0),
-            ),
-            onPressed: () async {
-              await handleBiometricsAuth();
-            },
-            child: Builder(builder: (context) {
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      ThemePaddings.normalPadding,
-                      2,
-                      ThemePaddings.normalPadding,
-                      2),
-                  child: SizedBox(
-                      height: 42,
-                      width: 42,
-                      child: Icon(
-                          UniversalPlatform.isDesktop
-                              ? Icons.security
-                              : Icons.fingerprint,
-                          size: 34,
-                          color: LightThemeColors.primary)));
+                  child:
+                      Text(label, style: TextStyles.transparentButtonPrimary));
             })));
   }
 
@@ -585,14 +597,15 @@ class _SignInState extends State<SignIn>
                     ]))),
       ),
       Positioned(
-          bottom: 0,
+          bottom: UniversalPlatform.isDesktop ? ThemePaddings.bigPadding : 0,
           left: 0,
           right: 0,
           child: Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: ThemePaddings.bigPadding),
               child: eraseWalletButton()
-                  .animate(target: isKeyboardVisible ? 1 : 0)
+                  .animate(
+                      target: (isKeyboardVisible || formOpacity == 0) ? 1 : 0)
                   .moveY(
                       begin: 0,
                       end: 100,

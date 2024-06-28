@@ -58,18 +58,6 @@ class _ReauthenticateState extends State<Reauthenticate> {
         )
       ],
     );
-    // return Column(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     crossAxisAlignment: CrossAxisAlignment.center,
-    //     children: [
-    //       Icon(Icons.lock, size: 100),
-    //       Text("Please reauthenticate",
-    //           style: Theme.of(context)
-    //               .textTheme
-    //               .displayMedium!
-    //               .copyWith(fontFamily: ThemeFonts.primary)),
-    //       //Text("Please authenticate again in order to proceed.")
-    //     ]);
   }
 
   Widget getContents() {
