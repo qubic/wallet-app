@@ -32,11 +32,10 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   List<BiometricType>? availableBiometrics; //Is empty, no biometric is enrolled
   bool? canUseBiometrics = false;
 
-  String _scope = "biometric";
   String _title = "Manage Biometric Unlock";
   String _description =
       "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password";
-  IconData _icon = Icons.fingerprint;
+  Widget _icon = const Icon(Icons.fingerprint);
   String _settingsLabel = "Biometric Unlock";
 
   BiometricType? biometricType; //The type of biometric available
@@ -67,7 +66,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
                   "You can enable authentication via Face ID. If you enable this, you can sign in to your wallet and issue transfers without using your password";
               _title = "Manage unlock with Face ID";
               _settingsLabel = "Unlock with Face ID";
-              _icon = Icons.face_outlined;
+              _icon = Image.asset("assets/images/faceid-big.png");
             });
           }
           if ((value.contains(BiometricType.fingerprint)) &&
@@ -78,7 +77,8 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
                   "You can enable authentication via Touch ID. If you enable this, you can unlock your wallet and issue transfers without using your password";
               _title = "Manage unlock with Touch ID";
               _settingsLabel = "Unlock with Touch ID";
-              _icon = Icons.fingerprint;
+              _icon = const Icon(Icons.fingerprint,
+                  size: 100, color: LightThemeColors.buttonBackground);
             });
           }
           if ((value.contains(BiometricType.iris)) && (biometricType == null)) {
@@ -88,7 +88,8 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
                   "You can enable authentication with your iris. If you enable this, you can unlock your wallet and issue transfers without using your password";
               _title = "Manage unlock with Iris";
               _settingsLabel = "Unlock with Iris";
-              _icon = Icons.remove_red_eye_outlined;
+              _icon = const Icon(Icons.remove_red_eye_outlined,
+                  size: 100, color: LightThemeColors.buttonBackground);
             });
           }
           if ((value.contains(BiometricType.strong)) &&
@@ -101,13 +102,15 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
                     "You can enable authentication through your OS. If you enable this, you can unlock  your wallet and issue transfers using your OS authentication";
                 _title = "Manage unlock with OS";
                 _settingsLabel = "Unlock with OS";
-                _icon = Icons.shield;
+                _icon = const Icon(Icons.shield,
+                    size: 100, color: LightThemeColors.buttonBackground);
               } else {
                 _description =
                     "You can enable authentication with biometrics. If you enable this, you can unlock your wallet and issue transfers without using your password";
                 _title = "Manage unlock with Biometric";
                 _settingsLabel = "Unlock with Biometric";
-                _icon = Icons.fingerprint;
+                _icon = const Icon(Icons.fingerprint,
+                    size: 100, color: LightThemeColors.buttonBackground);
               }
             });
           }
@@ -148,9 +151,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
     return Column(children: [
       const SizedBox(height: ThemePaddings.hugePadding),
       Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-        GradientForeground(
-            child: Icon(_icon,
-                size: 100, color: Theme.of(context).colorScheme.primary)),
+        _icon,
       ]),
       const SizedBox(height: ThemePaddings.hugePadding),
       SettingsList(
@@ -222,7 +223,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       return Container();
     }
     return Padding(
-        padding: EdgeInsets.only(top: ThemePaddings.bigPadding),
+        padding: const EdgeInsets.only(top: ThemePaddings.bigPadding),
         child: ThemedControls.card(
             child: Column(children: [
           Column(mainAxisAlignment: MainAxisAlignment.center, children: [

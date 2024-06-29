@@ -57,7 +57,7 @@ class _TabSettingsState extends State<TabSettings> {
   BiometricType? biometricType; //The type of biometric available
   String unlockLabel = "Unlock with Biometrics";
   PackageInfo? packageInfo; // = await PackageInfo.fromPlatform();
-  IconData icon = Icons.fingerprint;
+  Widget icon = const Icon(Icons.fingerprint);
 
   bool isLoading = false;
   @override
@@ -72,7 +72,7 @@ class _TabSettingsState extends State<TabSettings> {
           setState(() {
             biometricType = BiometricType.face;
             unlockLabel = "Unlock with Face ID";
-            icon = Icons.face_outlined;
+            icon = Image.asset("assets/images/faceid.png");
           });
         }
         if ((value.contains(BiometricType.fingerprint)) &&
@@ -80,14 +80,14 @@ class _TabSettingsState extends State<TabSettings> {
           setState(() {
             biometricType = BiometricType.fingerprint;
             unlockLabel = "Unlock with Touch ID";
-            icon = Icons.fingerprint;
+            icon = const Icon(Icons.fingerprint);
           });
         }
         if ((value.contains(BiometricType.iris)) && (biometricType == null)) {
           setState(() {
             biometricType = BiometricType.iris;
             unlockLabel = "Unlock with Iris";
-            icon = Icons.remove_red_eye_outlined;
+            icon = const Icon(Icons.remove_red_eye_outlined);
           });
         }
         if ((value.contains(BiometricType.strong)) && (biometricType == null)) {
@@ -95,10 +95,10 @@ class _TabSettingsState extends State<TabSettings> {
             biometricType = BiometricType.strong;
             if (UniversalPlatform.isWindows) {
               unlockLabel = "Unlock with OS";
-              icon = Icons.security;
+              icon = const Icon(Icons.security);
             } else {
               unlockLabel = "Unlock with Biometrics";
-              icon = Icons.fingerprint;
+              icon = const Icon(Icons.fingerprint);
             }
           });
         }
@@ -159,7 +159,7 @@ class _TabSettingsState extends State<TabSettings> {
     }
 
     return Padding(
-      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: SettingsList(
         shrinkWrap: true,
         applicationType: ApplicationType.material,
@@ -240,7 +240,7 @@ class _TabSettingsState extends State<TabSettings> {
                   }),
               SettingsTile.navigation(
                 leading: ChangeForeground(
-                    color: LightThemeColors.gradient1, child: Icon(icon)),
+                    color: LightThemeColors.gradient1, child: icon),
                 trailing: getTrailingArrow(),
                 title: Text(unlockLabel, style: TextStyles.textNormal),
                 value: Observer(builder: (context) {
