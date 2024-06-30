@@ -88,7 +88,7 @@ class _TabTransfersState extends State<TabTransfers> {
                           ],
                           floating: false,
                           pinned: true,
-                          toolbarHeight: 55,
+                          toolbarHeight: 58,
                           //collapsedHeight: sliverCollapsed,
                           //title: Text("Flexible space title"),
                           //expandedHeight: sliverExpanded,

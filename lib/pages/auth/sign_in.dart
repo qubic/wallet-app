@@ -534,28 +534,31 @@ class _SignInState extends State<SignIn>
       ),
       child: Container(
           width: double.infinity,
-          child: Flex(
-              direction: Axis.vertical,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(child: getLogo()),
-                SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: ThemedControls.primaryButtonBigWithChild(
-                        onPressed: () {
-                          pushScreen(
-                            context,
-                            screen: const SignUp(),
-                            withNavBar:
-                                false, // OPTIONAL VALUE. True by default.
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino,
-                          );
-                        },
-                        child: Text("Create a New Wallet",
-                            style: TextStyles.primaryButtonText))),
-              ])),
+          child: Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewPadding.bottom),
+              child: Flex(
+                  direction: Axis.vertical,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(child: getLogo()),
+                    SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ThemedControls.primaryButtonBigWithChild(
+                            onPressed: () {
+                              pushScreen(
+                                context,
+                                screen: const SignUp(),
+                                withNavBar:
+                                    false, // OPTIONAL VALUE. True by default.
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                              );
+                            },
+                            child: Text("Create a New Wallet",
+                                style: TextStyles.primaryButtonText))),
+                  ]))),
     );
   }
 

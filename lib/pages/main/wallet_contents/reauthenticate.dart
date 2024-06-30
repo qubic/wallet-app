@@ -63,17 +63,18 @@ class _ReauthenticateState extends State<Reauthenticate> {
   Widget getContents() {
     return Column(
       children: [
-        ThemedControls.pageHeader(headerText: "Authentication Required"),
-        Expanded(child: Container()),
-        Align(
-          alignment: Alignment.center,
-          child: AuthenticatePassword(
-            onSuccess: () {
-              Navigator.of(context).pop(true);
-            },
-            passOnly: widget.passwordOnly,
-          ),
-        ),
+        Expanded(
+            child: ThemedControls.pageHeader(
+                headerText: "Authentication Required")),
+        Padding(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewPadding.bottom),
+            child: AuthenticatePassword(
+              onSuccess: () {
+                Navigator.of(context).pop(true);
+              },
+              passOnly: widget.passwordOnly,
+            )),
       ],
     );
   }
@@ -84,8 +85,8 @@ class _ReauthenticateState extends State<Reauthenticate> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
         ),
-        body: SafeArea(
-            minimum: ThemeEdgeInsets.pageInsets,
+        body: Padding(
+            padding: ThemeEdgeInsets.pageInsets,
             child: Center(child: getContents())));
   }
 }

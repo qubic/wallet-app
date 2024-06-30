@@ -145,18 +145,18 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   }
 
   Widget biometricsButton() {
-    String label = "Unlock with Biometrics";
+    String label = "Authenticate Biometrics";
     if (biometricType == BiometricType.face) {
-      label = "Unlock with Face ID";
+      label = "Authenticate with Face ID";
     } else if (biometricType == BiometricType.fingerprint) {
-      label = "Unlock with Touch ID";
+      label = "Authenticate with Touch ID";
     } else if (biometricType == BiometricType.iris) {
-      label = "Unlock with Iris";
+      label = "Authenticate with Iris";
     } else if (biometricType == BiometricType.strong) {
       if (UniversalPlatform.isAndroid) {
-        label = "Unlock with Biometric";
+        label = "Authenticate with Biometric";
       } else {
-        label = "Unlock with OS";
+        label = "Authenticate with OS";
       }
     } else if (biometricType == BiometricType.weak) {
       label = "Alternative Unlock";
@@ -164,16 +164,13 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
     return AnimatedOpacity(
         opacity: isLoading ? 0.1 : 1,
         duration: const Duration(milliseconds: 200),
-        child: SizedBox(
-          height: 48,
+        child: Container(
+          constraints: const BoxConstraints(minHeight: 48),
           child: ThemedControls.transparentButtonBigWithChild(
               onPressed: () async {
                 await handleBiometricsAuth();
               },
-              child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 2),
-                  child:
-                      Text(label, style: TextStyles.transparentButtonPrimary))),
+              child: Text(label, style: TextStyles.transparentButtonPrimary)),
         ));
   }
 
@@ -293,7 +290,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                     autocorrect: false,
                     autofillHints: null,
                   ),
-                  const SizedBox(height: ThemePaddings.normalPadding),
+                  ThemedControls.spacerVerticalNormal(),
                   Center(child: getCTA()),
                 ])));
   }
