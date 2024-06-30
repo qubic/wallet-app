@@ -407,14 +407,17 @@ class _ReceiveState extends State<SignUp> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
             ),
-            body: SafeArea(
-                minimum: ThemeEdgeInsets.pageInsets,
-                child: Column(children: [
-                  Expanded(child: getScrollView()),
-                  SafeArea(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: getButtons()))
-                ]))));
+            body: Padding(
+              padding: ThemeEdgeInsets.pageInsets,
+              child: Column(children: [
+                Expanded(child: getScrollView()),
+                Padding(
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewPadding.bottom),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: getButtons()))
+              ]),
+            )));
   }
 }
