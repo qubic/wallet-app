@@ -22,6 +22,7 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/buttonStyles.dart';
+import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -588,7 +589,9 @@ class _SignInState extends State<SignIn>
                     ]))),
       ),
       Positioned(
-          bottom: UniversalPlatform.isDesktop ? ThemePaddings.bigPadding : 0,
+          bottom: UniversalPlatform.isDesktop
+              ? ThemePaddings.bigPadding
+              : ThemePaddings.normalPadding,
           left: 0,
           right: 0,
           child: Padding(
