@@ -310,9 +310,10 @@ class QubicLi {
     return transactions;
   }
 
-  /// Gets the balances from the network
+  /// Gets the balances from the network - Wallet/NetworkBalances
   /// @param publicIds - List of public IDs to get balances for
   /// @return List of balances
+  ///
   Future<List<CurrentBalanceDto>> getNetworkBalances(
       List<String> publicIds) async {
     try {
@@ -370,7 +371,7 @@ class QubicLi {
     return balances;
   }
 
-  // Gets the balances (and transactions) of a list of public IDs
+  // Gets the balances (and transactions) of a list of public IDs - Wallet/CurrentBalance
   Future<List<BalanceDto>> getCurrentBalances(List<String> publicIds) async {
     try {
       _assertAuthorized();

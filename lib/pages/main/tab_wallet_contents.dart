@@ -303,40 +303,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                       ThemedControls.spacerVerticalBig(),
                                     ]))));
                       }, childCount: 1));
-                    } else if (appStore.currentQubicIDs.length == 10) {
-                      return SliverList(
-                          delegate:
-                              SliverChildBuilderDelegate((context, index) {
-                        return Container(
-                            constraints: const BoxConstraints(
-                                minWidth: 400, maxWidth: 500),
-                            child: Container(
-                                color: LightThemeColors.color3,
-                                child: Padding(
-                                    padding: EdgeInsets.all(
-                                        ThemePaddings.smallPadding),
-                                    child: Center(
-                                        child: Column(children: [
-                                      ThemedControls.spacerVerticalBig(),
-                                      Text(
-                                        "You don't have any Qubic Accounts in your wallet yet",
-                                        style: TextStyles.secondaryText,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      ThemedControls.spacerVerticalBig(),
-                                      ThemedControls.primaryButtonBigWithChild(
-                                          onPressed: addAccount,
-                                          child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(Icons.add),
-                                                ThemedControls
-                                                    .spacerHorizontalSmall(),
-                                                Text("Add New Account"),
-                                              ])),
-                                      ThemedControls.spacerVerticalBig(),
-                                    ])))));
-                      }, childCount: 1));
                     } else {
                       return SliverList(
                         delegate: SliverChildBuilderDelegate((context, index) {

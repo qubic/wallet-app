@@ -29,11 +29,11 @@ class TimedController {
           appStore.currentQubicIDs.map((e) => e.publicId).toList();
 
       //Fetch balances
-      if (!_apiService.gettingCurrentBalances) {
-        _apiService.getCurrentBalances(myIds).then((balances) {
-          appStore.setCurrentBalances(balances);
-        });
-      }
+      // if (!_apiService.gettingCurrentBalances) {
+      //   _apiService.getCurrentBalances(myIds).then((balances) {
+      //     appStore.setCurrentBalances(balances);
+      //   });
+      // }
 
       //Fetch network balances
       if (!_apiService.gettingNetworkBalances) {
