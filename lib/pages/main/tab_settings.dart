@@ -15,6 +15,7 @@ import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/about_wallet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
@@ -267,8 +268,24 @@ class _TabSettingsState extends State<TabSettings> {
             ],
           ),
           SettingsSection(
-              title: getSettingsHeader("Other", true),
+              title: getSettingsHeader("About", true),
               tiles: <SettingsTile>[
+                SettingsTile.navigation(
+                  leading: ChangeForeground(
+                      child: const Icon(Icons.people),
+                      color: LightThemeColors.gradient1),
+                  title: Text('Join Community', style: TextStyles.textNormal),
+                  trailing: Container(),
+                  onPressed: (BuildContext? context) async {
+                    pushScreen(
+                      context!,
+                      screen: const JoinCommunity(),
+                      withNavBar: false, // OPTIONAL VALUE. True by default.
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    );
+                  },
+                ),
                 SettingsTile.navigation(
                   leading: ChangeForeground(
                       child: const Icon(Icons.account_balance_wallet_outlined),
