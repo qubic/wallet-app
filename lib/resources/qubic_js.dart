@@ -25,13 +25,15 @@ class QubicJs {
     InAppWebView = HeadlessInAppWebView(
         onWebViewCreated: (WVcontroller) async {
           WVcontroller.loadFile(
-              assetFilePath: "assets/qubic_js/index-2-0-1.html");
+              assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_1.html");
 
           controller = WVcontroller;
         },
         onConsoleMessage: (controller, consoleMessage) {
           debugPrint(consoleMessage.toString());
         },
+        onReceivedError: (controller, request, error) =>
+            {debugPrint(error.toString())},
         onLoadStart: (controller, url) {},
         onLoadStop: (controller, url) async {
           isReady = true;
@@ -71,15 +73,13 @@ class QubicJs {
       String assetIssuer,
       int numberOfUnits,
       int tick) async {
-    await validateFileStreamSignature();
-
     seed = seed.replaceAll("'", "\\'");
     destinationId = destinationId.replaceAll("'", "\\'");
     assetName = assetName.replaceAll("'", "\\'");
     assetIssuer = assetIssuer.replaceAll("'", "\\'");
 
     String functionBody =
-        "await qInterface.getAssetTransferTransaction('$seed', '$destinationId', '$assetName', '$assetIssuer', $numberOfUnits, $tick, true)";
+        "await runBrowser('createTransactionAssetMove','$seed', '$destinationId', '$assetName', '$assetIssuer', $numberOfUnits, $tick, true)";
     functionBody = "return $functionBody";
 
     initialize();
@@ -98,10 +98,8 @@ class QubicJs {
 
   Future<String> createTransaction(
       String seed, String destinationId, int value, int tick) async {
-    await validateFileStreamSignature();
-
     String functionBody =
-        "await qInterface.getTransaction('${seed.replaceAll("'", "\\'")}', '${destinationId.replaceAll("'", "\\'")}', $value, $tick,true)";
+        "await runBrowser('createTransaction','${seed.replaceAll("'", "\\'")}', '${destinationId.replaceAll("'", "\\'")}', $value, $tick,true);";
     functionBody = "return $functionBody";
 
     initialize();
@@ -117,30 +115,10 @@ class QubicJs {
     return result.value['transaction'];
   }
 
-  Future<void> validateFileStreamSignature() async {
-    final jsSource = await controller!.getHtml();
-    final checksum = crypto.md5.convert(utf8.encode(jsSource!)).toString();
-
-    if (!Config.checkForTamperedUtils) {
-      debugPrint("JS checksum" + checksum + " vs precalculated " + INDEX_MD5);
-      validatedFileStream = true;
-      return;
-    }
-
-    // if (checksum != INDEX_MD5) {
-    //   throw Exception(
-    //       "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL AND DOWNLOAD AGAIN FROM QUBIC-HUB.COM CHECKSUM:${checksum} VS ${INDEX_MD5}");
-    // }
-    validatedFileStream = true;
-
-    return;
-  }
-
   Future<String> getPublicIdFromSeed(String seed) async {
-    await validateFileStreamSignature();
     CallAsyncJavaScriptResult? result = await controller!.callAsyncJavaScript(
         functionBody:
-            "return await qInterface.getPublicId('${seed.replaceAll("'", "\\'")}')");
+            "return await runBrowser('createPublicId','${seed.replaceAll("'", "\\'")}');");
 
     if (result == null) {
       throw Exception('Error getting public id from seed: Generic error');

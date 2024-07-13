@@ -37,10 +37,11 @@ abstract class Config {
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(
-          filename: "qubic-helper-win-x64-2_0_1.exe",
+          filename: "qubic-helper-win-x64-3_0_1.exe",
           downloadPath:
-              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/2.0.1/qubic-helper-win-x64-2_0_1.exe",
-          checksum: "4dcab1001193a7ed3abf3485cd99eff0"),
+              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/2.0.1/qubic-helper-win-x64-3_0_1.exe",
+          checksum:
+              "55bd7382935359a0e475392f9b0cec83"), // was 4dcab1001193a7ed3abf3485cd99eff0 for 2_0_1
       linux64: QubicHelperConfigEntry(
           filename: "qubic-helper-linux-x64-2_0_1",
           downloadPath:
