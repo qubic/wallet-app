@@ -79,7 +79,7 @@ class QubicJs {
     assetIssuer = assetIssuer.replaceAll("'", "\\'");
 
     String functionBody =
-        "await runBrowser('createTransactionAssetMove','$seed', '$destinationId', '$assetName', '$assetIssuer', $numberOfUnits, $tick, true)";
+        "await runBrowser('createTransactionAssetMove','$seed', '$destinationId', '$assetName', '$assetIssuer', $numberOfUnits, $tick)";
     functionBody = "return $functionBody";
 
     initialize();
@@ -99,9 +99,9 @@ class QubicJs {
   Future<String> createTransaction(
       String seed, String destinationId, int value, int tick) async {
     String functionBody =
-        "await runBrowser('createTransaction','${seed.replaceAll("'", "\\'")}', '${destinationId.replaceAll("'", "\\'")}', $value, $tick,true);";
+        "await runBrowser('createTransaction','${seed.replaceAll("'", "\\'")}', '${destinationId.replaceAll("'", "\\'")}', $value, $tick);";
     functionBody = "return $functionBody";
-
+    debugPrint(functionBody);
     initialize();
     CallAsyncJavaScriptResult? result =
         await controller!.callAsyncJavaScript(functionBody: functionBody);
