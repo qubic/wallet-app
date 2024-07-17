@@ -26,7 +26,7 @@ class QubicJs {
     InAppWebView = HeadlessInAppWebView(
         onWebViewCreated: (WVcontroller) async {
           WVcontroller.loadFile(
-              assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_2.html");
+              assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_3.html");
 
           controller = WVcontroller;
         },
@@ -135,9 +135,12 @@ class QubicJs {
       String password, List<QubicVaultExportSeed> seeds) async {
     CallAsyncJavaScriptResult? result = await controller!.callAsyncJavaScript(
         functionBody:
-            "return await runBrowser('wallet.createVaultFile','${password.replaceAll("'", "\\'")}','${jsonEncode(seeds.map((e) => e.toJson()).toList()).replaceAll("'", "\\'")}'");
+            "return await runBrowser('wallet.createVaultFile','${password.replaceAll("'", "\\'")}','${jsonEncode(seeds.map((e) => e.toJson()).toList()).replaceAll("'", "\\'")}')");
     if (result == null) {
       throw Exception('Error getting vault file: Generic error');
+    }
+    if (result.value['status'] == 'error') {
+      throw Exception('Error getting vault file:  ${result.value['error']}');
     }
     if (result.error != null) {
       throw Exception('Error getting vault file:  ${result.error!}');

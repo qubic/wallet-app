@@ -1,4 +1,5 @@
 import 'dart:io' as io;
+import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -18,9 +20,11 @@ import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:timeago/timeago.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:path/path.dart' as path;
+import 'package:intl/intl.dart';
 
 class ExportWalletVault extends StatefulWidget {
   const ExportWalletVault({super.key});
@@ -35,10 +39,14 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   final LocalAuthentication auth = LocalAuthentication();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
+  final _globalSnackBar = getIt<GlobalSnackBar>();
 
   String? selectedPath;
   io.File? selectedFile;
   bool enabled = false;
+
+  String exportError = "";
+
   @override
   void initState() {
     super.initState();
@@ -49,40 +57,43 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     super.dispose();
   }
 
-  Widget loadingIndicator() {
-    return Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-          const SizedBox(height: ThemePaddings.hugePadding),
-          const CircularProgressIndicator(),
-          const SizedBox(height: ThemePaddings.normalPadding),
-          Text("Loading...",
-              style: Theme.of(context)
-                  .textTheme
-                  .displayMedium!
-                  .copyWith(fontFamily: ThemeFonts.primary))
-        ]));
-  }
-
   Widget getEmptyPathSelector() {
     return ThemedControls.darkButtonBigWithChild(
         onPressed: () async {
-          String? outputFile = await FilePicker.platform.saveFile(
-            dialogTitle: 'Please select a save path for your qubic vault file:',
-            allowedExtensions: ['qubic-vault'],
-            type: FileType.custom,
-            lockParentWindow: true,
-            fileName: 'exported.qubic-vault',
-          );
-
-          if (outputFile == null) {
-            // User canceled the picker
-            debugPrint("Did not select");
-          } else {
+          if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+            String? outputFolder = await FilePicker.platform.getDirectoryPath(
+                dialogTitle:
+                    'Please select a save path for your qubic vault file:',
+                lockParentWindow: true);
+            if (outputFolder == null) {
+              // User canceled the picker
+              debugPrint("Did not select");
+              return;
+            }
+            DateTime now = DateTime.now();
+            String formattedDate = DateFormat('yyyy-MM-dd-kk-mm').format(now);
             setState(() {
-              selectedPath = outputFile;
-              if (!outputFile.endsWith(".qubic-vault")) {
+              selectedPath = outputFolder;
+              selectedPath =
+                  "${selectedPath!}/exported.${formattedDate}.qubic-vault";
+              selectedFile = io.File(selectedPath!);
+            });
+          } else {
+            String? outputFile = await FilePicker.platform.saveFile(
+                dialogTitle:
+                    'Please select a save path for your qubic vault file:',
+                allowedExtensions: ['qubic-vault'],
+                type: FileType.custom,
+                lockParentWindow: true,
+                fileName: 'exported.qubic-vault');
+
+            if (outputFile == null) {
+              // User canceled the picker
+              debugPrint("Did not select");
+            }
+            setState(() {
+              selectedPath = outputFile!;
+              if (!outputFile!.endsWith(".qubic-vault")) {
                 selectedPath = "${selectedPath!}.qubic-vault";
               }
               selectedFile = io.File(selectedPath!);
@@ -107,7 +118,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                           ThemedControls.spacerVerticalSmall(),
                           Container(
                               child: Text(
-                                  "Touch to select where the vault file will be saved in your device",
+                                  "Browse your device to select a location to save the vault file",
                                   style: TextStyles.secondaryText))
                         ]),
                   )
@@ -224,7 +235,19 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     if (await io.File(selectedPath!).exists()) {
       showOverWriteDialog(context);
     } else {
-      await exportVault();
+      try {
+        await exportVault();
+        setState(() {
+          isLoading = false;
+        });
+        _globalSnackBar.show("Vault successfully exported to ${selectedPath!}");
+        Navigator.pop(context);
+      } catch (e) {
+        showErrorDialog(context, e.toString());
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -233,45 +256,32 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     if (pass == null) {
       return;
     }
-    setState(() {
-      isLoading = true;
-    });
-    debugPrint("Exporting vault to $selectedPath with password $pass");
-
     List<QubicVaultExportSeed> seeds = [];
     for (var element in appStore.currentQubicIDs) {
       var seed = await appStore.getSeedById(element.publicId);
       seeds.add(QubicVaultExportSeed(
           seed: seed, alias: element.name, publicId: element.publicId));
     }
-    try {
-      var fileContents = await qubicCmd.createVaultFile(pass, seeds);
-      await io.File(selectedPath!).writeAsBytes(fileContents);
-      setState(() {
-        isLoading = false;
-      });
-    } catch (e) {
-      debugPrint(e.toString());
-    }
+
+    var fileContents = await qubicCmd.createVaultFile(pass, seeds);
+    await io.File(selectedPath!).writeAsBytes(fileContents);
   }
 
-  void showFinishedDialog(BuildContext context) {
+  void showErrorDialog(BuildContext context, String errorText) {
     late BuildContext dialogContext;
 
     Widget continueButton = ThemedControls.primaryButtonNormal(
         text: "Ok",
         onPressed: () async {
-          //Navigator.pop(dialogContext);
-          Navigator.pop(context);
+          Navigator.pop(dialogContext);
         });
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title:
-          Text("Vault file successfully saved", style: TextStyles.alertHeader),
+      title: Text("An error has occured while saving vault file",
+          style: TextStyles.alertHeader),
       scrollable: true,
-      content: Text(
-          "Your wallet has been successfully saved to the selected vault file",
+      content: Text(errorText.replaceAll("Exception:", ""),
           style: TextStyles.alertText),
       actions: [
         continueButton,
@@ -301,8 +311,15 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     Widget continueButton = ThemedControls.primaryButtonNormal(
         text: "Yes",
         onPressed: () async {
-          Navigator.pop(dialogContext);
-          await exportVault();
+          try {
+            Navigator.pop(dialogContext);
+            await exportVault();
+            _globalSnackBar
+                .show("Vault successfully exported to \n ${selectedPath!}");
+            Navigator.pop(context);
+          } catch (e) {
+            showErrorDialog(context, e.toString());
+          }
         });
 
     // set up the AlertDialog

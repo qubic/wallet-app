@@ -71,14 +71,12 @@ class QubicCmdUtils {
   Future<Uint8List> createVaultFile(
       String password, List<QubicVaultExportSeed> seeds) async {
     await validateFileStreamSignature();
-    print(
-        '"${jsonEncode(seeds.map((e) => e.toJsonEsc()).toList()).replaceAll('"', '\\"')}"');
     final p = await Process.run(
         await _getHelperFileFullPath(),
         [
           'wallet.createVaultFile',
           password,
-          '"${jsonEncode(seeds.map((e) => e.toJsonEsc()).toList()).replaceAll('"', '\\"')}"'
+          jsonEncode(seeds.map((e) => e.toJsonEsc()).toList())
         ],
         runInShell: true);
     late dynamic parsedJson;
@@ -95,7 +93,8 @@ class QubicCmdUtils {
       throw Exception(
           'Failed to create vault file. Could not parse response from helper');
     }
-    if (!response.status) {
+
+    if (response.status == false) {
       throw Exception('Failed to create vault file. Error: ${response.error}');
     }
 
