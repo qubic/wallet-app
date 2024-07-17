@@ -15,6 +15,7 @@ import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/about_wallet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -217,6 +218,21 @@ class _TabSettingsState extends State<TabSettings> {
                           Navigator.pop(context);
                         }));
                       });
+                },
+              ),
+              SettingsTile.navigation(
+                leading: ChangeForeground(
+                    child: const Icon(Icons.file_present),
+                    color: LightThemeColors.gradient1),
+                title: Text('Export wallet vault file',
+                    style: TextStyles.textNormal),
+                trailing: Container(),
+                onPressed: (BuildContext context) async {
+                  pushScreen(context!,
+                      screen: const ExportWalletVault(),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino);
                 },
               ),
             ],

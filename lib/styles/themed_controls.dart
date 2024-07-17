@@ -41,7 +41,9 @@ class ThemedControls {
       required Widget child,
       bool? enabled}) {
     return FilledButton(
-      style: ButtonStyles.primaryButtonBig,
+      style: enabled == null || enabled == true
+          ? ButtonStyles.primaryButtonBig
+          : ButtonStyles.primaryButtonBigDisabled,
       onPressed: onPressed,
       child: child,
     );
@@ -61,6 +63,16 @@ class ThemedControls {
       {required void Function()? onPressed, required Widget child}) {
     return TextButton(
       style: ButtonStyles.dangerButtonBig,
+      onPressed: onPressed,
+      child: child,
+    );
+  }
+
+  // A transparent button with child widgets
+  static Widget darkButtonBigWithChild(
+      {required void Function()? onPressed, required Widget child}) {
+    return TextButton(
+      style: ButtonStyles.darkButtonBig,
       onPressed: onPressed,
       child: child,
     );

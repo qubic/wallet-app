@@ -193,10 +193,10 @@ class _AccountListItemState extends State<AccountListItem> {
             menuTheme: MenuThemeData(
                 style: MenuStyle(
           surfaceTintColor:
-              MaterialStateProperty.all(LightThemeColors.cardBackground),
-          elevation: MaterialStateProperty.all(50),
+              WidgetStateProperty.all(LightThemeColors.cardBackground),
+          elevation: WidgetStateProperty.all(50),
           backgroundColor:
-              MaterialStateProperty.all(LightThemeColors.cardBackground),
+              WidgetStateProperty.all(LightThemeColors.cardBackground),
         ))),
         child: PopupMenuButton<CardItem>(
             tooltip: "",

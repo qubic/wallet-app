@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_js.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -86,6 +89,19 @@ class QubicCmd {
         (UniversalPlatform.isMacOS)) {
       return await qubicCmdUtils.createAssetTransferTransaction(
           seed, destinationId, assetName, assetIssuer, numberOfAssets, tick);
+    }
+    throw "OS Not supported";
+  }
+
+  Future<Uint8List> createVaultFile(
+      String password, List<QubicVaultExportSeed> seeds) async {
+    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+      return await qubicJs.createVaultFile(password, seeds);
+    }
+    if ((UniversalPlatform.isLinux) ||
+        (UniversalPlatform.isWindows) ||
+        (UniversalPlatform.isMacOS)) {
+      return await qubicCmdUtils.createVaultFile(password, seeds);
     }
     throw "OS Not supported";
   }

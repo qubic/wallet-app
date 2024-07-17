@@ -1,11 +1,16 @@
 class QubicCmdResponse {
   late bool status;
-  String? publicId;
+  String? publicId; //createPublicId
   String? error;
-  String? transaction;
+  String? transaction; //for createTransactionAssetMove and createTransaction
+  String? base64; //for wallet.createVaultFile
 
   QubicCmdResponse(
-      {required this.status, this.publicId, this.error, this.transaction});
+      {required this.status,
+      this.publicId,
+      this.error,
+      this.transaction,
+      this.base64});
 
   factory QubicCmdResponse.fromJson(Map<String, dynamic> json) {
     return QubicCmdResponse(
@@ -13,6 +18,7 @@ class QubicCmdResponse {
       publicId: json.containsKey("publicId") ? json['publicId'] : null,
       error: json.containsKey("error") ? json['error'] : null,
       transaction: json.containsKey("transaction") ? json['transaction'] : null,
+      base64: json.containsKey("base64") ? json['base64'] : null,
     );
   }
 
@@ -22,6 +28,7 @@ class QubicCmdResponse {
     data['publicId'] = publicId;
     data['error'] = error;
     data['transaction'] = transaction;
+    data['base64'] = base64;
     return data;
   }
 }

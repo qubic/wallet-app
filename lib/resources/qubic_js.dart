@@ -6,8 +6,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart' as crypto;
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show Uint8List, rootBundle;
 import 'package:qubic_wallet/config.dart';
+import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 
 /// A class that handles the secure storage of the wallet. The wallet is stored in the secure storage of the device
 /// The wallet password is encrypted using Argon2
@@ -25,7 +26,7 @@ class QubicJs {
     InAppWebView = HeadlessInAppWebView(
         onWebViewCreated: (WVcontroller) async {
           WVcontroller.loadFile(
-              assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_1.html");
+              assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_2.html");
 
           controller = WVcontroller;
         },
@@ -127,5 +128,25 @@ class QubicJs {
       throw Exception('Error getting public id from seed:  ${result.error!}');
     }
     return result.value['publicId'];
+  }
+
+  /// Return base64  vault file
+  Future<Uint8List> createVaultFile(
+      String password, List<QubicVaultExportSeed> seeds) async {
+    CallAsyncJavaScriptResult? result = await controller!.callAsyncJavaScript(
+        functionBody:
+            "return await runBrowser('wallet.createVaultFile','${password.replaceAll("'", "\\'")}','${jsonEncode(seeds.map((e) => e.toJson()).toList()).replaceAll("'", "\\'")}'");
+    if (result == null) {
+      throw Exception('Error getting vault file: Generic error');
+    }
+    if (result.error != null) {
+      throw Exception('Error getting vault file:  ${result.error!}');
+    }
+    if (result.value['base64'] == null) {
+      throw Exception(
+          'Failed to create vault file. Helper returned empty vault file');
+    }
+
+    return base64Decode(result.value['base64']!);
   }
 }

@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:path/path.dart' as Path;
 
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
+import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:universal_platform/universal_platform.dart';
@@ -63,6 +65,46 @@ class QubicCmdUtils {
       throw Exception(
           "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL AND DOWNLOAD AGAIN FROM QUBIC-HUB.COM");
     }
+  }
+
+  /// Return base64  vault file
+  Future<Uint8List> createVaultFile(
+      String password, List<QubicVaultExportSeed> seeds) async {
+    await validateFileStreamSignature();
+    print(
+        '"${jsonEncode(seeds.map((e) => e.toJsonEsc()).toList()).replaceAll('"', '\\"')}"');
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          'wallet.createVaultFile',
+          password,
+          '"${jsonEncode(seeds.map((e) => e.toJsonEsc()).toList()).replaceAll('"', '\\"')}"'
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception(
+          'Failed to create vault file. Invalid response from helper');
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception(
+          'Failed to create vault file. Could not parse response from helper');
+    }
+    if (!response.status) {
+      throw Exception('Failed to create vault file. Error: ${response.error}');
+    }
+
+    if ((response.base64 == null) || (response.base64!.isEmpty)) {
+      throw Exception(
+          'Failed to create vault file. Helper returned empty vault file');
+    }
+
+    return base64Decode(response.base64!);
   }
 
   Future<String> getPublicIdFromSeed(String seed) async {
