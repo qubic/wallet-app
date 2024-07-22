@@ -224,7 +224,7 @@ class _TabSettingsState extends State<TabSettings> {
                 leading: ChangeForeground(
                     child: const Icon(Icons.file_present),
                     color: LightThemeColors.gradient1),
-                title: Text('Export wallet vault file',
+                title: Text('Export Wallet Vault File',
                     style: TextStyles.textNormal),
                 trailing: Container(),
                 onPressed: (BuildContext context) async {

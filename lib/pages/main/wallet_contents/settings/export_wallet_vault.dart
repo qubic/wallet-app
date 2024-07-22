@@ -5,7 +5,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -20,6 +23,7 @@ import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:timeago/timeago.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -35,18 +39,27 @@ class ExportWalletVault extends StatefulWidget {
 }
 
 class _ExportWalletVaultState extends State<ExportWalletVault> {
+  // #region Variables
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final LocalAuthentication auth = LocalAuthentication();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final _globalSnackBar = getIt<GlobalSnackBar>();
+  final _formKey = GlobalKey<FormBuilderState>();
 
-  String? selectedPath;
-  io.File? selectedFile;
-  bool enabled = false;
+  String? selectedPath; //The selected file path (android and desktop)
+  io.File? selectedFile; //The selected file (android and desktop)
+  bool enabled = false; //The enabled state of the export button
+  bool isLoading = false; //The loading state of the export button
+  String exportError = ""; //The error message if export fails
+  String currentPassword = ""; //Current vault password
+  bool showingPassword = false; //Show password or not
+  bool showingRepeatPassword = false; //Show repeat password or not
+  bool emptyPathError = false;
+  // #endregion
 
-  String exportError = "";
-
+  bool shareWithOutputFolder = !UniversalPlatform.isIOS;
+  // #region Bootstrapping
   @override
   void initState() {
     super.initState();
@@ -56,11 +69,14 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   void dispose() {
     super.dispose();
   }
+  // #endregion
 
+  // #region file and path selectors
   Widget getEmptyPathSelector() {
     return ThemedControls.darkButtonBigWithChild(
+        error: emptyPathError,
         onPressed: () async {
-          if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+          if (UniversalPlatform.isAndroid) {
             String? outputFolder = await FilePicker.platform.getDirectoryPath(
                 dialogTitle:
                     'Please select a save path for your qubic vault file:',
@@ -73,6 +89,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
             DateTime now = DateTime.now();
             String formattedDate = DateFormat('yyyy-MM-dd-kk-mm').format(now);
             setState(() {
+              emptyPathError = false;
               selectedPath = outputFolder;
               selectedPath =
                   "${selectedPath!}/exported.${formattedDate}.qubic-vault";
@@ -178,33 +195,114 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                       icon: Image.asset('assets/images/cancel.png'))
                 ])));
   }
+  // #endregion
 
-  Widget getScrollView() {
+  Widget getNonIOSContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        ThemedControls.spacerVerticalSmall(),
+        selectedPath == null
+            ? getEmptyPathSelector()
+            : getSelectedPathSelector()
+      ],
+    );
+  }
+
+  // #region Main Contents
+  Widget getMainScrollView() {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
           Container(
               child: Expanded(
-                  child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ThemedControls.pageHeader(headerText: "Export Wallet Vault File"),
-              Text(
-                  "Export the contents of this wallet in an encrypted vault file as a backup. This file can only be unlocked with your password. Always keep this file in a safe place.",
-                  style: TextStyles.secondaryText),
-              ThemedControls.spacerVerticalHuge(),
-              selectedPath == null
-                  ? getEmptyPathSelector()
-                  : getSelectedPathSelector()
-            ],
+                  child: FormBuilder(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                ThemedControls.pageHeader(
+                    headerText: "Export Wallet Vault File"),
+                Text(
+                    "Export the contents of this wallet in an encrypted vault file as a backup. This file can be imported in the web wallet and can only be unlocked with the provided password. Always keep this file in a safe place.",
+                    style: TextStyles.secondaryText),
+                ThemedControls.spacerVerticalHuge(),
+                FormBuilderTextField(
+                  name: "password",
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: "Please fill in a password"),
+                    FormBuilderValidators.minLength(8,
+                        errorText:
+                            "Password must be at least 8 characters long")
+                  ]),
+                  onChanged: (value) => currentPassword = value ?? "",
+                  onSubmitted: (String? text) {
+                    exportButtonHandler();
+                  },
+                  enabled: !isLoading,
+                  decoration: ThemeInputDecorations.bigInputbox.copyWith(
+                    hintText: "Vault file password",
+                    suffixIcon: Padding(
+                        padding:
+                            EdgeInsets.only(right: ThemePaddings.smallPadding),
+                        child: IconButton(
+                          icon: showingPassword
+                              ? Image.asset("assets/images/eye-closed.png")
+                              : Image.asset("assets/images/eye-open.png"),
+                          onPressed: () {
+                            setState(() => showingPassword = !showingPassword);
+                          },
+                        )),
+                  ),
+                  obscureText: !showingPassword,
+                  autocorrect: false,
+                  autofillHints: null,
+                ),
+                ThemedControls.spacerVerticalSmall(),
+                FormBuilderTextField(
+                  name: "passwordRepeat",
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(
+                        errorText: "Please fill in your password again"),
+                    (value) {
+                      if (value == currentPassword) return null;
+                      return "Passwords do not match";
+                    }
+                  ]),
+                  onSubmitted: (String? text) {
+                    exportButtonHandler();
+                  },
+                  enabled: !isLoading,
+                  decoration: ThemeInputDecorations.bigInputbox.copyWith(
+                    hintText: "Repeat vault file password",
+                    suffixIcon: Padding(
+                        padding:
+                            EdgeInsets.only(right: ThemePaddings.smallPadding),
+                        child: IconButton(
+                          icon: showingRepeatPassword
+                              ? Image.asset("assets/images/eye-closed.png")
+                              : Image.asset("assets/images/eye-open.png"),
+                          onPressed: () {
+                            setState(() =>
+                                showingRepeatPassword = !showingRepeatPassword);
+                          },
+                        )),
+                  ),
+                  obscureText: !showingRepeatPassword,
+                  autocorrect: false,
+                  autofillHints: null,
+                ),
+                shareWithOutputFolder ? getNonIOSContent() : Container()
+              ],
+            ),
           )))
         ]));
   }
 
-  Widget getButtons() {
+  Widget getFooterButtons() {
     return Expanded(
         child: ThemedControls.primaryButtonBigWithChild(
-            enabled: selectedPath != null,
             child: Padding(
                 padding: const EdgeInsets.all(ThemePaddings.normalPadding),
                 child: isLoading
@@ -217,56 +315,120 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                         ))
                     : Text("Export", style: TextStyles.primaryButtonText)),
             onPressed: () async {
-              if (selectedPath == null) {
-                return null;
-              }
-              setState(() {
-                isLoading = true;
-              });
-              await exportHandler();
-              // await appStore.exportVault(selectedPath!);
-              setState(() {
-                isLoading = false;
-              });
+              await exportButtonHandler();
             }));
   }
+  // #endregion
 
-  Future<void> exportHandler() async {
-    if (await io.File(selectedPath!).exists()) {
-      showOverWriteDialog(context);
-    } else {
-      try {
-        await exportVault();
-        setState(() {
-          isLoading = false;
-        });
-        _globalSnackBar.show("Vault successfully exported to ${selectedPath!}");
-        Navigator.pop(context);
-      } catch (e) {
-        showErrorDialog(context, e.toString());
-        setState(() {
-          isLoading = false;
-        });
-      }
-    }
-  }
-
-  Future<void> exportVault() async {
-    var pass = await reAuthDialogGetPass(context);
-    if (pass == null) {
+  // #region Handlers for android and desktops
+  Future<void> exportButtonHandler() async {
+    if (isLoading) {
       return;
     }
+    setState(() {
+      emptyPathError = false;
+    });
+    _formKey.currentState?.validate();
+    if ((selectedPath == null) && (shareWithOutputFolder)) {
+      setState(() {
+        emptyPathError = true;
+      });
+    }
+    if (!_formKey.currentState!.isValid) {
+      return;
+    }
+
+    if ((selectedPath == null) && (shareWithOutputFolder)) {
+      return;
+    }
+    setState(() {
+      isLoading = true;
+    });
+    await exportHandler();
+    // await appStore.exportVault(selectedPath!);
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  Future<List<QubicVaultExportSeed>> getSeeds() async {
     List<QubicVaultExportSeed> seeds = [];
     for (var element in appStore.currentQubicIDs) {
       var seed = await appStore.getSeedById(element.publicId);
       seeds.add(QubicVaultExportSeed(
           seed: seed, alias: element.name, publicId: element.publicId));
     }
-
-    var fileContents = await qubicCmd.createVaultFile(pass, seeds);
-    await io.File(selectedPath!).writeAsBytes(fileContents);
+    return seeds;
   }
 
+  // Handles the export process for iOS
+  Future<void> _exportHandlerIOS() async {
+    try {
+      final directory = await getApplicationDocumentsDirectory();
+      var bytes =
+          await qubicCmd.createVaultFile(currentPassword, await getSeeds());
+
+      final res = await Share.shareXFiles(
+          [XFile.fromData(bytes, name: "exported.qubic-vault")]);
+      if (res.status == ShareResultStatus.success) {
+        _globalSnackBar
+            .show("Vault successfully exported to ${directory.path}");
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      showErrorDialog(context, e.toString());
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  // Handles the actual export process (file saving) for android and desktop
+  // called by the exportHandlerGeneric function and the overwrite dialog
+  Future<void> _doExportGeneric() async {
+    try {
+      if (await reAuthDialog(context) == false) {
+        return;
+      }
+      var fileContents =
+          await qubicCmd.createVaultFile(currentPassword, await getSeeds());
+      await io.File(selectedPath!).writeAsBytes(fileContents);
+      setState(() {
+        isLoading = false;
+      });
+      _globalSnackBar.show("Vault successfully exported to ${selectedPath!}");
+      Navigator.pop(context);
+    } catch (e) {
+      showErrorDialog(context, e.toString());
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  // Handles the export process for android and desktop
+  // (checks if file exists and shows overwrite dialog if needed)
+  Future<void> _exportHandlerGeneric() async {
+    if (await io.File(selectedPath!).exists()) {
+      _showOverWriteDialog(context);
+    } else {
+      _doExportGeneric();
+    }
+  }
+
+  /// Handles clicking of the export button
+  Future<void> exportHandler() async {
+    if (!shareWithOutputFolder) {
+      await _exportHandlerIOS();
+    } else {
+      await _exportHandlerGeneric();
+    }
+  }
+
+  // #endregion
+
+  // #region Dialogs
+  // Shows the error dialog when an error occurs while saving the vault file
   void showErrorDialog(BuildContext context, String errorText) {
     late BuildContext dialogContext;
 
@@ -298,7 +460,8 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     );
   }
 
-  void showOverWriteDialog(BuildContext context) {
+  // Shows the overwrite dialog when the file already exists in the selected path (android and desktop)
+  void _showOverWriteDialog(BuildContext context) {
     late BuildContext dialogContext;
 
     // set up the buttons
@@ -311,15 +474,8 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     Widget continueButton = ThemedControls.primaryButtonNormal(
         text: "Yes",
         onPressed: () async {
-          try {
-            Navigator.pop(dialogContext);
-            await exportVault();
-            _globalSnackBar
-                .show("Vault successfully exported to \n ${selectedPath!}");
-            Navigator.pop(context);
-          } catch (e) {
-            showErrorDialog(context, e.toString());
-          }
+          Navigator.pop(dialogContext);
+          await _doExportGeneric();
         });
 
     // set up the AlertDialog
@@ -343,12 +499,8 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       },
     );
   }
+  // #endregion
 
-  TextEditingController privateSeed = TextEditingController();
-
-  bool showAccountInfoTooltip = false;
-  bool showSeedInfoTooltip = false;
-  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -361,8 +513,8 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                 minimum: ThemeEdgeInsets.pageInsets
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
-                  Expanded(child: getScrollView()),
-                  Row(children: [getButtons()]),
+                  Expanded(child: getMainScrollView()),
+                  Row(children: [getFooterButtons()]),
                 ]))));
   }
 }

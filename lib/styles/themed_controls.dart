@@ -70,9 +70,12 @@ class ThemedControls {
 
   // A transparent button with child widgets
   static Widget darkButtonBigWithChild(
-      {required void Function()? onPressed, required Widget child}) {
+      {required void Function()? onPressed,
+      required Widget child,
+      bool error = false}) {
     return TextButton(
-      style: ButtonStyles.darkButtonBig,
+      style:
+          !error ? ButtonStyles.darkButtonBig : ButtonStyles.darkButtonBigError,
       onPressed: onPressed,
       child: child,
     );

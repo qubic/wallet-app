@@ -17,13 +17,12 @@ class AuthenticatePassword extends StatefulWidget {
   final bool passOnly; // If true, only password _authentication is required
   final bool
       autoLocalAuth; // If true, automatically _authenticate with local _auth
-  final bool returnPassword; // If true, return the password on success
-  const AuthenticatePassword(
-      {super.key,
-      required this.onSuccess,
-      this.passOnly = false,
-      this.autoLocalAuth = true,
-      this.returnPassword = false});
+  const AuthenticatePassword({
+    super.key,
+    required this.onSuccess,
+    this.passOnly = false,
+    this.autoLocalAuth = true,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -194,9 +193,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
           isLoading = false;
         });
 
-        widget.onSuccess(this.widget.returnPassword
-            ? _formKey.currentState!.instantValue["password"]
-            : null);
+        widget.onSuccess();
       } else {
         setState(() {
           isLoading = false;

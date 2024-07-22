@@ -44,4 +44,15 @@ abstract class ButtonStyles {
               borderRadius: BorderRadius.circular(8.0),
               side: const BorderSide(
                   color: LightThemeColors.darkButtonBorderColor, width: 1))));
+
+  static ButtonStyle darkButtonBigError = ButtonStyle(
+      overlayColor: WidgetStatePropertyAll<Color>(
+          LightThemeColors.primary.withOpacity(0.03)),
+      backgroundColor: WidgetStatePropertyAll<Color>(
+          LightThemeColors.primary.withOpacity(0.02)),
+      shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8.0),
+              side:
+                  const BorderSide(color: LightThemeColors.error, width: 1))));
 }
