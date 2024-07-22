@@ -37,19 +37,19 @@ abstract class Config {
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(
-          filename: "qubic-helper-win-x64-3_0_3.exe",
+          filename: "qubic-helper-win-x64-3_0_4.exe",
           downloadPath:
-              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/3.0.3/qubic-helper-win-x64-3_0_3.exe",
+              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/3.0.4/qubic-helper-win-x64-3_0_4.exe",
           checksum:
-              "6f38e8dd5f1770d9cc44762b78c8a359"), // was 4dcab1001193a7ed3abf3485cd99eff0 for 2_0_1
+              "74336b445a048bfd272e2af6c7668608"), // was 4dcab1001193a7ed3abf3485cd99eff0 for 2_0_1
       linux64: QubicHelperConfigEntry(
-          filename: "qubic-helper-linux-x64-3_0_3",
+          filename: "qubic-helper-linux-x64-3_0_4",
           downloadPath:
-              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/3.0.3/qubic-helper-linux-x64-3_0_3",
-          checksum: "84134121accfe3f5be7a9e9cbd281d15"),
+              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/3.0.4/qubic-helper-linux-x64-3_0_4",
+          checksum: "8f65ab5bf42a5fe193ec841417930267"),
       macOs64: QubicHelperConfigEntry(
-          filename: "qubic-helper-mac-x64-3_0_3",
+          filename: "qubic-helper-mac-x64-3_0_4",
           downloadPath:
-              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/3.0.3/qubic-helper-mac-x64-3_0_3",
-          checksum: "148aa114ff49b1e65f8902758b750401"));
+              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/3.0.4/qubic-helper-mac-x64-3_0_4",
+          checksum: "7ae70dcedf83599a53877f15b1023b05"));
 }
