@@ -63,7 +63,8 @@ Widget getEmptyTransactionsWidget(
     ThemedControls.spacerVerticalHuge(),
     if ((hasFiltered) && (numberOfFilters != null))
       ThemedControls.primaryButtonNormal(
-          onPressed: onTap, text: l10n.filterTransfersClearAllFilters)
+          onPressed: onTap,
+          text: l10n.filterTransfersClearFilters(numberOfFilters))
   ]);
 }
 

@@ -54,7 +54,7 @@ class ExplorerResultQubicId extends StatelessWidget {
             walletAccountName != null
                 ? l10n
                     .generalLabelQubicAddressWithAccountName(walletAccountName!)
-                : l10n.generalLabeQubicAddress,
+                : " ${l10n.generalLabeQubicAddress}",
             style: TextStyles.labelText),
       ]),
       ThemedControls.spacerVerticalNormal(),

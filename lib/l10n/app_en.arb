@@ -121,7 +121,7 @@
     "transfersLabelNoTransactionsFoundInWallet": "No transactions in this epoch for your accounts",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "No transactions in this epoch match your filters",
     "transfersLabelNoTransactionsFoundInAccount": "No transactions in this epoch",
-    "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}}",
+    "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
     "transfersLabelFor": "Transfers for",
     "transfersLabelForAccount": "Transfers for \"{accountName}\"",
     "@transfersLabelForAccount": {
@@ -139,17 +139,7 @@
     "filterTransfersLabelByDirection": "Filter by Direction",
     "filterTransfersFieldHintByDirection": "By Direction",
     "generalLabelAnyDirection": "Any Direction",
-    "filterTransfersClearAllFilters": "Clear Active Filters",
-    "filterTransfersClearOneFilter": "Clear 1 active filter",
-    "filterTransfersClearManyFilters": "Clear {filtersCount} active filters",
-    "@filterTransfersClearManyFilters": {
-        "placeholders": {
-            "filtersCount": {
-                "type": "int",
-                "description": "Number of active filters"
-            }
-        }
-    },
+    "filterTransfersClearFilters": "{filtersCount, plural, =1{Clear 1 Active Filter} other{Clear {filtersCount} Active Filters}}",
     "explorerTitle": "Epoch Explorer",
     "explorerLabelEpoch": "Epoch {currentEpoch}",
     "@explorerLabelEpoch": {
@@ -172,7 +162,7 @@
     "explorerSearchTitle": "Explorer Search",
     "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
     "explorerSearchLabelNoResults": "No results found matching",
-    "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}}",
+    "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
     "explorerTickResultLabelBlockStatus": "Block Status",
     "explorerTickResultLabelBlockStatusEmpty": "Empty",
     "explorerTickResultLabelBlockStatusNonEmpty": "Non Empty",
@@ -182,7 +172,7 @@
     "explorerTickResultLabelInfoNotValidated": "Not Validated",
     "explorerTickResultLabelTickLeader": "Tick Leader - (Short Code / Index)",
     "explorerTickResultLabelNoTransactionsFound": "No transactions in this tick",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}}",
+    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
     "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}}",
     "settingsTitle": "Settings",
     "settingsHeaderAccountsAndData": "Accounts and Data",
@@ -371,7 +361,7 @@
     "accountExplorerLabelTotalOutgoing": "Total Outgoing",
     "accountExplorerLabelReportedBy": "Reported by",
     "accountExplorerLabelNoResultsFound": "No transactions for this ID in this epoch",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transaction in this epoch} other{{count} transactions in this epoch}}}",
+    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transaction in this epoch} other{{count} transactions in this epoch}}",
     "transactionItemLabelIncludedByTickLeader": "Included by Tick Leader",
     "transactionItemLabelNotIncludedByTickLeader": "Not included by Tick Leader",
     "transactionItemLabelTransactionId": "Transaction ID",

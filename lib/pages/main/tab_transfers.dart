@@ -46,10 +46,8 @@ class _TabTransfersState extends State<TabTransfers> {
           appStore.clearTransactionFilters();
         },
         child: Text(
-            appStore.transactionFilter?.totalActiveFilters == 1
-                ? l10n.filterTransfersClearOneFilter
-                : l10n.filterTransfersClearManyFilters(
-                    appStore.transactionFilter!.totalActiveFilters),
+            l10n.filterTransfersClearFilters(
+                appStore.transactionFilter!.totalActiveFilters),
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: Theme.of(context).colorScheme.secondary,
                 fontFamily: ThemeFonts.secondary)));
