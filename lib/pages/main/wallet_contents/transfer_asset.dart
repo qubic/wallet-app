@@ -337,7 +337,8 @@ class _TransferAssetState extends State<TransferAsset> {
           controller: tickController,
           enableSuggestions: false,
           validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(),
+            FormBuilderValidators.required(
+                errorText: l10n.generalErrorRequiredField),
             FormBuilderValidators.numeric(),
           ]),
           maxLines: 1,
@@ -421,6 +422,7 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   Widget getDestinationQubicId() {
+    final l10n = l10nOf(context);
     return FormBuilderTextField(
       name: "destinationID",
       readOnly: isLoading,
@@ -428,7 +430,8 @@ class _TransferAssetState extends State<TransferAsset> {
       enableSuggestions: false,
       keyboardType: TextInputType.visiblePassword,
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(
+            errorText: l10n.generalErrorRequiredField),
         CustomFormFieldValidators.isPublicID(context: context),
       ]),
       maxLines: 2,
@@ -503,6 +506,7 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   Widget getAmountBox() {
+    final l10n = l10nOf(context);
     return FormBuilderTextField(
       decoration:
           ThemeInputDecorations.normalInputbox.copyWith(hintMaxLines: 1),
@@ -513,7 +517,8 @@ class _TransferAssetState extends State<TransferAsset> {
       textAlign: TextAlign.end,
       keyboardType: TextInputType.number,
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(
+            errorText: l10n.generalErrorRequiredField),
         CustomFormFieldValidators.isLessThanParsedAsset(
           context: context,
           lessThan:

@@ -77,7 +77,8 @@ class IdListItem extends StatelessWidget {
                       labelText: l10n.renameAccountLabelName,
                     ),
                     validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
+                      FormBuilderValidators.required(
+                          errorText: l10n.generalErrorRequiredField),
                       CustomFormFieldValidators.isNameAvailable(
                           currentQubicIDs: appStore.currentQubicIDs,
                           ignorePublicId: item.name,

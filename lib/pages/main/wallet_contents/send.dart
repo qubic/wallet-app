@@ -339,7 +339,8 @@ class _SendState extends State<Send> {
           enableSuggestions: false,
           keyboardType: TextInputType.number,
           validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(),
+            FormBuilderValidators.required(
+                errorText: l10n.generalErrorRequiredField),
             FormBuilderValidators.numeric(),
           ]),
           maxLines: 1,
@@ -463,7 +464,8 @@ class _SendState extends State<Send> {
                               onSubmitted: (value) => transferNowHandler(),
                               keyboardType: TextInputType.visiblePassword,
                               validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(),
+                                FormBuilderValidators.required(
+                                    errorText: l10n.generalErrorRequiredField),
                                 CustomFormFieldValidators.isPublicID(
                                     context: context),
                               ]),
@@ -571,7 +573,8 @@ class _SendState extends State<Send> {
                         textAlign: TextAlign.start,
                         onSubmitted: (value) => transferNowHandler(),
                         validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
+                          FormBuilderValidators.required(
+                              errorText: l10n.generalErrorRequiredField),
                           CustomFormFieldValidators.isLessThanParsed(
                               lessThan: widget.item.amount!, context: context),
                         ]),

@@ -78,9 +78,9 @@
     "generalSnackBarMessageAccountAlreadyExist": "This account already exists in your wallet",
     "generalSnackBarMessageTransactionSubmitted": "Submitted new transaction to Qubic network",
     "generalErrorUnsupportedOS": "OS not supported",
-    "generalErrorOnlyLowercaseChar": "Must contain only lowercase letters",
-    "generalErrorOnlyUppercaseChar": "Must contain only uppercase letters",
-    "generalErrorMinCharLength": "Must be {minCharLength} characters long",
+    "generalErrorOnlyLowercaseChar": "Must contain only lowercase letters.",
+    "generalErrorOnlyUppercaseChar": "Must contain only uppercase letters.",
+    "generalErrorMinCharLength": "Must be {minCharLength} characters long.",
     "@generalErrorMinCharLength": {
         "placeholders": {
             "minCharLength": {
@@ -88,15 +88,16 @@
             }
         }
     },
-    "generalErrorValueMustBeLowerThan": "Must be less than {maxValuePlusOne}",
+    "generalErrorValueMustBeLowerThan": "Must be less than {maxValuePlusOne}.",
     "@generalErrorValueMustBeLowerThan": {
         "placeholders": {
             "maxValuePlusOne": {
                 "type": "int",
-                "description": "Top limit int value"
+                "description": "Non inclusive maximun value for the field"
             }
         }
     },
+    "generalErrorRequiredField": "This field cannot be empty.",
     "generalErrorNotEnoughQubicFunds": "Insufficient QUBIC in ID.",
     "generalErrorZeroQubicFunds": "Insufficient QUBIC in ID. ID has no funds.",
     "generalErrorNotEnoughTokens": "Insufficient tokens in ID.",

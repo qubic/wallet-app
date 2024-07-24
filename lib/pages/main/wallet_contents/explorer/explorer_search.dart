@@ -98,7 +98,8 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                       FormBuilderTextField(
                         name: "searchTerm",
                         validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
+                          FormBuilderValidators.required(
+                              errorText: l10n.generalErrorRequiredField),
                         ]),
                         maxLines: 1,
                         controller: searchController,

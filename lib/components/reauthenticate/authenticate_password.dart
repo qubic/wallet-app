@@ -274,7 +274,8 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                     autofocus: !settingsStore.settings.biometricEnabled ||
                         widget.passOnly,
                     validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
+                      FormBuilderValidators.required(
+                          errorText: l10n.generalErrorRequiredField),
                     ]),
                     decoration: ThemeInputDecorations.bigInputbox.copyWith(
                       hintText: l10n.generalTextFieldHintPassword,

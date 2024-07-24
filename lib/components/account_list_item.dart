@@ -126,7 +126,8 @@ class _AccountListItemState extends State<AccountListItem> {
                     focusNode: FocusNode()..requestFocus(),
                     style: TextStyles.inputBoxNormalStyle,
                     validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
+                      FormBuilderValidators.required(
+                          errorText: l10n.generalErrorRequiredField),
                       CustomFormFieldValidators.isNameAvailable(
                           currentQubicIDs: _appStore.currentQubicIDs,
                           ignorePublicId: widget.item.name,

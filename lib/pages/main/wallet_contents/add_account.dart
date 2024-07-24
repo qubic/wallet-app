@@ -147,7 +147,8 @@ class _AddAccountState extends State<AddAccount> {
                         },
                         name: "accountName",
                         validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
+                          FormBuilderValidators.required(
+                              errorText: l10n.generalErrorRequiredField),
                           CustomFormFieldValidators.isNameAvailable(
                               currentQubicIDs: appStore.currentQubicIDs,
                               context: context)
@@ -200,7 +201,8 @@ class _AddAccountState extends State<AddAccount> {
                         enableSuggestions: false,
                         keyboardType: TextInputType.visiblePassword,
                         validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
+                          FormBuilderValidators.required(
+                              errorText: l10n.generalErrorRequiredField),
                           CustomFormFieldValidators.isSeed(context: context),
                           CustomFormFieldValidators.isPublicIdAvailable(
                               currentQubicIDs: appStore.currentQubicIDs,
