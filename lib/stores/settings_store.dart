@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/models/settings.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
+
 part 'settings_store.g.dart';
 
 // flutter pub run build_runner watch --delete-conflicting-outputs
@@ -59,6 +60,13 @@ abstract class _SettingsStore with Store {
   @action
   Future<void> clearTOTPKey() async {
     settings.TOTPKey = null;
+    settings = Settings.clone(settings);
+    await secureStorage.setWalletSettings(settings);
+  }
+
+  @action
+  Future<void> setAutoLockTimeout(int value) async {
+    settings.autoLockTimeout = value;
     settings = Settings.clone(settings);
     await secureStorage.setWalletSettings(settings);
   }
