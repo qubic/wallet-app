@@ -5,6 +5,7 @@ import 'package:qubic_wallet/components/copyable_text.dart';
 import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -20,6 +21,7 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     TextStyle panelHeaderStyle = TextStyles.secondaryText;
     TextStyle panelHeaderValue = TextStyles.textNormal;
 
@@ -46,7 +48,7 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                 right: ThemeEdgeInsets.pageInsets.right,
                 bottom: ThemePaddings.normalPadding),
             child: Column(children: [
-              Text("TICK", style: TextStyles.textSmall),
+              Text(l10n.generalLabelTick, style: TextStyles.textSmall),
               Container(
                   width: double.infinity,
                   child: Row(
@@ -93,7 +95,8 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Block Status", style: panelHeaderStyle),
+                      Text(l10n.explorerTickResultLabelBlockStatus,
+                          style: panelHeaderStyle),
                       Row(children: [
                         tickInfo.completed
                             ? tickInfo.isNonEmpty
@@ -104,11 +107,7 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                             : const Icon(Icons.question_mark,
                                 color: Colors.grey),
                         Text(
-                          tickInfo.completed
-                              ? tickInfo.isNonEmpty
-                                  ? " Non Empty"
-                                  : " Empty"
-                              : " Not yet known",
+                          " ${tickInfo.completed ? tickInfo.isNonEmpty ? l10n.explorerTickResultLabelBlockStatusNonEmpty : l10n.explorerTickResultLabelBlockStatusEmpty : l10n.explorerTickResultLabelBlockStatusUnknown}",
                           style: panelHeaderValue,
                         )
                       ]),
@@ -119,7 +118,8 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Data Status", style: panelHeaderStyle),
+                      Text(l10n.explorerTickResultLabelDataStatus,
+                          style: panelHeaderStyle),
                       Row(children: [
                         tickInfo.completed
                             ? const Icon(Icons.check,
@@ -127,7 +127,7 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                             : const Icon(Icons.hourglass_empty,
                                 color: LightThemeColors.error),
                         Text(
-                          tickInfo.completed ? " Completed" : " Not validated",
+                          " ${tickInfo.completed ? l10n.explorerTickResultLabelInfoCompleted : l10n.explorerTickResultLabelInfoNotValidated}",
                           style: tickInfo.completed
                               ? panelHeaderValue
                               : panelHeaderValue.copyWith(
@@ -139,13 +139,13 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
             ]),
             ThemedControls.spacerVerticalNormal(),
             Text(
-              "Tick Leader - (Short Code / Index)",
+              l10n.explorerTickResultLabelTickLeader,
               style: panelHeaderStyle,
             ),
             Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
               Expanded(
                   child: Text(
-                "${tickInfo.tickLeaderId}- (${tickInfo.tickLeaderShortCode} / ${tickInfo.tickLeaderIndex})",
+                "${tickInfo.tickLeaderId} - (${tickInfo.tickLeaderShortCode} / ${tickInfo.tickLeaderIndex})",
                 style: panelHeaderValue,
               )),
               ThemedControls.spacerHorizontalSmall(),

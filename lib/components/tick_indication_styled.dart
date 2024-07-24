@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 import '../stores/application_store.dart';
 
@@ -13,8 +14,10 @@ class TickIndicatorStyled extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text("Tick ", style: textStyle),
+      Text(l10n.generalLabelTick, style: textStyle),
       Observer(builder: (context) {
         if (appStore.currentTick == 0) {
           return Text("...", style: textStyle);
@@ -33,7 +36,6 @@ class TickIndicatorStyled extends StatelessWidget {
             key: ValueKey<String>("tck${appStore.currentTick}"),
           ),
         );
-        //Text(" Current tick: ${appStore.currentTick}");
       }),
       Observer(builder: (context) {
         if (appStore.pendingRequests > 0) {

@@ -10,22 +10,24 @@ dependencies:
   auto_size_text: ^3.0.0
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   font_awesome_flutter: ^10.7.0
   from_css_color: ^2.0.0
   google_fonts: ^6.2.1
-  intl:
+  intl: null
   json_path: ^0.7.2
   page_transition: ^2.0.9
   shared_preferences: ^2.2.0
   timeago: ^3.5.0
   url_launcher: ^6.1.12
   mobx: ^2.2.0
-  flutter_mobx:
+  flutter_mobx: null
   flutter_secure_storage: ^9.2.2
   go_router: ^14.2.0
   get_it: ^7.6.0
   form_builder_validators: ^11.0.0
-  flex_color_scheme:
+  flex_color_scheme: null
   dargon2_flutter: ^3.3.0
   flutter_form_builder: ^9.1.0
   persistent_bottom_nav_bar_v2: ^5.2.3
@@ -88,6 +90,7 @@ flutter_launcher_icons:
     image_path: "assets/launcher-icons/icon-1024x1024.png"
 
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/images/

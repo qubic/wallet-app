@@ -1,7 +1,9 @@
 import 'dart:core';
 
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum ComputedTransactionStatus {
   //** Transfer is broadcasted but pending */
@@ -104,8 +106,27 @@ class TransactionVm {
     return ComputedTransactionStatus.pending;
   }
 
-  String toReadableString() {
-    return "ID: $id \nSource: $sourceId \nDestination: $destId \nAmount: $amount \nStatus: $status \nCreated: $created \nStored: $stored \nStaged: $staged \nBroadcasted: $broadcasted \nConfirmed: $confirmed \nStatusUpdate: $statusUpdate \nTarget Tick: $targetTick \nIs Pending: $isPending \nPrice: $price \nQuantity: $quantity \nMoney Flow: $moneyFlow \n";
+  String toReadableString(BuildContext context) {
+    final l10n = l10nOf(context);
+
+    return l10n.generalAllTransactionDetails(
+        id,
+        sourceId,
+        destId,
+        amount,
+        status,
+        created.toString(),
+        stored.toString(),
+        staged.toString(),
+        broadcasted.toString(),
+        confirmed.toString(),
+        statusUpdate.toString(),
+        targetTick,
+        isPending,
+        price.toString(),
+        quantity.toString(),
+        moneyFlow);
+    //return "ID: $id \nSource: $sourceId \nDestination: $destId \nAmount: $amount \nStatus: $status \nCreated: $created \nStored: $stored \nStaged: $staged \nBroadcasted: $broadcasted \nConfirmed: $confirmed \nStatusUpdate: $statusUpdate \nTarget Tick: $targetTick \nIs Pending: $isPending \nPrice: $price \nQuantity: $quantity \nMoney Flow: $moneyFlow \n";
   }
 
   updateContentsFromTransactionDto(TransactionDto update) {

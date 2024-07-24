@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
@@ -34,14 +35,16 @@ class TransactionDirectionItem extends StatelessWidget {
     return Icons.output_outlined;
   }
 
-  String getText() {
+  String getText(BuildContext context) {
+    final l10n = l10nOf(context);
+
     if (isIncoming && isOutgoing) {
-      return "In-wallet";
+      return l10n.transactionLabelDirectionInWallet;
     }
     if (isIncoming) {
-      return "Incoming";
+      return l10n.transactionLabelDirectionIncoming;
     }
-    return "Outgoing";
+    return l10n.transactionLabelDirectionOutgoing;
   }
 
   @override
@@ -55,7 +58,7 @@ class TransactionDirectionItem extends StatelessWidget {
             horizontal: ThemePaddings.smallPadding),
         child: Row(children: [
           Icon(getIcon(), size: 16),
-          Text(" ${getText()}", style: TextStyles.labelTextSmall)
+          Text(" ${getText(context)}", style: TextStyles.labelTextSmall)
         ]));
   }
 }

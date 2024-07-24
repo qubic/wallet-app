@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
@@ -20,11 +21,9 @@ class QubicAsset extends StatelessWidget {
             Theme.of(context).textTheme.titleMedium?.color!.withOpacity(0.1));
     TextStyle defaultStyle = opaque ? opaqueStyle : transparentStyle;
 
-    TextStyle? transparentOverridenStyle = style == null
-        ? null
-        : style!.copyWith(
-            color: style!.color!.withOpacity(0.1),
-          );
+    TextStyle? transparentOverridenStyle = style?.copyWith(
+      color: style!.color!.withOpacity(0.1),
+    );
 
     TextStyle? overridenStyle = style == null
         ? null
@@ -40,17 +39,24 @@ class QubicAsset extends StatelessWidget {
   }
 
   Widget getDescriptor(BuildContext context) {
+    final l10n = l10nOf(context);
+
     if (asset == null) {
       return Container();
     }
     bool isToken = asset!.contractIndex == QubicSCID.qX.contractIndex &&
         asset!.contractName != "QX";
-    String text = isToken ? " Token" : " Share";
-    int num = asset!.ownedAmount ?? asset!.possessedAmount ?? 0;
-    if (num != 1) {
-      text += "s";
+
+    String text;
+    int amount = asset!.ownedAmount ?? asset!.possessedAmount ?? 0;
+
+    if (isToken) {
+      text = l10n.generalUnitTokens(amount);
+    } else {
+      text = l10n.generalUnitShares(amount);
     }
-    return Text(text,
+
+    return Text(" $text",
         style: Theme.of(context)
             .textTheme
             .bodyMedium!
@@ -97,9 +103,7 @@ class QubicAsset extends StatelessWidget {
       numbers.add(getText(context, zeros, false));
     }
     numbers.add(getText(context, numberOfShares.toString(), true));
-    numbers.add(
-        Text(" ${asset!.assetName}", // Asset${numberOfShares! > 1 ? "S" : ""}",
-            style: getStyle(context, true)));
+    numbers.add(Text(" ${asset!.assetName}", style: getStyle(context, true)));
     numbers.add(getDescriptor(context));
     return Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,

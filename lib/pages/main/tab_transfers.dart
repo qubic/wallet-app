@@ -8,6 +8,7 @@ import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transactions.dart';
@@ -38,14 +39,17 @@ class _TabTransfersState extends State<TabTransfers> {
   final _scrollController = ScrollController();
 
   Widget clearFiltersButton(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return TextButton(
         onPressed: () {
           appStore.clearTransactionFilters();
         },
         child: Text(
             appStore.transactionFilter?.totalActiveFilters == 1
-                ? "Clear 1 active filter"
-                : "Clear ${appStore.transactionFilter?.totalActiveFilters} active filters",
+                ? l10n.filterTransfersClearOneFilter
+                : l10n.filterTransfersClearManyFilters(
+                    appStore.transactionFilter!.totalActiveFilters),
             style: Theme.of(context).textTheme.bodySmall!.copyWith(
                 color: Theme.of(context).colorScheme.secondary,
                 fontFamily: ThemeFonts.secondary)));
@@ -53,6 +57,7 @@ class _TabTransfersState extends State<TabTransfers> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return RefreshIndicator(
         onRefresh: () async {
           await _timedController.interruptFetchTimer();
@@ -89,9 +94,6 @@ class _TabTransfersState extends State<TabTransfers> {
                           floating: false,
                           pinned: true,
                           toolbarHeight: 58,
-                          //collapsedHeight: sliverCollapsed,
-                          //title: Text("Flexible space title"),
-                          //expandedHeight: sliverExpanded,
                           flexibleSpace: Stack(children: [
                             Positioned.fill(
                                 child: Column(children: [
@@ -116,7 +118,7 @@ class _TabTransfersState extends State<TabTransfers> {
                                   ThemePaddings.normalPadding,
                                   ThemePaddings.miniPadding),
                               child: ThemedControls.pageHeader(
-                                  headerText: "Epoch Transfers")),
+                                  headerText: l10n.filterTransfersTitle)),
                         )
                       ])),
                       Observer(builder: (context) {
@@ -158,11 +160,9 @@ class _TabTransfersState extends State<TabTransfers> {
                                     child: getEmptyTransactions(
                                         context: context,
                                         hasFiltered: true,
-                                        numberOfFilters:
-                                            appStore.transactionFilter == null
-                                                ? null
-                                                : appStore.transactionFilter!
-                                                    .totalActiveFilters,
+                                        numberOfFilters: appStore
+                                            .transactionFilter
+                                            ?.totalActiveFilters,
                                         onTap: () {
                                           appStore.clearTransactionFilters();
                                         })))
@@ -189,7 +189,8 @@ class _TabTransfersState extends State<TabTransfers> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             Text(
-                                                "Showing ${filteredResults.length} transaction${filteredResults.length > 1 ? "s" : ""}",
+                                                l10n.transfersLabelShowingTransactionsFound(
+                                                    filteredResults.length),
                                                 style:
                                                     TextStyles.secondaryText),
                                             appStore.transactionFilter ==

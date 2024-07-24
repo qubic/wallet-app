@@ -7,6 +7,7 @@ import 'package:qubic_wallet/components/qubic_asset.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/assets.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
@@ -27,17 +28,18 @@ class IdListItem extends StatelessWidget {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   showRenameDialog(BuildContext context) {
+    final l10n = l10nOf(context);
     late BuildContext dialogContext;
 
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: const Text("CANCEL"),
+      child: Text(l10n.generalButtonCancel),
       onPressed: () {
         Navigator.pop(dialogContext);
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("SAVE"),
+      child: Text(l10n.generalButtonSave),
       onPressed: () {
         if (_formKey.currentState?.instantValue["accountName"] == item.name) {
           Navigator.pop(dialogContext);
@@ -59,7 +61,7 @@ class IdListItem extends StatelessWidget {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: const Text("Rename Qubic Account"),
+      title: Text(l10n.renameAccountDialogTitle),
       content: FormBuilder(
           key: _formKey,
           child: SizedBox(
@@ -71,14 +73,15 @@ class IdListItem extends StatelessWidget {
                   FormBuilderTextField(
                     name: 'accountName',
                     initialValue: item.name,
-                    decoration: const InputDecoration(
-                      labelText: 'Name',
+                    decoration: InputDecoration(
+                      labelText: l10n.renameAccountLabelName,
                     ),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(),
                       CustomFormFieldValidators.isNameAvailable(
                           currentQubicIDs: appStore.currentQubicIDs,
-                          ignorePublicId: item.name)
+                          ignorePublicId: item.name,
+                          context: context)
                     ]),
                   ),
                 ],
@@ -100,17 +103,19 @@ class IdListItem extends StatelessWidget {
   }
 
   showRemoveDialog(BuildContext context) {
+    final l10n = l10nOf(context);
+
     late BuildContext dialogContext;
 
     // set up the buttons
     Widget cancelButton = TextButton(
-      child: const Text("NO"),
+      child: Text(l10n.generalLabelNo),
       onPressed: () {
         Navigator.pop(dialogContext);
       },
     );
     Widget continueButton = TextButton(
-      child: const Text("YES"),
+      child: Text(l10n.generalLabelYes),
       onPressed: () async {
         await appStore.removeID(item.publicId);
         Navigator.pop(dialogContext);
@@ -119,9 +124,8 @@ class IdListItem extends StatelessWidget {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: const Text("Remove Qubic Account"),
-      content: const Text(
-          "Are you sure you want to remove this Qubic Account from your wallet? (Any funds associated with this Account will not be removed)\n\nMAKE SURE YOU HAVE A BACKUP OF YOUR PRIVATE SEED BEFORE REMOVING THIS ACCOUNT!"),
+      title: Text(l10n.deleteAccountDialogTitle),
+      content: Text(l10n.deleteAccountDialogMessage),
       actions: [
         cancelButton,
         continueButton,
@@ -139,6 +143,8 @@ class IdListItem extends StatelessWidget {
   }
 
   Widget getCardMenu(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return PopupMenuButton<CardItem>(
         icon: Icon(Icons.more_vert, color: Theme.of(context).primaryColor),
         // Callback that sets the selected popup menu item.
@@ -185,31 +191,33 @@ class IdListItem extends StatelessWidget {
           }
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
-              const PopupMenuItem<CardItem>(
+              PopupMenuItem<CardItem>(
                 value: CardItem.viewTransactions,
-                child: Text('View Transfers'),
+                child: Text(l10n.accountButtonViewTransfer),
               ),
               PopupMenuItem<CardItem>(
                 value: CardItem.viewInExplorer,
-                child: Text('View in Explorer'),
                 enabled: item.amount != null && item.amount! > 0,
+                child: Text(l10n.accountButtonViewInExplorer),
               ),
-              const PopupMenuItem<CardItem>(
+              PopupMenuItem<CardItem>(
                 value: CardItem.reveal,
-                child: Text('Reveal private Seed'),
+                child: Text(l10n.accountButtonRevealPrivateSeed),
               ),
-              const PopupMenuItem<CardItem>(
+              PopupMenuItem<CardItem>(
                 value: CardItem.rename,
-                child: Text('Rename'),
+                child: Text(l10n.generalButtonRename),
               ),
-              const PopupMenuItem<CardItem>(
+              PopupMenuItem<CardItem>(
                 value: CardItem.delete,
-                child: Text('Delete'),
+                child: Text(l10n.generalButtonDelete),
               ),
             ]);
   }
 
   Widget getButtonBar(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return ButtonBar(
       alignment: MainAxisAlignment.spaceEvenly,
       buttonPadding: const EdgeInsets.all(ThemePaddings.miniPadding),
@@ -225,7 +233,7 @@ class IdListItem extends StatelessWidget {
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 },
-                child: Text('SEND',
+                child: Text(l10n.accountButtonSend,
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.bold,
@@ -241,7 +249,7 @@ class IdListItem extends StatelessWidget {
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );
           },
-          child: Text('RECEIVE',
+          child: Text(l10n.accountButtonReceive,
               style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     color: Theme.of(context).primaryColor,
                     fontWeight: FontWeight.bold,
@@ -249,7 +257,7 @@ class IdListItem extends StatelessWidget {
         ),
         item.assets.keys.isNotEmpty
             ? TextButton(
-                child: Text('ASSETS',
+                child: Text(l10n.accountButtonAssets,
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(
                           color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.bold,
@@ -271,28 +279,21 @@ class IdListItem extends StatelessWidget {
     List<Widget> shares = [];
     for (var key in item.assets.keys) {
       shares.add(AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                //return FadeTransition(opacity: animation, child: child);
-                return SizeTransition(sizeFactor: animation, child: child);
-                //return ScaleTransition(scale: animation, child: child);
-              },
-              child: item.assets[key] != null
-                  ? QubicAsset(
-                      key: ValueKey<String>(
-                          "qubicAsset${item.publicId}-${key}-${item.assets[key]}"),
-                      asset: item.assets[key]!,
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                          fontWeight: FontWeight.normal,
-                          fontFamily: ThemeFonts.primary))
-                  : Container())
-
-          // QubicAsset(
-          //   assetName: key,
-          //   numberOfShares: item.shares[key],
-          //   style: Theme.of(context).textTheme.displaySmall!.copyWith(
-          //       fontWeight: FontWeight.normal, fontFamily: ThemeFonts.primary))
-          );
+          duration: const Duration(milliseconds: 500),
+          transitionBuilder: (Widget child, Animation<double> animation) {
+            //return FadeTransition(opacity: animation, child: child);
+            return SizeTransition(sizeFactor: animation, child: child);
+            //return ScaleTransition(scale: animation, child: child);
+          },
+          child: item.assets[key] != null
+              ? QubicAsset(
+                  key: ValueKey<String>(
+                      "qubicAsset${item.publicId}-${key}-${item.assets[key]}"),
+                  asset: item.assets[key]!,
+                  style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                      fontWeight: FontWeight.normal,
+                      fontFamily: ThemeFonts.primary))
+              : Container()));
     }
     return shares;
   }

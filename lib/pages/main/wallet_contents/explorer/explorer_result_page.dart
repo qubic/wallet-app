@@ -9,6 +9,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/styles/edgeInsets.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum ExplorerResultType { publicId, tick, transaction }
 
@@ -119,20 +120,21 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
   }
 
   Widget getErrorView() {
+    final l10n = l10nOf(context);
     return Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
           const Icon(Icons.error_outline, size: 48),
           const SizedBox(height: ThemePaddings.normalPadding),
-          Text("An error has occured",
+          Text(l10n.generalLabelError,
               style: Theme.of(context)
                   .textTheme
                   .displayMedium!
                   .copyWith(fontFamily: ThemeFonts.primary)),
           Text(error ?? "-"),
           FilledButton(
-              child: const Text("Try again"),
+              child: Text(l10n.generalButtonTryAgain),
               onPressed: () {
                 getInfo();
               })
@@ -140,13 +142,14 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
   }
 
   Widget getLoadingView() {
+    final l10n = l10nOf(context);
     return Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
           const CircularProgressIndicator(),
           const SizedBox(height: ThemePaddings.normalPadding),
-          Text("Loading...",
+          Text(l10n.generalLabelLoading,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!

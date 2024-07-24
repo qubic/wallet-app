@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
@@ -12,18 +9,16 @@ import 'package:qubic_wallet/components/gradient_container.dart';
 import 'package:qubic_wallet/components/id_list_item.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/components/tick_indication_styled.dart';
-import 'package:qubic_wallet/components/tick_indicator.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/globals.dart';
-import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class TabWalletContents extends StatefulWidget {
   const TabWalletContents({super.key});
@@ -42,7 +37,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
   double _sliverShowPercent = 1;
   final bool showTickOnTop = false;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   String? signInError;
   // int? currentTick;
 
@@ -102,7 +97,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
     cards.add(Container());
 
-    cards.add(CumulativeWalletValueSliver());
+    cards.add(const CumulativeWalletValueSliver());
 
     for (var element in appStore.currentQubicIDs) {
       cards.add(Padding(
@@ -114,6 +109,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   }
 
   Widget getEmptyWallet() {
+    final l10n = l10nOf(context);
     Color? transpColor =
         Theme.of(context).textTheme.titleMedium?.color!.withOpacity(0.3);
     return Center(
@@ -135,7 +131,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           .titleMedium
                           ?.color!
                           .withOpacity(0.3)),
-                  const Text("No Qubic Accounts in wallet yet"),
+                  Text(l10n.homeLabelNoAccountsInWallet),
                   ThemedControls.spacerVerticalNormal(),
                   FilledButton.icon(
                       onPressed: () {
@@ -148,7 +144,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                         );
                       },
                       icon: const Icon(Icons.add_box),
-                      label: const Text("Add New Accounts"))
+                      label: Text(l10n.homeButtonAddAccount))
                 ],
               ),
             )));
@@ -157,17 +153,20 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   bool isLoading = false;
 
   void addAccount() {
+    final l10n = l10nOf(context);
     if (appStore.currentQubicIDs.length >= 15) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
-            return getAlertDialog("Max accounts limit reached",
-                "You can only have up to 15 Qubic Accounts in your wallet. If you need to add another ID please remove one from your existing Accounts",
-                primaryButtonLabel: "OK", primaryButtonFunction: () {
+            return getAlertDialog(
+                l10n.addAccountDialogTitleMaxNumberOfAccountsReached,
+                l10n.addAccountDialogMessageMaxNumberOfAccountsReached,
+                primaryButtonLabel: l10n.generalButtonOK,
+                primaryButtonFunction: () {
               Navigator.of(context).pop();
             }, secondaryButtonFunction: () {
               Navigator.of(context).pop();
-            }, secondaryButtonLabel: "Cancel");
+            }, secondaryButtonLabel: l10n.generalButtonCancel);
           });
 
       return;
@@ -180,7 +179,10 @@ class _TabWalletContentsState extends State<TabWalletContents> {
     );
   }
 
+  @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Scaffold(
         body: RefreshIndicator(
             onRefresh: () async {
@@ -190,11 +192,10 @@ class _TabWalletContentsState extends State<TabWalletContents> {
               color: LightThemeColors.background,
               child: CustomScrollView(
                 controller: _scrollController,
-                physics: AlwaysScrollableScrollPhysics(),
+                physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   SliverAppBar(
                     backgroundColor: LightThemeColors.background,
-
                     actions: <Widget>[
                       TickRefresh(),
                       ThemedControls.spacerHorizontalSmall(),
@@ -208,7 +209,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                     floating: false,
                     pinned: true,
                     collapsedHeight: sliverCollapsed,
-                    //title: Text("Flexible space title"),
                     expandedHeight: sliverExpanded,
                     flexibleSpace: Stack(
                       children: [
@@ -232,7 +232,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                     Offset(0, -10 * (1 - _sliverShowPercent)),
                                 child: Opacity(
                                     opacity: _sliverShowPercent,
-                                    child: CumulativeWalletValueSliver())),
+                                    child:
+                                        const CumulativeWalletValueSliver())),
                           ]),
                         )),
                         Positioned(
@@ -261,11 +262,11 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 ThemePaddings.smallPadding,
                                 ThemePaddings.normalPadding,
                                 ThemePaddings.miniPadding),
-                            child: Text("Accounts in Wallet",
+                            child: Text(l10n.homeHeader,
                                 style: TextStyles.sliverCardPreLabel)))
                   ])),
                   Observer(builder: (context) {
-                    if (appStore.currentQubicIDs.length == 0) {
+                    if (appStore.currentQubicIDs.isEmpty) {
                       return SliverList(
                           delegate:
                               SliverChildBuilderDelegate((context, index) {
@@ -284,7 +285,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                         padding: const EdgeInsets.all(
                                             20.0), // Set the padding value
                                         child: Text(
-                                            "You don't have any Qubic Accounts in your wallet yet",
+                                            l10n.homeLabelNoAccountsInWallet,
                                             style:
                                                 TextStyles.secondaryTextNormal,
                                             textAlign: TextAlign.center),
@@ -295,10 +296,10 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                           child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                Icon(Icons.add),
+                                                const Icon(Icons.add),
                                                 ThemedControls
                                                     .spacerHorizontalSmall(),
-                                                Text("Add New Account"),
+                                                Text(l10n.homeButtonAddAccount),
                                               ])),
                                       ThemedControls.spacerVerticalBig(),
                                     ]))));

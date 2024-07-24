@@ -22,7 +22,7 @@ class TransactionStatusItem extends StatelessWidget {
         child: Row(children: [
       Icon(getTransactionStatusIcon(item.getStatus()),
           color: getTransactionStatusColor(item.getStatus())),
-      Text(" ${getTransactionStatusText(item.getStatus())}",
+      Text(" ${getTransactionStatusText(item.getStatus(), context)}",
           style: TextStyles.labelText)
     ]));
   }

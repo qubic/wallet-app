@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/reauthenticate/authenticate_password.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class Reauthenticate extends StatefulWidget {
@@ -37,16 +37,18 @@ class _ReauthenticateState extends State<Reauthenticate> {
   }
 
   Widget getHeader() {
+    final l10n = l10nOf(context);
+
     return Stack(
       children: [
         Align(
           alignment: Alignment.topLeft,
           child:
-              ThemedControls.pageHeader(headerText: "Authentication Required"),
+              ThemedControls.pageHeader(headerText: l10n.reauthenticateTitle),
         ),
         Align(
           alignment: Alignment.center,
-          child: Text("Please reauthenticate",
+          child: Text(l10n.reauthenticateHeader,
               style: Theme.of(context)
                   .textTheme
                   .displayMedium!
@@ -54,18 +56,19 @@ class _ReauthenticateState extends State<Reauthenticate> {
         ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Text("Please authenticate again in order to proceed."),
+          child: Text(l10n.reathenticateLabelReason),
         )
       ],
     );
   }
 
   Widget getContents() {
+    final l10n = l10nOf(context);
     return Column(
       children: [
         Expanded(
             child: ThemedControls.pageHeader(
-                headerText: "Authentication Required")),
+                headerText: l10n.reauthenticateTitle)),
         Padding(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewPadding.bottom),

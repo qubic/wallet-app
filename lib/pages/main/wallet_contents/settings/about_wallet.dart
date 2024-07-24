@@ -72,7 +72,7 @@ class _AboutWalletState extends State<AboutWallet> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                    child: CircularProgressIndicator(), width: 15, height: 15),
+                    width: 15, height: 15, child: CircularProgressIndicator()),
                 Text("  Checking for updates...")
               ],
             ))
@@ -84,20 +84,20 @@ class _AboutWalletState extends State<AboutWallet> {
       Container(
           width: double.infinity,
           alignment: Alignment.center,
-          child: Text("$text",
+          child: Text(text,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
                   .copyWith(fontFamily: ThemeFonts.primary))),
       CopyableText(
+          copiedText: value,
           child: Text(value,
               textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
-                  .copyWith(fontFamily: ThemeFonts.secondary)),
-          copiedText: value)
+                  .copyWith(fontFamily: ThemeFonts.secondary)))
     ]);
   }
 

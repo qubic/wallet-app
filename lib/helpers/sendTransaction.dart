@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_js.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
 void showTamperedWalletAlert(BuildContext context) {
-  showAlertDialog(context, "TAMPERED WALLET DETECTED",
-      "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM QUBIC-HUB.COM OR RISK LOSS OF FUNDS");
+  final l10n = l10nOf(context);
+
+  showAlertDialog(context, l10n.addAccountErrorTamperedWalletTitle,
+      l10n.addAccountErrorTamperedWalletMessage);
 }
 
 ///
@@ -22,12 +24,19 @@ Future<bool> sendAssetTransferTransactionDialog(
     String issuer,
     int numberOfAssets,
     int destinationTick) async {
+  final l10n = l10nOf(context);
   String seed = await getIt.get<ApplicationStore>().getSeedByPublicId(sourceId);
   late String transactionKey;
   QubicCmd qubicCmd = getIt.get<QubicCmd>();
   try {
-    transactionKey = await qubicCmd.createAssetTransferTransaction(seed,
-        destinationId, assetName, issuer, numberOfAssets, destinationTick);
+    transactionKey = await qubicCmd.createAssetTransferTransaction(
+        seed,
+        destinationId,
+        assetName,
+        issuer,
+        numberOfAssets,
+        destinationTick,
+        context);
     await getIt.get<QubicLi>().submitTransaction(transactionKey);
     return true;
   } catch (e) {
@@ -37,7 +46,7 @@ Future<bool> sendAssetTransferTransactionDialog(
     }
 
     showAlertDialog(
-        context, "Error while generating transaction: ", e.toString());
+        context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
 
     return false;
   }
@@ -47,13 +56,14 @@ Future<bool> sendAssetTransferTransactionDialog(
 /// Sends a transaction of value QUBIC from the sourceId to the destinationId
 Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
     String destinationId, int value, int destinationTick) async {
+  final l10n = l10nOf(context);
   String seed = await getIt.get<ApplicationStore>().getSeedByPublicId(sourceId);
   late String transactionKey;
   QubicCmd qubicCmd = getIt.get<QubicCmd>();
   try {
     //Get the signed transaction
     transactionKey = await qubicCmd.createTransaction(
-        seed, destinationId, value, destinationTick);
+        seed, destinationId, value, destinationTick, context);
   } catch (e) {
     if (e.toString().startsWith("Exception: CRITICAL:")) {
       showTamperedWalletAlert(context);
@@ -61,7 +71,7 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
     }
 
     showAlertDialog(
-        context, "Error while generating transaction: ", e.toString());
+        context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
 
     return false;
   }
@@ -70,7 +80,8 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
   try {
     await getIt.get<QubicLi>().submitTransaction(transactionKey);
   } catch (e) {
-    showAlertDialog(context, "Error while sending transaction", e.toString());
+    showAlertDialog(
+        context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     return false;
   }
   return true;

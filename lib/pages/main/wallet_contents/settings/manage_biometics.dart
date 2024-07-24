@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
@@ -9,11 +8,10 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class ManageBiometrics extends StatefulWidget {
   const ManageBiometrics({super.key});
@@ -32,11 +30,10 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   List<BiometricType>? availableBiometrics; //Is empty, no biometric is enrolled
   bool? canUseBiometrics = false;
 
-  String _title = "Manage Biometric Unlock";
-  String _description =
-      "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password";
+  String _title = "";
+  String _description = "";
   Widget _icon = const Icon(Icons.fingerprint);
-  String _settingsLabel = "Biometric Unlock";
+  String _switchLabel = "";
 
   BiometricType? biometricType; //The type of biometric available
 
@@ -44,6 +41,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   @override
   void initState() {
     super.initState();
+
     auth.canCheckBiometrics.then((value) {
       setState(() {
         canCheckBiometrics = value;
@@ -54,7 +52,9 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
         });
         return;
       }
+
       auth.getAvailableBiometrics().then((value) {
+        final l10n = l10nOf(context);
         setState(() {
           availableBiometrics = value;
           canUseBiometrics = value.isNotEmpty;
@@ -63,9 +63,11 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
             setState(() {
               biometricType = BiometricType.face;
               _description =
-                  "You can enable authentication via Face ID. If you enable this, you can sign in to your wallet and issue transfers without using your password";
-              _title = "Manage unlock with Face ID";
-              _settingsLabel = "Unlock with Face ID";
+                  "${l10n.manageBiometricsLabelInstructionsForFaceID} ${l10n.manageBiometricsLabelAdditionalInstructions}";
+              _title =
+                  l10n.manageBiometricsTitle(l10n.generalBiometricTypeFaceID);
+              _switchLabel = l10n
+                  .manageBiometricsSwitchLabel(l10n.generalBiometricTypeFaceID);
               _icon = Image.asset("assets/images/faceid-big.png");
             });
           }
@@ -74,9 +76,11 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
             setState(() {
               biometricType = BiometricType.fingerprint;
               _description =
-                  "You can enable authentication via Touch ID. If you enable this, you can unlock your wallet and issue transfers without using your password";
-              _title = "Manage unlock with Touch ID";
-              _settingsLabel = "Unlock with Touch ID";
+                  "${l10n.manageBiometricsLabelInstructionsForTouchID} ${l10n.manageBiometricsLabelAdditionalInstructions}";
+              _title =
+                  l10n.manageBiometricsTitle(l10n.generalBiometricTypeTouchID);
+              _switchLabel = l10n.manageBiometricsSwitchLabel(
+                  l10n.generalBiometricTypeTouchID);
               _icon = const Icon(Icons.fingerprint,
                   size: 100, color: LightThemeColors.buttonBackground);
             });
@@ -85,9 +89,11 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
             setState(() {
               biometricType = BiometricType.iris;
               _description =
-                  "You can enable authentication with your iris. If you enable this, you can unlock your wallet and issue transfers without using your password";
-              _title = "Manage unlock with Iris";
-              _settingsLabel = "Unlock with Iris";
+                  "${l10n.manageBiometricsLabelInstructionsForIris} ${l10n.manageBiometricsLabelAdditionalInstructions}";
+              _title =
+                  l10n.manageBiometricsTitle(l10n.generalBiometricTypeIris);
+              _switchLabel = l10n
+                  .manageBiometricsSwitchLabel(l10n.generalBiometricTypeIris);
               _icon = const Icon(Icons.remove_red_eye_outlined,
                   size: 100, color: LightThemeColors.buttonBackground);
             });
@@ -99,16 +105,20 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
 
               if (UniversalPlatform.isDesktop) {
                 _description =
-                    "You can enable authentication through your OS. If you enable this, you can unlock  your wallet and issue transfers using your OS authentication";
-                _title = "Manage unlock with OS";
-                _settingsLabel = "Unlock with OS";
+                    "${l10n.manageBiometricsLabelInstructionsForOS} ${l10n.manageBiometricsLabelAdditionalInstructions}";
+                _title =
+                    l10n.manageBiometricsTitle(l10n.generalBiometricTypeOS);
+                _switchLabel = l10n
+                    .manageBiometricsSwitchLabel(l10n.generalBiometricTypeOS);
                 _icon = const Icon(Icons.shield,
                     size: 100, color: LightThemeColors.buttonBackground);
               } else {
                 _description =
-                    "You can enable authentication with biometrics. If you enable this, you can unlock your wallet and issue transfers without using your password";
-                _title = "Manage unlock with Biometric";
-                _settingsLabel = "Unlock with Biometric";
+                    "${l10n.manageBiometricsLabelInstructionsForGeneric} ${l10n.manageBiometricsLabelAdditionalInstructions}";
+                _title = l10n
+                    .manageBiometricsTitle(l10n.generalBiometricTypeGeneric);
+                _switchLabel = l10n.manageBiometricsSwitchLabel(
+                    l10n.generalBiometricTypeGeneric);
                 _icon = const Icon(Icons.fingerprint,
                     size: 100, color: LightThemeColors.buttonBackground);
               }
@@ -125,6 +135,8 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   }
 
   Widget loadingIndicator() {
+    final l10n = l10nOf(context);
+
     return Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +144,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
           const SizedBox(height: ThemePaddings.hugePadding),
           const CircularProgressIndicator(),
           const SizedBox(height: ThemePaddings.normalPadding),
-          Text("Loading...",
+          Text(l10n.generalLabelLoading,
               style: Theme.of(context)
                   .textTheme
                   .displayMedium!
@@ -191,7 +203,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
                     await settingsStore.setBiometrics(value);
                   },
                   initialValue: enabled,
-                  title: Text(_settingsLabel, style: TextStyles.labelText),
+                  title: Text(_switchLabel, style: TextStyles.labelText),
                 ),
               ],
             ),
@@ -200,24 +212,25 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   }
 
   Widget showPossibleErrors() {
+    final l10n = l10nOf(context);
     String? errorText;
     String? errorDescription;
     if ((canCheckBiometrics == false) || (availableBiometrics == null)) {
       errorText = UniversalPlatform.isDesktop
-          ? "OS authentication not available"
-          : "Biometric authentication not available";
+          ? l10n.manageBiometricsErrorOSAuthNotAvailableTitle
+          : l10n.manageBiometricsErrorNotAvailableTitle;
       errorDescription = UniversalPlatform.isDesktop
-          ? "Your OS does not support OS authentication"
-          : "Your device does not support biometric authentication";
+          ? l10n.manageBiometricsErrorOSAuthNotAvailableMessage
+          : l10n.manageBiometricsErrorNotAvailableMessage;
     }
 
     if (availableBiometrics != null && availableBiometrics!.isEmpty) {
       errorText = UniversalPlatform.isDesktop
-          ? "No authentication info is registred in your OS"
-          : "No biometric data has been registered in the device.";
+          ? l10n.manageBiometricsErrorNoOSAuthTitle
+          : l10n.manageBiometricsErrorNoBiometricDataTitle;
       errorDescription = UniversalPlatform.isDesktop
-          ? "You have not setup authentication in your OS. Please navigate to your OS control panel and setup authentication"
-          : "Your device supports biometric authentication but you have not registered your biometric data yet. Please navigate to your device control panel, register your biometric data and try again";
+          ? l10n.manageBiometricsErrorNoOSAuthMessage
+          : l10n.manageBiometricsErrorNoBiometricDataMessage;
     }
     if (errorText == null) {
       return Container();

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
@@ -19,6 +18,7 @@ import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AddAccount extends StatefulWidget {
   const AddAccount({super.key});
@@ -50,6 +50,7 @@ class _AddAccountState extends State<AddAccount> {
   }
 
   void showQRScanner() {
+    final l10n = l10nOf(context);
     detected = false;
     showModalBottomSheet<void>(
         context: context,
@@ -70,7 +71,8 @@ class _AddAccountState extends State<AddAccount> {
 
                 for (final barcode in barcodes) {
                   if (barcode.rawValue != null) {
-                    var validator = CustomFormFieldValidators.isSeed();
+                    var validator =
+                        CustomFormFieldValidators.isSeed(context: context);
                     if (validator(barcode.rawValue) == null) {
                       privateSeed.text = barcode.rawValue!;
                       foundSuccess = true;
@@ -81,7 +83,8 @@ class _AddAccountState extends State<AddAccount> {
                     if (!detected) {
                       Navigator.pop(context);
 
-                      _globalSnackBar.show("Successfully scanned QR Code");
+                      _globalSnackBar.show(
+                          l10n.generalSnackBarMessageQRScannedWithSuccess);
                     }
                     detected = true;
                   }
@@ -93,11 +96,11 @@ class _AddAccountState extends State<AddAccount> {
                 child: Container(
                     color: Colors.white60,
                     width: double.infinity,
-                    child: const Padding(
-                        padding: EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(
-                            "Please point the camera to a QR Code containing the private seed",
-                            style: TextStyle(
+                    child: Padding(
+                        padding:
+                            const EdgeInsets.all(ThemePaddings.normalPadding),
+                        child: Text(l10n.addAccountHeaderScanQRCodeInstructions,
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -109,6 +112,7 @@ class _AddAccountState extends State<AddAccount> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -116,16 +120,16 @@ class _AddAccountState extends State<AddAccount> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: "Add New Account"),
+              ThemedControls.pageHeader(headerText: l10n.addAccountHeader),
               ThemedControls.spacerVerticalSmall(),
               Row(children: [
-                Text("Account Name", style: TextStyles.labelTextNormal),
+                Text(l10n.addAccountLabelAccountName,
+                    style: TextStyles.labelTextNormal),
                 ThemedControls.spacerHorizontalSmall(),
                 Tooltip(
                     triggerMode: TooltipTriggerMode.tap,
-                    showDuration: Duration(seconds: 5),
-                    message:
-                        "An account name is a human-readable name that you can use to identify your Qubic private seeds in your wallet. The account name is kept only in your device. It can be changed at any time.",
+                    showDuration: const Duration(seconds: 5),
+                    message: l10n.addAccountTooltipAccountName,
                     child: LightThemeColors.shouldInvertIcon
                         ? ThemedControls.invertedColors(
                             child: Image.asset(
@@ -145,24 +149,25 @@ class _AddAccountState extends State<AddAccount> {
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           CustomFormFieldValidators.isNameAvailable(
-                              currentQubicIDs: appStore.currentQubicIDs)
+                              currentQubicIDs: appStore.currentQubicIDs,
+                              context: context)
                         ]),
                         readOnly: isLoading,
                         style: TextStyles.inputBoxSmallStyle,
                         decoration: ThemeInputDecorations.normalInputbox
-                            .copyWith(hintText: "Choose a name"),
+                            .copyWith(hintText: l10n.addAccountHintAccountName),
                         autocorrect: false,
                         autofillHints: null,
                       ),
                       ThemedControls.spacerVerticalNormal(),
                       Row(children: [
-                        Text("Private Seed", style: TextStyles.labelTextNormal),
+                        Text(l10n.addAccountLabelPrivateSeed,
+                            style: TextStyles.labelTextNormal),
                         ThemedControls.spacerHorizontalSmall(),
                         Tooltip(
                             triggerMode: TooltipTriggerMode.tap,
-                            showDuration: Duration(seconds: 5),
-                            message:
-                                "A private seed is made by 55 lowercase letters and is used to generate your Qubic Address. It is recommended to make it as random as possible. Always keep it secret and never share with anyone",
+                            showDuration: const Duration(seconds: 5),
+                            message: l10n.addAccountTooltipPrivateSeed,
                             child: LightThemeColors.shouldInvertIcon
                                 ? ThemedControls.invertedColors(
                                     child: Image.asset(
@@ -173,14 +178,14 @@ class _AddAccountState extends State<AddAccount> {
                         ThemedControls.transparentButtonSmall(
                             onPressed: () {
                               if (generatingId) {
-                                return null;
+                                return;
                               }
                               FocusManager.instance.primaryFocus?.unfocus();
 
                               var seed = getRandomSeed();
                               privateSeed.text = seed;
                             },
-                            text: "Create Random",
+                            text: l10n.addAccountButtonCreateRandom,
                             icon: LightThemeColors.shouldInvertIcon
                                 ? ThemedControls.invertedColors(
                                     child: Image.asset(
@@ -196,15 +201,17 @@ class _AddAccountState extends State<AddAccount> {
                         keyboardType: TextInputType.visiblePassword,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
-                          CustomFormFieldValidators.isSeed(),
+                          CustomFormFieldValidators.isSeed(context: context),
                           CustomFormFieldValidators.isPublicIdAvailable(
-                              currentQubicIDs: appStore.currentQubicIDs)
+                              currentQubicIDs: appStore.currentQubicIDs,
+                              context: context)
                         ]),
                         onSubmitted: (value) {
                           saveIdHandler();
                         },
                         onChanged: (value) async {
-                          var v = CustomFormFieldValidators.isSeed();
+                          var v = CustomFormFieldValidators.isSeed(
+                              context: context);
                           if (value != null &&
                               value.trim().isNotEmpty &&
                               v(value) == null) {
@@ -212,8 +219,8 @@ class _AddAccountState extends State<AddAccount> {
                               setState(() {
                                 generatingId = true;
                               });
-                              var newId =
-                                  await qubicCmd.getPublicIdFromSeed(value);
+                              var newId = await qubicCmd.getPublicIdFromSeed(
+                                  value, context);
                               setState(() {
                                 generatedPublicId = newId;
                                 generatingId = false;
@@ -222,12 +229,10 @@ class _AddAccountState extends State<AddAccount> {
                               if (e
                                   .toString()
                                   .startsWith("Exception: CRITICAL:")) {
-                                print("CRITICAL");
-
                                 showAlertDialog(
                                     context,
-                                    "TAMPERED WALLET DETECTED",
-                                    "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM QUBIC-HUB.COM OR RISK LOSS OF FUNDS");
+                                    l10n.addAccountErrorTamperedWalletTitle,
+                                    l10n.addAccountErrorTamperedWalletMessage);
                               }
                               setState(() {
                                 privateSeed.value = TextEditingValue.empty;
@@ -247,7 +252,7 @@ class _AddAccountState extends State<AddAccount> {
                         decoration: ThemeInputDecorations
                             .normalMultiLineInputbox
                             .copyWith(
-                                hintText: "Keep the private seed secret",
+                                hintText: l10n.addAccountHintPrivateSeed,
                                 suffixIcon: Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     mainAxisSize: MainAxisSize.min,
@@ -266,10 +271,11 @@ class _AddAccountState extends State<AddAccount> {
                                                     .isEmpty) {
                                                   return;
                                                 }
-                                                copyToClipboard(_formKey
-                                                        .currentState
-                                                        ?.instantValue[
-                                                    "privateSeed"]);
+                                                copyToClipboard(
+                                                    _formKey.currentState
+                                                            ?.instantValue[
+                                                        "privateSeed"],
+                                                    context);
                                               },
                                               icon: LightThemeColors
                                                       .shouldInvertIcon
@@ -289,7 +295,7 @@ class _AddAccountState extends State<AddAccount> {
                                 onPressed: () {
                                   showQRScanner();
                                 },
-                                text: "Use QR Code",
+                                text: l10n.generalButtonUseQRCode,
                                 icon: !LightThemeColors.shouldInvertIcon
                                     ? ThemedControls.invertedColors(
                                         child: Image.asset(
@@ -300,13 +306,13 @@ class _AddAccountState extends State<AddAccount> {
                       Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                              "Please backup your private seed in a safe place. Keep it secret and do not ever share it with anyone. Access to your private seed means access to your funds.",
+                              l10n.addAccountHeaderKeepPrivateSeedSecret,
                               style: TextStyles.assetSecondaryTextLabel)),
                       const SizedBox(height: ThemePaddings.normalPadding),
                       ThemedControls.spacerVerticalNormal(),
                       Align(
                           alignment: Alignment.topLeft,
-                          child: Text("Qubic Address (Public ID)",
+                          child: Text(l10n.generalLabeQubicAddressAndPublicID,
                               style: TextStyles.labelTextNormal)),
                       ThemedControls.spacerVerticalMini(),
                       Builder(builder: (context) {
@@ -319,16 +325,20 @@ class _AddAccountState extends State<AddAccount> {
                                 ThemedControls.spacerVerticalMini(),
                                 generatedPublicId == null
                                     ? privateSeed.value.text.isEmpty
-                                        ? Text("No private seed provided",
+                                        ? Text(
+                                            l10n
+                                                .addAccountHintAddressNoPrivateSeed,
                                             textAlign: TextAlign.right,
                                             style: TextStyles.textNormal
                                                 .copyWith(
                                                     fontSize: 12,
-                                                    fontWeight: FontWeight
-                                                        .normal,
+                                                    fontWeight:
+                                                        FontWeight.normal,
                                                     fontStyle:
                                                         FontStyle.italic))
-                                        : Text("Invalid private seed provided",
+                                        : Text(
+                                            l10n
+                                                .addAccountHintAddressInvalidPrivateSeed,
                                             style: TextStyles.textNormal
                                                 .copyWith(
                                                     fontSize: 12,
@@ -346,7 +356,8 @@ class _AddAccountState extends State<AddAccount> {
                                     if (generatedPublicId == null) {
                                       return;
                                     }
-                                    copyToClipboard(generatedPublicId!);
+                                    copyToClipboard(
+                                        generatedPublicId!, context);
                                   },
                                   icon: LightThemeColors.shouldInvertIcon
                                       ? ThemedControls.invertedColors(
@@ -364,13 +375,15 @@ class _AddAccountState extends State<AddAccount> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
+
     return [
       Expanded(
           child: !isLoading
               ? ThemedControls.transparentButtonBigWithChild(
                   child: Padding(
                       padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                      child: Text("Cancel",
+                      child: Text(l10n.generalButtonCancel,
                           style: TextStyles.transparentButtonText)),
                   onPressed: () {
                     Navigator.pop(context);
@@ -382,13 +395,14 @@ class _AddAccountState extends State<AddAccount> {
               onPressed: saveIdHandler,
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: Text("Save",
+                  child: Text(l10n.generalButtonSave,
                       textAlign: TextAlign.center,
                       style: TextStyles.primaryButtonText))))
     ];
   }
 
   void saveIdHandler() async {
+    final l10n = l10nOf(context);
     _formKey.currentState?.validate();
     if (generatingId) {
       return;
@@ -402,7 +416,7 @@ class _AddAccountState extends State<AddAccount> {
         .where(((element) =>
             element.publicId == generatedPublicId!.replaceAll(",", "_")))
         .isNotEmpty) {
-      _globalSnackBar.show("This account already exists in your wallet");
+      _globalSnackBar.show(l10n.generalSnackBarMessageAccountAlreadyExist);
 
       return;
     }
@@ -423,18 +437,6 @@ class _AddAccountState extends State<AddAccount> {
             Navigator.pop(context);
           }));
         });
-
-    // showDialog(
-    //     context: context,
-    //     builder: (context) {
-    //       return AddAccountWarning(onAccept: () async {
-    //         Navigator.pop(context);
-    //         await _saveId();
-    //         getIt<TimedController>().interruptFetchTimer();
-    //       }, onReject: () async {
-    //         Navigator.pop(context);
-    //       });
-    //     });
   }
 
   Future<void> _saveId() async {

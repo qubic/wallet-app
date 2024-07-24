@@ -11,6 +11,7 @@ import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AuthenticatePassword extends StatefulWidget {
   final Function onSuccess;
@@ -97,6 +98,8 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   }
 
   Future<void> handleBiometricsAuth() async {
+    final l10n = l10nOf(context);
+
     if (isLoading) {
       return;
     }
@@ -119,47 +122,48 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
     } on PlatformException catch (err) {
       if ((err.message != null) &&
           (err.message!
+              // TODO: can we check the error with the error code? why if the app is in another langauge?
               .contains("API is locked out due to too many attempts"))) {
         setState(() {
           isLoading = false;
           formOpacity = 1;
-          signInError = err.message ??
-              "Too many failed attempts to _authenticate you. Please lock and unlock your phone via PIN / pattern and try again";
+          signInError = err.message ?? l10n.authenticateErrorTooManyAttempts;
         });
       } else if (err.message != null) {
         setState(() {
           isLoading = false;
           formOpacity = 1;
-          signInError = err.message ??
-              "An error has occurred while trying to authenticate you";
+          signInError = err.message ?? l10n.authenticateErrorGeneral;
         });
       }
     } catch (e) {
       setState(() {
         isLoading = false;
         formOpacity = 1;
-        signInError =
-            "An error has occurred while trying to authenticate you. Please try again";
+        signInError = l10n.authenticateErrorGeneral;
       });
     }
   }
 
   Widget biometricsButton() {
-    String label = "Authenticate Biometrics";
+    final l10n = l10nOf(context);
+
+    String label = l10n.authenticateButtonWithBiometrics;
+
     if (biometricType == BiometricType.face) {
-      label = "Authenticate with Face ID";
+      label = l10n.authenticateButtonWithWithFaceID;
     } else if (biometricType == BiometricType.fingerprint) {
-      label = "Authenticate with Touch ID";
+      label = l10n.authenticateButtonWithTouchID;
     } else if (biometricType == BiometricType.iris) {
-      label = "Authenticate with Iris";
+      label = l10n.authenticateButtonWithIris;
     } else if (biometricType == BiometricType.strong) {
       if (UniversalPlatform.isAndroid) {
-        label = "Authenticate with Biometric";
+        label = l10n.authenticateButtonWithBiometrics;
       } else {
-        label = "Authenticate with OS";
+        label = l10n.authenticateButtonWithOS;
       }
     } else if (biometricType == BiometricType.weak) {
-      label = "Alternative Unlock";
+      label = l10n.authenticateButtonAlternative;
     }
     return AnimatedOpacity(
         opacity: isLoading ? 0.1 : 1,
@@ -175,6 +179,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   }
 
   void _authenticateHandler() async {
+    final l10n = l10nOf(context);
     if (isLoading) {
       return;
     }
@@ -197,13 +202,15 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
       } else {
         setState(() {
           isLoading = false;
-          signInError = "You provided an invalid password";
+          signInError = l10n.authenticateErrorInvalidPassword;
         });
       }
     }
   }
 
   Widget authenticateButton() {
+    final l10n = l10nOf(context);
+
     return SizedBox(
       height: 48,
       child: ThemedControls.primaryButtonBigWithChild(
@@ -222,7 +229,8 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                           color:
                               Theme.of(context).colorScheme.inversePrimary)));
             } else {
-              return Text("Authenticate", style: TextStyles.primaryButtonText);
+              return Text(l10n.authenticateButtonAuthenticate,
+                  style: TextStyles.primaryButtonText);
             }
           })),
     );
@@ -231,6 +239,8 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return AnimatedOpacity(
         opacity: formOpacity,
         duration: const Duration(milliseconds: 200),
@@ -267,7 +277,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                       FormBuilderValidators.required(),
                     ]),
                     decoration: ThemeInputDecorations.bigInputbox.copyWith(
-                      hintText: "Wallet password",
+                      hintText: l10n.generalTextFieldHintPassword,
                       suffixIcon: Padding(
                         padding: const EdgeInsets.only(
                             right: ThemePaddings.smallPadding),

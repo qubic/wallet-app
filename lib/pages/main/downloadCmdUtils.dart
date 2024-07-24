@@ -13,6 +13,7 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/link.dart';
 import 'package:path/path.dart' as Path;
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class DownloadCmdUtils extends StatefulWidget {
   const DownloadCmdUtils({super.key});
@@ -97,6 +98,8 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
   }
 
   Widget getInstructions() {
+    final l10n = l10nOf(context);
+
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -170,7 +173,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                                   step = 'intro';
                                 });
                               },
-                              child: Text("Back"))),
+                              child: Text(l10n.generalButtonBack))),
                       ThemedControls.spacerHorizontalNormal(),
                       Expanded(
                           child: FilledButton(
@@ -271,6 +274,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
   }
 
   Widget getDownloadingError() {
+    final l10n = l10nOf(context);
     return Column(mainAxisSize: MainAxisSize.min, children: [
       Text("Download failed",
           style: Theme.of(context)
@@ -293,7 +297,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
               await startDownloading();
               //settingsStore.cmdUtilsAvailable = true;
             },
-            child: const Text("Try again")),
+            child: Text(l10n.generalButtonTryAgain)),
         TextButton(
             onPressed: () async {
               setState(() {

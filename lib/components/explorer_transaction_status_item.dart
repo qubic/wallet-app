@@ -20,7 +20,7 @@ class ExplorerTransactionStatusItem extends StatelessWidget {
     return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
       Icon(getTransactionStatusIcon(item.getStatus()),
           color: getTransactionStatusColor(item.getStatus()), size: 18),
-      Text(" ${getTransactionStatusText(item.getStatus())}",
+      Text(" ${getTransactionStatusText(item.getStatus(), context)}",
           style: TextStyles.labelTextSmall)
     ]);
   }

@@ -2,7 +2,6 @@ import 'package:dargon2_flutter/dargon2_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -14,8 +13,7 @@ import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-
-import 'helpers/global_snack_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   DArgon2Flutter.init(); //Initialize DArgon 2
@@ -57,6 +55,9 @@ class _WalletAppState extends State<WalletApp> {
     return MaterialApp.router(
       title: 'Qubic Wallet',
       routerConfig: appRouter,
+
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
 
       scaffoldMessengerKey: scaffoldMessengerKey,
       debugShowCheckedModeBanner: false,

@@ -6,6 +6,7 @@ import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class JoinCommunity extends StatefulWidget {
   const JoinCommunity({super.key});
@@ -16,15 +17,17 @@ class JoinCommunity extends StatefulWidget {
 
 class _JoinCommunityState extends State<JoinCommunity> {
   Widget getHeader() {
+    final l10n = l10nOf(context);
+
     return Padding(
         padding: const EdgeInsets.only(
             left: ThemePaddings.normalPadding,
             right: ThemePaddings.normalPadding,
             top: ThemePaddings.hugePadding,
             bottom: ThemePaddings.smallPadding),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [Text("Join Community", style: TextStyles.pageTitle)]));
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Text(l10n.settingsLabelJoinCommunity, style: TextStyles.pageTitle)
+        ]));
   }
 
   Future<void> launchQubicURL(String url) async {
@@ -34,6 +37,7 @@ class _JoinCommunityState extends State<JoinCommunity> {
   }
 
   Widget getCommunityOptions() {
+    final l10n = l10nOf(context);
     var theme = SettingsThemeData(
       settingsSectionBackground: LightThemeColors.cardBackground,
       //Theme.of(context).cardTheme.color,
@@ -56,18 +60,20 @@ class _JoinCommunityState extends State<JoinCommunity> {
                 tiles: <SettingsTile>[
                   SettingsTile.navigation(
                     leading: ChangeForeground(
-                        child: const Icon(Icons.discord),
-                        color: LightThemeColors.gradient1),
-                    title: Text('Discord', style: TextStyles.textNormal),
+                        color: LightThemeColors.gradient1,
+                        child: const Icon(Icons.discord)),
+                    title: Text(l10n.joinCommunityLabelDiscord,
+                        style: TextStyles.textNormal),
                     trailing: Container(),
                     onPressed: (context) =>
                         {launchQubicURL("https://discord.com/invite/qubic")},
                   ),
                   SettingsTile.navigation(
                     leading: ChangeForeground(
-                        child: const Icon(Icons.telegram),
-                        color: LightThemeColors.gradient1),
-                    title: Text('Telegram', style: TextStyles.textNormal),
+                        color: LightThemeColors.gradient1,
+                        child: const Icon(Icons.telegram)),
+                    title: Text(l10n.joinCommunityLabelTelegram,
+                        style: TextStyles.textNormal),
                     trailing: Container(),
                     onPressed: (context) =>
                         {launchQubicURL("https://t.me/qubic_network")},
@@ -75,26 +81,29 @@ class _JoinCommunityState extends State<JoinCommunity> {
                   SettingsTile.navigation(
                     leading: ChangeForeground(
                         color: LightThemeColors.gradient1,
-                        child: Icon(FontAwesomeIcons.xTwitter)),
-                    title: Text('Twitter', style: TextStyles.textNormal),
+                        child: const Icon(FontAwesomeIcons.xTwitter)),
+                    title: Text(l10n.joinCommunityLabelTwitter,
+                        style: TextStyles.textNormal),
                     trailing: Container(),
                     onPressed: (context) =>
                         {launchQubicURL("https://twitter.com/_Qubic_")},
                   ),
                   SettingsTile.navigation(
                     leading: ChangeForeground(
-                        child: const Icon(Icons.reddit),
-                        color: LightThemeColors.gradient1),
-                    title: Text('Reddit', style: TextStyles.textNormal),
+                        color: LightThemeColors.gradient1,
+                        child: const Icon(Icons.reddit)),
+                    title: Text(l10n.joinCommunityLabelReddit,
+                        style: TextStyles.textNormal),
                     trailing: Container(),
                     onPressed: (context) =>
                         {launchQubicURL("https://www.reddit.com/r/Qubic/")},
                   ),
                   SettingsTile.navigation(
                     leading: ChangeForeground(
-                        child: const Icon(FontAwesomeIcons.youtube),
-                        color: LightThemeColors.gradient1),
-                    title: Text('YouTube', style: TextStyles.textNormal),
+                        color: LightThemeColors.gradient1,
+                        child: const Icon(FontAwesomeIcons.youtube)),
+                    title: Text(l10n.joinCommunityLabelYouTube,
+                        style: TextStyles.textNormal),
                     trailing: Container(),
                     onPressed: (context) => {
                       launchQubicURL("https://www.youtube.com/@_qubic_/videos")
@@ -104,16 +113,18 @@ class _JoinCommunityState extends State<JoinCommunity> {
                     leading: ChangeForeground(
                         child: const Icon(FontAwesomeIcons.github),
                         color: LightThemeColors.gradient1),
-                    title: Text('GitHub', style: TextStyles.textNormal),
+                    title: Text(l10n.joinCommunityLabelGitHub,
+                        style: TextStyles.textNormal),
                     trailing: Container(),
                     onPressed: (context) =>
                         {launchQubicURL("https://github.com/qubic")},
                   ),
                   SettingsTile.navigation(
                     leading: ChangeForeground(
-                        child: const Icon(FontAwesomeIcons.linkedin),
-                        color: LightThemeColors.gradient1),
-                    title: Text('LinkedIn', style: TextStyles.textNormal),
+                        color: LightThemeColors.gradient1,
+                        child: const Icon(FontAwesomeIcons.linkedin)),
+                    title: Text(l10n.joinCommunityLabelLinkedIn,
+                        style: TextStyles.textNormal),
                     trailing: Container(),
                     onPressed: (context) => {
                       launchQubicURL(
