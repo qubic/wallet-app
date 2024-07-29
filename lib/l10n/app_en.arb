@@ -36,7 +36,7 @@
     "generalLabelTo": "To",
     "generalLabeQubicAddress": "Qubic Address",
     "generalLabeQubicAddressAndPublicID": "Qubic Address (Public ID)",
-    "generalLabelQubicAddressWithAccountName": "Qubic Address (accountName)",
+    "generalLabelQubicAddressWithAccountName": "Qubic Address {accountName}",
     "@generalLabelQubicAddressWithAccountName": {
         "placeholders": {
             "accountName": {
@@ -572,11 +572,11 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destinationId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
-    "@generalAllTransctionDetails": {
+    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
+    "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
         "placeholders": {
-            "id": {
+            "trxId": {
                 "type": "String"
             },
             "sourceId": {
@@ -613,6 +613,15 @@
                 "type": "String"
             },
             "isPending": {
+                "type": "String"
+            },
+            "price": {
+                "type": "String"
+            },
+            "quantity": {
+                "type": "String"
+            },
+            "moneyFlow": {
                 "type": "String"
             }
         }

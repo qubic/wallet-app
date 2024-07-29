@@ -108,12 +108,11 @@ class TransactionVm {
 
   String toReadableString(BuildContext context) {
     final l10n = l10nOf(context);
-
     return l10n.generalAllTransactionDetails(
         id,
         sourceId,
         destId,
-        amount,
+        amount.toString(),
         status,
         created.toString(),
         stored.toString(),
@@ -121,11 +120,11 @@ class TransactionVm {
         broadcasted.toString(),
         confirmed.toString(),
         statusUpdate.toString(),
-        targetTick,
-        isPending,
+        targetTick.toString(),
+        isPending ? l10n.generalLabelYes : l10n.generalLabelNo,
         price.toString(),
         quantity.toString(),
-        moneyFlow);
+        moneyFlow ? l10n.generalLabelYes : l10n.generalLabelNo);
     //return "ID: $id \nSource: $sourceId \nDestination: $destId \nAmount: $amount \nStatus: $status \nCreated: $created \nStored: $stored \nStaged: $staged \nBroadcasted: $broadcasted \nConfirmed: $confirmed \nStatusUpdate: $statusUpdate \nTarget Tick: $targetTick \nIs Pending: $isPending \nPrice: $price \nQuantity: $quantity \nMoney Flow: $moneyFlow \n";
   }
 
