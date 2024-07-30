@@ -121,7 +121,7 @@
     "transfersLabelNoTransactionsFoundInWallet": "在您的账户当前纪元中，没有交易记录。",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "在当前纪元中，没有符合您过滤条件的交易。",
     "transfersLabelNoTransactionsFoundInAccount": "在当前纪元中没有交易。",
-    "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
+    "transfersLabelShowingTransactionsFound": "{count, plural, =1{正在显示 1 笔交易} other{正在显示 {count} 笔交易}}",
     "transfersLabelFor": "转账来自",
     "transfersLabelForAccount": "转账来自 \"{accountName}\"",
     "@transfersLabelForAccount": {
@@ -131,15 +131,15 @@
             }
         }
     },
-    "filterTransfersTitle": "筛选转账",
-    "filterTransfersLabelAnyQubicID": "任意 Qubic ID",
+    "filterTransfersTitle": "转账记录",
+    "filterTransfersLabelAnyQubicID": "所有 Qubic ID",
     "filterTransfersLabelByQubicID": "按 Qubic ID",
-    "filterTransfersLabelAnyStatus": "任意状态",
+    "filterTransfersLabelAnyStatus": "所有状态",
     "filterTransfersLabelByStatus": "按状态",
     "filterTransfersLabelByDirection": "按方向筛选",
     "filterTransfersFieldHintByDirection": "按方向",
-    "generalLabelAnyDirection": "任意方向",
-    "filterTransfersClearFilters": "{filtersCount, plural, =1{Clear 1 Active Filter} other{Clear {filtersCount} Active Filters}}",
+    "generalLabelAnyDirection": "所有转账",
+    "filterTransfersClearFilters": "{filtersCount, plural, =1{清除 1 个筛选条件} other{清除 {filtersCount} 个筛选条件}}",
     "explorerTitle": "纪元浏览器",
     "explorerLabelEpoch": "纪元 {currentEpoch}",
     "@explorerLabelEpoch": {
@@ -156,13 +156,13 @@
     "explorerLabelEmptyTicks": "空刻度",
     "explorerLabelTickQuality": "刻度质量",
     "explorerLabelTotalSupply": "总供应 (QUBIC)",
-    "explorerLabelTotalAddresses": "总地址",
+    "explorerLabelTotalAddresses": "活跃地址",
     "explorerButtonRefreshData": "刷新数据",
     "explorerLabelLoadingData": "正在加载当前纪元数据",
     "explorerSearchTitle": "浏览器搜索",
     "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
     "explorerSearchLabelNoResults": "没有找到匹配的结果。",
-    "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
+    "explorerSearchLabelResults": "{count, plural, =1{找到 1 个结果} other{找到 {count} 个结果}}",
     "explorerTickResultLabelBlockStatus": "区块状态",
     "explorerTickResultLabelBlockStatusEmpty": "空",
     "explorerTickResultLabelBlockStatusNonEmpty": "非空",
@@ -172,8 +172,8 @@
     "explorerTickResultLabelInfoNotValidated": "未验证",
     "explorerTickResultLabelTickLeader": "刻度验证者 - (Short Code / Index)",
     "explorerTickResultLabelNoTransactionsFound": "此刻度中无交易",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}}",
+    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 笔交易在此刻度} other{{count} 笔交易在此刻度}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{正在显示 1 of 1 笔交易在此刻度} other{正在显示 1 of {count} 笔交易在此刻度}}}",
     "settingsTitle": "设置",
     "settingsHeaderAccountsAndData": "账户和数据",
     "settingsLockWallet": "锁定钱包",
@@ -182,7 +182,7 @@
     "settingsLabelExportWalletVaultFile": "导出钱包 Vault 文件",
     "settingsHeaderAbout": "关于",
     "settingsLabelJoinCommunity": "加入社区",
-    "settingsLabelWalletInfo": "钱包信息",
+    "settingsLabelWalletInfo": "钱包版本",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "虹膜",
@@ -248,14 +248,14 @@
     "accountButtonReceive": "接收",
     "accountButtonSend": "发送",
     "accountButtonAssets": "资产",
-    "accountSendTitle": "发送资金",
-    "accountSendLabelDestinationAddress": "目的地址",
+    "accountSendTitle": "发送",
+    "accountSendLabelDestinationAddress": "接收地址",
     "accountSendLabelAmount": "数量",
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "高级选项",
     "assetsLabelOwned": "拥有",
-    "assetsLabelPossessed": "持有中",
+    "assetsLabelPossessed": "持有",
     "assetsLabelContractName": "合约名称",
     "assetsLabelContractIndex": "合约索引",
     "assetsLabelTick": "有效至刻度 {tick}",
@@ -266,7 +266,7 @@
             }
         }
     },
-    "assetsLabelCurrentBalance": "ID中余额： {amount} QUBIC",
+    "assetsLabelCurrentBalance": "ID 中余额： {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
             "amount": {
@@ -299,7 +299,7 @@
     "signUpTextFieldHintPassword": "输入密码",
     "generalErrorSetPasswordNotMatching": "密码不匹配",
     "signUpTextFieldHintRepeatPassword": "重复密码",
-    "generalErrorContactingQubicNetwork": "无法联系 Qubic 网络",
+    "generalErrorContactingQubicNetwork": "无法连接 Qubic 网络",
     "signUpErrorStoringBiometricInfo": "错误存储生物识别信息",
     "signUpStepTwoHeader": "生物识别解锁",
     "signUpStepTwoSubHeader": "您可以启用通过生物识别进行身份验证。如果已启用，您可以在不使用密码的情况下登录钱包并发起转账。",
@@ -348,8 +348,8 @@
     "eraseDataSheetLabelTwo": "您仅能通过备份私有种子来恢复账户。",
     "eraseDataSheetCheckboxLabel": "是的，清除我的钱包数据。",
     "accountExplorerTitle": "Qubic 地址",
-    "accountExplorerLabelCurrentValue": "当前价值",
-    "accountExplorerLabelValueReportedBy": "价值报告来自 {ip}",
+    "accountExplorerLabelCurrentValue": "当前数量",
+    "accountExplorerLabelValueReportedBy": "数量报告来自 {ip}",
     "@accountExplorerLabelValueReportedBy": {
         "placeholders": {
             "ip": {
@@ -361,9 +361,9 @@
     "accountExplorerLabelTotalOutgoing": "总转出",
     "accountExplorerLabelReportedBy": "报告来自",
     "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transaction in this epoch} other{{count} transactions in this epoch}}",
-    "transactionItemLabelIncludedByTickLeader": "由刻度验证者包括",
-    "transactionItemLabelNotIncludedByTickLeader": "不由刻度验证者包括",
+    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 笔交易在此纪元} other{{count} 笔交易在此纪元}}",
+    "transactionItemLabelIncludedByTickLeader": "由刻度验证者包含的交易",
+    "transactionItemLabelNotIncludedByTickLeader": "不由刻度验证者包含的交易",
     "transactionItemLabelTransactionId": "交易 ID",
     "transactionItemLabelTransactionDigest": "交易摘要",
     "generalLabelTickAndValue": "刻度 {tick}",
@@ -374,8 +374,8 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "由 Qubic 网络包括",
-    "transactionItemLabelNotIncludedByQubicNetwork": "不由 Qubic 网络包括",
+    "transactionItemLabelIncludedByQubickNetwork": "由 Qubic 网络包含的交易",
+    "transactionItemLabelNotIncludedByQubicNetwork": "不由 Qubic 网络包含的交易",
     "transactionItemButtonViewInExplorer": "在浏览器中查看",
     "transactionItemButtonCopyToClipboard": "复制到剪贴板",
     "transactionItemButtonViewDetails": "查看详情",
@@ -386,7 +386,7 @@
     "transactionItemLabelConfirmedDate": "确认日期",
     "transactionItemLabelDetails": "转账详情",
     "sendItemLabelTargetTick": "目标刻度",
-    "sendItemLabelTargetTickAutomatic": "Automatically: Current + {addingTicks}",
+    "sendItemLabelTargetTickAutomatic": "自动：当前刻度 + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
         "placeholders": {
             "addingTicks": {
@@ -398,7 +398,7 @@
     "sendItemLabelDetermineTargetTick": "确定目标刻度",
     "sendItemDialogErrorGeneralTitle": "生成交易时出现错误",
     "sendItemDialogResendTitle": "重新发送失败的交易？",
-    "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
+    "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (当前 {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
             "formattedTargetTick": {
@@ -453,8 +453,8 @@
     "reauthenticateHeader": "请重新验证",
     "reathenticateLabelReason": "为了继续操作，请再次进行身份验证。",
     "reathenticateWithPasswordLabelReason": "为了继续操作，请再次进行身份验证。您提供的密码将用于加密您的钱包。",
-    "receiveTitle": "接收资金和资产",
-    "receiveHeader": "在 \"{accountName}\"",
+    "receiveTitle": "接收",
+    "receiveHeader": "由 \"{accountName}\"",
     "@receiveHeader": {
         "placeholders": {
             "accountName": {
@@ -485,7 +485,7 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "选择地址",
     "sendItemLabelSelectSenderAddressLineTwo": "从您的钱包账户中",
-    "sendItemLabelCurrentTick": "(当前刻度： {currentTickFormatted})",
+    "sendItemLabelCurrentTick": "(当前刻度：{currentTickFormatted})",
     "@sendItemLabelCurrentTick": {
         "placeholders": {
             "currentTickFormatted": {
