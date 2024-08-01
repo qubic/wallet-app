@@ -258,18 +258,17 @@ class _TabSettingsState extends State<TabSettings> {
                   }),
               SettingsTile.navigation(
                 leading: ChangeForeground(
-                  child: const Icon(Icons.lock_clock),
-                  color: LightThemeColors.gradient1,
-                ),
+                    color: LightThemeColors.gradient1,
+                    child: const Icon(Icons.lock_clock)),
+                title: Text('Auto-Lock Settings',
+                    style: TextStyles.textNormal),
                 trailing: getTrailingArrow(),
-                title: Text('Auto-Lock Settings', style: TextStyles.textNormal),
                 onPressed: (BuildContext? context) async {
-                  pushScreen(
-                    context!,
-                    screen: AutoLockSettings(),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
+                  pushScreen(context!,
+                      screen: AutoLockSettings(),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                      PageTransitionAnimation.cupertino);
                 },
               ),
               SettingsTile.navigation(
