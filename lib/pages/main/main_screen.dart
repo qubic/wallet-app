@@ -28,7 +28,8 @@ import 'package:universal_platform/universal_platform.dart';
 import '../../helpers/global_snack_bar.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int initialTabIndex;
+  const MainScreen({super.key, this.initialTabIndex = 0});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -83,7 +84,11 @@ class _MainScreenState extends State<MainScreen>  with WidgetsBindingObserver {
 
     _timedController.setupFetchTimer(true);
     _timedController.setupSlowTimer(true);
-    _controller = PersistentTabController(initialIndex: 0);
+    _controller = PersistentTabController(initialIndex: widget.initialTabIndex);
+    // _controller.jumpToTab(value);
+    _controller.addListener(() {
+      applicationStore.setCurrentTabIndex(_controller.index);
+    });
 
     if (!getIt.isRegistered<PersistentTabController>()) {
       getIt.registerSingleton<PersistentTabController>(_controller);
@@ -232,6 +237,8 @@ class _MainScreenState extends State<MainScreen>  with WidgetsBindingObserver {
   }
 
   Widget getMain() {
+    _controller.jumpToTab(applicationStore.currentTabIndex);
+    // _controller.jumpToPreviousTab();
     return PersistentTabView(
       controller: _controller,
       navBarHeight: 60,
@@ -266,6 +273,7 @@ class _MainScreenState extends State<MainScreen>  with WidgetsBindingObserver {
       if (UniversalPlatform.isDesktop && !settingsStore.cmdUtilsAvailable) {
         return const Scaffold(body: DownloadCmdUtils());
       }
+
       return getMain();
     });
   }
