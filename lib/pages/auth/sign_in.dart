@@ -15,7 +15,9 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
+import 'package:qubic_wallet/pages/auth/import_selector.dart';
 import 'package:qubic_wallet/pages/auth/sign_up.dart';
+import 'package:qubic_wallet/pages/main/downloadCmdUtils.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -559,6 +561,23 @@ class _SignInState extends State<SignIn>
                             },
                             child: Text("Create a New Wallet",
                                 style: TextStyles.primaryButtonText))),
+                    ThemedControls.spacerVerticalNormal(),
+                    SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ThemedControls.transparentButtonBigWithChild(
+                            onPressed: () {
+                              pushScreen(
+                                context,
+                                screen: const ImportSelector(),
+                                withNavBar:
+                                    false, // OPTIONAL VALUE. True by default.
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                              );
+                            },
+                            child: Text("Import an Existing Wallet",
+                                style: TextStyles.transparentButtonPrimary))),
                   ]))),
     );
   }
@@ -617,24 +636,29 @@ class _SignInState extends State<SignIn>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 15, 23, 31),
-        body: Stack(
-          children: [
-            Observer(
-              builder: (BuildContext context) {
-                if (_appStore.hasStoredWalletSettings) {
-                  return buildSignIn(context);
-                } else {
-                  return buildSignUp(context);
-                }
-              },
-            ),
-            Positioned(
-                bottom: 2,
-                right: ThemePaddings.bigPadding,
-                child: isKeyboardVisible ? Container() : getVersionInfo())
-          ],
-        ));
+    return Observer(builder: (context) {
+      if (UniversalPlatform.isDesktop && !_settingsStore.cmdUtilsAvailable) {
+        return const Scaffold(body: DownloadCmdUtils());
+      }
+      return Scaffold(
+          backgroundColor: const Color.fromARGB(255, 15, 23, 31),
+          body: Stack(
+            children: [
+              Observer(
+                builder: (BuildContext context) {
+                  if (_appStore.hasStoredWalletSettings) {
+                    return buildSignIn(context);
+                  } else {
+                    return buildSignUp(context);
+                  }
+                },
+              ),
+              Positioned(
+                  bottom: 2,
+                  right: ThemePaddings.bigPadding,
+                  child: isKeyboardVisible ? Container() : getVersionInfo())
+            ],
+          ));
+    });
   }
 }

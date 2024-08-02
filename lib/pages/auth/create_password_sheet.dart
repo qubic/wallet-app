@@ -104,6 +104,7 @@ class _CreatePasswordSheetState extends State<CreatePasswordSheet> {
       return;
     }
     widget.onAccept();
+    Navigator.pop(context);
   }
 
   @override
