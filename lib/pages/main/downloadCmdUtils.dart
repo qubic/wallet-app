@@ -26,6 +26,7 @@ class DownloadCmdUtils extends StatefulWidget {
 class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final QubicCmdUtils cmdUtils = QubicCmdUtils();
+
   String step = 'intro';
   String directory = '';
   String filename = '';
