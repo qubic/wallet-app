@@ -125,7 +125,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
 
                 for (final barcode in barcodes) {
                   if (barcode.rawValue != null) {
-                    var validator = CustomFormFieldValidators.isSeed();
+                    var validator =
+                        CustomFormFieldValidators.isSeed(context: context);
                     if (validator(barcode.rawValue) == null) {
                       privateSeedCtrl.text = barcode.rawValue!;
                       foundSuccess = true;
@@ -203,21 +204,21 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         keyboardType: TextInputType.visiblePassword,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(errorText: "Please fill in a seed"),
-          CustomFormFieldValidators.isSeed(),
+          CustomFormFieldValidators.isSeed(context: context),
           CustomFormFieldValidators.isPublicIdAvailable(
-              currentQubicIDs: appStore.currentQubicIDs)
+              context: context, currentQubicIDs: appStore.currentQubicIDs)
         ]),
         onSubmitted: (value) async {
           await handleProceed();
         },
         onChanged: (value) async {
-          var v = CustomFormFieldValidators.isSeed();
+          var v = CustomFormFieldValidators.isSeed(context: context);
           if (value != null && value.trim().isNotEmpty && v(value) == null) {
             try {
               setState(() {
                 generatingId = true;
               });
-              var newId = await qubicCmd.getPublicIdFromSeed(value);
+              var newId = await qubicCmd.getPublicIdFromSeed(value, context);
               setState(() {
                 generatedPublicId = newId;
                 generatingId = false;
@@ -261,8 +262,10 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                                 .isEmpty) {
                               return;
                             }
-                            copyToClipboard(_formKey
-                                .currentState?.instantValue["privateSeed"]);
+                            copyToClipboard(
+                                _formKey
+                                    .currentState?.instantValue["privateSeed"],
+                                context);
                           },
                           icon: LightThemeColors.shouldInvertIcon
                               ? ThemedControls.invertedColors(
