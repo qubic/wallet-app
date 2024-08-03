@@ -298,9 +298,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
             //Device has biometrics enabled, so show biometrics panel
             pushScreen(
               context,
-              screen: AddBiometricsPassword(
-                  onAddedBiometrics: (bool enabledBiometrics) async {
-                enabledBiometrics = enabledBiometrics;
+              screen: AddBiometricsPassword(onAddedBiometrics: (bool eb) async {
+                enabledBiometrics = eb;
 
                 await doCreateWallet();
               }),
@@ -433,14 +432,16 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
             ),
-            body: Padding(
-              padding: ThemeEdgeInsets.pageInsets,
-              child: Column(children: [
-                Expanded(child: getScrollView()),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: getButtons())
-              ]),
+            body: SafeArea(
+              child: Padding(
+                padding: ThemeEdgeInsets.pageInsets,
+                child: Column(children: [
+                  Expanded(child: getScrollView()),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: getButtons())
+                ]),
+              ),
             )));
   }
 }

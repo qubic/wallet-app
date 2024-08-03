@@ -319,7 +319,7 @@ class _ReceiveState extends State<SignUp> {
           return SafeArea(
               child: CreatePasswordSheet(onAccept: () async {
             if (totalSteps == 2) {
-              Navigator.pop(context);
+              //Navigator.pop(context);
               setState(() {
                 stepNumber = 2;
                 isLoading = false;

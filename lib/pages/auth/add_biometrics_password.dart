@@ -204,14 +204,16 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
             appBar: AppBar(
               backgroundColor: Colors.transparent,
             ),
-            body: Padding(
-              padding: ThemeEdgeInsets.pageInsets,
-              child: Column(children: [
-                Expanded(child: getScrollView()),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: getButtons())
-              ]),
+            body: SafeArea(
+              child: Padding(
+                padding: ThemeEdgeInsets.pageInsets,
+                child: Column(children: [
+                  Expanded(child: getScrollView()),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: getButtons())
+                ]),
+              ),
             )));
   }
 }
