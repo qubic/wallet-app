@@ -20,6 +20,7 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
 import 'package:qubic_wallet/pages/auth/import_private_seed.dart';
+import 'package:qubic_wallet/pages/auth/import_vault_file.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -109,8 +110,14 @@ class _ImportSelectorState extends State<ImportSelector> {
               Text("Choose how you want to import your existing wallet",
                   style: TextStyles.secondaryText),
               ThemedControls.spacerVerticalHuge(),
-              getSelectionButton(
-                  () {},
+              getSelectionButton(() {
+                pushScreen(
+                  context,
+                  screen: const ImportVaultFile(),
+                  withNavBar: false, // OPTIONAL VALUE. True by default.
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              },
                   "assets/images/import-vault-file.png",
                   "Import vault file",
                   "Import an existing wallet with multiple accounts through a vault file.",

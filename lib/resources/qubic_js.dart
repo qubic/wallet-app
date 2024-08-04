@@ -8,6 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:flutter/services.dart' show Uint8List, rootBundle;
 import 'package:qubic_wallet/config.dart';
+import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 
 /// A class that handles the secure storage of the wallet. The wallet is stored in the secure storage of the device
@@ -137,13 +138,13 @@ class QubicJs {
         functionBody:
             "return await runBrowser('wallet.createVaultFile','${password.replaceAll("'", "\\'")}','${jsonEncode(seeds.map((e) => e.toJson()).toList()).replaceAll("'", "\\'")}')");
     if (result == null) {
-      throw Exception('Error getting vault file: Generic error');
+      throw Exception('Error creating vault file: Generic error');
     }
     if (result.value['status'] == 'error') {
-      throw Exception('Error getting vault file:  ${result.value['error']}');
+      throw Exception('Error creating vault file:  ${result.value['error']}');
     }
     if (result.error != null) {
-      throw Exception('Error getting vault file:  ${result.error!}');
+      throw Exception('Error creating vault file:  ${result.error!}');
     }
     if (result.value['base64'] == null) {
       throw Exception(
@@ -151,5 +152,69 @@ class QubicJs {
     }
 
     return base64Decode(result.value['base64']!);
+  }
+
+  Future<List<QubicImportVaultSeed>> importVault(
+      String password, String baseFileContents) async {
+    dynamic parsedJson;
+    List<QubicImportVaultSeed>? seeds;
+    List<dynamic>? parsedSeeds;
+    CallAsyncJavaScriptResult? result = await controller!.callAsyncJavaScript(
+        functionBody:
+            "return await runBrowser('wallet.importVault','${password.replaceAll("'", "\\'")}','${baseFileContents.replaceAll("'", "\\'")}')");
+
+    if (result == null) {
+      throw Exception('Error importing vault file: Generic error');
+    }
+    if (result.value['status'] == 'error') {
+      if (result.value['error'] == "Could not parse seeds JSON") {
+        throw Exception(
+            'Error importing vault file:  File is not a Qubic Vault file or password is incorrect');
+      }
+      throw Exception('Error importing vault file: ${result.value['error']}');
+    }
+    if (result.error != null) {
+      throw Exception('Error importing vault file:  ${result.error!}');
+    }
+    if (result.value['seeds'] == null) {
+      throw Exception('Error importing vault file: Vault file is empty.');
+    }
+    if (result.value['seeds'].toString().isEmpty) {
+      throw Exception(
+          'Error importing vault file: Vault file contains no seeds');
+    }
+    try {
+      parsedSeeds = result.value['seeds'];
+    } catch (e) {
+      throw Exception(
+          'Error importing vault file: Seed information is malformed');
+    }
+
+    if (parsedSeeds == null) {
+      throw Exception(
+          'Error importing vault file: Could not parse seeds from vault file');
+    }
+
+    seeds = <QubicImportVaultSeed>[];
+    var i = 1;
+    for (var seed in parsedSeeds) {
+      if (seed['alias'] == null) {
+        throw Exception(
+            'Error importing vault file: Entry number ${i} is missing alias/ account name');
+      }
+      if (seed['publicId'] == null) {
+        throw Exception(
+            'Error importing vault file: Entry number ${i} is missing public ID');
+      }
+      if (seed['seed'] == null) {
+        throw Exception(
+            'Error importing vault file: Entry number ${i} is missing seed');
+      }
+
+      seeds.add(
+          QubicImportVaultSeed(seed['alias'], seed['publicId'], seed['seed']));
+    }
+
+    return seeds;
   }
 }

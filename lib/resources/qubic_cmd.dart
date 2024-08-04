@@ -1,8 +1,8 @@
-import 'dart:core';
+import 'dart:convert';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_js.dart';
@@ -114,6 +114,28 @@ class QubicCmd {
         (UniversalPlatform.isWindows) ||
         (UniversalPlatform.isMacOS)) {
       return await qubicCmdUtils.createVaultFile(password, seeds);
+    }
+    throw l10n.generalErrorUnsupportedOS;
+  }
+
+  Future<List<QubicImportVaultSeed>> importVaultFile(String password,
+      String? filePath, Uint8List? fileContents, BuildContext context) async {
+    final l10n = l10nOf(context);
+
+    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+      if (fileContents == null) {
+        throw "File contents base64 is required";
+      }
+      var base64String = base64Encode(fileContents);
+      return await qubicJs.importVault(password, base64String);
+    }
+    if ((UniversalPlatform.isLinux) ||
+        (UniversalPlatform.isWindows) ||
+        (UniversalPlatform.isMacOS)) {
+      if (filePath == null) {
+        throw "File path is required";
+      }
+      return await qubicCmdUtils.importVaultFile(password, filePath!);
     }
     throw l10n.generalErrorUnsupportedOS;
   }

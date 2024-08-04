@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
+
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
@@ -6,6 +8,8 @@ import 'package:path/path.dart' as Path;
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
+import 'package:qubic_wallet/models/qubic_id.dart';
+import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
 import 'package:crypto/crypto.dart' as crypto;
@@ -45,7 +49,6 @@ class QubicCmdUtils {
   }
 
   Future<bool> checkIfUtilitiesExist() async {
-    print(await _getHelperFileFullPath());
     return await File(await _getHelperFileFullPath()).exists();
   }
 
@@ -225,5 +228,48 @@ class QubicCmdUtils {
     }
 
     return response.transaction!;
+  }
+
+  Future<List<QubicImportVaultSeed>> importVaultFile(
+      String password, String filePath) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          'wallet.importVaultFile',
+          password,
+          filePath,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception(
+          'Failed to read vault file. Invalid response from helper');
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception(
+          'Failed to read vault file. Could not parse response from helper. Error was ${e.toString()}');
+    }
+
+    if (!response.status) {
+      if ((response.error == null) ||
+          (!response.error!.contains(" Function"))) {
+        throw Exception('Failed to read and decrypt vault file.');
+      }
+
+      throw Exception(toBeginningOfSentenceCase(response.error!
+          .substring(0, response.error!.indexOf(" Function"))
+          .toLowerCase()));
+    }
+
+    if (response.seeds == null) {
+      throw Exception('Vault file contains no seeds');
+    }
+    return response.seeds!;
   }
 }
