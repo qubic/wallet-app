@@ -20,6 +20,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -153,6 +154,7 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
     return [
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
@@ -161,7 +163,7 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                child: Text("Proceed",
+                child: Text(l10n.generalButtonProceed,
                     textAlign: TextAlign.center,
                     style: TextStyles.primaryButtonText),
               )))

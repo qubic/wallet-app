@@ -43,3 +43,5 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 devtools_options.yaml
+.vscode/launch.json
+non_translated_keys.txt

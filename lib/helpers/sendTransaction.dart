@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -9,8 +10,14 @@ import 'package:qubic_wallet/stores/application_store.dart';
 void showTamperedWalletAlert(BuildContext context) {
   final l10n = l10nOf(context);
 
-  showAlertDialog(context, l10n.addAccountErrorTamperedWalletTitle,
-      l10n.addAccountErrorTamperedWalletMessage);
+  showAlertDialog(
+      context,
+      l10n.addAccountErrorTamperedWalletTitle,
+      isAndroid
+          ? l10n.addAccountErrorTamperedAndroidWalletMessage
+          : isIOS
+              ? l10n.addAccountErrorTamperediOSWalletMessage
+              : l10n.addAccountErrorTamperedWalletMessage);
 }
 
 ///

@@ -124,7 +124,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(l10n.exportWalletVaultLabelSelectFilePath,
+                          Text(l10n.generalLabelSelectFilePath,
                               style: TextStyles.textBold),
                           ThemedControls.spacerVerticalSmall(),
                           Text(

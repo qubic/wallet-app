@@ -234,7 +234,14 @@ class _AddAccountState extends State<AddAccount> {
                                 showAlertDialog(
                                     context,
                                     l10n.addAccountErrorTamperedWalletTitle,
-                                    l10n.addAccountErrorTamperedWalletMessage);
+                                    isAndroid
+                                        ? l10n
+                                            .addAccountErrorTamperedAndroidWalletMessage
+                                        : isIOS
+                                            ? l10n
+                                                .addAccountErrorTamperediOSWalletMessage
+                                            : l10n
+                                                .addAccountErrorTamperedWalletMessage);
                               }
                               setState(() {
                                 privateSeed.value = TextEditingValue.empty;

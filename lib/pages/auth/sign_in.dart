@@ -593,7 +593,7 @@ class _SignInState extends State<SignIn>
                                     PageTransitionAnimation.cupertino,
                               );
                             },
-                            child: Text("Import an Existing Wallet",
+                            child: Text(l10n.welcomeButtonImportExistingWallet,
                                 style: TextStyles.transparentButtonPrimary))),
                   ]))),
     );
