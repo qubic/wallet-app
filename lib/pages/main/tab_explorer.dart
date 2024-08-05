@@ -9,7 +9,7 @@ import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/epoch_helperts.dart';
+import 'package:qubic_wallet/helpers/epoch_helpers.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_search.dart';
