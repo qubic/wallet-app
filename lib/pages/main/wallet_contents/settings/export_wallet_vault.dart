@@ -378,7 +378,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       await File(path).writeAsBytes(bytes, flush: true);
       var xFile = XFile(path);
 
-      final res = await Share.shareXFiles([xFile]);
+      final res = await Share.shareXFiles([xFile], subject: filename);
       if (res.status == ShareResultStatus.success) {
         _globalSnackBar.show(l10n.exportWalletVaultSnackbarSuccessMessage);
         await File(path).writeAsBytes([], flush: true);
