@@ -1,4 +1,5 @@
 import 'dart:io' as io;
+import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -85,7 +86,6 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
             setState(() {
               emptyPathError = false;
               // selectedPath = outputFolder;
-              selectedPath = "${selectedPath!}/exported.$formattedDate.qubic-vault";
               selectedPath = "${selectedPath!}/export.qubic-vault";
               selectedFile = io.File(selectedPath!);
             });
@@ -361,18 +361,38 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
 
   // Handles the export process for iOS
   Future<void> _exportHandlerIOS() async {
+    if (!context.mounted) {
+      return;
+    }
+
     final l10n = l10nOf(context);
 
     try {
       var bytes = await qubicCmd.createVaultFile(
           currentPassword, await getSeeds(), context);
 
-      final res = await Share.shareXFiles(
-          [XFile.fromData(bytes, name: "exported.qubic-vault")]);
+      var filename = "export.qubic-vault";
+      var tempRoot = (await getTemporaryDirectory()).path;
+      final path = "$tempRoot/$filename";
+
+      await File(path).writeAsBytes(bytes, flush: true);
+      var xFile = XFile(path);
+
+      final res = await Share.shareXFiles([xFile]);
       if (res.status == ShareResultStatus.success) {
         _globalSnackBar.show(l10n.exportWalletVaultSnackbarSuccessMessage);
+        await File(path).writeAsBytes([], flush: true);
         Navigator.pop(context);
       }
+
+      await File(path).writeAsBytes([], flush: true);
+
+      // final res = await Share.shareXFiles(
+      //     [XFile.fromData(bytes, name: "export.qubic-vault")]);
+      // if (res.status == ShareResultStatus.success) {
+      //   _globalSnackBar.show(l10n.exportWalletVaultSnackbarSuccessMessage);
+      //   Navigator.pop(context);
+      // }
     } catch (e) {
       showErrorDialog(context, e.toString());
       setState(() {
