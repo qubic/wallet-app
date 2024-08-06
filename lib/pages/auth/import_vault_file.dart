@@ -159,7 +159,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
         error: selectedPathError,
         onPressed: () async {
           FilePickerResult? result = await FilePicker.platform.pickFiles(
-              dialogTitle: 'Please select a vault file to continue:',
+              dialogTitle: l10n.importVaultFilePickerLabel,
               withData: isMobile,
               //allowedExtensions: ['qubic-vault'],
               lockParentWindow: true);
