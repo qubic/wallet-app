@@ -634,10 +634,41 @@
     "generalLabelSelectFilePath": "Selecciona la ruta del archivo",
     "importVaultSubHeader": "Selecciona un archivo con extensión .qubic-vault",
     "importVaultLabelEnterPassword": "Ingresa la contraseña del Vault",
-    "importVaultFileLabelSelectPathInstructions": "Navega en tu dispositivo para seleccionar el archivo Vault a importar.",
+    "importVaultLabelSelectPathInstructions": "Navega en tu dispositivo para seleccionar el archivo Vault a importar.",
     "importPrivateSeedSubHeader": "Ingresa la semilla de 55 letras que guardaste al crear tu cuenta.",
     "generalSnackBarMessageWalletImportedSuccessfully": "Se importó el Wallet con éxito",
     "addAccountErrorTamperedAndroidWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DE GOOGLE PLAY STORE PARA NO ARRIESGARTE A PERDER TUS FONDOS",
     "addAccountErrorTamperediOSWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DEL APP STORE PARA NO ARRIESGARTE A PERDER TUS FONDOS",
-    "generalLabelSelectFile": "Select el archivo"
+    "generalLabelSelectFile": "Select el archivo",
+    "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minuto} other{{minutes} minutos}}",
+    "@autolockLabelDurationInMinutes": {
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "autolockLabelDurationImmediately": "Inmediatamente",
+    "settingsLabelAutlock": "Configuración de Autobloqueo",
+    "importVaultDialogTitleTooManyAccounts": "El archivo vault contiene demasiadas cuentas",
+    "importVaultDialogMessageTooManyAccounts": "El archivo seleccionado contiene más de 15 cuentas. Todas las cuentas serán agregadas al wallet pero para poder ver los balances y hacer transferencias debes eliminar algunas de ellas hasta llegar al máximo de 15 o menos.",
+    "importVaultErrorNoAccountsFound": "No se encontraron cuentas en el archivo vault.",
+    "importVaultErrorOnlyWatchAccountsFound": "Lamentamos no poder procesar tu archivo vault porque todas las cuentas son de sólo lectura. Estamos trabajando para soportar estas cuentas en futuras versiones.",
+    "importVaultFilePickerLabel": "Por favor, selecciona un archivo vault para continuar:",
+    "importVaultFileErrorGeneralMessage": "Error al importar el archivo vault: {errorDescription}",
+    "@importVaultFileErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletVaultErrorGeneralMessage": "Error al crear el archivo vault: {errorDescription}",
+    "@exportWalletVaultErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    }
 }

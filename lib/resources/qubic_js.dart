@@ -138,17 +138,16 @@ class QubicJs {
         functionBody:
             "return await runBrowser('wallet.createVaultFile','${password.replaceAll("'", "\\'")}','${jsonEncode(seeds.map((e) => e.toJson()).toList()).replaceAll("'", "\\'")}')");
     if (result == null) {
-      throw Exception('Error creating vault file: Generic error');
+      throw Exception('Unknown error');
     }
     if (result.value['status'] == 'error') {
-      throw Exception('Error creating vault file:  ${result.value['error']}');
+      throw Exception(result.value['error']);
     }
     if (result.error != null) {
-      throw Exception('Error creating vault file:  ${result.error!}');
+      throw Exception(result.error);
     }
     if (result.value['base64'] == null) {
-      throw Exception(
-          'Failed to create vault file. Helper returned empty vault file');
+      throw Exception('Helper returned empty vault file');
     }
 
     return base64Decode(result.value['base64']!);
@@ -156,7 +155,6 @@ class QubicJs {
 
   Future<List<QubicImportVaultSeed>> importVault(
       String password, String baseFileContents) async {
-    dynamic parsedJson;
     List<QubicImportVaultSeed>? seeds;
     List<dynamic>? parsedSeeds;
     CallAsyncJavaScriptResult? result = await controller!.callAsyncJavaScript(
@@ -164,51 +162,45 @@ class QubicJs {
             "return await runBrowser('wallet.importVault','${password.replaceAll("'", "\\'")}','${baseFileContents.replaceAll("'", "\\'")}')");
 
     if (result == null) {
-      throw Exception('Error importing vault file: Generic error');
+      throw Exception('Unknown error');
     }
     if (result.value['status'] == 'error') {
       if (result.value['error'] == "Could not parse seeds JSON") {
         throw Exception(
-            'Error importing vault file:  File is not a Qubic Vault file or password is incorrect');
+            'File is not a Qubic Vault file or password is incorrect');
       }
-      throw Exception('Error importing vault file: ${result.value['error']}');
+      throw Exception(result.value['error']);
     }
     if (result.error != null) {
-      throw Exception('Error importing vault file:  ${result.error!}');
+      throw Exception(result.error!);
     }
     if (result.value['seeds'] == null) {
-      throw Exception('Error importing vault file: Vault file is empty.');
+      throw Exception('Vault file is empty.');
     }
     if (result.value['seeds'].toString().isEmpty) {
-      throw Exception(
-          'Error importing vault file: Vault file contains no seeds');
+      throw Exception('Vault file contains no seeds');
     }
     try {
       parsedSeeds = result.value['seeds'];
     } catch (e) {
-      throw Exception(
-          'Error importing vault file: Seed information is malformed');
+      throw Exception('Seed information is malformed');
     }
 
     if (parsedSeeds == null) {
-      throw Exception(
-          'Error importing vault file: Could not parse seeds from vault file');
+      throw Exception('Could not parse seeds from vault file');
     }
 
     seeds = <QubicImportVaultSeed>[];
     var i = 1;
     for (var seed in parsedSeeds) {
       if (seed['alias'] == null) {
-        throw Exception(
-            'Error importing vault file: Entry number ${i} is missing alias/ account name');
+        throw Exception('Entry number $i is missing alias/account name');
       }
       if (seed['publicId'] == null) {
-        throw Exception(
-            'Error importing vault file: Entry number ${i} is missing public ID');
+        throw Exception('Entry number $i is missing public ID');
       }
       if (seed['seed'] == null) {
-        throw Exception(
-            'Error importing vault file: Entry number ${i} is missing seed');
+        throw Exception('Entry number $i is missing seed');
       }
 
       if (!seed['seed'].isEmpty) {

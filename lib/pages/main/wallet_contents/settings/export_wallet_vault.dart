@@ -394,7 +394,8 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       //   Navigator.pop(context);
       // }
     } catch (e) {
-      showErrorDialog(context, e.toString());
+      showErrorDialog(
+          context, l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
       setState(() {
         isLoading = false;
       });
