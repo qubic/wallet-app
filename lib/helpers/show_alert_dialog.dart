@@ -42,15 +42,13 @@ getAlertDialog(String title, String message,
 }
 
 showAlertDialog(BuildContext context, String title, String message,
-    {Function? onOk}) {
+    {Function? primaryButtonFunction, String primaryButtonLabel = "OK"}) {
   // set up the button
-  Widget okButton = TextButton(
-    child: const Text("OK"),
+  Widget okButton = ThemedControls.primaryButtonBig(
+    text: primaryButtonLabel,
     onPressed: () async {
-      Navigator.of(context).pop();
-
-      if (onOk != null) {
-        onOk() {}
+      if (primaryButtonFunction != null) {
+        primaryButtonFunction();
       }
     },
   );

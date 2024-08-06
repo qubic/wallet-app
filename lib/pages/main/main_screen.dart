@@ -62,12 +62,14 @@ class _MainScreenState extends State<MainScreen> {
         var error = (errorPos == -1)
             ? applicationStore.globalError
             : applicationStore.globalError.substring(0, errorPos);
-
-        // AnimatedSnackBar.material(error,
-        //         type: AnimatedSnackBarType.error,
-        //         snackBarStrategy: StackSnackBarStrategy())
-        //     .show(context);
         if (error != "") {
+          //Error overriding for more than 15 accounts in wallet
+          if (error == "Failed to perform action. Server returned status 400") {
+            if (applicationStore.currentQubicIDs.length > 15) {
+              return;
+            }
+          }
+
           errorBar = AnimatedSnackBar(
               builder: ((context) {
                 return Ink(
@@ -90,6 +92,8 @@ class _MainScreenState extends State<MainScreen> {
               }),
               snackBarStrategy: RemoveSnackBarStrategy())
             ..show(context);
+
+          applicationStore.clearGlobalError();
         }
       }
 

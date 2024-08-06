@@ -241,6 +241,18 @@ class SecureStorage {
     return true;
   }
 
+  Future<void> addManyIds(List<QubicId> ids) async {
+    CriticalSettings settings = await getCriticalSettings();
+    for (QubicId id in ids) {
+      settings.privateSeeds.add(id.getPrivateSeed());
+      settings.publicIds.add(id.getPublicId());
+      settings.names.add(id.getName());
+    }
+    await storage.write(
+        key: SecureStorageKeys.criticalSettings, value: settings.toJSON());
+    await updateWalletSettingsPadding(settings.padding!);
+  }
+
   // Adds a new Qubic ID to the secure storage
   Future<void> addID(QubicId qubicId,
       {bool isDerivedFromMnemonic = false}) async {

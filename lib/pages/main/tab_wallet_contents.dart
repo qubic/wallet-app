@@ -165,9 +165,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                 "You can only have up to 15 Qubic Accounts in your wallet. If you need to add another ID please remove one from your existing Accounts",
                 primaryButtonLabel: "OK", primaryButtonFunction: () {
               Navigator.of(context).pop();
-            }, secondaryButtonFunction: () {
-              Navigator.of(context).pop();
-            }, secondaryButtonLabel: "Cancel");
+            }, secondaryButtonLabel: null);
           });
 
       return;
@@ -254,6 +252,28 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                   ),
                   SliverList(
                       delegate: SliverChildListDelegate([
+                    Observer(builder: (builder) {
+                      if (appStore.currentQubicIDs.length > 15) {
+                        return Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.smallPadding,
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.miniPadding),
+                            child: ThemedControls.card(
+                                child: Column(children: [
+                              Icon(Icons.warning_amber_rounded,
+                                  color: LightThemeColors.error, size: 40),
+                              ThemedControls.spacerVerticalNormal(),
+                              Text(
+                                  "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyles.textNormal)
+                            ])));
+                      } else {
+                        return Container();
+                      }
+                    }),
                     Container(
                         child: Padding(
                             padding: const EdgeInsets.fromLTRB(

@@ -234,6 +234,14 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     return _$signOutAsyncAction.run(() => super.signOut());
   }
 
+  late final _$addManyIdsAsyncAction =
+      AsyncAction('_ApplicationStore.addManyIds', context: context);
+
+  @override
+  Future<void> addManyIds(List<QubicId> ids) {
+    return _$addManyIdsAsyncAction.run(() => super.addManyIds(ids));
+  }
+
   late final _$addIdAsyncAction =
       AsyncAction('_ApplicationStore.addId', context: context);
 
@@ -306,6 +314,17 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
         name: '_ApplicationStore.reportGlobalError');
     try {
       return super.reportGlobalError(error);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearGlobalError() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.clearGlobalError');
+    try {
+      return super.clearGlobalError();
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }

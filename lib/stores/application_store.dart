@@ -8,6 +8,7 @@ import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
+import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
@@ -119,6 +120,11 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
+  void clearGlobalError() {
+    globalError = "";
+  }
+
+  @action
   void reportGlobalNotification(String notificationText) {
     globalNotification = "$notificationText~${DateTime.now()}";
   }
@@ -215,6 +221,15 @@ abstract class _ApplicationStore with Store {
     transactionFilter = TransactionFilter();
     currentQubicIDs = ObservableList<QubicListVm>();
     currentTransactions = ObservableList<TransactionVm>();
+  }
+
+  @action
+  Future<void> addManyIds(List<QubicId> ids) async {
+    await secureStorage.addManyIds(ids);
+    for (var element in ids) {
+      currentQubicIDs.add(QubicListVm(
+          element.getPublicId(), element.getName(), null, null, null));
+    }
   }
 
   @action

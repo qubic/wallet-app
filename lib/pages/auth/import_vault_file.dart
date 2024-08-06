@@ -25,6 +25,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
+import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
@@ -212,40 +213,27 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
 
   //Handles the proceed button to go to next step (add password) and then to biometrics if needed
   Future<void> handleProceed() async {
-    if (selectedPath == null) {
-      setState(() {
-        selectedPathError = true;
-      });
+    if (context.mounted == false) {
+      return;
+    }
+    bool result = await _validateForProceed();
+    if (!result) {
       return;
     }
 
-    if (!_formKey.currentState!.validate()) {
+    if (importedSeeds!.length > 15) {
+      showAlertDialog(context, "Vault file contains more than 15 seeds",
+          "The vault file you selected contains more than 15 seeds. Importing will continue, but you will not be able to view balances or send funds until you remove some seeds so that the total is 15 or less.",
+          primaryButtonFunction: () async {
+        await _runCreateWalletSteps();
+      }, primaryButtonLabel: "OK");
       return;
     }
 
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      importedSeeds = await qubicCmd.importVaultFile(
-          vaultPassword, selectedPath, selectedFileBytes);
-    } catch (e) {
-      setState(() {
-        importError = e.toString().replaceAll("Exception: ", "");
-      });
-      setState(() {
-        isLoading = false;
-      });
-      return;
-    }
+    await _runCreateWalletSteps();
+  }
 
-    if (importedSeeds == null) {
-      setState(() {
-        importError = "No seeds found in the vault file";
-      });
-      return;
-    }
-
+  Future<void> _runCreateWalletSteps() async {
     if (totalSteps == 1) {
       pushScreen(
         context,
@@ -262,6 +250,43 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
     }
   }
 
+  Future<bool> _validateForProceed() async {
+    if (selectedPath == null) {
+      setState(() {
+        selectedPathError = true;
+      });
+      return false;
+    }
+
+    if (!_formKey.currentState!.validate()) {
+      return false;
+    }
+
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      importedSeeds = await qubicCmd.importVaultFile(
+          vaultPassword, selectedPath, selectedFileBytes);
+    } catch (e) {
+      setState(() {
+        importError = e.toString().replaceAll("Exception: ", "");
+      });
+      setState(() {
+        isLoading = false;
+      });
+      return false;
+    }
+
+    if (importedSeeds == null) {
+      setState(() {
+        importError = "No seeds found in the vault file";
+      });
+      return false;
+    }
+    return true;
+  }
+
   Future<void> doCreateWallet() async {
     if (!context.mounted) {
       return;
@@ -272,10 +297,13 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
     if (await appStore.signUp(vaultPassword)) {
       try {
         await appStore.checkWalletIsInitialized();
-        importedSeeds!.forEach((seed) async {
-          await appStore.addId(
-              seed.getAlias(), seed.getPublicId(), seed.getSeed());
-        });
+        List<QubicId> ids = [];
+        for (var importedSeed in importedSeeds!) {
+          ids.add(QubicId(importedSeed.getSeed(), importedSeed.getPublicId(),
+              importedSeed.getAlias(), 0));
+        }
+        await appStore.addManyIds(ids);
+
         await getIt<QubicLi>().authenticate();
       } catch (e) {
         showAlertDialog(
