@@ -281,9 +281,20 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
     if (importedSeeds == null) {
       setState(() {
         importError = "No seeds found in the vault file";
+        isLoading = false;
       });
       return false;
     }
+
+    if (importedSeeds!.isEmpty) {
+      setState(() {
+        importError =
+            "Vault file contains no seeds (please note that watch only seeds are currently not supported and are ignored)";
+        isLoading = false;
+      });
+      return false;
+    }
+
     return true;
   }
 
