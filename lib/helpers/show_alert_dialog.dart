@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -13,7 +14,7 @@ getAlertDialog(String title, String message,
   if (secondaryButtonLabel != null) {
     assert(secondaryButtonFunction != null);
     actions.add(ConstrainedBox(
-        constraints: BoxConstraints(minWidth: 100),
+        constraints: const BoxConstraints(minWidth: 100),
         child: ThemedControls.transparentButtonBig(
           text: secondaryButtonLabel,
           onPressed: () async {
@@ -24,7 +25,7 @@ getAlertDialog(String title, String message,
         )));
   }
   actions.add(ConstrainedBox(
-      constraints: BoxConstraints(minWidth: 100),
+      constraints: const BoxConstraints(minWidth: 100),
       child: ThemedControls.primaryButtonBig(
         text: primaryButtonLabel,
         onPressed: () async {
@@ -42,8 +43,12 @@ getAlertDialog(String title, String message,
 }
 
 showAlertDialog(BuildContext context, String title, String message,
-    {Function? primaryButtonFunction, String primaryButtonLabel = "OK"}) {
-  // set up the button
+{Function? primaryButtonFunction, String primaryButtonLabel = ""}) {
+  
+  if (primaryButtonLabel.isEmpty) {
+    final l10n = l10nOf(context);
+    primaryButtonLabel = l10n.generalButtonOK
+  }
   Widget okButton = ThemedControls.primaryButtonBig(
     text: primaryButtonLabel,
     onPressed: () async {
@@ -52,7 +57,7 @@ showAlertDialog(BuildContext context, String title, String message,
       }
     },
   );
-
+}
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text(title),

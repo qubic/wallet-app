@@ -8,6 +8,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class TransfersList extends StatefulWidget {
   const TransfersList({super.key});
@@ -33,6 +34,7 @@ class _TransfersListState extends State<TransfersList> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -41,7 +43,7 @@ class _TransfersListState extends State<TransfersList> {
                   child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("Receive in ",
+              Text(l10n.transfersListLabelReceiveIn,
                   style: Theme.of(context)
                       .textTheme
                       .displayMedium!
@@ -58,7 +60,7 @@ class _TransfersListState extends State<TransfersList> {
                         children: [
                           const SizedBox(height: ThemePaddings.miniPadding),
                           Text(
-                              "Please share the following Public ID with the sender:",
+                              l10n.transfersListLabelSharePublicIdInstructionsOne,
                               style: Theme.of(context).textTheme.bodyMedium!),
                           const SizedBox(height: ThemePaddings.miniPadding),
                           Builder(builder: (context) {
@@ -100,7 +102,8 @@ class _TransfersListState extends State<TransfersList> {
                                             ]))));
                           }),
                           const SizedBox(height: ThemePaddings.smallPadding),
-                          Text("Or show the following QR Code",
+                          Text(
+                              l10n.transfersListLabelSharePublicIdInstructionsTwo,
                               style: Theme.of(context).textTheme.bodyMedium!),
                           const SizedBox(height: ThemePaddings.normalPadding),
                           Container(
@@ -126,18 +129,18 @@ class _TransfersListState extends State<TransfersList> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
     return [
       FilledButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text(
-            "CLOSE",
-          ))
+          child: Text(l10n.generalButtonClose))
     ];
   }
 
   void saveIdHandler() async {
+    final l10n = l10nOf(context);
     _formKey.currentState?.validate();
     if (!_formKey.currentState!.isValid) {
       return;
@@ -149,7 +152,7 @@ class _TransfersListState extends State<TransfersList> {
         .where(((element) =>
             element.publicId == generatedPublicId!.replaceAll(",", "_")))
         .isNotEmpty) {
-      _globalSnackBar.show('This Account already exists in your wallet');
+      _globalSnackBar.show(l10n.generalSnackBarMessageAccountAlreadyExist);
       return;
     }
 

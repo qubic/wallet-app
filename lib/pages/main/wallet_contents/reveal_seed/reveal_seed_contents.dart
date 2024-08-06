@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -10,7 +7,7 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:skeleton_text/skeleton_text.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class RevealSeedContents extends StatefulWidget {
   final QubicListVm item;
@@ -22,7 +19,6 @@ class RevealSeedContents extends StatefulWidget {
 }
 
 class _RevealSeedContentsState extends State<RevealSeedContents> {
-  final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   String? generatedPublicId;
@@ -43,6 +39,7 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -51,13 +48,13 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Private Seed",
-                  subheaderText: "of \"${widget.item.name}\""),
+                  headerText: l10n.revealSeedTitle,
+                  subheaderText: l10n.revealSeedHeader(widget.item.name)),
               ThemedControls.card(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                    Text("Private seed (keep secret)",
+                    Text(l10n.revealSeedLabelPrivateSeed,
                         style: TextStyles.lightGreyTextSmall),
                     ThemedControls.spacerVerticalMini(),
                     Text(seedId!),
@@ -65,9 +62,9 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
                     Row(children: [
                       ThemedControls.primaryButtonNormal(
                           onPressed: () {
-                            copyToClipboard(seedId!);
+                            copyToClipboard(seedId!, context);
                           },
-                          text: "Copy Private Seed",
+                          text: l10n.revealSeedButtonCopy,
                           icon: ThemedControls.invertedColors(
                               child: LightThemeColors.shouldInvertIcon
                                   ? ThemedControls.invertedColors(
@@ -85,13 +82,14 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
     return [
       FilledButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text(
-            "CLOSE",
+          child: Text(
+            l10n.generalButtonClose,
           ))
     ];
   }

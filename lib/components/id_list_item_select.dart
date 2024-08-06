@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
-import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
@@ -23,6 +22,8 @@ class IdListItemSelect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Container(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
         child:
@@ -37,7 +38,7 @@ class IdListItemSelect extends StatelessWidget {
                 ? TextStyles.accountAmount.copyWith(fontSize: 22)
                 : TextStyles.accountAmount,
             labelStyle: TextStyles.accountAmountLabel,
-            currencyName: 'QUBIC',
+            currencyName: l10n.generalLabelCurrencyQubic,
           ),
           Text(item.publicId, // "MYSSHMYSSHMYSSHMYSSH.MYSSHMYSSH....",
               style: TextStyles.accountPublicId),

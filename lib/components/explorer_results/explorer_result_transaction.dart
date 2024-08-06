@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
-import 'package:qubic_wallet/components/radiant_gradient_mask.dart';
 import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -23,6 +23,8 @@ class ExplorerResultTransaction extends StatelessWidget {
   }
 
   Widget getCardButtons(BuildContext context, ExplorerQueryDto info) {
+    final l10n = l10nOf(context);
+
     return Row(children: [
       ThemedControls.primaryButtonNormal(
         onPressed: () {
@@ -37,30 +39,32 @@ class ExplorerResultTransaction extends StatelessWidget {
             pageTransitionAnimation: PageTransitionAnimation.cupertino,
           );
         },
-        text: 'View details',
+        text: l10n.transactionItemButtonViewDetails,
       )
     ]);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return ThemedControls.card(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(children: [
-        //const RadiantGradientMask(child: Icon(Icons.compare_arrows)),
-        GradientForeground(child: Icon(Icons.compare_arrows)),
-        Text(" Transaction", style: TextStyles.labelText),
+        GradientForeground(child: const Icon(Icons.compare_arrows)),
+        Text(" ${l10n.generalLabelTransaction}", style: TextStyles.labelText),
       ]),
       ThemedControls.spacerVerticalNormal(),
       Flex(
           direction: Axis.horizontal,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(flex: 2, child: getInfoLabel(context, "ID")),
+            Expanded(
+                flex: 2, child: getInfoLabel(context, l10n.generalLabelID)),
             Expanded(flex: 10, child: Text(item.id)),
           ]),
       Flex(direction: Axis.horizontal, children: [
-        Expanded(flex: 2, child: getInfoLabel(context, "Tick")),
+        Expanded(flex: 2, child: getInfoLabel(context, l10n.generalLabelTick)),
         Expanded(
             flex: 10,
             child: Text(item.description != null

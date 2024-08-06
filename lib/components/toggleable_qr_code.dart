@@ -1,8 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 import '../flutter_flow/theme_paddings.dart';
@@ -26,6 +24,8 @@ class _ToggleableQRCodeState extends State<ToggleableQRCode> {
   late bool expanded = widget.expanded;
 
   Widget getButton() {
+    final l10n = l10nOf(context);
+
     if (expanded) {
       return Container();
     }
@@ -36,7 +36,9 @@ class _ToggleableQRCodeState extends State<ToggleableQRCode> {
             expanded = !expanded;
           });
         },
-        text: !expanded ? "Show QR Code" : "Hide QR Code",
+        text: !expanded
+            ? l10n.toggleableQRCodeButtonShow
+            : l10n.toggleableQRCodeButtonHide,
         icon: !LightThemeColors.shouldInvertIcon
             ? ThemedControls.invertedColors(
                 child: Image.asset("assets/images/Group 2294.png"))
@@ -65,7 +67,7 @@ class _ToggleableQRCodeState extends State<ToggleableQRCode> {
                   backgroundColor: Colors.white,
                   errorCorrectionLevel: QrErrorCorrectLevel.H,
                   embeddedImage: widget.hasQubicLogo
-                      ? AssetImage('assets/images/logo.png')
+                      ? const AssetImage('assets/images/logo.png')
                       : null,
                   embeddedImageStyle: const QrEmbeddedImageStyle(
                     size: Size(80, 80),
@@ -76,8 +78,6 @@ class _ToggleableQRCodeState extends State<ToggleableQRCode> {
             ])
           : null,
     );
-
-    //return ThemedControls.card(child: Column(children: [Text("aaa")]));
   }
 
   @override

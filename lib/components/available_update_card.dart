@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qubic_wallet/dtos/update_details_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AvailableUpdateCard extends StatelessWidget {
@@ -62,6 +63,8 @@ class AvailableUpdateCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Card(
         child: Padding(
             padding: const EdgeInsets.all(ThemePaddings.normalPadding),

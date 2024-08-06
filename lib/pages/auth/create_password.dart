@@ -20,6 +20,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -89,6 +90,8 @@ class _CreatePasswordState extends State<CreatePassword> {
 
 //Gets the sign up form
   List<Widget> getSignUpForm() {
+    final l10n = l10nOf(context);
+
     return [
       getSignUpError(),
       FormBuilderTextField(
@@ -96,14 +99,14 @@ class _CreatePasswordState extends State<CreatePassword> {
         autofocus: true,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: "Please fill in your password"),
+              errorText: l10n.generalErrorSetWalletPasswordEmpty),
           FormBuilderValidators.minLength(8,
-              errorText: "Password must be at least 8 characters long")
+              errorText: l10n.generalErrorPasswordMinLength)
         ]),
         onSubmitted: (value) => handleProceed(),
         onChanged: (value) => currentPassword = value ?? "",
         decoration: ThemeInputDecorations.bigInputbox.copyWith(
-          hintText: "Enter password",
+          hintText: l10n.signUpTextFieldHintPassword,
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
             child: IconButton(
@@ -128,15 +131,15 @@ class _CreatePasswordState extends State<CreatePassword> {
         name: "passwordRepeat",
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: "Please fill in your password again"),
+              errorText: l10n.generalErrorSetWalletPasswordRepeatEmpty),
           (value) {
             if (value == currentPassword) return null;
-            return "Passwords do not match";
+            return l10n.generalErrorSetPasswordNotMatching;
           }
         ]),
         onSubmitted: (value) => handleProceed(),
         decoration: ThemeInputDecorations.bigInputbox.copyWith(
-          hintText: "Repeat password",
+          hintText: l10n.signUpTextFieldHintRepeatPassword,
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
             child: IconButton(
@@ -189,13 +192,15 @@ class _CreatePasswordState extends State<CreatePassword> {
   }
 
   Widget getGeneratedPublicId() {
+    final l10n = l10nOf(context);
+
     if (generatedPublicId == null) {
       return Container();
     }
     return Column(
       children: [
         ThemedControls.spacerVerticalNormal(),
-        Text("Your seed ", style: TextStyles.secondaryText),
+        Text(l10n.generalLabeQubicAddress, style: TextStyles.secondaryText),
         ThemedControls.spacerVerticalSmall(),
         Text(generatedPublicId!, style: TextStyles.inputBoxSmallStyle),
       ],
@@ -203,6 +208,7 @@ class _CreatePasswordState extends State<CreatePassword> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
     return [
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
@@ -211,7 +217,7 @@ class _CreatePasswordState extends State<CreatePassword> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                child: Text("Proceed",
+                child: Text(l10n.generalButtonProceed,
                     textAlign: TextAlign.center,
                     style: TextStyles.primaryButtonText),
               )))
@@ -220,6 +226,8 @@ class _CreatePasswordState extends State<CreatePassword> {
 
   //Gets the container scroll view
   Widget getScrollView() {
+    final l10n = l10nOf(context);
+
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -228,9 +236,8 @@ class _CreatePasswordState extends State<CreatePassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Create Wallet Password", subheaderText: ""),
-              Text(
-                  "Fill in a password that will be used to unlock your new wallet",
+                  headerText: l10n.signUpStepOneHeader, subheaderText: ""),
+              Text(l10n.signUpStepOneSubHeader,
                   style: TextStyles.secondaryText),
               ThemedControls.spacerVerticalHuge(),
               FormBuilder(

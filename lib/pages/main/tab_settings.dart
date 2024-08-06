@@ -27,10 +27,10 @@ import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
-import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class TabSettings extends StatefulWidget {
   const TabSettings({super.key});
@@ -58,7 +58,7 @@ class _TabSettingsState extends State<TabSettings> {
   int itemsPerPage = 1000;
 
   BiometricType? biometricType; //The type of biometric available
-  String unlockLabel = "Unlock with Biometrics";
+  String settingsUnlockLabel = "";
   PackageInfo? packageInfo; // = await PackageInfo.fromPlatform();
   Widget icon = const Icon(Icons.fingerprint);
 
@@ -66,15 +66,20 @@ class _TabSettingsState extends State<TabSettings> {
   @override
   void initState() {
     super.initState();
+
     PackageInfo.fromPlatform().then((value) => setState(() {
           packageInfo = value;
         }));
+
     auth.canCheckBiometrics.then((value) {
+      final l10n = l10nOf(context);
+
       auth.getAvailableBiometrics().then((value) {
         if ((value.contains(BiometricType.face)) && (biometricType == null)) {
           setState(() {
             biometricType = BiometricType.face;
-            unlockLabel = "Unlock with Face ID";
+            settingsUnlockLabel = l10n
+                .settingsLabelManageBiometrics(l10n.generalBiometricTypeFaceID);
             icon = Image.asset("assets/images/faceid.png");
           });
         }
@@ -82,14 +87,16 @@ class _TabSettingsState extends State<TabSettings> {
             (biometricType == null)) {
           setState(() {
             biometricType = BiometricType.fingerprint;
-            unlockLabel = "Unlock with Touch ID";
+            settingsUnlockLabel = l10n.settingsLabelManageBiometrics(
+                l10n.generalBiometricTypeTouchID);
             icon = const Icon(Icons.fingerprint);
           });
         }
         if ((value.contains(BiometricType.iris)) && (biometricType == null)) {
           setState(() {
             biometricType = BiometricType.iris;
-            unlockLabel = "Unlock with Iris";
+            settingsUnlockLabel = l10n
+                .settingsLabelManageBiometrics(l10n.generalBiometricTypeIris);
             icon = const Icon(Icons.remove_red_eye_outlined);
           });
         }
@@ -97,10 +104,12 @@ class _TabSettingsState extends State<TabSettings> {
           setState(() {
             biometricType = BiometricType.strong;
             if (UniversalPlatform.isWindows) {
-              unlockLabel = "Unlock with OS";
+              settingsUnlockLabel = l10n
+                  .settingsLabelManageBiometrics(l10n.generalBiometricTypeOS);
               icon = const Icon(Icons.security);
             } else {
-              unlockLabel = "Unlock with Biometrics";
+              settingsUnlockLabel = l10n.settingsLabelManageBiometrics(
+                  l10n.generalBiometricTypeGeneric);
               icon = const Icon(Icons.fingerprint);
             }
           });
@@ -115,15 +124,16 @@ class _TabSettingsState extends State<TabSettings> {
   }
 
   Widget getHeader() {
+    final l10n = l10nOf(context);
     return Padding(
         padding: const EdgeInsets.only(
             left: ThemePaddings.normalPadding,
             right: ThemePaddings.normalPadding,
             top: ThemePaddings.hugePadding,
             bottom: ThemePaddings.smallPadding),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [Text("Settings", style: TextStyles.pageTitle)]));
+        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+          Text(l10n.appTabSettings, style: TextStyles.pageTitle)
+        ]));
   }
 
   Widget getBody() {
@@ -146,6 +156,8 @@ class _TabSettingsState extends State<TabSettings> {
   }
 
   Widget getSettings() {
+    final l10n = l10nOf(context);
+
     var theme = SettingsThemeData(
       settingsSectionBackground: LightThemeColors.cardBackground,
       //Theme.of(context).cardTheme.color,
@@ -171,13 +183,14 @@ class _TabSettingsState extends State<TabSettings> {
         lightTheme: theme,
         sections: [
           SettingsSection(
-            title: getSettingsHeader("Accounts and Data", true),
+            title: getSettingsHeader(l10n.settingsHeaderAccountsAndData, true),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                 leading: ChangeForeground(
-                    child: const Icon(Icons.lock),
-                    color: LightThemeColors.gradient1),
-                title: Text('Lock Wallet', style: TextStyles.textNormal),
+                    color: LightThemeColors.gradient1,
+                    child: const Icon(Icons.lock)),
+                title:
+                    Text(l10n.settingsLockWallet, style: TextStyles.textNormal),
                 trailing: Container(),
                 onPressed: (BuildContext context) {
                   appStore.reportGlobalError("");
@@ -190,9 +203,10 @@ class _TabSettingsState extends State<TabSettings> {
               ),
               SettingsTile.navigation(
                 leading: ChangeForeground(
-                    child: const Icon(Icons.cleaning_services_outlined),
-                    color: LightThemeColors.gradient1),
-                title: Text('Erase Wallet Data', style: TextStyles.textNormal),
+                    color: LightThemeColors.gradient1,
+                    child: const Icon(Icons.cleaning_services_outlined)),
+                title: Text(l10n.generalButtonEraseWalletData,
+                    style: TextStyles.textNormal),
                 trailing: Container(),
                 onPressed: (BuildContext context) async {
                   //MODAL TO CHECK IF USER AGREES
@@ -213,8 +227,8 @@ class _TabSettingsState extends State<TabSettings> {
                           timedController.stopFetchTimer();
                           Navigator.pop(context);
                           context.go("/signInNoAuth");
-                          _globalSnackBar
-                              .show("Wallet data erased from device");
+                          _globalSnackBar.show(
+                              l10n.generalSnackBarMessageWalletDataErased);
                         }, onReject: () async {
                           Navigator.pop(context);
                         }));
@@ -223,9 +237,9 @@ class _TabSettingsState extends State<TabSettings> {
               ),
               SettingsTile.navigation(
                 leading: ChangeForeground(
-                    child: const Icon(Icons.file_present),
-                    color: LightThemeColors.gradient1),
-                title: Text('Export Wallet Vault File',
+                    color: LightThemeColors.gradient1,
+                    child: const Icon(Icons.file_present)),
+                title: Text(l10n.settingsLabelExportWalletVaultFile,
                     style: TextStyles.textNormal),
                 trailing: Container(),
                 onPressed: (BuildContext context) async {
@@ -239,14 +253,15 @@ class _TabSettingsState extends State<TabSettings> {
             ],
           ),
           SettingsSection(
-            title: getSettingsHeader("Security", true),
+            title: getSettingsHeader(l10n.settingsHeaderSecurity, true),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
                   leading: ChangeForeground(
-                      child: const Icon(Icons.password),
-                      color: LightThemeColors.gradient1),
+                      color: LightThemeColors.gradient1,
+                      child: const Icon(Icons.password)),
                   trailing: getTrailingArrow(),
-                  title: Text('Change Password', style: TextStyles.textNormal),
+                  title: Text(l10n.settingsLabelChangePassword,
+                      style: TextStyles.textNormal),
                   onPressed: (BuildContext? context) async {
                     pushScreen(
                       context!,
@@ -275,10 +290,10 @@ class _TabSettingsState extends State<TabSettings> {
                 leading: ChangeForeground(
                     color: LightThemeColors.gradient1, child: icon),
                 trailing: getTrailingArrow(),
-                title: Text(unlockLabel, style: TextStyles.textNormal),
+                title: Text(settingsUnlockLabel, style: TextStyles.textNormal),
                 value: Observer(builder: (context) {
                   return settingsStore.settings.biometricEnabled
-                      ? Text("Enabled",
+                      ? Text(l10n.generalLabelEnabled,
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall!
@@ -286,7 +301,7 @@ class _TabSettingsState extends State<TabSettings> {
                                   color:
                                       Theme.of(context).colorScheme.secondary,
                                   fontFamily: ThemeFonts.secondary))
-                      : const Text("Disabled");
+                      : Text(l10n.generalLabelDisabled);
                 }),
                 onPressed: (BuildContext? context) {
                   pushScreen(
@@ -300,13 +315,14 @@ class _TabSettingsState extends State<TabSettings> {
             ],
           ),
           SettingsSection(
-              title: getSettingsHeader("About", true),
+              title: getSettingsHeader(l10n.settingsHeaderAbout, true),
               tiles: <SettingsTile>[
                 SettingsTile.navigation(
                   leading: ChangeForeground(
-                      child: const Icon(Icons.people),
-                      color: LightThemeColors.gradient1),
-                  title: Text('Join Community', style: TextStyles.textNormal),
+                      color: LightThemeColors.gradient1,
+                      child: const Icon(Icons.people)),
+                  title: Text(l10n.settingsLabelJoinCommunity,
+                      style: TextStyles.textNormal),
                   trailing: Container(),
                   onPressed: (BuildContext? context) async {
                     pushScreen(
@@ -320,8 +336,8 @@ class _TabSettingsState extends State<TabSettings> {
                 ),
                 SettingsTile.navigation(
                   leading: ChangeForeground(
-                      child: const Icon(Icons.account_balance_wallet_outlined),
-                      color: LightThemeColors.gradient1),
+                      color: LightThemeColors.gradient1,
+                      child: const Icon(Icons.account_balance_wallet_outlined)),
                   trailing: Observer(builder: (BuildContext context) {
                     if (qubicHubStore.updateAvailable) {
                       return const Icon(Icons.info, color: Colors.red);
@@ -332,10 +348,11 @@ class _TabSettingsState extends State<TabSettings> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Wallet Info', style: TextStyles.textNormal),
+                        Text(l10n.settingsLabelWalletInfo,
+                            style: TextStyles.textNormal),
                         Observer(builder: (BuildContext context) {
                           if (qubicHubStore.versionInfo == null) {
-                            return const Text("Loading...");
+                            return Text(l10n.generalLabelLoading);
                           }
                           return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

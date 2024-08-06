@@ -9,7 +9,7 @@ import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/epoch_helperts.dart';
+import 'package:qubic_wallet/helpers/epoch_helpers.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_search.dart';
@@ -21,6 +21,7 @@ import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:sticky_headers/sticky_headers.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 import 'wallet_contents/explorer/explorer_result_page.dart';
 
@@ -97,6 +98,7 @@ class _TabExplorerState extends State<TabExplorer> {
   }
 
   Widget getEmptyExplorer() {
+    final l10n = l10nOf(context);
     return Center(
         child: Padding(
       padding: const EdgeInsets.symmetric(
@@ -110,8 +112,7 @@ class _TabExplorerState extends State<TabExplorer> {
             Icons.account_tree,
             size: 100,
           )),
-          Text("Loading explorer data for this epoch",
-              style: TextStyles.secondaryText),
+          Text(l10n.explorerLabelLoadingData, style: TextStyles.secondaryText),
           ThemedControls.spacerVerticalBig(),
           Observer(builder: (context) {
             if (explorerStore.pendingRequests > 0) {
@@ -125,7 +126,7 @@ class _TabExplorerState extends State<TabExplorer> {
                     refreshOverview();
                   },
                   icon: const Icon(Icons.refresh),
-                  label: const Text("Refresh data"));
+                  label: Text(l10n.explorerButtonRefreshData));
             }
           }),
         ],
@@ -221,6 +222,8 @@ class _TabExplorerState extends State<TabExplorer> {
     List<Widget> cards = [];
 
     cards.add(Observer(builder: (context) {
+      final l10n = l10nOf(context);
+
       if (explorerStore.networkOverview == null) {
         return getEmptyExplorer();
       }
@@ -230,44 +233,45 @@ class _TabExplorerState extends State<TabExplorer> {
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             ThemedControls.pageHeader(
-                headerText: "Epoch Explorer",
-                subheaderText: "Epoch ${getCurrentEpoch()}",
+                headerText: l10n.explorerTitle,
+                subheaderText: l10n.explorerLabelEpoch(getCurrentEpoch()),
                 subheaderPill: false),
 
             ThemedControls.spacerVerticalNormal(),
-            Text("Overview", style: TextStyles.labelTextNormal),
+            Text(l10n.explorerHeaderOverview,
+                style: TextStyles.labelTextNormal),
             ThemedControls.spacerVerticalSmall(),
             Flex(direction: Axis.horizontal, children: [
               Expanded(
                   flex: 1,
                   child: tickPanel(
-                      "Total Ticks",
+                      l10n.explorerLabelTotalTicks,
                       explorerStore.networkOverview!.numberOfTicks
                           .asThousands())),
               ThemedControls.spacerHorizontalMini(),
               Expanded(
                   flex: 1,
                   child: tickPanel(
-                      "Empty Ticks",
+                      l10n.explorerLabelEmptyTicks,
                       explorerStore.networkOverview!.numberOfEmptyTicks
                           .asThousands())),
               ThemedControls.spacerHorizontalMini(),
               Expanded(
                   flex: 1,
-                  child: tickPanel("Tick Quality",
+                  child: tickPanel(l10n.explorerLabelTickQuality,
                       "${explorerStore.networkOverview!.tickQualityPercentage}%"))
             ]),
             ThemedControls.spacerVerticalMini(),
             Flex(direction: Axis.horizontal, children: [
               Expanded(
                   flex: 1,
-                  child: tickPanel("Total Supply (QUBIC)",
+                  child: tickPanel(l10n.explorerLabelTotalSupply,
                       explorerStore.networkOverview!.supply.asThousands())),
               ThemedControls.spacerHorizontalMini(),
               Expanded(
                   flex: 1,
                   child: tickPanel(
-                      "Total Addresses",
+                      l10n.explorerLabelTotalAddresses,
                       explorerStore.networkOverview!.numberOfEntities
                           .asThousands()))
             ]),
@@ -286,8 +290,8 @@ class _TabExplorerState extends State<TabExplorer> {
                         child: width > 400
                             ? Row(children: [
                                 ThemedControls.pageHeader(
-                                    headerText: "Tick Overview",
-                                    subheaderText: "Latest Ticks"),
+                                    headerText: l10n.explorerHeaderTicks,
+                                    subheaderText: l10n.explorerSubHeaderTicks),
                                 Expanded(child: Container()),
                                 getPagination()
                                 // Container(
@@ -302,8 +306,9 @@ class _TabExplorerState extends State<TabExplorer> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                     ThemedControls.pageHeader(
-                                        headerText: "Tick Overview",
-                                        subheaderText: "Latest Ticks"),
+                                        headerText: l10n.explorerHeaderTicks,
+                                        subheaderText:
+                                            l10n.explorerSubHeaderTicks),
 
                                     getPagination()
                                     // Container(

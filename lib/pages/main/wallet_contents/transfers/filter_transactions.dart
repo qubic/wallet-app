@@ -12,6 +12,7 @@ import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class FilterTransactions extends StatefulWidget {
   const FilterTransactions({super.key});
@@ -51,25 +52,28 @@ class _FilterTransactionsState extends State<FilterTransactions> {
   }
 
   List<Widget> getStatusLabel(ComputedTransactionStatus? e) {
+    final l10n = l10nOf(context);
     List<Widget> out = [];
     if (e == null) {
       out.add(
-        Text("Any status", style: TextStyles.textNormal),
+        Text(l10n.filterTransfersLabelAnyStatus, style: TextStyles.textNormal),
       );
     } else {
       out.add(Icon(getTransactionStatusIcon(e),
           color: getTransactionStatusColor(e)));
       out.add(const Text(" "));
-      out.add(Text(getTransactionStatusText(e), style: TextStyles.textNormal));
+      out.add(Text(getTransactionStatusText(e, context),
+          style: TextStyles.textNormal));
     }
     return out;
   }
 
   List<Widget> getDirectionLabel(TransactionDirection? e) {
+    final l10n = l10nOf(context);
     List<Widget> out = [];
     if (e == null) {
       out.add(Text(
-        "Any direction",
+        l10n.generalLabelAnyDirection,
         style: TextStyles.secondaryTextNormal,
       ));
     } else {
@@ -77,13 +81,17 @@ class _FilterTransactionsState extends State<FilterTransactions> {
           ? Icons.input_outlined
           : Icons.output_outlined));
       out.add(const Text(" "));
-      out.add(Text(e == TransactionDirection.incoming ? "Incoming" : "Outgoing",
+      out.add(Text(
+          e == TransactionDirection.incoming
+              ? l10n.transactionLabelDirectionIncoming
+              : l10n.transactionLabelDirectionOutgoing,
           style: TextStyles.textNormal));
     }
     return out;
   }
 
   Widget getDirectionDropdown() {
+    final l10n = l10nOf(context);
     List<TransactionDirection?> directionOptions = [
       null,
       TransactionDirection.incoming,
@@ -127,7 +135,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                       // });
                     },
                   )),
-          hintText: 'By Direction',
+          hintText: l10n.filterTransfersLabelByDirection,
         ),
         selectedItemBuilder: (BuildContext context) {
           return items.map<Widget>((item) {
@@ -142,7 +150,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                       ? getDirectionLabel(item.value)
                       : [
                           Text(
-                            "Any direction",
+                            l10n.generalLabelAnyDirection,
                             style: TextStyles.textNormal,
                           )
                         ]),
@@ -153,6 +161,8 @@ class _FilterTransactionsState extends State<FilterTransactions> {
   }
 
   Widget getStatusDropdown() {
+    final l10n = l10nOf(context);
+
     List<ComputedTransactionStatus?> statusOptions = [
       null,
       ComputedTransactionStatus.pending,
@@ -178,26 +188,26 @@ class _FilterTransactionsState extends State<FilterTransactions> {
         },
         initialValue: selectedStatus,
         decoration: ThemeInputDecorations.dropdownBox.copyWith(
-          suffix: selectedStatus == null
-              ? const SizedBox(height: 10)
-              : SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: IconButton(
-                    padding: const EdgeInsets.all(0),
-                    icon: const Icon(Icons.close, size: 15.0),
-                    onPressed: () {
-                      _formKey.currentState!.fields['status']?.didChange(null);
-                      setState(() {
-                        selectedStatus = null;
-                      });
-                      // _formKey.currentState!.fields['status']?.setState(() {
-                      //   _formKey.currentState!.fields['status']?.didChange(null);
-                      // });
-                    },
-                  )),
-          hintText: 'By Status',
-        ),
+            suffix: selectedStatus == null
+                ? const SizedBox(height: 10)
+                : SizedBox(
+                    height: 25,
+                    width: 25,
+                    child: IconButton(
+                      padding: const EdgeInsets.all(0),
+                      icon: const Icon(Icons.close, size: 15.0),
+                      onPressed: () {
+                        _formKey.currentState!.fields['status']
+                            ?.didChange(null);
+                        setState(() {
+                          selectedStatus = null;
+                        });
+                        // _formKey.currentState!.fields['status']?.setState(() {
+                        //   _formKey.currentState!.fields['status']?.didChange(null);
+                        // });
+                      },
+                    )),
+            hintText: l10n.filterTransfersLabelByStatus),
         selectedItemBuilder: (BuildContext context) {
           return items.map<Widget>((item) {
             // This is the widget that will be shown when you select an item.
@@ -211,7 +221,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                       ? getStatusLabel(item.value)
                       : [
                           Text(
-                            "Any status",
+                            l10n.filterTransfersLabelAnyStatus,
                             style: TextStyles.secondaryTextNormal,
                           )
                         ]),
@@ -222,6 +232,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
   }
 
   Widget getAccountsDropdown() {
+    final l10n = l10nOf(context);
     List<QubicListVm?> accounts = [];
     accounts.add(null);
     accounts.addAll(appStore.currentQubicIDs);
@@ -232,7 +243,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
         child: Column(children: [
           Row(children: [
             Text(
-              "Any Qubic ID",
+              l10n.filterTransfersLabelAnyQubicID,
               style: TextStyles.textNormal,
             ),
           ]),
@@ -260,24 +271,23 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                 },
                 initialValue: selectedQubicId,
                 decoration: ThemeInputDecorations.dropdownBox.copyWith(
-                  suffix: selectedQubicId == null
-                      ? const SizedBox(height: 12)
-                      : SizedBox(
-                          height: 25,
-                          width: 25,
-                          child: IconButton(
-                            padding: const EdgeInsets.all(0),
-                            icon: const Icon(Icons.close, size: 15.0),
-                            onPressed: () {
-                              _formKey.currentState!.fields['qubicId']
-                                  ?.didChange(null);
-                              setState(() {
-                                selectedQubicId = null;
-                              });
-                            },
-                          )),
-                  hintText: 'By Qubic ID',
-                ),
+                    suffix: selectedQubicId == null
+                        ? const SizedBox(height: 12)
+                        : SizedBox(
+                            height: 25,
+                            width: 25,
+                            child: IconButton(
+                              padding: const EdgeInsets.all(0),
+                              icon: const Icon(Icons.close, size: 15.0),
+                              onPressed: () {
+                                _formKey.currentState!.fields['qubicId']
+                                    ?.didChange(null);
+                                setState(() {
+                                  selectedQubicId = null;
+                                });
+                              },
+                            )),
+                    hintText: l10n.filterTransfersLabelByQubicID),
                 selectedItemBuilder: (BuildContext context) {
                   return accounts.map<Widget>((QubicListVm? item) {
                     // This is the widget that will be shown when you select an item.
@@ -285,7 +295,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                     // to selected item string.
 
                     if (item == null) {
-                      return Text("Any Qubic ID",
+                      return Text(l10n.filterTransfersLabelAnyQubicID,
                           style: TextStyles.secondaryTextNormal);
                     }
                     return Container(
@@ -309,6 +319,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -317,14 +328,14 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                   child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: "Filter Transfers"),
+              ThemedControls.pageHeader(headerText: l10n.filterTransfersTitle),
               appStore.transactionFilter!.totalActiveFilters > 0
                   ? TextButton(
                       onPressed: () {
                         appStore.clearTransactionFilters();
                         Navigator.pop(context);
                       },
-                      child: Text("Clear All",
+                      child: Text(l10n.generalButtonClearAll,
                           style: Theme.of(context)
                               .primaryTextTheme
                               .titleSmall
@@ -357,6 +368,8 @@ class _FilterTransactionsState extends State<FilterTransactions> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
+
     return [
       Expanded(
           child: !isLoading
@@ -364,7 +377,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                   child: Padding(
                       padding:
                           const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                      child: Text("Cancel",
+                      child: Text(l10n.generalButtonCancel,
                           style: TextStyles.transparentButtonText)),
                   onPressed: () {
                     Navigator.pop(context);
@@ -375,7 +388,8 @@ class _FilterTransactionsState extends State<FilterTransactions> {
           child: ThemedControls.primaryButtonBigWithChild(
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: Text("Apply", style: TextStyles.primaryButtonText)),
+                  child: Text(l10n.generalButtonApply,
+                      style: TextStyles.primaryButtonText)),
               onPressed: saveIdHandler))
     ];
   }

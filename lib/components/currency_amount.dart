@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
 class CurrencyAmount extends StatelessWidget {
@@ -52,6 +53,8 @@ class CurrencyAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     if (amount == null) {
       List<Widget> output = [];
       output.add(SkeletonAnimation(
@@ -80,7 +83,7 @@ class CurrencyAmount extends StatelessWidget {
       List<Widget> numbers = [];
 
       numbers.add(Text(amount.toString(), style: textStyle));
-      numbers.add(Text(" USD", style: textStyle));
+      numbers.add(Text(" ${l10n.generalLabelCurrencyUSD}}", style: textStyle));
       return Row(
           mainAxisAlignment: MainAxisAlignment.center, children: numbers);
     }
@@ -115,7 +118,6 @@ class CurrencyAmount extends StatelessWidget {
     final hasBillions = amount! >= 1000000000;
     final hasMillions = amount! >= 1000000;
     final hasThousands = amount! >= 1000;
-    final hasunits = amount! >= 1;
 
     List<Widget> numbers = [];
     if (hasTrillions) {
@@ -136,7 +138,7 @@ class CurrencyAmount extends StatelessWidget {
     } else {
       numbers.addAll(getUptoThousands(context, units));
     }
-    numbers.add(Text(" USD", style: textStyle));
+    numbers.add(Text(" ${l10n.generalLabelCurrencyUSD}", style: textStyle));
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: numbers);
   }
 }

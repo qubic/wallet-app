@@ -1,20 +1,12 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qubic_wallet/components/copyable_text.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
-import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
@@ -22,10 +14,9 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
-import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/pages/auth/create_password.dart';
-import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
@@ -36,9 +27,6 @@ import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:settings_ui/settings_ui.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 class ImportPrivateSeed extends StatefulWidget {
   const ImportPrivateSeed({super.key});
@@ -105,6 +93,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
   }
 
   void showQRScanner() {
+    final l10n = l10nOf(context);
+
     detected = false;
     showModalBottomSheet<void>(
         context: context,
@@ -125,7 +115,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
 
                 for (final barcode in barcodes) {
                   if (barcode.rawValue != null) {
-                    var validator = CustomFormFieldValidators.isSeed();
+                    var validator =
+                        CustomFormFieldValidators.isSeed(context: context);
                     if (validator(barcode.rawValue) == null) {
                       privateSeedCtrl.text = barcode.rawValue!;
                       foundSuccess = true;
@@ -136,7 +127,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                     if (!detected) {
                       Navigator.pop(context);
 
-                      _globalSnackbar.show("Successfully scanned QR Code");
+                      _globalSnackbar.show(
+                          l10n.generalSnackBarMessageQRScannedWithSuccess);
                     }
                     detected = true;
                   }
@@ -148,11 +140,11 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                 child: Container(
                     color: Colors.white60,
                     width: double.infinity,
-                    child: const Padding(
-                        padding: EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(
-                            "Please point the camera to a QR Code containing the private seed",
-                            style: TextStyle(
+                    child: Padding(
+                        padding:
+                            const EdgeInsets.all(ThemePaddings.normalPadding),
+                        child: Text(l10n.addAccountHeaderScanQRCodeInstructions,
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -164,15 +156,16 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
   }
 
   List<Widget> getSeedForm() {
+    final l10n = l10nOf(context);
     return [
       FormBuilderTextField(
         name: "accountName",
         controller: accountNameCtrl,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: "Please fill in an account name"),
+              errorText: l10n.generalErrorRequiredField),
           FormBuilderValidators.minLength(3,
-              errorText: "Account names  must be at least 3 characters long")
+              errorText: l10n.generalErrorMinCharLength(3))
         ]),
         onSubmitted: (String? a) async {
           await handleProceed();
@@ -186,7 +179,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               bottom:
                   ThemeInputDecorations.bigInputbox.contentPadding!.vertical /
                       2),
-          hintText: "Account name",
+          hintText: l10n.addAccountLabelAccountName,
         ),
         enabled: !isLoading,
         obscureText: false,
@@ -202,22 +195,23 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         enableSuggestions: false,
         keyboardType: TextInputType.visiblePassword,
         validator: FormBuilderValidators.compose([
-          FormBuilderValidators.required(errorText: "Please fill in a seed"),
-          CustomFormFieldValidators.isSeed(),
+          FormBuilderValidators.required(
+              errorText: l10n.generalErrorRequiredField),
+          CustomFormFieldValidators.isSeed(context: context),
           CustomFormFieldValidators.isPublicIdAvailable(
-              currentQubicIDs: appStore.currentQubicIDs)
+              context: context, currentQubicIDs: appStore.currentQubicIDs)
         ]),
         onSubmitted: (value) async {
           await handleProceed();
         },
         onChanged: (value) async {
-          var v = CustomFormFieldValidators.isSeed();
+          var v = CustomFormFieldValidators.isSeed(context: context);
           if (value != null && value.trim().isNotEmpty && v(value) == null) {
             try {
               setState(() {
                 generatingId = true;
               });
-              var newId = await qubicCmd.getPublicIdFromSeed(value);
+              var newId = await qubicCmd.getPublicIdFromSeed(value, context);
               setState(() {
                 generatedPublicId = newId;
                 generatingId = false;
@@ -226,8 +220,14 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               if (e.toString().startsWith("Exception: CRITICAL:")) {
                 print("CRITICAL");
 
-                showAlertDialog(context, "TAMPERED WALLET DETECTED",
-                    "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM QUBIC-HUB.COM OR RISK LOSS OF FUNDS");
+                showAlertDialog(
+                    context,
+                    l10n.addAccountErrorTamperedWalletTitle,
+                    isAndroid
+                        ? l10n.addAccountErrorTamperedAndroidWalletMessage
+                        : isIOS
+                            ? l10n.addAccountErrorTamperediOSWalletMessage
+                            : l10n.addAccountErrorTamperedWalletMessage);
               }
               setState(() {
                 privateSeedCtrl.value = TextEditingValue.empty;
@@ -245,7 +245,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         maxLength: 55,
         enabled: !generatingId,
         decoration: ThemeInputDecorations.normalMultiLineInputbox.copyWith(
-            hintText: "Private seed",
+            hintText: l10n.addAccountLabelPrivateSeed,
             suffixIcon: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
@@ -261,8 +261,10 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                                 .isEmpty) {
                               return;
                             }
-                            copyToClipboard(_formKey
-                                .currentState?.instantValue["privateSeed"]);
+                            copyToClipboard(
+                                _formKey
+                                    .currentState?.instantValue["privateSeed"],
+                                context);
                           },
                           icon: LightThemeColors.shouldInvertIcon
                               ? ThemedControls.invertedColors(
@@ -317,6 +319,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
   }
 
   Future<void> doCreateWallet() async {
+    final l10n = l10nOf(context);
+
     if (!context.mounted) {
       return;
     }
@@ -331,7 +335,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         await getIt<QubicLi>().authenticate();
       } catch (e) {
         showAlertDialog(
-            context, "Error contacting Qubic Network", e.toString());
+            context, l10n.generalErrorContactingQubicNetwork, e.toString());
         setState(() {
           isLoading = false;
         });
@@ -343,13 +347,15 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
           isLoading = false;
         });
       } catch (e) {
-        showAlertDialog(context, "Error storing biometric info", e.toString());
+        showAlertDialog(
+            context, l10n.signUpErrorStoringBiometricInfo, e.toString());
       }
 
       appStore.checkWalletIsInitialized();
       settingsStore.setBiometrics(enabledBiometrics);
       context.goNamed("mainScreen");
-      _globalSnackbar.show("Wallet imported successfully");
+      _globalSnackbar
+          .show(l10n.generalSnackBarMessageWalletImportedSuccessfully);
     } else {
       setState(() {
         isLoading = false;
@@ -358,13 +364,16 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
   }
 
   Widget getGeneratedPublicId() {
+    final l10n = l10nOf(context);
+
     if (generatedPublicId == null) {
       return Container();
     }
     return Column(
       children: [
         ThemedControls.spacerVerticalNormal(),
-        Text("Your seed ", style: TextStyles.secondaryText),
+        Text(l10n.generalLabeQubicAddressAndPublicID,
+            style: TextStyles.secondaryText),
         ThemedControls.spacerVerticalSmall(),
         Text(generatedPublicId!, style: TextStyles.inputBoxSmallStyle),
       ],
@@ -372,6 +381,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
     return [
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
@@ -380,7 +390,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               },
               child: Padding(
                 padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                child: Text("Proceed",
+                child: Text(l10n.generalButtonProceed,
                     textAlign: TextAlign.center,
                     style: TextStyles.primaryButtonText),
               )))
@@ -389,6 +399,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
 
   //Gets the container scroll view
   Widget getScrollView() {
+    final l10n = l10nOf(context);
+
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -397,9 +409,9 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Enter Private Seed Phrase", subheaderText: ""),
-              Text(
-                  "Enter the 55 character seed phrase that you have saved when creating your account.",
+                  headerText: l10n.importWalletLabelFromPrivateSeed,
+                  subheaderText: ""),
+              Text(l10n.importPrivateSeedSubHeader,
                   style: TextStyles.secondaryText),
               ThemedControls.spacerVerticalHuge(),
               FormBuilder(
@@ -411,7 +423,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                         onPressed: () {
                           showQRScanner();
                         },
-                        text: "Use QR Code",
+                        text: l10n.generalButtonUseQRCode,
                         icon: !LightThemeColors.shouldInvertIcon
                             ? ThemedControls.invertedColors(
                                 child:

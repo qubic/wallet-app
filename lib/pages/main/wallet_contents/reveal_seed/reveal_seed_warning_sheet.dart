@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class RevealSeedWarningSheet extends StatefulWidget {
   final Function() onAccept;
@@ -53,34 +52,39 @@ class _RevealSeedWarningSheetState extends State<RevealSeedWarningSheet> {
   }
 
   Widget getText() {
+    final l10n = l10nOf(context);
+
     return Row(children: [
       Expanded(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-            ThemedControls.pageHeader(headerText: "Before you proceed"),
+            ThemedControls.pageHeader(
+                headerText: l10n.revealSeedWarningSheetHeader),
             ThemedControls.spacerVerticalNormal(),
-            getWarningText("Keep a safe backup of your private seed"),
+            getWarningText(l10n.revealSeedWarningSheetLabelOne),
             ThemedControls.spacerVerticalNormal(),
-            getWarningText("Never share your private seed with anyone"),
+            getWarningText(l10n.revealSeedWarningSheetLabelTwo),
             ThemedControls.spacerVerticalNormal(),
-            getWarningText(
-                "Do not paste your private seed to unknown apps or websites"),
+            getWarningText(l10n.revealSeedWarningSheetLabelThree),
           ]))
     ]);
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
     return [
       Expanded(
           child: ThemedControls.transparentButtonBigPadded(
-              onPressed: widget.onReject, text: "Cancel")),
+              onPressed: widget.onReject, text: l10n.generalButtonCancel)),
       ThemedControls.spacerHorizontalSmall(),
       Expanded(
           child: hasAccepted
               ? ThemedControls.primaryButtonBigPadded(
-                  onPressed: transferNowHandler, text: "Proceed")
-              : ThemedControls.primaryButtonBigDisabledPadded(text: "Proceed")),
+                  onPressed: transferNowHandler,
+                  text: l10n.generalButtonProceed)
+              : ThemedControls.primaryButtonBigDisabledPadded(
+                  text: l10n.generalButtonProceed)),
     ];
   }
 
@@ -99,6 +103,8 @@ class _RevealSeedWarningSheetState extends State<RevealSeedWarningSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Container(
         width: double.infinity,
         child: Padding(
@@ -110,12 +116,12 @@ class _RevealSeedWarningSheetState extends State<RevealSeedWarningSheet> {
                   ThemedControls.spacerVerticalNormal(),
                   const Divider(),
                   ListTile(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 0.0),
                     leading: Checkbox(
                       value: hasAccepted,
                       onChanged: _toggleCheckbox,
                     ),
-                    title: const Text("I understand the above"),
+                    title: Text(l10n.revealSeedWarningSheetCheckboxLabel),
                     onTap: () {
                       _toggleCheckbox(!hasAccepted);
                     },

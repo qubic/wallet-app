@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
@@ -11,6 +10,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/transfer_asset.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AssetItem extends StatefulWidget {
   final QubicListVm account;
@@ -42,6 +42,8 @@ class _AssetItemState extends State<AssetItem> {
   );
 
   Widget getAssetButtonBar(QubicAssetDto asset) {
+    final l10n = l10nOf(context);
+
     return Container(
       child: ButtonBar(
           alignment: MainAxisAlignment.start,
@@ -59,7 +61,7 @@ class _AssetItemState extends State<AssetItem> {
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 },
-                text: "Send",
+                text: l10n.assetsButtonSend,
                 icon: LightThemeColors.shouldInvertIcon
                     ? ThemedControls.invertedColors(
                         child: Image.asset("assets/images/send.png"))
@@ -70,6 +72,7 @@ class _AssetItemState extends State<AssetItem> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Container(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
         child: Card(
@@ -91,13 +94,14 @@ class _AssetItemState extends State<AssetItem> {
                                   style: TextStyles.accountName)),
                         ]),
                         Text(
-                            "Valid for tick : ${widget.asset.tick.asThousands()}",
+                            l10n.assetsLabelTick(
+                                widget.asset.tick.asThousands()),
                             style: TextStyles.assetSecondaryTextLabel),
-                        SizedBox(height: ThemePaddings.normalPadding),
+                        const SizedBox(height: ThemePaddings.normalPadding),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Owned",
+                              Text(l10n.assetsLabelOwned,
                                   style: TextStyles.assetSecondaryTextLabel),
                               Text(
                                   "${formatter.format(widget.asset.ownedAmount) ?? "-"}",
@@ -107,27 +111,27 @@ class _AssetItemState extends State<AssetItem> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Possessed",
+                              Text(l10n.assetsLabelPossessed,
                                   style: TextStyles.assetSecondaryTextLabel),
                               Text(
                                   "${formatter.format(widget.asset.possessedAmount) ?? "-"}",
                                   style:
                                       TextStyles.assetSecondaryTextLabelValue),
                             ]),
-                        SizedBox(height: ThemePaddings.miniPadding),
+                        const SizedBox(height: ThemePaddings.miniPadding),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Contract name ",
+                              Text(l10n.assetsLabelContractName,
                                   style: TextStyles.assetSecondaryTextLabel),
-                              Text("${widget.asset.contractName}",
+                              Text(widget.asset.contractName,
                                   style:
                                       TextStyles.assetSecondaryTextLabelValue),
                             ]),
                         Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("Contract Index ",
+                              Text(l10n.assetsLabelContractIndex,
                                   style: TextStyles.assetSecondaryTextLabel),
                               Text("${widget.asset.contractIndex}",
                                   style:
@@ -136,73 +140,5 @@ class _AssetItemState extends State<AssetItem> {
                       ])),
               getAssetButtonBar(widget.asset),
             ])));
-    // return Card(
-    //     elevation: 5,
-    //     child: Column(children: [
-    //       Padding(
-    //           padding: const EdgeInsets.fromLTRB(
-    //               ThemePaddings.normalPadding,
-    //               ThemePaddings.miniPadding,
-    //               ThemePaddings.normalPadding,
-    //               ThemePaddings.smallPadding),
-    //           child: Column(children: [
-    //             Container(),
-    //             Text("valid for tick " + widget.asset.tick.toString(),
-    //                 textAlign: TextAlign.right,
-    //                 style: Theme.of(context).textTheme.titleSmall!.copyWith(
-    //                     fontFamily: ThemeFonts.primary,
-    //                     fontWeight: FontWeight.w300)),
-    //             Row(
-    //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //                 children: [
-    //                   Text(widget.asset.assetName,
-    //                       textAlign: TextAlign.center,
-    //                       style: Theme.of(context)
-    //                           .textTheme
-    //                           .headlineLarge!
-    //                           .copyWith(
-    //                               fontFamily: ThemeFonts.primary,
-    //                               fontWeight: FontWeight.bold)),
-    //                   Text("Possessed: ${widget.asset.possessedAmount ?? "-"}",
-    //                       textAlign: TextAlign.center,
-    //                       style: Theme.of(context)
-    //                           .textTheme
-    //                           .titleLarge!
-    //                           .copyWith(
-    //                               fontFamily: ThemeFonts.primary,
-    //                               fontWeight: FontWeight.w500)),
-    //                   Text("/",
-    //                       textAlign: TextAlign.center,
-    //                       style: Theme.of(context)
-    //                           .textTheme
-    //                           .titleLarge!
-    //                           .copyWith(fontFamily: ThemeFonts.primary)),
-    //                   Text("Owned: ${widget.asset.ownedAmount ?? "-"}",
-    //                       textAlign: TextAlign.center,
-    //                       style: Theme.of(context)
-    //                           .textTheme
-    //                           .titleLarge!
-    //                           .copyWith(
-    //                               fontFamily: ThemeFonts.primary,
-    //                               fontWeight: FontWeight.w500)),
-    //                 ]),
-    //             const Divider(),
-    //             Row(
-    //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-    //                 children: [
-    //                   Column(children: [
-    //                     Text("Contract index",
-    //                         style: Theme.of(context).textTheme.bodySmall!),
-    //                     Text("${widget.asset.contractIndex}")
-    //                   ]),
-    //                   Column(children: [
-    //                     Text("Contact name",
-    //                         style: Theme.of(context).textTheme.bodySmall!),
-    //                     Text(widget.asset.contractName)
-    //                   ]),
-    //                 ]),
-    //           ])),
-    //       getAssetButtonBar(widget.asset)
-    //     ]));
   }
 }

@@ -5,16 +5,15 @@ import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
 import 'package:qubic_wallet/components/explorer_transaction_status_item.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
-import 'package:qubic_wallet/components/mid_text_with_ellipsis.dart';
 import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
-import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -41,6 +40,8 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
 
   //Gets the labels for Source and Destination in transcations. Also copies to clipboard
   Widget getFromTo(BuildContext context, String prepend, String id) {
+    final l10n = l10nOf(context);
+
     return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       Observer(builder: (context) {
         QubicListVm? source =
@@ -50,30 +51,25 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
         if (source != null) {
           return Row(children: [
             Expanded(
-                child: Text("$prepend wallet account \"${source.name}\"",
+                child: Text(
+                    l10n.generalLabelToFromAccount(prepend, source.name),
                     textAlign: TextAlign.start,
                     style: TextStyles.lightGreyTextSmallBold)),
           ]);
         }
         return Row(children: [
-          Text("$prepend address ",
+          Text(l10n.generalLabelToFromAddress(prepend),
               textAlign: TextAlign.start,
               style: TextStyles.lightGreyTextSmallBold)
         ]);
       }),
-
       Text(id, style: TextStyles.textSmall, textAlign: TextAlign.start),
-
-      // FittedBox(
-      //     child: Text(id,
-      //         style: Theme.of(context)
-      //             .textTheme
-      //             .titleMedium!
-      //             .copyWith(fontFamily: ThemeFonts.secondary))),
     ]);
   }
 
-  Widget includedByQubicNetwork() {
+  Widget includedByQubicNetwork(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Flex(direction: Axis.horizontal, children: [
       transaction.executed
           ? GradientForeground(
@@ -84,14 +80,14 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
               : Image.asset('assets/images/close-16.png'),
       Expanded(
           child: Text(
-              transaction.executed
-                  ? "  Included by Qubic Network"
-                  : "  Not included by Qubic Network",
+              "  ${transaction.executed ? l10n.transactionItemLabelIncludedByQubickNetwork : l10n.transactionItemLabelNotIncludedByQubicNetwork}",
               style: TextStyles.textTiny))
     ]);
   }
 
-  Widget includedByTickLeader() {
+  Widget includedByTickLeader(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Flex(direction: Axis.horizontal, children: [
       transaction.includedByTickLeader
           ? GradientForeground(
@@ -102,17 +98,14 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
               : Image.asset('assets/images/close-16.png'),
       Expanded(
           child: Text(
-              transaction.includedByTickLeader
-                  ? "  Included by Tick Leader"
-                  : "  Not included by Tick Leader",
+              "  ${transaction.includedByTickLeader ? l10n.transactionItemLabelIncludedByTickLeader : l10n.transactionItemLabelNotIncludedByTickLeader}",
               style: TextStyles.textTiny))
     ]);
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
+    final l10n = l10nOf(context);
     return ThemedControls.card(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ExplorerTransactionStatusItem(item: transaction),
@@ -127,16 +120,18 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
           Expanded(
               flex: 1,
               child: Column(children: [
-                includedByQubicNetwork(),
+                includedByQubicNetwork(context),
                 ThemedControls.spacerVerticalMini(),
-                includedByTickLeader(),
+                includedByTickLeader(context),
               ])),
           showTick
               ? Expanded(
                   flex: 1,
                   child: CopyableText(
                       copiedText: transaction.tick.toString(),
-                      child: Text("Tick: ${transaction.tick.asThousands()}",
+                      child: Text(
+                          l10n.generalLabelTickAndValue(
+                              transaction.tick.asThousands()),
                           textAlign: TextAlign.right)))
               : Container()
         ]),
@@ -146,7 +141,8 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                Text("Transaction Id", style: itemHeaderType(context)),
+                Text(l10n.transactionItemLabelTransactionId,
+                    style: itemHeaderType(context)),
                 Text(transaction.id),
               ])),
           CopyButton(copiedText: transaction.id),
@@ -157,19 +153,24 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                Text("Transaction digest", style: itemHeaderType(context)),
+                Text(l10n.transactionItemLabelTransactionDigest,
+                    style: itemHeaderType(context)),
                 Text(transaction.digest),
               ])),
           CopyButton(copiedText: transaction.digest),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Flex(direction: Axis.horizontal, children: [
-          Expanded(child: getFromTo(context, "From", transaction.sourceId)),
+          Expanded(
+              child: getFromTo(
+                  context, l10n.generalLabelFrom, transaction.sourceId)),
           CopyButton(copiedText: transaction.sourceId),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Flex(direction: Axis.horizontal, children: [
-          Expanded(child: getFromTo(context, "To", transaction.destId)),
+          Expanded(
+              child:
+                  getFromTo(context, l10n.generalLabelTo, transaction.destId)),
           CopyButton(copiedText: transaction.destId),
         ]),
       ]),

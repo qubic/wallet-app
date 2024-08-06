@@ -1,21 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qubic_wallet/components/copyable_text.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
-import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
-import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 
@@ -25,9 +15,8 @@ import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:settings_ui/settings_ui.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -44,7 +33,6 @@ class _ReceiveState extends State<SignUp> {
   bool obscuringTextPass = true; //Hide password text
   bool obscuringTextPassRepeat = true; //Hide password repeat text
   final _formKey = GlobalKey<FormBuilderState>();
-  final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
 
   String currentPassword = "";
   String? signUpError;
@@ -94,17 +82,12 @@ class _ReceiveState extends State<SignUp> {
     if (canUseBiometrics! == false) return Container();
     if (canCheckBiometrics == null) return Container();
     if (canCheckBiometrics! == false) return Container();
-    var theme = SettingsThemeData(
-      settingsSectionBackground: LightThemeColors.cardBackground,
-      //Theme.of(context).cardTheme.color,
-      settingsListBackground: LightThemeColors.background,
-      dividerColor: Colors.transparent,
-      titleTextColor: Theme.of(context).colorScheme.onBackground,
-    );
 
-    String enableText = "Biometric Unlock";
+    final l10n = l10nOf(context);
+
+    String enableText = l10n.signUpSwitchLabelBiometricUnlock;
     if (UniversalPlatform.isDesktop) {
-      enableText = "OS unlock";
+      enableText = l10n.signUpSwitchLabelOSUnlock;
     }
 
     return Flex(direction: Axis.horizontal, children: [
@@ -122,7 +105,6 @@ class _ReceiveState extends State<SignUp> {
               trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
                   (Set<MaterialState> states) {
                 return Colors.orange.withOpacity(0);
-                return null; // Use the default color.
               }),
               value: enabledBiometrics,
               onChanged: (value) async {
@@ -161,6 +143,8 @@ class _ReceiveState extends State<SignUp> {
 
   //Gets the sign up form
   List<Widget> getSignUpForm() {
+    final l10n = l10nOf(context);
+
     return [
       getSignUpError(),
       FormBuilderTextField(
@@ -168,14 +152,14 @@ class _ReceiveState extends State<SignUp> {
         autofocus: true,
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: "Please fill in your password"),
+              errorText: l10n.generalErrorSetWalletPasswordEmpty),
           FormBuilderValidators.minLength(8,
-              errorText: "Password must be at least 8 characters long")
+              errorText: l10n.generalErrorPasswordMinLength)
         ]),
         onSubmitted: (value) => handleProceed(),
         onChanged: (value) => currentPassword = value ?? "",
         decoration: ThemeInputDecorations.bigInputbox.copyWith(
-          hintText: "Enter password",
+          hintText: l10n.signUpTextFieldHintPassword,
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
             child: IconButton(
@@ -200,15 +184,15 @@ class _ReceiveState extends State<SignUp> {
         name: "passwordRepeat",
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
-              errorText: "Please fill in your password again"),
+              errorText: l10n.generalErrorSetWalletPasswordRepeatEmpty),
           (value) {
             if (value == currentPassword) return null;
-            return "Passwords do not match";
+            return l10n.generalErrorSetPasswordNotMatching;
           }
         ]),
         onSubmitted: (value) => handleProceed(),
         decoration: ThemeInputDecorations.bigInputbox.copyWith(
-          hintText: "Repeat password",
+          hintText: l10n.signUpTextFieldHintRepeatPassword,
           suffixIcon: Padding(
             padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
             child: IconButton(
@@ -232,14 +216,14 @@ class _ReceiveState extends State<SignUp> {
   }
 
   Widget getStep2() {
-    String title = "Biometric unlock";
-    String subheader =
-        "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password.";
+    final l10n = l10nOf(context);
+
+    String title = l10n.signUpStepTwoHeader;
+    String subheader = l10n.signUpStepTwoSubHeader;
 
     if (UniversalPlatform.isDesktop) {
-      title = "OS unlock";
-      subheader =
-          "You can enable authentication via your OS. If you enable this, you can sign in to your wallet and issue transfers without using your password.";
+      title = l10n.signUpStepTwoHeaderForDesktop;
+      subheader = l10n.signUpStepTwoSubHeaderForDesktop;
     }
 
     return Container(
@@ -256,15 +240,15 @@ class _ReceiveState extends State<SignUp> {
   }
 
   Widget getStep1() {
+    final l10n = l10nOf(context);
     return Container(
         child: Expanded(
             child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ThemedControls.pageHeader(
-            headerText: "Create New Wallet", subheaderText: ""),
-        Text("Fill in a password that will be used to unlock your new wallet",
-            style: TextStyles.secondaryText),
+            headerText: l10n.signUpStepOneHeader, subheaderText: ""),
+        Text(l10n.signUpStepOneSubHeader, style: TextStyles.secondaryText),
         FormBuilder(key: _formKey, child: Column(children: getSignUpForm()))
       ],
     )));
@@ -279,6 +263,8 @@ class _ReceiveState extends State<SignUp> {
 
   //Get the footer buttons
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
+
     return [
       Expanded(
           child: SizedBox(
@@ -286,7 +272,7 @@ class _ReceiveState extends State<SignUp> {
         child: ThemedControls.primaryButtonBigWithChild(
             onPressed: handleProceed,
             child: !isLoading
-                ? Text("Proceed",
+                ? Text(l10n.generalButtonProceed,
                     textAlign: TextAlign.center,
                     style: TextStyles.primaryButtonText)
                 : SizedBox(
@@ -343,6 +329,7 @@ class _ReceiveState extends State<SignUp> {
 
   //Handles last step of sign up
   Future<void> submitFinalize() async {
+    final l10n = l10nOf(context);
     if (!context.mounted) return;
 
     setState(() {
@@ -355,7 +342,7 @@ class _ReceiveState extends State<SignUp> {
         await getIt<QubicLi>().authenticate();
       } catch (e) {
         showAlertDialog(
-            context, "Error contacting Qubic Network", e.toString());
+            context, l10n.generalErrorContactingQubicNetwork, e.toString());
         setState(() {
           isLoading = false;
         });
@@ -368,7 +355,8 @@ class _ReceiveState extends State<SignUp> {
           isLoading = false;
         });
       } catch (e) {
-        showAlertDialog(context, "Error storing biometric info", e.toString());
+        showAlertDialog(
+            context, l10n.signUpErrorStoringBiometricInfo, e.toString());
       }
       context.goNamed("mainScreen");
     } else {

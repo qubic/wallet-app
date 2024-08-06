@@ -1,7 +1,7 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -11,9 +11,10 @@ Widget getEmptyTransactions(
     required bool hasFiltered,
     int? numberOfFilters,
     required void Function()? onTap}) {
+  final l10n = l10nOf(context);
   String message = hasFiltered
-      ? "No transactions in this epoch for your accounts match your filters"
-      : "No transactions in this epoch for your accounts";
+      ? l10n.transfersLabelNoTransactionsFoundInWalletMatchingFilters
+      : l10n.transfersLabelNoTransactionsFoundInWallet;
 
   return getEmptyTransactionsWidget(
       context: context,
@@ -28,9 +29,10 @@ Widget getEmptyTransactionsForSingleID(
     required bool hasFiltered,
     int? numberOfFilters,
     required void Function()? onTap}) {
+  final l10n = l10nOf(context);
   String message = hasFiltered
-      ? "No transactions in this epoch match your filters"
-      : "No transactions in this epoch";
+      ? l10n.transfersLabelNoTransactionsFoundInAccountMatchingFilters
+      : l10n.transfersLabelNoTransactionsFoundInAccount;
 
   return getEmptyTransactionsWidget(
       context: context,
@@ -46,8 +48,7 @@ Widget getEmptyTransactionsWidget(
     int? numberOfFilters,
     required String message,
     required void Function()? onTap}) {
-  Color? transpColor =
-      Theme.of(context).textTheme.titleMedium?.color!.withOpacity(0.3);
+  final l10n = l10nOf(context);
   return Column(children: [
     ThemedControls.spacerVerticalHuge(),
     ChangeForeground(
@@ -62,7 +63,8 @@ Widget getEmptyTransactionsWidget(
     ThemedControls.spacerVerticalHuge(),
     if ((hasFiltered) && (numberOfFilters != null))
       ThemedControls.primaryButtonNormal(
-          onPressed: onTap, text: "Clear active filters")
+          onPressed: onTap,
+          text: l10n.filterTransfersClearFilters(numberOfFilters))
   ]);
 }
 
@@ -96,17 +98,19 @@ Color getTransactionStatusColor(ComputedTransactionStatus status) {
   }
 }
 
-String getTransactionStatusText(ComputedTransactionStatus status) {
+String getTransactionStatusText(
+    ComputedTransactionStatus status, BuildContext context) {
+  final l10n = l10nOf(context);
   switch (status) {
     case ComputedTransactionStatus.confirmed:
-      return "Confirmed";
+      return l10n.transactionLabelStatusConfirmed;
     case ComputedTransactionStatus.failure:
-      return "Failed";
+      return l10n.transactionLabelStatusFailed;
     case ComputedTransactionStatus.invalid:
-      return "Failed - invalid";
+      return l10n.transactionLabelStatusInvalid;
     case ComputedTransactionStatus.success:
-      return "Successful";
+      return l10n.transactionLabelStatusSuccessful;
     case ComputedTransactionStatus.pending:
-      return "Pending";
+      return l10n.transactionLabelStatusPending;
   }
 }

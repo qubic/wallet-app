@@ -4,6 +4,7 @@ import 'package:qubic_wallet/components/explorer_result_page_qubic_id/explorer_r
 import 'package:qubic_wallet/components/explorer_results/explorer_result_page_transaction_item.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -32,14 +33,15 @@ class ExplorerResultPageQubicId extends StatelessWidget {
   }
 
   Widget getTransactionsHeader(BuildContext context) {
+    final l10n = l10nOf(context);
+
     if (idInfo.latestTransfers != null) {
       return Text(
-          '${idInfo.latestTransfers!.length} transaction${idInfo.latestTransfers!.length != 1 ? 's' : ''} in this epoch',
+          l10n.accountExplorerLabelNumberOfResultsFound(
+              idInfo.latestTransfers!.length),
           style: TextStyles.textExtraLargeBold);
     } else {
-      return const Text(
-        'No transactions for this ID in this epoch',
-      );
+      return Text(l10n.accountExplorerLabelNoResultsFound);
     }
   }
 

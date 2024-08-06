@@ -1,0 +1,643 @@
+{
+    "generalButtonCancel": "Cancelar",
+    "generalButtonOK": "Ok",
+    "generalLabelYes": "Sí",
+    "generalLabelNo": "No",
+    "generalButtonConfirm": "Confirmar",
+    "generalButtonDelete": "Eliminar",
+    "generalButtonAdd": "Agregar",
+    "generalButtonCopy": "Copiar",
+    "generalButtonRename": "Renombrar",
+    "generalButtonSave": "Guardar",
+    "generalButtonProceed": "Proceder",
+    "generalButtonBack": "Regresar",
+    "generalButtonClose": "Cerrar",
+    "generalButtonTryAgain": "Intentar de nuevo",
+    "generalButtonShare": "Compartir",
+    "generalButtonSearch": "Buscar",
+    "generalButtonApply": "Aplicar",
+    "generalButtonEraseWalletData": "Eliminar el Wallet",
+    "generalButtonClearAll": "Limpiar Todo",
+    "generalButtonShowAll": "Mostrar Todo",
+    "generalButtonUseQRCode": "Usar Código QR",
+    "generalButtonCopyAddress": "Copiar Dirección",
+    "generalLabelHidden": "******",
+    "generalLabelHiddenLong": "*********",
+    "generalLabelCurrencyQubic": "QUBIC",
+    "generalLabelCurrencyUSD": "USD",
+    "generalLabelTick": "Tick",
+    "generalLabelInfo": "Información",
+    "generalLabelDate": "Fecha",
+    "generalLabelID": "ID",
+    "generalLabelTransaction": "Transacción",
+    "generalLabelLoading": "Cargando...",
+    "generalLabelUnknown": "Desconocido",
+    "generalLabelFrom": "Desde",
+    "generalLabelTo": "Hacia",
+    "generalLabeQubicAddress": "Dirección Qubic",
+    "generalLabeQubicAddressAndPublicID": "Dirección Qubic (ID Público)",
+    "generalLabelQubicAddressWithAccountName": "Dirección Qubic {accountName}",
+    "@generalLabelQubicAddressWithAccountName": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelToFromAccount": "{toFrom} la cuenta \"{accountName}\"",
+    "@generalLabelToFromAccount": {
+        "placeholders": {
+            "toFrom": {
+                "description": "String that defines if it's the destination or source address for the transaction",
+                "type": "String"
+            },
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelToFromAddress": "{toOrFrom} la dirección",
+    "@generalLabelToFromAddress": {
+        "placeholders": {
+            "toOrFrom": {
+                "description": "String that defines if it's the destination or source address for the transaction",
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelNotAvailable": "N/A",
+    "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
+    "generalUnitShares": "{count, plural, =1{Acción} other{Acciones}}",
+    "generalLabelEnabled": "Habilitado",
+    "generalLabelDisabled": "Deshabilitado",
+    "generalLabelUSDQubicConversion": "USD / QUBIC",
+    "generalLabelError": "Ocurrió un error",
+    "generalSnackBarMessageCopiedToClipboard": "Copiado en el Portapapeles",
+    "generalSnackBarMessageWalletDataErased": "Datos del Wallet eliminados del dispositivo",
+    "generalSnackBarMessageQRScannedWithSuccess": "Se escaneó el código QR con éxito",
+    "generalSnackBarMessageAccountAlreadyExist": "Esta cuenta ya existe en el Wallet",
+    "generalSnackBarMessageTransactionSubmitted": "Nueva transacción enviada a la red Qubic",
+    "generalErrorUnsupportedOS": "Sistema no soportado",
+    "generalErrorOnlyLowercaseChar": "Debe contener sólo letras mayúsculas",
+    "generalErrorOnlyUppercaseChar": "Debe contener sólo letras minúsculas",
+    "generalErrorMinCharLength": "Debe contener al menos {minCharLength} letras",
+    "@generalErrorMinCharLength": {
+        "placeholders": {
+            "minCharLength": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorValueMustBeLowerThan": "Deber ser menor que {maxValuePlusOne}",
+    "@generalErrorValueMustBeLowerThan": {
+        "placeholders": {
+            "maxValuePlusOne": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorRequiredField": "El campo no puede estar vacío.",
+    "generalErrorNotEnoughQubicFunds": "No hay suficientes QUBIC en la cuenta.",
+    "generalErrorZeroQubicFunds": "Insuficientes QUBIC en la cuenta. La cuenta no tiene fondos.",
+    "generalErrorNotEnoughTokens": "Insuficientes tokens en la cuenta.",
+    "generalErrorNotEnoughAssets": "Insuficientes acciones en la cuenta.",
+    "generalErrorNotNumeric": "No es un valor numérico",
+    "generalTextFieldHintPassword": "Contraseña Wallet",
+    "generalErrorEmptyWalletPassword": "Por favor, ingresa tu contraseña",
+    "generalErrorSetWalletPasswordEmpty": "Por favor, ingresa tu contraseña.",
+    "generalErrorSetWalletPasswordRepeatEmpty": "Por favor, ingresa tu contraseña nuevamente.",
+    "appTabHome": "Inicio",
+    "appTabTransfers": "Transferencias",
+    "appTabExplorer": "Explorador",
+    "appTabSettings": "Configuraciones",
+    "homeLabelTotalBalance": "Balance Total",
+    "homeHeader": "Cuentas en el Wallet",
+    "homeLabelNoAccountsInWallet": "Aún no tienes cuentas en este Wallet.",
+    "homeButtonAddAccount": "Agregar Nueva Cuenta",
+    "transfersTitle": "Transferencias de la Época",
+    "transfersLabelAllTransactions": "Todas las transacciones",
+    "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "No se encontraron transacciones en esta época que coincidan los filtros seleccionados",
+    "transfersLabelNoTransactionsFoundInWallet": "No se encontraron transacciones en esta época para tus cuentas",
+    "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "No se encontraron transacciones en esta época que coincidan con tus filtros",
+    "transfersLabelNoTransactionsFoundInAccount": "No se encontraron transacciones en este época",
+    "transfersLabelShowingTransactionsFound": "{count, plural, =1{Mostrando 1 transacción del Tick} other{Mostrando {count} transacciones}}}",
+    "transfersLabelFor": "Transferencias de",
+    "transfersLabelForAccount": "Transferencias de \"{accountName}\"",
+    "@transfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "filterTransfersTitle": "Filtrar Transferencias",
+    "filterTransfersLabelAnyQubicID": "Cualquier Qubic ID",
+    "filterTransfersLabelByQubicID": "Cualquier Qubic ID",
+    "filterTransfersLabelAnyStatus": "Cualquier Estado",
+    "filterTransfersLabelByStatus": "Por Estado",
+    "filterTransfersLabelByDirection": "Filtrar por Dirección",
+    "filterTransfersFieldHintByDirection": "Por Dirección",
+    "generalLabelAnyDirection": "Cualquier Dirección",
+    "filterTransfersClearFilters": "{filtersCount, plural, =1{Limpiar 1 filtro Activo} other{Limpiar {filtersCount} Filtros Activos}}",
+    "explorerTitle": "Explorador por Época",
+    "explorerLabelEpoch": "Época {currentEpoch}",
+    "@explorerLabelEpoch": {
+        "placeholders": {
+            "currentEpoch": {
+                "type": "int"
+            }
+        }
+    },
+    "explorerHeaderOverview": "Resumen",
+    "explorerHeaderTicks": "Resumen de Ticks",
+    "explorerSubHeaderTicks": "Últimos Ticks",
+    "explorerLabelTotalTicks": "Total de Ticks",
+    "explorerLabelEmptyTicks": "Vacíos",
+    "explorerLabelTickQuality": "Calidad del Tick",
+    "explorerLabelTotalSupply": "Acciones en Circulación",
+    "explorerLabelTotalAddresses": "Direcciones Activas",
+    "explorerButtonRefreshData": "Refrescar Data",
+    "explorerLabelLoadingData": "Cargando la información para esta época",
+    "explorerSearchTitle": "Buscador",
+    "explorerSearchLabelCriteria": "Tick / TX ID / ID Público",
+    "explorerSearchLabelNoResults": "No se encontraron resultados que coincidan",
+    "explorerSearchLabelResults": "{count, plural, =1{Se encontró 1 resultado} other{Se encontraron {count} resultados}}}",
+    "explorerTickResultLabelBlockStatus": "Estado del Tick",
+    "explorerTickResultLabelBlockStatusEmpty": "Vacío",
+    "explorerTickResultLabelBlockStatusNonEmpty": "No Vacío / Ejecutado",
+    "explorerTickResultLabelBlockStatusUnknown": "Desconocido",
+    "explorerTickResultLabelDataStatus": "Estado de los Datos",
+    "explorerTickResultLabelInfoCompleted": "Completado",
+    "explorerTickResultLabelInfoNotValidated": "No Validado",
+    "explorerTickResultLabelTickLeader": "Tick líder - (Código corto / Índice)",
+    "explorerTickResultLabelNoTransactionsFound": "No se encontraron transaccions en este tick",
+    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transacción en el tick} other{{count} transacciones en el tick}}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Mostrando 1 de 1 transacción en el tick} other{Mostrando 1 de {count} transacciones en el tick}}}",
+    "settingsTitle": "Configuraciones",
+    "settingsHeaderAccountsAndData": "Cuentas y datos",
+    "settingsLockWallet": "Bloquear el Wallet",
+    "settingsHeaderSecurity": "Seguridad",
+    "settingsLabelChangePassword": "Cambiar la Contraseña",
+    "settingsLabelExportWalletVaultFile": "Exportar archivo Vault del Wallet",
+    "settingsHeaderAbout": "Acerca de",
+    "settingsLabelJoinCommunity": "Unirse a la Comunidad",
+    "settingsLabelWalletInfo": "Información del Wallet",
+    "generalBiometricTypeFaceID": "Face ID",
+    "generalBiometricTypeTouchID": "Touch ID",
+    "generalBiometricTypeIris": "Iris",
+    "generalBiometricTypeOS": "Sistema",
+    "generalBiometricTypeGeneric": "Datos Biométricos",
+    "settingsLabelManageBiometrics": "Gestionar el Desbloqueo con {biometricTypeLabel}",
+    "@settingsLabelManageBiometrics": {
+        "placeholders": {
+            "biometricTypeLabel": {
+                "type": "String",
+                "example": "Face ID, Touch ID..."
+            }
+        }
+    },
+    "manageBiometricsTitle": "Gestionar el Desbloqueo con {biometricTypeLabel}",
+    "@manageBiometricsTitle": {
+        "placeholders": {
+            "biometricTypeLabel": {
+                "type": "String",
+                "example": "Face ID, Touch ID..."
+            }
+        }
+    },
+    "manageBiometricsSwitchLabel": "Utilizar Desbloqueo con {biometricTypeLabel}",
+    "@manageBiometricsSwitchLabel": {
+        "placeholders": {
+            "biometricTypeLabel": {
+                "type": "String",
+                "example": "Face ID, Touch ID..."
+            }
+        }
+    },
+    "manageBiometricsLabelInstructionsForFaceID": "Puedes habilitar la autenticación con Face ID.",
+    "manageBiometricsLabelInstructionsForTouchID": "Puedes habilitar la autenticación con Touch ID.",
+    "manageBiometricsLabelInstructionsForGeneric": "Puedes habilitar la autenticación con datos biométricos.",
+    "manageBiometricsLabelInstructionsForIris": "Puedes habilitar la autenticación con tu iris.",
+    "manageBiometricsLabelInstructionsForOS": "Puedes habilitar la autenticación con el sistema operativo.",
+    "manageBiometricsLabelAdditionalInstructions": "Si habilitas esto, podrás desbloquear tu Wallet y realizar transferencias sin ingresar tu contraseña.",
+    "manageBiometricsErrorOSAuthNotAvailableTitle": "Autenticación con el sistema no disponible",
+    "manageBiometricsErrorNotAvailableTitle": "Autenticación con Datos Biométricos no disponible",
+    "manageBiometricsErrorOSAuthNotAvailableMessage": "Tu sistema operativo no soporta la autenticación con el sistema",
+    "manageBiometricsErrorNotAvailableMessage": "Tu dispositivo no soporta autenticación con datos biométricos",
+    "manageBiometricsErrorNoOSAuthTitle": "No has registrado información para autenticarse con el sistema",
+    "manageBiometricsErrorNoBiometricDataTitle": "No has registrado datos biométricos en tu dispositivo",
+    "manageBiometricsErrorNoOSAuthMessage": "No has configurado la autenticación en tu sistema operativo. Por favor, navega al panel de control y configura la autenticación.",
+    "manageBiometricsErrorNoBiometricDataMessage": "Tu dispositivo soporta autenticación con datos biómetricos pero no has registrado aún tu información. Por favor, navega a la configuración de tu dispositivo, registra tus datos e inténtalo nuevamente.",
+    "transactionLabelDirectionIncoming": "Entrante",
+    "transactionLabelDirectionOutgoing": "Saliente",
+    "transactionLabelDirectionInWallet": "Entre cuentas del Wallet",
+    "transactionLabelStatusSuccessful": "Ejecutada",
+    "transactionLabelStatusPending": "Pendiente",
+    "transactionLabelStatusConfirmed": "Confirmada",
+    "transactionLabelStatusFailed": "Fallida",
+    "transactionLabelStatusInvalid": "Fallida - Inválido",
+    "signInTitleOne": "Bienvenido a",
+    "siginInTitleTwo": "Qubic Wallet",
+    "welcomeTitle": "Bienvenido de vuelta!",
+    "welcomeButtonUnlockWallet": "Desbloquear Wallet",
+    "welcomeButtonCreateWallet": "Crear un Nuevo Wallet",
+    "accountButtonViewTransfer": "Ver Transferencias",
+    "accountButtonViewInExplorer": "Ver en el Explorador",
+    "accountButtonRevealPrivateSeed": "Revelar Semilla Privada",
+    "accountButtonReceive": "Recibir",
+    "accountButtonSend": "Enviar",
+    "accountButtonAssets": "Activos",
+    "accountSendTitle": "Enviar Fondos",
+    "accountSendLabelDestinationAddress": "Dirección de Destino",
+    "accountSendLabelAmount": "Cantidad",
+    "accountSendButtonMax": "Max",
+    "accountSendButtonMaxMinusOne": "Max - 1",
+    "accountSendSectionAdvanceOptionsTitle": "Opciones Avanzadas",
+    "assetsLabelOwned": "En propiedad",
+    "assetsLabelPossessed": "En posesión",
+    "assetsLabelContractName": "Nombre del Contrato",
+    "assetsLabelContractIndex": "Índice del Contrato",
+    "assetsLabelTick": "Válido para el Tick: {tick}",
+    "@assetsLabelTick": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
+    "assetsLabelCurrentBalance": "Balance en la cuenta: {amount} QUBIC",
+    "@assetsLabelCurrentBalance": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "assetsLabelSmartContractShares": "Acciones de Smart Contract",
+    "assetsButtonSend": "Enviar",
+    "assetsTitle": "Activos",
+    "assetsHeader": "de \"{accountName}\"",
+    "@assetsHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "assetsLabelQXAssets": "Tokens QX Emitidos",
+    "createPasswordSheetHeader": "Por favor, haz una copia segura de tu contraseña",
+    "createPasswordSheetMessage": "Si olvidas tu contraseña, no habrá manera de recuperarla. Por favor, asegúrate de guardar una copia de respaldo de tu contraseña antes de continuar.",
+    "createPasswordSheetCheckboxMessage": "Sí, tengo una copia de seguridad de mi contraseña.",
+    "generalButtonUnlockWithBiometric": "Desbloquear con Datos Biométricos",
+    "generalButtonUnlockWithFaceID": "Desbloquear con Face ID",
+    "generalButtonUnlockWithTouchID": "Desbloquear con Touch ID",
+    "generalButtonUnlockWithIris": "Desbloquear con Iris",
+    "generalButtonUnlockWithOS": "Desbloquear con el sistema operativo",
+    "generalButtonAlternativeUnlock": "Desboqueo Alternativo",
+    "generalErrorPasswordMinLength": "La contraseña debe tener al menos 8 caracteres",
+    "signUpTextFieldHintPassword": "Ingresar contraseña",
+    "generalErrorSetPasswordNotMatching": "Las contraseñas no coinciden",
+    "signUpTextFieldHintRepeatPassword": "Repetir contraseña",
+    "generalErrorContactingQubicNetwork": "Error al contactar a la red de Qubic",
+    "signUpErrorStoringBiometricInfo": "Error al guardar la información biométrica",
+    "signUpStepTwoHeader": "Desbloquar con Datos Biométricos",
+    "signUpStepTwoSubHeader": "Puedes habilitar la autenticación con datos biométricos. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transferencias sin utilizar password.",
+    "signUpStepTwoHeaderForDesktop": "Desbloquar con el OS",
+    "signUpStepTwoSubHeaderForDesktop": "Puedes habilitar la autenticación con el sistema operativo. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transferencias sin utilizar password.",
+    "signUpStepOneHeader": "Crear Nuevo Wallet",
+    "signUpStepOneSubHeader": "Ingresa una contraseña que utilizarás para deesbloquer tu nuevo Wallet",
+    "signUpSwitchLabelBiometricUnlock": "Usar Desbloqueo con Datos Biométricos",
+    "signUpSwitchLabelOSUnlock": "Usar Desbloqueo con el sistema",
+    "joinCommunityLabelDiscord": "Discord",
+    "joinCommunityLabelTelegram": "Telegram",
+    "joinCommunityLabelYouTube": "YouTube",
+    "joinCommunityLabelGitHub": "GitHub",
+    "joinCommunityLabelReddit": "Reddit",
+    "joinCommunityLabelTwitter": "Twitter",
+    "joinCommunityLabelLinkedIn": "LinkedIn",
+    "revealSeedTitle": "Semilla Privada",
+    "revealSeedHeader": "de {accountName}",
+    "@revealSeedHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "revealSeedButtonCopy": "Copiar Semilla Privada",
+    "revealSeedLabelPrivateSeed": "Semilla Privada (mantener en secreto)",
+    "revealSeedWarningSheetHeader": "Antes de continuar:",
+    "revealSeedWarningSheetLabelOne": "Guarda una copia de seguridad de tu semilla privada.",
+    "revealSeedWarningSheetLabelTwo": "No compartas tu semilla privada con nadie.",
+    "revealSeedWarningSheetLabelThree": "No pegues tu semilla privada en aplicaciones o sitios web de origen desconocido.",
+    "revealSeedWarningSheetCheckboxLabel": "Entiendo todo lo indicado arriba",
+    "revealSeedButtonShow": "Mostrar Semilla Privada",
+    "authenticateButtonWithBiometrics": "Autenticarte con Datos Biométricos",
+    "authenticateButtonWithWithFaceID": "Autenticarte con Face ID",
+    "authenticateButtonWithTouchID": "Autenticarte con Touch ID",
+    "authenticateButtonWithIris": "Autenticarte con Iris",
+    "authenticateButtonWithOS": "Autenticarte con el sistema",
+    "authenticateButtonAlternative": "Autenticación Alternativa",
+    "authenticateButtonAuthenticate": "Authenticarse",
+    "authenticateErrorInvalidPassword": "La contraseña es inválida.",
+    "authenticateErrorGeneral": "Ocurrió un error al intentar autenticarte. Por favor, intenta nuevamente.",
+    "authenticateErrorTooManyAttempts": "Demasiados intentos fallidos de autenticación. Por favor, bloquea y desbloquea tu teléfono mediante tu PIN/patrón e intenta nuevamente.",
+    "eraseDataSheetHeader": "¿Estás seguro que quieres eliminar tu Wallet?",
+    "eraseDataSheetLabelOne": "Esta acción no se puede revertir. Todas tus cuentas serán eliminadas del dispositivo.",
+    "eraseDataSheetLabelTwo": "Sólo podrás recuperar tus cuentas si tienes una copia de respaldo de tus semillas públicas.",
+    "eraseDataSheetCheckboxLabel": "Sí, eliminar mi Wallet.",
+    "accountExplorerTitle": "Dirección Qubic",
+    "accountExplorerLabelCurrentValue": "Valor Actual",
+    "accountExplorerLabelValueReportedBy": "Valor reportado por {ip}",
+    "@accountExplorerLabelValueReportedBy": {
+        "placeholders": {
+            "ip": {
+                "type": "String"
+            }
+        }
+    },
+    "accountExplorerLabelTotalIncoming": "Total Entrante",
+    "accountExplorerLabelTotalOutgoing": "Total Saliente",
+    "accountExplorerLabelReportedBy": "Reportado por",
+    "accountExplorerLabelNoResultsFound": "No se encontraron transacciones para esta dirección en esta época.",
+    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transacción en esta época} other{{count} transacciones en esta época}}}",
+    "transactionItemLabelIncludedByTickLeader": "Incluído por el Tick Líder",
+    "transactionItemLabelNotIncludedByTickLeader": "No incluído por el Tick Líder",
+    "transactionItemLabelTransactionId": "ID de la Transacción",
+    "transactionItemLabelTransactionDigest": "Síntesis de la Transacción",
+    "generalLabelTickAndValue": "Tick {tick}",
+    "@generalLabelTickAndValue": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
+    "transactionItemLabelIncludedByQubickNetwork": "Incluído en la red Qubic",
+    "transactionItemLabelNotIncludedByQubicNetwork": "No incluído en la red Qubic",
+    "transactionItemButtonViewInExplorer": "Ver en el Explorador",
+    "transactionItemButtonCopyToClipboard": "Copiar al Portapapeles",
+    "transactionItemButtonViewDetails": "Ver Detalles",
+    "transactionItemButtonResend": "Reenviar",
+    "transactionItemLabelLeadToMoneyFlow": "Conduce a un Flujo de Dinero",
+    "transactionItemLabelCreatedDate": "Fecha de Creación",
+    "transactionItemLabelBroadcastedDate": "Fecha de Transmisión",
+    "transactionItemLabelConfirmedDate": "Fecha de Confirmación",
+    "transactionItemLabelDetails": "Detalles de la Transferencia",
+    "sendItemLabelTargetTick": "Tick de Ejecución",
+    "sendItemLabelTargetTickAutomatic": "Automáticamente: Actual + {addingTicks}",
+    "@sendItemLabelTargetTickAutomatic": {
+        "placeholders": {
+            "addingTicks": {
+                "type": "int"
+            }
+        }
+    },
+    "sendItemLabelTargetTickManual": "Sobreescribir manualmente",
+    "sendItemLabelDetermineTargetTick": "Determinar el Target de Ejecución",
+    "sendItemDialogErrorGeneralTitle": "Error al generar la transacción",
+    "sendItemDialogResendTitle": "¿Deseas reenviar la transacción fallida?",
+    "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (actual {formattedCurrentTick})",
+    "@sendItemLabelResendTargetTickValue": {
+        "placeholders": {
+            "formattedTargetTick": {
+                "type": "String"
+            },
+            "formattedCurrentTick": {
+                "type": "String"
+            }
+        }
+    },
+    "addAccountErrorNameAlreadyInUse": "El nombre ya está en uso",
+    "addAccountErrorPublicIDAlreadyInUse": "El ID público ya está en uso",
+    "addAccountDialogTitleMaxNumberOfAccountsReached": "Máximo número de cuentas alcanzado",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "Puedes tener solamente 15 cuentas en tu Wallet. Si necesitas agregar otra, por favor elimina una de las existentes.",
+    "addAccountButtonCreateRandom": "Crear Aleatoriamente",
+    "addAccountLabelPrivateSeed": "Semilla Privada",
+    "addAccountLabelAccountName": "Nombre de la Cuenta",
+    "addAccountHintAccountName": "Ingresar un nombre",
+    "addAccountTooltipAccountName": "Al asignar un nombre a tu cuenta, podrás identificar tus semillas privadas en el Wallet. El nombre será guardado sólo localmente en tu dispositivo y podrás cambiarlo en cualquier momento.",
+    "addAccountTooltipPrivateSeed": "Una semilla privada está compuesta de 55 letras minúsculas y se utiliza para generar tu dirección pública Qubic. Te recomendamos generarla de manera aleatoria. Guarda tu semilla privada siempre en secreto y no la compartas con nadie.",
+    "addAccountHeader": "Agregar Nueva Cuenta",
+    "addAccountHeaderScanQRCodeInstructions": "Por favor, apunta la cámara al código QR que contiene la semilla privada.",
+    "addAccountHintPrivateSeed": "Mantén la semilla privada en secreto",
+    "addAccountHeaderKeepPrivateSeedSecret": "Por favor, guarda una copia de seguridad de tu semilla privada en un lugar seguro. Manténlo en secreto y nunca lo compartas con nadie. Tener el acceso a tu semilla privada significa tener acceso a tus fondos.",
+    "addAccountHintAddressNoPrivateSeed": "No se ha indicado la semilla privada",
+    "addAccountHintAddressInvalidPrivateSeed": "La semilla privada es inválida",
+    "addAccountErrorTamperedWalletTitle": "MANIPULACIÓN DEL WALLET DETECTADA",
+    "addAccountErrorTamperedWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP PARA NO ARRIESGARTE A PERDER TUS FONDOS",
+    "sendAssetLabelNumberOfShares": "Cantidad de Acciones",
+    "sendAssetLabelTransactionCost": "Costo de la Transacción (fijo)",
+    "sendAssetButtonTransfer": "Transferir",
+    "sendAssetErrorTickIsInThePast": "El tick seleccionado es pasado. El tick actual es {currentTick}",
+    "@sendAssetErrorTickIsInThePast": {
+        "placeholders": {
+            "currentTick": {
+                "type": "int"
+            }
+        }
+    },
+    "addAccountWarningSheetHeader": "Antes de continuar:",
+    "addAccountWarningSheetLabelOne": "Guarda una copia de seguridad de tu semilla privada.",
+    "addAccountWarningSheetLabelTwo": "No compartas tu semilla privada con nadie.",
+    "addAccountWarningSheetLabelThree": "No pegues tu semilla privada en aplicaciones o sitios web de origen desconocido",
+    "addAccountWarningSheetCheckboxLabel": "Entiendo lo indicado arriba",
+    "deleteAccountDialogTitle": "Eliminar Cuenta",
+    "deleteAccountDialogMessage": "¿Estás seguro que quieres eliminar esta cuenta de tu Wallet? (Los fondos asociados no serán removidos)\n\n!ASEGÚRATE DE TENER UNA COPIA DE RESPALDO DE TU SEMILLA PRIVADA ANTES DE ELIMINAR ESTA CUENTA!",
+    "deleteAccountDialogButtonDelete": "Eliminar Cuenta",
+    "renameAccountDialogTitle": "Renombrar Cuenta",
+    "renameAccountLabelName": "Nombre",
+    "renameAccountDialogHintName": "Nuevo nombre",
+    "reauthenticateTitle": "Autenticación Requerida",
+    "reauthenticateHeader": "Por favor, reautentícate",
+    "reathenticateLabelReason": "Por favor, autentícate para poder continuar.",
+    "reathenticateWithPasswordLabelReason": "Por favor, autentícate para poder continuar. La contraseña será utilizada para encriptar el Vault Wallet.",
+    "receiveTitle": "Recibir Fondos y Activos",
+    "receiveHeader": "en \"{accountName}\"",
+    "@receiveHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "receiveLabelAddress": "Dirección Qubic",
+    "changePasswordHeader": "Cambiar Contraseña",
+    "changePasswordErrorPasswordDontMatch": "Las contraseñas no coinciden",
+    "changePasswordFieldHintNewPassword": "Nueva contraseña",
+    "changePasswordFieldHintRepeatPassword": "Repetir la nueva contraseña",
+    "changePasswordButtonSave": "Guardar Contraseña",
+    "changePasswordSnackbarPasswordChanged": "Contraseña modificada con éxito",
+    "changePasswordDialogSaveErrorTitle": "Error",
+    "changePasswordDialogSaveErrorMessage": "Hubo un fallo al guardar la nueva contraseña",
+    "changePasswordLabelInstructions": "Utilizarás tu contraseña para acceder a tu Wallet. Elije una contraseña segura que puedas recordar. No hay manera de resetear tu password si lo olvidas",
+    "toggleableQRCodeButtonShow": "Mostrar Código QR",
+    "toggleableQRCodeButtonHide": "Ocultar Código QR",
+    "sendItemLabelQRScannerInstructions": "Por favor, apunta la cámara al código QR Qubic.\n(Los códigos QR generados en wallet.qubic.org son también compatibles)",
+    "sendItemButtonSetCurrentTick": "Tick Actual ({currentTickFormatted})",
+    "@sendItemButtonSetCurrentTick": {
+        "placeholders": {
+            "currentTickFormatted": {
+                "type": "String"
+            }
+        }
+    },
+    "sendItemLabelSelectSenderAddressLineOne": "Selecciona una Dirección",
+    "sendItemLabelSelectSenderAddressLineTwo": "de tu Wallet",
+    "sendItemLabelCurrentTick": "(Tick Actual: {currentTickFormatted})",
+    "@sendItemLabelCurrentTick": {
+        "placeholders": {
+            "currentTickFormatted": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletVaultTitle": "Exportar el archivo Vault",
+    "exportWalletVaultLabelInstructions": "Exporta los contenidos de tu Wallet en un archivo Vault encriptado como una copia  de respaldo. Puedes importar este archivo en la Wallet Web y desbloquearlo con la contraseña asignada. Mantén siempre este archivo en un lugar seguro.",
+    "exportWalletVaultButtonExport": "Exportar",
+    "exportWalletVaultDialogTitleSelectPath": "Por favor, selecciona la ruta donde guardar el archivo Vault",
+    "exportWalletVaultLabelSelectFilePathInstructions": "Selecciona la ubicación donde guardar tu archivo Vault",
+    "exportWalletVaultTextFieldHintPassword": "Contraseña del archivo Vault",
+    "exportWalletVaultErrorEmptyPassword": "Por favor, ingresa una contraseña",
+    "exportWalletVaultErrorPasswordMinLength": "La contraseña del archivo Vault debe tener al menos {minLength} letras",
+    "@exportWalletVaultErrorPasswordMinLength": {
+        "placeholders": {
+            "minLength": {
+                "type": "int"
+            }
+        }
+    },
+    "exportWalletVaultTextFieldHintRepeatPassword": "Repite la contraseña para el archivo Vault",
+    "exportWalletVaultErrorEmptyRepeatPassword": "Por favor, ingresa la contraseña del archivo Vault nuevamente",
+    "exportWalletVaultSnackbarSuccessMessage": "Se exportó el archivo Vault con éxito",
+    "exportWalletVaultSnackbarSuccessMessageWithPath": "Se exportó el archivo Vault con éxito en la ubicación {filePath}",
+    "@exportWalletVaultSnackbarSuccessMessageWithPath": {
+        "placeholders": {
+            "filePath": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletDialogTitleOverwriteFile": "Sobreescribir archivo",
+    "exportWalletDialogMessageOverwriteFile": "El archivo ya existe. ¿Deseas sobreescribirlo?",
+    "exportWalletDialogTitleErrorWhileSaving": "Ocurrió un error al guardar el archivo Vault",
+    "transfersListLabelReceiveIn": "Recibir en",
+    "transfersListLabelSharePublicIdInstructionsOne": "Por favor, comparte el siguiente ID Público con el remitente:",
+    "transfersListLabelSharePublicIdInstructionsTwo": "O muéstrale el siguiente código QR",
+    "transferAssetHeaderForShares": "Transferir {assetName} acciones",
+    "@transferAssetHeaderForShares": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetHeaderForTokens": "Transferir {assetName} tokens",
+    "@transferAssetHeaderForTokens": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetSubHeader": "desde \"{accountName}\"",
+    "@transferAssetSubHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetLabelOwnedShares": "{assetName} acciones en propiedad del ID: {formattedAmount}",
+    "@transferAssetLabelOwnedShares": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            },
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetLabelOwnedTokens": "{assetName} tokens en propiedad del ID: {formattedAmount}",
+    "@transferAssetLabelOwnedTokens": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            },
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "generalAllTransactionDetails": "ID: {trxId}\nOrigen: {sourceId}\nDestino: {destId}\nMonto: {amount}\nStatus: {status}\nCreado: {created}\nAlmacenado: {stored}\nPreparado: {staged}\nTransmitido: {broadcasted}\nConfirmado: {confirmed}\nStatus actualizado: {statusUpdate}\nTick de Ejecución: {targetTick}\n¿Está pendiente?: {isPending}\nPrecio: {price} \nCantidad: {quantity}\nFlujo de dinero: {moneyFlow}",
+    "@generalAllTransactionDetails": {
+        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
+        "placeholders": {
+            "trxId": {
+                "type": "String"
+            },
+            "sourceId": {
+                "type": "String"
+            },
+            "destId": {
+                "type": "String"
+            },
+            "amount": {
+                "type": "String"
+            },
+            "status": {
+                "type": "String"
+            },
+            "created": {
+                "type": "String"
+            },
+            "stored": {
+                "type": "String"
+            },
+            "staged": {
+                "type": "String"
+            },
+            "broadcasted": {
+                "type": "String"
+            },
+            "confirmed": {
+                "type": "String"
+            },
+            "statusUpdate": {
+                "type": "String"
+            },
+            "targetTick": {
+                "type": "String"
+            },
+            "isPending": {
+                "type": "String"
+            },
+            "price": {
+                "type": "String"
+            },
+            "quantity": {
+                "type": "String"
+            },
+            "moneyFlow": {
+                "type": "String"
+            }
+        }
+    },
+    "welcomeButtonImportExistingWallet": "Importar un Wallet Existente",
+    "importWalletTitle": "Importar Wallet",
+    "importWalletSubHeader": "Selecciona como quieres importar tu Wallet",
+    "importWalletLabelFromVaultFile": "Importar el archivo Vault",
+    "importWalletLabelFromVaultFileDescription": "Importar un Wallet existente con múltiples cuentas a través de un archivo Vault.",
+    "importWalletLabelFromPrivateSeed": "Importar la semilla privada",
+    "importWalletLabelFromPrivateSeedDescription": "Importar una cuenta existente ingresando las 55 letras de su semilla privada.",
+    "generalLabelSelectFilePath": "Selecciona la ruta del archivo",
+    "importVaultSubHeader": "Selecciona un archivo con extensión .qubic-vault",
+    "importVaultLabelEnterPassword": "Ingresa la contraseña del Vault",
+    "importVaultFileLabelSelectPathInstructions": "Navega en tu dispositivo para seleccionar el archivo Vault a importar.",
+    "importPrivateSeedSubHeader": "Ingresa la semilla de 55 letras que guardaste al crear tu cuenta.",
+    "generalSnackBarMessageWalletImportedSuccessfully": "Se importó el Wallet con éxito",
+    "addAccountErrorTamperedAndroidWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DE GOOGLE PLAY STORE PARA NO ARRIESGARTE A PERDER TUS FONDOS",
+    "addAccountErrorTamperediOSWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DEL APP STORE PARA NO ARRIESGARTE A PERDER TUS FONDOS",
+    "generalLabelSelectFile": "Select el archivo"
+}

@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mobx/mobx.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qubic_wallet/components/asset_item.dart';
-import 'package:qubic_wallet/components/copyable_text.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/transfer_asset.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edgeInsets.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:share_plus/share_plus.dart';
 
 class Assets extends StatefulWidget {
   final String PublicId;
@@ -56,6 +50,8 @@ class _AssetsState extends State<Assets> {
   }
 
   Widget getQXAssets() {
+    final l10n = l10nOf(context);
+
     List<QubicAssetDto> qxAssets = accountItem.assets.values
         .where(
             (element) => QubicAssetDto.isSmartContractShare(element) == false)
@@ -65,13 +61,16 @@ class _AssetsState extends State<Assets> {
     }
 
     List<Widget> output = [];
-    output.add(Text("QX Issued Tokens", style: TextStyles.sliverCardPreLabel));
+    output.add(
+        Text(l10n.assetsLabelQXAssets, style: TextStyles.sliverCardPreLabel));
     qxAssets.forEach((element) => output.add(getAssetEntry(element)));
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: output);
   }
 
   Widget getSCAssets() {
+    final l10n = l10nOf(context);
+
     List<QubicAssetDto> scAssets = accountItem.assets.values
         .where((element) => QubicAssetDto.isSmartContractShare(element))
         .toList();
@@ -81,8 +80,8 @@ class _AssetsState extends State<Assets> {
 
     List<Widget> output = [];
 
-    output.add(
-        Text("Smart Contract Shares", style: TextStyles.sliverCardPreLabel));
+    output.add(Text(l10n.assetsLabelSmartContractShares,
+        style: TextStyles.sliverCardPreLabel));
     scAssets.forEach((element) => output.add(getAssetEntry(element)));
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: output);
@@ -93,6 +92,8 @@ class _AssetsState extends State<Assets> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
+
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -102,8 +103,8 @@ class _AssetsState extends State<Assets> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Assets",
-                  subheaderText: "of \"${accountItem.name}\""),
+                  headerText: l10n.assetsTitle,
+                  subheaderText: l10n.assetsHeader(accountItem.name)),
               Column(
                 children: [
                   getSCAssets(),
@@ -118,18 +119,20 @@ class _AssetsState extends State<Assets> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
+
     return [
       FilledButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text(
-            "CLOSE",
-          ))
+          child: Text(l10n.generalButtonClose))
     ];
   }
 
   void saveIdHandler() async {
+    final l10n = l10nOf(context);
+
     _formKey.currentState?.validate();
     if (!_formKey.currentState!.isValid) {
       return;
@@ -141,7 +144,7 @@ class _AssetsState extends State<Assets> {
         .where(((element) =>
             element.publicId == generatedPublicId!.replaceAll(",", "_")))
         .isNotEmpty) {
-      _globalSnackBar.show("This account already exists in your wallet");
+      _globalSnackBar.show(l10n.generalSnackBarMessageAccountAlreadyExist);
 
       return;
     }

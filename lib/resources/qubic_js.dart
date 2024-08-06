@@ -109,10 +109,10 @@ class QubicJs {
         await controller!.callAsyncJavaScript(functionBody: functionBody);
 
     if (result == null) {
-      throw Exception("Error trying to create transcation");
+      throw Exception("Error trying to create transavtion");
     }
     if (result.error != null) {
-      throw Exception("Error trying to create transcation: ${result.error}");
+      throw Exception("Error trying to create transaction: ${result.error}");
     }
     return result.value['transaction'];
   }

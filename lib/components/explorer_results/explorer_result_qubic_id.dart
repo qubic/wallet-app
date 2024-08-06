@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
 
 // ignore: unused_import
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
-import 'package:qubic_wallet/components/radiant_gradient_mask.dart';
-import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-
-import '../../stores/application_store.dart';
 
 class ExplorerResultQubicId extends StatelessWidget {
   final ExplorerQueryDto item;
@@ -29,6 +24,8 @@ class ExplorerResultQubicId extends StatelessWidget {
   }
 
   Widget getCardButtons(BuildContext context, ExplorerQueryDto info) {
+    final l10n = l10nOf(context);
+
     return Row(children: [
       ThemedControls.primaryButtonNormal(
           onPressed: () {
@@ -41,22 +38,26 @@ class ExplorerResultQubicId extends StatelessWidget {
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );
           },
-          text: "View details")
+          text: l10n.transactionItemButtonViewDetails)
     ]);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return ThemedControls.card(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(children: [
-        GradientForeground(child: Icon(Icons.computer_outlined)),
+        GradientForeground(child: const Icon(Icons.computer_outlined)),
         Text(
-            " Qubic Address ${walletAccountName != null ? "($walletAccountName)" : ""}",
+            walletAccountName != null
+                ? l10n
+                    .generalLabelQubicAddressWithAccountName(walletAccountName!)
+                : " ${l10n.generalLabeQubicAddress}",
             style: TextStyles.labelText),
       ]),
       ThemedControls.spacerVerticalNormal(),
-      //Text("$lastSearchQuery}"),
       Text(item.id),
       ThemedControls.spacerVerticalNormal(),
       getCardButtons(context, item)

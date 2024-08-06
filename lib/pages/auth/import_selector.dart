@@ -1,37 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:go_router/go_router.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qubic_wallet/components/copyable_text.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
-import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
-import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
-import 'package:qubic_wallet/models/qubic_list_vm.dart';
-import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/auth/import_private_seed.dart';
 import 'package:qubic_wallet/pages/auth/import_vault_file.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:settings_ui/settings_ui.dart';
-import 'package:share_plus/share_plus.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 class ImportSelector extends StatefulWidget {
   const ImportSelector({super.key});
@@ -47,8 +25,6 @@ class _ImportSelectorState extends State<ImportSelector> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   bool obscuringTextPass = true; //Hide password text
   bool obscuringTextPassRepeat = true; //Hide password repeat text
-  final _formKey = GlobalKey<FormBuilderState>();
-  final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
 
   int? selectedImportType =
       0; //0 = no option, 1 vault file, 2 seed, null = no option
@@ -98,6 +74,8 @@ class _ImportSelectorState extends State<ImportSelector> {
 
   //Gets the container scroll view
   Widget getScrollView() {
+    final l10n = l10nOf(context);
+
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -106,9 +84,8 @@ class _ImportSelectorState extends State<ImportSelector> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Import wallet", subheaderText: ""),
-              Text("Choose how you want to import your existing wallet",
-                  style: TextStyles.secondaryText),
+                  headerText: l10n.importWalletTitle, subheaderText: ""),
+              Text(l10n.importWalletSubHeader, style: TextStyles.secondaryText),
               ThemedControls.spacerVerticalHuge(),
               getSelectionButton(() {
                 pushScreen(
@@ -119,8 +96,8 @@ class _ImportSelectorState extends State<ImportSelector> {
                 );
               },
                   "assets/images/import-vault-file.png",
-                  "Import vault file",
-                  "Import an existing wallet with multiple accounts through a vault file.",
+                  l10n.importWalletLabelFromVaultFile,
+                  l10n.importWalletLabelFromVaultFileDescription,
                   false),
               ThemedControls.spacerVerticalNormal(),
               getSelectionButton(() {
@@ -132,8 +109,8 @@ class _ImportSelectorState extends State<ImportSelector> {
                 );
               },
                   "assets/images/import-private-seed.png",
-                  "Enter private seed",
-                  "Import an existing account by entering 55 character seed phraze.",
+                  l10n.importWalletLabelFromPrivateSeed,
+                  l10n.importWalletLabelFromPrivateSeedDescription,
                   false),
             ],
           ))

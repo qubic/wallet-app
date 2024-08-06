@@ -5,13 +5,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
@@ -26,6 +24,7 @@ import 'package:qubic_wallet/styles/inputDecorations.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum TargetTickType {
   autoCurrentPlus20,
@@ -33,6 +32,10 @@ enum TargetTickType {
   autoCurrentPlus60,
   manual
 }
+
+const int autoCurrentPlus20Value = 20;
+const int autoCurrentPlus40Value = 40;
+const int autoCurrentPlus60Value = 60;
 
 class Send extends StatefulWidget {
   final QubicListVm item;
@@ -60,25 +63,38 @@ class _SendState extends State<Send> {
   );
 
   bool expanded = false;
-  List<DropdownMenuItem<TargetTickType>> tickList = [
-    const DropdownMenuItem(
-        value: TargetTickType.autoCurrentPlus20,
-        child: Text("Automatically: Current + 20")),
-    const DropdownMenuItem(
-        value: TargetTickType.autoCurrentPlus40,
-        child: Text("Automatically: Current + 40")),
-    const DropdownMenuItem(
-        value: TargetTickType.autoCurrentPlus60,
-        child: Text("Automatically: Current + 60")),
-    const DropdownMenuItem(
-        value: TargetTickType.manual, child: Text("Manual override"))
-  ];
 
-  final CurrencyInputFormatter inputFormatter = CurrencyInputFormatter(
-      trailingSymbol: "QUBIC",
-      useSymbolPadding: true,
-      thousandSeparator: ThousandSeparator.Comma,
-      mantissaLength: 0);
+  List<DropdownMenuItem<TargetTickType>> getTickList() {
+    final l10n = l10nOf(context);
+
+    return [
+      DropdownMenuItem(
+          value: TargetTickType.autoCurrentPlus20,
+          child: Text(
+              l10n.sendItemLabelTargetTickAutomatic(autoCurrentPlus20Value))),
+      DropdownMenuItem(
+          value: TargetTickType.autoCurrentPlus40,
+          child: Text(
+              l10n.sendItemLabelTargetTickAutomatic(autoCurrentPlus40Value))),
+      DropdownMenuItem(
+          value: TargetTickType.autoCurrentPlus60,
+          child: Text(
+              l10n.sendItemLabelTargetTickAutomatic(autoCurrentPlus60Value))),
+      DropdownMenuItem(
+          value: TargetTickType.manual,
+          child: Text(l10n.sendItemLabelTargetTickManual))
+    ];
+  }
+
+  CurrencyInputFormatter getInputFormatter() {
+    final l10n = l10nOf(context);
+
+    return CurrencyInputFormatter(
+        trailingSymbol: l10n.generalLabelCurrencyQubic,
+        useSymbolPadding: true,
+        thousandSeparator: ThousandSeparator.Comma,
+        mantissaLength: 0);
+  }
 
   String? generatedPublicId;
   late List<QubicListVm> knownQubicIDs;
@@ -97,16 +113,19 @@ class _SendState extends State<Send> {
   }
 
   int getQubicAmount() {
+    final l10n = l10nOf(context);
+
     return int.parse(amount.text
         .replaceAll(",", "")
         .replaceAll(" ", "")
-        .replaceAll("QUBIC", ""));
+        .replaceAll(l10n.generalLabelCurrencyQubic, ""));
   }
 
   showAlertDialog(BuildContext context, String title, String message) {
+    final l10n = l10nOf(context);
     // set up the button
     Widget okButton = TextButton(
-      child: const Text("OK"),
+      child: Text(l10n.generalButtonOK),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -131,10 +150,14 @@ class _SendState extends State<Send> {
   }
 
   void showQRScanner() {
+    final l10n = l10nOf(context);
+
     showModalBottomSheet<void>(
         context: context,
         useSafeArea: true,
         builder: (BuildContext context) {
+          final l10n = l10nOf(context);
+
           return Stack(children: [
             MobileScanner(
               // fit: BoxFit.contain,
@@ -152,7 +175,8 @@ class _SendState extends State<Send> {
                     var value = destinationID.text;
                     value = barcode.rawValue!
                         .replaceAll("https://wallet.qubic.li/payment/", "");
-                    var validator = CustomFormFieldValidators.isPublicID();
+                    var validator =
+                        CustomFormFieldValidators.isPublicID(context: context);
                     if (validator(value) == null) {
                       if (foundSuccess == true) {
                         break;
@@ -164,7 +188,8 @@ class _SendState extends State<Send> {
                 }
                 if (foundSuccess) {
                   Navigator.pop(context);
-                  _globalSnackBar.show("Successfully scanned QR Code");
+                  _globalSnackBar
+                      .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
                 }
               },
             ),
@@ -176,9 +201,8 @@ class _SendState extends State<Send> {
                     child: Padding(
                         padding:
                             const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(
-                            "Please point the camera to a Qubic QR Code \n(QR Codes generated by wallet.qubic.li are also compatible)",
-                            style: TextStyle(
+                        child: Text(l10n.sendItemLabelQRScannerInstructions,
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -191,6 +215,8 @@ class _SendState extends State<Send> {
 
   //Shows the bottom sheet allowing to select a Public ID from the wallet
   void showPickerBottomSheet() {
+    final l10n = l10nOf(context);
+
     showModalBottomSheet<void>(
         context: context,
         useSafeArea: true,
@@ -215,8 +241,10 @@ class _SendState extends State<Send> {
                           ThemePaddings.bigPadding,
                           0),
                       child: ThemedControls.pageHeader(
-                          headerText: "Select address",
-                          subheaderText: "from your wallet accounts")),
+                          headerText:
+                              l10n.sendItemLabelSelectSenderAddressLineOne,
+                          subheaderText:
+                              l10n.sendItemLabelSelectSenderAddressLineTwo)),
                   Expanded(
                     child: ListView.separated(
                         itemCount: knownQubicIDs.length,
@@ -276,16 +304,22 @@ class _SendState extends State<Send> {
   }
 
   List<Widget> getOverrideTick() {
+    final l10n = l10nOf(context);
+
     if ((targetTickType == TargetTickType.manual) && (expanded == true)) {
       return [
         ThemedControls.spacerVerticalSmall(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Expanded(child: Text("Tick", style: TextStyles.labelTextNormal)),
+            Expanded(
+                child: Text(l10n.generalLabelTick,
+                    style: TextStyles.labelTextNormal)),
             ThemedControls.transparentButtonBigWithChild(
                 child: Observer(builder: (context) {
-              return Text("Current (${appStore.currentTick.asThousands()})",
+              return Text(
+                  l10n.sendItemButtonSetCurrentTick(
+                      appStore.currentTick.asThousands()),
                   style: TextStyles.transparentButtonText);
             }), onPressed: () {
               if (widget.item.amount == null) {
@@ -299,13 +333,14 @@ class _SendState extends State<Send> {
         ),
         FormBuilderTextField(
           decoration: ThemeInputDecorations.normalInputbox,
-          name: "Tick",
+          name: l10n.generalLabelTick,
           readOnly: isLoading,
           controller: tickController,
           enableSuggestions: false,
           keyboardType: TextInputType.number,
           validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(),
+            FormBuilderValidators.required(
+                errorText: l10n.generalErrorRequiredField),
             FormBuilderValidators.numeric(),
           ]),
           maxLines: 1,
@@ -318,6 +353,7 @@ class _SendState extends State<Send> {
   }
 
   Widget getAutoTick() {
+    final l10n = l10nOf(context);
     if (targetTickType != TargetTickType.manual) {
       return Column(
           mainAxisSize: MainAxisSize.max,
@@ -325,7 +361,8 @@ class _SendState extends State<Send> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             ThemedControls.spacerVerticalNormal(),
-            Text("Target tick", style: TextStyles.labelTextNormal),
+            Text(l10n.sendItemLabelTargetTick,
+                style: TextStyles.labelTextNormal),
             ThemedControls.spacerVerticalMini(),
             ThemedControls.inputboxlikeLabel(
                 child: Observer(builder: (context) {
@@ -353,7 +390,7 @@ class _SendState extends State<Send> {
                             style: TextStyles.inputBoxNormalStyle),
                         TextSpan(
                             text:
-                                " (current tick: ${frozenCurrentTick?.asThousands() ?? appStore.currentTick.asThousands()})",
+                                " ${l10n.sendItemLabelCurrentTick(frozenCurrentTick?.asThousands() ?? appStore.currentTick.asThousands())}",
                             style: TextStyles.inputBoxSmallStyle)
                       ]))));
             }))
@@ -363,12 +400,15 @@ class _SendState extends State<Send> {
   }
 
   Widget getAdvancedOptions() {
+    final l10n = l10nOf(context);
+
     return Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Determine target tick", style: TextStyles.labelTextNormal),
+          Text(l10n.sendItemLabelDetermineTargetTick,
+              style: TextStyles.labelTextNormal),
           ThemedControls.spacerVerticalMini(),
           Theme(
               data: Theme.of(context).copyWith(
@@ -379,7 +419,7 @@ class _SendState extends State<Send> {
                     textStyle: TextStyles.inputBoxNormalStyle,
                   )),
               child: ThemedControls.dropdown<TargetTickType>(
-                items: tickList,
+                items: getTickList(),
                 onChanged: (TargetTickType? value) {
                   setState(() {
                     targetTickType = value!;
@@ -392,7 +432,8 @@ class _SendState extends State<Send> {
         ]);
   }
 
-  Widget getScrollView() {
+  Widget getScrollView(BuildContext context) {
+    final l10n = l10nOf(context);
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -402,10 +443,11 @@ class _SendState extends State<Send> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Send Funds",
+                  headerText: l10n.accountSendTitle,
                   subheaderText: "from \"${widget.item.name}\""),
               ThemedControls.spacerVerticalSmall(),
-              Text("Destination Address", style: TextStyles.labelTextNormal),
+              Text(l10n.accountSendLabelDestinationAddress,
+                  style: TextStyles.labelTextNormal),
               ThemedControls.spacerVerticalMini(),
               FormBuilder(
                   key: _formKey,
@@ -422,8 +464,10 @@ class _SendState extends State<Send> {
                               onSubmitted: (value) => transferNowHandler(),
                               keyboardType: TextInputType.visiblePassword,
                               validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(),
-                                CustomFormFieldValidators.isPublicID(),
+                                FormBuilderValidators.required(
+                                    errorText: l10n.generalErrorRequiredField),
+                                CustomFormFieldValidators.isPublicID(
+                                    context: context),
                               ]),
                               maxLines: 2,
                               style: TextStyles.inputBoxSmallStyle,
@@ -468,7 +512,7 @@ class _SendState extends State<Send> {
                                 onPressed: () {
                                   showQRScanner();
                                 },
-                                text: "Use QR Code",
+                                text: l10n.generalButtonUseQRCode,
                                 icon: !LightThemeColors.shouldInvertIcon
                                     ? ThemedControls.invertedColors(
                                         child: Image.asset(
@@ -480,17 +524,17 @@ class _SendState extends State<Send> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Expanded(
-                              child: Text("Amount",
+                              child: Text(l10n.accountSendLabelAmount,
                                   style: TextStyles.labelTextNormal)),
                           ThemedControls.transparentButtonSmall(
-                              text: "Max",
+                              text: l10n.accountSendButtonMax,
                               onPressed: () {
                                 if (widget.item.amount == null) {
                                   return;
                                 }
                                 if (widget.item.amount! > 0) {
-                                  amount.value =
-                                      inputFormatter.formatEditUpdate(
+                                  amount.value = getInputFormatter()
+                                      .formatEditUpdate(
                                           const TextEditingValue(text: ''),
                                           TextEditingValue(
                                               text: (widget.item.amount)
@@ -500,14 +544,14 @@ class _SendState extends State<Send> {
                           (widget.item.amount != null &&
                                   widget.item.amount! > 1)
                               ? ThemedControls.transparentButtonSmall(
-                                  text: "Max - 1",
+                                  text: l10n.accountSendButtonMaxMinusOne,
                                   onPressed: () {
                                     if (widget.item.amount == null) {
                                       return;
                                     }
                                     if (widget.item.amount! > 1) {
-                                      amount.value =
-                                          inputFormatter.formatEditUpdate(
+                                      amount.value = getInputFormatter()
+                                          .formatEditUpdate(
                                               const TextEditingValue(text: ''),
                                               TextEditingValue(
                                                   text:
@@ -522,18 +566,19 @@ class _SendState extends State<Send> {
                         //decoration: const InputDecoration(labelText: 'Amount'),
                         decoration: ThemeInputDecorations.normalInputbox
                             .copyWith(hintMaxLines: 1),
-                        name: "Amount",
+                        name: l10n.accountSendLabelAmount,
                         readOnly: isLoading,
                         controller: amount,
                         enableSuggestions: false,
                         textAlign: TextAlign.start,
                         onSubmitted: (value) => transferNowHandler(),
                         validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
+                          FormBuilderValidators.required(
+                              errorText: l10n.generalErrorRequiredField),
                           CustomFormFieldValidators.isLessThanParsed(
-                              lessThan: widget.item.amount!),
+                              lessThan: widget.item.amount!, context: context),
                         ]),
-                        inputFormatters: [inputFormatter],
+                        inputFormatters: [getInputFormatter()],
                         maxLines: 1,
                         autocorrect: false,
                         autofillHints: null,
@@ -544,7 +589,8 @@ class _SendState extends State<Send> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                                "Balance in ID: ${formatter.format(widget.item.amount)} QUBIC",
+                                l10n.assetsLabelCurrentBalance(
+                                    formatter.format(widget.item.amount)),
                                 style: TextStyles.secondaryText),
                           ]),
                       const SizedBox(height: ThemePaddings.bigPadding),
@@ -570,7 +616,8 @@ class _SendState extends State<Send> {
                                       headerBuilder: (BuildContext context,
                                           bool isExpanded) {
                                         return ListTile(
-                                          title: Text('Advanced options',
+                                          title: Text(
+                                              l10n.accountSendSectionAdvanceOptionsTitle,
                                               style: TextStyles.labelText),
                                         );
                                       },
@@ -594,13 +641,15 @@ class _SendState extends State<Send> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
+
     return [
       Expanded(
           child: !isLoading
               ? ThemedControls.transparentButtonBigWithChild(
                   child: Padding(
                       padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                      child: Text("Cancel",
+                      child: Text(l10n.generalButtonCancel,
                           style: TextStyles.transparentButtonText)),
                   onPressed: () {
                     Navigator.pop(context);
@@ -613,7 +662,7 @@ class _SendState extends State<Send> {
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
                   child: !isLoading
-                      ? Text("Send",
+                      ? Text(l10n.accountButtonSend,
                           textAlign: TextAlign.center,
                           style: TextStyles.primaryButtonText)
                       : SizedBox(
@@ -676,7 +725,8 @@ class _SendState extends State<Send> {
     Navigator.pop(context);
     //Timer(const Duration(seconds: 1), () => Navigator.pop(context));
 
-    _globalSnackBar.show("Submitted new transaction to Qubic network");
+    final l10n = l10nOf(context);
+    _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted);
 
     setState(() {
       isLoading = false;
@@ -700,7 +750,7 @@ class _SendState extends State<Send> {
                 minimum: ThemeEdgeInsets.pageInsets
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
-                  Expanded(child: getScrollView()),
+                  Expanded(child: getScrollView(context)),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: getButtons())

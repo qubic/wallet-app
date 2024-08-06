@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
-import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/textStyles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -13,7 +13,8 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
   ExplorerResultPageQubicIdHeader({super.key, required this.idInfo});
 
-  Widget incPanel(String title, String contents) {
+  Widget incPanel(String title, String contents, BuildContext context) {
+    final l10n = l10nOf(context);
     return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -33,7 +34,8 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
                       child: Row(children: [
                         Text(contents, style: TextStyles.textExtraLargeBold),
                         ThemedControls.spacerHorizontalMini(),
-                        Text("QUBIC", style: TextStyles.secondaryTextSmall)
+                        Text(l10n.generalLabelCurrencyQubic,
+                            style: TextStyles.secondaryTextSmall)
                       ]))
                 ])));
   }
@@ -45,10 +47,7 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
       ExplorerIdInfoReportedValueDto info,
       // ignore: non_constant_identifier_names
       List<String>? IPs) {
-    TextStyle panelHeaderStyle = Theme.of(context)
-        .textTheme
-        .titleLarge!
-        .copyWith(fontFamily: ThemeFonts.secondary);
+    final l10n = l10nOf(context);
     TextStyle panelHeaderStyleMany = Theme.of(context)
         .textTheme
         .titleMedium!
@@ -57,8 +56,9 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
         width: double.infinity,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           IPs != null
-              ? Text("Current Value", style: TextStyles.secondaryTextSmall)
-              : Text("Value reported by ${info.IP}",
+              ? Text(l10n.accountExplorerLabelCurrentValue,
+                  style: TextStyles.secondaryTextSmall)
+              : Text(l10n.accountExplorerLabelValueReportedBy(info.IP),
                   style: panelHeaderStyleMany),
           FittedBox(
               fit: BoxFit.scaleDown,
@@ -68,21 +68,21 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
                   labelOffset: -0,
                   textStyle: TextStyles.textEnormous.copyWith(fontSize: 36),
                   labelStyle: TextStyles.accountAmountLabel,
-                  currencyName: 'QUBIC')),
+                  currencyName: l10n.generalLabelCurrencyQubic)),
           ThemedControls.spacerVerticalSmall(),
           Row(children: [
             Expanded(
-                child: incPanel("Total incoming",
-                    info.incomingAmount.asThousands().toString())),
+                child: incPanel(l10n.accountExplorerLabelTotalIncoming,
+                    info.incomingAmount.asThousands().toString(), context)),
             ThemedControls.spacerHorizontalMini(),
             Expanded(
-                child: incPanel("Total outgoing",
-                    info.outgoingAmount.asThousands().toString())),
+                child: incPanel(l10n.accountExplorerLabelTotalOutgoing,
+                    info.outgoingAmount.asThousands().toString(), context)),
           ]),
           ThemedControls.spacerVerticalSmall(),
           IPs != null
               ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text("Reported by:",
+                  Text(l10n.accountExplorerLabelReportedBy,
                       style: TextStyles.secondaryTextSmall,
                       textAlign: TextAlign.start),
                   Text(IPs.join(", "))
@@ -106,10 +106,11 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Column(children: [
         ThemedControls.pageHeader(
-            headerText: "Qubic Address", subheaderText: idInfo.id),
+            headerText: l10n.accountExplorerTitle, subheaderText: idInfo.id),
         Column(children: showPeerReports(context)),
         ThemedControls.spacerVerticalNormal()
       ])

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 
 class ChangeForeground extends StatelessWidget {
   final Widget? child;
@@ -11,10 +10,10 @@ class ChangeForeground extends StatelessWidget {
     return ShaderMask(
       blendMode: BlendMode.srcIn,
       shaderCallback: (Rect bounds) => LinearGradient(
-        begin: Alignment(-1.0, 0.0),
-        end: Alignment(1.0, 0.0),
-        transform: GradientRotation(2.19911),
-        stops: [
+        begin: const Alignment(-1.0, 0.0),
+        end: const Alignment(1.0, 0.0),
+        transform: const GradientRotation(2.19911),
+        stops: const [
           0.03,
           1,
         ],

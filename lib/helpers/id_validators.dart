@@ -1,48 +1,55 @@
 import 'dart:collection';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobx/mobx.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 
 class CustomFormFieldValidators {
-  static FormFieldValidator<T> isLessThanParsed<T>({required int lessThan}) {
+  static FormFieldValidator<T> isLessThanParsed<T>(
+      {required int lessThan, required BuildContext context}) {
     return (T? valueCandidate) {
+      final l10n = l10nOf(context);
+
       if (valueCandidate == null) {
         return null;
       }
 
       if (lessThan == 0) {
-        return "Insufficient QUBIC in ID. ID has no funds";
+        return l10n.generalErrorZeroQubicFunds;
       }
 
       String toParse = (valueCandidate as String)
           .replaceAll(" ", "")
-          .replaceAll("QUBIC", "")
+          .replaceAll(l10n.generalLabelCurrencyQubic, "")
           .replaceAll(",", "");
 
       int? parsedVal = int.tryParse(toParse);
       if (parsedVal == null) {
-        return "Is not a numeric value";
+        return l10n.generalErrorNotNumeric;
       }
       if (parsedVal > lessThan) {
-        return "Insufficient QUBIC in ID";
+        return l10n.generalErrorNotEnoughQubicFunds;
       }
 
       return null;
     };
   }
 
-  static FormFieldValidator<T> isLessThanParsedAsset<T>({
-    required int lessThan,
-  }) {
+  static FormFieldValidator<T> isLessThanParsedAsset<T>(
+      {required int lessThan, required BuildContext context}) {
     return (T? valueCandidate) {
+      final l10n = l10nOf(context);
+
       if (valueCandidate == null) {
         return null;
       }
 
       if (lessThan == 0) {
-        return "Insufficient assets in ID. ";
+        return l10n.generalErrorNotEnoughAssets;
       }
 
       String toParse = valueCandidate as String;
@@ -51,36 +58,42 @@ class CustomFormFieldValidators {
 
       int? parsedVal = int.tryParse(toParse);
       if (parsedVal == null) {
-        return "Is not a numeric value";
+        return l10n.generalErrorNotNumeric;
       }
       if (parsedVal > lessThan) {
-        return "Insufficient tokens in ID";
+        return l10n.generalErrorNotEnoughTokens;
       }
 
       return null;
     };
   }
 
-  static FormFieldValidator<T> presentTick<T>({required int currentTick}) {
+  static FormFieldValidator<T> presentTick<T>(
+      {required int currentTick, required BuildContext context}) {
+    final l10n = l10nOf(context);
+
     return (T? valueCandidate) {
       if (valueCandidate == null) {
         return null;
       }
       if ((valueCandidate as int) > currentTick) {
-        return "Provided tick is in the past. Current tick is $currentTick";
+        return l10n.sendAssetErrorTickIsInThePast(currentTick);
       }
 
       return null;
     };
   }
 
-  static FormFieldValidator<T> isLessThan<T>({required int lessThan}) {
+  static FormFieldValidator<T> isLessThan<T>(
+      {required int lessThan, required BuildContext context}) {
+    final l10n = l10nOf(context);
+
     return (T? valueCandidate) {
       if (valueCandidate == null) {
         return null;
       }
       if ((valueCandidate as int) > lessThan) {
-        return "Must be less than $lessThan";
+        return l10n.generalErrorValueMustBeLowerThan(lessThan);
       }
 
       return null;
@@ -89,7 +102,10 @@ class CustomFormFieldValidators {
 
   static FormFieldValidator<T> isPublicIdAvailable<T>(
       {required ObservableList<QubicListVm> currentQubicIDs,
-      maxNumberOfIDs = 0}) {
+      maxNumberOfIDs = 0,
+      required BuildContext context}) {
+    final l10n = l10nOf(context);
+
     return (T? valueCandidate) {
       if (valueCandidate == null) {
         return null;
@@ -100,7 +116,7 @@ class CustomFormFieldValidators {
               valueCandidate.toString().replaceAll(",", "_"))
           .length;
       if (total > maxNumberOfIDs) {
-        return "Public ID already in use";
+        return l10n.addAccountErrorPublicIDAlreadyInUse;
       }
       return null;
     };
@@ -108,7 +124,10 @@ class CustomFormFieldValidators {
 
   static FormFieldValidator<T> isNameAvailable<T>(
       {required ObservableList<QubicListVm> currentQubicIDs,
-      String? ignorePublicId}) {
+      String? ignorePublicId,
+      required BuildContext context}) {
+    final l10n = l10nOf(context);
+
     return (T? valueCandidate) {
       if (valueCandidate == null) {
         return null;
@@ -127,15 +146,16 @@ class CustomFormFieldValidators {
                   element.publicId != ignorePublicId)
               .length;
       if (total > 0) {
-        return "Name is already in use";
+        return l10n.addAccountErrorNameAlreadyInUse;
       }
       return null;
     };
   }
 
-  static FormFieldValidator<T> isSeed<T>({
-    String? errorText,
-  }) {
+  static FormFieldValidator<T> isSeed<T>(
+      {String? errorText, required BuildContext context}) {
+    final l10n = l10nOf(context);
+
     HashSet validChars = HashSet();
     validChars.addAll({
       "a",
@@ -173,7 +193,7 @@ class CustomFormFieldValidators {
       }
 
       if (valueCandidate is String && valueCandidate.length != 55) {
-        return "Must be 55 characters long";
+        return l10n.generalErrorMinCharLength(55);
       }
 
       bool valid = true;
@@ -183,16 +203,17 @@ class CustomFormFieldValidators {
         }
       }
       if (!valid) {
-        return "Must contain only lowercase letters";
+        return l10n.generalErrorOnlyLowercaseChar;
       }
 
       return null;
     };
   }
 
-  static FormFieldValidator<T> isPublicID<T>({
-    String? errorText,
-  }) {
+  static FormFieldValidator<T> isPublicID<T>(
+      {String? errorText, required BuildContext context}) {
+    final l10n = l10nOf(context);
+
     HashSet validChars = HashSet();
     validChars.addAll({
       "A",
@@ -230,7 +251,7 @@ class CustomFormFieldValidators {
       }
 
       if (valueCandidate is String && valueCandidate.length != 60) {
-        return "Must be 60 characters long";
+        return l10n.generalErrorMinCharLength(60);
       }
 
       bool valid = true;
@@ -240,7 +261,7 @@ class CustomFormFieldValidators {
         }
       }
       if (!valid) {
-        return "Must contain only uppercase letters";
+        return l10n.generalErrorOnlyUppercaseChar;
       }
 
       return null;
