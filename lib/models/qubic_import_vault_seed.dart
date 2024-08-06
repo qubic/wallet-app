@@ -3,7 +3,7 @@ import 'dart:core';
 class QubicImportVaultSeed {
   late String? _alias; //The private seed of the ID
   late String _publicId; //The public ID
-  late String _seed; //A descriptive name of the ID
+  late String? _seed; //A descriptive name of the ID
 
   factory QubicImportVaultSeed.fromJson(Map<String, dynamic> json) {
     var _alias = json['alias'];

@@ -43,11 +43,10 @@ getAlertDialog(String title, String message,
 }
 
 showAlertDialog(BuildContext context, String title, String message,
-{Function? primaryButtonFunction, String primaryButtonLabel = ""}) {
-  
+    {Function? primaryButtonFunction, String primaryButtonLabel = ""}) {
   if (primaryButtonLabel.isEmpty) {
     final l10n = l10nOf(context);
-    primaryButtonLabel = l10n.generalButtonOK
+    primaryButtonLabel = l10n.generalButtonOK;
   }
   Widget okButton = ThemedControls.primaryButtonBig(
     text: primaryButtonLabel,
@@ -57,7 +56,7 @@ showAlertDialog(BuildContext context, String title, String message,
       }
     },
   );
-}
+
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text(title),
