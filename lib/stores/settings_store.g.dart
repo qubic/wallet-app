@@ -98,6 +98,15 @@ mixin _$SettingsStore on _SettingsStore, Store {
     return _$clearTOTPKeyAsyncAction.run(() => super.clearTOTPKey());
   }
 
+  late final _$setAutoLockTimeoutAsyncAction =
+      AsyncAction('_SettingsStore.setAutoLockTimeout', context: context);
+
+  @override
+  Future<void> setAutoLockTimeout(int value) {
+    return _$setAutoLockTimeoutAsyncAction
+        .run(() => super.setAutoLockTimeout(value));
+  }
+
   @override
   String toString() {
     return '''

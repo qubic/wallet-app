@@ -84,9 +84,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
             String formattedDate = DateFormat('yyyy-MM-dd-kk-mm').format(now);
             setState(() {
               emptyPathError = false;
-              selectedPath = outputFolder;
-              selectedPath =
-                  "${selectedPath!}/exported.$formattedDate.qubic-vault";
+              // selectedPath = outputFolder;
+              selectedPath = "${selectedPath!}/exported.$formattedDate.qubic-vault";
+              selectedPath = "${selectedPath!}/export.qubic-vault";
               selectedFile = io.File(selectedPath!);
             });
           } else {

@@ -211,8 +211,10 @@ class QubicJs {
             'Error importing vault file: Entry number ${i} is missing seed');
       }
 
-      seeds.add(
-          QubicImportVaultSeed(seed['alias'], seed['publicId'], seed['seed']));
+      if (!seed['seed'].isEmpty) {
+        seeds.add(QubicImportVaultSeed(
+            seed['alias'], seed['publicId'], seed['seed']));
+      }
     }
 
     return seeds;

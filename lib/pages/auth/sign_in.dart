@@ -132,6 +132,7 @@ class _SignInState extends State<SignIn>
               }),
               snackBarStrategy: RemoveSnackBarStrategy());
           errorBar.show(context);
+          applicationStore.clearGlobalError();
         }
       }
 

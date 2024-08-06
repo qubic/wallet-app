@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
@@ -20,14 +23,15 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  final int initialTabIndex;
+  const MainScreen({super.key, this.initialTabIndex = 0});
 
   @override
   // ignore: library_private_types_in_public_api
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen>  with WidgetsBindingObserver {
   late final PersistentTabController _controller;
   final _timedController = getIt<TimedController>();
   final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
@@ -39,12 +43,46 @@ class _MainScreenState extends State<MainScreen> {
   late AnimatedSnackBar? errorBar;
   late AnimatedSnackBar? notificationBar;
 
+  Timer? _lockTimer;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused) {
+      // Lock the app immediately if the timeout is 0 (Immediately)
+      if (settingsStore.settings.autoLockTimeout == 0) {
+        applicationStore.signOut();
+      } else {
+        // Start the auto-lock timer when the app goes to background
+        _lockTimer = Timer(
+          Duration(minutes: settingsStore.settings.autoLockTimeout),
+              () {
+            // Lock the app
+            applicationStore.signOut();
+          },
+        );
+      }
+    } else if (state == AppLifecycleState.resumed) {
+      // Cancel the timer when the app is resumed
+      _lockTimer?.cancel();
+      if (!applicationStore.isSignedIn) {
+        context.go('/signIn');
+      }
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+
     _timedController.setupFetchTimer(true);
     _timedController.setupSlowTimer(true);
-    _controller = PersistentTabController(initialIndex: 0);
+    _controller = PersistentTabController(initialIndex: widget.initialTabIndex);
+    // _controller.jumpToTab(value);
+    _controller.addListener(() {
+      applicationStore.setCurrentTabIndex(_controller.index);
+    });
 
     if (!getIt.isRegistered<PersistentTabController>()) {
       getIt.registerSingleton<PersistentTabController>(_controller);
@@ -58,6 +96,13 @@ class _MainScreenState extends State<MainScreen> {
             : applicationStore.globalError.substring(0, errorPos);
 
         if (error != "") {
+          //Error overriding for more than 15 accounts in wallet
+          if (error == "Failed to perform action. Server returned status 400") {
+            if (applicationStore.currentQubicIDs.length > 15) {
+              return;
+            }
+          }
+
           errorBar = AnimatedSnackBar(
               builder: ((context) {
                 return Ink(
@@ -80,6 +125,8 @@ class _MainScreenState extends State<MainScreen> {
               }),
               snackBarStrategy: RemoveSnackBarStrategy())
             ..show(context);
+
+          applicationStore.clearGlobalError();
         }
       }
 
@@ -120,6 +167,10 @@ class _MainScreenState extends State<MainScreen> {
   void dispose() {
     _timedController.stopFetchTimer();
     _disposeSnackbarAuto();
+
+    WidgetsBinding.instance.removeObserver(this);
+    _lockTimer?.cancel();
+
     super.dispose();
   }
 
@@ -187,6 +238,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget getMain() {
+    _controller.jumpToTab(applicationStore.currentTabIndex);
+    // _controller.jumpToPreviousTab();
     return PersistentTabView(
       controller: _controller,
       navBarHeight: 60,
@@ -221,6 +274,7 @@ class _MainScreenState extends State<MainScreen> {
       if (UniversalPlatform.isDesktop && !settingsStore.cmdUtilsAvailable) {
         return const Scaffold(body: DownloadCmdUtils());
       }
+
       return getMain();
     });
   }

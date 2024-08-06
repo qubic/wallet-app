@@ -43,21 +43,21 @@ getAlertDialog(String title, String message,
 }
 
 showAlertDialog(BuildContext context, String title, String message,
-    {Function? onOk}) {
-  final l10n = l10nOf(context);
-
-  // set up the button
-  Widget okButton = TextButton(
-    child: Text(l10n.generalButtonOK),
+{Function? primaryButtonFunction, String primaryButtonLabel = ""}) {
+  
+  if (primaryButtonLabel.isEmpty) {
+    final l10n = l10nOf(context);
+    primaryButtonLabel = l10n.generalButtonOK
+  }
+  Widget okButton = ThemedControls.primaryButtonBig(
+    text: primaryButtonLabel,
     onPressed: () async {
-      Navigator.of(context).pop();
-
-      if (onOk != null) {
-        onOk() {}
+      if (primaryButtonFunction != null) {
+        primaryButtonFunction();
       }
     },
   );
-
+}
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text(title),
