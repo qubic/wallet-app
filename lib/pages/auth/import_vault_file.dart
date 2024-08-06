@@ -194,7 +194,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
                           ThemedControls.spacerVerticalSmall(),
                           Container(
                               child: Text(
-                                  l10n.importVaultFileLabelSelectPathInstructions,
+                                  l10n.importVaultLabelSelectPathInstructions,
                                   style: TextStyles.secondaryText))
                         ]),
                   )
@@ -203,6 +203,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
 
   //Handles the proceed button to go to next step (add password) and then to biometrics if needed
   Future<void> handleProceed() async {
+    final l10n = l10nOf(context);
     if (context.mounted == false) {
       return;
     }
@@ -212,8 +213,8 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
     }
 
     if (importedSeeds!.length > 15) {
-      showAlertDialog(context, "Vault file contains more than 15 seeds",
-          "The vault file you selected contains more than 15 seeds. Importing will continue, but you will not be able to view balances or send funds until you remove some seeds so that the total is 15 or less.",
+      showAlertDialog(context, l10n.importVaultDialogTitleTooManyAccounts,
+          l10n.importVaultDialogMessageTooManyAccounts,
           primaryButtonFunction: () async {
         await _runCreateWalletSteps();
       }, primaryButtonLabel: "OK");
@@ -241,6 +242,8 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
   }
 
   Future<bool> _validateForProceed() async {
+    final l10n = l10nOf(context);
+
     if (selectedPath == null) {
       setState(() {
         selectedPathError = true;
@@ -260,7 +263,8 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
           vaultPassword, selectedPath, selectedFileBytes, context);
     } catch (e) {
       setState(() {
-        importError = e.toString().replaceAll("Exception: ", "");
+        importError = l10n.importVaultFileErrorGeneralMessage(
+            e.toString().replaceAll("Exception: ", ""));
       });
       setState(() {
         isLoading = false;
@@ -270,7 +274,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
 
     if (importedSeeds == null) {
       setState(() {
-        importError = "No seeds found in the vault file";
+        importError = l10n.importVaultErrorNoAccountsFound;
         isLoading = false;
       });
       return false;
@@ -278,8 +282,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
 
     if (importedSeeds!.isEmpty) {
       setState(() {
-        importError =
-            "Vault file contains no seeds (please note that watch only seeds are currently not supported and are ignored)";
+        importError = l10n.importVaultErrorOnlyWatchAccountsFound;
         isLoading = false;
       });
       return false;

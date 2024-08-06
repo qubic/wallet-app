@@ -67,7 +67,7 @@ class QubicCmdUtils {
     if (await checkUtilitiesChecksum() != true) {
       throw Exception(
           // TODO check if the message is valid
-          "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL AND DOWNLOAD AGAIN FROM QUBIC-HUB.COM");
+          "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN");
     }
   }
 
