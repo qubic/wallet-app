@@ -46,6 +46,15 @@ abstract class _ApplicationStore with Store {
   bool isSignedIn = false;
 
   @observable
+  int currentTabIndex = 0;
+
+// Add an action to update the tab index
+  @action
+  void setCurrentTabIndex(int index) {
+    currentTabIndex = index;
+  }
+
+  @observable
   ObservableList<QubicListVm> currentQubicIDs = ObservableList<QubicListVm>();
   @observable
   ObservableList<TransactionVm> currentTransactions =

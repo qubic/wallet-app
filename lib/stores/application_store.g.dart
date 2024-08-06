@@ -112,6 +112,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
+  late final _$currentTabIndexAtom =
+      Atom(name: '_ApplicationStore.currentTabIndex', context: context);
+
+  @override
+  int get currentTabIndex {
+    _$currentTabIndexAtom.reportRead();
+    return super.currentTabIndex;
+  }
+
+  @override
+  set currentTabIndex(int value) {
+    _$currentTabIndexAtom.reportWrite(value, super.currentTabIndex, () {
+      super.currentTabIndex = value;
+    });
+  }
+
   late final _$currentQubicIDsAtom =
       Atom(name: '_ApplicationStore.currentQubicIDs', context: context);
 
@@ -309,6 +325,17 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
       ActionController(name: '_ApplicationStore', context: context);
 
   @override
+  void setCurrentTabIndex(int index) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.setCurrentTabIndex');
+    try {
+      return super.setCurrentTabIndex(index);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void reportGlobalError(String error) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.reportGlobalError');
@@ -427,6 +454,7 @@ globalError: ${globalError},
 globalNotification: ${globalNotification},
 currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
+currentTabIndex: ${currentTabIndex},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
 transactionFilter: ${transactionFilter},

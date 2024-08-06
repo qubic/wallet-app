@@ -18,6 +18,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/auto_lock_settings.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -255,6 +256,21 @@ class _TabSettingsState extends State<TabSettings> {
                           PageTransitionAnimation.cupertino,
                     );
                   }),
+              SettingsTile.navigation(
+                leading: ChangeForeground(
+                    color: LightThemeColors.gradient1,
+                    child: const Icon(Icons.lock_clock)),
+                title: Text('Auto-Lock Settings',
+                    style: TextStyles.textNormal),
+                trailing: getTrailingArrow(),
+                onPressed: (BuildContext? context) async {
+                  pushScreen(context!,
+                      screen: AutoLockSettings(),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                      PageTransitionAnimation.cupertino);
+                },
+              ),
               SettingsTile.navigation(
                 leading: ChangeForeground(
                     color: LightThemeColors.gradient1, child: icon),
