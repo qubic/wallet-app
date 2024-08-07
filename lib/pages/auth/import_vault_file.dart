@@ -354,8 +354,11 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
         await appStore.checkWalletIsInitialized();
         List<QubicId> ids = [];
         for (var importedSeed in importedSeeds!) {
-          ids.add(QubicId(importedSeed.getSeed(), importedSeed.getPublicId(),
-              importedSeed.getAlias()!, 0));
+          if (importedSeed.getSeed() != "") {
+            //Remove this when watchOnly accounts are supported
+            ids.add(QubicId(importedSeed.getSeed(), importedSeed.getPublicId(),
+                importedSeed.getAlias()!, 0));
+          }
         }
         await appStore.addManyIds(ids);
         await getIt<QubicLi>().authenticate();

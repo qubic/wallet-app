@@ -290,10 +290,8 @@ class QubicCmdUtils {
         throw Exception('Entry number $i is missing seed');
       }
 
-      if (seed.getSeed()!.isNotEmpty) {
-        seeds.add(QubicImportVaultSeed(
-            seed.getAlias()!, seed.getPublicId(), seed.getSeed()!));
-      }
+      seeds.add(QubicImportVaultSeed(
+          seed.getAlias()!, seed.getPublicId(), seed.getSeed() ?? ""));
     }
 
     return seeds;

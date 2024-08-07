@@ -57,25 +57,29 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
                     Text(l10n.revealSeedLabelPrivateSeed,
                         style: TextStyles.lightGreyTextSmall),
                     ThemedControls.spacerVerticalMini(),
-                    Text(seedId!),
+                    seedId == null ? Text(seedId!) : const Text("-"),
                     ThemedControls.spacerVerticalNormal(),
-                    Row(children: [
-                      ThemedControls.primaryButtonNormal(
-                          onPressed: () {
-                            copyToClipboard(seedId!, context);
-                          },
-                          text: l10n.revealSeedButtonCopy,
-                          icon: ThemedControls.invertedColors(
-                              child: LightThemeColors.shouldInvertIcon
-                                  ? ThemedControls.invertedColors(
-                                      child: Image.asset(
-                                          "assets/images/Group 2400.png"))
-                                  : Image.asset(
-                                      "assets/images/Group 2400.png"))),
-                    ])
+                    seedId == null
+                        ? Row(children: [
+                            ThemedControls.primaryButtonNormal(
+                                onPressed: () {
+                                  copyToClipboard(seedId!, context);
+                                },
+                                text: l10n.revealSeedButtonCopy,
+                                icon: ThemedControls.invertedColors(
+                                    child: LightThemeColors.shouldInvertIcon
+                                        ? ThemedControls.invertedColors(
+                                            child: Image.asset(
+                                                "assets/images/Group 2400.png"))
+                                        : Image.asset(
+                                            "assets/images/Group 2400.png"))),
+                          ])
+                        : Container()
                   ])),
               ThemedControls.spacerVerticalSmall(),
-              ToggleableQRCode(qRCodeData: seedId!, expanded: true),
+              seedId == null
+                  ? ToggleableQRCode(qRCodeData: seedId!, expanded: true)
+                  : Container(),
             ],
           ))
         ]));

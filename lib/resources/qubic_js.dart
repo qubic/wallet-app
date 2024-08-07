@@ -201,10 +201,8 @@ class QubicJs {
         throw Exception('Entry number $i is missing seed');
       }
 
-      if (!seed['seed'].isEmpty) {
-        seeds.add(QubicImportVaultSeed(
-            seed['alias'], seed['publicId'], seed['seed']));
-      }
+      seeds.add(QubicImportVaultSeed(
+          seed['alias'], seed['publicId'], seed['seed'] ?? ""));
     }
 
     return seeds;
