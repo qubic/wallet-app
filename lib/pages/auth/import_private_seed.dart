@@ -69,7 +69,13 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
   @override
   void initState() {
     super.initState();
-    accountNameCtrl.text = "Account 1";
+
+    // Using addPostFrameCallback to ensure localization is ready
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final l10n = l10nOf(context);
+      accountNameCtrl.text = l10n.importPrivateSeedDefaultAccountName;
+    });
+
     auth.canCheckBiometrics.then((value) {
       setState(() {
         totalSteps = 2;
@@ -170,21 +176,13 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         onSubmitted: (String? a) async {
           await handleProceed();
         },
-        decoration: ThemeInputDecorations.bigInputbox.copyWith(
-          contentPadding: EdgeInsets.only(
-              left: 16,
-              right: 16,
-              top: ThemeInputDecorations.bigInputbox.contentPadding!.vertical /
-                  2,
-              bottom:
-                  ThemeInputDecorations.bigInputbox.contentPadding!.vertical /
-                      2),
-          hintText: l10n.addAccountLabelAccountName,
-        ),
         enabled: !isLoading,
         obscureText: false,
         autocorrect: false,
         autofillHints: null,
+        style: TextStyles.inputBoxSmallStyle,
+        decoration: ThemeInputDecorations.normalInputbox
+            .copyWith(hintText: l10n.addAccountLabelAccountName),
       ),
       ThemedControls.spacerVerticalSmall(),
       FormBuilderTextField(
@@ -413,7 +411,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                   subheaderText: ""),
               Text(l10n.importPrivateSeedSubHeader,
                   style: TextStyles.secondaryText),
-              ThemedControls.spacerVerticalHuge(),
+              ThemedControls.spacerVerticalNormal(),
               FormBuilder(
                   key: _formKey, child: Column(children: getSeedForm())),
               if (isMobile)

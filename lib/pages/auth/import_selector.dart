@@ -86,7 +86,7 @@ class _ImportSelectorState extends State<ImportSelector> {
               ThemedControls.pageHeader(
                   headerText: l10n.importWalletTitle, subheaderText: ""),
               Text(l10n.importWalletSubHeader, style: TextStyles.secondaryText),
-              ThemedControls.spacerVerticalHuge(),
+              ThemedControls.spacerVerticalNormal(),
               getSelectionButton(() {
                 pushScreen(
                   context,

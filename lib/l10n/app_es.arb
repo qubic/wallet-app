@@ -670,5 +670,6 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "importPrivateSeedDefaultAccountName": "Cuenta 1"
 }

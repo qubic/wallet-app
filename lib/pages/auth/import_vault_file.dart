@@ -415,7 +415,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
                   headerText: l10n.importWalletLabelFromVaultFile,
                   subheaderText: ""),
               Text(l10n.importVaultSubHeader, style: TextStyles.secondaryText),
-              ThemedControls.spacerVerticalHuge(),
+              ThemedControls.spacerVerticalNormal(),
               if (importError != null) ThemedControls.errorLabel(importError!),
               if (importError != null) ThemedControls.spacerVerticalSmall(),
               selectedPath == null
