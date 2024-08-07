@@ -9,7 +9,7 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/pages/main/downloadCmdUtils.dart';
+import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/pages/main/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_transfers.dart';
@@ -17,7 +17,7 @@ import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -31,7 +31,7 @@ class MainScreen extends StatefulWidget {
   _MainScreenState createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen>  with WidgetsBindingObserver {
+class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   late final PersistentTabController _controller;
   final _timedController = getIt<TimedController>();
   final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
@@ -55,7 +55,7 @@ class _MainScreenState extends State<MainScreen>  with WidgetsBindingObserver {
         // Start the auto-lock timer when the app goes to background
         _lockTimer = Timer(
           Duration(minutes: settingsStore.settings.autoLockTimeout),
-              () {
+          () {
             // Lock the app
             applicationStore.signOut();
           },
@@ -69,7 +69,6 @@ class _MainScreenState extends State<MainScreen>  with WidgetsBindingObserver {
       }
     }
   }
-
 
   @override
   void initState() {

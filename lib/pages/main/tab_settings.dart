@@ -25,8 +25,8 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -275,15 +275,14 @@ class _TabSettingsState extends State<TabSettings> {
                 leading: ChangeForeground(
                     color: LightThemeColors.gradient1,
                     child: const Icon(Icons.lock_clock)),
-                title: Text('Auto-Lock Settings',
-                    style: TextStyles.textNormal),
+                title: Text('Auto-Lock Settings', style: TextStyles.textNormal),
                 trailing: getTrailingArrow(),
                 onPressed: (BuildContext? context) async {
                   pushScreen(context!,
                       screen: AutoLockSettings(),
                       withNavBar: false,
                       pageTransitionAnimation:
-                      PageTransitionAnimation.cupertino);
+                          PageTransitionAnimation.cupertino);
                 },
               ),
               SettingsTile.navigation(

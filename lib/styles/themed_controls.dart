@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/styles/buttonStyles.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 
 class ThemedControls {
   static Widget card({required Widget child}) {

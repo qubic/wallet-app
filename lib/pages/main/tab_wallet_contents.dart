@@ -15,7 +15,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -163,9 +163,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                 l10n.addAccountDialogMessageMaxNumberOfAccountsReached,
                 primaryButtonLabel: l10n.generalButtonOK,
                 primaryButtonFunction: () {
-                  Navigator.of(context).pop();
-                }, 
-                secondaryButtonLabel: null);
+              Navigator.of(context).pop();
+            }, secondaryButtonLabel: null);
           });
       return;
     }

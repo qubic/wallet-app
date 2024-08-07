@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/currency_label.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:intl/intl.dart';
 
 class AmountFormatted extends StatelessWidget {

@@ -5,9 +5,9 @@ import 'package:qubic_wallet/components/explorer_results/explorer_result_qubic_i
 import 'package:qubic_wallet/components/explorer_results/explorer_result_tick.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_result_transaction.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/inputDecorations.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/input_decorations.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:collection/collection.dart';
 

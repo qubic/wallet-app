@@ -4,7 +4,7 @@ import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 
 enum CardItem { delete, rename }
 

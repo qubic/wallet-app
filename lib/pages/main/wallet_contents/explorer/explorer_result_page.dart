@@ -8,7 +8,7 @@ import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum ExplorerResultType { publicId, tick, transaction }
