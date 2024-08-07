@@ -1,5 +1,3 @@
-import 'dart:io';
-
 /// A class representing a version number.
 class VersionNumber {
   int major;

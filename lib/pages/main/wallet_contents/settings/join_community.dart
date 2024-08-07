@@ -59,9 +59,9 @@ class _JoinCommunityState extends State<JoinCommunity> {
                 title: null,
                 tiles: <SettingsTile>[
                   SettingsTile.navigation(
-                    leading: ChangeForeground(
+                    leading: const ChangeForeground(
                         color: LightThemeColors.gradient1,
-                        child: const Icon(Icons.discord)),
+                        child: Icon(Icons.discord)),
                     title: Text(l10n.joinCommunityLabelDiscord,
                         style: TextStyles.textNormal),
                     trailing: Container(),
@@ -69,9 +69,9 @@ class _JoinCommunityState extends State<JoinCommunity> {
                         {launchQubicURL("https://discord.com/invite/qubic")},
                   ),
                   SettingsTile.navigation(
-                    leading: ChangeForeground(
+                    leading: const ChangeForeground(
                         color: LightThemeColors.gradient1,
-                        child: const Icon(Icons.telegram)),
+                        child: Icon(Icons.telegram)),
                     title: Text(l10n.joinCommunityLabelTelegram,
                         style: TextStyles.textNormal),
                     trailing: Container(),
@@ -79,9 +79,9 @@ class _JoinCommunityState extends State<JoinCommunity> {
                         {launchQubicURL("https://t.me/qubic_network")},
                   ),
                   SettingsTile.navigation(
-                    leading: ChangeForeground(
+                    leading: const ChangeForeground(
                         color: LightThemeColors.gradient1,
-                        child: const Icon(FontAwesomeIcons.xTwitter)),
+                        child: Icon(FontAwesomeIcons.xTwitter)),
                     title: Text(l10n.joinCommunityLabelTwitter,
                         style: TextStyles.textNormal),
                     trailing: Container(),
@@ -89,9 +89,9 @@ class _JoinCommunityState extends State<JoinCommunity> {
                         {launchQubicURL("https://twitter.com/_Qubic_")},
                   ),
                   SettingsTile.navigation(
-                    leading: ChangeForeground(
+                    leading: const ChangeForeground(
                         color: LightThemeColors.gradient1,
-                        child: const Icon(Icons.reddit)),
+                        child: Icon(Icons.reddit)),
                     title: Text(l10n.joinCommunityLabelReddit,
                         style: TextStyles.textNormal),
                     trailing: Container(),
@@ -99,9 +99,9 @@ class _JoinCommunityState extends State<JoinCommunity> {
                         {launchQubicURL("https://www.reddit.com/r/Qubic/")},
                   ),
                   SettingsTile.navigation(
-                    leading: ChangeForeground(
+                    leading: const ChangeForeground(
                         color: LightThemeColors.gradient1,
-                        child: const Icon(FontAwesomeIcons.youtube)),
+                        child: Icon(FontAwesomeIcons.youtube)),
                     title: Text(l10n.joinCommunityLabelYouTube,
                         style: TextStyles.textNormal),
                     trailing: Container(),
@@ -110,8 +110,8 @@ class _JoinCommunityState extends State<JoinCommunity> {
                     },
                   ),
                   SettingsTile.navigation(
-                    leading: ChangeForeground(
-                        child: const Icon(FontAwesomeIcons.github),
+                    leading: const ChangeForeground(
+                        child: Icon(FontAwesomeIcons.github),
                         color: LightThemeColors.gradient1),
                     title: Text(l10n.joinCommunityLabelGitHub,
                         style: TextStyles.textNormal),
@@ -120,9 +120,9 @@ class _JoinCommunityState extends State<JoinCommunity> {
                         {launchQubicURL("https://github.com/qubic")},
                   ),
                   SettingsTile.navigation(
-                    leading: ChangeForeground(
+                    leading: const ChangeForeground(
                         color: LightThemeColors.gradient1,
-                        child: const Icon(FontAwesomeIcons.linkedin)),
+                        child: Icon(FontAwesomeIcons.linkedin)),
                     title: Text(l10n.joinCommunityLabelLinkedIn,
                         style: TextStyles.textNormal),
                     trailing: Container(),
@@ -155,6 +155,7 @@ class _JoinCommunityState extends State<JoinCommunity> {
             child: Text(text, style: TextStyles.textBold)));
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

@@ -209,7 +209,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                     expandedHeight: sliverExpanded,
                     flexibleSpace: Stack(
                       children: [
-                        Positioned.fill(child: GradientContainer()),
+                        const Positioned.fill(child: GradientContainer()),
                         Positioned.fill(
                             child: SingleChildScrollView(
                           child: Column(children: [
@@ -262,7 +262,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 ThemePaddings.miniPadding),
                             child: ThemedControls.card(
                                 child: Column(children: [
-                              Icon(Icons.warning_amber_rounded,
+                              const Icon(Icons.warning_amber_rounded,
                                   color: LightThemeColors.error, size: 40),
                               ThemedControls.spacerVerticalNormal(),
                               Text(

@@ -1,9 +1,6 @@
 import 'dart:async';
-import 'dart:io' as io;
-import 'dart:io';
-import 'package:flutter/gestures.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
-import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +11,6 @@ import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/extensions/darkmode.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';

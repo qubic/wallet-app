@@ -8,6 +8,7 @@ import 'package:qubic_wallet/stores/application_store.dart';
 
 class TimedController {
   Timer? _fetchTimer;
+  // ignore: unused_field
   Timer? _fetchTimerSlow;
 
   DateTime? lastFetch;

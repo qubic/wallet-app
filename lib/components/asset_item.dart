@@ -104,7 +104,10 @@ class _AssetItemState extends State<AssetItem> {
                               Text(l10n.assetsLabelOwned,
                                   style: TextStyles.assetSecondaryTextLabel),
                               Text(
-                                  "${formatter.format(widget.asset.ownedAmount) ?? "-"}",
+                                  widget.asset.ownedAmount == null
+                                      ? "-"
+                                      : formatter
+                                          .format(widget.asset.ownedAmount),
                                   style:
                                       TextStyles.assetSecondaryTextLabelValue),
                             ]),
@@ -114,7 +117,10 @@ class _AssetItemState extends State<AssetItem> {
                               Text(l10n.assetsLabelPossessed,
                                   style: TextStyles.assetSecondaryTextLabel),
                               Text(
-                                  "${formatter.format(widget.asset.possessedAmount) ?? "-"}",
+                                  widget.asset.possessedAmount == null
+                                      ? "-"
+                                      : formatter
+                                          .format(widget.asset.possessedAmount),
                                   style:
                                       TextStyles.assetSecondaryTextLabelValue),
                             ]),

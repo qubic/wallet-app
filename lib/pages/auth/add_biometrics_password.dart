@@ -1,45 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qubic_wallet/components/copyable_text.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
-import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
-import 'package:qubic_wallet/helpers/id_validators.dart';
-import 'package:qubic_wallet/helpers/platform_helpers.dart';
-import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/qubic_list_vm.dart';
-import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
-import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class AddBiometricsPassword extends StatefulWidget {
-  AddBiometricsPassword({super.key, required this.onAddedBiometrics});
+  const AddBiometricsPassword({super.key, required this.onAddedBiometrics});
 
-  Function(bool hasAddedBiometrics) onAddedBiometrics;
+  final Function(bool hasAddedBiometrics) onAddedBiometrics;
 
   @override
   // ignore: library_private_types_in_public_api
@@ -52,8 +29,6 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   bool obscuringTextPass = true; //Hide password text
   bool obscuringTextPassRepeat = true; //Hide password repeat text
-  final _formKey = GlobalKey<FormBuilderState>();
-  final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   String? generatedPublicId;
 
@@ -126,7 +101,6 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
               trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
                   (Set<MaterialState> states) {
                 return Colors.orange.withOpacity(0);
-                return null; // Use the default color.
               }),
               value: enabledBiometrics,
               onChanged: (value) async {

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/extensions/darkmode.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 
 enum CardItem { delete, rename }

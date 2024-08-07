@@ -21,8 +21,8 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+// ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
-import 'package:intl/intl.dart';
 
 class ExportWalletVault extends StatefulWidget {
   const ExportWalletVault({super.key});
@@ -81,8 +81,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
               debugPrint("Did not select");
               return;
             }
-            DateTime now = DateTime.now();
-            String formattedDate = DateFormat('yyyy-MM-dd-kk-mm').format(now);
+
             setState(() {
               emptyPathError = false;
               // selectedPath = outputFolder;

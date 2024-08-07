@@ -135,7 +135,7 @@ class QubicCmd {
       if (filePath == null) {
         throw "File path is required";
       }
-      return await qubicCmdUtils.importVaultFile(password, filePath!);
+      return await qubicCmdUtils.importVaultFile(password, filePath);
     }
     throw l10n.generalErrorUnsupportedOS;
   }

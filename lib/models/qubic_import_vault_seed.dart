@@ -33,7 +33,7 @@ class QubicImportVaultSeed {
   }
 
   void validateAlias(String? alias) {
-    if ((alias == null) || (alias!.isEmpty)) {
+    if ((alias == null) || (alias.isEmpty)) {
       throw Exception("Invalid alias. Alias must not be empty.");
     }
   }

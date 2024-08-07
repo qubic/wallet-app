@@ -88,7 +88,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                               ThemeInputDecorations.bigInputbox.copyWith(
                             hintText: l10n.changePasswordFieldHintNewPassword,
                             suffixIcon: Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     right: ThemePaddings.smallPadding),
                                 child: IconButton(
                                   icon: showingPassword

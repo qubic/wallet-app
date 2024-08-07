@@ -53,7 +53,8 @@ class ThemedControls {
     return FilledButton(
       style: ButtonStyles.primaryButtonBigDisabled,
       onPressed: () {
-        return null;
+        // ignore: avoid_returning_null_for_void
+        return null; //keep this to make sure that no ripple effect is shown
       },
       child: child,
     );

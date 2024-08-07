@@ -5,9 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:crypto/crypto.dart' as crypto;
-import 'package:flutter/services.dart' show Uint8List, rootBundle;
-import 'package:qubic_wallet/config.dart';
+import 'package:flutter/services.dart' show Uint8List;
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 

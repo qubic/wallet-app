@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ChangeForeground extends StatelessWidget {
   final Widget? child;
   final Color color;
-  ChangeForeground({this.child, required this.color});
+  const ChangeForeground({super.key, this.child, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ChangeForeground extends StatelessWidget {
           color,
         ], // Gradient colors for the icon
       ).createShader(bounds),
-      child: child != null ? child : Container(),
+      child: child ?? Container(),
     );
 
     // return Container(

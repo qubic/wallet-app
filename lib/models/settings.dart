@@ -60,7 +60,7 @@ class Settings {
     Map<String, dynamic> json = jsonDecode(jsonString);
     return Settings(
       biometricEnabled: json['biometricEnabled'],
-      padding: json['padding'] ?? null,
+      padding: json['padding'],
       TOTPKey: json['TOTPKey'],
       totalBalanceVisible: json['totalBalanceVisible'] == null
           ? false

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -131,7 +133,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                 Padding(
                     padding: EdgeInsets.only(left: ThemePaddings.normalPadding),
                     child: CopyableText(
-                        child: Text(directory), copiedText: directory)),
+                        copiedText: directory, child: Text(directory))),
                 const SizedBox(height: ThemePaddings.miniPadding),
               ])),
           const SizedBox(height: ThemePaddings.miniPadding),
@@ -143,7 +145,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                         color: Theme.of(context).colorScheme.error),
                     const SizedBox(width: ThemePaddings.smallPadding),
                     Expanded(
-                        child: Text("${manualError}",
+                        child: Text("$manualError",
                             softWrap: true,
                             style: Theme.of(context)
                                 .textTheme
@@ -186,7 +188,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                                   setState(() {
                                     manualLoading = false;
                                     manualError =
-                                        "Could not find file \"${filename}\" in \"${directory}\"";
+                                        "Could not find file \"$filename\" in \"$directory\"";
                                   });
                                   return;
                                 }
@@ -205,7 +207,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                                   manualLoading = false;
                                 });
                               },
-                              child: Text("Done"))),
+                              child: const Text("Done"))),
                     ])
         ]);
   }
@@ -254,7 +256,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
             radius: 90.0,
             lineWidth: 8.0,
             percent: downloadProgress.toDouble(),
-            center: Text((downloadProgress * 100).round().toString() + "%",
+            center: Text("${(downloadProgress * 100).round()}%",
                 style: Theme.of(context)
                     .textTheme
                     .displayLarge!

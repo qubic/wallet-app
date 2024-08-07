@@ -3,15 +3,16 @@ import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:path/path.dart' as Path;
+// ignore: depend_on_referenced_packages
+import 'package:path/path.dart' as path;
 
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
-import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
+// ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart' as crypto;
 import 'package:universal_platform/universal_platform.dart';
 
@@ -45,7 +46,7 @@ class QubicCmdUtils {
 
   Future<String> _getHelperFileFullPath() async {
     var directory = await getApplicationSupportDirectory();
-    return (Path.join(directory.path, _getConfig().filename));
+    return (path.join(directory.path, _getConfig().filename));
   }
 
   Future<bool> checkIfUtilitiesExist() async {

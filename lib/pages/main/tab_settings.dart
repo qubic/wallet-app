@@ -6,14 +6,10 @@ import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
-import 'package:qubic_wallet/components/gradient_container.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
-import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/settings/about_wallet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community.dart';
@@ -186,9 +182,8 @@ class _TabSettingsState extends State<TabSettings> {
             title: getSettingsHeader(l10n.settingsHeaderAccountsAndData, true),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                leading: ChangeForeground(
-                    color: LightThemeColors.gradient1,
-                    child: const Icon(Icons.lock)),
+                leading: const ChangeForeground(
+                    color: LightThemeColors.gradient1, child: Icon(Icons.lock)),
                 title:
                     Text(l10n.settingsLockWallet, style: TextStyles.textNormal),
                 trailing: Container(),
@@ -202,9 +197,9 @@ class _TabSettingsState extends State<TabSettings> {
                 },
               ),
               SettingsTile.navigation(
-                leading: ChangeForeground(
+                leading: const ChangeForeground(
                     color: LightThemeColors.gradient1,
-                    child: const Icon(Icons.cleaning_services_outlined)),
+                    child: Icon(Icons.cleaning_services_outlined)),
                 title: Text(l10n.generalButtonEraseWalletData,
                     style: TextStyles.textNormal),
                 trailing: Container(),
@@ -236,14 +231,14 @@ class _TabSettingsState extends State<TabSettings> {
                 },
               ),
               SettingsTile.navigation(
-                leading: ChangeForeground(
+                leading: const ChangeForeground(
                     color: LightThemeColors.gradient1,
-                    child: const Icon(Icons.file_present)),
+                    child: Icon(Icons.file_present)),
                 title: Text(l10n.settingsLabelExportWalletVaultFile,
                     style: TextStyles.textNormal),
                 trailing: Container(),
                 onPressed: (BuildContext context) async {
-                  pushScreen(context!,
+                  pushScreen(context,
                       screen: const ExportWalletVault(),
                       withNavBar: false,
                       pageTransitionAnimation:
@@ -256,9 +251,9 @@ class _TabSettingsState extends State<TabSettings> {
             title: getSettingsHeader(l10n.settingsHeaderSecurity, true),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                  leading: ChangeForeground(
+                  leading: const ChangeForeground(
                       color: LightThemeColors.gradient1,
-                      child: const Icon(Icons.password)),
+                      child: Icon(Icons.password)),
                   trailing: getTrailingArrow(),
                   title: Text(l10n.settingsLabelChangePassword,
                       style: TextStyles.textNormal),
@@ -272,9 +267,9 @@ class _TabSettingsState extends State<TabSettings> {
                     );
                   }),
               SettingsTile.navigation(
-                leading: ChangeForeground(
+                leading: const ChangeForeground(
                     color: LightThemeColors.gradient1,
-                    child: const Icon(Icons.lock_clock)),
+                    child: Icon(Icons.lock_clock)),
                 title: Text('Auto-Lock Settings', style: TextStyles.textNormal),
                 trailing: getTrailingArrow(),
                 onPressed: (BuildContext? context) async {
@@ -317,9 +312,9 @@ class _TabSettingsState extends State<TabSettings> {
               title: getSettingsHeader(l10n.settingsHeaderAbout, true),
               tiles: <SettingsTile>[
                 SettingsTile.navigation(
-                  leading: ChangeForeground(
+                  leading: const ChangeForeground(
                       color: LightThemeColors.gradient1,
-                      child: const Icon(Icons.people)),
+                      child: Icon(Icons.people)),
                   title: Text(l10n.settingsLabelJoinCommunity,
                       style: TextStyles.textNormal),
                   trailing: Container(),
@@ -334,9 +329,9 @@ class _TabSettingsState extends State<TabSettings> {
                   },
                 ),
                 SettingsTile.navigation(
-                  leading: ChangeForeground(
+                  leading: const ChangeForeground(
                       color: LightThemeColors.gradient1,
-                      child: const Icon(Icons.account_balance_wallet_outlined)),
+                      child: Icon(Icons.account_balance_wallet_outlined)),
                   trailing: Observer(builder: (BuildContext context) {
                     if (qubicHubStore.updateAvailable) {
                       return const Icon(Icons.info, color: Colors.red);

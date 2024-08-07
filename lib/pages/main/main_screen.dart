@@ -180,7 +180,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,
-              child: const SafeArea(child: const TabWalletContents())),
+              child: const SafeArea(child: TabWalletContents())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,

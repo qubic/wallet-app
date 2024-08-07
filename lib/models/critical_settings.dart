@@ -48,7 +48,7 @@ class CriticalSettings {
   }
 
   String toJSON() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['storedPasswordHash'] = storedPasswordHash;
     data['padding'] = padding;
     data['publicIds'] = publicIds;

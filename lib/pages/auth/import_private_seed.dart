@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -216,8 +217,9 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               });
             } catch (e) {
               if (e.toString().startsWith("Exception: CRITICAL:")) {
-                print("CRITICAL");
-
+                if (kDebugMode) {
+                  print("CRITICAL");
+                }
                 showAlertDialog(
                     context,
                     l10n.addAccountErrorTamperedWalletTitle,
@@ -293,7 +295,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
           return;
         }
         // VERY UGLY HACK. TODO: FIX THIS
-        var timer = Timer(Duration(milliseconds: 300), () async {
+        // ignore: unused_local_variable
+        var timer = Timer(const Duration(milliseconds: 300), () async {
           if (totalSteps == 2) {
             //Device has biometrics enabled, so show biometrics panel
             pushScreen(

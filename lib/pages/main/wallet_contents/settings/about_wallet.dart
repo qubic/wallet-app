@@ -1,19 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:qubic_wallet/components/available_update_card.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/update_details_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/globals.dart';
-import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
-import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
-import 'package:qubic_wallet/models/version_number.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/qubic_hub_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -23,7 +14,6 @@ import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:url_launcher/link.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class AboutWallet extends StatefulWidget {
   const AboutWallet({super.key});
@@ -163,7 +153,7 @@ class _AboutWalletState extends State<AboutWallet> {
             children: <Widget>[
               ThemedControls.spacerHorizontalNormal(),
               Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Padding(
+                const Padding(
                     padding: EdgeInsets.only(top: 8),
                     child: SizedBox(
                         height: 28,
@@ -175,7 +165,7 @@ class _AboutWalletState extends State<AboutWallet> {
                     subheaderText: "Version ${qubicHubStore.versionInfo}"),
               ]),
               Row(children: [
-                SizedBox(width: 56),
+                const SizedBox(width: 56),
                 Expanded(
                     child: Text(
                         "${"Copyright (c) 2023 - ${DateTime.now().year}"} Qubic.ORG (based on Wallet by Qubic-Hub)",
@@ -210,14 +200,14 @@ class _AboutWalletState extends State<AboutWallet> {
                   Text("Donations", style: TextStyles.labelText),
                   ThemedControls.spacerVerticalNormal(),
                   Row(children: [
-                    Expanded(
+                    const Expanded(
                         child: Text(
                             "WZFSPXPLXKNWFDLNMZHQTGMSRIHBEBITVDUXOSVSZGBREGIUVNWVZBIETEQF")),
                     ThemedControls.spacerVerticalNormal(),
                     IconButton(
-                        icon: Icon(Icons.copy),
+                        icon: const Icon(Icons.copy),
                         onPressed: () {
-                          Clipboard.setData(ClipboardData(
+                          Clipboard.setData(const ClipboardData(
                               text:
                                   "WZFSPXPLXKNWFDLNMZHQTGMSRIHBEBITVDUXOSVSZGBREGIUVNWVZBIETEQF"));
                           appStore.reportGlobalNotification(
