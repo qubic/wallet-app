@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io' as io;
 import 'dart:io';
+import 'package:flutter/gestures.dart';
 import 'package:path/path.dart' as path;
 import 'dart:convert';
 
@@ -13,6 +14,7 @@ import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/extensions/darkmode.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
@@ -201,46 +203,94 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
                 ])));
   }
 
-  //Handles the proceed button to go to next step (add password) and then to biometrics if needed
+  /// Handles the proceed button
+  ///
+  /// This function validates the form and imports the vault file
+  /// If the number of accounts to be imported is more than 15, a dialog is shown to the user
+  /// If the there are watchOnly accounts, a dialog is shown to the user
+  /// If the number of accounts to be imported is less than 15, the wallet is created
   Future<void> handleProceed() async {
     final l10n = l10nOf(context);
-    if (context.mounted == false) {
-      return;
-    }
+
     bool result = await _validateForProceed();
     if (!result) {
       return;
     }
 
-    if (importedSeeds!.length > 15) {
-      showAlertDialog(context, l10n.importVaultDialogTitleTooManyAccounts,
-          l10n.importVaultDialogMessageTooManyAccounts,
-          primaryButtonFunction: () async {
-        await _runCreateWalletSteps();
-      }, primaryButtonLabel: "OK");
+    //Get total number of watchOnly accounts
+    int toBeImportedCount =
+        importedSeeds!.where((element) => element.getSeed() != "").length;
+    int watchOnlyAccounts = importedSeeds!.length - toBeImportedCount;
+    String messageTitle = "";
+    String messageText = "";
+
+    if (toBeImportedCount > 15) {
+      //More than 15 accounts to be imported
+      if (watchOnlyAccounts > 0) {
+        //No watchOnly accounts
+        messageTitle =
+            l10n.importVaultDialogTitleTooManyAccountsAndWatchAccounts;
+        messageText =
+            l10n.importVaultDialogMessageTooManyAccountsAndWatchAccounts;
+      } else {
+        //There are watchOnly accounts
+        messageTitle = l10n.importVaultDialogTitleTooManyAccounts;
+        messageText = l10n.importVaultDialogMessageTooManyAccounts;
+      }
+    } else {
+      //Less than 15 accounts to be imported
+      if (watchOnlyAccounts > 0) {
+        //There are watchOnly accounts
+        messageTitle = l10n.importVaultDialogTitleWatchAccount;
+        messageText = l10n.importVaultDialogMessageWatchAccount;
+      } else {
+        //There are no watchOnly accounts, normal case do nothing. keep for readability
+      }
+    }
+
+    if ((messageTitle.isNotEmpty) && (messageText.isNotEmpty)) {
+      if (context.mounted) {
+        // ignore: use_build_context_synchronously
+        showAlertDialog(context, messageTitle, messageText,
+            primaryButtonFunction: () async {
+          Navigator.of(context).pop();
+          await _runCreateWalletSteps();
+        }, primaryButtonLabel: l10n.generalButtonOK);
+      }
       return;
     }
 
     await _runCreateWalletSteps();
   }
 
+  /// Runs the create wallet steps
+  /// Called by handleProceed.
+  ///
+  /// IF there's one step,  AddBiometricsPassword screen is loaded
+  /// ELSE, doCreateWallet is called
   Future<void> _runCreateWalletSteps() async {
     if (totalSteps == 1) {
+      setState(() {
+        isLoading = false;
+      });
       pushScreen(
         context,
         screen: AddBiometricsPassword(onAddedBiometrics: (bool eb) async {
           enabledBiometrics = eb;
-
-          await doCreateWallet();
+          await _doCreateWallet();
         }),
         withNavBar: false, // OPTIONAL VALUE. True by default.
         pageTransitionAnimation: PageTransitionAnimation.cupertino,
       );
     } else {
-      await doCreateWallet();
+      await _doCreateWallet();
     }
   }
 
+  /// Validates the form and imports the vault file
+  ///
+  /// Called by handleProceed
+  /// Returns true if input is ok, false if not
   Future<bool> _validateForProceed() async {
     final l10n = l10nOf(context);
 
@@ -280,7 +330,8 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
       return false;
     }
 
-    if (importedSeeds!.isEmpty) {
+    if (importedSeeds!.length ==
+        importedSeeds!.where((element) => element.getSeed() == "").length) {
       setState(() {
         importError = l10n.importVaultErrorOnlyWatchAccountsFound;
         isLoading = false;
@@ -291,12 +342,14 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
     return true;
   }
 
-  Future<void> doCreateWallet() async {
+  /// Actually creates the wallet info
+  /// Called by _runCreateWalletSteps
+  ///
+  /// Uses appStore to create new vault password
+  /// Adds the imported seeds to the vault
+  /// Stores the biometrics settings
+  Future<void> _doCreateWallet() async {
     final l10n = l10nOf(context);
-
-    if (!context.mounted) {
-      return;
-    }
     setState(() {
       isLoading = true;
     });
@@ -306,14 +359,18 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
         List<QubicId> ids = [];
         for (var importedSeed in importedSeeds!) {
           ids.add(QubicId(importedSeed.getSeed(), importedSeed.getPublicId(),
-              importedSeed.getAlias(), 0));
+              importedSeed.getAlias()!, 0));
         }
         await appStore.addManyIds(ids);
-
         await getIt<QubicLi>().authenticate();
       } catch (e) {
-        showAlertDialog(
-            context, l10n.generalErrorContactingQubicNetwork, e.toString());
+        if (context.mounted) {
+          showAlertDialog(
+              // ignore: use_build_context_synchronously
+              context,
+              l10n.generalErrorContactingQubicNetwork,
+              e.toString());
+        }
         setState(() {
           isLoading = false;
         });
@@ -325,13 +382,21 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
           isLoading = false;
         });
       } catch (e) {
-        showAlertDialog(
-            context, l10n.signUpErrorStoringBiometricInfo, e.toString());
+        if (context.mounted) {
+          showAlertDialog(
+              // ignore: use_build_context_synchronously
+              context,
+              l10n.signUpErrorStoringBiometricInfo,
+              e.toString());
+        }
       }
 
       appStore.checkWalletIsInitialized();
       settingsStore.setBiometrics(enabledBiometrics);
-      context.goNamed("mainScreen");
+      if (context.mounted) {
+        // ignore: use_build_context_synchronously
+        context.goNamed("mainScreen");
+      }
       _globalSnackbar
           .show(l10n.generalSnackBarMessageWalletImportedSuccessfully);
     } else {

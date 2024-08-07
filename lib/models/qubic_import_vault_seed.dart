@@ -6,10 +6,10 @@ class QubicImportVaultSeed {
   late String? _seed; //A descriptive name of the ID
 
   factory QubicImportVaultSeed.fromJson(Map<String, dynamic> json) {
-    var _alias = json['alias'];
-    var _publicId = json['publicId'];
-    var _seed = json['seed'];
-    return QubicImportVaultSeed(_alias, _publicId, _seed);
+    var alias = json['alias'];
+    var publicId = json['publicId'];
+    var seed = json['seed'];
+    return QubicImportVaultSeed(alias, publicId, seed);
   }
 
   void validateSeed(String seed) {
@@ -41,7 +41,9 @@ class QubicImportVaultSeed {
   QubicImportVaultSeed(String alias, String publicId, String seed) {
     validateAlias(alias);
     validatePublicID(publicId);
-    validateSeed(seed);
+    if (seed.isNotEmpty) {
+      validateSeed(seed);
+    }
     _alias = alias.replaceAll(",", "_");
     _publicId = publicId.replaceAll(",", "_");
     _seed = seed.replaceAll(",", "_");
@@ -62,15 +64,15 @@ class QubicImportVaultSeed {
     _alias = alias.replaceAll(",", "_");
   }
 
-  getSeed() {
+  String? getSeed() {
     return _seed;
   }
 
-  getPublicId() {
+  String getPublicId() {
     return _publicId;
   }
 
-  getAlias() {
+  String? getAlias() {
     return _alias;
   }
 }

@@ -233,6 +233,8 @@ class QubicCmdUtils {
   Future<List<QubicImportVaultSeed>> importVaultFile(
       String password, String filePath) async {
     await validateFileStreamSignature();
+    List<QubicImportVaultSeed>? seeds;
+
     final p = await Process.run(
         await _getHelperFileFullPath(),
         [
@@ -268,8 +270,31 @@ class QubicCmdUtils {
     }
 
     if (response.seeds == null) {
+      throw Exception('Vault file is empty.');
+    }
+    if (response.seeds!.isEmpty) {
       throw Exception('Vault file contains no seeds');
     }
-    return response.seeds!;
+
+    seeds = <QubicImportVaultSeed>[];
+    var i = 1;
+    for (var seed in response.seeds!) {
+      if ((seed.getAlias() == null) || (seed.getAlias()!.isEmpty)) {
+        throw Exception('Entry number $i is missing alias/account name');
+      }
+      if (seed.getPublicId().isEmpty) {
+        throw Exception('Entry number $i is missing public ID');
+      }
+      if ((seed.getSeed() == null)) {
+        throw Exception('Entry number $i is missing seed');
+      }
+
+      if (seed.getSeed()!.isNotEmpty) {
+        seeds.add(QubicImportVaultSeed(
+            seed.getAlias()!, seed.getPublicId(), seed.getSeed()!));
+      }
+    }
+
+    return seeds;
   }
 }

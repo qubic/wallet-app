@@ -27,7 +27,7 @@ class QubicJs {
     InAppWebView = HeadlessInAppWebView(
         onWebViewCreated: (WVcontroller) async {
           WVcontroller.loadFile(
-              assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_4.html");
+              assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_5.html");
 
           controller = WVcontroller;
         },
