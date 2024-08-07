@@ -213,7 +213,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
       return;
     }
 
-    //Get total number of watchOnly accounts
+    // get total number of watchOnly accounts
     int toBeImportedCount =
         importedSeeds!.where((element) => element.getSeed() != "").length;
     int watchOnlyAccounts = importedSeeds!.length - toBeImportedCount;
@@ -221,26 +221,26 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
     String messageText = "";
 
     if (toBeImportedCount > 15) {
-      //More than 15 accounts to be imported
+      // More than 15 accounts to be imported found
       if (watchOnlyAccounts > 0) {
-        //No watchOnly accounts
+        // watch only accounts found
         messageTitle =
             l10n.importVaultDialogTitleTooManyAccountsAndWatchAccounts;
         messageText =
             l10n.importVaultDialogMessageTooManyAccountsAndWatchAccounts;
       } else {
-        //There are watchOnly accounts
+        // no watch only accounts found
         messageTitle = l10n.importVaultDialogTitleTooManyAccounts;
         messageText = l10n.importVaultDialogMessageTooManyAccounts;
       }
     } else {
-      //Less than 15 accounts to be imported
+      // less than 15 accounts to be imported
       if (watchOnlyAccounts > 0) {
         //There are watchOnly accounts
         messageTitle = l10n.importVaultDialogTitleWatchAccount;
         messageText = l10n.importVaultDialogMessageWatchAccount;
       } else {
-        //There are no watchOnly accounts, normal case do nothing. keep for readability
+        // there are no watchOnly accounts, normal case do nothing. keep for readability
       }
     }
 
@@ -318,7 +318,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
       return false;
     }
 
-    if (importedSeeds == null) {
+    if (importedSeeds!.isEmpty) {
       setState(() {
         importError = l10n.importVaultErrorNoAccountsFound;
         isLoading = false;
