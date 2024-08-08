@@ -70,6 +70,10 @@ class _TabSettingsState extends State<TabSettings> {
     auth.canCheckBiometrics.then((value) {
       final l10n = l10nOf(context);
 
+      // setting a default fallback value
+      settingsUnlockLabel =
+          l10n.settingsLabelManageBiometrics(l10n.generalBiometricTypeGeneric);
+
       auth.getAvailableBiometrics().then((value) {
         if ((value.contains(BiometricType.face)) && (biometricType == null)) {
           setState(() {
