@@ -88,11 +88,12 @@ class QubicJs {
         await controller!.callAsyncJavaScript(functionBody: functionBody);
 
     if (result == null) {
-      throw Exception("Error trying to create asset transfer transcation");
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingAssetTransferTransactionGeneric);
     }
     if (result.error != null) {
-      throw Exception(
-          "Error trying to create asset transfer transcation: ${result.error}");
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingAssetTransferTransaction(result.error ?? ""));
     }
     return result.value['transaction'];
   }
@@ -108,10 +109,12 @@ class QubicJs {
         await controller!.callAsyncJavaScript(functionBody: functionBody);
 
     if (result == null) {
-      throw Exception("Error trying to create transavtion");
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingTransferTransactionGeneric);
     }
     if (result.error != null) {
-      throw Exception("Error trying to create transaction: ${result.error}");
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingTransferTransaction(result.error ?? ""));
     }
     return result.value['transaction'];
   }
@@ -122,10 +125,12 @@ class QubicJs {
             "return await runBrowser('createPublicId','${seed.replaceAll("'", "\\'")}');");
 
     if (result == null) {
-      throw Exception('Error getting public id from seed: Generic error');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorGettingPublicIdFromSeedGeneric);
     }
     if (result.error != null) {
-      throw Exception('Error getting public id from seed:  ${result.error!}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorGettingPublicIdFromSeed(result.error ?? ""));
     }
     return result.value['publicId'];
   }
@@ -137,18 +142,21 @@ class QubicJs {
         functionBody:
             "return await runBrowser('wallet.createVaultFile','${password.replaceAll("'", "\\'")}','${jsonEncode(seeds.map((e) => e.toJson()).toList()).replaceAll("'", "\\'")}')");
     if (result == null) {
-      throw Exception('Unknown error');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingVaultFileGeneric);
     }
     if (result.value['status'] == 'error') {
-      throw Exception(result.value['error']);
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingVaultFile(result.value['error'] ?? ""));
     }
     if (result.error != null) {
-      throw Exception(result.error);
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingVaultFile(result.error ?? ""));
     }
     if (result.value['base64'] == null) {
-      throw Exception('Helper returned empty vault file');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingVaultFileGeneratedIsEmpty);
     }
-
     return base64Decode(result.value['base64']!);
   }
 
@@ -161,21 +169,24 @@ class QubicJs {
             "return await runBrowser('wallet.importVault','${password.replaceAll("'", "\\'")}','${baseFileContents.replaceAll("'", "\\'")}')");
 
     if (result == null) {
-      throw Exception('Unknown error');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.importVaultFileGenericError);
     }
     if (result.value['status'] == 'error') {
       if (result.value['error'] == "Could not parse seeds JSON") {
-        throw Exception(
-            'File is not a Qubic Vault file or password is incorrect');
+        throw Exception(LocalizationManager
+            .instance.appLocalization.importVaultFilePassError);
       }
-      throw Exception(result.value['error']);
+      throw Exception(LocalizationManager.instance.appLocalization
+          .importVaultFileError(result.value['error'] ?? ""));
     }
     if (result.error != null) {
-      throw Exception(result.error!);
+      throw Exception(LocalizationManager.instance.appLocalization
+          .importVaultFileError(result.error ?? ""));
     }
     if (result.value['seeds'] == null) {
-      throw Exception(
-          'Vault file is malformed and does not contain account information.');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.importVaultFileSeedsNullError);
     }
     if (result.value['seeds'].toString().isEmpty) {
       throw Exception(LocalizationManager
@@ -185,11 +196,13 @@ class QubicJs {
     try {
       parsedSeeds = result.value['seeds'];
     } catch (e) {
-      throw Exception('Seed information is malformed');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.importVaultFileSeedsMalformedError);
     }
 
     if (parsedSeeds == null) {
-      throw Exception('Could not parse seeds from vault file');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.importVaultFileParsedSeedsNullError);
     }
 
     if (parsedSeeds.isEmpty) {
@@ -201,14 +214,16 @@ class QubicJs {
     var i = 1;
     for (var seed in parsedSeeds) {
       if (seed['alias'] == null) {
-        throw Exception(
-            'Account entry number $i is missing alias/account name');
+        throw Exception(LocalizationManager.instance.appLocalization
+            .importVaultFileAccountMissingName(i));
       }
       if (seed['publicId'] == null) {
-        throw Exception('Account entry number $i is missing public ID');
+        throw Exception(LocalizationManager.instance.appLocalization
+            .importVaultFileAccountMissingPublicId(i));
       }
       if (seed['seed'] == null) {
-        throw Exception('Account entry number $i is missing seed');
+        throw Exception(LocalizationManager.instance.appLocalization
+            .importVaultFileAccountMissingSeed(i));
       }
 
       seeds.add(QubicImportVaultSeed(

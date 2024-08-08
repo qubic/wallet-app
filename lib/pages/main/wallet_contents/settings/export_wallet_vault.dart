@@ -138,7 +138,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
           ? Padding(
               padding: const EdgeInsets.fromLTRB(
                   ThemePaddings.bigPadding, ThemePaddings.miniPadding, 0, 0),
-              child: Text(l10n.generalErrorFileRequired,
+              child: Text(l10n.generalErrorPathRequired,
                   style: const TextStyle(
                       fontSize: ThemeFontSizes.errorLabel,
                       color: LightThemeColors.error)),

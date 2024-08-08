@@ -28,7 +28,8 @@ class QubicCmdUtils {
     } else if (UniversalPlatform.isMacOS) {
       return Config.qubicHelper.macOs64;
     }
-    throw Exception('Unsupported platform');
+    throw Exception(
+        LocalizationManager.instance.appLocalization.generalErrorUnsupportedOS);
   }
 
   Future<String?> _getFileChecksum(String filePath) async {
@@ -89,26 +90,26 @@ class QubicCmdUtils {
     try {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
-      throw Exception(
-          'Failed to create vault file. Invalid response from helper');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingVaultFile(e.toString()));
     }
     QubicCmdResponse response;
     try {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
-      throw Exception(
-          'Failed to create vault file. Could not parse response from helper');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingVaultFile(e.toString()));
     }
 
     if (response.status == false) {
-      throw Exception('Failed to create vault file. Error: ${response.error}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingVaultFile(response.error.toString()));
     }
 
     if ((response.base64 == null) || (response.base64!.isEmpty)) {
-      throw Exception(
-          'Failed to create vault file. Helper returned empty vault file');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingVaultFileGeneratedIsEmpty);
     }
-
     return base64Decode(response.base64!);
   }
 
@@ -121,24 +122,25 @@ class QubicCmdUtils {
     try {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
-      throw Exception(
-          'Failed to get public seed. Invalid response from helper');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorGettingPublicIdFromSeedGeneric);
     }
     QubicCmdResponse response;
     try {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
-      throw Exception(
-          'Failed to get public seed. Could not parse response from helper');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorGettingPublicIdFromSeed(e.toString()));
     }
 
     if (!response.status) {
-      throw Exception('Failed to get public seed. Error: ${response.error}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorGettingPublicIdFromSeed(response.error ?? ""));
     }
 
     if (response.publicId == null) {
-      throw Exception(
-          'Failed to get public seed. Helper returned empty public id');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorGettingPublicIdFromSeedEmpty);
     }
 
     return response.publicId!;
@@ -168,25 +170,25 @@ class QubicCmdUtils {
     try {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
-      throw Exception(
-          'Failed to create asset transfer transaction. Invalid response from helper');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingAssetTransferTransactionGeneric);
     }
     QubicCmdResponse response;
     try {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
-      throw Exception(
-          'Failed to create asset transfer transaction. Could not parse response from helper');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingAssetTransferTransaction(e.toString()));
     }
 
     if (!response.status) {
-      throw Exception(
-          'Failed to create asset transfer transaction. Error: ${response.error}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingAssetTransferTransaction(response.error ?? ""));
     }
 
     if (response.transaction == null) {
-      throw Exception(
-          'Failed to create asset transfer transaction. Helper returned empty transaction');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingAssetTransferTransactionEmpty);
     }
 
     return response.transaction!;
@@ -209,24 +211,25 @@ class QubicCmdUtils {
     try {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
-      throw Exception(
-          'Failed to create transaction. Invalid response from helper');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingTransferTransactionGeneric);
     }
     QubicCmdResponse response;
     try {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
-      throw Exception(
-          'Failed to create transaction. Could not parse response from helper');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingTransferTransaction(e.toString()));
     }
 
     if (!response.status) {
-      throw Exception('Failed to create transaction. Error: ${response.error}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingTransferTransaction(response.error ?? ""));
     }
 
     if (response.transaction == null) {
-      throw Exception(
-          'Failed to create transaction. Helper returned empty transaction');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingTransferTransactionEmpty);
     }
 
     return response.transaction!;
@@ -249,31 +252,33 @@ class QubicCmdUtils {
     try {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
-      throw Exception(
-          'Failed to read vault file. Invalid response from helper');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.importVaultFileGenericError);
     }
     QubicCmdResponse response;
     try {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
-      throw Exception(
-          'Failed to read vault file. Could not parse response from helper. Error was ${e.toString()}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .importVaultFileError(e.toString()));
     }
 
     if (!response.status) {
       if ((response.error == null) ||
           (!response.error!.contains(" Function"))) {
-        throw Exception('Failed to read and decrypt vault file.');
+        throw Exception(LocalizationManager
+            .instance.appLocalization.importVaultFilePassError);
       }
 
-      throw Exception(toBeginningOfSentenceCase(response.error!
-          .substring(0, response.error!.indexOf(" Function"))
-          .toLowerCase()));
+      throw Exception(LocalizationManager.instance.appLocalization
+          .importVaultFileError(toBeginningOfSentenceCase(response.error!
+              .substring(0, response.error!.indexOf(" Function"))
+              .toLowerCase())));
     }
 
     if (response.seeds == null) {
-      throw Exception(
-          'Vault file is malformed and does not contain account information.');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.importVaultFileSeedsNullError);
     }
     if (response.seeds!.isEmpty) {
       throw Exception(LocalizationManager
@@ -284,15 +289,17 @@ class QubicCmdUtils {
     var i = 1;
     for (var seed in response.seeds!) {
       if ((seed.getAlias() == null) || (seed.getAlias()!.isEmpty)) {
-        throw Exception(
-            'Account entry number $i is missing alias/account name');
+        throw Exception(LocalizationManager.instance.appLocalization
+            .importVaultFileAccountMissingName(i));
       }
       if (seed.getPublicId().isEmpty) {
-        throw Exception('Account entry number $i is missing public ID');
+        throw Exception(LocalizationManager.instance.appLocalization
+            .importVaultFileAccountMissingPublicId(i));
       }
 
       if ((seed.getSeed() == null)) {
-        throw Exception('Account entry number $i is missing seed');
+        throw Exception(LocalizationManager.instance.appLocalization
+            .importVaultFileAccountMissingSeed(i));
       }
 
       seeds.add(QubicImportVaultSeed(
