@@ -625,5 +625,56 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "welcomeButtonImportExistingWallet": "Import an Existing Wallet",
+    "importWalletTitle": "Import Wallet",
+    "importWalletSubHeader": "Choose how you want to import your existing wallet",
+    "importWalletLabelFromVaultFile": "Import Vault File",
+    "importWalletLabelFromVaultFileDescription": "Import an existing wallet with multiple accounts through a vault file.",
+    "importWalletLabelFromPrivateSeed": "Import Private Seed",
+    "importWalletLabelFromPrivateSeedDescription": "Import an existing account by entering the 55 character private seed.",
+    "importVaultSubHeader": "Choose a file with .qubic-vault extension",
+    "importVaultLabelEnterPassword": "Enter vault password",
+    "importVaultLabelSelectPathInstructions": "Browse your device to select the vault file to import.",
+    "importPrivateSeedSubHeader": "Enter the 55 character seed that you have saved when creating your account.",
+    "generalSnackBarMessageWalletImportedSuccessfully": "Wallet imported successfully",
+    "addAccountErrorTamperedAndroidWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM GOOGLE PLAY STORE OR RISK LOSS OF FUNDS",
+    "addAccountErrorTamperediOSWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM APP STORE OR RISK LOSS OF FUNDS",
+    "generalLabelSelectFile": "Select file",
+    "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+    "@autolockLabelDurationInMinutes": {
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "autolockLabelDurationImmediately": "Immediately",
+    "settingsLabelAutlock": "Auto-Lock Settings",
+    "importVaultDialogTitleTooManyAccounts": "Too many accounts found",
+    "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
+    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
+    "importVaultDialogTitleWatchAccount": "Watch only accounts found",
+    "importVaultDialogMessageWatchAccount": "As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported.",
+    "importVaultErrorNoAccountsFound": "No accounts found in your vault file. We can't proceed with the import.",
+    "importVaultErrorOnlyWatchAccountsFound": "Your vault file contains only watch only accounts. As we currently do not support watch only accounts, we can't proceed with the import.",
+    "importVaultFilePickerLabel": "Please select a vault file to continue:",
+    "importVaultFileErrorGeneralMessage": "Error importing vault file: {errorDescription}",
+    "@importVaultFileErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletVaultErrorGeneralMessage": "Error creating vault file: {errorDescription}",
+    "@exportWalletVaultErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "importPrivateSeedDefaultAccountName": "Account 1"
 }

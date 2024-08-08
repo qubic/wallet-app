@@ -625,5 +625,56 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "welcomeButtonImportExistingWallet": "Импортировать существующий кошелек",
+    "importWalletTitle": "Импортировать кошелек",
+    "importWalletSubHeader": "Выберете каким образом вы хотите импортировать существующий кошелек",
+    "importWalletLabelFromVaultFile": "Импортировать файл Vault",
+    "importWalletLabelFromVaultFileDescription": "Импортировать существующий кошелек с несколькими учетными записями с помощью файла Vault.",
+    "importWalletLabelFromPrivateSeed": "Импортировать секретный сид.",
+    "importWalletLabelFromPrivateSeedDescription": "Импортировать учетную запись при помощи 55-ти значного секретного сида.",
+    "importVaultSubHeader": "Выберете файл с расширением .qubic-vault",
+    "importVaultLabelEnterPassword": "Введите пароль для Vault файла",
+    "importVaultLabelSelectPathInstructions": "Найти Vault файл на моем устройстве.",
+    "importPrivateSeedSubHeader": "Введите свой 55-ти значный секретный сид который вы указали когда создавали аккаунт.",
+    "generalSnackBarMessageWalletImportedSuccessfully": "Кошелек импортирован успешно!",
+    "addAccountErrorTamperedAndroidWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН!!\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ ИЗ GOOGLE PLAY ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА!!",
+    "addAccountErrorTamperediOSWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН!!\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ ИЗ APP STORE ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА!!",
+    "generalLabelSelectFile": "Выберете файл",
+    "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 минута} other{{minutes} минут}}",
+    "@autolockLabelDurationInMinutes": {
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "autolockLabelDurationImmediately": "Немедленно",
+    "settingsLabelAutlock": "Настройки автоблокировки",
+    "importVaultDialogTitleTooManyAccounts": "Найдено слишком много учетных записей",
+    "importVaultDialogMessageTooManyAccounts": "Ваш Vault файл содержит более 15 аккаунтов. Все аккаунты будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше 15.",
+    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Слишком много аккаунтов с режимом наблюдение.",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Ваш Vault файл содержит более 15 аккаунтов, некоторые из них в режиме наблюдение. Поскольку в настоящее время мы не поддерживаем аккаунты с функцией наблюдения, они будут проигнорированы. Все остальные будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше 15.",
+    "importVaultDialogTitleWatchAccount": "Найдены аккаунты в режиме наблюдения",
+    "importVaultDialogMessageWatchAccount": "Поскольку в настоящее время мы не поддерживаем учетные записи в режиме наблюдения, они будут проигнорированы. Все остальные будут импортированы.",
+    "importVaultErrorNoAccountsFound": "В вашем файле Vault не обнаружено аккаунтов.",
+    "importVaultErrorOnlyWatchAccountsFound": "Ваш файл Vault содержит аккаунты только в режиме наблюдения, мы больше не поддерживаем их он не будет импортирован.",
+    "importVaultFilePickerLabel": "Для продолжения выберите файл Vault:",
+    "importVaultFileErrorGeneralMessage": "Ошибка при импортировании файла Vault: {errorDescription}",
+    "@importVaultFileErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletVaultErrorGeneralMessage": "Ошибка при создании файла Vault: {errorDescription}",
+    "@exportWalletVaultErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "importPrivateSeedDefaultAccountName": "Аккаунт 1"
 }
