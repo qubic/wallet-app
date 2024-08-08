@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter/services.dart' show Uint8List;
+import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 
@@ -177,8 +178,10 @@ class QubicJs {
           'Vault file is malformed and does not contain account information.');
     }
     if (result.value['seeds'].toString().isEmpty) {
-      throw Exception('Vault file contains no accounts');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.importVaultFileErrorHasNoAccounts);
     }
+
     try {
       parsedSeeds = result.value['seeds'];
     } catch (e) {
@@ -187,6 +190,11 @@ class QubicJs {
 
     if (parsedSeeds == null) {
       throw Exception('Could not parse seeds from vault file');
+    }
+
+    if (parsedSeeds.isEmpty) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.importVaultFileErrorHasNoAccounts);
     }
 
     seeds = <QubicImportVaultSeed>[];
