@@ -625,5 +625,56 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "welcomeButtonImportExistingWallet": "导入已有钱包",
+    "importWalletTitle": "导入钱包",
+    "importWalletSubHeader": "选择您想要导入钱包的方式",
+    "importWalletLabelFromVaultFile": "导入 Vault 文件",
+    "importWalletLabelFromVaultFileDescription": "通过 Vault 文件导入包含多个账户的钱包。",
+    "importWalletLabelFromPrivateSeed": "导入私钥种子",
+    "importWalletLabelFromPrivateSeedDescription": "通过 55 个小写字母组成的私钥种子导入已有账户。",
+    "importVaultSubHeader": "请选择一个 .qubic-vault 扩展名的文件。",
+    "importVaultLabelEnterPassword": "输入密码",
+    "importVaultLabelSelectPathInstructions": "浏览设备以选择要导入的文件。",
+    "importPrivateSeedSubHeader": "请输入在创建账户时保存的 55 个小写字母组成的私钥种子。",
+    "generalSnackBarMessageWalletImportedSuccessfully": "钱包导入成功",
+    "addAccountErrorTamperedAndroidWalletMessage": "您目前正在使用的钱包已被篡改。\n\n请从 Google Play 商店安装官方版本，否则有资金损失的风险。",
+    "addAccountErrorTamperediOSWalletMessage": "您目前正在使用的钱包已被篡改。\n\n请从应用商店安装官方版本，否则有资金损失的风险。",
+    "generalLabelSelectFile": "选择文件",
+    "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+    "@autolockLabelDurationInMinutes": {
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "autolockLabelDurationImmediately": "立即",
+    "settingsLabelAutlock": "自动锁定设置",
+    "importVaultDialogTitleTooManyAccounts": "账户数量过多",
+    "importVaultDialogMessageTooManyAccounts": "您的 Vault 文件包含超过 15 个账户。所有账户都将被导入，在查看余额和发送资金前，请将账户数量调整至最多不超过 15 个。",
+    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "观察账户和账户数量过多",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "您的 Vault 文件中包含了超过 15 个账户，其中一些为观察账户。目前不支持观察账户，这些将被忽略，其余账户都将被导入，在查看余额和发送资金前，请将账户数量调整至最多不超过 15 个。",
+    "importVaultDialogTitleWatchAccount": "仅观察账户",
+    "importVaultDialogMessageWatchAccount": "由于当前不支持观察账户，它们将会被忽略，其余账户都将被导入。",
+    "importVaultErrorNoAccountsFound": "在您的 Vault 文件中未找到帐户。无法进行导入。",
+    "importVaultErrorOnlyWatchAccountsFound": "您的 Vault 文件仅包含观察账户。目前不支持观察账户，无法进行导入。",
+    "importVaultFilePickerLabel": "请选择一个 Vault 文件以继续：",
+    "importVaultFileErrorGeneralMessage": "导入 Vault 文件发生错误： {errorDescription}",
+    "@importVaultFileErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletVaultErrorGeneralMessage": "创建 Vault 文件发生错误： {errorDescription}",
+    "@exportWalletVaultErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "importPrivateSeedDefaultAccountName": "Account 1"
 }
