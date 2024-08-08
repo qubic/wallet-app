@@ -630,13 +630,13 @@
     "importWalletTitle": "Importer Votre Portefeuille",
     "importWalletSubHeader": "Choisir comment importer votre Portefeuille",
     "importWalletLabelFromVaultFile": "Importer Vault",
-    "importWalletLabelFromVaultFileDescription": "Import an existing wallet with multiple accounts through a vault file.",
+    "importWalletLabelFromVaultFileDescription": "Importez un portefeuille existant avec plusieurs comptes via un fichier de coffre-fort.",
     "importWalletLabelFromPrivateSeed": "Importer Votre Seed Privée",
     "importWalletLabelFromPrivateSeedDescription": "Importez un compte existant en saisissant votre Seed Privée",
     "importVaultSubHeader": "Choisir un fichier avec l'extension .qubic-vault",
-    "importVaultLabelEnterPassword": "Enter vault password",
-    "importVaultLabelSelectPathInstructions": "Browse your device to select the vault file to import.",
-    "importPrivateSeedSubHeader": "Enter the 55 character seed that you have saved when creating your account.",
+    "importVaultLabelEnterPassword": "Entrer le mot de passe du fichier de coffre-fort ",
+    "importVaultLabelSelectPathInstructions": "Parcourez votre appareil pour sélectionner le fichier de coffre-fort à importer.",
+    "importPrivateSeedSubHeader": "Saisissez le code de 55 caractères que vous avez enregistré lors de la création de votre compte.",
     "generalSnackBarMessageWalletImportedSuccessfully": "Portefeuille importé avec succès",
     "addAccountErrorTamperedAndroidWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE PLAY STORE OU RISQUEZ UNE PERTE DE FONDS",
     "addAccountErrorTamperediOSWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE APP STORE OU RISQUEZ UNE PERTE DE FONDS",
@@ -652,15 +652,15 @@
     "autolockLabelDurationImmediately": "Immédiatement",
     "settingsLabelAutlock": "Verrouiller automatiquement",
     "importVaultDialogTitleTooManyAccounts": "Trop de comptes trouvés",
-    "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
+    "importVaultDialogMessageTooManyAccounts": "Votre fichier de coffre-fort contient plus de 15 comptes. Tous les comptes seront importés, mais pour pouvoir visualiser vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
     "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Comptes en Consultation Seule et trop de comptes trouvés",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Votre fichier de coffre-fort contient plus de 15 comptes, dont certains sont en Consultation Seule. Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés, mais pour pouvoir consulter vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
     "importVaultDialogTitleWatchAccount": "Comptes en Consultation Seule trouvés",
-    "importVaultDialogMessageWatchAccount": "As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported.",
-    "importVaultErrorNoAccountsFound": "Aucun compte n'a été trouvé dans votre fichier Vault. Nous ne pouvons pas procéder à l'importation.",
-    "importVaultErrorOnlyWatchAccountsFound": "Your vault file contains only watch only accounts. As we currently do not support watch only accounts, we can't proceed with the import.",
-    "importVaultFilePickerLabel": "Please select a vault file to continue:",
-    "importVaultFileErrorGeneralMessage": "Erreur lors de l'importation du fichier Vault: {errorDescription}",
+    "importVaultDialogMessageWatchAccount": "Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés.",
+    "importVaultErrorNoAccountsFound": "Aucun compte n'a été trouvé dans votre fichier de coffre-fort. Nous ne pouvons pas procéder à l'importation.",
+    "importVaultErrorOnlyWatchAccountsFound": "Votre fichier de coffre-fort contient uniquement des comptes en Consultation Seule. Comme nous ne prenons actuellement pas en charge ces comptes, nous ne pouvons pas procéder à l'importation.",
+    "importVaultFilePickerLabel": "Veuillez sélectionner le fichier de coffre-fort pour continuer:",
+    "importVaultFileErrorGeneralMessage": "Erreur lors de l'importation du fichier de coffre-fort: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
         "placeholders": {
             "errorDescription": {
@@ -668,7 +668,7 @@
             }
         }
     },
-    "exportWalletVaultErrorGeneralMessage": "Erreur lors de la création du fichier Vault: {errorDescription}",
+    "exportWalletVaultErrorGeneralMessage": "Erreur lors de la création du fichier de coffre-fort: {errorDescription}",
     "@exportWalletVaultErrorGeneralMessage": {
         "placeholders": {
             "errorDescription": {
@@ -697,9 +697,9 @@
             }
         }
     },
-    "cmdErrorGettingPublicIdFromSeedGeneric": "Error trying to get public ID from seed",
-    "cmdErrorGettingPublicIdFromSeedEmpty": "Error trying to get public ID from seed. Generated Public ID is empty",
-    "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
+    "cmdErrorGettingPublicIdFromSeedGeneric": "Erreur lors de la tentative de génération de l'ID public à partir de la Seed",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "Erreur lors de la tentative de génération de l'ID public à partir de la Seed. L'ID public généré est vide",
+    "cmdErrorGettingPublicIdFromSeed": "Erreur lors de la tentative de génération de l'ID public à partir de la Seed: {errorDescription}",
     "@cmdErrorGettingPublicIdFromSeed": {
         "placeholders": {
             "errorDescription": {
@@ -707,13 +707,13 @@
             }
         }
     },
-    "cmdErrorCreatingVaultFileGeneric": "Erreur lors de la tentative de création du fichier Vault",
-    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Erreur lors de la tentative de création du fichier Vault. Le fichier généré est vide",
+    "cmdErrorCreatingVaultFileGeneric": "Erreur lors de la tentative de création du fichier de coffre-fort",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Erreur lors de la tentative de création du fichier de coffre-fort. Le fichier généré est vide",
     "importVaultFileOrPasswordError": "Le fichier sélectionné n'est pas un fichier Qubic Vault ou le mot de passe est incorrect",
-    "importVaultFileGenericError": "Erreur lors de la tentative d'importation du fichier Vault",
-    "importVaultFileSeedsNullError": "Le fichier Vault est mal formé et ne contient pas d'informations sur les comptes",
-    "importVaultFileSeedsMalformedError": "Le fichier Vault contient des informations de compte mal formées",
-    "importVaultFileParsedSeedsNullError": "Impossible d'analyser les comptes à partir du fichier Vault",
+    "importVaultFileGenericError": "Erreur lors de la tentative d'importation du fichier de coffre-fort",
+    "importVaultFileSeedsNullError": "Le fichier de coffre-fort est mal formé et ne contient pas d'informations sur les comptes",
+    "importVaultFileSeedsMalformedError": "Le fichier de coffre-fort contient des informations de compte mal formées",
+    "importVaultFileParsedSeedsNullError": "Impossible d'analyser les comptes à partir du fichier de coffre-fort",
     "importVaultFileAccountMissingName": "Le nom de compte est manquant pour le compte en position {accountIndex}",
     "@importVaultFileAccountMissingName": {
         "placeholders": {
@@ -739,5 +739,6 @@
         }
     },
     "generalErrorFileRequired": "Veuillez remplir le fichier",
-    "generalErrorPathRequired": "Veuillez remplir le chemin du fichier"
+    "generalErrorPathRequired": "Veuillez remplir le chemin du fichier",
+    "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins"
 }

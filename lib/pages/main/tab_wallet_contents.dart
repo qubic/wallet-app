@@ -265,8 +265,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                               const Icon(Icons.warning_amber_rounded,
                                   color: LightThemeColors.error, size: 40),
                               ThemedControls.spacerVerticalNormal(),
-                              Text(
-                                  "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
+                              Text(l10n.homeWarningTooManyAccounts,
                                   textAlign: TextAlign.center,
                                   style: TextStyles.textNormal)
                             ])));

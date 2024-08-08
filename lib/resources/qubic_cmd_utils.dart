@@ -267,7 +267,7 @@ class QubicCmdUtils {
       if ((response.error == null) ||
           (!response.error!.contains(" Function"))) {
         throw Exception(LocalizationManager
-            .instance.appLocalization.importVaultFilePasswordError);
+            .instance.appLocalization.importVaultFileOrPasswordError);
       }
 
       throw Exception(LocalizationManager.instance.appLocalization

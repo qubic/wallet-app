@@ -738,5 +738,6 @@
         }
     },
     "generalErrorFileRequired": "Por favor, selecciona un archivo",
-    "generalErrorPathRequired": "Por favor, selecciona un directorio"
+    "generalErrorPathRequired": "Por favor, selecciona un directorio",
+    "homeWarningTooManyAccounts": "Tienes más de 15 cuentas en tu Wallet. No podrás ver los balances o hacer transferencias hasta que no elimines algunas de ellas hasta tener 15 o menos"
 }

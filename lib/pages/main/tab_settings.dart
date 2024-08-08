@@ -274,7 +274,8 @@ class _TabSettingsState extends State<TabSettings> {
                 leading: const ChangeForeground(
                     color: LightThemeColors.gradient1,
                     child: Icon(Icons.lock_clock)),
-                title: Text('Auto-Lock Settings', style: TextStyles.textNormal),
+                title: Text(l10n.settingsLabelAutlock,
+                    style: TextStyles.textNormal),
                 trailing: getTrailingArrow(),
                 onPressed: (BuildContext? context) async {
                   pushScreen(context!,
