@@ -128,10 +128,8 @@ class _ReceiveState extends State<Receive> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {
-          return Future.value(!isLoading);
-        },
+    return PopScope(
+        canPop: !isLoading,
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
