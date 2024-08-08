@@ -190,7 +190,7 @@ class QubicJs {
     }
     if (result.value['seeds'].toString().isEmpty) {
       throw Exception(LocalizationManager
-          .instance.appLocalization.importVaultFileErrorHasNoAccounts);
+          .instance.appLocalization.importVaultErrorNoAccountsFound);
     }
 
     try {
@@ -207,7 +207,7 @@ class QubicJs {
 
     if (parsedSeeds.isEmpty) {
       throw Exception(LocalizationManager
-          .instance.appLocalization.importVaultFileErrorHasNoAccounts);
+          .instance.appLocalization.importVaultErrorNoAccountsFound);
     }
 
     seeds = <QubicImportVaultSeed>[];
