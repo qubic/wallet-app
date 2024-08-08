@@ -1,5 +1,6 @@
 import 'dart:io' as io;
 import 'dart:io';
+import 'dart:math';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -69,69 +70,81 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   Widget getEmptyPathSelector() {
     final l10n = l10nOf(context);
 
-    return ThemedControls.darkButtonBigWithChild(
-        error: emptyPathError,
-        onPressed: () async {
-          if (UniversalPlatform.isAndroid) {
-            String? outputFolder = await FilePicker.platform.getDirectoryPath(
-                dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
-                lockParentWindow: true);
-            if (outputFolder == null) {
-              // User canceled the picker
-              debugPrint("Did not select");
-              return;
-            }
-
-            setState(() {
-              emptyPathError = false;
-              // selectedPath = outputFolder;
-              selectedPath = "${selectedPath!}/export.qubic-vault";
-              selectedFile = io.File(selectedPath!);
-            });
-          } else {
-            String? outputFile = await FilePicker.platform.saveFile(
-                dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
-                allowedExtensions: ['qubic-vault'],
-                type: FileType.custom,
-                lockParentWindow: true,
-                fileName: 'exported.qubic-vault');
-
-            if (outputFile == null) {
-              // User canceled the picker
-              debugPrint("Did not select");
-            }
-            setState(() {
-              selectedPath = outputFile!;
-              if (!outputFile.endsWith(".qubic-vault")) {
-                selectedPath = "${selectedPath!}.qubic-vault";
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      ThemedControls.darkButtonBigWithChild(
+          error: emptyPathError,
+          onPressed: () async {
+            if (UniversalPlatform.isAndroid) {
+              String? outputFolder = await FilePicker.platform.getDirectoryPath(
+                  dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
+                  lockParentWindow: true);
+              if (outputFolder == null) {
+                // User canceled the picker
+                debugPrint("Did not select");
+                return;
               }
-              selectedFile = io.File(selectedPath!);
-            });
-          }
-        },
-        child: Padding(
-            padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-            child: Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(Icons.download, size: 24),
-                  ThemedControls.spacerHorizontalNormal(),
-                  Expanded(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(l10n.generalLabelSelectFilePath,
-                              style: TextStyles.textBold),
-                          ThemedControls.spacerVerticalSmall(),
-                          Text(
-                              l10n.exportWalletVaultLabelSelectFilePathInstructions,
-                              style: TextStyles.secondaryText)
-                        ]),
-                  )
-                ])));
+
+              setState(() {
+                emptyPathError = false;
+                // selectedPath = outputFolder;
+                selectedPath = "${selectedPath!}/export.qubic-vault";
+                selectedFile = io.File(selectedPath!);
+              });
+            } else {
+              String? outputFile = await FilePicker.platform.saveFile(
+                  dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
+                  allowedExtensions: ['qubic-vault'],
+                  type: FileType.custom,
+                  lockParentWindow: true,
+                  fileName: 'exported.qubic-vault');
+
+              if (outputFile == null) {
+                // User canceled the picker
+                debugPrint("Did not select");
+              }
+              setState(() {
+                selectedPath = outputFile!;
+                if (!outputFile.endsWith(".qubic-vault")) {
+                  selectedPath = "${selectedPath!}.qubic-vault";
+                }
+                selectedFile = io.File(selectedPath!);
+              });
+            }
+          },
+          child: Padding(
+              padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+              child: Flex(
+                  direction: Axis.horizontal,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.download, size: 24),
+                    ThemedControls.spacerHorizontalNormal(),
+                    Expanded(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(l10n.generalLabelSelectFilePath,
+                                style: TextStyles.textBold),
+                            ThemedControls.spacerVerticalSmall(),
+                            Text(
+                                l10n.exportWalletVaultLabelSelectFilePathInstructions,
+                                style: TextStyles.secondaryText)
+                          ]),
+                    )
+                  ]))),
+      emptyPathError
+          ? Padding(
+              padding: const EdgeInsets.fromLTRB(
+                  ThemePaddings.bigPadding, ThemePaddings.miniPadding, 0, 0),
+              child: Text(l10n.generalErrorFileRequired,
+                  style: const TextStyle(
+                      fontSize: ThemeFontSizes.errorLabel,
+                      color: LightThemeColors.error)),
+            )
+          : Container()
+    ]);
   }
 
   Widget getSelectedPathSelector() {
@@ -169,9 +182,8 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                           Text(path.basename(selectedFile!.path),
                               style: TextStyles.textBold),
                           ThemedControls.spacerVerticalSmall(),
-                          Container(
-                              child: Text(path.dirname(selectedFile!.path),
-                                  style: TextStyles.secondaryText))
+                          Text(path.dirname(selectedFile!.path),
+                              style: TextStyles.secondaryText)
                         ]),
                   ),
                   ThemedControls.spacerHorizontalNormal(),
@@ -208,9 +220,8 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: FormBuilder(
+          Expanded(
+              child: FormBuilder(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,7 +301,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                 shareWithOutputFolder ? getNonIOSContent() : Container()
               ],
             ),
-          )))
+          ))
         ]));
   }
 
@@ -360,10 +371,6 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
 
   // Handles the export process for iOS
   Future<void> _exportHandlerIOS() async {
-    if (!context.mounted) {
-      return;
-    }
-
     final l10n = l10nOf(context);
 
     try {
@@ -381,7 +388,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       if (res.status == ShareResultStatus.success) {
         _globalSnackBar.show(l10n.exportWalletVaultSnackbarSuccessMessage);
         await File(path).writeAsBytes([], flush: true);
-        Navigator.pop(context);
+        if (mounted) {
+          Navigator.pop(context);
+        }
       }
 
       await File(path).writeAsBytes([], flush: true);
@@ -393,8 +402,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       //   Navigator.pop(context);
       // }
     } catch (e) {
-      showErrorDialog(
-          context, l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
+      showErrorDialog(l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
       setState(() {
         isLoading = false;
       });
@@ -421,9 +429,11 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
           ? l10n.exportWalletVaultSnackbarSuccessMessageWithPath(selectedPath!)
           : l10n.exportWalletVaultSnackbarSuccessMessage);
 
-      Navigator.pop(context);
+      if (mounted) {
+        Navigator.pop(context);
+      }
     } catch (e) {
-      showErrorDialog(context, e.toString());
+      showErrorDialog(e.toString());
       setState(() {
         isLoading = false;
       });
@@ -434,7 +444,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   // (checks if file exists and shows overwrite dialog if needed)
   Future<void> _exportHandlerGeneric() async {
     if (await io.File(selectedPath!).exists()) {
-      _showOverWriteDialog(context);
+      _showOverWriteDialog();
     } else {
       _doExportGeneric();
     }
@@ -453,7 +463,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
 
   // #region Dialogs
   // Shows the error dialog when an error occurs while saving the vault file
-  void showErrorDialog(BuildContext context, String errorText) {
+  void showErrorDialog(String errorText) {
     late BuildContext dialogContext;
     final l10n = l10nOf(context);
 
@@ -486,7 +496,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   }
 
   // Shows the overwrite dialog when the file already exists in the selected path (android and desktop)
-  void _showOverWriteDialog(BuildContext context) {
+  void _showOverWriteDialog() {
     late BuildContext dialogContext;
     final l10n = l10nOf(context);
 

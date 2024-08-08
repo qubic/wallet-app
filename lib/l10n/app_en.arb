@@ -641,6 +641,8 @@
     "addAccountErrorTamperedAndroidWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM GOOGLE PLAY STORE OR RISK LOSS OF FUNDS",
     "addAccountErrorTamperediOSWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM APP STORE OR RISK LOSS OF FUNDS",
     "generalLabelSelectFile": "Select file",
+    "generalErrorFileRequired": "Please select a file",
+    "generalErrorPathRequired": "Please select a path",
     "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
     "@autolockLabelDurationInMinutes": {
         "placeholders": {

@@ -176,6 +176,8 @@ abstract class ThemeFontSizes {
   static const pageSubtitle = large;
 
   static const loginTitle = 36;
+
+  static const errorLabel = 12.5;
 }
 
 abstract class ThemeFonts {

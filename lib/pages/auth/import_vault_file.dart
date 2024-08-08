@@ -153,50 +153,64 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
   Widget getEmptyPathSelector() {
     final l10n = l10nOf(context);
 
-    return ThemedControls.darkButtonBigWithChild(
-        error: selectedPathError,
-        onPressed: () async {
-          FilePickerResult? result = await FilePicker.platform.pickFiles(
-              dialogTitle: l10n.importVaultFilePickerLabel,
-              withData: isMobile,
-              //allowedExtensions: ['qubic-vault'],
-              lockParentWindow: true);
-          if (result == null) {
-            // User canceled the picker
-            return;
-          }
-          setState(() {
-            selectedPath = result.files[0].path;
-            selectedFileBytes = result.files[0].bytes;
-            selectedPathError = false;
-            importedSeeds = null;
-            importError = null;
-          });
-        },
-        child: Padding(
-            padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-            child: Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Icon(Icons.download, size: 24),
-                  ThemedControls.spacerHorizontalNormal(),
-                  Expanded(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(l10n.generalLabelSelectFile,
-                              style: TextStyles.textBold),
-                          ThemedControls.spacerVerticalSmall(),
-                          Container(
-                              child: Text(
-                                  l10n.importVaultLabelSelectPathInstructions,
-                                  style: TextStyles.secondaryText))
-                        ]),
-                  )
-                ])));
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ThemedControls.darkButtonBigWithChild(
+              error: selectedPathError,
+              onPressed: () async {
+                FilePickerResult? result = await FilePicker.platform.pickFiles(
+                    dialogTitle: l10n.importVaultFilePickerLabel,
+                    withData: isMobile,
+                    //allowedExtensions: ['qubic-vault'],
+                    lockParentWindow: true);
+                if (result == null) {
+                  // User canceled the picker
+                  return;
+                }
+                setState(() {
+                  selectedPath = result.files[0].path;
+                  selectedFileBytes = result.files[0].bytes;
+                  selectedPathError = false;
+                  importedSeeds = null;
+                  importError = null;
+                });
+              },
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+                  child: Flex(
+                      direction: Axis.horizontal,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.download, size: 24),
+                        ThemedControls.spacerHorizontalNormal(),
+                        Expanded(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(l10n.generalLabelSelectFile,
+                                    style: TextStyles.textBold),
+                                ThemedControls.spacerVerticalSmall(),
+                                Text(
+                                    l10n.importVaultLabelSelectPathInstructions,
+                                    style: TextStyles.secondaryText)
+                              ]),
+                        )
+                      ]))),
+          selectedPathError
+              ? Padding(
+                  padding: const EdgeInsets.fromLTRB(ThemePaddings.bigPadding,
+                      ThemePaddings.miniPadding, 0, 0),
+                  child: Text(l10n.generalErrorFileRequired,
+                      style: const TextStyle(
+                          fontSize: ThemeFontSizes.errorLabel,
+                          color: LightThemeColors.error)),
+                )
+              : Container()
+        ]);
   }
 
   /// Handles the proceed button
