@@ -237,7 +237,12 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   }
 
   Widget getMain() {
-    _controller.jumpToTab(applicationStore.currentTabIndex);
+    if (applicationStore.hasStoredWalletSettings) {
+      _controller.jumpToTab(applicationStore.currentTabIndex);
+    }
+    else {
+      _controller.jumpToTab(0);
+    }
     // _controller.jumpToPreviousTab();
     return PersistentTabView(
       controller: _controller,
