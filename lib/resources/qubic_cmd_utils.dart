@@ -8,6 +8,7 @@ import 'package:path/path.dart' as path;
 
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/config.dart';
+import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
@@ -275,7 +276,8 @@ class QubicCmdUtils {
           'Vault file is malformed and does not contain account information.');
     }
     if (response.seeds!.isEmpty) {
-      throw Exception('Vault file contains no accounts');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.importVaultFileErrorHasNoAccounts);
     }
 
     seeds = <QubicImportVaultSeed>[];
@@ -288,6 +290,7 @@ class QubicCmdUtils {
       if (seed.getPublicId().isEmpty) {
         throw Exception('Account entry number $i is missing public ID');
       }
+
       if ((seed.getSeed() == null)) {
         throw Exception('Account entry number $i is missing seed');
       }

@@ -7,6 +7,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
+import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/routes.dart';
@@ -52,6 +53,8 @@ class WalletApp extends StatefulWidget {
 class _WalletAppState extends State<WalletApp> {
   @override
   Widget build(BuildContext context) {
+    LocalizationManager.instance.setLocalization(context);
+
     return MaterialApp.router(
       title: 'Qubic Wallet',
       routerConfig: appRouter,

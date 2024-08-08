@@ -668,6 +668,7 @@
             }
         }
     },
+    "importVaultFileErrorHasNoAccounts": "Selected vault file has no accounts",
     "exportWalletVaultErrorGeneralMessage": "Error creating vault file: {errorDescription}",
     "@exportWalletVaultErrorGeneralMessage": {
         "placeholders": {
