@@ -147,11 +147,11 @@ class QubicJs {
     }
     if (result.value['status'] == 'error') {
       throw Exception(LocalizationManager.instance.appLocalization
-          .cmdErrorCreatingVaultFile(result.value['error'] ?? ""));
+          .exportWalletVaultErrorGeneralMessage(result.value['error'] ?? ""));
     }
     if (result.error != null) {
       throw Exception(LocalizationManager.instance.appLocalization
-          .cmdErrorCreatingVaultFile(result.error ?? ""));
+          .exportWalletVaultErrorGeneralMessage(result.error ?? ""));
     }
     if (result.value['base64'] == null) {
       throw Exception(LocalizationManager
@@ -178,11 +178,11 @@ class QubicJs {
             .instance.appLocalization.importVaultFilePassError);
       }
       throw Exception(LocalizationManager.instance.appLocalization
-          .importVaultFileError(result.value['error'] ?? ""));
+          .importVaultFileErrorGeneralMessage(result.value['error'] ?? ""));
     }
     if (result.error != null) {
       throw Exception(LocalizationManager.instance.appLocalization
-          .importVaultFileError(result.error ?? ""));
+          .importVaultFileErrorGeneralMessage(result.error ?? ""));
     }
     if (result.value['seeds'] == null) {
       throw Exception(LocalizationManager
@@ -211,7 +211,7 @@ class QubicJs {
     }
 
     seeds = <QubicImportVaultSeed>[];
-    var i = 1;
+    var i = 0;
     for (var seed in parsedSeeds) {
       if (seed['alias'] == null) {
         throw Exception(LocalizationManager.instance.appLocalization
@@ -228,6 +228,7 @@ class QubicJs {
 
       seeds.add(QubicImportVaultSeed(
           seed['alias'], seed['publicId'], seed['seed'] ?? ""));
+      i++;
     }
 
     return seeds;

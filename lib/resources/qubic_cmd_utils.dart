@@ -91,19 +91,19 @@ class QubicCmdUtils {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
       throw Exception(LocalizationManager.instance.appLocalization
-          .cmdErrorCreatingVaultFile(e.toString()));
+          .exportWalletVaultErrorGeneralMessage(e.toString()));
     }
     QubicCmdResponse response;
     try {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
       throw Exception(LocalizationManager.instance.appLocalization
-          .cmdErrorCreatingVaultFile(e.toString()));
+          .exportWalletVaultErrorGeneralMessage(e.toString()));
     }
 
     if (response.status == false) {
       throw Exception(LocalizationManager.instance.appLocalization
-          .cmdErrorCreatingVaultFile(response.error.toString()));
+          .exportWalletVaultErrorGeneralMessage(response.error.toString()));
     }
 
     if ((response.base64 == null) || (response.base64!.isEmpty)) {
@@ -260,7 +260,7 @@ class QubicCmdUtils {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
       throw Exception(LocalizationManager.instance.appLocalization
-          .importVaultFileError(e.toString()));
+          .importVaultFileErrorGeneralMessage(e.toString()));
     }
 
     if (!response.status) {
@@ -271,7 +271,8 @@ class QubicCmdUtils {
       }
 
       throw Exception(LocalizationManager.instance.appLocalization
-          .importVaultFileError(toBeginningOfSentenceCase(response.error!
+          .importVaultFileErrorGeneralMessage(toBeginningOfSentenceCase(response
+              .error!
               .substring(0, response.error!.indexOf(" Function"))
               .toLowerCase())));
     }
@@ -282,11 +283,11 @@ class QubicCmdUtils {
     }
     if (response.seeds!.isEmpty) {
       throw Exception(LocalizationManager
-          .instance.appLocalization.importVaultFileErrorHasNoAccounts);
+          .instance.appLocalization.importVaultErrorNoAccountsFound);
     }
 
     seeds = <QubicImportVaultSeed>[];
-    var i = 1;
+    var i = 0;
     for (var seed in response.seeds!) {
       if ((seed.getAlias() == null) || (seed.getAlias()!.isEmpty)) {
         throw Exception(LocalizationManager.instance.appLocalization
@@ -304,6 +305,7 @@ class QubicCmdUtils {
 
       seeds.add(QubicImportVaultSeed(
           seed.getAlias()!, seed.getPublicId(), seed.getSeed() ?? ""));
+      i++;
     }
 
     return seeds;

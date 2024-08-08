@@ -679,8 +679,8 @@
         }
     },
 
-    "cmdErrorCreatingAssetTransferTransactionGeneric" : "Error trying to create asset transfer transaction",
-    "cmdErrorCreatingAssetTransferTransactionEmpty" : "Error trying to create asset transfer transaction. Generated transaction was empty",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "Error trying to create asset transfer transaction",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "Error trying to create asset transfer transaction. Generated transaction was empty",
 
     "cmdErrorCreatingAssetTransferTransaction": "Error trying to create asset transfer transaction: {errorDescription}",
     "@cmdErrorCreatingAssetTransferTransaction": {
@@ -690,8 +690,8 @@
             }
         }
     },
-    "cmdErrorCreatingTransferTransactionGeneric" : "Error trying to create transfer transaction",
-    "cmdErrorCreatingTransferTransactionEmpty" : "Error trying to create transfer transaction. Generated transaction was empty",
+    "cmdErrorCreatingTransferTransactionGeneric": "Error trying to create transfer transaction",
+    "cmdErrorCreatingTransferTransactionEmpty": "Error trying to create transfer transaction. Generated transaction was empty",
     "cmdErrorCreatingTransferTransaction": "Error trying to create transfer transaction: {errorDescription}",
     "@cmdErrorCreatingTransferTransaction": {
         "placeholders": {
@@ -700,8 +700,8 @@
             }
         }
     },
-     "cmdErrorGettingPublicIdFromSeedGeneric" : "Error trying to get public ID from seed",
-     "cmdErrorGettingPublicIdFromSeedEmpty" : "Error trying to get public ID from seed. Generated Public ID is empty",
+     "cmdErrorGettingPublicIdFromSeedGeneric": "Error trying to get public ID from seed",
+     "cmdErrorGettingPublicIdFromSeedEmpty": "Error trying to get public ID from seed. Generated Public ID is empty",
     "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
     "@cmdErrorGettingPublicIdFromSeed": {
         "placeholders": {
@@ -710,59 +710,37 @@
             }
         }
     },
-    "cmdErrorCreatingVaultFileGeneric" : "Error trying to create vault file",
-    "cmdErrorCreatingVaultFile": "Error trying to create vault file: {errorDescription}",
-    "@cmdErrorCreatingVaultFile": {
-        "placeholders": {
-            "errorDescription": {
-                "type": "String"
-            }
-        }
-    },
-    "cmdErrorCreatingVaultFileGeneratedIsEmpty" : "Error trying to create vault file. Generated vault file is empty",    
-    "importVaultFileOrPasswordError" : "Selected file is not a Qubic Vault file or password is incorrect",
-    "importVaultFileErrorGeneric" : "Could not import vault file: {errorDescription}",
-    "@importVaultFileErrorGeneric": {
-        "placeholders": {
-            "errorDescription": {
-                "type": "String"
-            }
-        }
-    },
+    "cmdErrorCreatingVaultFileGeneric": "Error trying to create vault file",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Error trying to create vault file. Generated vault file is empty",    
+    "importVaultFileOrPasswordError": "Selected file is not a Qubic Vault file or password is incorrect",
+   
     "importVaultFilePassError": "Selected file is not a Qubic Vault file or the password you provided is incorrect",
-    "importVaultFileGenericError" : "Error while trying to import vault file",
-    "importVaultFileError" : "Error while trying to import vault file: {errorDescription}" ,
-    "@importVaultFileError": {
-        "placeholders": {
-            "errorDescription": {
-                "type": "String"
-            }
-        }
-    },
-    "importVaultFileSeedsNullError" : "Vault file is malformed and does not contain account information",
-    "importVaultFileSeedsMalformedError" : "Vault file contains malformed account information",
-    "importVaultFileParsedSeedsNullError" : "Could not parse accounts from vault file",
-    "importVaultFileAccountMissingName": " Account entry {accountNumber} is missing account name",
+    "importVaultFileGenericError": "Error while trying to import vault file",
+    
+    "importVaultFileSeedsNullError": "Vault file is malformed and does not contain account information",
+    "importVaultFileSeedsMalformedError": "Vault file contains malformed account information",
+    "importVaultFileParsedSeedsNullError": "Could not parse accounts from vault file",
+    "importVaultFileAccountMissingName": "Account entry {accountIndex} is missing account name",
     "@importVaultFileAccountMissingName": {
         "placeholders": {
-            "accountNumber": {
-                "type": "number"
+            "accountIndex": {
+                "type": "int"
             }
         }
     },
-    "importVaultFileAccountMissingPublicId": " Account entry {accountNumber} is missing public ID",
+    "importVaultFileAccountMissingPublicId": "Account entry {accountIndex} is missing public ID",
     "@importVaultFileAccountMissingPublicId": {
         "placeholders": {
-            "accountNumber": {
-                "type": "number"
+            "accountIndex": {
+                "type": "int"
             }
         }
     },
-    "importVaultFileAccountMissingSeed": " Account entry {accountNumber} is missing seed",
+    "importVaultFileAccountMissingSeed": "Account entry {accountIndex} is missing seed",
     "@importVaultFileAccountMissingSeed": {
         "placeholders": {
-            "accountNumber": {
-                "type": "number"
+            "accountIndex": {
+                "type": "int"
             }
         }
     },
