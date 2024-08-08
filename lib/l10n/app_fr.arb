@@ -627,20 +627,20 @@
         }
     },
     "welcomeButtonImportExistingWallet": "Importer un Portefeuille Existant",
-    "importWalletTitle": "Import Votre Portefeuille",
-    "importWalletSubHeader": "Choose how you want to import your existing wallet",
-    "importWalletLabelFromVaultFile": "Import Vault File",
+    "importWalletTitle": "Importer Votre Portefeuille",
+    "importWalletSubHeader": "Choisir comment importer votre Portefeuille",
+    "importWalletLabelFromVaultFile": "Importer Vault",
     "importWalletLabelFromVaultFileDescription": "Import an existing wallet with multiple accounts through a vault file.",
-    "importWalletLabelFromPrivateSeed": "Import Private Seed",
-    "importWalletLabelFromPrivateSeedDescription": "Import an existing account by entering the 55 character private seed.",
-    "importVaultSubHeader": "Choose a file with .qubic-vault extension",
+    "importWalletLabelFromPrivateSeed": "Importer Votre Seed Privée",
+    "importWalletLabelFromPrivateSeedDescription": "Importez un compte existant en saisissant votre Seed Privée",
+    "importVaultSubHeader": "Choisir un fichier avec l'extension .qubic-vault",
     "importVaultLabelEnterPassword": "Enter vault password",
     "importVaultLabelSelectPathInstructions": "Browse your device to select the vault file to import.",
     "importPrivateSeedSubHeader": "Enter the 55 character seed that you have saved when creating your account.",
-    "generalSnackBarMessageWalletImportedSuccessfully": "Wallet imported successfully",
-    "addAccountErrorTamperedAndroidWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM GOOGLE PLAY STORE OR RISK LOSS OF FUNDS",
-    "addAccountErrorTamperediOSWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM APP STORE OR RISK LOSS OF FUNDS",
-    "generalLabelSelectFile": "Veuillez remplir  file",
+    "generalSnackBarMessageWalletImportedSuccessfully": "Portefeuille importé avec succès",
+    "addAccountErrorTamperedAndroidWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE PLAY STORE OU RISQUEZ UNE PERTE DE FONDS",
+    "addAccountErrorTamperediOSWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE APP STORE OU RISQUEZ UNE PERTE DE FONDS",
+    "generalLabelSelectFile": "Choisir le fichier",
     "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
     "@autolockLabelDurationInMinutes": {
         "placeholders": {
@@ -651,16 +651,16 @@
     },
     "autolockLabelDurationImmediately": "Immédiatement",
     "settingsLabelAutlock": "Verrouiller automatiquement",
-    "importVaultDialogTitleTooManyAccounts": "Too many accounts found",
+    "importVaultDialogTitleTooManyAccounts": "Trop de comptes trouvés",
     "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
+    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Comptes en Consultation Seule et trop de comptes trouvés",
     "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
-    "importVaultDialogTitleWatchAccount": "Watch only accounts found",
+    "importVaultDialogTitleWatchAccount": "Comptes en Consultation Seule trouvés",
     "importVaultDialogMessageWatchAccount": "As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported.",
-    "importVaultErrorNoAccountsFound": "No accounts found in your vault file. We can't proceed with the import.",
+    "importVaultErrorNoAccountsFound": "Aucun compte n'a été trouvé dans votre fichier Vault. Nous ne pouvons pas procéder à l'importation.",
     "importVaultErrorOnlyWatchAccountsFound": "Your vault file contains only watch only accounts. As we currently do not support watch only accounts, we can't proceed with the import.",
     "importVaultFilePickerLabel": "Please select a vault file to continue:",
-    "importVaultFileErrorGeneralMessage": "Error importing vault file: {errorDescription}",
+    "importVaultFileErrorGeneralMessage": "Erreur lors de l'importation du fichier Vault: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
         "placeholders": {
             "errorDescription": {
@@ -668,7 +668,7 @@
             }
         }
     },
-    "exportWalletVaultErrorGeneralMessage": "Error creating vault file: {errorDescription}",
+    "exportWalletVaultErrorGeneralMessage": "Erreur lors de la création du fichier Vault: {errorDescription}",
     "@exportWalletVaultErrorGeneralMessage": {
         "placeholders": {
             "errorDescription": {
@@ -676,7 +676,68 @@
             }
         }
     },
-    "importPrivateSeedDefaultAccountName": "Account 1",
+    "importPrivateSeedDefaultAccountName": "Compte 1",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "Erreur lors de la tentative de création d'un transfert d'actifs",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "Erreur lors de la tentative de création d'un transfert d'actifs. La transaction générée est vide.",
+    "cmdErrorCreatingAssetTransferTransaction": "Erreur lors de la tentative de création d'un transfert d'actifs: {errorDescription}",
+    "@cmdErrorCreatingAssetTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingTransferTransactionGeneric": "Erreur lors de la tentative de création d'une transaction de transfert",
+    "cmdErrorCreatingTransferTransactionEmpty": "Erreur lors de la tentative de création d'une transaction de transfert. La transaction générée est vide.",
+    "cmdErrorCreatingTransferTransaction": "Erreur lors de la tentative de création d'une transaction de transfert: {errorDescription}",
+    "@cmdErrorCreatingTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorGettingPublicIdFromSeedGeneric": "Error trying to get public ID from seed",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "Error trying to get public ID from seed. Generated Public ID is empty",
+    "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
+    "@cmdErrorGettingPublicIdFromSeed": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingVaultFileGeneric": "Erreur lors de la tentative de création du fichier Vault",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Erreur lors de la tentative de création du fichier Vault. Le fichier généré est vide",
+    "importVaultFileOrPasswordError": "Le fichier sélectionné n'est pas un fichier Qubic Vault ou le mot de passe est incorrect",
+    "importVaultFileGenericError": "Erreur lors de la tentative d'importation du fichier Vault",
+    "importVaultFileSeedsNullError": "Le fichier Vault est mal formé et ne contient pas d'informations sur les comptes",
+    "importVaultFileSeedsMalformedError": "Le fichier Vault contient des informations de compte mal formées",
+    "importVaultFileParsedSeedsNullError": "Impossible d'analyser les comptes à partir du fichier Vault",
+    "importVaultFileAccountMissingName": "Le nom de compte est manquant pour le compte en position {accountIndex}",
+    "@importVaultFileAccountMissingName": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingPublicId": "L'ID Public est manquant pour le compte en position {accountIndex}",
+    "@importVaultFileAccountMissingPublicId": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingSeed": "La seed privée est manquant pour le compte en position {accountIndex}",
+    "@importVaultFileAccountMissingSeed": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
     "generalErrorFileRequired": "Veuillez remplir le fichier",
     "generalErrorPathRequired": "Veuillez remplir le chemin du fichier"
 }

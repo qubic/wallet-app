@@ -175,7 +175,7 @@ class QubicJs {
     if (result.value['status'] == 'error') {
       if (result.value['error'] == "Could not parse seeds JSON") {
         throw Exception(LocalizationManager
-            .instance.appLocalization.importVaultFilePassError);
+            .instance.appLocalization.importVaultFileOrPasswordError);
       }
       throw Exception(LocalizationManager.instance.appLocalization
           .importVaultFileErrorGeneralMessage(result.value['error'] ?? ""));
