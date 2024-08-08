@@ -5,7 +5,12 @@ import 'package:qubic_wallet/globals/localization_manager.dart';
 export 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 AppLocalizations l10nOf(BuildContext context) {
-  LocalizationManager.instance.setLocalization(context);
+  if (!LocalizationManager.instance.isInitialized) {
+    final localizations = AppLocalizations.of(context);
+    if (localizations != null) {
+      LocalizationManager.instance.setLocalizations(localizations);
+    }
+  }
   return AppLocalizations.of(context)!;
 }
 

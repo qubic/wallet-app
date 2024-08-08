@@ -53,7 +53,10 @@ class WalletApp extends StatefulWidget {
 class _WalletAppState extends State<WalletApp> {
   @override
   Widget build(BuildContext context) {
-    LocalizationManager.instance.setLocalization(context);
+    final localizations = AppLocalizations.of(context);
+    if (localizations != null) {
+      LocalizationManager.instance.setLocalizations(localizations);
+    }
 
     return MaterialApp.router(
       title: 'Qubic Wallet',
