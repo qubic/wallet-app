@@ -221,8 +221,8 @@ class _AddAccountState extends State<AddAccount> {
                               setState(() {
                                 generatingId = true;
                               });
-                              var newId = await qubicCmd.getPublicIdFromSeed(
-                                  value, context);
+                              var newId =
+                                  await qubicCmd.getPublicIdFromSeed(value);
                               setState(() {
                                 generatedPublicId = newId;
                                 generatingId = false;

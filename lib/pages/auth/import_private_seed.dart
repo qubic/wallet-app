@@ -210,7 +210,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               setState(() {
                 generatingId = true;
               });
-              var newId = await qubicCmd.getPublicIdFromSeed(value, context);
+              var newId = await qubicCmd.getPublicIdFromSeed(value);
               setState(() {
                 generatedPublicId = newId;
                 generatingId = false;

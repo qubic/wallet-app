@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
@@ -49,9 +50,7 @@ class QubicCmd {
     }
   }
 
-  Future<String> getPublicIdFromSeed(String seed, BuildContext context) async {
-    final l10n = l10nOf(context);
-
+  Future<String> getPublicIdFromSeed(String seed) async {
     if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
       return await qubicJs.getPublicIdFromSeed(seed);
     }
@@ -61,13 +60,12 @@ class QubicCmd {
       _initQubicCMD();
       return await qubicCmdUtils.getPublicIdFromSeed(seed);
     }
-    throw l10n.generalErrorUnsupportedOS;
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
-  Future<String> createTransaction(String seed, String destinationId, int value,
-      int tick, BuildContext context) async {
-    final l10n = l10nOf(context);
-
+  Future<String> createTransaction(
+      String seed, String destinationId, int value, int tick) async {
     if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
       return await qubicJs.createTransaction(seed, destinationId, value, tick);
     }
@@ -77,7 +75,8 @@ class QubicCmd {
       return await qubicCmdUtils.createTransaction(
           seed, destinationId, value, tick);
     }
-    throw l10n.generalErrorUnsupportedOS;
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
   Future<String> createAssetTransferTransaction(
@@ -86,10 +85,7 @@ class QubicCmd {
       String assetName,
       String assetIssuer,
       int numberOfAssets,
-      int tick,
-      BuildContext context) async {
-    final l10n = l10nOf(context);
-
+      int tick) async {
     if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
       return await qubicJs.createAssetTransferTransaction(
           seed, destinationId, assetName, assetIssuer, numberOfAssets, tick);
@@ -100,13 +96,12 @@ class QubicCmd {
       return await qubicCmdUtils.createAssetTransferTransaction(
           seed, destinationId, assetName, assetIssuer, numberOfAssets, tick);
     }
-    throw l10n.generalErrorUnsupportedOS;
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
-  Future<Uint8List> createVaultFile(String password,
-      List<QubicVaultExportSeed> seeds, BuildContext context) async {
-    final l10n = l10nOf(context);
-
+  Future<Uint8List> createVaultFile(
+      String password, List<QubicVaultExportSeed> seeds) async {
     if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
       return await qubicJs.createVaultFile(password, seeds);
     }
@@ -115,13 +110,12 @@ class QubicCmd {
         (UniversalPlatform.isMacOS)) {
       return await qubicCmdUtils.createVaultFile(password, seeds);
     }
-    throw l10n.generalErrorUnsupportedOS;
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
-  Future<List<QubicImportVaultSeed>> importVaultFile(String password,
-      String? filePath, Uint8List? fileContents, BuildContext context) async {
-    final l10n = l10nOf(context);
-
+  Future<List<QubicImportVaultSeed>> importVaultFile(
+      String password, String? filePath, Uint8List? fileContents) async {
     if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
       if (fileContents == null) {
         throw "File contents base64 is required";
@@ -137,6 +131,8 @@ class QubicCmd {
       }
       return await qubicCmdUtils.importVaultFile(password, filePath);
     }
-    throw l10n.generalErrorUnsupportedOS;
+
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 }

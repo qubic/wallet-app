@@ -367,8 +367,8 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     final l10n = l10nOf(context);
 
     try {
-      var bytes = await qubicCmd.createVaultFile(
-          currentPassword, await getSeeds(), context);
+      var bytes =
+          await qubicCmd.createVaultFile(currentPassword, await getSeeds());
 
       var filename = "export.qubic-vault";
       var tempRoot = (await getTemporaryDirectory()).path;
@@ -410,8 +410,8 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       if (await reAuthDialog(context) == false) {
         return;
       }
-      var fileContents = await qubicCmd.createVaultFile(
-          currentPassword, await getSeeds(), context);
+      var fileContents =
+          await qubicCmd.createVaultFile(currentPassword, await getSeeds());
       await io.File(selectedPath!).writeAsBytes(fileContents);
       setState(() {
         isLoading = false;

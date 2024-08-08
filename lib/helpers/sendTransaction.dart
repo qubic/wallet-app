@@ -36,14 +36,8 @@ Future<bool> sendAssetTransferTransactionDialog(
   late String transactionKey;
   QubicCmd qubicCmd = getIt.get<QubicCmd>();
   try {
-    transactionKey = await qubicCmd.createAssetTransferTransaction(
-        seed,
-        destinationId,
-        assetName,
-        issuer,
-        numberOfAssets,
-        destinationTick,
-        context);
+    transactionKey = await qubicCmd.createAssetTransferTransaction(seed,
+        destinationId, assetName, issuer, numberOfAssets, destinationTick);
     await getIt.get<QubicLi>().submitTransaction(transactionKey);
     return true;
   } catch (e) {
@@ -70,7 +64,7 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
   try {
     //Get the signed transaction
     transactionKey = await qubicCmd.createTransaction(
-        seed, destinationId, value, destinationTick, context);
+        seed, destinationId, value, destinationTick);
   } catch (e) {
     if (e.toString().startsWith("Exception: CRITICAL:")) {
       showTamperedWalletAlert(context);

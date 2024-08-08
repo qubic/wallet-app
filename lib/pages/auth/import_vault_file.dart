@@ -306,7 +306,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
         isLoading = true;
       });
       importedSeeds = await qubicCmd.importVaultFile(
-          vaultPassword, selectedPath, selectedFileBytes, context);
+          vaultPassword, selectedPath, selectedFileBytes);
     } catch (e) {
       setState(() {
         importError = l10n.importVaultFileErrorGeneralMessage(
