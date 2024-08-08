@@ -173,10 +173,11 @@ class QubicJs {
       throw Exception(result.error!);
     }
     if (result.value['seeds'] == null) {
-      throw Exception('Vault file is empty.');
+      throw Exception(
+          'Vault file is malformed and does not contain account information.');
     }
     if (result.value['seeds'].toString().isEmpty) {
-      throw Exception('Vault file contains no seeds');
+      throw Exception('Vault file contains no accounts');
     }
     try {
       parsedSeeds = result.value['seeds'];
@@ -192,13 +193,14 @@ class QubicJs {
     var i = 1;
     for (var seed in parsedSeeds) {
       if (seed['alias'] == null) {
-        throw Exception('Entry number $i is missing alias/account name');
+        throw Exception(
+            'Account entry number $i is missing alias/account name');
       }
       if (seed['publicId'] == null) {
-        throw Exception('Entry number $i is missing public ID');
+        throw Exception('Account entry number $i is missing public ID');
       }
       if (seed['seed'] == null) {
-        throw Exception('Entry number $i is missing seed');
+        throw Exception('Account entry number $i is missing seed');
       }
 
       seeds.add(QubicImportVaultSeed(
