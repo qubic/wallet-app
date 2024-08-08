@@ -495,7 +495,7 @@
     "exportWalletVaultTitle": "Exportar el archivo Vault",
     "exportWalletVaultLabelInstructions": "Exporta los contenidos de tu Wallet en un archivo Vault encriptado como una copia  de respaldo. Puedes importar este archivo en la Wallet Web y desbloquearlo con la contraseña asignada. Mantén siempre este archivo en un lugar seguro.",
     "exportWalletVaultButtonExport": "Exportar",
-    "exportWalletVaultDialogTitleSelectPath": "Por favor, selecciona la ruta donde guardar el archivo Vault",
+    "exportWalletVaultDialogTitleSelectPath": "Por favor, selecciona el directorio donde guardar el archivo Vault",
     "exportWalletVaultLabelSelectFilePathInstructions": "Selecciona la ubicación donde guardar tu archivo Vault",
     "exportWalletVaultTextFieldHintPassword": "Contraseña del archivo Vault",
     "exportWalletVaultErrorEmptyPassword": "Por favor, ingresa una contraseña",
@@ -639,7 +639,7 @@
     "generalSnackBarMessageWalletImportedSuccessfully": "Se importó el Wallet con éxito",
     "addAccountErrorTamperedAndroidWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DE GOOGLE PLAY STORE PARA NO ARRIESGARTE A PERDER TUS FONDOS",
     "addAccountErrorTamperediOSWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DEL APP STORE PARA NO ARRIESGARTE A PERDER TUS FONDOS",
-    "generalLabelSelectFile": "Select el archivo",
+    "generalLabelSelectFile": "Selecciona el archivo",
     "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minuto} other{{minutes} minutos}}",
     "@autolockLabelDurationInMinutes": {
         "placeholders": {
@@ -675,5 +675,69 @@
             }
         }
     },
-    "importPrivateSeedDefaultAccountName": "Cuenta 1"
+    "importPrivateSeedDefaultAccountName": "Cuenta 1",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "Error trying to create asset transfer transaction",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "Error trying to create asset transfer transaction. Generated transaction was empty",
+    "cmdErrorCreatingAssetTransferTransaction": "Error trying to create asset transfer transaction: {errorDescription}",
+    "@cmdErrorCreatingAssetTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingTransferTransactionGeneric": "Error trying to create transfer transaction",
+    "cmdErrorCreatingTransferTransactionEmpty": "Error trying to create transfer transaction. Generated transaction was empty",
+    "cmdErrorCreatingTransferTransaction": "Error trying to create transfer transaction: {errorDescription}",
+    "@cmdErrorCreatingTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorGettingPublicIdFromSeedGeneric": "Error trying to get public ID from seed",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "Error trying to get public ID from seed. Generated Public ID is empty",
+    "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
+    "@cmdErrorGettingPublicIdFromSeed": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingVaultFileGeneric": "Error trying to create vault file",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Error trying to create vault file. Generated vault file is empty",
+    "importVaultFileOrPasswordError": "Selected file is not a Qubic Vault file or password is incorrect",
+    "importVaultFilePassError": "Selected file is not a Qubic Vault file or the password you provided is incorrect",
+    "importVaultFileGenericError": "Error while trying to import vault file",
+    "importVaultFileSeedsNullError": "Vault file is malformed and does not contain account information",
+    "importVaultFileSeedsMalformedError": "Vault file contains malformed account information",
+    "importVaultFileParsedSeedsNullError": "Could not parse accounts from vault file",
+    "importVaultFileAccountMissingName": "Account entry {accountIndex} is missing account name",
+    "@importVaultFileAccountMissingName": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingPublicId": "Account entry {accountIndex} is missing public ID",
+    "@importVaultFileAccountMissingPublicId": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingSeed": "Account entry {accountIndex} is missing seed",
+    "@importVaultFileAccountMissingSeed": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorFileRequired": "Por favor, selecciona un archivo",
+    "generalErrorPathRequired": "Por favor, selecciona un directorio"
 }

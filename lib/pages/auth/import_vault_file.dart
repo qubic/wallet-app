@@ -323,8 +323,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
           vaultPassword, selectedPath, selectedFileBytes);
     } catch (e) {
       setState(() {
-        importError = l10n.importVaultFileErrorGeneralMessage(
-            e.toString().replaceAll("Exception: ", ""));
+        importError = e.toString().replaceAll("Exception: ", "");
       });
       setState(() {
         isLoading = false;

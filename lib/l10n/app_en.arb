@@ -641,8 +641,6 @@
     "addAccountErrorTamperedAndroidWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM GOOGLE PLAY STORE OR RISK LOSS OF FUNDS",
     "addAccountErrorTamperediOSWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM APP STORE OR RISK LOSS OF FUNDS",
     "generalLabelSelectFile": "Select file",
-    "generalErrorFileRequired": "Please select a file",
-    "generalErrorPathRequired": "Please select a path",
     "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
     "@autolockLabelDurationInMinutes": {
         "placeholders": {
@@ -669,7 +667,7 @@
                 "type": "String"
             }
         }
-    },    
+    },
     "exportWalletVaultErrorGeneralMessage": "Error creating vault file: {errorDescription}",
     "@exportWalletVaultErrorGeneralMessage": {
         "placeholders": {
@@ -678,10 +676,9 @@
             }
         }
     },
-
+    "importPrivateSeedDefaultAccountName": "Account 1",
     "cmdErrorCreatingAssetTransferTransactionGeneric": "Error trying to create asset transfer transaction",
     "cmdErrorCreatingAssetTransferTransactionEmpty": "Error trying to create asset transfer transaction. Generated transaction was empty",
-
     "cmdErrorCreatingAssetTransferTransaction": "Error trying to create asset transfer transaction: {errorDescription}",
     "@cmdErrorCreatingAssetTransferTransaction": {
         "placeholders": {
@@ -700,8 +697,8 @@
             }
         }
     },
-     "cmdErrorGettingPublicIdFromSeedGeneric": "Error trying to get public ID from seed",
-     "cmdErrorGettingPublicIdFromSeedEmpty": "Error trying to get public ID from seed. Generated Public ID is empty",
+    "cmdErrorGettingPublicIdFromSeedGeneric": "Error trying to get public ID from seed",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "Error trying to get public ID from seed. Generated Public ID is empty",
     "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
     "@cmdErrorGettingPublicIdFromSeed": {
         "placeholders": {
@@ -711,12 +708,10 @@
         }
     },
     "cmdErrorCreatingVaultFileGeneric": "Error trying to create vault file",
-    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Error trying to create vault file. Generated vault file is empty",    
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Error trying to create vault file. Generated vault file is empty",
     "importVaultFileOrPasswordError": "Selected file is not a Qubic Vault file or password is incorrect",
-   
     "importVaultFilePassError": "Selected file is not a Qubic Vault file or the password you provided is incorrect",
     "importVaultFileGenericError": "Error while trying to import vault file",
-    
     "importVaultFileSeedsNullError": "Vault file is malformed and does not contain account information",
     "importVaultFileSeedsMalformedError": "Vault file contains malformed account information",
     "importVaultFileParsedSeedsNullError": "Could not parse accounts from vault file",
@@ -744,6 +739,6 @@
             }
         }
     },
-
-    "importPrivateSeedDefaultAccountName": "Account 1"
+    "generalErrorFileRequired": "Please select a file",
+    "generalErrorPathRequired": "Please select a path"
 }

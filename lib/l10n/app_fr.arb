@@ -626,8 +626,8 @@
             }
         }
     },
-    "welcomeButtonImportExistingWallet": "Import an Existing Wallet",
-    "importWalletTitle": "Import Wallet",
+    "welcomeButtonImportExistingWallet": "Importer un Portefeuille Existant",
+    "importWalletTitle": "Import Votre Portefeuille",
     "importWalletSubHeader": "Choose how you want to import your existing wallet",
     "importWalletLabelFromVaultFile": "Import Vault File",
     "importWalletLabelFromVaultFileDescription": "Import an existing wallet with multiple accounts through a vault file.",
@@ -640,7 +640,7 @@
     "generalSnackBarMessageWalletImportedSuccessfully": "Wallet imported successfully",
     "addAccountErrorTamperedAndroidWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM GOOGLE PLAY STORE OR RISK LOSS OF FUNDS",
     "addAccountErrorTamperediOSWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM APP STORE OR RISK LOSS OF FUNDS",
-    "generalLabelSelectFile": "Select file",
+    "generalLabelSelectFile": "Veuillez remplir  file",
     "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
     "@autolockLabelDurationInMinutes": {
         "placeholders": {
@@ -649,8 +649,8 @@
             }
         }
     },
-    "autolockLabelDurationImmediately": "Immediately",
-    "settingsLabelAutlock": "Auto-Lock Settings",
+    "autolockLabelDurationImmediately": "Immédiatement",
+    "settingsLabelAutlock": "Verrouiller automatiquement",
     "importVaultDialogTitleTooManyAccounts": "Too many accounts found",
     "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
     "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
@@ -676,5 +676,7 @@
             }
         }
     },
-    "importPrivateSeedDefaultAccountName": "Account 1"
+    "importPrivateSeedDefaultAccountName": "Account 1",
+    "generalErrorFileRequired": "Veuillez remplir le fichier",
+    "generalErrorPathRequired": "Veuillez remplir le chemin du fichier"
 }
