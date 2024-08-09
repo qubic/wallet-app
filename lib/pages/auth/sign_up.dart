@@ -185,7 +185,7 @@ class _ReceiveState extends State<SignUp> {
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
               errorText: l10n.generalErrorSetWalletPasswordRepeatEmpty),
-              (value) {
+          (value) {
             if (value != currentPassword) {
               return l10n.generalErrorSetPasswordNotMatching;
             }
@@ -216,8 +216,6 @@ class _ReceiveState extends State<SignUp> {
       ),
     ];
   }
-
-
 
   Widget getStep2() {
     final l10n = l10nOf(context);
@@ -377,12 +375,11 @@ class _ReceiveState extends State<SignUp> {
 
   //Handles clicking of proceed button
   Future<void> handleProceed() async {
-    if (!context.mounted) return;
     if (isLoading) return;
 
     // Explicitly validate the form
     final formState = _formKey.currentState;
-    if (formState == null || !formState.validate()) {
+    if (formState != null && !formState.validate()) {
       // If the form is not valid, stop the loading and prevent proceeding
       setState(() {
         isLoading = false;
