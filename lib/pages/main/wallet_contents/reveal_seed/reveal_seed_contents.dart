@@ -57,7 +57,7 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
                     Text(l10n.revealSeedLabelPrivateSeed,
                         style: TextStyles.lightGreyTextSmall),
                     ThemedControls.spacerVerticalMini(),
-                    seedId == null ? Text(seedId!) : const Text("-"),
+                    seedId != null ? Text(seedId!) : const Text("-"),
                     ThemedControls.spacerVerticalNormal(),
                     seedId == null
                         ? Row(children: [
@@ -77,7 +77,7 @@ class _RevealSeedContentsState extends State<RevealSeedContents> {
                         : Container()
                   ])),
               ThemedControls.spacerVerticalSmall(),
-              seedId == null
+              seedId != null
                   ? ToggleableQRCode(qRCodeData: seedId!, expanded: true)
                   : Container(),
             ],
