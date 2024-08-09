@@ -28,7 +28,7 @@ class TickIndicatorStyled extends StatelessWidget {
             return ScaleTransition(scale: animation, child: child);
           },
           child: Text(
-            '${appStore.currentTick.asThousands()} ',
+            ' ${appStore.currentTick.asThousands()}',
             style: textStyle,
             // This key causes the AnimatedSwitcher to interpret this as a "new"
             // child each time the count changes, so that it will begin its animation
