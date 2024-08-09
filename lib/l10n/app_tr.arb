@@ -497,7 +497,7 @@
     "exportWalletVaultLabelInstructions": "Bu cüzdanın içeriğini, yedek olarak şifrelenmiş bir kasa dosyası olarak dışa aktarın. Bu dosya, web cüzdanına aktarılabilir ve yalnızca sağlanan şifreyle açılabilir. Bu dosyayı her zaman güvenli bir yerde saklayın.",
     "exportWalletVaultButtonExport": "Dışa Aktar",
     "exportWalletVaultDialogTitleSelectPath": "Kasa dosyanızı kaydetmek için yer seçin",
-    "exportWalletVaultLabelSelectFilePath": "Kayıt yerini belirleyin",
+    "generalLabelSelectFilePath": "Kayıt yerini belirleyin",
     "exportWalletVaultLabelSelectFilePathInstructions": "Kasa dosyasını kaydetmek için bir konum seçmek üzere cihazınızı gözden geçirin",
     "exportWalletVaultTextFieldHintPassword": "Kasa Dosyası şifresi",
     "exportWalletVaultErrorEmptyPassword": "Lütfen kasa dosyanızın şifresini girin",
@@ -653,6 +653,8 @@
     "settingsLabelAutlock": "Otomatik Kilitleme Ayarları",
     "importVaultDialogTitleTooManyAccounts": "Çok fazla hesap bulundu",
     "importVaultDialogMessageTooManyAccounts": "Kasa dosyanız 15'ten fazla hesap içeriyor. Tüm hesaplar içe aktarılacaktır, ancak bakiyelerinizi görüntülemek ve fon gönderebilmek için lütfen 15 veya daha az hesap olacak şekilde bazı hesapları silin.",
+    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
     "importVaultDialogTitleWatchAccount": "Yalnızca görüntüleme hesapları bulundu",
     "importVaultDialogMessageWatchAccount": "Şu anda yalnızca görüntüleme hesaplarını desteklemediğimiz için bunlar görmezden gelinecektir. Diğer tüm hesaplar içe aktarılacaktır.",
     "importVaultErrorNoAccountsFound": "Kasa Dosyanızad herhangi bir hesap bulunamadı. İçe aktarma işlemine devam edilemiyor.",
@@ -674,5 +676,69 @@
             }
         }
     },
-    "importPrivateSeedDefaultAccountName": "Hesap 1"
+    "importPrivateSeedDefaultAccountName": "Hesap 1",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "Varlık transfer işlemi oluşturulmaya çalışılırken hata oluştu",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "Varlık transfer işlemi oluşturulmaya çalışılırken hata oluştu. Oluşturulan trasnfer boştu",
+    "cmdErrorCreatingAssetTransferTransaction": "Error trying to create asset transfer transaction: {errorDescription}",
+    "@cmdErrorCreatingAssetTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingTransferTransactionGeneric": "Transfer işlemi oluşturulmaya çalışılırken hata oluştu",
+    "cmdErrorCreatingTransferTransactionEmpty": "Transfer işlemi oluşturulmaya çalışılırken hata oluştu. Oluşturulan trasnfer boştu",
+    "cmdErrorCreatingTransferTransaction": "Error trying to create transfer transaction: {errorDescription}",
+    "@cmdErrorCreatingTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorGettingPublicIdFromSeedGeneric": "Özel anahtardan halka açık ID'si alınmaya çalışılırken hata oluştu",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "Özel anahtardan halka açık ID'si alınmaya çalışılırken hata oluştu. Oluşturulan halka açık ID boş",
+    "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
+    "@cmdErrorGettingPublicIdFromSeed": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingVaultFileGeneric": "Kasa dosyası oluşturulmaya çalışılırken hata oluştu",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Kasa dosyası oluşturulmaya çalışılırken hata oluştu. Oluşturulan kasa dosyası boş",
+    "importVaultFileOrPasswordError": "Seçilen dosya bir Qubic Kasa dosyası değil veya şifre yanlış",
+    "importVaultFileGenericError": "Kasa dosyasını içeriye aktarırken hata oluştu",
+    "importVaultFileSeedsNullError": "Kasa dosyası hatalı biçimlendirilmiş ve hesap bilgilerini içermiyor",
+    "importVaultFileSeedsMalformedError": "Kasa Dosyası hatalı biçimlendirilmiş hesap bilgileri içeriyor",
+    "importVaultFileParsedSeedsNullError": "Hesaplar kasa dosyasından ayrıştırılamadı",
+    "importVaultFileAccountMissingName": "Account entry {accountIndex} is missing account name",
+    "@importVaultFileAccountMissingName": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingPublicId": "Account entry {accountIndex} is missing public ID",
+    "@importVaultFileAccountMissingPublicId": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingSeed": "Account entry {accountIndex} is missing seed",
+    "@importVaultFileAccountMissingSeed": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorFileRequired": "Lütfen bir dosya seçin",
+    "generalErrorPathRequired": "Lütfen bir yol seçin",
+    "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz."
 }
