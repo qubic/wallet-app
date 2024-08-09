@@ -1,6 +1,7 @@
 import 'dart:io' as io;
 import 'dart:io';
 import 'dart:math';
+import 'package:downloadsfolder/downloadsfolder.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -10,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
@@ -75,7 +77,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
           error: emptyPathError,
           onPressed: () async {
             if (UniversalPlatform.isAndroid) {
+              var downloadFolder = isIOS ? null : await getDownloadDirectory();
               String? outputFolder = await FilePicker.platform.getDirectoryPath(
+                  initialDirectory: downloadFolder?.path,
                   dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
                   lockParentWindow: true);
               if (outputFolder == null) {
@@ -91,9 +95,11 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                 selectedFile = io.File(selectedPath!);
               });
             } else {
+              var downloadFolder = isIOS ? null : await getDownloadDirectory();
               String? outputFile = await FilePicker.platform.saveFile(
                   dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
                   allowedExtensions: ['qubic-vault'],
+                  initialDirectory: downloadFolder?.path,
                   type: FileType.custom,
                   lockParentWindow: true,
                   fileName: 'exported.qubic-vault');

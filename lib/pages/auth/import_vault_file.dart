@@ -1,5 +1,6 @@
 import 'dart:async';
 // ignore: depend_on_referenced_packages
+import 'package:downloadsfolder/downloadsfolder.dart';
 import 'package:path/path.dart' as path;
 
 import 'package:file_picker/file_picker.dart';
@@ -160,9 +161,12 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
           ThemedControls.darkButtonBigWithChild(
               error: selectedPathError,
               onPressed: () async {
+                var downloadFolder =
+                    isIOS ? null : await getDownloadDirectory();
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                     dialogTitle: l10n.importVaultFilePickerLabel,
                     withData: isMobile,
+                    initialDirectory: isIOS ? null : downloadFolder?.path,
                     //allowedExtensions: ['qubic-vault'],
                     lockParentWindow: true);
                 if (result == null) {
