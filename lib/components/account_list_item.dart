@@ -394,7 +394,7 @@ class _AccountListItemState extends State<AccountListItem> {
                       ? TextStyles.accountAmount.copyWith(fontSize: 16)
                       : TextStyles.accountAmount,
                   labelStyle: TextStyles.accountAmountLabel,
-                  currencyName: widget.item.assets[key]!.assetName + text,
+                  currencyName: '${widget.item.assets[key]!.assetName} $text',
                 )
               : Container()));
     }
