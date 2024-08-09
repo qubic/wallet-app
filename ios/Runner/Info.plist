@@ -59,6 +59,8 @@
 	<false/>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UISupportsDocumentBrowser</key>  
+	<true/>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>

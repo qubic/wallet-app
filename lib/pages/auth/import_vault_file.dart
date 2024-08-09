@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 
@@ -9,6 +10,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -160,9 +162,17 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
           ThemedControls.darkButtonBigWithChild(
               error: selectedPathError,
               onPressed: () async {
+                Directory? directory;
+                try {
+                  directory = await getDownloadsDirectory();
+                } catch (e) {
+                  debugPrint(
+                      "Error getting application documents directory: $e");
+                }
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                     dialogTitle: l10n.importVaultFilePickerLabel,
                     withData: isMobile,
+                    initialDirectory: directory?.path,
                     //allowedExtensions: ['qubic-vault'],
                     lockParentWindow: true);
                 if (result == null) {
