@@ -24,26 +24,32 @@ class QubicJs {
       return;
     }
     InAppWebView = HeadlessInAppWebView(
-        onWebViewCreated: (WVcontroller) async {
-          WVcontroller.loadFile(
-              assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_5.html");
+      onWebViewCreated: (WVcontroller) async {
+        WVcontroller.loadFile(
+            assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_5.html");
 
-          controller = WVcontroller;
-        },
-        onConsoleMessage: (controller, consoleMessage) {
-          debugPrint(consoleMessage.toString());
-        },
-        onReceivedError: (controller, request, error) =>
-            {debugPrint(error.toString())},
-        onLoadStart: (controller, url) {},
-        onLoadStop: (controller, url) async {
-          isReady = true;
-        });
+        controller = WVcontroller;
+      },
+      onConsoleMessage: (controller, consoleMessage) {
+        debugPrint(consoleMessage.toString());
+      },
+      onReceivedError: (controller, request, error) =>
+          {debugPrint(error.toString())},
+      onLoadStart: (controller, url) {},
+      onLoadStop: (controller, url) async {
+        isReady = true;
+      },
+    );
 
     await InAppWebView!.run();
     while (controller == null) {
       sleep(const Duration(milliseconds: 100));
     }
+  }
+
+  reInitialize() async {
+    disposeController();
+    await initialize();
   }
 
   bool isReady = false;
