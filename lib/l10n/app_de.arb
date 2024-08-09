@@ -677,9 +677,9 @@
         }
     },
     "importPrivateSeedDefaultAccountName": "Konto 1",
-    "cmdErrorCreatingAssetTransferTransactionGeneric": "Fehler beim Erstellen der Anlagentransfer Transaktion",
-    "cmdErrorCreatingAssetTransferTransactionEmpty": "Fehler beim Erstellen der Anlagentransfer Transaktion. Die generierte Transaktion ist leer.",
-    "cmdErrorCreatingAssetTransferTransaction": "Fehler beim Erstellen der Anlagentransfer Transaktion: {errorDescription}",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "Fehler beim Erstellen einer Vermögensübertragungstransaktion",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "Fehler beim Erstellen einer Vermögensübertragungstransaktion. Die generierte Transaktion ist leer.",
+    "cmdErrorCreatingAssetTransferTransaction": "Fehler beim Erstellen der einer Vermögensübertragungstransaktion: {errorDescription}",
     "@cmdErrorCreatingAssetTransferTransaction": {
         "placeholders": {
             "errorDescription": {
@@ -709,7 +709,7 @@
     },
     "cmdErrorCreatingVaultFileGeneric": "Fehler beim Erstellen der Tresor-Datei",
     "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Fehler beim Erstellen der Tresor-Datei. Die generierte Datei ist leer.",
-    "importVaultFileOrPasswordError": "Die ausgewählte Datei ist keine Qubic Tresor-Datei oder das Passwort ist falsch",
+    "importVaultFileOrPasswordError": "Die ausgewählte Datei ist keine Tresor-Datei oder das Passwort ist falsch",
     "importVaultFileGenericError": "Fehler beim Importieren der Tresor-Datei",
     "importVaultFileSeedsNullError": "Die Tresor-Datei ist fehlerhaft und enthält keine Kontoinformationen",
     "importVaultFileSeedsMalformedError": "Die Tresor-Datei enthält fehlerhafte Kontoinformationen",
