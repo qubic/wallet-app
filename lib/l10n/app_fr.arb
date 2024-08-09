@@ -66,7 +66,7 @@
         }
     },
     "generalLabelNotAvailable": "N/A",
-    "generalUnitTokens": "{count, plural, =1{Jeton} other{Jetons}}",
+    "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Part} other{Parts}}",
     "generalLabelEnabled": "Activé",
     "generalLabelDisabled": "Désactivé",
@@ -100,7 +100,7 @@
     "generalErrorRequiredField": "Ce champ ne peut pas être vide.",
     "generalErrorNotEnoughQubicFunds": "Fonds QUBIC insuffisants dans l'ID.",
     "generalErrorZeroQubicFunds": "Fonds QUBIC insuffisants dans l'ID. L'ID n'a pas de fonds.",
-    "generalErrorNotEnoughTokens": "Jetons insuffisants dans l'ID.",
+    "generalErrorNotEnoughTokens": "Tokens insuffisants dans l'ID.",
     "generalErrorNotEnoughAssets": "Actifs insuffisants dans l'ID.",
     "generalErrorNotNumeric": "Ce n'est pas une valeur numérique",
     "generalTextFieldHintPassword": "Mot de passe du portefeuille",
@@ -285,7 +285,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "Jetons Émis QX",
+    "assetsLabelQXAssets": "Tokens Émis QX",
     "createPasswordSheetHeader": "Veuillez sauvegarder votre mot de passe",
     "createPasswordSheetMessage": "Il n'y a aucun moyen de récupérer votre mot de passe si vous l'oubliez. Veuillez vous assurer d'avoir une sauvegarde de votre mot de passe avant de continuer.",
     "createPasswordSheetCheckboxMessage": "Oui, j'ai sauvegardé mon mot de passe.",
@@ -534,7 +534,7 @@
             }
         }
     },
-    "transferAssetHeaderForTokens": "Transférer des jetons {assetName}",
+    "transferAssetHeaderForTokens": "Transférer des Tokens {assetName}",
     "@transferAssetHeaderForTokens": {
         "placeholders": {
             "assetName": {
@@ -561,7 +561,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "Jetons {assetName} détenus par l'ID: {formattedAmount}",
+    "transferAssetLabelOwnedTokens": "Tokens {assetName} détenus par l'ID: {formattedAmount}",
     "@transferAssetLabelOwnedTokens": {
         "placeholders": {
             "assetName": {
