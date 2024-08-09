@@ -194,6 +194,8 @@ class _TabSettingsState extends State<TabSettings> {
                 onPressed: (BuildContext context) {
                   appStore.reportGlobalError("");
                   appStore.reportGlobalNotification("");
+                  appStore.setCurrentTabIndex(
+                      0); // so after unlock, it goes to Home
                   appStore.signOut();
                   appStore.checkWalletIsInitialized();
                   timedController.stopFetchTimer();
