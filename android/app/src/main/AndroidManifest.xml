@@ -9,7 +9,7 @@
         android:fullBackupContent="false"
 
         android:enableOnBackInvokedCallback="true"
-
+        android:localeConfig="@xml/locales_config">
         >
         <activity
             android:name=".MainActivity"
