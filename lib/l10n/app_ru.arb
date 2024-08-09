@@ -676,5 +676,69 @@
             }
         }
     },
-    "importPrivateSeedDefaultAccountName": "Аккаунт 1"
+    "importPrivateSeedDefaultAccountName": "Аккаунт 1",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "Ошибка при попытке создать транзакцию по передаче ассетов.",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "Ошибка при попытке создать транзакцию по передаче ассетов. Созданная транзакция была пустой.",
+    "cmdErrorCreatingAssetTransferTransaction": "Ошибка при попытке создать транзакцию по передаче ассетов: {errorDescription}",
+    "@cmdErrorCreatingAssetTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingTransferTransactionGeneric": "Ошибка при попытке создать транзакцию.",
+    "cmdErrorCreatingTransferTransactionEmpty": "Ошибка при попытке создать транзакцию.  Созданная транзакция была пустой",
+    "cmdErrorCreatingTransferTransaction": "Ошибка при попытке создать транзакцию: {errorDescription}",
+    "@cmdErrorCreatingTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorGettingPublicIdFromSeedGeneric": "Ошибка при попытке получить ID из сида.",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "Ошибка при попытке получить ID из сида. Созданный ID пуст.",
+    "cmdErrorGettingPublicIdFromSeed": "Ошибка при попытке получить ID из сида: {errorDescription}",
+    "@cmdErrorGettingPublicIdFromSeed": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingVaultFileGeneric": "Ошибка при создании файла Vault.",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Ошибка при создании файла Vault. Созданый файл Vault пуст.",
+    "importVaultFileOrPasswordError": "Выбраный файл не является файлом Vault или неверно введен пароль.",
+    "importVaultFileGenericError": "Ошибка при импорте файлы Vault.",
+    "importVaultFileSeedsNullError": "Файл Vault имеет неправильную форму и не содержит информации об учетной записи.",
+    "importVaultFileSeedsMalformedError": "Файл Vault содержит неверно заполненную информацию об учетной записи",
+    "importVaultFileParsedSeedsNullError": "Не удалось извлечь учетные записи из файла Vault.",
+    "importVaultFileAccountMissingName": "Введенный аккаунт {accountIndex} не имеет имени.",
+    "@importVaultFileAccountMissingName": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingPublicId": "Введенный аккаунт {accountIndex} не имеет ни одного ID",
+    "@importVaultFileAccountMissingPublicId": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingSeed": "Введенный аккаунт {accountIndex} не имеет сида",
+    "@importVaultFileAccountMissingSeed": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorFileRequired": "Выберите файл",
+    "generalErrorPathRequired": "Выберите путь",
+    "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15."
 }
