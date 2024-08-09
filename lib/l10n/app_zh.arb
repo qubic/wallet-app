@@ -676,5 +676,69 @@
             }
         }
     },
-    "importPrivateSeedDefaultAccountName": "Account 1"
+    "importPrivateSeedDefaultAccountName": "Account 1",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "Error trying to create asset transfer transaction",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "Error trying to create asset transfer transaction. Generated transaction was empty",
+    "cmdErrorCreatingAssetTransferTransaction": "Error trying to create asset transfer transaction: {errorDescription}",
+    "@cmdErrorCreatingAssetTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingTransferTransactionGeneric": "Error trying to create transfer transaction",
+    "cmdErrorCreatingTransferTransactionEmpty": "Error trying to create transfer transaction. Generated transaction was empty",
+    "cmdErrorCreatingTransferTransaction": "Error trying to create transfer transaction: {errorDescription}",
+    "@cmdErrorCreatingTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorGettingPublicIdFromSeedGeneric": "Error trying to get public ID from seed",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "Error trying to get public ID from seed. Generated Public ID is empty",
+    "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
+    "@cmdErrorGettingPublicIdFromSeed": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingVaultFileGeneric": "Error trying to create vault file",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Error trying to create vault file. Generated vault file is empty",
+    "importVaultFileOrPasswordError": "Selected file is not a Qubic Vault file or password is incorrect",
+    "importVaultFileGenericError": "Error while trying to import vault file",
+    "importVaultFileSeedsNullError": "Vault file is malformed and does not contain account information",
+    "importVaultFileSeedsMalformedError": "Vault file contains malformed account information",
+    "importVaultFileParsedSeedsNullError": "Could not parse accounts from vault file",
+    "importVaultFileAccountMissingName": "Account entry {accountIndex} is missing account name",
+    "@importVaultFileAccountMissingName": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingPublicId": "Account entry {accountIndex} is missing public ID",
+    "@importVaultFileAccountMissingPublicId": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingSeed": "Account entry {accountIndex} is missing seed",
+    "@importVaultFileAccountMissingSeed": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorFileRequired": "Please select a file",
+    "generalErrorPathRequired": "Please select a path",
+    "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer."
 }
