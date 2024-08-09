@@ -99,6 +99,19 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
     super.dispose();
   }
 
+  //Gets the loading indicator inside button
+  Widget _getLoadingProgressIndicator() {
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: SizedBox(
+          width: 21,
+          height: 21,
+          child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Theme.of(context).colorScheme.inversePrimary)),
+    );
+  }
+
   void showQRScanner() {
     final l10n = l10nOf(context);
 
@@ -287,7 +300,6 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
       context,
       screen: CreatePassword(onPasswordCreated: (String password) async {
         enteredPassword = password;
-
         setState(() {
           isLoading = false;
         });
@@ -297,6 +309,9 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         // VERY UGLY HACK. TODO: FIX THIS
         // ignore: unused_local_variable
         var timer = Timer(const Duration(milliseconds: 300), () async {
+          setState(() {
+            isLoading = false;
+          });
           if (totalSteps == 2) {
             //Device has biometrics enabled, so show biometrics panel
             pushScreen(
@@ -389,12 +404,15 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               onPressed: () async {
                 await handleProceed();
               },
-              child: Padding(
-                padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                child: Text(l10n.generalButtonProceed,
-                    textAlign: TextAlign.center,
-                    style: TextStyles.primaryButtonText),
-              )))
+              child: isLoading
+                  ? _getLoadingProgressIndicator()
+                  : Padding(
+                      padding:
+                          const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                      child: Text(l10n.generalButtonProceed,
+                          textAlign: TextAlign.center,
+                          style: TextStyles.primaryButtonText),
+                    )))
     ];
   }
 

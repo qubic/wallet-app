@@ -418,6 +418,20 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
     }
   }
 
+  //Gets the loading indicator inside button
+  Widget _getLoadingProgressIndicator() {
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: SizedBox(
+          width: 21,
+          height: 21,
+          child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Theme.of(context).colorScheme.inversePrimary)),
+    );
+  }
+
+  /// Gets the bottom buttons
   List<Widget> getButtons() {
     final l10n = l10nOf(context);
     return [
@@ -426,15 +440,19 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
               onPressed: () async {
                 await handleProceed();
               },
-              child: Padding(
-                padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                child: Text(l10n.generalButtonProceed,
-                    textAlign: TextAlign.center,
-                    style: TextStyles.primaryButtonText),
-              )))
+              child: isLoading
+                  ? _getLoadingProgressIndicator()
+                  : Padding(
+                      padding:
+                          const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                      child: Text(l10n.generalButtonProceed,
+                          textAlign: TextAlign.center,
+                          style: TextStyles.primaryButtonText),
+                    )))
     ];
   }
 
+  /// Gets the form for entering the password
   Widget getPasswordForm() {
     final l10n = l10nOf(context);
 

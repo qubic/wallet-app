@@ -158,6 +158,9 @@ class _CreatePasswordState extends State<CreatePassword> {
 
             // Navigator.pop(context);
             widget.onPasswordCreated(currentPassword);
+            setState(() {
+              isLoading = false;
+            });
           }, onReject: () async {
             setState(() {
               isLoading = false;
@@ -183,6 +186,19 @@ class _CreatePasswordState extends State<CreatePassword> {
     );
   }
 
+  //Gets the loading indicator inside button
+  Widget _getLoadingProgressIndicator() {
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: SizedBox(
+          width: 21,
+          height: 21,
+          child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Theme.of(context).colorScheme.inversePrimary)),
+    );
+  }
+
   List<Widget> getButtons() {
     final l10n = l10nOf(context);
     return [
@@ -191,12 +207,15 @@ class _CreatePasswordState extends State<CreatePassword> {
               onPressed: () async {
                 await handleProceed();
               },
-              child: Padding(
-                padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                child: Text(l10n.generalButtonProceed,
-                    textAlign: TextAlign.center,
-                    style: TextStyles.primaryButtonText),
-              )))
+              child: isLoading
+                  ? _getLoadingProgressIndicator()
+                  : Padding(
+                      padding:
+                          const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                      child: Text(l10n.generalButtonProceed,
+                          textAlign: TextAlign.center,
+                          style: TextStyles.primaryButtonText),
+                    )))
     ];
   }
 
