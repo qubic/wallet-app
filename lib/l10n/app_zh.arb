@@ -677,9 +677,9 @@
         }
     },
     "importPrivateSeedDefaultAccountName": "Account 1",
-    "cmdErrorCreatingAssetTransferTransactionGeneric": "Error trying to create asset transfer transaction",
-    "cmdErrorCreatingAssetTransferTransactionEmpty": "Error trying to create asset transfer transaction. Generated transaction was empty",
-    "cmdErrorCreatingAssetTransferTransaction": "Error trying to create asset transfer transaction: {errorDescription}",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "尝试创建资产转移交易时遇到了错误",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "尝试创建资产转移交易时出现错误。生成的交易信息为空。",
+    "cmdErrorCreatingAssetTransferTransaction": "尝试创建资产转移交易时出现错误： {errorDescription}",
     "@cmdErrorCreatingAssetTransferTransaction": {
         "placeholders": {
             "errorDescription": {
@@ -687,9 +687,9 @@
             }
         }
     },
-    "cmdErrorCreatingTransferTransactionGeneric": "Error trying to create transfer transaction",
-    "cmdErrorCreatingTransferTransactionEmpty": "Error trying to create transfer transaction. Generated transaction was empty",
-    "cmdErrorCreatingTransferTransaction": "Error trying to create transfer transaction: {errorDescription}",
+    "cmdErrorCreatingTransferTransactionGeneric": "尝试创建转账交易时出现错误",
+    "cmdErrorCreatingTransferTransactionEmpty": "尝试创建转账交易时出现错误。生成的交易信息为空。",
+    "cmdErrorCreatingTransferTransaction": "尝试创建转账交易时出现错误： {errorDescription}",
     "@cmdErrorCreatingTransferTransaction": {
         "placeholders": {
             "errorDescription": {
@@ -697,9 +697,9 @@
             }
         }
     },
-    "cmdErrorGettingPublicIdFromSeedGeneric": "Error trying to get public ID from seed",
-    "cmdErrorGettingPublicIdFromSeedEmpty": "Error trying to get public ID from seed. Generated Public ID is empty",
-    "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
+    "cmdErrorGettingPublicIdFromSeedGeneric": "尝试从种子获取地址时出现错误",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "尝试从种子获取地址时出现错误，生成的地址为空",
+    "cmdErrorGettingPublicIdFromSeed": "尝试从种子获取地址时出现了错误： {errorDescription}",
     "@cmdErrorGettingPublicIdFromSeed": {
         "placeholders": {
             "errorDescription": {
@@ -707,14 +707,14 @@
             }
         }
     },
-    "cmdErrorCreatingVaultFileGeneric": "Error trying to create vault file",
-    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Error trying to create vault file. Generated vault file is empty",
-    "importVaultFileOrPasswordError": "Selected file is not a Qubic Vault file or password is incorrect",
-    "importVaultFileGenericError": "Error while trying to import vault file",
-    "importVaultFileSeedsNullError": "Vault file is malformed and does not contain account information",
-    "importVaultFileSeedsMalformedError": "Vault file contains malformed account information",
-    "importVaultFileParsedSeedsNullError": "Could not parse accounts from vault file",
-    "importVaultFileAccountMissingName": "Account entry {accountIndex} is missing account name",
+    "cmdErrorCreatingVaultFileGeneric": "尝试创建 Vault 文件时出现错误",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "尝试创建 Vault 文件时出现错误，生成的 Vault 文件为空",
+    "importVaultFileOrPasswordError": "选择的文件不是 Qubic Vault 文件，或者输入的密码有误",
+    "importVaultFileGenericError": "尝试导入 Vault 文件时出现错误",
+    "importVaultFileSeedsNullError": "Vault 文件有误，未能提供账户信息",
+    "importVaultFileSeedsMalformedError": "Vault 文件中包含了不正确的账户信息",
+    "importVaultFileParsedSeedsNullError": "无法从密钥文件解析账户信息",
+    "importVaultFileAccountMissingName": "帐户输入 {accountIndex} 丢失帐户名称",
     "@importVaultFileAccountMissingName": {
         "placeholders": {
             "accountIndex": {
@@ -722,7 +722,7 @@
             }
         }
     },
-    "importVaultFileAccountMissingPublicId": "Account entry {accountIndex} is missing public ID",
+    "importVaultFileAccountMissingPublicId": "帐户输入 {accountIndex} 丢失帐户地址",
     "@importVaultFileAccountMissingPublicId": {
         "placeholders": {
             "accountIndex": {
@@ -730,7 +730,7 @@
             }
         }
     },
-    "importVaultFileAccountMissingSeed": "Account entry {accountIndex} is missing seed",
+    "importVaultFileAccountMissingSeed": "帐户输入 {accountIndex} 丢失私钥种子",
     "@importVaultFileAccountMissingSeed": {
         "placeholders": {
             "accountIndex": {
@@ -738,7 +738,7 @@
             }
         }
     },
-    "generalErrorFileRequired": "Please select a file",
-    "generalErrorPathRequired": "Please select a path",
-    "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer."
+    "generalErrorFileRequired": "请选择文件",
+    "generalErrorPathRequired": "请选择路径",
+    "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。"
 }
