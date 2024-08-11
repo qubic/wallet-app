@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:qubic_wallet/components/copyable_text.dart';
 import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -55,12 +52,13 @@ class _ReceiveState extends State<Receive> {
   }
 
   List<Widget> getActions() {
+    final l10n = l10nOf(context);
     return [
       ThemedControls.primaryButtonNormal(
           onPressed: () {
-            copyToClipboard(widget.item.publicId);
+            copyToClipboard(widget.item.publicId, context);
           },
-          text: "Copy address",
+          text: l10n.generalButtonCopyAddress,
           icon: !LightThemeColors.shouldInvertIcon
               ? ThemedControls.invertedColors(
                   child: Image.asset("assets/images/Group 2400.png"))
@@ -70,9 +68,9 @@ class _ReceiveState extends State<Receive> {
           : ThemedControls.spacerHorizontalSmall(),
       ThemedControls.transparentButtonNormal(
           onPressed: () {
-            Share.share('${widget.item.publicId}');
+            Share.share(widget.item.publicId);
           },
-          text: "Share",
+          text: l10n.generalButtonShare,
           icon: LightThemeColors.shouldInvertIcon
               ? ThemedControls.invertedColors(
                   child: Image.asset("assets/images/Group 2389.png"))
@@ -81,6 +79,8 @@ class _ReceiveState extends State<Receive> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
+
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -90,13 +90,14 @@ class _ReceiveState extends State<Receive> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: "Receive Funds and Assets",
-                  subheaderText: "in \"${widget.item.name}\""),
+                  headerText: l10n.receiveTitle,
+                  subheaderText: l10n.receiveHeader(widget.item.name)),
               ThemedControls.card(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                    Text("Qubic Address", style: TextStyles.lightGreyTextSmall),
+                    Text(l10n.receiveLabelAddress,
+                        style: TextStyles.lightGreyTextSmall),
                     ThemedControls.spacerVerticalMini(),
                     Text(widget.item.publicId),
                     ThemedControls.spacerVerticalNormal(),
@@ -113,24 +114,22 @@ class _ReceiveState extends State<Receive> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
+
     return [
       FilledButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          child: const Text(
-            "CLOSE",
-          ))
+          child: Text(l10n.generalButtonClose))
     ];
   }
 
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {
-          return Future.value(!isLoading);
-        },
+    return PopScope(
+        canPop: !isLoading,
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,

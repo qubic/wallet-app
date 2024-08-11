@@ -5,9 +5,9 @@ import 'package:qubic_wallet/components/explorer_results/explorer_result_qubic_i
 import 'package:qubic_wallet/components/explorer_results/explorer_result_tick.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_result_transaction.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/inputDecorations.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/input_decorations.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:collection/collection.dart';
 
@@ -16,6 +16,7 @@ import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class ExplorerSearch extends StatefulWidget {
   const ExplorerSearch({super.key});
@@ -42,7 +43,7 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
     searchController.addListener(() {
       //_formKey.currentState!.fields["searchTerm"]!
       //  .didChange(searchController.text);
-      if (searchController.text.length == 0) {
+      if (searchController.text.isEmpty) {
         setState(() => showClearButton = false);
       } else {
         setState(() => showClearButton = true);
@@ -76,6 +77,8 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
+
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -84,9 +87,10 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                ThemedControls.pageHeader(headerText: "Explorer Search"),
+                ThemedControls.pageHeader(headerText: l10n.explorerSearchTitle),
                 ThemedControls.spacerVerticalBig(),
-                Text("Tick / TX ID / Public ID", style: TextStyles.labelText),
+                Text(l10n.explorerSearchLabelCriteria,
+                    style: TextStyles.labelText),
                 ThemedControls.spacerVerticalSmall(),
                 FormBuilder(
                     key: _formKey,
@@ -94,7 +98,8 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                       FormBuilderTextField(
                         name: "searchTerm",
                         validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
+                          FormBuilderValidators.required(
+                              errorText: l10n.generalErrorRequiredField),
                         ]),
                         maxLines: 1,
                         controller: searchController,
@@ -128,7 +133,7 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                         width: double.infinity,
                         child: Column(children: [
                           ThemedControls.spacerVerticalNormal(),
-                          Text("No results found matching",
+                          Text(l10n.explorerSearchLabelNoResults,
                               textAlign: TextAlign.center,
                               style: TextStyles.labelText),
                           ThemedControls.spacerVerticalSmall(),
@@ -141,7 +146,8 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                       children: [
                         ThemedControls.spacerVerticalNormal(),
                         Text(
-                          "Found ${searchResults!.length} result${searchResults!.length > 1 ? "s" : ""}",
+                          l10n.explorerSearchLabelResults(
+                              searchResults!.length),
                           textAlign: TextAlign.left,
                         ),
                         const SizedBox(height: ThemePaddings.smallPadding),
@@ -153,6 +159,7 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
     return [
       Expanded(
           child: ThemedControls.transparentButtonBigWithChild(
@@ -162,8 +169,8 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
               child: Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: ThemePaddings.normalPadding),
-                  child:
-                      Text("Back", style: TextStyles.transparentButtonText)))),
+                  child: Text(l10n.generalButtonCancel,
+                      style: TextStyles.transparentButtonText)))),
       ThemedControls.spacerHorizontalNormal(),
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
@@ -178,7 +185,8 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                           child: CircularProgressIndicator(
                               valueColor: AlwaysStoppedAnimation<Color>(
                                   Theme.of(context).colorScheme.onPrimary)))
-                      : Text("Search", style: TextStyles.primaryButtonText))))
+                      : Text(l10n.generalButtonSearch,
+                          style: TextStyles.primaryButtonText))))
     ];
   }
 
@@ -214,10 +222,8 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {
-          return Future.value(!isLoading);
-        },
+    return PopScope(
+        canPop: !isLoading,
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,

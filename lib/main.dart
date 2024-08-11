@@ -2,20 +2,19 @@ import 'package:dargon2_flutter/dargon2_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
+import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-
-import 'helpers/global_snack_bar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   DArgon2Flutter.init(); //Initialize DArgon 2
@@ -54,9 +53,17 @@ class WalletApp extends StatefulWidget {
 class _WalletAppState extends State<WalletApp> {
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    if (localizations != null) {
+      LocalizationManager.instance.setLocalizations(localizations);
+    }
+
     return MaterialApp.router(
       title: 'Qubic Wallet',
       routerConfig: appRouter,
+
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
 
       scaffoldMessengerKey: scaffoldMessengerKey,
       debugShowCheckedModeBanner: false,

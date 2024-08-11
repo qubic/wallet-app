@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
-import 'package:skeleton_text/skeleton_text.dart';
-import 'package:intl/intl.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 
 class CurrencyLabel extends StatelessWidget {
   final String currencyName;
@@ -27,7 +25,7 @@ class CurrencyLabel extends StatelessWidget {
           child: Text(currencyName, style: style));
     } else {
       return Container(
-          padding: EdgeInsets.only(left: 6, right: 6),
+          padding: const EdgeInsets.only(left: 6, right: 6),
           child: Text(currencyName, style: style));
     }
 

@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,6 +15,7 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/link.dart';
 import 'package:path/path.dart' as Path;
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class DownloadCmdUtils extends StatefulWidget {
   const DownloadCmdUtils({super.key});
@@ -25,6 +28,7 @@ class DownloadCmdUtils extends StatefulWidget {
 class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final QubicCmdUtils cmdUtils = QubicCmdUtils();
+
   String step = 'intro';
   String directory = '';
   String filename = '';
@@ -97,6 +101,8 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
   }
 
   Widget getInstructions() {
+    final l10n = l10nOf(context);
+
     return Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -127,7 +133,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                 Padding(
                     padding: EdgeInsets.only(left: ThemePaddings.normalPadding),
                     child: CopyableText(
-                        child: Text(directory), copiedText: directory)),
+                        copiedText: directory, child: Text(directory))),
                 const SizedBox(height: ThemePaddings.miniPadding),
               ])),
           const SizedBox(height: ThemePaddings.miniPadding),
@@ -139,7 +145,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                         color: Theme.of(context).colorScheme.error),
                     const SizedBox(width: ThemePaddings.smallPadding),
                     Expanded(
-                        child: Text("${manualError}",
+                        child: Text("$manualError",
                             softWrap: true,
                             style: Theme.of(context)
                                 .textTheme
@@ -170,7 +176,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                                   step = 'intro';
                                 });
                               },
-                              child: Text("Back"))),
+                              child: Text(l10n.generalButtonBack))),
                       ThemedControls.spacerHorizontalNormal(),
                       Expanded(
                           child: FilledButton(
@@ -182,7 +188,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                                   setState(() {
                                     manualLoading = false;
                                     manualError =
-                                        "Could not find file \"${filename}\" in \"${directory}\"";
+                                        "Could not find file \"$filename\" in \"$directory\"";
                                   });
                                   return;
                                 }
@@ -201,7 +207,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                                   manualLoading = false;
                                 });
                               },
-                              child: Text("Done"))),
+                              child: const Text("Done"))),
                     ])
         ]);
   }
@@ -250,7 +256,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
             radius: 90.0,
             lineWidth: 8.0,
             percent: downloadProgress.toDouble(),
-            center: Text((downloadProgress * 100).round().toString() + "%",
+            center: Text("${(downloadProgress * 100).round()}%",
                 style: Theme.of(context)
                     .textTheme
                     .displayLarge!
@@ -271,6 +277,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
   }
 
   Widget getDownloadingError() {
+    final l10n = l10nOf(context);
     return Column(mainAxisSize: MainAxisSize.min, children: [
       Text("Download failed",
           style: Theme.of(context)
@@ -293,7 +300,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
               await startDownloading();
               //settingsStore.cmdUtilsAvailable = true;
             },
-            child: const Text("Try again")),
+            child: Text(l10n.generalButtonTryAgain)),
         TextButton(
             onPressed: () async {
               setState(() {

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AddAccountWarningSheet extends StatefulWidget {
   final Function() onAccept;
@@ -43,30 +43,33 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
   }
 
   Widget getText() {
+    final l10n = l10nOf(context);
+
     return Row(children: [
       Expanded(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-            ThemedControls.pageHeader(headerText: "Before you proceed"),
+            ThemedControls.pageHeader(
+                headerText: l10n.addAccountWarningSheetHeader),
             ThemedControls.spacerVerticalNormal(),
-            getWarningText("Keep a safe backup of your private seed"),
+            getWarningText(l10n.addAccountWarningSheetLabelOne),
             ThemedControls.spacerVerticalNormal(),
-            getWarningText("Never share your private seed with anyone"),
+            getWarningText(l10n.addAccountWarningSheetLabelTwo),
             ThemedControls.spacerVerticalNormal(),
-            getWarningText(
-                "Do not paste your private seed to unknown apps or websites"),
+            getWarningText(l10n.addAccountWarningSheetLabelThree),
           ]))
     ]);
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
     return [
       Expanded(
           child: ThemedControls.transparentButtonBigWithChild(
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: Text("Cancel",
+                  child: Text(l10n.generalButtonCancel,
                       textAlign: TextAlign.center,
                       style: TextStyles.transparentButtonText)),
               onPressed: widget.onReject)),
@@ -78,14 +81,14 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
                   child: Padding(
                     padding:
                         const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                    child: Text("Proceed",
+                    child: Text(l10n.generalButtonProceed,
                         textAlign: TextAlign.center,
                         style: TextStyles.primaryButtonText),
                   ))
               : ThemedControls.primaryButtonBigDisabledWithChild(
                   child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: Text("Proceed",
+                  child: Text(l10n.generalButtonProceed,
                       textAlign: TextAlign.center,
                       style: TextStyles.primaryButtonText),
                 ))),
@@ -107,6 +110,8 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Padding(
         padding: ThemeEdgeInsets.bottomSheetInsets,
         child: SingleChildScrollView(
@@ -121,12 +126,13 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
                     const Divider(),
                     ThemedControls.spacerVerticalNormal(),
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 0.0),
                       leading: Checkbox(
                         value: hasAccepted,
                         onChanged: _toggleCheckbox,
                       ),
-                      title: const Text("I understand the above"),
+                      title: Text(l10n.addAccountWarningSheetCheckboxLabel),
                       onTap: () {
                         _toggleCheckbox(!hasAccepted);
                       },

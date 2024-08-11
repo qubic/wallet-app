@@ -20,9 +20,10 @@ import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_f
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-import 'package:qubic_wallet/styles/inputDecorations.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/input_decorations.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum CardItem { delete, rename, reveal, viewTransactions, viewInExplorer }
 
@@ -63,6 +64,8 @@ class _AccountListItemState extends State<AccountListItem> {
   }
 
   showRenameDialog(BuildContext context) {
+    final l10n = l10nOf(context);
+
     late BuildContext dialogContext;
     final controller = TextEditingController();
 
@@ -77,10 +80,10 @@ class _AccountListItemState extends State<AccountListItem> {
         onPressed: () {
           Navigator.pop(dialogContext);
         },
-        text: "Cancel");
+        text: l10n.generalButtonCancel);
 
     Widget continueButton = ThemedControls.primaryButtonNormal(
-      text: "Rename",
+      text: l10n.generalButtonRename,
       onPressed: () {
         if (_formKey.currentState?.instantValue["accountName"] ==
             widget.item.name) {
@@ -103,7 +106,7 @@ class _AccountListItemState extends State<AccountListItem> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Rename Account", style: TextStyles.alertHeader),
+      title: Text(l10n.renameAccountDialogTitle, style: TextStyles.alertHeader),
       scrollable: true,
       content: FormBuilder(
           key: _formKey,
@@ -117,16 +120,18 @@ class _AccountListItemState extends State<AccountListItem> {
                     name: 'accountName',
                     //initialValue: item.name,
                     decoration: ThemeInputDecorations.normalInputbox.copyWith(
-                      hintText: "New name",
+                      hintText: l10n.renameAccountDialogHintName,
                     ),
                     controller: controller,
                     focusNode: FocusNode()..requestFocus(),
                     style: TextStyles.inputBoxNormalStyle,
                     validator: FormBuilderValidators.compose([
-                      FormBuilderValidators.required(),
+                      FormBuilderValidators.required(
+                          errorText: l10n.generalErrorRequiredField),
                       CustomFormFieldValidators.isNameAvailable(
                           currentQubicIDs: _appStore.currentQubicIDs,
-                          ignorePublicId: widget.item.name)
+                          ignorePublicId: widget.item.name,
+                          context: context)
                     ]),
                   ),
                 ],
@@ -148,6 +153,7 @@ class _AccountListItemState extends State<AccountListItem> {
   }
 
   showRemoveDialog(BuildContext context) {
+    final l10n = l10nOf(context);
     late BuildContext dialogContext;
 
     // set up the buttons
@@ -155,10 +161,10 @@ class _AccountListItemState extends State<AccountListItem> {
         onPressed: () {
           Navigator.pop(dialogContext);
         },
-        text: "Cancel");
+        text: l10n.generalButtonCancel);
 
     Widget continueButton = ThemedControls.primaryButtonNormal(
-      text: "Delete Account",
+      text: l10n.deleteAccountDialogButtonDelete,
       onPressed: () async {
         await _appStore.removeID(widget.item.publicId);
         Navigator.pop(dialogContext);
@@ -167,10 +173,9 @@ class _AccountListItemState extends State<AccountListItem> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      title: Text("Delete Qubic Account", style: TextStyles.alertHeader),
-      content: Text(
-          "Are you sure you want to delete this Qubic Account from your wallet? (Any funds associated with this account will not be removed)\n\nMAKE SURE YOU HAVE A BACKUP OF YOUR PRIVATE SEED BEFORE REMOVING THIS ACCOUNT!",
-          style: TextStyles.alertText),
+      title: Text(l10n.deleteAccountDialogTitle, style: TextStyles.alertHeader),
+      content:
+          Text(l10n.deleteAccountDialogMessage, style: TextStyles.alertText),
       actions: [
         cancelButton,
         continueButton,
@@ -188,15 +193,16 @@ class _AccountListItemState extends State<AccountListItem> {
   }
 
   Widget getCardMenu(BuildContext context) {
+    final l10n = l10nOf(context);
     return Theme(
         data: Theme.of(context).copyWith(
             menuTheme: MenuThemeData(
                 style: MenuStyle(
           surfaceTintColor:
-              MaterialStateProperty.all(LightThemeColors.cardBackground),
-          elevation: MaterialStateProperty.all(50),
+              WidgetStateProperty.all(LightThemeColors.cardBackground),
+          elevation: WidgetStateProperty.all(50),
           backgroundColor:
-              MaterialStateProperty.all(LightThemeColors.cardBackground),
+              WidgetStateProperty.all(LightThemeColors.cardBackground),
         ))),
         child: PopupMenuButton<CardItem>(
             tooltip: "",
@@ -267,32 +273,34 @@ class _AccountListItemState extends State<AccountListItem> {
               }
             },
             itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
-                  const PopupMenuItem<CardItem>(
+                  PopupMenuItem<CardItem>(
                     value: CardItem.viewTransactions,
-                    child: Text('View Transfers'),
+                    child: Text(l10n.accountButtonViewTransfer),
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewInExplorer,
-                    child: Text('View in Explorer'),
                     enabled:
                         widget.item.amount != null && widget.item.amount! > 0,
+                    child: Text(l10n.accountButtonViewInExplorer),
                   ),
-                  const PopupMenuItem<CardItem>(
+                  PopupMenuItem<CardItem>(
                     value: CardItem.reveal,
-                    child: Text('Reveal Private Seed'),
+                    child: Text(l10n.accountButtonRevealPrivateSeed),
                   ),
-                  const PopupMenuItem<CardItem>(
+                  PopupMenuItem<CardItem>(
                     value: CardItem.rename,
-                    child: Text('Rename'),
+                    child: Text(l10n.generalButtonRename),
                   ),
-                  const PopupMenuItem<CardItem>(
+                  PopupMenuItem<CardItem>(
                     value: CardItem.delete,
-                    child: Text('Delete'),
+                    child: Text(l10n.generalButtonDelete),
                   ),
                 ]));
   }
 
   Widget getButtonBar(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return ButtonBar(
       alignment: MainAxisAlignment.start,
       overflowDirection: VerticalDirection.down,
@@ -311,7 +319,7 @@ class _AccountListItemState extends State<AccountListItem> {
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 },
-                text: "Send",
+                text: l10n.accountButtonSend,
                 icon: LightThemeColors.shouldInvertIcon
                     ? ThemedControls.invertedColors(
                         child: Image.asset("assets/images/send.png"))
@@ -330,11 +338,11 @@ class _AccountListItemState extends State<AccountListItem> {
               ? ThemedControls.invertedColors(
                   child: Image.asset("assets/images/receive.png"))
               : Image.asset("assets/images/receive.png"),
-          text: "Receive",
+          text: l10n.accountButtonReceive,
         ),
         widget.item.assets.keys.isNotEmpty
             ? ThemedControls.primaryButtonBig(
-                text: "Assets",
+                text: l10n.accountButtonAssets,
                 onPressed: () {
                   pushScreen(
                     context,
@@ -350,16 +358,23 @@ class _AccountListItemState extends State<AccountListItem> {
 
   Widget getAssets(BuildContext context) {
     List<Widget> shares = [];
+    final l10n = l10nOf(context);
 
     for (var key in widget.item.assets.keys) {
       var asset = widget.item.assets[key];
       bool isToken = asset!.contractIndex == QubicSCID.qX.contractIndex &&
-          asset!.contractName != "QX";
-      String text = isToken ? " Token" : " Share";
+          asset.contractName != "QX";
+
       int num = asset.ownedAmount ?? asset.possessedAmount ?? 0;
-      if (num != 1) {
-        text += "s";
+
+      String text;
+
+      if (isToken) {
+        text = l10n.generalUnitTokens(num);
+      } else {
+        text = l10n.generalUnitShares(num);
       }
+
       shares.add(AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
           transitionBuilder: (Widget child, Animation<double> animation) {
@@ -379,7 +394,7 @@ class _AccountListItemState extends State<AccountListItem> {
                       ? TextStyles.accountAmount.copyWith(fontSize: 16)
                       : TextStyles.accountAmount,
                   labelStyle: TextStyles.accountAmountLabel,
-                  currencyName: widget.item.assets[key]!.assetName + text,
+                  currencyName: '${widget.item.assets[key]!.assetName} $text',
                 )
               : Container()));
     }
@@ -389,7 +404,8 @@ class _AccountListItemState extends State<AccountListItem> {
             alignment: Alignment.centerRight,
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end, children: shares)),
-        secondChild: shares.isNotEmpty ? Text("*******") : Container(),
+        secondChild:
+            shares.isNotEmpty ? Text(l10n.generalLabelHidden) : Container(),
         crossFadeState: totalBalanceVisible
             ? CrossFadeState.showFirst
             : CrossFadeState.showSecond,
@@ -398,6 +414,7 @@ class _AccountListItemState extends State<AccountListItem> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Container(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
         child: Card(
@@ -450,9 +467,9 @@ class _AccountListItemState extends State<AccountListItem> {
                                             .copyWith(fontSize: 22)
                                         : TextStyles.accountAmount,
                                 labelStyle: TextStyles.accountAmountLabel,
-                                currencyName: 'QUBIC',
+                                currencyName: l10n.generalLabelCurrencyQubic,
                               )),
-                          secondChild: Text("******",
+                          secondChild: Text(l10n.generalLabelHidden,
                               style: MediaQuery.of(context).size.width < 400
                                   ? TextStyles.accountAmount
                                       .copyWith(fontSize: 22)

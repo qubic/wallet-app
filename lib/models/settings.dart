@@ -24,11 +24,16 @@ class Settings {
   String? TOTPKey; //Is there an OTP key set for the user?
   String? padding; //Padding for the OTP key
 
-  Settings(
-      {this.biometricEnabled = false,
-      this.TOTPKey,
-      this.padding,
-      this.totalBalanceVisible = true});
+  @observable
+  int autoLockTimeout = 3; // Auto-lock timeout in minutes
+
+  Settings({
+    this.biometricEnabled = false,
+    this.TOTPKey,
+    this.padding,
+    this.totalBalanceVisible = true,
+    this.autoLockTimeout = 3,
+  });
 
   factory Settings.clone(Settings original) {
     return Settings(
@@ -36,6 +41,7 @@ class Settings {
       TOTPKey: original.TOTPKey,
       padding: original.padding,
       totalBalanceVisible: original.totalBalanceVisible,
+      autoLockTimeout: original.autoLockTimeout,
     );
   }
 
@@ -44,7 +50,8 @@ class Settings {
       'biometricEnabled': biometricEnabled,
       'padding': padding,
       'TOTPKey': TOTPKey,
-      'totalBalanceVisible': totalBalanceVisible == true ? 'true' : 'false'
+      'totalBalanceVisible': totalBalanceVisible == true ? 'true' : 'false',
+      'autoLockTimeout': autoLockTimeout,
     };
     return jsonEncode(json);
   }
@@ -53,13 +60,14 @@ class Settings {
     Map<String, dynamic> json = jsonDecode(jsonString);
     return Settings(
       biometricEnabled: json['biometricEnabled'],
-      padding: json['padding'] ?? null,
+      padding: json['padding'],
       TOTPKey: json['TOTPKey'],
       totalBalanceVisible: json['totalBalanceVisible'] == null
           ? false
           : json['totalBalanceVisible'] == "true"
               ? true
               : false,
+      autoLockTimeout: json['autoLockTimeout'] ?? 3,
     );
   }
 }

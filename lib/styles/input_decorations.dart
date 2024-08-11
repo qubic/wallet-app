@@ -62,7 +62,7 @@ abstract class ThemeInputDecorations {
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     filled: true,
-    hintStyle: TextStyle(
+    hintStyle: const TextStyle(
         color: LightThemeColors.inputFieldHint, fontSize: ThemeFontSizes.label),
     fillColor: LightThemeColors.inputFieldBg,
   );
@@ -94,7 +94,7 @@ abstract class ThemeInputDecorations {
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     filled: true,
-    hintStyle: TextStyle(
+    hintStyle: const TextStyle(
         color: LightThemeColors.inputFieldHint, fontSize: ThemeFontSizes.label),
     fillColor: LightThemeColors.inputFieldBg,
   );
@@ -126,7 +126,7 @@ abstract class ThemeInputDecorations {
         borderRadius: BorderRadius.all(Radius.circular(2)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     filled: true,
-    hintStyle: TextStyle(
+    hintStyle: const TextStyle(
         color: LightThemeColors.inputFieldHint, fontSize: ThemeFontSizes.label),
     fillColor: LightThemeColors.inputFieldBg,
   );

@@ -1,3 +1,10 @@
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
+import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_js.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -20,6 +27,12 @@ class QubicCmd {
   }
 
   void _disposeQubicCMD() {}
+
+  void reinitialize() {
+    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+      qubicJs.reInitialize();
+    }
+  }
 
   void dispose() {
     if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
@@ -53,7 +66,8 @@ class QubicCmd {
       _initQubicCMD();
       return await qubicCmdUtils.getPublicIdFromSeed(seed);
     }
-    throw "OS Not supported";
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
   Future<String> createTransaction(
@@ -67,7 +81,8 @@ class QubicCmd {
       return await qubicCmdUtils.createTransaction(
           seed, destinationId, value, tick);
     }
-    throw "OS Not supported";
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
   Future<String> createAssetTransferTransaction(
@@ -87,6 +102,43 @@ class QubicCmd {
       return await qubicCmdUtils.createAssetTransferTransaction(
           seed, destinationId, assetName, assetIssuer, numberOfAssets, tick);
     }
-    throw "OS Not supported";
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
+  }
+
+  Future<Uint8List> createVaultFile(
+      String password, List<QubicVaultExportSeed> seeds) async {
+    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+      return await qubicJs.createVaultFile(password, seeds);
+    }
+    if ((UniversalPlatform.isLinux) ||
+        (UniversalPlatform.isWindows) ||
+        (UniversalPlatform.isMacOS)) {
+      return await qubicCmdUtils.createVaultFile(password, seeds);
+    }
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
+  }
+
+  Future<List<QubicImportVaultSeed>> importVaultFile(
+      String password, String? filePath, Uint8List? fileContents) async {
+    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+      if (fileContents == null) {
+        throw "File contents base64 is required";
+      }
+      var base64String = base64Encode(fileContents);
+      return await qubicJs.importVault(password, base64String);
+    }
+    if ((UniversalPlatform.isLinux) ||
+        (UniversalPlatform.isWindows) ||
+        (UniversalPlatform.isMacOS)) {
+      if (filePath == null) {
+        throw "File path is required";
+      }
+      return await qubicCmdUtils.importVaultFile(password, filePath);
+    }
+
+    throw LocalizationManager
+        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 }

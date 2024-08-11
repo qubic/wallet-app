@@ -1,18 +1,38 @@
+import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
+
 class QubicCmdResponse {
   late bool status;
-  String? publicId;
+  String? publicId; //createPublicId
   String? error;
-  String? transaction;
+  String? transaction; //for createTransactionAssetMove and createTransaction
+  String? base64; //for wallet.createVaultFile
+  List<QubicImportVaultSeed>? seeds; //for import seeds
 
   QubicCmdResponse(
-      {required this.status, this.publicId, this.error, this.transaction});
+      {required this.status,
+      this.publicId,
+      this.error,
+      this.transaction,
+      this.base64,
+      this.seeds});
 
   factory QubicCmdResponse.fromJson(Map<String, dynamic> json) {
+    List<QubicImportVaultSeed>? seeds;
+    if (json.containsKey("seeds")) {
+      seeds = <QubicImportVaultSeed>[];
+      for (var seed in json['seeds']) {
+        seeds.add(QubicImportVaultSeed(
+            seed['alias'], seed['publicId'], seed['seed']));
+      }
+    }
+
     return QubicCmdResponse(
       status: json['status'] == "ok" ? true : false,
       publicId: json.containsKey("publicId") ? json['publicId'] : null,
       error: json.containsKey("error") ? json['error'] : null,
       transaction: json.containsKey("transaction") ? json['transaction'] : null,
+      base64: json.containsKey("base64") ? json['base64'] : null,
+      seeds: json.containsKey("seeds") ? seeds : null,
     );
   }
 
@@ -22,6 +42,7 @@ class QubicCmdResponse {
     data['publicId'] = publicId;
     data['error'] = error;
     data['transaction'] = transaction;
+    data['base64'] = base64;
     return data;
   }
 }

@@ -1,8 +1,9 @@
 # Qubic Wallet
 
-Official wallet app for the QUBIC network (https://qubic.org/). Find more about QUBIC on (https://doc.qubic.world/). Find us on discord (https://discord.com/invite/2vDMR8m).
-
-(Initial commit after migration from Q-Hub repo)
+Official self-custodial wallet app for the QUBIC network (https://qubic.org/).
+Source code is written in [Dart](https://dart.dev) using [Flutter](https://flutter.dev).
+Find more about QUBIC on (https://doc.qubic.world/). 
+Find us on discord (https://discord.com/invite/2vDMR8m).
 
 ## Functionality
 
@@ -15,25 +16,19 @@ Official wallet app for the QUBIC network (https://qubic.org/). Find more about 
 
 ## Other features
 
-- [x] Require password to login
-- [x] Require password view seed / make transfer
+- [x] Requires password to login
+- [x] Requires authentication view seed / make transfer
 - [x] Biometric authentication (provided that your phone has the required hardware)
-- [x] Use QR codes
+- [x] Scan QR codes
 
 # Supported Platforms
 
-- [x] Android
+- [x] iOS - Available in the [App Store](https://apps.apple.com/us/app/qubic-wallet/id6502265811)
+- [x] Android - Available soon in Play Store
 - [x] Windows
 - [x] Linux
-- [ ] iOS - submitted
-- [ ] MacOS - submitted
-- [ ] Web - submitted
-
-## Distribution
-
-- [x] Android: Signed APK (check qubic-hub releases page)
-- [x] Windows: Executable
-- [ ] Android: App stores
+- [x] MacOS
+- [x] Web
 
 # Security
 
@@ -68,17 +63,24 @@ Your keys are never shared to any 3rd party. Yet the wallet uses some backend se
 
 Access to the Qubic Network is currently provided by the wonderful work of (https://www.qubic.org). We are working with a new version to iterface directly with the Computor nodes.
 
-### Version checking
-
-The wallet makes some calls to wallet.qubic-hub.com in order to check for updates or critical fixes.
-
 # Compiling - Downloading - Running
 
+Fluter 3.22.2 is required.
 Soon there will be a dedicated compilation manual page. Until then here's some brief instructions:
+
+## iOS
+
+```bash
+flutter build ios
+```
 
 ## Android
 
-- Run : `flutter build apk --split-per-abi` for Android and run the .apk file on your device.
+```bash
+flutter build apk --split-per-abi
+```
+
+and run the .apk file on your device.
 
 ## Windows
 

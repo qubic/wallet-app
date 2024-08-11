@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/styles/buttonStyles.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 
 class ThemedControls {
   static Widget card({required Widget child}) {
@@ -41,7 +41,9 @@ class ThemedControls {
       required Widget child,
       bool? enabled}) {
     return FilledButton(
-      style: ButtonStyles.primaryButtonBig,
+      style: enabled == null || enabled == true
+          ? ButtonStyles.primaryButtonBig
+          : ButtonStyles.primaryButtonBigDisabled,
       onPressed: onPressed,
       child: child,
     );
@@ -51,7 +53,8 @@ class ThemedControls {
     return FilledButton(
       style: ButtonStyles.primaryButtonBigDisabled,
       onPressed: () {
-        return null;
+        // ignore: avoid_returning_null_for_void
+        return null; //keep this to make sure that no ripple effect is shown
       },
       child: child,
     );
@@ -61,6 +64,19 @@ class ThemedControls {
       {required void Function()? onPressed, required Widget child}) {
     return TextButton(
       style: ButtonStyles.dangerButtonBig,
+      onPressed: onPressed,
+      child: child,
+    );
+  }
+
+  // A transparent button with child widgets
+  static Widget darkButtonBigWithChild(
+      {required void Function()? onPressed,
+      required Widget child,
+      bool error = false}) {
+    return TextButton(
+      style:
+          !error ? ButtonStyles.darkButtonBig : ButtonStyles.darkButtonBigError,
       onPressed: onPressed,
       child: child,
     );

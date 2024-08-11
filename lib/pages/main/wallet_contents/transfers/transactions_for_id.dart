@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:qubic_wallet/components/tick_indicator.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 // ignore: depend_on_referenced_packages
@@ -36,11 +36,13 @@ class _TransactionsForIdState extends State<TransactionsForId> {
   final _formKey = GlobalKey<FormBuilderState>();
 
   List<Widget> getDirectionLabel(TransactionDirection? e) {
+    final l10n = l10nOf(context);
+
     List<Widget> out = [];
     if (e == null) {
       out.add(const Icon(Icons.clear));
       out.add(Text(
-        "All transactions",
+        l10n.transfersLabelAllTransactions,
         style: Theme.of(context)
             .textTheme
             .bodyLarge!
@@ -51,13 +53,15 @@ class _TransactionsForIdState extends State<TransactionsForId> {
           ? Icons.input_outlined
           : Icons.output_outlined));
       out.add(const Text(" "));
-      out.add(
-          Text(e == TransactionDirection.incoming ? "Incoming" : "Outgoing"));
+      out.add(Text(e == TransactionDirection.incoming
+          ? l10n.transactionLabelDirectionIncoming
+          : l10n.transactionLabelDirectionOutgoing));
     }
     return out;
   }
 
   Widget getDirectionDropdown() {
+    final l10n = l10nOf(context);
     List<TransactionDirection?> directionOptions = [
       null,
       TransactionDirection.incoming,
@@ -83,7 +87,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
         },
         initialValue: selectedDirection,
         decoration: InputDecoration(
-          labelText: 'Filter by direction',
+          labelText: l10n.filterTransfersLabelByDirection,
           suffix: selectedDirection == null
               ? const SizedBox(height: 10)
               : SizedBox(
@@ -103,7 +107,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                       // });
                     },
                   )),
-          hintText: 'By Direction',
+          hintText: l10n.filterTransfersFieldHintByDirection,
         ),
         selectedItemBuilder: (BuildContext context) {
           return items.map<Widget>((item) {
@@ -118,7 +122,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                       ? getDirectionLabel(item.value)
                       : [
                           Text(
-                            "Any direction",
+                            l10n.generalLabelAnyDirection,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyLarge!
@@ -140,6 +144,8 @@ class _TransactionsForIdState extends State<TransactionsForId> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -163,8 +169,9 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                         children: [
                           ThemedControls.pageHeader(
                               headerText: (widget.item == null
-                                  ? "Transfers for "
-                                  : "Transfers for \"${widget.item?.name}\""),
+                                  ? l10n.transfersLabelFor
+                                  : l10n.transfersLabelForAccount(
+                                      widget.item!.name)),
                               subheaderText: widget.publicQubicId),
                           Observer(builder: (context) {
                             List<Widget> results = [];

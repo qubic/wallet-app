@@ -1,0 +1,744 @@
+{
+    "generalButtonCancel": "Отмена",
+    "generalButtonOK": "Ок",
+    "generalLabelYes": "Да",
+    "generalLabelNo": "Нет",
+    "generalButtonConfirm": "Подтвердить",
+    "generalButtonDelete": "Удалить",
+    "generalButtonAdd": "Добавить",
+    "generalButtonCopy": "Копировать",
+    "generalButtonRename": "Переименовать",
+    "generalButtonSave": "Сохранить",
+    "generalButtonProceed": "Принять",
+    "generalButtonBack": "Назад",
+    "generalButtonClose": "Закрыть",
+    "generalButtonTryAgain": "Попробовать еще раз",
+    "generalButtonShare": "Отправить",
+    "generalButtonSearch": "Поиск",
+    "generalButtonApply": "Применить",
+    "generalButtonEraseWalletData": "Очистить данные кошелька",
+    "generalButtonClearAll": "Очистить всё",
+    "generalButtonShowAll": "Показать всё",
+    "generalButtonUseQRCode": "Использовать QR код",
+    "generalButtonCopyAddress": "Копировать адрес",
+    "generalLabelHidden": "******",
+    "generalLabelHiddenLong": "*********",
+    "generalLabelCurrencyQubic": "QUBIC",
+    "generalLabelCurrencyUSD": "USD",
+    "generalLabelTick": "Тик",
+    "generalLabelInfo": "Информация",
+    "generalLabelDate": "Дата",
+    "generalLabelID": "ID",
+    "generalLabelTransaction": "Транзакция",
+    "generalLabelLoading": "Загрузка...",
+    "generalLabelUnknown": "Неизвестно",
+    "generalLabelFrom": "От",
+    "generalLabelTo": "К",
+    "generalLabeQubicAddress": "Qubic адрес",
+    "generalLabeQubicAddressAndPublicID": "Qubic адрес (Публичный ID)",
+    "generalLabelQubicAddressWithAccountName": "Qubic адрес {accountName}",
+    "@generalLabelQubicAddressWithAccountName": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelToFromAccount": "{toFrom} аккаунт кошелька \"{accountName}\"",
+    "@generalLabelToFromAccount": {
+        "placeholders": {
+            "toFrom": {
+                "description": "String that defines if it's the destination or source address for the transaction",
+                "type": "String"
+            },
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelToFromAddress": "{toOrFrom} ID",
+    "@generalLabelToFromAddress": {
+        "placeholders": {
+            "toOrFrom": {
+                "description": "String that defines if it's the destination or source address for the transaction",
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelNotAvailable": "N/A",
+    "generalUnitTokens": "{count, plural, =1{Токен} other{Токены}}",
+    "generalUnitShares": "{count, plural, =1{Акция} other{Акции}}",
+    "generalLabelEnabled": "Включено",
+    "generalLabelDisabled": "Отключено",
+    "generalLabelUSDQubicConversion": "USD / QUBIC",
+    "generalLabelError": "Ошибка",
+    "generalSnackBarMessageCopiedToClipboard": "Скопировано в буфер",
+    "generalSnackBarMessageWalletDataErased": "Данные кошелька удалены с устройства",
+    "generalSnackBarMessageQRScannedWithSuccess": "QR код отсканирован успешно",
+    "generalSnackBarMessageAccountAlreadyExist": "Этот аккаунт уже существует в кошельке",
+    "generalSnackBarMessageTransactionSubmitted": "Отправка новой транзакции в сеть Qubic",
+    "generalErrorUnsupportedOS": "ОС не поддерживается",
+    "generalErrorOnlyLowercaseChar": "Должны быть только строчные буквы.",
+    "generalErrorOnlyUppercaseChar": "Должны быть только заглавные буквы.",
+    "generalErrorMinCharLength": "Должно быть минимум {minCharLength} букв.",
+    "@generalErrorMinCharLength": {
+        "placeholders": {
+            "minCharLength": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorValueMustBeLowerThan": "Должно быть меньше, чем {maxValuePlusOne}.",
+    "@generalErrorValueMustBeLowerThan": {
+        "placeholders": {
+            "maxValuePlusOne": {
+                "type": "int",
+                "description": "Non inclusive maximun value for the field"
+            }
+        }
+    },
+    "generalErrorRequiredField": "Поле не может быть пустым.",
+    "generalErrorNotEnoughQubicFunds": "Недостаточно QUBIC.",
+    "generalErrorZeroQubicFunds": "Недостаточно QUBIC. ID не хватает средств.",
+    "generalErrorNotEnoughTokens": "Недостаточно токенов.",
+    "generalErrorNotEnoughAssets": "Недостаточно ассетов.",
+    "generalErrorNotNumeric": "Не является числовым значением",
+    "generalTextFieldHintPassword": "Пароль кошелька",
+    "generalErrorEmptyWalletPassword": "Пожалуйста, введите свой пароль",
+    "generalErrorSetWalletPasswordEmpty": "Пожалуйста, введите пароль.",
+    "generalErrorSetWalletPasswordRepeatEmpty": "Пожалуйста, введите пароль еще раз.",
+    "appTabHome": "Главная",
+    "appTabTransfers": "Транзакции",
+    "appTabExplorer": "Обозреватель",
+    "appTabSettings": "Настройки",
+    "homeLabelTotalBalance": "Общий балланс",
+    "homeHeader": "Аккаунты в кошельке",
+    "homeLabelNoAccountsInWallet": "У вас пока что нет аккаунтов в кошельке Qubic",
+    "homeButtonAddAccount": "Добавить аккаунт",
+    "transfersTitle": "Транзакции в пределах эпохи",
+    "transfersLabelAllTransactions": "Все транзакции",
+    "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Ни одна транзакция в этой эпохе для ваших счетов не соответствует вашим фильтрам",
+    "transfersLabelNoTransactionsFoundInWallet": "В эту эпоху нет операций по вашим счетам",
+    "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Ни одна транзакция в этой эпохе не соответствует вашим фильтрам",
+    "transfersLabelNoTransactionsFoundInAccount": "Никаких транзакций в этой эпохе",
+    "transfersLabelShowingTransactionsFound": "{count, plural, =1{Показать 1 транзакцию в тике} other{Показать {count} транзакций(и)}}",
+    "transfersLabelFor": "Транзакция к",
+    "transfersLabelForAccount": "Транзакция к \"{accountName}\"",
+    "@transfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "filterTransfersTitle": "Фильтр транзакций",
+    "filterTransfersLabelAnyQubicID": "Любой адрес Qubic",
+    "filterTransfersLabelByQubicID": "По Qubic ID",
+    "filterTransfersLabelAnyStatus": "По любому статусу",
+    "filterTransfersLabelByStatus": "По статусу",
+    "filterTransfersLabelByDirection": "По адресу назначения",
+    "filterTransfersFieldHintByDirection": "По назначению",
+    "generalLabelAnyDirection": "Любое назначение",
+    "filterTransfersClearFilters": "{filtersCount, plural, =1{Очистить фильтр} other{Очистить {filtersCount} активных фильтра(ов)}}",
+    "explorerTitle": "Обозореватель эпохи",
+    "explorerLabelEpoch": "Эпоха {currentEpoch}",
+    "@explorerLabelEpoch": {
+        "placeholders": {
+            "currentEpoch": {
+                "type": "int"
+            }
+        }
+    },
+    "explorerHeaderOverview": "Обзор",
+    "explorerHeaderTicks": "Обзор тиков",
+    "explorerSubHeaderTicks": "Последний тик",
+    "explorerLabelTotalTicks": "Общее кол-во тиков",
+    "explorerLabelEmptyTicks": "Пустые тики",
+    "explorerLabelTickQuality": "Качество тиков",
+    "explorerLabelTotalSupply": "Общее предложение (QUBIC)",
+    "explorerLabelTotalAddresses": "Всего адресов",
+    "explorerButtonRefreshData": "Обновить данные",
+    "explorerLabelLoadingData": "Загрузить данные обозревателя для этой эпохи",
+    "explorerSearchTitle": "Поиск в обозревателе",
+    "explorerSearchLabelCriteria": "Тик / TX ID / Публичный ID",
+    "explorerSearchLabelNoResults": "Не найдено соответствий",
+    "explorerSearchLabelResults": "{count, plural, =1{Найден 1 результат} other{Найдено {count} результата(ов))}}",
+    "explorerTickResultLabelBlockStatus": "Статус блока",
+    "explorerTickResultLabelBlockStatusEmpty": "Пусто",
+    "explorerTickResultLabelBlockStatusNonEmpty": "Не пустой",
+    "explorerTickResultLabelBlockStatusUnknown": "Неизвестно",
+    "explorerTickResultLabelDataStatus": "Статус данных",
+    "explorerTickResultLabelInfoCompleted": "Завершено",
+    "explorerTickResultLabelInfoNotValidated": "Не подтверждено",
+    "explorerTickResultLabelTickLeader": "Лидер тика - (Короткий код/индекс)",
+    "explorerTickResultLabelNoTransactionsFound": "Нет транзакций в этом тике",
+    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 транзакция в тике} other{{count} транзакций в тике}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Показать 1 из 1 транзакций в тике} other{Показать 1 из {count} транзакций в тике}}}",
+    "settingsTitle": "Настройки",
+    "settingsHeaderAccountsAndData": "Аккаунты и данные",
+    "settingsLockWallet": "Заблокировать кошелек",
+    "settingsHeaderSecurity": "Безопасность",
+    "settingsLabelChangePassword": "Поменять пароль",
+    "settingsLabelExportWalletVaultFile": "Экспортировать Vault File",
+    "settingsHeaderAbout": "О нас",
+    "settingsLabelJoinCommunity": "Присоединиться к сообществу",
+    "settingsLabelWalletInfo": "Информация о кошельке",
+    "generalBiometricTypeFaceID": "Face ID",
+    "generalBiometricTypeTouchID": "Touch ID",
+    "generalBiometricTypeIris": "Iris",
+    "generalBiometricTypeOS": "OS",
+    "generalBiometricTypeGeneric": "Biometric",
+    "settingsLabelManageBiometrics": "Manage Unlock with {biometricTypeLabel}",
+    "@settingsLabelManageBiometrics": {
+        "placeholders": {
+            "biometricTypeLabel": {
+                "type": "String",
+                "example": "Face ID, Touch ID..."
+            }
+        }
+    },
+    "manageBiometricsTitle": "Управляйте разблокировкой с помощью {biometricTypeLabel}",
+    "@manageBiometricsTitle": {
+        "placeholders": {
+            "biometricTypeLabel": {
+                "type": "String",
+                "example": "Face ID, Touch ID..."
+            }
+        }
+    },
+    "manageBiometricsSwitchLabel": "Используйте разблокировку с {biometricTypeLabel}",
+    "@manageBiometricsSwitchLabel": {
+        "placeholders": {
+            "biometricTypeLabel": {
+                "type": "String",
+                "example": "Face ID, Touch ID..."
+            }
+        }
+    },
+    "manageBiometricsLabelInstructionsForFaceID": "Можно включить аутентификацию с помощью Face ID.",
+    "manageBiometricsLabelInstructionsForTouchID": "Можно включить аутентификацию с помощью Touch ID.",
+    "manageBiometricsLabelInstructionsForGeneric": "Вы можете включить аутентификацию с помощью биометрических данных.",
+    "manageBiometricsLabelInstructionsForIris": "Вы можете включить аутентификацию с помощью глаза.",
+    "manageBiometricsLabelInstructionsForOS": "Вы можете включить аутентификацию через свою ОС.",
+    "manageBiometricsLabelAdditionalInstructions": "Если вы включите эту функцию, то сможете входить в свой кошелек и осуществлять переводы без использования пароля.",
+    "manageBiometricsErrorOSAuthNotAvailableTitle": "Аутентификация ОС недоступна",
+    "manageBiometricsErrorNotAvailableTitle": "Биометрическая аутентификация недоступна",
+    "manageBiometricsErrorOSAuthNotAvailableMessage": "Ваша ОС не поддерживает аутентификацию ОС",
+    "manageBiometricsErrorNotAvailableMessage": "Ваше устройство не поддерживает биометрическую аутентификацию",
+    "manageBiometricsErrorNoOSAuthTitle": "В вашей ОС не зарегистрирована информация об аутентификации",
+    "manageBiometricsErrorNoBiometricDataTitle": "Биометрические данные не были зарегистрированы в устройстве",
+    "manageBiometricsErrorNoOSAuthMessage": "В вашей ОС не настроена аутентификация. Пожалуйста, перейдите в панель управления вашей ОС и настройте аутентификацию.",
+    "manageBiometricsErrorNoBiometricDataMessage": "Ваше устройство поддерживает биометрическую аутентификацию, но вы еще не зарегистрировали свои биометрические данные. Пожалуйста, перейдите на панель управления вашего устройства, зарегистрируйте биометрические данные и повторите попытку.",
+    "transactionLabelDirectionIncoming": "Входящие",
+    "transactionLabelDirectionOutgoing": "Исходящие",
+    "transactionLabelDirectionInWallet": "В кошельке",
+    "transactionLabelStatusSuccessful": "Удачно",
+    "transactionLabelStatusPending": "В ожидании",
+    "transactionLabelStatusConfirmed": "Подтверждено",
+    "transactionLabelStatusFailed": "Неудачно",
+    "transactionLabelStatusInvalid": "Неудачно - ошибка",
+    "signInTitleOne": "Добро пожаловать в",
+    "siginInTitleTwo": "Qubic Wallet",
+    "welcomeTitle": "Рады видеть Вас снова!",
+    "welcomeButtonUnlockWallet": "Разблокировать кошелек",
+    "welcomeButtonCreateWallet": "Создать новый кошелек",
+    "accountButtonViewTransfer": "Посмотреть переводы",
+    "accountButtonViewInExplorer": "Посмотреть в обозревателе",
+    "accountButtonRevealPrivateSeed": "Открыть секретный сид",
+    "accountButtonReceive": "Получить",
+    "accountButtonSend": "Отправить",
+    "accountButtonAssets": "Ассеты",
+    "accountSendTitle": "Отправить средства",
+    "accountSendLabelDestinationAddress": "Адрес назначения",
+    "accountSendLabelAmount": "Сумма",
+    "accountSendButtonMax": "Максимум",
+    "accountSendButtonMaxMinusOne": "Максимум - 1",
+    "accountSendSectionAdvanceOptionsTitle": "Дополнительные настройки",
+    "assetsLabelOwned": "Мои средства",
+    "assetsLabelPossessed": "Частичное владение",
+    "assetsLabelContractName": "Имя контракта",
+    "assetsLabelContractIndex": "Индекс контракта",
+    "assetsLabelTick": "Действительно для тика {tick}",
+    "@assetsLabelTick": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
+    "assetsLabelCurrentBalance": "Балланс ID: {amount} QUBIC",
+    "@assetsLabelCurrentBalance": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "assetsLabelSmartContractShares": "Акции смарт-контракта",
+    "assetsButtonSend": "Отправить",
+    "assetsTitle": "Акции",
+    "assetsHeader": "of \"{accountName}\"",
+    "@assetsHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "assetsLabelQXAssets": "Выпущенные токены QX",
+    "createPasswordSheetHeader": "Пожалуйста, создайте резервную копию пароля",
+    "createPasswordSheetMessage": "Если вы забудете свой пароль, восстановить его будет невозможно. Пожалуйста, убедитесь, что у вас есть резервная копия пароля, прежде чем приступать к работе.",
+    "createPasswordSheetCheckboxMessage": "Да, я создал резервную копию своего пароля.",
+    "generalButtonUnlockWithBiometric": "Разблокировка с помощью биометрических данных",
+    "generalButtonUnlockWithFaceID": "Разблокировка с помощью Face ID",
+    "generalButtonUnlockWithTouchID": "Разблокировка с помощью Touch ID",
+    "generalButtonUnlockWithIris": "Разблокировка с помощью глаза",
+    "generalButtonUnlockWithOS": "Разблокировка с помощью ОС",
+    "generalButtonAlternativeUnlock": "Альтернативная разблокировка",
+    "generalErrorPasswordMinLength": "Пароль должен состоять не менее чем из 8 символов",
+    "signUpTextFieldHintPassword": "Введите пароль",
+    "generalErrorSetPasswordNotMatching": "Пароли не совпадают",
+    "signUpTextFieldHintRepeatPassword": "Повторите пароль",
+    "generalErrorContactingQubicNetwork": "Ошибка соединения с сетью Qubic",
+    "signUpErrorStoringBiometricInfo": "Ошибка при сохранении биометрической информации",
+    "signUpStepTwoHeader": "Биометрическая разблокировка",
+    "signUpStepTwoSubHeader": "Вы можете включить аутентификацию с помощью биометрии. Если эта функция включена, вы сможете входить в свой кошелек и осуществлять переводы без использования пароля.",
+    "signUpStepTwoHeaderForDesktop": "Разблокировка с помощью ОС",
+    "signUpStepTwoSubHeaderForDesktop": "Вы можете включить аутентификацию через свою ОС. Если вы включите эту функцию, то сможете входить в кошелек и осуществлять переводы без использования пароля.",
+    "signUpStepOneHeader": "Создать новый кошелек",
+    "signUpStepOneSubHeader": "Введите пароль, который будет использоваться для разблокировки вашего нового кошелька",
+    "signUpSwitchLabelBiometricUnlock": "Используйте биометрическую разблокировку",
+    "signUpSwitchLabelOSUnlock": "Используйте разблокировку ОС",
+    "joinCommunityLabelDiscord": "Discord",
+    "joinCommunityLabelTelegram": "Telegram",
+    "joinCommunityLabelYouTube": "YouTube",
+    "joinCommunityLabelGitHub": "GitHub",
+    "joinCommunityLabelReddit": "Reddit",
+    "joinCommunityLabelTwitter": "Twitter",
+    "joinCommunityLabelLinkedIn": "LinkedIn",
+    "revealSeedTitle": "Секретный сид",
+    "revealSeedHeader": "of {accountName}",
+    "@revealSeedHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "revealSeedButtonCopy": "Скопировать секретный сид",
+    "revealSeedLabelPrivateSeed": "Сид (храните в секрете)",
+    "revealSeedWarningSheetHeader": "Прежде чем приступить к работе",
+    "revealSeedWarningSheetLabelOne": "Сохраните сид в надежном месте!!!",
+    "revealSeedWarningSheetLabelTwo": "Никогда и никому не говорите свой секретный сид!!!",
+    "revealSeedWarningSheetLabelThree": "Никогда не вводите свой секретный сид на сайтах или в личных переписках!!!!",
+    "revealSeedWarningSheetCheckboxLabel": "Я понял всё вышеописанное",
+    "revealSeedButtonShow": "Показать секретный сид",
+    "authenticateButtonWithBiometrics": "Аутентификация с помощью биометрических данных",
+    "authenticateButtonWithWithFaceID": "Аутентификация с помощью Face ID",
+    "authenticateButtonWithTouchID": "Аутентификация с помощью Touch ID",
+    "authenticateButtonWithIris": "Аутентификация с помощью глаза",
+    "authenticateButtonWithOS": "Аутентификация с помощью ОС",
+    "authenticateButtonAlternative": "Альтернативная аутентификация",
+    "authenticateButtonAuthenticate": "Аутентификация",
+    "authenticateErrorInvalidPassword": "Вы указали неверный пароль.",
+    "authenticateErrorGeneral": "При попытке аутентификации произошла ошибка. Пожалуйста, попробуйте еще раз.",
+    "authenticateErrorTooManyAttempts": "Слишком много неудачных попыток аутентификации. Пожалуйста, заблокируйте и разблокируйте телефон с помощью PIN-кода / шаблона и повторите попытку.",
+    "eraseDataSheetHeader": "Вы уверены, что хотите стереть существующие данные кошелька?",
+    "eraseDataSheetLabelOne": "Это действие нельзя отменить. Все ваши учетные записи будут удалены с вашего устройства.",
+    "eraseDataSheetLabelTwo": "Вы сможете восстановить свои учетные записи, только если у вас есть резервная копия секретного сида.",
+    "eraseDataSheetCheckboxLabel": "Да, сотрите данные моего кошелька.",
+    "accountExplorerTitle": "Адрес Qubic",
+    "accountExplorerLabelCurrentValue": "Текущая стоимость",
+    "accountExplorerLabelValueReportedBy": "Стоимость подтвержденная {ip}",
+    "@accountExplorerLabelValueReportedBy": {
+        "placeholders": {
+            "ip": {
+                "type": "String"
+            }
+        }
+    },
+    "accountExplorerLabelTotalIncoming": "Общее кол-во вводов",
+    "accountExplorerLabelTotalOutgoing": "Общее кол-во выводов",
+    "accountExplorerLabelReportedBy": "Подтверждена",
+    "accountExplorerLabelNoResultsFound": "Нет транзакций для этого ID в эту эпоху",
+    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 транзакция в этой эпохе} other{{count} транзакций в этой эпохе}}",
+    "transactionItemLabelIncludedByTickLeader": "Включительно с лидером тика",
+    "transactionItemLabelNotIncludedByTickLeader": "Не включено в лидера тика",
+    "transactionItemLabelTransactionId": "ID транзакции",
+    "transactionItemLabelTransactionDigest": "Дайджест транзакции",
+    "generalLabelTickAndValue": "Тик {tick}",
+    "@generalLabelTickAndValue": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
+    "transactionItemLabelIncludedByQubickNetwork": "Включено в сеть Qubic",
+    "transactionItemLabelNotIncludedByQubicNetwork": "Не включено в сеть Qubic",
+    "transactionItemButtonViewInExplorer": "Посмотреть в обозревателе",
+    "transactionItemButtonCopyToClipboard": "Скопировать в буфер",
+    "transactionItemButtonViewDetails": "Детали",
+    "transactionItemButtonResend": "Переслать",
+    "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
+    "transactionItemLabelCreatedDate": "Создать дату",
+    "transactionItemLabelBroadcastedDate": "Дата выхода",
+    "transactionItemLabelConfirmedDate": "Дата подтверждения",
+    "transactionItemLabelDetails": "Детали транзакции",
+    "sendItemLabelTargetTick": "На каком тике",
+    "sendItemLabelTargetTickAutomatic": "Автоматически: этот тик + {addingTicks}",
+    "@sendItemLabelTargetTickAutomatic": {
+        "placeholders": {
+            "addingTicks": {
+                "type": "int"
+            }
+        }
+    },
+    "sendItemLabelTargetTickManual": "Ручное управление",
+    "sendItemLabelDetermineTargetTick": "Определите целевой тик",
+    "sendItemDialogErrorGeneralTitle": "Ошибка при генерации транзакции",
+    "sendItemDialogResendTitle": "Повторно отправить неудачную транзакцию?",
+    "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
+    "@sendItemLabelResendTargetTickValue": {
+        "placeholders": {
+            "formattedTargetTick": {
+                "type": "String"
+            },
+            "formattedCurrentTick": {
+                "type": "String"
+            }
+        }
+    },
+    "addAccountErrorNameAlreadyInUse": "Имя уже используется",
+    "addAccountErrorPublicIDAlreadyInUse": "ID уже используется",
+    "addAccountDialogTitleMaxNumberOfAccountsReached": "Максимальный лимит аккаунтов достигнут",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "В вашем кошельке может быть не более 15 аккаунтов Qubic. Если вам нужно добавить еще один, удалите один из существующих.",
+    "addAccountButtonCreateRandom": "Создать случайный",
+    "addAccountLabelPrivateSeed": "Секретный сид",
+    "addAccountLabelAccountName": "Имя аккаунта",
+    "addAccountHintAccountName": "Выберите имя",
+    "addAccountTooltipAccountName": "Имя учетной записи - это удобочитаемое имя, которое вы можете использовать для идентификации своих секретных сидов Qubic в кошельке. Имя учетной записи хранится только в вашем устройстве. Оно может быть изменено в любое время.",
+    "addAccountTooltipPrivateSeed": "Секртеный сид состоит из 55 строчных букв и используется для генерации вашего адреса Qubic. Рекомендуется сделать его как можно более случайным. Всегда держите его в секрете и никогда никому не сообщайте.",
+    "addAccountHeader": "Добавить новую учетную запись",
+    "addAccountHeaderScanQRCodeInstructions": "Наведите камеру на QR-код с секретным сидом",
+    "addAccountHintPrivateSeed": "Держите секретный сид в надежном месте",
+    "addAccountHeaderKeepPrivateSeedSecret": "Держите секретный сид в надежном месте, никому его не показывайте и не отправляйте ни под каким предлогом!!!",
+    "addAccountHintAddressNoPrivateSeed": "Нет секретного сида",
+    "addAccountHintAddressInvalidPrivateSeed": "Неправильный секретный сид",
+    "addAccountErrorTamperedWalletTitle": "ОБНАРУЖЕН ПОДДЕЛЬНЫЙ КОШЕЛЕК",
+    "addAccountErrorTamperedWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН.\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ С САЙТА HTTPS://GITHUB.COM/QUBIC/WALLET-APP ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА",
+    "sendAssetLabelNumberOfShares": "Кол-во акций",
+    "sendAssetLabelTransactionCost": "Стоимость транзакции (fixed)",
+    "sendAssetButtonTransfer": "Транзакция",
+    "sendAssetErrorTickIsInThePast": "Выбранный тик уже прошёл. Текущий тик {currentTick}",
+    "@sendAssetErrorTickIsInThePast": {
+        "placeholders": {
+            "currentTick": {
+                "type": "int"
+            }
+        }
+    },
+    "addAccountWarningSheetHeader": "Прежде чем приступить к работе",
+    "addAccountWarningSheetLabelOne": "Сохраните в надежном месте свой секретный сид!!!",
+    "addAccountWarningSheetLabelTwo": "Никогда и никому не пишите свой секретный сид!!!!",
+    "addAccountWarningSheetLabelThree": "Никогда не вставляйте свой секретный сид на других сайтах!!!",
+    "addAccountWarningSheetCheckboxLabel": "Я понял",
+    "deleteAccountDialogTitle": "Удалить аккаунт",
+    "deleteAccountDialogMessage": "Вы уверены, что хотите удалить этот аккаунт Qubic из своего кошелька? (Все средства, связанные с этим счетом, не будут удалены)\n\nУБЕДИТЕСЬ, ЧТО У ВАС ЕСТЬ РЕЗЕРВНАЯ КОПИЯ СЕКРЕТНОГО СИДА ПЕРЕД УДАЛЕНИЕМ ЭТОГО АККАУНТА!",
+    "deleteAccountDialogButtonDelete": "Удалить аккаунт",
+    "renameAccountDialogTitle": "Переименовать аккаунт",
+    "renameAccountLabelName": "Имя",
+    "renameAccountDialogHintName": "Новое имя",
+    "reauthenticateTitle": "Требуется аутентификация",
+    "reauthenticateHeader": "Пожалуйста, пройдите повторную аутентификацию",
+    "reathenticateLabelReason": "Пожалуйста, пройдите повторную аутентификацию, чтобы продолжить.",
+    "reathenticateWithPasswordLabelReason": "Пожалуйста, пройдите повторную аутентификацию, чтобы продолжить. Пароль, который вы предоставите, будет использоваться для шифрования вашего кошелька в хранилище.",
+    "receiveTitle": "Получение средств и активов",
+    "receiveHeader": "В \"{accountName}\"",
+    "@receiveHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "receiveLabelAddress": "Адрес Qubic",
+    "changePasswordHeader": "Изменить пароль",
+    "changePasswordErrorPasswordDontMatch": "Пароли не совпадают",
+    "changePasswordFieldHintNewPassword": "Новый пароль",
+    "changePasswordFieldHintRepeatPassword": "Повторите новый пароль",
+    "changePasswordButtonSave": "Сохранить пароль",
+    "changePasswordSnackbarPasswordChanged": "Пароль успешно изменен",
+    "changePasswordDialogSaveErrorTitle": "Ошибка",
+    "changePasswordDialogSaveErrorMessage": "Не удалось сохранить новый пароль",
+    "changePasswordLabelInstructions": "Ваш пароль используется для доступа к кошельку. Выберите надежный пароль, который вы сможете запомнить. Нет возможности сбросить пароль, если вы его забыли.",
+    "toggleableQRCodeButtonShow": "Показать QR код ",
+    "toggleableQRCodeButtonHide": "Скрыть QR код",
+    "sendItemLabelQRScannerInstructions": "Наведите камеру на Qubic QR код \n(QR Коды, созданные на wallet.qubic.org, также совместимы)",
+    "sendItemButtonSetCurrentTick": "Текущий ({currentTickFormatted})",
+    "@sendItemButtonSetCurrentTick": {
+        "placeholders": {
+            "currentTickFormatted": {
+                "type": "String"
+            }
+        }
+    },
+    "sendItemLabelSelectSenderAddressLineOne": "Выберите адрес",
+    "sendItemLabelSelectSenderAddressLineTwo": "С вашего аккаунта",
+    "sendItemLabelCurrentTick": "(Текущий тик: {currentTickFormatted})",
+    "@sendItemLabelCurrentTick": {
+        "placeholders": {
+            "currentTickFormatted": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletVaultTitle": "Экспортировать Vault File",
+    "exportWalletVaultLabelInstructions": "Экспортируйте содержимое этого кошелька в зашифрованный файл vault в качестве резервной копии. Этот файл может быть импортирован в веб-кошелек и может быть разблокирован только с помощью предоставленного пароля. Всегда храните этот файл в безопасном месте.",
+    "exportWalletVaultButtonExport": "Экспортировать",
+    "exportWalletVaultDialogTitleSelectPath": "Выберите место куда сохранить vault file",
+    "generalLabelSelectFilePath": "Выбрать путь",
+    "exportWalletVaultLabelSelectFilePathInstructions": "Просмотрите устройство, чтобы выбрать место для сохранения vault.",
+    "exportWalletVaultTextFieldHintPassword": "Пароль файла vault",
+    "exportWalletVaultErrorEmptyPassword": "Пожалуйста, введите пароль файла vault",
+    "exportWalletVaultErrorPasswordMinLength": "Пароль файла vault должен быть не менее {minLength} символов",
+    "@exportWalletVaultErrorPasswordMinLength": {
+        "placeholders": {
+            "minLength": {
+                "type": "int"
+            }
+        }
+    },
+    "exportWalletVaultTextFieldHintRepeatPassword": "Повторите пароль к файлу vault",
+    "exportWalletVaultErrorEmptyRepeatPassword": "Пожалуйста, введите пароль для файла vault еще раз",
+    "exportWalletVaultSnackbarSuccessMessage": "Vault файл успешно экспортирован",
+    "exportWalletVaultSnackbarSuccessMessageWithPath": "Vault файл успешно экспортирован в {filePath}",
+    "@exportWalletVaultSnackbarSuccessMessageWithPath": {
+        "placeholders": {
+            "filePath": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletDialogTitleOverwriteFile": "Перезаписать файл",
+    "exportWalletDialogMessageOverwriteFile": "Файл уже существует, перезаписать его?",
+    "exportWalletDialogTitleErrorWhileSaving": "Ошибка при сохранении файла vault",
+    "transfersListLabelReceiveIn": "Передан в",
+    "transfersListLabelSharePublicIdInstructionsOne": "Пожалуйста, сообщите отправителю этот ID:",
+    "transfersListLabelSharePublicIdInstructionsTwo": "Или покажите ему QR код",
+    "transferAssetHeaderForShares": "Транзакция {assetName} акций",
+    "@transferAssetHeaderForShares": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetHeaderForTokens": "Транзакция {assetName} токенов",
+    "@transferAssetHeaderForTokens": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetSubHeader": "от \"{accountName}\"",
+    "@transferAssetSubHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetLabelOwnedShares": "{assetName} владелец акций - ID: {formattedAmount}",
+    "@transferAssetLabelOwnedShares": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            },
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetLabelOwnedTokens": "{assetName} владелец токенов -  ID: {formattedAmount}",
+    "@transferAssetLabelOwnedTokens": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            },
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "generalAllTransactionDetails": "ID: {trxId}\nОтправитель: {sourceId}\nПолучатель: {destId}\nКол-во: {amount}\nСтатус: {status}\nСоздано: {created}\nЗаписано: {stored}\nПоставлено: {staged}\nПередано: {broadcasted}\nПодтверждено: {confirmed}\nСтатус Обновлен: {statusUpdate}\nТик: {targetTick}\nВ процессе: {isPending}\nЦена: {price} \nКол-во: {quantity}\nДвижение: {moneyFlow}",
+    "@generalAllTransactionDetails": {
+        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
+        "placeholders": {
+            "trxId": {
+                "type": "String"
+            },
+            "sourceId": {
+                "type": "String"
+            },
+            "destId": {
+                "type": "String"
+            },
+            "amount": {
+                "type": "String"
+            },
+            "status": {
+                "type": "String"
+            },
+            "created": {
+                "type": "String"
+            },
+            "stored": {
+                "type": "String"
+            },
+            "staged": {
+                "type": "String"
+            },
+            "broadcasted": {
+                "type": "String"
+            },
+            "confirmed": {
+                "type": "String"
+            },
+            "statusUpdate": {
+                "type": "String"
+            },
+            "targetTick": {
+                "type": "String"
+            },
+            "isPending": {
+                "type": "String"
+            },
+            "price": {
+                "type": "String"
+            },
+            "quantity": {
+                "type": "String"
+            },
+            "moneyFlow": {
+                "type": "String"
+            }
+        }
+    },
+    "welcomeButtonImportExistingWallet": "Импортировать существующий кошелек",
+    "importWalletTitle": "Импортировать кошелек",
+    "importWalletSubHeader": "Выберете каким образом вы хотите импортировать существующий кошелек",
+    "importWalletLabelFromVaultFile": "Импортировать файл Vault",
+    "importWalletLabelFromVaultFileDescription": "Импортировать существующий кошелек с несколькими учетными записями с помощью файла Vault.",
+    "importWalletLabelFromPrivateSeed": "Импортировать секретный сид.",
+    "importWalletLabelFromPrivateSeedDescription": "Импортировать учетную запись при помощи 55-ти значного секретного сида.",
+    "importVaultSubHeader": "Выберете файл с расширением .qubic-vault",
+    "importVaultLabelEnterPassword": "Введите пароль для Vault файла",
+    "importVaultLabelSelectPathInstructions": "Найти Vault файл на моем устройстве.",
+    "importPrivateSeedSubHeader": "Введите свой 55-ти значный секретный сид который вы указали когда создавали аккаунт.",
+    "generalSnackBarMessageWalletImportedSuccessfully": "Кошелек импортирован успешно!",
+    "addAccountErrorTamperedAndroidWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН!!\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ ИЗ GOOGLE PLAY ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА!!",
+    "addAccountErrorTamperediOSWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН!!\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ ИЗ APP STORE ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА!!",
+    "generalLabelSelectFile": "Выберете файл",
+    "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 минута} other{{minutes} минут}}",
+    "@autolockLabelDurationInMinutes": {
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "autolockLabelDurationImmediately": "Немедленно",
+    "settingsLabelAutlock": "Настройки автоблокировки",
+    "importVaultDialogTitleTooManyAccounts": "Найдено слишком много учетных записей",
+    "importVaultDialogMessageTooManyAccounts": "Ваш Vault файл содержит более 15 аккаунтов. Все аккаунты будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше 15.",
+    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Слишком много аккаунтов с режимом наблюдение.",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Ваш Vault файл содержит более 15 аккаунтов, некоторые из них в режиме наблюдение. Поскольку в настоящее время мы не поддерживаем аккаунты с функцией наблюдения, они будут проигнорированы. Все остальные будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше 15.",
+    "importVaultDialogTitleWatchAccount": "Найдены аккаунты в режиме наблюдения",
+    "importVaultDialogMessageWatchAccount": "Поскольку в настоящее время мы не поддерживаем учетные записи в режиме наблюдения, они будут проигнорированы. Все остальные будут импортированы.",
+    "importVaultErrorNoAccountsFound": "В вашем файле Vault не обнаружено аккаунтов.",
+    "importVaultErrorOnlyWatchAccountsFound": "Ваш файл Vault содержит аккаунты только в режиме наблюдения, мы больше не поддерживаем их он не будет импортирован.",
+    "importVaultFilePickerLabel": "Для продолжения выберите файл Vault:",
+    "importVaultFileErrorGeneralMessage": "Ошибка при импортировании файла Vault: {errorDescription}",
+    "@importVaultFileErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletVaultErrorGeneralMessage": "Ошибка при создании файла Vault: {errorDescription}",
+    "@exportWalletVaultErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "importPrivateSeedDefaultAccountName": "Аккаунт 1",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "Ошибка при попытке создать транзакцию по передаче ассетов.",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "Ошибка при попытке создать транзакцию по передаче ассетов. Созданная транзакция была пустой.",
+    "cmdErrorCreatingAssetTransferTransaction": "Ошибка при попытке создать транзакцию по передаче ассетов: {errorDescription}",
+    "@cmdErrorCreatingAssetTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingTransferTransactionGeneric": "Ошибка при попытке создать транзакцию.",
+    "cmdErrorCreatingTransferTransactionEmpty": "Ошибка при попытке создать транзакцию.  Созданная транзакция была пустой",
+    "cmdErrorCreatingTransferTransaction": "Ошибка при попытке создать транзакцию: {errorDescription}",
+    "@cmdErrorCreatingTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorGettingPublicIdFromSeedGeneric": "Ошибка при попытке получить ID из сида.",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "Ошибка при попытке получить ID из сида. Созданный ID пуст.",
+    "cmdErrorGettingPublicIdFromSeed": "Ошибка при попытке получить ID из сида: {errorDescription}",
+    "@cmdErrorGettingPublicIdFromSeed": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingVaultFileGeneric": "Ошибка при создании файла Vault.",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Ошибка при создании файла Vault. Созданый файл Vault пуст.",
+    "importVaultFileOrPasswordError": "Выбраный файл не является файлом Vault или неверно введен пароль.",
+    "importVaultFileGenericError": "Ошибка при импорте файлы Vault.",
+    "importVaultFileSeedsNullError": "Файл Vault имеет неправильную форму и не содержит информации об учетной записи.",
+    "importVaultFileSeedsMalformedError": "Файл Vault содержит неверно заполненную информацию об учетной записи",
+    "importVaultFileParsedSeedsNullError": "Не удалось извлечь учетные записи из файла Vault.",
+    "importVaultFileAccountMissingName": "Введенный аккаунт {accountIndex} не имеет имени.",
+    "@importVaultFileAccountMissingName": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingPublicId": "Введенный аккаунт {accountIndex} не имеет ни одного ID",
+    "@importVaultFileAccountMissingPublicId": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingSeed": "Введенный аккаунт {accountIndex} не имеет сида",
+    "@importVaultFileAccountMissingSeed": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorFileRequired": "Выберите файл",
+    "generalErrorPathRequired": "Выберите путь",
+    "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15."
+}

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
-//TODO Delete me
 class QubicAmount extends StatelessWidget {
   final int? amount;
   const QubicAmount({super.key, required this.amount});
@@ -50,6 +49,7 @@ class QubicAmount extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     if (amount == null) {
       List<Widget> output = [];
       output.add(SkeletonAnimation(
@@ -78,13 +78,15 @@ class QubicAmount extends StatelessWidget {
       List<Widget> numbers = [];
 
       numbers.add(Text(amount.toString(), style: TextStyles.qubicAmount));
-      numbers.add(Text(" QUBIC", style: TextStyles.qubicAmount));
+      numbers.add(Text(" ${l10n.generalLabelCurrencyQubic}",
+          style: TextStyles.qubicAmount));
       return Row(
           mainAxisAlignment: MainAxisAlignment.center, children: numbers);
     }
 
     List<Widget> numbers = padAndFormatWithCommas(amount!.floor());
-    numbers.add(Text(" QUBIC", style: TextStyles.qubicAmountLabel));
+    numbers.add(Text(" ${l10n.generalLabelCurrencyQubic}",
+        style: TextStyles.qubicAmountLabel));
     return Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,
         textBaseline: TextBaseline.alphabetic,

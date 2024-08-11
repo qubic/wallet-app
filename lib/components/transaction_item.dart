@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
@@ -14,18 +13,18 @@ import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'transaction_direction_item.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum CardItem {
   details,
@@ -44,24 +43,26 @@ class TransactionItem extends StatelessWidget {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   Future<void> showResendDialog(BuildContext context) async {
+    final l10n = l10nOf(context);
+
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title:
-              Text('Resend failed transaction?', style: TextStyles.alertHeader),
+          title: Text(l10n.sendItemDialogResendTitle,
+              style: TextStyles.alertHeader),
           content: SingleChildScrollView(
             child: TransactionResend(item: item),
           ),
           actions: <Widget>[
             ThemedControls.transparentButtonBig(
-              text: "No",
+              text: l10n.generalLabelNo,
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             ThemedControls.primaryButtonBig(
-              text: "Yes",
+              text: l10n.generalLabelYes,
               onPressed: () async {
                 var result = await reAuthDialog(context);
                 if (!result) {
@@ -76,7 +77,7 @@ class TransactionItem extends StatelessWidget {
                     appStore.currentTick + 20);
                 if (success) {
                   _globalSnackBar
-                      .show("Submitted new transaction to Qubic network");
+                      .show(l10n.generalSnackBarMessageTransactionSubmitted);
                 }
                 await _timedController.interruptFetchTimer();
 
@@ -91,6 +92,7 @@ class TransactionItem extends StatelessWidget {
 
   //Gets the dropdown menu
   Widget getCardMenu(BuildContext context) {
+    final l10n = l10nOf(context);
     return PopupMenuButton<CardItem>(
         tooltip: "",
         icon: Icon(Icons.more_horiz,
@@ -115,7 +117,7 @@ class TransactionItem extends StatelessWidget {
           }
 
           if (menuItem == CardItem.clipboardCopy) {
-            copyToClipboard(item.toReadableString());
+            copyToClipboard(item.toReadableString(context), context);
           }
 
           if (menuItem == CardItem.resend) {
@@ -127,29 +129,31 @@ class TransactionItem extends StatelessWidget {
           }
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
-              const PopupMenuItem<CardItem>(
+              PopupMenuItem<CardItem>(
                 value: CardItem.details,
-                child: Text('View Details'),
+                child: Text(l10n.transactionItemButtonViewDetails),
               ),
               if (appStore.currentTick >= item.targetTick)
-                const PopupMenuItem<CardItem>(
+                PopupMenuItem<CardItem>(
                   value: CardItem.explorer,
-                  child: Text('View in Explorer'),
+                  child: Text(l10n.transactionItemButtonViewInExplorer),
                 ),
-              const PopupMenuItem<CardItem>(
+              PopupMenuItem<CardItem>(
                 value: CardItem.clipboardCopy,
-                child: Text('Copy to Clipboard'),
+                child: Text(l10n.transactionItemButtonCopyToClipboard),
               ),
               if ((item.getStatus() == ComputedTransactionStatus.failure))
-                const PopupMenuItem<CardItem>(
+                PopupMenuItem<CardItem>(
                   value: CardItem.resend,
-                  child: Text('Resend'),
+                  child: Text(l10n.transactionItemButtonResend),
                 )
             ]);
   }
 
   //Gets the labels for Source and Destination in transactions. Also copies to clipboard
   Widget getFromTo(BuildContext context, String prepend, String id) {
+    final l10n = l10nOf(context);
+
     return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       Observer(builder: (context) {
         QubicListVm? source =
@@ -159,26 +163,19 @@ class TransactionItem extends StatelessWidget {
         if (source != null) {
           return Row(children: [
             Expanded(
-                child: Text("$prepend wallet account \"${source.name}\"",
+                child: Text(
+                    l10n.generalLabelToFromAccount(prepend, source.name),
                     textAlign: TextAlign.start,
                     style: TextStyles.secondaryText)),
           ]);
         }
         return Row(children: [
-          Text("$prepend address ",
+          Text(l10n.generalLabelToFromAddress(prepend),
               textAlign: TextAlign.start, style: TextStyles.secondaryText)
         ]);
       }),
-
       TextWithMidEllipsis(id,
           style: TextStyles.textNormal, textAlign: TextAlign.start),
-
-      // FittedBox(
-      //     child: Text(id,
-      //         style: Theme.of(context)
-      //             .textTheme
-      //             .titleMedium!
-      //             .copyWith(fontFamily: ThemeFonts.secondary))),
     ]);
   }
 
@@ -196,7 +193,7 @@ class TransactionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isScreenWide = MediaQuery.of(context).size.width >= 400;
+    final l10n = l10nOf(context);
 
     return Container(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
@@ -224,7 +221,7 @@ class TransactionItem extends StatelessWidget {
                 ])),
             Center(
                 child: Container(
-                    constraints: BoxConstraints(maxWidth: 500),
+                    constraints: const BoxConstraints(maxWidth: 500),
                     width: double.infinity,
                     child: FittedBox(child: QubicAmount(amount: item.amount)))),
             Row(
@@ -232,19 +229,25 @@ class TransactionItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TransactionDirectionItem(item: item),
-                  Text("Tick ${item.targetTick.asThousands()}",
+                  Text(
+                      l10n.generalLabelTickAndValue(
+                          item.targetTick.asThousands()),
                       textAlign: TextAlign.end,
                       style: TextStyles.secondaryText),
                 ]),
             ThemedControls.spacerVerticalNormal(),
             Column(children: [
               Flex(direction: Axis.horizontal, children: [
-                Expanded(child: getFromTo(context, "From", item.sourceId)),
+                Expanded(
+                    child: getFromTo(
+                        context, l10n.generalLabelFrom, item.sourceId)),
                 CopyButton(copiedText: item.sourceId),
               ]),
               ThemedControls.spacerVerticalSmall(),
               Flex(direction: Axis.horizontal, children: [
-                Expanded(child: getFromTo(context, "To", item.destId)),
+                Expanded(
+                    child:
+                        getFromTo(context, l10n.generalLabelTo, item.destId)),
                 CopyButton(copiedText: item.destId),
               ]),
             ]),

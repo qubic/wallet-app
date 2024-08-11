@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 
 class ChangeForeground extends StatelessWidget {
   final Widget? child;
   final Color color;
-  ChangeForeground({this.child, required this.color});
+  const ChangeForeground({super.key, this.child, required this.color});
 
   @override
   Widget build(BuildContext context) {
     return ShaderMask(
       blendMode: BlendMode.srcIn,
       shaderCallback: (Rect bounds) => LinearGradient(
-        begin: Alignment(-1.0, 0.0),
-        end: Alignment(1.0, 0.0),
-        transform: GradientRotation(2.19911),
-        stops: [
+        begin: const Alignment(-1.0, 0.0),
+        end: const Alignment(1.0, 0.0),
+        transform: const GradientRotation(2.19911),
+        stops: const [
           0.03,
           1,
         ],
@@ -23,7 +22,7 @@ class ChangeForeground extends StatelessWidget {
           color,
         ], // Gradient colors for the icon
       ).createShader(bounds),
-      child: child != null ? child : Container(),
+      child: child ?? Container(),
     );
 
     // return Container(

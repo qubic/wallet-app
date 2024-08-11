@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
 
 class CopyableText extends StatelessWidget {
@@ -14,7 +12,7 @@ class CopyableText extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
         onTap: () async {
-          await copyToClipboard(copiedText);
+          await copyToClipboard(copiedText, context);
         },
         child: Ink(child: child));
   }

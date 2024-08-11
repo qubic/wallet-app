@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_contents.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_warning.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
 
 class RevealSeed extends StatefulWidget {
   final QubicListVm item;

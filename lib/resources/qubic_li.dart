@@ -1,4 +1,5 @@
 // ignore: depend_on_referenced_packages
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -103,12 +104,17 @@ class QubicLi {
       appStore.decreasePendingRequests();
       throw Exception('Failed to contact server.');
     }
-    print(response);
+    if (kDebugMode) {
+      print(response);
+    }
     if (response.statusCode == 200) {
       late dynamic parsedJson;
       late AuthLoginDto loginDto;
       try {
-        print(response.body);
+        if (kDebugMode) {
+          print(response.body);
+        }
+
         parsedJson = jsonDecode(response.body);
       } catch (e) {
         throw Exception('Failed to authenticate. Could not parse response');
@@ -149,7 +155,9 @@ class QubicLi {
       appStore.decreasePendingRequests();
       throw Exception('Failed to contact server for submitting transaction.');
     }
-    print(response.body);
+    if (kDebugMode) {
+      print(response.body);
+    }
     try {
       _assert200Response(response.statusCode);
     } catch (e) {

@@ -14,7 +14,6 @@ import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 part 'application_store.g.dart';
 
 // flutter pub run build_runner watch --delete-conflicting-outputs
@@ -43,6 +42,15 @@ abstract class _ApplicationStore with Store {
   /// Is the user signed in
   @observable
   bool isSignedIn = false;
+
+  @observable
+  int currentTabIndex = 0;
+
+// Add an action to update the tab index
+  @action
+  void setCurrentTabIndex(int index) {
+    currentTabIndex = index;
+  }
 
   @observable
   ObservableList<QubicListVm> currentQubicIDs = ObservableList<QubicListVm>();
@@ -116,6 +124,11 @@ abstract class _ApplicationStore with Store {
   void reportGlobalError(String error) {
     globalError = "$error~${DateTime.now()}";
     //Show a snackbar
+  }
+
+  @action
+  void clearGlobalError() {
+    globalError = "";
   }
 
   @action
@@ -215,6 +228,15 @@ abstract class _ApplicationStore with Store {
     transactionFilter = TransactionFilter();
     currentQubicIDs = ObservableList<QubicListVm>();
     currentTransactions = ObservableList<TransactionVm>();
+  }
+
+  @action
+  Future<void> addManyIds(List<QubicId> ids) async {
+    await secureStorage.addManyIds(ids);
+    for (var element in ids) {
+      currentQubicIDs.add(QubicListVm(
+          element.getPublicId(), element.getName(), null, null, null));
+    }
   }
 
   @action

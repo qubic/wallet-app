@@ -1,0 +1,744 @@
+{
+    "generalButtonCancel": "取消",
+    "generalButtonOK": "好的",
+    "generalLabelYes": "是",
+    "generalLabelNo": "否",
+    "generalButtonConfirm": "确认",
+    "generalButtonDelete": "删除",
+    "generalButtonAdd": "添加",
+    "generalButtonCopy": "复制",
+    "generalButtonRename": "重命名",
+    "generalButtonSave": "保存",
+    "generalButtonProceed": "继续",
+    "generalButtonBack": "返回",
+    "generalButtonClose": "关闭",
+    "generalButtonTryAgain": "再次尝试",
+    "generalButtonShare": "分享",
+    "generalButtonSearch": "搜索",
+    "generalButtonApply": "应用",
+    "generalButtonEraseWalletData": "清除钱包数据",
+    "generalButtonClearAll": "清除所有",
+    "generalButtonShowAll": "全部显示",
+    "generalButtonUseQRCode": "使用二维码",
+    "generalButtonCopyAddress": "复制地址",
+    "generalLabelHidden": "******",
+    "generalLabelHiddenLong": "*********",
+    "generalLabelCurrencyQubic": "QUBIC",
+    "generalLabelCurrencyUSD": "USD",
+    "generalLabelTick": "刻度",
+    "generalLabelInfo": "信息",
+    "generalLabelDate": "日期",
+    "generalLabelID": "ID",
+    "generalLabelTransaction": "交易",
+    "generalLabelLoading": "加载中...",
+    "generalLabelUnknown": "未知",
+    "generalLabelFrom": "发送方",
+    "generalLabelTo": "接收方",
+    "generalLabeQubicAddress": "Qubic 地址",
+    "generalLabeQubicAddressAndPublicID": "Qubic 地址 (Public ID)",
+    "generalLabelQubicAddressWithAccountName": "Qubic 地址 {accountName}",
+    "@generalLabelQubicAddressWithAccountName": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelToFromAccount": "{toFrom} 钱包账户 \"{accountName}\"",
+    "@generalLabelToFromAccount": {
+        "placeholders": {
+            "toFrom": {
+                "description": "String that defines if it's the destination or source address for the transaction",
+                "type": "String"
+            },
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelToFromAddress": "{toOrFrom} 地址",
+    "@generalLabelToFromAddress": {
+        "placeholders": {
+            "toOrFrom": {
+                "description": "String that defines if it's the destination or source address for the transaction",
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelNotAvailable": "N/A",
+    "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
+    "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
+    "generalLabelEnabled": "启用",
+    "generalLabelDisabled": "禁用",
+    "generalLabelUSDQubicConversion": "USD / QUBIC",
+    "generalLabelError": "发生了错误",
+    "generalSnackBarMessageCopiedToClipboard": "已复制到剪贴板",
+    "generalSnackBarMessageWalletDataErased": "钱包数据已从设备中删除",
+    "generalSnackBarMessageQRScannedWithSuccess": "成功扫描二维码",
+    "generalSnackBarMessageAccountAlreadyExist": "您的钱包中已存在此帐户",
+    "generalSnackBarMessageTransactionSubmitted": "向 Qubic 网络提交新交易",
+    "generalErrorUnsupportedOS": "系统不支持",
+    "generalErrorOnlyLowercaseChar": "只包含小写字母。",
+    "generalErrorOnlyUppercaseChar": "只包含大写字母。",
+    "generalErrorMinCharLength": "长度必须为 {minCharLength} 个字符。",
+    "@generalErrorMinCharLength": {
+        "placeholders": {
+            "minCharLength": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorValueMustBeLowerThan": "必须小于 {maxValuePlusOne}。",
+    "@generalErrorValueMustBeLowerThan": {
+        "placeholders": {
+            "maxValuePlusOne": {
+                "type": "int",
+                "description": "Non inclusive maximun value for the field"
+            }
+        }
+    },
+    "generalErrorRequiredField": "此字段不能为空。",
+    "generalErrorNotEnoughQubicFunds": "ID 中的 QUBIC 不足。",
+    "generalErrorZeroQubicFunds": "ID 中的 QUBIC 不足，ID 没有资金。",
+    "generalErrorNotEnoughTokens": "ID 中的 Tokens 不足。",
+    "generalErrorNotEnoughAssets": "ID 中的资产不足。",
+    "generalErrorNotNumeric": "不是数值",
+    "generalTextFieldHintPassword": "钱包密码",
+    "generalErrorEmptyWalletPassword": "请填写您的密码",
+    "generalErrorSetWalletPasswordEmpty": "请填写密码。",
+    "generalErrorSetWalletPasswordRepeatEmpty": "请再次填写密码。",
+    "appTabHome": "首页",
+    "appTabTransfers": "转账",
+    "appTabExplorer": "浏览器",
+    "appTabSettings": "设置",
+    "homeLabelTotalBalance": "总余额",
+    "homeHeader": "钱包中的账户",
+    "homeLabelNoAccountsInWallet": "您当前的钱包中还没有 Qubic 账户。",
+    "homeButtonAddAccount": "添加新账户",
+    "transfersTitle": "纪元转账",
+    "transfersLabelAllTransactions": "所有交易",
+    "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "在您的账户当前纪元中，没有匹配您筛选条件的任何交易。",
+    "transfersLabelNoTransactionsFoundInWallet": "在您的账户当前纪元中，没有交易记录。",
+    "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "在当前纪元中，没有符合您过滤条件的交易。",
+    "transfersLabelNoTransactionsFoundInAccount": "在当前纪元中没有交易。",
+    "transfersLabelShowingTransactionsFound": "{count, plural, =1{正在显示 1 笔交易} other{正在显示 {count} 笔交易}}",
+    "transfersLabelFor": "转账来自",
+    "transfersLabelForAccount": "转账来自 \"{accountName}\"",
+    "@transfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "filterTransfersTitle": "转账记录",
+    "filterTransfersLabelAnyQubicID": "所有 Qubic ID",
+    "filterTransfersLabelByQubicID": "按 Qubic ID",
+    "filterTransfersLabelAnyStatus": "所有状态",
+    "filterTransfersLabelByStatus": "按状态",
+    "filterTransfersLabelByDirection": "按方向筛选",
+    "filterTransfersFieldHintByDirection": "按方向",
+    "generalLabelAnyDirection": "所有转账",
+    "filterTransfersClearFilters": "{filtersCount, plural, =1{清除 1 个筛选条件} other{清除 {filtersCount} 个筛选条件}}",
+    "explorerTitle": "纪元浏览器",
+    "explorerLabelEpoch": "纪元 {currentEpoch}",
+    "@explorerLabelEpoch": {
+        "placeholders": {
+            "currentEpoch": {
+                "type": "int"
+            }
+        }
+    },
+    "explorerHeaderOverview": "概览",
+    "explorerHeaderTicks": "刻度概览",
+    "explorerSubHeaderTicks": "最新刻度",
+    "explorerLabelTotalTicks": "总刻度",
+    "explorerLabelEmptyTicks": "空刻度",
+    "explorerLabelTickQuality": "刻度质量",
+    "explorerLabelTotalSupply": "总供应 (QUBIC)",
+    "explorerLabelTotalAddresses": "活跃地址",
+    "explorerButtonRefreshData": "刷新数据",
+    "explorerLabelLoadingData": "正在加载当前纪元数据",
+    "explorerSearchTitle": "浏览器搜索",
+    "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
+    "explorerSearchLabelNoResults": "没有找到匹配的结果。",
+    "explorerSearchLabelResults": "{count, plural, =1{找到 1 个结果} other{找到 {count} 个结果}}",
+    "explorerTickResultLabelBlockStatus": "区块状态",
+    "explorerTickResultLabelBlockStatusEmpty": "空",
+    "explorerTickResultLabelBlockStatusNonEmpty": "非空",
+    "explorerTickResultLabelBlockStatusUnknown": "未知",
+    "explorerTickResultLabelDataStatus": "数据状态",
+    "explorerTickResultLabelInfoCompleted": "完成",
+    "explorerTickResultLabelInfoNotValidated": "未验证",
+    "explorerTickResultLabelTickLeader": "刻度验证者 - (Short Code / Index)",
+    "explorerTickResultLabelNoTransactionsFound": "此刻度中无交易",
+    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 笔交易在此刻度} other{{count} 笔交易在此刻度}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{正在显示 1 of 1 笔交易在此刻度} other{正在显示 1 of {count} 笔交易在此刻度}}}",
+    "settingsTitle": "设置",
+    "settingsHeaderAccountsAndData": "账户和数据",
+    "settingsLockWallet": "锁定钱包",
+    "settingsHeaderSecurity": "安全",
+    "settingsLabelChangePassword": "更改密码",
+    "settingsLabelExportWalletVaultFile": "导出钱包 Vault 文件",
+    "settingsHeaderAbout": "关于",
+    "settingsLabelJoinCommunity": "加入社区",
+    "settingsLabelWalletInfo": "钱包版本",
+    "generalBiometricTypeFaceID": "Face ID",
+    "generalBiometricTypeTouchID": "Touch ID",
+    "generalBiometricTypeIris": "虹膜",
+    "generalBiometricTypeOS": "系统",
+    "generalBiometricTypeGeneric": "生物识别",
+    "settingsLabelManageBiometrics": "使用 {biometricTypeLabel} 管理解锁",
+    "@settingsLabelManageBiometrics": {
+        "placeholders": {
+            "biometricTypeLabel": {
+                "type": "String",
+                "example": "Face ID, Touch ID..."
+            }
+        }
+    },
+    "manageBiometricsTitle": "使用 {biometricTypeLabel} 管理解锁",
+    "@manageBiometricsTitle": {
+        "placeholders": {
+            "biometricTypeLabel": {
+                "type": "String",
+                "example": "Face ID, Touch ID..."
+            }
+        }
+    },
+    "manageBiometricsSwitchLabel": "使用 {biometricTypeLabel} 解锁",
+    "@manageBiometricsSwitchLabel": {
+        "placeholders": {
+            "biometricTypeLabel": {
+                "type": "String",
+                "example": "Face ID, Touch ID..."
+            }
+        }
+    },
+    "manageBiometricsLabelInstructionsForFaceID": "你可以启用通过 Face ID 进行身份验证。",
+    "manageBiometricsLabelInstructionsForTouchID": "你可以启用通过 Touch ID 进行身份验证。",
+    "manageBiometricsLabelInstructionsForGeneric": "你可以启用生物识别进行身份验证。",
+    "manageBiometricsLabelInstructionsForIris": "你可以启用虹膜进行身份验证。",
+    "manageBiometricsLabelInstructionsForOS": "你可以通过操作系统启用身份验证功能。",
+    "manageBiometricsLabelAdditionalInstructions": "如果启用此选项，您可以在不使用密码的情况下登录钱包并发起转账。",
+    "manageBiometricsErrorOSAuthNotAvailableTitle": "操作系统身份验证不可用",
+    "manageBiometricsErrorNotAvailableTitle": "生物识别身份验证不可用",
+    "manageBiometricsErrorOSAuthNotAvailableMessage": "您的操作系统不支持操作系统身份验证。",
+    "manageBiometricsErrorNotAvailableMessage": "您的设备不支持生物识别身份验证。",
+    "manageBiometricsErrorNoOSAuthTitle": "在您的操作系统中未注册身份验证信息",
+    "manageBiometricsErrorNoBiometricDataTitle": "设备上未注册任何生物识别数据",
+    "manageBiometricsErrorNoOSAuthMessage": "您尚未在操作系统中设置身份验证。请导航至您的操作系统设置页面并进行身份验证设置。",
+    "manageBiometricsErrorNoBiometricDataMessage": "您的设备支持生物识别身份验证，但您尚未注册生物识别数据。请导航至设备设置页面，注册生物识别数据并再次尝试。",
+    "transactionLabelDirectionIncoming": "转入",
+    "transactionLabelDirectionOutgoing": "转出",
+    "transactionLabelDirectionInWallet": "钱包内",
+    "transactionLabelStatusSuccessful": "成功",
+    "transactionLabelStatusPending": "等待中",
+    "transactionLabelStatusConfirmed": "确认",
+    "transactionLabelStatusFailed": "失败",
+    "transactionLabelStatusInvalid": "失败 - 无效",
+    "signInTitleOne": "欢迎来到",
+    "siginInTitleTwo": "Qubic 钱包",
+    "welcomeTitle": "欢迎回来！",
+    "welcomeButtonUnlockWallet": "解锁钱包",
+    "welcomeButtonCreateWallet": "创建新钱包",
+    "accountButtonViewTransfer": "查看转账记录",
+    "accountButtonViewInExplorer": "在浏览器中查看",
+    "accountButtonRevealPrivateSeed": "显示私钥种子",
+    "accountButtonReceive": "接收",
+    "accountButtonSend": "发送",
+    "accountButtonAssets": "资产",
+    "accountSendTitle": "发送",
+    "accountSendLabelDestinationAddress": "接收地址",
+    "accountSendLabelAmount": "数量",
+    "accountSendButtonMax": "Max",
+    "accountSendButtonMaxMinusOne": "Max - 1",
+    "accountSendSectionAdvanceOptionsTitle": "高级选项",
+    "assetsLabelOwned": "拥有",
+    "assetsLabelPossessed": "持有",
+    "assetsLabelContractName": "合约名称",
+    "assetsLabelContractIndex": "合约索引",
+    "assetsLabelTick": "有效至刻度 {tick}",
+    "@assetsLabelTick": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
+    "assetsLabelCurrentBalance": "ID 中余额： {amount} QUBIC",
+    "@assetsLabelCurrentBalance": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    },
+    "assetsLabelSmartContractShares": "智能合约股份",
+    "assetsButtonSend": "发送",
+    "assetsTitle": "资产",
+    "assetsHeader": "属于 \"{accountName}\"",
+    "@assetsHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "assetsLabelQXAssets": "QX 发行 Tokens",
+    "createPasswordSheetHeader": "请备份您的密码。",
+    "createPasswordSheetMessage": "如果您忘记了密码，就无法找回。在继续之前，请确保您已经备份了密码。",
+    "createPasswordSheetCheckboxMessage": "是的，我已经备份了我的密码。",
+    "generalButtonUnlockWithBiometric": "使用生物识别解锁",
+    "generalButtonUnlockWithFaceID": "使用 Face ID 解锁",
+    "generalButtonUnlockWithTouchID": "使用 Touch ID 解锁",
+    "generalButtonUnlockWithIris": "使用虹膜解锁",
+    "generalButtonUnlockWithOS": "使用操作系统解锁",
+    "generalButtonAlternativeUnlock": "备用解锁方式",
+    "generalErrorPasswordMinLength": "密码至少需要包含8个字符。",
+    "signUpTextFieldHintPassword": "输入密码",
+    "generalErrorSetPasswordNotMatching": "密码不匹配",
+    "signUpTextFieldHintRepeatPassword": "重复密码",
+    "generalErrorContactingQubicNetwork": "无法连接 Qubic 网络",
+    "signUpErrorStoringBiometricInfo": "错误存储生物识别信息",
+    "signUpStepTwoHeader": "生物识别解锁",
+    "signUpStepTwoSubHeader": "您可以启用通过生物识别进行身份验证。如果已启用，您可以在不使用密码的情况下登录钱包并发起转账。",
+    "signUpStepTwoHeaderForDesktop": "操作系统解锁",
+    "signUpStepTwoSubHeaderForDesktop": "您可以启用通过您的操作系统进行身份验证。如果启用了此选项，您可以在不使用密码的情况下登录钱包并发起转账。",
+    "signUpStepOneHeader": "创建新钱包",
+    "signUpStepOneSubHeader": "填写一个用于解锁新钱包的密码",
+    "signUpSwitchLabelBiometricUnlock": "使用生物识别解锁",
+    "signUpSwitchLabelOSUnlock": "使用操作系统解锁",
+    "joinCommunityLabelDiscord": "Discord",
+    "joinCommunityLabelTelegram": "Telegram",
+    "joinCommunityLabelYouTube": "YouTube",
+    "joinCommunityLabelGitHub": "GitHub",
+    "joinCommunityLabelReddit": "Reddit",
+    "joinCommunityLabelTwitter": "Twitter",
+    "joinCommunityLabelLinkedIn": "LinkedIn",
+    "revealSeedTitle": "私钥种子",
+    "revealSeedHeader": "属于 {accountName}",
+    "@revealSeedHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "revealSeedButtonCopy": "复制私钥种子",
+    "revealSeedLabelPrivateSeed": "私钥种子（请保密）",
+    "revealSeedWarningSheetHeader": "在您继续之前",
+    "revealSeedWarningSheetLabelOne": "请安全备份保存您的私钥种子",
+    "revealSeedWarningSheetLabelTwo": "永远不要与任何人分享您的私钥种子",
+    "revealSeedWarningSheetLabelThree": "勿将您的私钥种子粘贴到未知的应用程序或网站上。",
+    "revealSeedWarningSheetCheckboxLabel": "我已经理解上述内容",
+    "revealSeedButtonShow": "显示私钥种子",
+    "authenticateButtonWithBiometrics": "通过生物识别进行身份验证",
+    "authenticateButtonWithWithFaceID": "通过 Face ID 进行身份验证",
+    "authenticateButtonWithTouchID": "通过 Touch ID 进行身份验证",
+    "authenticateButtonWithIris": "通过虹膜进行身份验证",
+    "authenticateButtonWithOS": "通过操作系统进行身份验证",
+    "authenticateButtonAlternative": "备用认证方式",
+    "authenticateButtonAuthenticate": "认证",
+    "authenticateErrorInvalidPassword": "您提供的密码无效。",
+    "authenticateErrorGeneral": "尝试身份验证时发生错误，请稍后再试。",
+    "authenticateErrorTooManyAttempts": "多次身份验证失败，您的设备已锁定。请通过PIN码/图案解锁手机并再次尝试。",
+    "eraseDataSheetHeader": "您确定要清除现有钱包数据吗？",
+    "eraseDataSheetLabelOne": "此操作无法撤销，您的所有账户将从设备中删除。",
+    "eraseDataSheetLabelTwo": "您仅能通过备份私有种子来恢复账户。",
+    "eraseDataSheetCheckboxLabel": "是的，清除我的钱包数据。",
+    "accountExplorerTitle": "Qubic 地址",
+    "accountExplorerLabelCurrentValue": "当前数量",
+    "accountExplorerLabelValueReportedBy": "数量报告来自 {ip}",
+    "@accountExplorerLabelValueReportedBy": {
+        "placeholders": {
+            "ip": {
+                "type": "String"
+            }
+        }
+    },
+    "accountExplorerLabelTotalIncoming": "总转入",
+    "accountExplorerLabelTotalOutgoing": "总转出",
+    "accountExplorerLabelReportedBy": "报告来自",
+    "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
+    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 笔交易在此纪元} other{{count} 笔交易在此纪元}}",
+    "transactionItemLabelIncludedByTickLeader": "由刻度验证者包含的交易",
+    "transactionItemLabelNotIncludedByTickLeader": "不由刻度验证者包含的交易",
+    "transactionItemLabelTransactionId": "交易 ID",
+    "transactionItemLabelTransactionDigest": "交易摘要",
+    "generalLabelTickAndValue": "刻度 {tick}",
+    "@generalLabelTickAndValue": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
+    "transactionItemLabelIncludedByQubickNetwork": "由 Qubic 网络包含的交易",
+    "transactionItemLabelNotIncludedByQubicNetwork": "不由 Qubic 网络包含的交易",
+    "transactionItemButtonViewInExplorer": "在浏览器中查看",
+    "transactionItemButtonCopyToClipboard": "复制到剪贴板",
+    "transactionItemButtonViewDetails": "查看详情",
+    "transactionItemButtonResend": "重新发送",
+    "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
+    "transactionItemLabelCreatedDate": "创建日期",
+    "transactionItemLabelBroadcastedDate": "广播日期",
+    "transactionItemLabelConfirmedDate": "确认日期",
+    "transactionItemLabelDetails": "转账详情",
+    "sendItemLabelTargetTick": "目标刻度",
+    "sendItemLabelTargetTickAutomatic": "自动：当前刻度 + {addingTicks}",
+    "@sendItemLabelTargetTickAutomatic": {
+        "placeholders": {
+            "addingTicks": {
+                "type": "int"
+            }
+        }
+    },
+    "sendItemLabelTargetTickManual": "手动调整",
+    "sendItemLabelDetermineTargetTick": "确定目标刻度",
+    "sendItemDialogErrorGeneralTitle": "生成交易时出现错误",
+    "sendItemDialogResendTitle": "重新发送失败的交易？",
+    "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (当前 {formattedCurrentTick})",
+    "@sendItemLabelResendTargetTickValue": {
+        "placeholders": {
+            "formattedTargetTick": {
+                "type": "String"
+            },
+            "formattedCurrentTick": {
+                "type": "String"
+            }
+        }
+    },
+    "addAccountErrorNameAlreadyInUse": "名称已被使用",
+    "addAccountErrorPublicIDAlreadyInUse": "Public ID 已被使用",
+    "addAccountDialogTitleMaxNumberOfAccountsReached": "最大账户限制已达到",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "您的钱包中最多只能拥有 15 个 Qubic 账户。如果您需要添加另一个，请先删除一个现有的账户。",
+    "addAccountButtonCreateRandom": "随机种子",
+    "addAccountLabelPrivateSeed": "私钥种子",
+    "addAccountLabelAccountName": "账户名称",
+    "addAccountHintAccountName": "选择一个名称",
+    "addAccountTooltipAccountName": "账号名称是您在钱包中识别 Qubic 私钥种子时使用的可读名称。账号名称仅保存在您的设备上，随时可以更改。",
+    "addAccountTooltipPrivateSeed": "私钥种子由 55 个小写字母组成，用于生成您的 Qubic 地址。建议尽可能随机生成，并始终保密私钥种子，绝不要与任何人分享。",
+    "addAccountHeader": "添加新账户",
+    "addAccountHeaderScanQRCodeInstructions": "请将摄像头对准包含私钥种子的二维码。",
+    "addAccountHintPrivateSeed": "始终保密私钥种子",
+    "addAccountHeaderKeepPrivateSeedSecret": "请将您的私钥种子备份在安全的地方。务必保密，并且绝不要与任何人分享。对您的私钥种子的访问意味着对您资金的访问。",
+    "addAccountHintAddressNoPrivateSeed": "没有提供私钥种子",
+    "addAccountHintAddressInvalidPrivateSeed": "提供的私钥种子无效",
+    "addAccountErrorTamperedWalletTitle": "检测到篡改的钱包",
+    "addAccountErrorTamperedWalletMessage": "您当前正在使用的钱包已被篡改。\n\n请从 HTTPS://GITHUB.COM/QUBIC/WALLET-APP 安装官方版本，否则有资金损失的风险。",
+    "sendAssetLabelNumberOfShares": "股份数量",
+    "sendAssetLabelTransactionCost": "交易成本 (fixed)",
+    "sendAssetButtonTransfer": "转账",
+    "sendAssetErrorTickIsInThePast": "提供的刻度已过期，当前的刻度是 {currentTick}",
+    "@sendAssetErrorTickIsInThePast": {
+        "placeholders": {
+            "currentTick": {
+                "type": "int"
+            }
+        }
+    },
+    "addAccountWarningSheetHeader": "在您继续之前",
+    "addAccountWarningSheetLabelOne": "请安全备份保存您的私有种子。",
+    "addAccountWarningSheetLabelTwo": "永远不要与任何人分享您的私钥种子。",
+    "addAccountWarningSheetLabelThree": "勿将您的私有种子粘贴到未知的应用程序或网站上。",
+    "addAccountWarningSheetCheckboxLabel": "我已经理解上述内容",
+    "deleteAccountDialogTitle": "删除账户",
+    "deleteAccountDialogMessage": "您确定要从钱包中删除此 Qubic 账户吗？（与该账户关联的任何资金不会被移除）\n\n在删除此帐户之前，请确保已备份您的私有种子！",
+    "deleteAccountDialogButtonDelete": "删除账户",
+    "renameAccountDialogTitle": "重命名账户",
+    "renameAccountLabelName": "名称",
+    "renameAccountDialogHintName": "新名称",
+    "reauthenticateTitle": "需要身份验证",
+    "reauthenticateHeader": "请重新验证",
+    "reathenticateLabelReason": "为了继续操作，请再次进行身份验证。",
+    "reathenticateWithPasswordLabelReason": "为了继续操作，请再次进行身份验证。您提供的密码将用于加密您的钱包。",
+    "receiveTitle": "接收",
+    "receiveHeader": "由 \"{accountName}\"",
+    "@receiveHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "receiveLabelAddress": "Qubic 地址",
+    "changePasswordHeader": "更改密码",
+    "changePasswordErrorPasswordDontMatch": "密码不匹配",
+    "changePasswordFieldHintNewPassword": "新密码",
+    "changePasswordFieldHintRepeatPassword": "重复新密码",
+    "changePasswordButtonSave": "保存密码",
+    "changePasswordSnackbarPasswordChanged": "密码更改成功",
+    "changePasswordDialogSaveErrorTitle": "错误",
+    "changePasswordDialogSaveErrorMessage": "保存新密码失败",
+    "changePasswordLabelInstructions": "您选择的密码用于访问您的钱包，请选择一个易于记忆但又足够强的安全密码。如果忘记，无法重置您的密码。",
+    "toggleableQRCodeButtonShow": "显示二维码",
+    "toggleableQRCodeButtonHide": "隐藏二维码",
+    "sendItemLabelQRScannerInstructions": "请将相机对准 Qubic 二维码， \n(wallet.qubic.org 生成的二维码也兼容)",
+    "sendItemButtonSetCurrentTick": "当前 ({currentTickFormatted})",
+    "@sendItemButtonSetCurrentTick": {
+        "placeholders": {
+            "currentTickFormatted": {
+                "type": "String"
+            }
+        }
+    },
+    "sendItemLabelSelectSenderAddressLineOne": "选择地址",
+    "sendItemLabelSelectSenderAddressLineTwo": "从您的钱包账户中",
+    "sendItemLabelCurrentTick": "(当前刻度：{currentTickFormatted})",
+    "@sendItemLabelCurrentTick": {
+        "placeholders": {
+            "currentTickFormatted": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletVaultTitle": "导出钱包 Vault 文件",
+    "exportWalletVaultLabelInstructions": "将此钱包的内容导出到加密的 Vault 文件中作为备份。该文件可以在网页钱包中导入，并且只能使用提供的密码解锁。请始终将此文件保存在安全的地方。",
+    "exportWalletVaultButtonExport": "导出",
+    "exportWalletVaultDialogTitleSelectPath": "请选择用于保存您的 Vault 文件的路径",
+    "generalLabelSelectFilePath": "选择文件路径",
+    "exportWalletVaultLabelSelectFilePathInstructions": "浏览您的设备以选择保存 Vault 文件的位置",
+    "exportWalletVaultTextFieldHintPassword": "Vault 文件密码",
+    "exportWalletVaultErrorEmptyPassword": "请填写一个密码",
+    "exportWalletVaultErrorPasswordMinLength": "密码必须至少包含 {minLength} 个字符",
+    "@exportWalletVaultErrorPasswordMinLength": {
+        "placeholders": {
+            "minLength": {
+                "type": "int"
+            }
+        }
+    },
+    "exportWalletVaultTextFieldHintRepeatPassword": "重复密码",
+    "exportWalletVaultErrorEmptyRepeatPassword": "请再次输入您的密码",
+    "exportWalletVaultSnackbarSuccessMessage": "Vault 文件成功导出",
+    "exportWalletVaultSnackbarSuccessMessageWithPath": "Vault 文件成功导出至 {filePath}",
+    "@exportWalletVaultSnackbarSuccessMessageWithPath": {
+        "placeholders": {
+            "filePath": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletDialogTitleOverwriteFile": "覆盖文件",
+    "exportWalletDialogMessageOverwriteFile": "文件已存在。您是否要覆盖它？",
+    "exportWalletDialogTitleErrorWhileSaving": "在保存文件时出现错误",
+    "transfersListLabelReceiveIn": "接收至",
+    "transfersListLabelSharePublicIdInstructionsOne": "请与发送方分享以下 Public ID：",
+    "transfersListLabelSharePublicIdInstructionsTwo": "或者展示以下二维码",
+    "transferAssetHeaderForShares": "转账 {assetName} 股份",
+    "@transferAssetHeaderForShares": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetHeaderForTokens": "转账 {assetName} Tokens",
+    "@transferAssetHeaderForTokens": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetSubHeader": "来自 \"{accountName}\"",
+    "@transferAssetSubHeader": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetLabelOwnedShares": "{assetName} ID 持有股份数量： {formattedAmount}",
+    "@transferAssetLabelOwnedShares": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            },
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "transferAssetLabelOwnedTokens": "{assetName} ID 持有 Tokens 数量： {formattedAmount}",
+    "@transferAssetLabelOwnedTokens": {
+        "placeholders": {
+            "assetName": {
+                "type": "String"
+            },
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
+    "@generalAllTransactionDetails": {
+        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
+        "placeholders": {
+            "trxId": {
+                "type": "String"
+            },
+            "sourceId": {
+                "type": "String"
+            },
+            "destId": {
+                "type": "String"
+            },
+            "amount": {
+                "type": "String"
+            },
+            "status": {
+                "type": "String"
+            },
+            "created": {
+                "type": "String"
+            },
+            "stored": {
+                "type": "String"
+            },
+            "staged": {
+                "type": "String"
+            },
+            "broadcasted": {
+                "type": "String"
+            },
+            "confirmed": {
+                "type": "String"
+            },
+            "statusUpdate": {
+                "type": "String"
+            },
+            "targetTick": {
+                "type": "String"
+            },
+            "isPending": {
+                "type": "String"
+            },
+            "price": {
+                "type": "String"
+            },
+            "quantity": {
+                "type": "String"
+            },
+            "moneyFlow": {
+                "type": "String"
+            }
+        }
+    },
+    "welcomeButtonImportExistingWallet": "导入已有钱包",
+    "importWalletTitle": "导入钱包",
+    "importWalletSubHeader": "选择您想要导入钱包的方式",
+    "importWalletLabelFromVaultFile": "导入 Vault 文件",
+    "importWalletLabelFromVaultFileDescription": "通过 Vault 文件导入包含多个账户的钱包。",
+    "importWalletLabelFromPrivateSeed": "导入私钥种子",
+    "importWalletLabelFromPrivateSeedDescription": "通过 55 个小写字母组成的私钥种子导入已有账户。",
+    "importVaultSubHeader": "请选择一个 .qubic-vault 扩展名的文件。",
+    "importVaultLabelEnterPassword": "输入密码",
+    "importVaultLabelSelectPathInstructions": "浏览设备以选择要导入的文件。",
+    "importPrivateSeedSubHeader": "请输入在创建账户时保存的 55 个小写字母组成的私钥种子。",
+    "generalSnackBarMessageWalletImportedSuccessfully": "钱包导入成功",
+    "addAccountErrorTamperedAndroidWalletMessage": "您目前正在使用的钱包已被篡改。\n\n请从 Google Play 商店安装官方版本，否则有资金损失的风险。",
+    "addAccountErrorTamperediOSWalletMessage": "您目前正在使用的钱包已被篡改。\n\n请从应用商店安装官方版本，否则有资金损失的风险。",
+    "generalLabelSelectFile": "选择文件",
+    "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+    "@autolockLabelDurationInMinutes": {
+        "placeholders": {
+            "minutes": {
+                "type": "int"
+            }
+        }
+    },
+    "autolockLabelDurationImmediately": "立即",
+    "settingsLabelAutlock": "自动锁定设置",
+    "importVaultDialogTitleTooManyAccounts": "账户数量过多",
+    "importVaultDialogMessageTooManyAccounts": "您的 Vault 文件包含超过 15 个账户。所有账户都将被导入，在查看余额和发送资金前，请将账户数量调整至最多不超过 15 个。",
+    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "观察账户和账户数量过多",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "您的 Vault 文件中包含了超过 15 个账户，其中一些为观察账户。目前不支持观察账户，这些将被忽略，其余账户都将被导入，在查看余额和发送资金前，请将账户数量调整至最多不超过 15 个。",
+    "importVaultDialogTitleWatchAccount": "仅观察账户",
+    "importVaultDialogMessageWatchAccount": "由于当前不支持观察账户，它们将会被忽略，其余账户都将被导入。",
+    "importVaultErrorNoAccountsFound": "在您的 Vault 文件中未找到帐户。无法进行导入。",
+    "importVaultErrorOnlyWatchAccountsFound": "您的 Vault 文件仅包含观察账户。目前不支持观察账户，无法进行导入。",
+    "importVaultFilePickerLabel": "请选择一个 Vault 文件以继续：",
+    "importVaultFileErrorGeneralMessage": "导入 Vault 文件发生错误： {errorDescription}",
+    "@importVaultFileErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "exportWalletVaultErrorGeneralMessage": "创建 Vault 文件发生错误： {errorDescription}",
+    "@exportWalletVaultErrorGeneralMessage": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "importPrivateSeedDefaultAccountName": "Account 1",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "尝试创建资产转移交易时遇到了错误",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "尝试创建资产转移交易时出现错误。生成的交易信息为空。",
+    "cmdErrorCreatingAssetTransferTransaction": "尝试创建资产转移交易时出现错误： {errorDescription}",
+    "@cmdErrorCreatingAssetTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingTransferTransactionGeneric": "尝试创建转账交易时出现错误",
+    "cmdErrorCreatingTransferTransactionEmpty": "尝试创建转账交易时出现错误。生成的交易信息为空。",
+    "cmdErrorCreatingTransferTransaction": "尝试创建转账交易时出现错误： {errorDescription}",
+    "@cmdErrorCreatingTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorGettingPublicIdFromSeedGeneric": "尝试从种子获取地址时出现错误",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "尝试从种子获取地址时出现错误，生成的地址为空",
+    "cmdErrorGettingPublicIdFromSeed": "尝试从种子获取地址时出现了错误： {errorDescription}",
+    "@cmdErrorGettingPublicIdFromSeed": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingVaultFileGeneric": "尝试创建 Vault 文件时出现错误",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "尝试创建 Vault 文件时出现错误，生成的 Vault 文件为空",
+    "importVaultFileOrPasswordError": "选择的文件不是 Qubic Vault 文件，或者输入的密码有误",
+    "importVaultFileGenericError": "尝试导入 Vault 文件时出现错误",
+    "importVaultFileSeedsNullError": "Vault 文件有误，未能提供账户信息",
+    "importVaultFileSeedsMalformedError": "Vault 文件中包含了不正确的账户信息",
+    "importVaultFileParsedSeedsNullError": "无法从密钥文件解析账户信息",
+    "importVaultFileAccountMissingName": "帐户输入 {accountIndex} 丢失帐户名称",
+    "@importVaultFileAccountMissingName": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingPublicId": "帐户输入 {accountIndex} 丢失帐户地址",
+    "@importVaultFileAccountMissingPublicId": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingSeed": "帐户输入 {accountIndex} 丢失私钥种子",
+    "@importVaultFileAccountMissingSeed": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorFileRequired": "请选择文件",
+    "generalErrorPathRequired": "请选择路径",
+    "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。"
+}

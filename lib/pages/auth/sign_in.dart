@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -15,19 +13,20 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
+import 'package:qubic_wallet/pages/auth/import_selector.dart';
 import 'package:qubic_wallet/pages/auth/sign_up.dart';
+import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-import 'package:qubic_wallet/styles/buttonStyles.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/inputDecorations.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/input_decorations.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class SignIn extends StatefulWidget {
   final String?
@@ -133,6 +132,7 @@ class _SignInState extends State<SignIn>
               }),
               snackBarStrategy: RemoveSnackBarStrategy());
           errorBar.show(context);
+          applicationStore.clearGlobalError();
         }
       }
 
@@ -189,9 +189,10 @@ class _SignInState extends State<SignIn>
   }
 
   showAlertDialog(BuildContext context, String title, String message) {
+    final l10n = l10nOf(context);
     // set up the button
     Widget okButton = TextButton(
-      child: const Text("OK"),
+      child: Text(l10n.generalButtonOK),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -216,6 +217,8 @@ class _SignInState extends State<SignIn>
   }
 
   Future<void> handleBiometricsAuth() async {
+    final l10n = l10nOf(context);
+
     if (isLoading) {
       return;
     }
@@ -239,32 +242,32 @@ class _SignInState extends State<SignIn>
     } on PlatformException catch (err) {
       if ((err.message != null) &&
           (err.message!
+              // TODO: can we check the error with the error code? why if the app is in another langauge?
               .contains("API is locked out due to too many attempts"))) {
         setState(() {
           isLoading = false;
           formOpacity = 1;
-          signInError = err.message ??
-              "Too many failed attempts to authenticate you. Please lock and unlock your phone via PIN / pattern and try again";
+          signInError = err.message ?? l10n.authenticateErrorTooManyAttempts;
         });
       } else if (err.message != null) {
         setState(() {
           isLoading = false;
           formOpacity = 1;
-          signInError = err.message ??
-              "An error has occurred while trying to authenticate you";
+          signInError = err.message ?? l10n.authenticateErrorGeneral;
         });
       }
     } catch (e) {
       setState(() {
         isLoading = false;
         formOpacity = 1;
-        signInError =
-            "An error has occurred while trying to authenticate you. Please try again";
+        signInError = l10n.authenticateErrorGeneral;
       });
     }
   }
 
   Future<void> authSuccess() async {
+    final l10n = l10nOf(context);
+
     try {
       await getIt<QubicLi>().authenticate();
       setState(() {
@@ -272,7 +275,8 @@ class _SignInState extends State<SignIn>
       });
       context.goNamed("mainScreen");
     } catch (e) {
-      showAlertDialog(context, "Error contacting Qubic Network", e.toString());
+      showAlertDialog(
+          context, l10n.generalErrorContactingQubicNetwork, e.toString());
       setState(() {
         isLoading = false;
       });
@@ -280,6 +284,8 @@ class _SignInState extends State<SignIn>
   }
 
   void signInHandler() async {
+    final l10n = l10nOf(context);
+
     if (isLoading) {
       return;
     }
@@ -300,18 +306,19 @@ class _SignInState extends State<SignIn>
           isLoading = false;
         });
         setState(() {
-          signInError = "You have provided an invalid password";
+          signInError = l10n.authenticateErrorInvalidPassword;
         });
       }
     }
   }
 
   Widget eraseWalletButton() {
+    final l10n = l10nOf(context);
     return SizedBox(
         width: double.infinity,
         height: 48,
         child: ThemedControls.dangerButtonBigWithClild(
-            child: Text("Erase Wallet Data",
+            child: Text(l10n.generalButtonEraseWalletData,
                 style: TextStyles.destructiveButtonText),
             onPressed: () {
               showModalBottomSheet<void>(
@@ -321,6 +328,8 @@ class _SignInState extends State<SignIn>
                   useRootNavigator: true,
                   backgroundColor: LightThemeColors.background,
                   builder: (BuildContext context) {
+                    final l10n = l10nOf(context);
+
                     return SafeArea(
                       child: EraseWalletSheet(onAccept: () async {
                         await _secureStorage.deleteWallet();
@@ -329,7 +338,8 @@ class _SignInState extends State<SignIn>
                         _appStore.signOut();
                         _timedController.stopFetchTimer();
                         Navigator.pop(context);
-                        _globalSnackbar.show("Wallet data erased from device");
+                        _globalSnackbar
+                            .show(l10n.generalSnackBarMessageWalletDataErased);
                       }, onReject: () async {
                         Navigator.pop(context);
                       }),
@@ -339,21 +349,22 @@ class _SignInState extends State<SignIn>
   }
 
   Widget biometricsButton() {
-    String label = "Biometric Unlock";
+    final l10n = l10nOf(context);
+    String label = l10n.generalButtonUnlockWithBiometric;
     if (biometricType == BiometricType.face) {
-      label = "Unlock with Face ID";
+      label = l10n.generalButtonUnlockWithFaceID;
     } else if (biometricType == BiometricType.fingerprint) {
-      label = "Unlock with Touch ID";
+      label = l10n.generalButtonUnlockWithTouchID;
     } else if (biometricType == BiometricType.iris) {
-      label = "Unlock with Iris";
+      label = l10n.generalButtonUnlockWithIris;
     } else if (biometricType == BiometricType.strong) {
       if (UniversalPlatform.isAndroid) {
-        label = "Unlock with Biometric";
+        label = l10n.generalButtonUnlockWithBiometric;
       } else {
-        label = "Unlock with OS";
+        label = l10n.generalButtonUnlockWithOS;
       }
     } else if (biometricType == BiometricType.weak) {
-      label = "Alternative Unlock";
+      label = l10n.generalButtonAlternativeUnlock;
     }
 
     return SizedBox(
@@ -364,7 +375,9 @@ class _SignInState extends State<SignIn>
             child: Text(label, style: TextStyles.transparentButtonPrimary)));
   }
 
-  Widget signInButton() {
+  Widget signInButton(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return SizedBox(
         width: double.infinity,
         height: 48,
@@ -379,7 +392,7 @@ class _SignInState extends State<SignIn>
                         strokeWidth: 2,
                         color: Theme.of(context).colorScheme.inversePrimary));
               } else {
-                return Text("Unlock Wallet",
+                return Text(l10n.welcomeButtonUnlockWallet,
                     style: TextStyles.primaryButtonText);
               }
             })));
@@ -395,30 +408,33 @@ class _SignInState extends State<SignIn>
         return Container();
       }
       return Text(
-          "v${_qubicHubStore.versionInfo} (build ${_qubicHubStore.buildNumber})",
+          "${_qubicHubStore.versionInfo} (${_qubicHubStore.buildNumber})",
           textAlign: TextAlign.center,
           style: TextStyles.labelTextSmall
               .copyWith(color: LightThemeColors.color3));
     });
   }
 
+//TRANSLATE
   //Gets the main text under the logo
   Widget getMainTextLabels() {
+    final l10n = l10nOf(context);
+
     return Observer(builder: (builder) {
       if (_appStore.hasStoredWalletSettings) {
         return Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          Text("Welcome back!",
+          Text(l10n.welcomeTitle,
               textAlign: TextAlign.center,
               style: TextStyles.pageTitle
                   .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
         ]);
       }
       return Column(children: [
-        Text("Welcome to the",
+        Text(l10n.signInTitleOne,
             textAlign: TextAlign.center,
             style: TextStyles.pageTitle
                 .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
-        Text("Qubic Wallet",
+        Text(l10n.siginInTitleTwo,
             textAlign: TextAlign.center,
             style: TextStyles.pageTitle.copyWith(
                 fontSize: ThemeFontSizes.loginTitle.toDouble(),
@@ -478,13 +494,15 @@ class _SignInState extends State<SignIn>
 
   // Gets the password field for signing in
   Widget getPasswordField() {
+    final l10n = l10nOf(context);
     return FormBuilderTextField(
       name: "password",
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: "Please fill in a password"),
+        FormBuilderValidators.required(
+            errorText: l10n.generalErrorEmptyWalletPassword),
       ]),
       decoration: ThemeInputDecorations.bigInputbox.copyWith(
-        hintText: "Wallet password",
+        hintText: l10n.generalTextFieldHintPassword,
         suffixIcon: Padding(
           padding: const EdgeInsets.only(right: ThemePaddings.smallPadding),
           child: IconButton(
@@ -517,7 +535,7 @@ class _SignInState extends State<SignIn>
       Observer(builder: (context) {
         return Center(
             child: Column(children: [
-          signInButton(),
+          signInButton(context),
           if (_settingsStore.settings.biometricEnabled)
             ThemedControls.spacerVerticalNormal(),
           if (_settingsStore.settings.biometricEnabled) biometricsButton(),
@@ -529,6 +547,8 @@ class _SignInState extends State<SignIn>
 
   //Builds the signup screen
   Widget buildSignUp(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return Padding(
       padding: const EdgeInsets.all(
         ThemePaddings.bigPadding,
@@ -557,8 +577,25 @@ class _SignInState extends State<SignIn>
                                     PageTransitionAnimation.cupertino,
                               );
                             },
-                            child: Text("Create a New Wallet",
+                            child: Text(l10n.welcomeButtonCreateWallet,
                                 style: TextStyles.primaryButtonText))),
+                    ThemedControls.spacerVerticalNormal(),
+                    SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ThemedControls.transparentButtonBigWithChild(
+                            onPressed: () {
+                              pushScreen(
+                                context,
+                                screen: const ImportSelector(),
+                                withNavBar:
+                                    false, // OPTIONAL VALUE. True by default.
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                              );
+                            },
+                            child: Text(l10n.welcomeButtonImportExistingWallet,
+                                style: TextStyles.transparentButtonPrimary))),
                   ]))),
     );
   }
@@ -617,24 +654,29 @@ class _SignInState extends State<SignIn>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: const Color.fromARGB(255, 15, 23, 31),
-        body: Stack(
-          children: [
-            Observer(
-              builder: (BuildContext context) {
-                if (_appStore.hasStoredWalletSettings) {
-                  return buildSignIn(context);
-                } else {
-                  return buildSignUp(context);
-                }
-              },
-            ),
-            Positioned(
-                bottom: 2,
-                right: ThemePaddings.bigPadding,
-                child: isKeyboardVisible ? Container() : getVersionInfo())
-          ],
-        ));
+    return Observer(builder: (context) {
+      if (UniversalPlatform.isDesktop && !_settingsStore.cmdUtilsAvailable) {
+        return const Scaffold(body: DownloadCmdUtils());
+      }
+      return Scaffold(
+          backgroundColor: const Color.fromARGB(255, 15, 23, 31),
+          body: Stack(
+            children: [
+              Observer(
+                builder: (BuildContext context) {
+                  if (_appStore.hasStoredWalletSettings) {
+                    return buildSignIn(context);
+                  } else {
+                    return buildSignUp(context);
+                  }
+                },
+              ),
+              Positioned(
+                  bottom: 2,
+                  right: ThemePaddings.bigPadding,
+                  child: isKeyboardVisible ? Container() : getVersionInfo())
+            ],
+          ));
+    });
   }
 }

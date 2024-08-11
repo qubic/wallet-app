@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class EraseWalletSheet extends StatefulWidget {
   final Function() onAccept;
@@ -52,33 +51,31 @@ class _EraseWalletSheetState extends State<EraseWalletSheet> {
   }
 
   Widget getText() {
+    final l10n = l10nOf(context);
+
     return Row(children: [
       Expanded(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-            ThemedControls.pageHeader(
-                headerText:
-                    "Are you sure you want to erase existing wallet data?"),
-            Text(
-                "This action cannot be undone. All your accounts will be removed from your device.",
-                style: TextStyles.textLarge),
+            ThemedControls.pageHeader(headerText: l10n.eraseDataSheetHeader),
+            Text(l10n.eraseDataSheetLabelOne, style: TextStyles.textLarge),
             ThemedControls.spacerVerticalSmall(),
-            Text(
-                "You will only be able to recover your accounts if you have a backup of your private seeds.",
-                style: TextStyles.textLarge),
+            Text(l10n.eraseDataSheetLabelTwo, style: TextStyles.textLarge),
           ]))
     ]);
   }
 
 //transferNowHandler
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
+
     return [
       Expanded(
           child: ThemedControls.transparentButtonBigWithChild(
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: Text("Cancel",
+                  child: Text(l10n.generalButtonCancel,
                       textAlign: TextAlign.center,
                       style: TextStyles.transparentButtonText)),
               onPressed: widget.onReject)),
@@ -90,14 +87,14 @@ class _EraseWalletSheetState extends State<EraseWalletSheet> {
                   child: Padding(
                     padding:
                         const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                    child: Text("Proceed",
+                    child: Text(l10n.generalButtonProceed,
                         textAlign: TextAlign.center,
                         style: TextStyles.primaryButtonText),
                   ))
               : ThemedControls.primaryButtonBigDisabledWithChild(
                   child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: Text("Proceed",
+                  child: Text(l10n.generalButtonProceed,
                       textAlign: TextAlign.center,
                       style: TextStyles.primaryButtonText),
                 ))),
@@ -113,6 +110,7 @@ class _EraseWalletSheetState extends State<EraseWalletSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Padding(
         padding: ThemeEdgeInsets.bottomSheetInsets,
         child: SingleChildScrollView(
@@ -126,7 +124,8 @@ class _EraseWalletSheetState extends State<EraseWalletSheet> {
                     ThemedControls.spacerVerticalNormal(),
                     const Divider(),
                     ListTile(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 0.0),
+                      contentPadding:
+                          const EdgeInsets.symmetric(horizontal: 0.0),
                       leading: Checkbox(
                         value: hasAccepted,
                         onChanged: (value) {
@@ -135,7 +134,7 @@ class _EraseWalletSheetState extends State<EraseWalletSheet> {
                           });
                         },
                       ),
-                      title: const Text("Yes, erase my wallet data."),
+                      title: Text(l10n.eraseDataSheetCheckboxLabel),
                       onTap: () {
                         setState(() {
                           hasAccepted = !hasAccepted;

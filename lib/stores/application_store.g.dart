@@ -112,6 +112,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
+  late final _$currentTabIndexAtom =
+      Atom(name: '_ApplicationStore.currentTabIndex', context: context);
+
+  @override
+  int get currentTabIndex {
+    _$currentTabIndexAtom.reportRead();
+    return super.currentTabIndex;
+  }
+
+  @override
+  set currentTabIndex(int value) {
+    _$currentTabIndexAtom.reportWrite(value, super.currentTabIndex, () {
+      super.currentTabIndex = value;
+    });
+  }
+
   late final _$currentQubicIDsAtom =
       Atom(name: '_ApplicationStore.currentQubicIDs', context: context);
 
@@ -234,6 +250,14 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     return _$signOutAsyncAction.run(() => super.signOut());
   }
 
+  late final _$addManyIdsAsyncAction =
+      AsyncAction('_ApplicationStore.addManyIds', context: context);
+
+  @override
+  Future<void> addManyIds(List<QubicId> ids) {
+    return _$addManyIdsAsyncAction.run(() => super.addManyIds(ids));
+  }
+
   late final _$addIdAsyncAction =
       AsyncAction('_ApplicationStore.addId', context: context);
 
@@ -301,11 +325,33 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
       ActionController(name: '_ApplicationStore', context: context);
 
   @override
+  void setCurrentTabIndex(int index) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.setCurrentTabIndex');
+    try {
+      return super.setCurrentTabIndex(index);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void reportGlobalError(String error) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.reportGlobalError');
     try {
       return super.reportGlobalError(error);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearGlobalError() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.clearGlobalError');
+    try {
+      return super.clearGlobalError();
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
@@ -408,6 +454,7 @@ globalError: ${globalError},
 globalNotification: ${globalNotification},
 currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
+currentTabIndex: ${currentTabIndex},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
 transactionFilter: ${transactionFilter},

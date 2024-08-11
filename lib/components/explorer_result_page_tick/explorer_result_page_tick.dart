@@ -4,8 +4,9 @@ import 'package:qubic_wallet/components/explorer_result_page_tick/explorer_resul
 import 'package:qubic_wallet/components/explorer_results/explorer_result_page_transaction_item.dart';
 import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 enum RequestViewChangeType { tick, publicId }
@@ -49,17 +50,21 @@ class ExplorerResultPageTick extends StatelessWidget {
   }
 
   Widget getTransactionsHeader(BuildContext context) {
+    final l10n = l10nOf(context);
+
     TextStyle panelTickHeader = TextStyles.textExtraLargeBold;
 
     if (tickInfo.transactions != null) {
       if (focusedTransactionId == null) {
         return Text(
-            '${tickInfo.transactions!.length} transaction${tickInfo.transactions!.length != 1 ? 's' : ''} in tick',
+            l10n.explorerTickResultLabelTransactionsFound(
+                tickInfo.transactions!.length),
             style: panelTickHeader);
       } else {
         return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
-            'Showing 1 of ${tickInfo.transactions!.length} transaction${tickInfo.transactions!.length != 1 ? 's' : ''} in tick',
+            l10n.explorerTickResultLabelShowingOneTransaction(
+                tickInfo.transactions!.length),
             style: panelTickHeader,
             textAlign: TextAlign.center,
           ),
@@ -67,7 +72,7 @@ class ExplorerResultPageTick extends StatelessWidget {
               padding: const EdgeInsets.only(top: ThemePaddings.smallPadding),
               child: tickInfo.transactions!.length > 1
                   ? ThemedControls.primaryButtonSmall(
-                      text: "Show all",
+                      text: l10n.generalButtonShowAll,
                       onPressed: () {
                         onRequestViewChange!(
                             RequestViewChangeType.tick, tickInfo.tick, null);
@@ -76,7 +81,8 @@ class ExplorerResultPageTick extends StatelessWidget {
         ]);
       }
     } else {
-      return Text('No transactions in this tick', style: panelTickHeader);
+      return Text(l10n.explorerTickResultLabelNoTransactionsFound,
+          style: panelTickHeader);
     }
   }
 

@@ -20,11 +20,12 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:intl/intl.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/inputDecorations.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/input_decorations.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum TargetTickType {
   autoCurrentPlus20,
@@ -32,6 +33,10 @@ enum TargetTickType {
   autoCurrentPlus60,
   manual
 }
+
+const int autoCurrentPlus20Value = 20;
+const int autoCurrentPlus40Value = 40;
+const int autoCurrentPlus60Value = 60;
 
 class TransferAsset extends StatefulWidget {
   final QubicListVm item;
@@ -61,21 +66,26 @@ class _TransferAssetState extends State<TransferAsset> {
   );
 
   List<bool> expanded = [false];
-  List<DropdownMenuItem<TargetTickType>> tickList = [
-    const DropdownMenuItem(
-        value: TargetTickType.autoCurrentPlus20,
-        child: Text("Automatically: Current + 20")),
-    const DropdownMenuItem(
-        value: TargetTickType.autoCurrentPlus40,
-        child: Text("Automatically: Current + 40")),
-    const DropdownMenuItem(
-        value: TargetTickType.autoCurrentPlus60,
-        child: Text("Automatically: Current + 60")),
-    const DropdownMenuItem(
-        value: TargetTickType.manual, child: Text("Manual override"))
-  ];
-
-  late final CurrencyInputFormatter inputFormatter;
+  List<DropdownMenuItem<TargetTickType>> getTickList() {
+    final l10n = l10nOf(context);
+    return [
+      DropdownMenuItem(
+          value: TargetTickType.autoCurrentPlus20,
+          child: Text(
+              l10n.sendItemLabelTargetTickAutomatic(autoCurrentPlus20Value))),
+      DropdownMenuItem(
+          value: TargetTickType.autoCurrentPlus40,
+          child: Text(
+              l10n.sendItemLabelTargetTickAutomatic(autoCurrentPlus40Value))),
+      DropdownMenuItem(
+          value: TargetTickType.autoCurrentPlus60,
+          child: Text(
+              l10n.sendItemLabelTargetTickAutomatic(autoCurrentPlus60Value))),
+      DropdownMenuItem(
+          value: TargetTickType.manual,
+          child: Text(l10n.sendItemLabelTargetTickManual))
+    ];
+  }
 
   String? generatedPublicId;
 
@@ -83,21 +93,23 @@ class _TransferAssetState extends State<TransferAsset> {
 
   @override
   void initState() {
-    transactionCostCtrl.text = "1,000,000 QUBIC";
-
-    inputFormatter = CurrencyInputFormatter(
-        trailingSymbol:
-            "${widget.asset.assetName} ${QubicAssetDto.isSmartContractShare(widget.asset) ? "shares" : "tokens"}",
-        useSymbolPadding: true,
-        maxTextLength: 3,
-        thousandSeparator: ThousandSeparator.Comma,
-        mantissaLength: 0);
-
     knownQubicIDs = appStore.currentQubicIDs
         .where((account) => account.publicId != widget.item.publicId)
         .toList();
 
     super.initState();
+  }
+
+  CurrencyInputFormatter getInputFormatter(BuildContext context) {
+    final l10n = l10nOf(context);
+
+    return CurrencyInputFormatter(
+        trailingSymbol:
+            "${widget.asset.assetName} ${QubicAssetDto.isSmartContractShare(widget.asset) ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
+        useSymbolPadding: true,
+        maxTextLength: 3,
+        thousandSeparator: ThousandSeparator.Comma,
+        mantissaLength: 0);
   }
 
   @override
@@ -113,9 +125,10 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   showAlertDialog(BuildContext context, String title, String message) {
+    final l10n = l10nOf(context);
     // set up the button
     Widget okButton = TextButton(
-      child: const Text("OK"),
+      child: Text(l10n.generalButtonOK),
       onPressed: () {
         Navigator.of(context).pop();
       },
@@ -140,6 +153,7 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   void showQRScanner() {
+    final l10n = l10nOf(context);
     showModalBottomSheet<void>(
         context: context,
         useSafeArea: true,
@@ -160,8 +174,9 @@ class _TransferAssetState extends State<TransferAsset> {
                   if (barcode.rawValue != null) {
                     var value = destinationID.text;
                     value = barcode.rawValue!
-                        .replaceAll("https://wallet.qubic.li/payment/", "");
-                    var validator = CustomFormFieldValidators.isPublicID();
+                        .replaceAll("https://wallet.qubic.org/payment/", "");
+                    var validator =
+                        CustomFormFieldValidators.isPublicID(context: context);
                     if (validator(value) == null) {
                       if (foundSuccess == true) {
                         break;
@@ -173,7 +188,8 @@ class _TransferAssetState extends State<TransferAsset> {
                 }
                 if (foundSuccess) {
                   Navigator.pop(context);
-                  _globalSnackBar.show("Successfully scanned QR Code");
+                  _globalSnackBar
+                      .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
                 }
               },
             ),
@@ -185,9 +201,8 @@ class _TransferAssetState extends State<TransferAsset> {
                     child: Padding(
                         padding:
                             const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(
-                            "Please point the camera to a Qubic QR Code \n(QR Codes generated by wallet.qubic.li are also compatible)",
-                            style: TextStyle(
+                        child: Text(l10n.sendItemLabelQRScannerInstructions,
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -200,6 +215,7 @@ class _TransferAssetState extends State<TransferAsset> {
 
   //Shows the bottom sheet allowing to select a Public ID from the wallet
   void showPickerBottomSheet() {
+    final l10n = l10nOf(context);
     showModalBottomSheet<void>(
         context: context,
         useSafeArea: true,
@@ -224,8 +240,10 @@ class _TransferAssetState extends State<TransferAsset> {
                           ThemePaddings.bigPadding,
                           0),
                       child: ThemedControls.pageHeader(
-                          headerText: "Select address",
-                          subheaderText: "from your wallet accounts")),
+                          headerText:
+                              l10n.sendItemLabelSelectSenderAddressLineOne,
+                          subheaderText:
+                              l10n.sendItemLabelSelectSenderAddressLineTwo)),
                   Expanded(
                     child: ListView.separated(
                         itemCount: knownQubicIDs.length,
@@ -285,16 +303,21 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   List<Widget> getOverrideTick() {
+    final l10n = l10nOf(context);
     if ((targetTickType == TargetTickType.manual) && (expanded[0] == true)) {
       return [
         ThemedControls.spacerVerticalSmall(),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Expanded(child: Text("Tick", style: TextStyles.labelTextNormal)),
+            Expanded(
+                child: Text(l10n.generalLabelTick,
+                    style: TextStyles.labelTextNormal)),
             ThemedControls.transparentButtonBigWithChild(
                 child: Observer(builder: (context) {
-              return Text("Current (${appStore.currentTick.asThousands()})",
+              return Text(
+                  l10n.sendItemButtonSetCurrentTick(
+                      appStore.currentTick.asThousands()),
                   style: TextStyles.transparentButtonTextSmall);
             }), onPressed: () {
               if (widget.item.amount == null) {
@@ -308,12 +331,13 @@ class _TransferAssetState extends State<TransferAsset> {
         ),
         FormBuilderTextField(
           decoration: ThemeInputDecorations.normalInputbox,
-          name: "Tick",
+          name: l10n.generalLabelTick,
           readOnly: isLoading,
           controller: tickController,
           enableSuggestions: false,
           validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(),
+            FormBuilderValidators.required(
+                errorText: l10n.generalErrorRequiredField),
             FormBuilderValidators.numeric(),
           ]),
           maxLines: 1,
@@ -326,6 +350,7 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   Widget getAutoTick() {
+    final l10n = l10nOf(context);
     if (targetTickType != TargetTickType.manual) {
       return Column(
           mainAxisSize: MainAxisSize.max,
@@ -334,7 +359,8 @@ class _TransferAssetState extends State<TransferAsset> {
           children: [
             ThemedControls.spacerVerticalNormal(),
             ThemedControls.spacerVerticalNormal(),
-            Text("Target tick", style: TextStyles.labelTextNormal),
+            Text(l10n.sendItemLabelTargetTick,
+                style: TextStyles.labelTextNormal),
             ThemedControls.spacerVerticalMini(),
             ThemedControls.inputboxlikeLabel(
                 child: Observer(builder: (context) {
@@ -343,13 +369,13 @@ class _TransferAssetState extends State<TransferAsset> {
                 tick = frozenTargetTick!;
               } else {
                 if (targetTickType == TargetTickType.autoCurrentPlus20) {
-                  tick = appStore.currentTick + 20;
+                  tick = appStore.currentTick + autoCurrentPlus20Value;
                 }
                 if (targetTickType == TargetTickType.autoCurrentPlus40) {
-                  tick = appStore.currentTick + 40;
+                  tick = appStore.currentTick + autoCurrentPlus40Value;
                 }
                 if (targetTickType == TargetTickType.autoCurrentPlus60) {
-                  tick = appStore.currentTick + 60;
+                  tick = appStore.currentTick + autoCurrentPlus60Value;
                 }
               }
               return Padding(
@@ -361,7 +387,7 @@ class _TransferAssetState extends State<TransferAsset> {
                         style: TextStyles.inputBoxNormalStyle),
                     TextSpan(
                         text:
-                            " (current tick: ${frozenCurrentTick?.asThousands() ?? appStore.currentTick.asThousands()})",
+                            " ${l10n.sendItemLabelCurrentTick(frozenCurrentTick?.asThousands() ?? appStore.currentTick.asThousands())}",
                         style: TextStyles.inputBoxSmallStyle)
                   ])));
             }))
@@ -371,12 +397,14 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   Widget getAdvancedOptions() {
+    final l10n = l10nOf(context);
     return Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Text("Determine target tick", style: TextStyles.labelTextNormal),
+          Text(l10n.sendItemLabelDetermineTargetTick,
+              style: TextStyles.labelTextNormal),
           ThemedControls.spacerVerticalMini(),
           ThemedControls.dropdown<TargetTickType>(
               value: targetTickType,
@@ -386,13 +414,14 @@ class _TransferAssetState extends State<TransferAsset> {
                   targetTickType = value!;
                 });
               },
-              items: tickList),
+              items: getTickList()),
           Column(children: getOverrideTick()),
           getAutoTick(),
         ]);
   }
 
   Widget getDestinationQubicId() {
+    final l10n = l10nOf(context);
     return FormBuilderTextField(
       name: "destinationID",
       readOnly: isLoading,
@@ -400,8 +429,9 @@ class _TransferAssetState extends State<TransferAsset> {
       enableSuggestions: false,
       keyboardType: TextInputType.visiblePassword,
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
-        CustomFormFieldValidators.isPublicID(),
+        FormBuilderValidators.required(
+            errorText: l10n.generalErrorRequiredField),
+        CustomFormFieldValidators.isPublicID(context: context),
       ]),
       maxLines: 2,
       style: TextStyles.inputBoxSmallStyle,
@@ -434,34 +464,39 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   Widget getPredefinedAmountOptions() {
+    final l10n = l10nOf(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         ThemedControls.transparentButtonSmall(
-            text: "Max",
+            text: l10n.accountSendButtonMax,
             onPressed: () {
               if (widget.asset.ownedAmount == null) {
                 return;
               }
               if (widget.asset.ownedAmount! > 0) {
-                numberOfSharesCtrl.value = inputFormatter.formatEditUpdate(
-                    const TextEditingValue(text: ''),
-                    TextEditingValue(
-                        text: (widget.asset.ownedAmount).toString()));
+                numberOfSharesCtrl.value = getInputFormatter(context)
+                    .formatEditUpdate(
+                        const TextEditingValue(text: ''),
+                        TextEditingValue(
+                            text: (widget.asset.ownedAmount).toString()));
               }
             }),
         (widget.asset.ownedAmount != null && widget.asset.ownedAmount! > 1)
             ? ThemedControls.transparentButtonSmall(
-                text: "Max - 1",
+                text: l10n.accountSendButtonMaxMinusOne,
                 onPressed: () {
                   if (widget.asset.ownedAmount == null) {
                     return;
                   }
                   if (widget.asset.ownedAmount! > 1) {
-                    numberOfSharesCtrl.value = inputFormatter.formatEditUpdate(
-                        const TextEditingValue(text: ''),
-                        TextEditingValue(
-                            text: (widget.asset.ownedAmount! - 1).toString()));
+                    numberOfSharesCtrl.value = getInputFormatter(context)
+                        .formatEditUpdate(
+                            const TextEditingValue(text: ''),
+                            TextEditingValue(
+                                text: (widget.asset.ownedAmount! - 1)
+                                    .toString()));
                   }
                 })
             : Container()
@@ -470,6 +505,7 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   Widget getAmountBox() {
+    final l10n = l10nOf(context);
     return FormBuilderTextField(
       decoration:
           ThemeInputDecorations.normalInputbox.copyWith(hintMaxLines: 1),
@@ -480,13 +516,15 @@ class _TransferAssetState extends State<TransferAsset> {
       textAlign: TextAlign.end,
       keyboardType: TextInputType.number,
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(
+            errorText: l10n.generalErrorRequiredField),
         CustomFormFieldValidators.isLessThanParsedAsset(
+          context: context,
           lessThan:
               widget.asset.ownedAmount != null ? widget.asset.ownedAmount! : 0,
         ),
       ]),
-      inputFormatters: [inputFormatter],
+      inputFormatters: [getInputFormatter(context)],
       maxLines: 1,
       autocorrect: false,
       autofillHints: null,
@@ -494,32 +532,42 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   Widget getOwnershipInfo() {
+    final l10n = l10nOf(context);
     return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              "${widget.asset.assetName}${QubicAssetDto.isSmartContractShare(widget.asset) ? " shares" : " Tokens"} owned by ID: ${formatter.format(widget.asset.ownedAmount)}",
+              QubicAssetDto.isSmartContractShare(widget.asset)
+                  ? l10n.transferAssetLabelOwnedShares(widget.asset.assetName,
+                      formatter.format(widget.asset.ownedAmount))
+                  : l10n.transferAssetLabelOwnedTokens(widget.asset.assetName,
+                      formatter.format(widget.asset.ownedAmount)),
               style: TextStyles.secondaryText),
         ]);
   }
 
   Widget getTotalQubicInfo() {
+    final l10n = l10nOf(context);
     return Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Balance in ID: ${formatter.format(widget.item.amount)} QUBIC",
+          Text(
+              l10n.assetsLabelCurrentBalance(
+                  formatter.format(widget.item.amount)),
               style: TextStyles.secondaryText)
         ]);
   }
 
   Widget getCostInfo() {
+    final l10n = l10nOf(context);
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Text("Transaction cost (fixed)", style: TextStyles.labelTextNormal),
+      Text(l10n.sendAssetLabelTransactionCost,
+          style: TextStyles.labelTextNormal),
       ThemedControls.spacerVerticalMini(),
       ThemedControls.inputboxlikeLabel(
-          child: Text(transactionCostCtrl.text,
+          child: Text("1,000,000 ${l10n.generalLabelCurrencyQubic}",
               textAlign: TextAlign.center,
               style: TextStyles.inputBoxNormalStyle
                   .copyWith(fontWeight: FontWeight.w500))),
@@ -529,6 +577,7 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -538,11 +587,15 @@ class _TransferAssetState extends State<TransferAsset> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText:
-                      "Transfer ${widget.asset.assetName} ${QubicAssetDto.isSmartContractShare(widget.asset) ? "shares" : "tokens"}",
-                  subheaderText: "from \"${widget.item.name}\""),
+                  headerText: (QubicAssetDto.isSmartContractShare(widget.asset)
+                      ? l10n
+                          .transferAssetHeaderForShares(widget.asset.assetName)
+                      : l10n.transferAssetHeaderForTokens(
+                          widget.asset.assetName)),
+                  subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalSmall(),
-              Text("Destination Address", style: TextStyles.labelTextNormal),
+              Text(l10n.accountSendLabelDestinationAddress,
+                  style: TextStyles.labelTextNormal),
               ThemedControls.spacerVerticalMini(),
               FormBuilder(
                   key: _formKey,
@@ -556,7 +609,7 @@ class _TransferAssetState extends State<TransferAsset> {
                                 onPressed: () {
                                   showQRScanner();
                                 },
-                                text: "Use QR Code",
+                                text: l10n.generalButtonUseQRCode,
                                 icon: !LightThemeColors.shouldInvertIcon
                                     ? ThemedControls.invertedColors(
                                         child: Image.asset(
@@ -566,7 +619,7 @@ class _TransferAssetState extends State<TransferAsset> {
                       ThemedControls.spacerVerticalMini(),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         Expanded(
-                            child: Text("Number of shares",
+                            child: Text(l10n.sendAssetLabelNumberOfShares,
                                 style: TextStyles.labelTextNormal)),
                         getPredefinedAmountOptions()
                       ]),
@@ -597,8 +650,9 @@ class _TransferAssetState extends State<TransferAsset> {
                                           LightThemeColors.cardBackground,
                                       headerBuilder: (BuildContext context,
                                           bool isExpanded) {
-                                        return const ListTile(
-                                          title: Text('Advanced Options'),
+                                        return ListTile(
+                                          title: Text(l10n
+                                              .accountSendSectionAdvanceOptionsTitle),
                                         );
                                       },
                                       body: Padding(
@@ -621,6 +675,8 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
+
     return [
       !isLoading
           ? Expanded(
@@ -630,7 +686,7 @@ class _TransferAssetState extends State<TransferAsset> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                    child: Text("Cancel",
+                    child: Text(l10n.generalButtonCancel,
                         style: Theme.of(context).textTheme.labelLarge!.copyWith(
                               color: Theme.of(context).primaryColor,
                               fontWeight: FontWeight.bold,
@@ -646,7 +702,7 @@ class _TransferAssetState extends State<TransferAsset> {
                   child: !isLoading
                       ? SizedBox(
                           width: double.infinity,
-                          child: Text("Transfer",
+                          child: Text(l10n.sendAssetButtonTransfer,
                               textAlign: TextAlign.center,
                               style: TextStyles.primaryButtonText))
                       : Padding(
@@ -663,6 +719,8 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   void transferNowHandler() async {
+    final l10n = l10nOf(context);
+
     _formKey.currentState?.validate();
     if (!_formKey.currentState!.isValid) {
       return;
@@ -717,7 +775,7 @@ class _TransferAssetState extends State<TransferAsset> {
 
     Navigator.pop(context);
     //Timer(const Duration(seconds: 1), () => Navigator.pop(context));
-    _globalSnackBar.show("Submitted transaction to Qubic network");
+    _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted);
 
     setState(() {
       isLoading = false;
@@ -732,10 +790,8 @@ class _TransferAssetState extends State<TransferAsset> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {
-          return Future.value(!isLoading);
-        },
+    return PopScope(
+        canPop: !isLoading,
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,

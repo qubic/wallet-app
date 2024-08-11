@@ -9,13 +9,14 @@ import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/components/transaction_status_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'transaction_direction_item.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
@@ -32,6 +33,7 @@ class TransactionDetails extends StatelessWidget {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   Widget getButtonBar(BuildContext context) {
+    final l10n = l10nOf(context);
     return Padding(
         padding: const EdgeInsets.fromLTRB(
             0, ThemePaddings.smallPadding, 0, ThemePaddings.smallPadding),
@@ -41,9 +43,9 @@ class TransactionDetails extends StatelessWidget {
                 child: ThemedControls.transparentButtonBigWithChild(
                     onPressed: () async {
                       await Clipboard.setData(
-                          ClipboardData(text: item.toReadableString()));
+                          ClipboardData(text: item.toReadableString(context)));
                     },
-                    child: Text('Copy to Clipboard',
+                    child: Text(l10n.transactionItemButtonCopyToClipboard,
                         textAlign: TextAlign.center,
                         style: TextStyles.transparentButtonText))),
             ThemedControls.spacerHorizontalNormal(),
@@ -65,11 +67,11 @@ class TransactionDetails extends StatelessWidget {
                               PageTransitionAnimation.cupertino,
                         );
                       },
-                      child: Text('View in Explorer',
+                      child: Text(l10n.transactionItemButtonViewInExplorer,
                           textAlign: TextAlign.center,
                           style: TextStyles.primaryButtonText))
                   : ThemedControls.primaryButtonBigDisabled(
-                      text: "View in Explorer"),
+                      text: l10n.transactionItemButtonViewInExplorer),
             ),
           ],
         ));
@@ -77,6 +79,8 @@ class TransactionDetails extends StatelessWidget {
 
   //Gets the from and To labels
   Widget getFromTo(BuildContext context, String prepend, String id) {
+    final l10n = l10nOf(context);
+
     return Flex(direction: Axis.horizontal, children: [
       Expanded(
           child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -128,6 +132,7 @@ class TransactionDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Container(
         constraints: BoxConstraints(
             minWidth: 400,
@@ -149,7 +154,7 @@ class TransactionDetails extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ThemedControls.pageHeader(
-                            headerText: "Transfer Details",
+                            headerText: l10n.transactionItemLabelDetails,
                           ),
                           ThemedControls.spacerVerticalNormal(),
                           TransactionStatusItem(item: item),
@@ -171,7 +176,8 @@ class TransactionDetails extends StatelessWidget {
                             CopyableText(
                                 copiedText: item.targetTick.toString(),
                                 child: Text(
-                                    "Tick ${item.targetTick.asThousands()}",
+                                    l10n.generalLabelTickAndValue(
+                                        item.targetTick.asThousands()),
                                     textAlign: TextAlign.end,
                                     style: TextStyles.assetSecondaryTextLabel))
                           ]),
@@ -181,37 +187,42 @@ class TransactionDetails extends StatelessWidget {
                         thumbVisibility: true,
                         child: SingleChildScrollView(
                             child: Column(children: [
-                          getCopyableDetails(
-                              context, "Transaction ID", item.id),
+                          getCopyableDetails(context,
+                              l10n.transactionItemLabelTransactionId, item.id),
                           ThemedControls.spacerVerticalSmall(),
-                          getFromTo(context, "From", item.sourceId),
+                          getFromTo(
+                              context, l10n.generalLabelFrom, item.sourceId),
                           ThemedControls.spacerVerticalSmall(),
-                          getFromTo(context, "To", item.destId),
-                          ThemedControls.spacerVerticalSmall(),
-                          getCopyableDetails(context, "Lead to money flow",
-                              item.moneyFlow ? "Yes" : "No"),
+                          getFromTo(context, l10n.generalLabelTo, item.destId),
                           ThemedControls.spacerVerticalSmall(),
                           getCopyableDetails(
                               context,
-                              "Created date",
+                              l10n.transactionItemLabelLeadToMoneyFlow,
+                              item.moneyFlow
+                                  ? l10n.generalLabelYes
+                                  : l10n.generalLabelNo),
+                          ThemedControls.spacerVerticalSmall(),
+                          getCopyableDetails(
+                              context,
+                              l10n.transactionItemLabelCreatedDate,
                               item.broadcasted != null
                                   ? formatter.format(item.created!.toLocal())
-                                  : "Unknown"),
+                                  : l10n.generalLabelUnknown),
                           ThemedControls.spacerVerticalSmall(),
                           getCopyableDetails(
                               context,
-                              "Broadcasted date",
+                              l10n.transactionItemLabelBroadcastedDate,
                               item.broadcasted != null
                                   ? formatter
                                       .format(item.broadcasted!.toLocal())
-                                  : "Unknown"),
+                                  : l10n.generalLabelUnknown),
                           ThemedControls.spacerVerticalSmall(),
                           getCopyableDetails(
                               context,
-                              "Confirmed date",
+                              l10n.transactionItemLabelConfirmedDate,
                               item.confirmed != null
                                   ? formatter.format(item.confirmed!.toLocal())
-                                  : "N/A")
+                                  : l10n.generalLabelNotAvailable)
                         ])),
                       )),
                       getButtonBar(context),

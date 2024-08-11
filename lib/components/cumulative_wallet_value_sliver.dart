@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:qubic_wallet/components/currency_amount.dart';
-import 'package:qubic_wallet/components/currency_label.dart';
-import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/components/qubic_asset.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:intl/intl.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class CumulativeWalletValueSliver extends StatefulWidget {
   const CumulativeWalletValueSliver({super.key});
@@ -69,18 +67,20 @@ class _CumulativeWalletValueSliverState
   }
 
   Widget getConversion() {
+    final l10n = l10nOf(context);
     //return Text(appStore.marketInfo!.price);
     return AmountFormatted(
         amount: 1,
         stringOverride: appStore.marketInfo!.price,
         isInHeader: true,
-        currencyName: 'USD / QUBIC',
+        currencyName: l10n.generalLabelUSDQubicConversion,
         labelOffset: -2,
         textStyle: TextStyles.sliverSmall);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,7 +97,8 @@ class _CumulativeWalletValueSliverState
                       settingsStore.setTotalBalanceVisible(showingTotalBalance);
                     },
                     child: Row(children: [
-                      Text("Total Balance ", style: TextStyles.secondaryText),
+                      Text("${l10n.homeLabelTotalBalance} ",
+                          style: TextStyles.secondaryText),
                       ThemedControls.spacerHorizontalSmall(),
                       showingTotalBalance
                           ? Image.asset("assets/images/eye-closed.png")
@@ -110,7 +111,8 @@ class _CumulativeWalletValueSliverState
             }
             return AnimatedCrossFade(
               firstChild: getTotalQubics(context),
-              secondChild: Text("*********", style: TextStyles.sliverBig),
+              secondChild: Text(l10n.generalLabelHiddenLong,
+                  style: TextStyles.sliverBig),
               crossFadeState: showingTotalBalance
                   ? CrossFadeState.showFirst
                   : CrossFadeState.showSecond,

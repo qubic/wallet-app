@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
-import 'package:qubic_wallet/components/radiant_gradient_mask.dart';
 import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class ExplorerResultTick extends StatelessWidget {
@@ -24,6 +24,8 @@ class ExplorerResultTick extends StatelessWidget {
   //Get the tick description by parsing formatted output from the API
   Widget getDateTimeFromTickDescription(
       BuildContext context, String tickDescription) {
+    final l10n = l10nOf(context);
+
     try {
       String cleaned =
           tickDescription.replaceAll("Tick: ", "").replaceAll("from ", "");
@@ -33,7 +35,7 @@ class ExplorerResultTick extends StatelessWidget {
       String unparsedTime = parts[2];
 
       List<int> dateParts =
-          unparsedDate.split(".").map((e) => int.parse(e)).toList();
+          unparsedDate.split("/").map((e) => int.parse(e)).toList();
       List<int> timeParts =
           unparsedTime.split(":").map((e) => int.parse(e)).toList();
 
@@ -47,14 +49,16 @@ class ExplorerResultTick extends StatelessWidget {
             direction: Axis.horizontal,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(flex: 2, child: getInfoLabel(context, "Tick")),
+              Expanded(
+                  flex: 2, child: getInfoLabel(context, l10n.generalLabelTick)),
               Expanded(flex: 10, child: Text(tickNumber.asThousands()))
             ]),
         Flex(
             direction: Axis.horizontal,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(flex: 2, child: getInfoLabel(context, "Date")),
+              Expanded(
+                  flex: 2, child: getInfoLabel(context, l10n.generalLabelDate)),
               Expanded(flex: 10, child: Text(formatter.format(date.toLocal())))
             ])
       ]);
@@ -64,7 +68,8 @@ class ExplorerResultTick extends StatelessWidget {
             direction: Axis.horizontal,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(flex: 2, child: getInfoLabel(context, "Info")),
+              Expanded(
+                  flex: 2, child: getInfoLabel(context, l10n.generalLabelInfo)),
               Expanded(flex: 10, child: Text(tickDescription))
             ])
       ]);
@@ -72,6 +77,8 @@ class ExplorerResultTick extends StatelessWidget {
   }
 
   Widget getCardButtons(BuildContext context, ExplorerQueryDto info) {
+    final l10n = l10nOf(context);
+
     return Row(children: [
       ThemedControls.primaryButtonNormal(
           onPressed: () {
@@ -84,17 +91,19 @@ class ExplorerResultTick extends StatelessWidget {
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );
           },
-          text: "View details")
+          text: l10n.transactionItemButtonViewDetails)
     ]);
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+
     return ThemedControls.card(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(children: [
-        GradientForeground(child: Icon(Icons.grid_view)),
-        Text(" Tick", style: TextStyles.labelText),
+        GradientForeground(child: const Icon(Icons.grid_view)),
+        Text(" ${l10n.generalLabelTick}", style: TextStyles.labelText),
       ]),
       const SizedBox(height: ThemePaddings.normalPadding),
       getDateTimeFromTickDescription(context, item.description ?? "-"),

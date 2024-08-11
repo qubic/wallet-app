@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:qubic_wallet/components/amount_formatted.dart';
-import 'package:qubic_wallet/components/currency_amount.dart';
 import 'package:qubic_wallet/components/currency_label.dart';
-import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/components/transaction_details.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 
 import 'package:intl/intl.dart';
 
@@ -30,6 +27,7 @@ class TransactionResend extends StatelessWidget {
 
   //Gets the labels for Source and Destination in transcations. Also copies to clipboard
   Widget getFromTo(BuildContext context, String prepend, String id) {
+    final l10n = l10nOf(context);
     return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       Observer(builder: (context) {
         QubicListVm? source =
@@ -39,12 +37,12 @@ class TransactionResend extends StatelessWidget {
         if (source != null) {
           return Container(
               width: double.infinity,
-              child: Text("$prepend wallet account \"${source.name}\"",
+              child: Text(l10n.generalLabelToFromAccount(prepend, source.name),
                   style: TextStyles.labelText));
         }
         return Container(
             width: double.infinity,
-            child: Text("$prepend address",
+            child: Text(l10n.generalLabelToFromAddress(prepend),
                 textAlign: TextAlign.start,
                 style: Theme.of(context)
                     .textTheme
@@ -72,33 +70,35 @@ class TransactionResend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Container(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Flex(direction: Axis.horizontal, children: [
             Text(
                 numberFormat.format(
-                  item.amount!,
+                  item.amount,
                 ),
                 style: TextStyles.accountAmount),
             const SizedBox(width: 6, height: 6),
             CurrencyLabel(
-                currencyName: "QUBIC",
+                currencyName: l10n.generalLabelCurrencyQubic,
                 isInHeader: false,
                 style: TextStyles.accountAmountLabel)
           ]),
-          //FittedBox(child: QubicAmount(amount: item.amount)),
-          getFromTo(context, "From", item.sourceId),
+          getFromTo(context, l10n.generalLabelFrom, item.sourceId),
           const SizedBox(height: ThemePaddings.smallPadding),
-          getFromTo(context, "To", item.destId),
+          getFromTo(context, l10n.generalLabelTo, item.destId),
           const SizedBox(height: ThemePaddings.smallPadding),
           Container(
               width: double.infinity,
-              child: Text("Target tick",
+              child: Text(l10n.sendItemLabelTargetTick,
                   textAlign: TextAlign.start, style: TextStyles.labelText)),
           Observer(builder: (context) {
             return Text(
-                "${(appStore.currentTick + 20).asThousands()} (current ${appStore.currentTick.asThousands()})",
+                l10n.sendItemLabelResendTargetTickValue(
+                    (appStore.currentTick + 20).asThousands(),
+                    appStore.currentTick.asThousands()),
                 style: TextStyles.textNormal);
           })
         ]));

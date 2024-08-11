@@ -3,19 +3,18 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/edgeInsets.dart';
-import 'package:qubic_wallet/styles/inputDecorations.dart';
-import 'package:qubic_wallet/styles/textStyles.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/input_decorations.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class ChangePassword extends StatefulWidget {
   const ChangePassword({super.key});
@@ -49,6 +48,8 @@ class _ChangePasswordState extends State<ChangePassword> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
+
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
@@ -58,10 +59,9 @@ class _ChangePasswordState extends State<ChangePassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                headerText: "Change Password",
+                headerText: l10n.changePasswordHeader,
               ),
-              Text(
-                  "Your password is used to access your wallet. Choose a strong password that you can remember. There is no way to reset your password if you forget it",
+              Text(l10n.changePasswordLabelInstructions,
                   style: Theme.of(context).textTheme.bodyMedium),
               const SizedBox(height: ThemePaddings.hugePadding),
               ThemedControls.spacerVerticalMini(),
@@ -74,10 +74,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                           name: "password",
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(
-                                errorText: "Please fill in a password"),
-                            FormBuilderValidators.minLength(8,
                                 errorText:
-                                    "Password must be at least 8 characters long")
+                                    l10n.generalErrorSetWalletPasswordEmpty),
+                            FormBuilderValidators.minLength(8,
+                                errorText: l10n.generalErrorPasswordMinLength)
                           ]),
                           onChanged: (value) => currentPassword = value ?? "",
                           onSubmitted: (String? text) {
@@ -86,9 +86,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                           enabled: !isLoading,
                           decoration:
                               ThemeInputDecorations.bigInputbox.copyWith(
-                            hintText: "New password",
+                            hintText: l10n.changePasswordFieldHintNewPassword,
                             suffixIcon: Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     right: ThemePaddings.smallPadding),
                                 child: IconButton(
                                   icon: showingPassword
@@ -111,11 +111,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                           name: "passwordRepeat",
                           validator: FormBuilderValidators.compose([
                             FormBuilderValidators.required(
-                                errorText:
-                                    "Please fill in your password again"),
+                                errorText: l10n
+                                    .generalErrorSetWalletPasswordRepeatEmpty),
                             (value) {
                               if (value == currentPassword) return null;
-                              return "Passwords do not match";
+                              return l10n.changePasswordErrorPasswordDontMatch;
                             }
                           ]),
                           onSubmitted: (String? text) {
@@ -124,9 +124,10 @@ class _ChangePasswordState extends State<ChangePassword> {
                           enabled: !isLoading,
                           decoration:
                               ThemeInputDecorations.bigInputbox.copyWith(
-                            hintText: "Repeat new password",
+                            hintText:
+                                l10n.changePasswordFieldHintRepeatPassword,
                             suffixIcon: Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                     right: ThemePaddings.smallPadding),
                                 child: IconButton(
                                   icon: showingRepeatPassword
@@ -151,13 +152,14 @@ class _ChangePasswordState extends State<ChangePassword> {
   }
 
   List<Widget> getButtons() {
+    final l10n = l10nOf(context);
     return [
       Expanded(
           child: !isLoading
               ? ThemedControls.transparentButtonBigWithChild(
                   child: Padding(
                       padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                      child: Text("Cancel",
+                      child: Text(l10n.generalButtonCancel,
                           style: TextStyles.transparentButtonText)),
                   onPressed: () {
                     Navigator.pop(context);
@@ -172,8 +174,8 @@ class _ChangePasswordState extends State<ChangePassword> {
                   child: !isLoading
                       ? Text(
                           MediaQuery.of(context).size.width < 400
-                              ? "Save"
-                              : "Save password",
+                              ? l10n.generalButtonSave
+                              : l10n.changePasswordButtonSave,
                           textAlign: TextAlign.center,
                           style: TextStyles.primaryButtonText)
                       : SizedBox(
@@ -188,6 +190,8 @@ class _ChangePasswordState extends State<ChangePassword> {
   }
 
   void saveIdHandler() async {
+    final l10n = l10nOf(context);
+
     if (isLoading) {
       return;
     }
@@ -214,10 +218,11 @@ class _ChangePasswordState extends State<ChangePassword> {
           isLoading = false;
         });
 
-        snackBar.show("Password changed successfully");
+        snackBar.show(l10n.changePasswordSnackbarPasswordChanged);
         //appStore.reportGlobalNotification("Password changed successfully");
       } else {
-        showAlertDialog(context, "Error", "Failed to save new password");
+        showAlertDialog(context, l10n.changePasswordDialogSaveErrorTitle,
+            l10n.changePasswordDialogSaveErrorMessage);
         setState(() {
           isLoading = false;
         });
@@ -233,10 +238,8 @@ class _ChangePasswordState extends State<ChangePassword> {
   bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () {
-          return Future.value(!isLoading);
-        },
+    return PopScope(
+        canPop: !isLoading,
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
