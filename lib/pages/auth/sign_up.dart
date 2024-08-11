@@ -186,8 +186,10 @@ class _ReceiveState extends State<SignUp> {
           FormBuilderValidators.required(
               errorText: l10n.generalErrorSetWalletPasswordRepeatEmpty),
           (value) {
-            if (value == currentPassword) return null;
-            return l10n.generalErrorSetPasswordNotMatching;
+            if (value != currentPassword) {
+              return l10n.generalErrorSetPasswordNotMatching;
+            }
+            return null;
           }
         ]),
         onSubmitted: (value) => handleProceed(),
@@ -287,8 +289,9 @@ class _ReceiveState extends State<SignUp> {
 
   //Handles form submission and navigation from create password to biometrics setup
   Future<void> step1ToStep2Submit() async {
-    _formKey.currentState?.validate();
-    if (!_formKey.currentState!.isValid) {
+    final formState = _formKey.currentState;
+    formState?.save(); // Save the form state
+    if (formState == null || !formState.validate()) {
       setState(() {
         isLoading = false;
       });
@@ -296,35 +299,39 @@ class _ReceiveState extends State<SignUp> {
     }
 
     showModalBottomSheet<void>(
-        context: context,
-        isScrollControlled: true,
-        useRootNavigator: true,
-        useSafeArea: true,
-        backgroundColor: LightThemeColors.background,
-        builder: (BuildContext context) {
-          return SafeArea(
-              child: CreatePasswordSheet(onAccept: () async {
-            if (totalSteps == 2) {
-              //Navigator.pop(context);
+      context: context,
+      isScrollControlled: true,
+      useRootNavigator: true,
+      useSafeArea: true,
+      backgroundColor: LightThemeColors.background,
+      builder: (BuildContext context) {
+        return SafeArea(
+          child: CreatePasswordSheet(
+            onAccept: () async {
+              if (totalSteps == 2) {
+                setState(() {
+                  stepNumber = 2;
+                  isLoading = false;
+                });
+              } else {
+                setState(() {
+                  isLoading = true;
+                  signUpError = null;
+                });
+                await submitFinalize();
+              }
+            },
+            onReject: () async {
               setState(() {
-                stepNumber = 2;
                 isLoading = false;
-              });
-            } else {
-              setState(() {
-                isLoading = true;
                 signUpError = null;
               });
-              await submitFinalize();
-            }
-          }, onReject: () async {
-            setState(() {
-              isLoading = false;
-              signUpError = null;
-            });
-            Navigator.pop(context);
-          }));
-        });
+              Navigator.pop(context);
+            },
+          ),
+        );
+      },
+    );
   }
 
   //Handles last step of sign up
@@ -368,12 +375,17 @@ class _ReceiveState extends State<SignUp> {
 
   //Handles clicking of proceed button
   Future<void> handleProceed() async {
-    if (!context.mounted) return;
     if (isLoading) return;
 
-    setState(() {
-      isLoading = true;
-    });
+    // Explicitly validate the form
+    final formState = _formKey.currentState;
+    if (formState != null && !formState.validate()) {
+      // If the form is not valid, stop the loading and prevent proceeding
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
 
     if (stepNumber == 1) {
       if (totalSteps == 2) {

@@ -28,6 +28,12 @@ class QubicCmd {
 
   void _disposeQubicCMD() {}
 
+  void reinitialize() {
+    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+      qubicJs.reInitialize();
+    }
+  }
+
   void dispose() {
     if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
       _disploseQubicJS();

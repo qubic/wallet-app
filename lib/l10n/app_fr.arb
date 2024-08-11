@@ -66,7 +66,7 @@
         }
     },
     "generalLabelNotAvailable": "N/A",
-    "generalUnitTokens": "{count, plural, =1{Jeton} other{Jetons}}",
+    "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Part} other{Parts}}",
     "generalLabelEnabled": "Activé",
     "generalLabelDisabled": "Désactivé",
@@ -100,7 +100,7 @@
     "generalErrorRequiredField": "Ce champ ne peut pas être vide.",
     "generalErrorNotEnoughQubicFunds": "Fonds QUBIC insuffisants dans l'ID.",
     "generalErrorZeroQubicFunds": "Fonds QUBIC insuffisants dans l'ID. L'ID n'a pas de fonds.",
-    "generalErrorNotEnoughTokens": "Jetons insuffisants dans l'ID.",
+    "generalErrorNotEnoughTokens": "Tokens insuffisants dans l'ID.",
     "generalErrorNotEnoughAssets": "Actifs insuffisants dans l'ID.",
     "generalErrorNotNumeric": "Ce n'est pas une valeur numérique",
     "generalTextFieldHintPassword": "Mot de passe du portefeuille",
@@ -179,7 +179,7 @@
     "settingsLockWallet": "Verrouiller le Portefeuille",
     "settingsHeaderSecurity": "Sécurité",
     "settingsLabelChangePassword": "Changer le Mot de Passe",
-    "settingsLabelExportWalletVaultFile": "Exporter le Fichier de Coffre du Portefeuille",
+    "settingsLabelExportWalletVaultFile": "Exporter le Fichier Vault du Portefeuille",
     "settingsHeaderAbout": "À Propos",
     "settingsLabelJoinCommunity": "Rejoindre la Communauté",
     "settingsLabelWalletInfo": "Infos sur le Portefeuille",
@@ -285,7 +285,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "Jetons Émis QX",
+    "assetsLabelQXAssets": "Tokens Émis QX",
     "createPasswordSheetHeader": "Veuillez sauvegarder votre mot de passe",
     "createPasswordSheetMessage": "Il n'y a aucun moyen de récupérer votre mot de passe si vous l'oubliez. Veuillez vous assurer d'avoir une sauvegarde de votre mot de passe avant de continuer.",
     "createPasswordSheetCheckboxMessage": "Oui, j'ai sauvegardé mon mot de passe.",
@@ -444,7 +444,7 @@
     "addAccountWarningSheetLabelThree": "Ne collez pas votre Seed privée dans des applications ou sites inconnus",
     "addAccountWarningSheetCheckboxLabel": "Je comprends ce qui précède",
     "deleteAccountDialogTitle": "Supprimer le Compte",
-    "deleteAccountDialogMessage": "Êtes-vous sûr de vouloir supprimer ce compte Qubic de votre portefeuille ? (Les fonds associés à ce compte ne seront pas supprimés)\n\nASSUREZ-VOUS D'AVOIR UNE SAUVEGARDE DE VOTRE GRAINE PRIVÉE AVANT DE SUPPRIMER CE COMPTE !",
+    "deleteAccountDialogMessage": "Êtes-vous sûr de vouloir supprimer ce compte Qubic de votre portefeuille ? (Les fonds associés à ce compte ne seront pas supprimés)\n\nASSUREZ-VOUS D'AVOIR UNE SAUVEGARDE DE VOTRE SEED PRIVÉE AVANT DE SUPPRIMER CE COMPTE !",
     "deleteAccountDialogButtonDelete": "Supprimer le Compte",
     "renameAccountDialogTitle": "Renommer le Compte",
     "renameAccountLabelName": "Nom",
@@ -452,7 +452,7 @@
     "reauthenticateTitle": "Authentification Requise",
     "reauthenticateHeader": "Veuillez vous réauthentifier",
     "reathenticateLabelReason": "Veuillez vous authentifier à nouveau pour continuer.",
-    "reathenticateWithPasswordLabelReason": "Veuillez vous authentifier à nouveau pour continuer. Le mot de passe que vous fournissez sera celui utilisé pour chiffrer votre coffre-fort de portefeuille.",
+    "reathenticateWithPasswordLabelReason": "Veuillez vous authentifier à nouveau pour continuer. Le mot de passe que vous fournissez sera celui utilisé pour chiffrer votre fichier vault de portefeuille.",
     "receiveTitle": "Recevoir des Fonds et des Actifs",
     "receiveHeader": "dans \"{accountName}\"",
     "@receiveHeader": {
@@ -493,15 +493,15 @@
             }
         }
     },
-    "exportWalletVaultTitle": "Exporter le Fichier de Coffre du Portefeuille",
-    "exportWalletVaultLabelInstructions": "Exportez le contenu de ce portefeuille dans un fichier de coffre-fort chiffré comme sauvegarde. Ce fichier peut être importé dans le portefeuille web et ne peut être déverrouillé qu'avec le mot de passe fourni. Gardez toujours ce fichier en lieu sûr.",
+    "exportWalletVaultTitle": "Exporter le Fichier Vault du Portefeuille",
+    "exportWalletVaultLabelInstructions": "Exportez le contenu de ce portefeuille dans un fichier vault chiffré comme sauvegarde. Ce fichier peut être importé dans le portefeuille web et ne peut être déverrouillé qu'avec le mot de passe fourni. Gardez toujours ce fichier en lieu sûr.",
     "exportWalletVaultButtonExport": "Exporter",
-    "exportWalletVaultDialogTitleSelectPath": "Veuillez sélectionner un chemin pour enregistrer votre fichier de coffre-fort",
+    "exportWalletVaultDialogTitleSelectPath": "Veuillez sélectionner un chemin pour enregistrer votre fichier vault",
     "generalLabelSelectFilePath": "Sélectionner le chemin du fichier",
-    "exportWalletVaultLabelSelectFilePathInstructions": "Parcourez votre appareil pour sélectionner un emplacement où enregistrer le fichier de coffre-fort",
-    "exportWalletVaultTextFieldHintPassword": "Mot de passe du fichier de coffre-fort",
-    "exportWalletVaultErrorEmptyPassword": "Veuillez remplir un mot de passe pour le coffre-fort",
-    "exportWalletVaultErrorPasswordMinLength": "Le mot de passe du coffre-fort doit contenir au moins {minLength} caractères",
+    "exportWalletVaultLabelSelectFilePathInstructions": "Parcourez votre appareil pour sélectionner un emplacement où enregistrer le fichier vault",
+    "exportWalletVaultTextFieldHintPassword": "Mot de passe du fichier vault",
+    "exportWalletVaultErrorEmptyPassword": "Veuillez remplir un mot de passe pour le fichier vault",
+    "exportWalletVaultErrorPasswordMinLength": "Le mot de passe du fichier vault doit contenir au moins {minLength} caractères",
     "@exportWalletVaultErrorPasswordMinLength": {
         "placeholders": {
             "minLength": {
@@ -509,10 +509,10 @@
             }
         }
     },
-    "exportWalletVaultTextFieldHintRepeatPassword": "Répétez le mot de passe du fichier de coffre-fort",
-    "exportWalletVaultErrorEmptyRepeatPassword": "Veuillez remplir à nouveau votre mot de passe de coffre-fort",
-    "exportWalletVaultSnackbarSuccessMessage": "Fichier de coffre-fort exporté avec succès",
-    "exportWalletVaultSnackbarSuccessMessageWithPath": "Fichier de coffre-fort exporté avec succès vers {filePath}",
+    "exportWalletVaultTextFieldHintRepeatPassword": "Répétez le mot de passe du fichier vault",
+    "exportWalletVaultErrorEmptyRepeatPassword": "Veuillez remplir à nouveau votre mot de passe du fichier vault",
+    "exportWalletVaultSnackbarSuccessMessage": "Fichier vault exporté avec succès",
+    "exportWalletVaultSnackbarSuccessMessageWithPath": "Fichier vault exporté avec succès vers {filePath}",
     "@exportWalletVaultSnackbarSuccessMessageWithPath": {
         "placeholders": {
             "filePath": {
@@ -522,7 +522,7 @@
     },
     "exportWalletDialogTitleOverwriteFile": "Écraser le fichier",
     "exportWalletDialogMessageOverwriteFile": "Le fichier existe déjà. Voulez-vous l'écraser?",
-    "exportWalletDialogTitleErrorWhileSaving": "Une erreur s'est produite lors de la sauvegarde du fichier de coffre-fort",
+    "exportWalletDialogTitleErrorWhileSaving": "Une erreur s'est produite lors de la sauvegarde du fichier vault",
     "transfersListLabelReceiveIn": "Recevoir dans",
     "transfersListLabelSharePublicIdInstructionsOne": "Veuillez partager l'ID Public suivant avec l'expéditeur :",
     "transfersListLabelSharePublicIdInstructionsTwo": "Ou montrez le QR Code suivant",
@@ -534,7 +534,7 @@
             }
         }
     },
-    "transferAssetHeaderForTokens": "Transférer des jetons {assetName}",
+    "transferAssetHeaderForTokens": "Transférer des Tokens {assetName}",
     "@transferAssetHeaderForTokens": {
         "placeholders": {
             "assetName": {
@@ -561,7 +561,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "Jetons {assetName} détenus par l'ID: {formattedAmount}",
+    "transferAssetLabelOwnedTokens": "Tokens {assetName} détenus par l'ID: {formattedAmount}",
     "@transferAssetLabelOwnedTokens": {
         "placeholders": {
             "assetName": {
@@ -630,13 +630,13 @@
     "importWalletTitle": "Importer Votre Portefeuille",
     "importWalletSubHeader": "Choisir comment importer votre Portefeuille",
     "importWalletLabelFromVaultFile": "Importer Vault",
-    "importWalletLabelFromVaultFileDescription": "Import an existing wallet with multiple accounts through a vault file.",
+    "importWalletLabelFromVaultFileDescription": "Importez un portefeuille existant avec plusieurs comptes via un fichier vault.",
     "importWalletLabelFromPrivateSeed": "Importer Votre Seed Privée",
-    "importWalletLabelFromPrivateSeedDescription": "Importez un compte existant en saisissant votre Seed Privée",
+    "importWalletLabelFromPrivateSeedDescription": "Importez un compte existant en saisissant votre seed privée",
     "importVaultSubHeader": "Choisir un fichier avec l'extension .qubic-vault",
-    "importVaultLabelEnterPassword": "Enter vault password",
-    "importVaultLabelSelectPathInstructions": "Browse your device to select the vault file to import.",
-    "importPrivateSeedSubHeader": "Enter the 55 character seed that you have saved when creating your account.",
+    "importVaultLabelEnterPassword": "Entrer le mot de passe du fichier vault",
+    "importVaultLabelSelectPathInstructions": "Parcourez votre appareil pour sélectionner le fichier vault à importer.",
+    "importPrivateSeedSubHeader": "Saisissez le code de 55 caractères que vous avez enregistré lors de la création de votre compte.",
     "generalSnackBarMessageWalletImportedSuccessfully": "Portefeuille importé avec succès",
     "addAccountErrorTamperedAndroidWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE PLAY STORE OU RISQUEZ UNE PERTE DE FONDS",
     "addAccountErrorTamperediOSWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE APP STORE OU RISQUEZ UNE PERTE DE FONDS",
@@ -652,15 +652,15 @@
     "autolockLabelDurationImmediately": "Immédiatement",
     "settingsLabelAutlock": "Verrouiller automatiquement",
     "importVaultDialogTitleTooManyAccounts": "Trop de comptes trouvés",
-    "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
+    "importVaultDialogMessageTooManyAccounts": "Votre fichier vault contient plus de 15 comptes. Tous les comptes seront importés, mais pour pouvoir visualiser vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
     "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Comptes en Consultation Seule et trop de comptes trouvés",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Votre fichier vault contient plus de 15 comptes, dont certains sont en Consultation Seule. Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés, mais pour pouvoir consulter vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
     "importVaultDialogTitleWatchAccount": "Comptes en Consultation Seule trouvés",
-    "importVaultDialogMessageWatchAccount": "As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported.",
-    "importVaultErrorNoAccountsFound": "Aucun compte n'a été trouvé dans votre fichier Vault. Nous ne pouvons pas procéder à l'importation.",
-    "importVaultErrorOnlyWatchAccountsFound": "Your vault file contains only watch only accounts. As we currently do not support watch only accounts, we can't proceed with the import.",
-    "importVaultFilePickerLabel": "Please select a vault file to continue:",
-    "importVaultFileErrorGeneralMessage": "Erreur lors de l'importation du fichier Vault: {errorDescription}",
+    "importVaultDialogMessageWatchAccount": "Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés.",
+    "importVaultErrorNoAccountsFound": "Aucun compte n'a été trouvé dans votre fichier vault. Nous ne pouvons pas procéder à l'importation.",
+    "importVaultErrorOnlyWatchAccountsFound": "Votre fichier vault contient uniquement des comptes en Consultation Seule. Comme nous ne prenons actuellement pas en charge ces comptes, nous ne pouvons pas procéder à l'importation.",
+    "importVaultFilePickerLabel": "Veuillez sélectionner le fichier vault pour continuer:",
+    "importVaultFileErrorGeneralMessage": "Erreur lors de l'importation du fichier vault: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
         "placeholders": {
             "errorDescription": {
@@ -668,7 +668,7 @@
             }
         }
     },
-    "exportWalletVaultErrorGeneralMessage": "Erreur lors de la création du fichier Vault: {errorDescription}",
+    "exportWalletVaultErrorGeneralMessage": "Erreur lors de la création du fichier vault: {errorDescription}",
     "@exportWalletVaultErrorGeneralMessage": {
         "placeholders": {
             "errorDescription": {
@@ -697,9 +697,9 @@
             }
         }
     },
-    "cmdErrorGettingPublicIdFromSeedGeneric": "Error trying to get public ID from seed",
-    "cmdErrorGettingPublicIdFromSeedEmpty": "Error trying to get public ID from seed. Generated Public ID is empty",
-    "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
+    "cmdErrorGettingPublicIdFromSeedGeneric": "Erreur lors de la tentative de génération de l'ID public à partir de la seed",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "Erreur lors de la tentative de génération de l'ID public à partir de la seed. L'ID public généré est vide",
+    "cmdErrorGettingPublicIdFromSeed": "Erreur lors de la tentative de génération de l'ID public à partir de la seed: {errorDescription}",
     "@cmdErrorGettingPublicIdFromSeed": {
         "placeholders": {
             "errorDescription": {
@@ -707,13 +707,13 @@
             }
         }
     },
-    "cmdErrorCreatingVaultFileGeneric": "Erreur lors de la tentative de création du fichier Vault",
-    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Erreur lors de la tentative de création du fichier Vault. Le fichier généré est vide",
-    "importVaultFileOrPasswordError": "Le fichier sélectionné n'est pas un fichier Qubic Vault ou le mot de passe est incorrect",
-    "importVaultFileGenericError": "Erreur lors de la tentative d'importation du fichier Vault",
-    "importVaultFileSeedsNullError": "Le fichier Vault est mal formé et ne contient pas d'informations sur les comptes",
-    "importVaultFileSeedsMalformedError": "Le fichier Vault contient des informations de compte mal formées",
-    "importVaultFileParsedSeedsNullError": "Impossible d'analyser les comptes à partir du fichier Vault",
+    "cmdErrorCreatingVaultFileGeneric": "Erreur lors de la tentative de création du fichier vault",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Erreur lors de la tentative de création du fichier vault. Le fichier généré est vide",
+    "importVaultFileOrPasswordError": "Le fichier sélectionné n'est pas un fichier Qubic vault ou le mot de passe est incorrect",
+    "importVaultFileGenericError": "Erreur lors de la tentative d'importation du fichier vault",
+    "importVaultFileSeedsNullError": "Le fichier vault est mal formé et ne contient pas d'informations sur les comptes",
+    "importVaultFileSeedsMalformedError": "Le fichier vault contient des informations de compte mal formées",
+    "importVaultFileParsedSeedsNullError": "Impossible d'analyser les comptes à partir du fichier vault",
     "importVaultFileAccountMissingName": "Le nom de compte est manquant pour le compte en position {accountIndex}",
     "@importVaultFileAccountMissingName": {
         "placeholders": {
@@ -722,7 +722,7 @@
             }
         }
     },
-    "importVaultFileAccountMissingPublicId": "L'ID Public est manquant pour le compte en position {accountIndex}",
+    "importVaultFileAccountMissingPublicId": "L'ID public est manquant pour le compte en position {accountIndex}",
     "@importVaultFileAccountMissingPublicId": {
         "placeholders": {
             "accountIndex": {
@@ -739,5 +739,6 @@
         }
     },
     "generalErrorFileRequired": "Veuillez remplir le fichier",
-    "generalErrorPathRequired": "Veuillez remplir le chemin du fichier"
+    "generalErrorPathRequired": "Veuillez remplir le chemin du fichier",
+    "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins"
 }

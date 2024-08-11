@@ -68,18 +68,24 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
     super.dispose();
   }
 
+  //Gets the loading indicator inside button
+  Widget _getLoadingProgressIndicator() {
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: SizedBox(
+          width: 21,
+          height: 21,
+          child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Theme.of(context).colorScheme.inversePrimary)),
+    );
+  }
+
   Widget biometricsControls() {
     if (canUseBiometrics == null) return Container();
     if (canUseBiometrics! == false) return Container();
     if (canCheckBiometrics == null) return Container();
     if (canCheckBiometrics! == false) return Container();
-    var theme = SettingsThemeData(
-      settingsSectionBackground: LightThemeColors.cardBackground,
-      //Theme.of(context).cardTheme.color,
-      settingsListBackground: LightThemeColors.background,
-      dividerColor: Colors.transparent,
-      titleTextColor: Theme.of(context).colorScheme.onBackground,
-    );
 
     String enableText = "Biometric Unlock";
     if (UniversalPlatform.isDesktop) {
@@ -121,10 +127,14 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
     ]);
   }
 
-//Gets the sign up form
-
-  Future<void> handleProceed() async {
+  Future<void> _handleProceed() async {
+    setState(() {
+      isLoading = true;
+    });
     widget.onAddedBiometrics(enabledBiometrics);
+    setState(() {
+      isLoading = false;
+    });
   }
 
   List<Widget> getButtons() {
@@ -133,14 +143,17 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
               onPressed: () async {
-                await handleProceed();
+                await _handleProceed();
               },
-              child: Padding(
-                padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                child: Text(l10n.generalButtonProceed,
-                    textAlign: TextAlign.center,
-                    style: TextStyles.primaryButtonText),
-              )))
+              child: isLoading
+                  ? _getLoadingProgressIndicator()
+                  : Padding(
+                      padding:
+                          const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                      child: Text(l10n.generalButtonProceed,
+                          textAlign: TextAlign.center,
+                          style: TextStyles.primaryButtonText),
+                    )))
     ];
   }
 

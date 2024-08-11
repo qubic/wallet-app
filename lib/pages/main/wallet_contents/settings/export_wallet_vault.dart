@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:local_auth/local_auth.dart';
@@ -74,9 +75,16 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       ThemedControls.darkButtonBigWithChild(
           error: emptyPathError,
           onPressed: () async {
+            Directory? directory;
+            try {
+              directory = await getDownloadsDirectory();
+            } catch (e) {
+              debugPrint("Error getting application documents directory: $e");
+            }
             if (UniversalPlatform.isAndroid) {
               String? outputFolder = await FilePicker.platform.getDirectoryPath(
                   dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
+                  initialDirectory: directory?.path,
                   lockParentWindow: true);
               if (outputFolder == null) {
                 // User canceled the picker
@@ -93,6 +101,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
             } else {
               String? outputFile = await FilePicker.platform.saveFile(
                   dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
+                  initialDirectory: directory?.path,
                   allowedExtensions: ['qubic-vault'],
                   type: FileType.custom,
                   lockParentWindow: true,

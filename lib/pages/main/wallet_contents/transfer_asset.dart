@@ -174,7 +174,7 @@ class _TransferAssetState extends State<TransferAsset> {
                   if (barcode.rawValue != null) {
                     var value = destinationID.text;
                     value = barcode.rawValue!
-                        .replaceAll("https://wallet.qubic.li/payment/", "");
+                        .replaceAll("https://wallet.qubic.org/payment/", "");
                     var validator =
                         CustomFormFieldValidators.isPublicID(context: context);
                     if (validator(value) == null) {

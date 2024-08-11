@@ -14,6 +14,7 @@ import 'package:qubic_wallet/pages/main/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -37,7 +38,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final ApplicationStore applicationStore = getIt<ApplicationStore>();
-
+  final QubicCmd qubicCmd = getIt<QubicCmd>();
   late final ReactionDisposer _disposeSnackbarAuto;
 
   late AnimatedSnackBar? errorBar;
@@ -67,6 +68,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       if (!applicationStore.isSignedIn) {
         context.go('/signIn');
       }
+    }
+    if (state == AppLifecycleState.resumed) {
+      qubicCmd.reinitialize();
     }
   }
 
@@ -239,8 +243,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   Widget getMain() {
     if (applicationStore.hasStoredWalletSettings) {
       _controller.jumpToTab(applicationStore.currentTabIndex);
-    }
-    else {
+    } else {
       _controller.jumpToTab(0);
     }
     // _controller.jumpToPreviousTab();

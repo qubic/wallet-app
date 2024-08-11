@@ -194,6 +194,8 @@ class _TabSettingsState extends State<TabSettings> {
                 onPressed: (BuildContext context) {
                   appStore.reportGlobalError("");
                   appStore.reportGlobalNotification("");
+                  appStore.setCurrentTabIndex(
+                      0); // so after unlock, it goes to Home
                   appStore.signOut();
                   appStore.checkWalletIsInitialized();
                   timedController.stopFetchTimer();
@@ -274,7 +276,8 @@ class _TabSettingsState extends State<TabSettings> {
                 leading: const ChangeForeground(
                     color: LightThemeColors.gradient1,
                     child: Icon(Icons.lock_clock)),
-                title: Text('Auto-Lock Settings', style: TextStyles.textNormal),
+                title: Text(l10n.settingsLabelAutlock,
+                    style: TextStyles.textNormal),
                 trailing: getTrailingArrow(),
                 onPressed: (BuildContext? context) async {
                   pushScreen(context!,

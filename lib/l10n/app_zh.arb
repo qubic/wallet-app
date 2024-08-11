@@ -676,5 +676,69 @@
             }
         }
     },
-    "importPrivateSeedDefaultAccountName": "Account 1"
+    "importPrivateSeedDefaultAccountName": "Account 1",
+    "cmdErrorCreatingAssetTransferTransactionGeneric": "尝试创建资产转移交易时遇到了错误",
+    "cmdErrorCreatingAssetTransferTransactionEmpty": "尝试创建资产转移交易时出现错误。生成的交易信息为空。",
+    "cmdErrorCreatingAssetTransferTransaction": "尝试创建资产转移交易时出现错误： {errorDescription}",
+    "@cmdErrorCreatingAssetTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingTransferTransactionGeneric": "尝试创建转账交易时出现错误",
+    "cmdErrorCreatingTransferTransactionEmpty": "尝试创建转账交易时出现错误。生成的交易信息为空。",
+    "cmdErrorCreatingTransferTransaction": "尝试创建转账交易时出现错误： {errorDescription}",
+    "@cmdErrorCreatingTransferTransaction": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorGettingPublicIdFromSeedGeneric": "尝试从种子获取地址时出现错误",
+    "cmdErrorGettingPublicIdFromSeedEmpty": "尝试从种子获取地址时出现错误，生成的地址为空",
+    "cmdErrorGettingPublicIdFromSeed": "尝试从种子获取地址时出现了错误： {errorDescription}",
+    "@cmdErrorGettingPublicIdFromSeed": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorCreatingVaultFileGeneric": "尝试创建 Vault 文件时出现错误",
+    "cmdErrorCreatingVaultFileGeneratedIsEmpty": "尝试创建 Vault 文件时出现错误，生成的 Vault 文件为空",
+    "importVaultFileOrPasswordError": "选择的文件不是 Qubic Vault 文件，或者输入的密码有误",
+    "importVaultFileGenericError": "尝试导入 Vault 文件时出现错误",
+    "importVaultFileSeedsNullError": "Vault 文件有误，未能提供账户信息",
+    "importVaultFileSeedsMalformedError": "Vault 文件中包含了不正确的账户信息",
+    "importVaultFileParsedSeedsNullError": "无法从密钥文件解析账户信息",
+    "importVaultFileAccountMissingName": "帐户输入 {accountIndex} 丢失帐户名称",
+    "@importVaultFileAccountMissingName": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingPublicId": "帐户输入 {accountIndex} 丢失帐户地址",
+    "@importVaultFileAccountMissingPublicId": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "importVaultFileAccountMissingSeed": "帐户输入 {accountIndex} 丢失私钥种子",
+    "@importVaultFileAccountMissingSeed": {
+        "placeholders": {
+            "accountIndex": {
+                "type": "int"
+            }
+        }
+    },
+    "generalErrorFileRequired": "请选择文件",
+    "generalErrorPathRequired": "请选择路径",
+    "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。"
 }

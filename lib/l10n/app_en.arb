@@ -739,5 +739,6 @@
         }
     },
     "generalErrorFileRequired": "Please select a file",
-    "generalErrorPathRequired": "Please select a path"
+    "generalErrorPathRequired": "Please select a path",
+    "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer."
 }
