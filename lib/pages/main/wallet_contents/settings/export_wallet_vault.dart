@@ -23,6 +23,7 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 
@@ -42,6 +43,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final _globalSnackBar = getIt<GlobalSnackBar>();
   final _formKey = GlobalKey<FormBuilderState>();
+  late BuildContext _buttonKey;
 
   String? selectedPath; //The selected file path (android and desktop)
   io.File? selectedFile; //The selected file (android and desktop)
@@ -52,10 +54,12 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   bool showingPassword = false; //Show password or not
   bool showingRepeatPassword = false; //Show repeat password or not
   bool emptyPathError = false;
+
   // #endregion
 
   bool useShareController =
       UniversalPlatform.isIOS || UniversalPlatform.isAndroid;
+
   // #region Bootstrapping
   @override
   void initState() {
@@ -66,6 +70,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   void dispose() {
     super.dispose();
   }
+
   // #endregion
 
   // #region file and path selectors
@@ -190,6 +195,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                       icon: Image.asset('assets/images/cancel.png'))
                 ])));
   }
+
   // #endregion
 
   Widget getNonMobileContent() {
@@ -224,6 +230,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                 ThemedControls.spacerVerticalHuge(),
                 FormBuilderTextField(
                   name: "password",
+                  textInputAction: TextInputAction.done,
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(
                         errorText: l10n.exportWalletVaultErrorEmptyPassword),
@@ -233,7 +240,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                   ]),
                   onChanged: (value) => currentPassword = value ?? "",
                   onSubmitted: (String? text) {
-                    exportButtonHandler();
+                    if (_formKey.currentState?.validate() == true) {
+                      exportButtonHandler(_buttonKey);
+                    }
                   },
                   enabled: !isLoading,
                   decoration: ThemeInputDecorations.bigInputbox.copyWith(
@@ -257,6 +266,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                 ThemedControls.spacerVerticalSmall(),
                 FormBuilderTextField(
                   name: "passwordRepeat",
+                  textInputAction: TextInputAction.done,
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(
                         errorText:
@@ -267,7 +277,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                     }
                   ]),
                   onSubmitted: (String? text) {
-                    exportButtonHandler();
+                    if (_formKey.currentState?.validate() == true) {
+                      exportButtonHandler(_buttonKey);
+                    }
                   },
                   enabled: !isLoading,
                   decoration: ThemeInputDecorations.bigInputbox.copyWith(
@@ -299,28 +311,40 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   Widget getFooterButtons() {
     final l10n = l10nOf(context);
 
-    return Expanded(
-        child: ThemedControls.primaryButtonBigWithChild(
+    return Builder(
+      builder: (buttonContext) {
+        _buttonKey = buttonContext;
+        return Expanded(
+          child: ThemedControls.primaryButtonBigWithChild(
             child: Padding(
-                padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-                child: isLoading
-                    ? const SizedBox(
-                        height: 23,
-                        width: 23,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 1.5,
-                          color: LightThemeColors.extraStrongBackground,
-                        ))
-                    : Text(l10n.exportWalletVaultButtonExport,
-                        style: TextStyles.primaryButtonText)),
+              padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+              child: isLoading
+                  ? const SizedBox(
+                      height: 23,
+                      width: 23,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1.5,
+                        color: LightThemeColors.extraStrongBackground,
+                      ),
+                    )
+                  : Text(
+                      l10n.exportWalletVaultButtonExport,
+                      style: TextStyles.primaryButtonText,
+                    ),
+            ),
             onPressed: () async {
-              await exportButtonHandler();
-            }));
+              await exportButtonHandler(buttonContext);
+            },
+          ),
+        );
+      },
+    );
   }
+
   // #endregion
 
   // #region Handlers for android and desktops
-  Future<void> exportButtonHandler() async {
+  Future<void> exportButtonHandler(BuildContext context) async {
     if (isLoading) {
       return;
     }
@@ -343,7 +367,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     setState(() {
       isLoading = true;
     });
-    await exportHandler();
+    await exportHandler(context);
     // await appStore.exportVault(selectedPath!);
     setState(() {
       isLoading = false;
@@ -361,7 +385,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   }
 
   // Handles the export process for iOS
-  Future<void> _exportHandlerMobile() async {
+  Future<void> _exportHandlerMobile(BuildContext buttonContext) async {
     final l10n = l10nOf(context);
 
     try {
@@ -375,22 +399,29 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       await File(path).writeAsBytes(bytes, flush: true);
       var xFile = XFile(path);
 
-      final res = await Share.shareXFiles([xFile], subject: filename);
-      if (res.status == ShareResultStatus.success) {
-        _globalSnackBar.show(l10n.exportWalletVaultSnackbarSuccessMessage);
-        if (mounted) {
-          Navigator.pop(context);
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final RenderBox box = buttonContext.findRenderObject() as RenderBox;
+        final Offset position = box.localToGlobal(Offset.zero);
+        final Size size = box.size;
+
+        final Rect sharePositionOrigin =
+            Rect.fromLTWH(position.dx, position.dy, size.width, size.height);
+
+        final ShareResult res = await Share.shareXFiles(
+          [xFile],
+          subject: filename,
+          sharePositionOrigin: sharePositionOrigin,
+        );
+
+        if (res.status == ShareResultStatus.success) {
+          _globalSnackBar.show(l10n.exportWalletVaultSnackbarSuccessMessage);
+          if (mounted) {
+            Navigator.pop(context);
+          }
         }
-      }
 
-      File(path).writeAsBytes([], flush: true);
-
-      // final res = await Share.shareXFiles(
-      //     [XFile.fromData(bytes, name: "export.qubic-vault")]);
-      // if (res.status == ShareResultStatus.success) {
-      //   _globalSnackBar.show(l10n.exportWalletVaultSnackbarSuccessMessage);
-      //   Navigator.pop(context);
-      // }
+        File(path).writeAsBytes([], flush: true);
+      });
     } catch (e) {
       showErrorDialog(l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
       setState(() {
@@ -441,9 +472,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   }
 
   /// Handles clicking of the export button
-  Future<void> exportHandler() async {
+  Future<void> exportHandler(BuildContext context) async {
     if (useShareController) {
-      await _exportHandlerMobile();
+      await _exportHandlerMobile(context);
     } else {
       await _exportHandlerGeneric();
     }
@@ -526,6 +557,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       },
     );
   }
+
   // #endregion
 
   @override
