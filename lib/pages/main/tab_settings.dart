@@ -224,6 +224,8 @@ class _TabSettingsState extends State<TabSettings> {
                           await secureStorage.deleteWallet();
                           await settingsStore.loadSettings();
                           appStore.checkWalletIsInitialized();
+                          appStore.setCurrentTabIndex(
+                              0); // so after another wallet is created, it goes to Home
                           appStore.signOut();
                           timedController.stopFetchTimer();
                           Navigator.pop(context);
