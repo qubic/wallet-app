@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io' as io;
 import 'dart:io';
 import 'dart:math';
@@ -350,6 +351,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     }
     setState(() {
       emptyPathError = false;
+      isLoading = true;
     });
     _formKey.currentState?.validate();
     if ((selectedPath == null) && (!useShareController)) {
@@ -364,14 +366,19 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     if ((selectedPath == null) && (!useShareController)) {
       return;
     }
+
     setState(() {
       isLoading = true;
     });
-    await exportHandler(context);
-    // await appStore.exportVault(selectedPath!);
-    setState(() {
-      isLoading = false;
+
+    Timer(const Duration(milliseconds: 1), () async {
+      await exportHandler(context);
     });
+
+    // await appStore.exportVault(selectedPath!);
+    // setState(() {
+    //   isLoading = false;
+    // });
   }
 
   Future<List<QubicVaultExportSeed>> getSeeds() async {
@@ -433,18 +440,21 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   // Handles the actual export process (file saving) for android and desktop
   // called by the exportHandlerGeneric function and the overwrite dialog
   Future<void> _doExportGeneric() async {
+    setState(() {
+      isLoading = true;
+    });
     final l10n = l10nOf(context);
 
     try {
       if (await reAuthDialog(context) == false) {
+        setState(() {
+          isLoading = false;
+        });
         return;
       }
       var fileContents =
           await qubicCmd.createVaultFile(currentPassword, await getSeeds());
       await io.File(selectedPath!).writeAsBytes(fileContents);
-      setState(() {
-        isLoading = false;
-      });
 
       _globalSnackBar.show(selectedPath != null
           ? l10n.exportWalletVaultSnackbarSuccessMessageWithPath(selectedPath!)
@@ -453,6 +463,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       if (mounted) {
         Navigator.pop(context);
       }
+      setState(() {
+        isLoading = false;
+      });
     } catch (e) {
       showErrorDialog(e.toString());
       setState(() {
@@ -475,6 +488,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   Future<void> exportHandler(BuildContext context) async {
     if (useShareController) {
       await _exportHandlerMobile(context);
+      setState(() {
+        isLoading = false;
+      });
     } else {
       await _exportHandlerGeneric();
     }
@@ -525,6 +541,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     Widget noButton = ThemedControls.transparentButtonNormal(
         onPressed: () {
           Navigator.pop(dialogContext);
+          setState(() {
+            isLoading = false;
+          });
         },
         text: l10n.generalLabelNo);
 
