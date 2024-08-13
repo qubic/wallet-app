@@ -177,6 +177,7 @@ class _TabSettingsState extends State<TabSettings> {
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: SettingsList(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         applicationType: ApplicationType.material,
         contentPadding: const EdgeInsets.all(0),
         darkTheme: theme,

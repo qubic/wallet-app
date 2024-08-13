@@ -15,6 +15,7 @@ import 'package:share_plus/share_plus.dart';
 
 class Receive extends StatefulWidget {
   final QubicListVm item;
+
   const Receive({super.key, required this.item});
 
   @override
@@ -26,6 +27,7 @@ class _ReceiveState extends State<Receive> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   String? generatedPublicId;
+
   @override
   void initState() {
     super.initState();
@@ -66,15 +68,40 @@ class _ReceiveState extends State<Receive> {
       MediaQuery.of(context).size.width < 400
           ? ThemedControls.spacerVerticalSmall()
           : ThemedControls.spacerHorizontalSmall(),
-      ThemedControls.transparentButtonNormal(
-          onPressed: () {
-            Share.share(widget.item.publicId);
-          },
-          text: l10n.generalButtonShare,
-          icon: LightThemeColors.shouldInvertIcon
-              ? ThemedControls.invertedColors(
-                  child: Image.asset("assets/images/Group 2389.png"))
-              : Image.asset("assets/images/Group 2389.png"))
+      Builder(
+        builder: (context) {
+          return ThemedControls.transparentButtonNormal(
+            onPressed: () {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                final RenderBox box = context.findRenderObject() as RenderBox;
+
+                // Calculate the global position of the Receive button
+                final Offset position = box.localToGlobal(Offset.zero);
+                final Size size = box.size;
+
+                // Create a Rect based on the Recieve button's position and size
+                final Rect sharePositionOrigin = Rect.fromLTWH(
+                  position.dx,
+                  position.dy,
+                  size.width,
+                  size.height,
+                );
+
+                // Now use this Rect for the sharePositionOrigin
+                Share.share(
+                  widget.item.publicId,
+                  sharePositionOrigin: sharePositionOrigin,
+                );
+              });
+            },
+            text: l10n.generalButtonShare,
+            icon: LightThemeColors.shouldInvertIcon
+                ? ThemedControls.invertedColors(
+                    child: Image.asset("assets/images/Group 2389.png"))
+                : Image.asset("assets/images/Group 2389.png"),
+          );
+        },
+      )
     ];
   }
 
@@ -126,6 +153,7 @@ class _ReceiveState extends State<Receive> {
   }
 
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
