@@ -50,7 +50,28 @@ class WalletApp extends StatefulWidget {
   State<WalletApp> createState() => _WalletAppState();
 }
 
-class _WalletAppState extends State<WalletApp> {
+class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
+  final QubicCmd qubicCmd = getIt<QubicCmd>();
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      qubicCmd.reinitialize();
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
