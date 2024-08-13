@@ -59,9 +59,20 @@ class _TabSettingsState extends State<TabSettings> {
   Widget icon = const Icon(Icons.fingerprint);
 
   bool isLoading = false;
+
+  final GlobalKey _headerKey = GlobalKey();
+  final GlobalKey _settingsListKey = GlobalKey();
+
+  bool needsSqueeze = false;
+  double fontScaleRatio = 1.0;
+
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _calculateHeights(context);
+    });
 
     PackageInfo.fromPlatform().then((value) => setState(() {
           packageInfo = value;
@@ -118,6 +129,30 @@ class _TabSettingsState extends State<TabSettings> {
     });
   }
 
+  void _calculateHeights(BuildContext context) {
+    final headerHeight = _headerKey.currentContext?.size?.height ?? 0;
+    final settingsListHeight =
+        _settingsListKey.currentContext?.size?.height ?? 0;
+
+    double totalHeightNeeded = headerHeight + settingsListHeight;
+
+    double availableHeight = MediaQuery.of(context).size.height -
+        kBottomNavigationBarHeight -
+        MediaQuery.of(context).padding.top;
+
+    if (totalHeightNeeded > availableHeight) {
+      setState(() {
+        needsSqueeze = true;
+        fontScaleRatio = (availableHeight / totalHeightNeeded) - 0.1;
+      });
+    } else {
+    setState(() {
+        needsSqueeze = false;
+        fontScaleRatio = 1.0;
+    });
+  }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -126,33 +161,76 @@ class _TabSettingsState extends State<TabSettings> {
   Widget getHeader() {
     final l10n = l10nOf(context);
     return Padding(
-        padding: const EdgeInsets.only(
-            left: ThemePaddings.normalPadding,
-            right: ThemePaddings.normalPadding,
-            top: ThemePaddings.hugePadding,
-            bottom: ThemePaddings.smallPadding),
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Text(l10n.appTabSettings, style: TextStyles.pageTitle)
-        ]));
+      key: _headerKey,
+      padding: EdgeInsets.only(
+        left: needsSqueeze
+            ? ThemePaddings.smallPadding
+            : ThemePaddings.normalPadding,
+        right: needsSqueeze
+            ? ThemePaddings.smallPadding
+            : ThemePaddings.normalPadding,
+        top: needsSqueeze
+            ? ThemePaddings.smallPadding
+            : ThemePaddings.hugePadding,
+        bottom: needsSqueeze
+            ? ThemePaddings.miniPadding
+            : ThemePaddings.smallPadding,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            l10n.appTabSettings,
+            style: TextStyles.pageTitle.copyWith(
+              fontSize: needsSqueeze
+                  ? TextStyles.pageTitle.fontSize! * fontScaleRatio
+                  : TextStyles.pageTitle.fontSize,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget getBody() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [getHeader(), getSettings()]);
-  }
+  // Widget getBody() {
+  //   return Column(
+  //       mainAxisAlignment: MainAxisAlignment.start,
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       mainAxisSize: MainAxisSize.min,
+  //       children: [getHeader(), getSettings()]);
+  // }
 
   Widget getSettingsHeader(String text, bool isFirst) {
     return Padding(
-        padding: isFirst
-            ? const EdgeInsets.fromLTRB(0, 0, 0, ThemePaddings.smallPadding)
-            : const EdgeInsets.fromLTRB(
-                0, ThemePaddings.bigPadding, 0, ThemePaddings.smallPadding),
-        child: Transform.translate(
-            offset: const Offset(-16, 0),
-            child: Text(text, style: TextStyles.textBold)));
+      padding: isFirst
+          ? EdgeInsets.fromLTRB(
+              0,
+              0,
+              0,
+              needsSqueeze
+                  ? ThemePaddings.miniPadding
+                  : ThemePaddings.smallPadding)
+          : EdgeInsets.fromLTRB(
+              0,
+              needsSqueeze
+                  ? ThemePaddings.smallPadding
+                  : ThemePaddings.bigPadding,
+              0,
+              needsSqueeze
+                  ? ThemePaddings.miniPadding
+                  : ThemePaddings.smallPadding),
+      child: Transform.translate(
+        offset: const Offset(-16, 0),
+        child: Text(
+          text,
+          style: TextStyles.textBold.copyWith(
+            fontSize: needsSqueeze
+                ? TextStyles.textBold.fontSize! * fontScaleRatio
+                : TextStyles.textBold.fontSize,
+          ),
+        ),
+      ),
+    );
   }
 
   Widget getSettings() {
@@ -174,6 +252,7 @@ class _TabSettingsState extends State<TabSettings> {
     }
 
     return Padding(
+      key: _settingsListKey,
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: SettingsList(
         shrinkWrap: true,
@@ -188,8 +267,11 @@ class _TabSettingsState extends State<TabSettings> {
               SettingsTile.navigation(
                 leading: const ChangeForeground(
                     color: LightThemeColors.gradient1, child: Icon(Icons.lock)),
-                title:
-                    Text(l10n.settingsLockWallet, style: TextStyles.textNormal),
+                title: Text(l10n.settingsLockWallet,
+                    style: TextStyles.textNormal.copyWith(
+                        fontSize: needsSqueeze
+                            ? TextStyles.textNormal.fontSize! * fontScaleRatio
+                            : TextStyles.textNormal.fontSize)),
                 trailing: Container(),
                 onPressed: (BuildContext context) {
                   appStore.reportGlobalError("");
@@ -207,7 +289,10 @@ class _TabSettingsState extends State<TabSettings> {
                     color: LightThemeColors.gradient1,
                     child: Icon(Icons.cleaning_services_outlined)),
                 title: Text(l10n.generalButtonEraseWalletData,
-                    style: TextStyles.textNormal),
+                    style: TextStyles.textNormal.copyWith(
+                        fontSize: needsSqueeze
+                            ? TextStyles.textNormal.fontSize! * fontScaleRatio
+                            : TextStyles.textNormal.fontSize)),
                 trailing: Container(),
                 onPressed: (BuildContext context) async {
                   //MODAL TO CHECK IF USER AGREES
@@ -243,7 +328,10 @@ class _TabSettingsState extends State<TabSettings> {
                     color: LightThemeColors.gradient1,
                     child: Icon(Icons.file_present)),
                 title: Text(l10n.settingsLabelExportWalletVaultFile,
-                    style: TextStyles.textNormal),
+                    style: TextStyles.textNormal.copyWith(
+                        fontSize: needsSqueeze
+                            ? TextStyles.textNormal.fontSize! * fontScaleRatio
+                            : TextStyles.textNormal.fontSize)),
                 trailing: Container(),
                 onPressed: (BuildContext context) async {
                   pushScreen(context,
@@ -259,27 +347,33 @@ class _TabSettingsState extends State<TabSettings> {
             title: getSettingsHeader(l10n.settingsHeaderSecurity, true),
             tiles: <SettingsTile>[
               SettingsTile.navigation(
-                  leading: const ChangeForeground(
-                      color: LightThemeColors.gradient1,
-                      child: Icon(Icons.password)),
-                  trailing: getTrailingArrow(),
-                  title: Text(l10n.settingsLabelChangePassword,
-                      style: TextStyles.textNormal),
-                  onPressed: (BuildContext? context) async {
-                    pushScreen(
-                      context!,
-                      screen: const ChangePassword(),
-                      withNavBar: false, // OPTIONAL VALUE. True by default.
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    );
-                  }),
+                leading: const ChangeForeground(
+                    color: LightThemeColors.gradient1,
+                    child: Icon(Icons.password)),
+                title: Text(l10n.settingsLabelChangePassword,
+                    style: TextStyles.textNormal.copyWith(
+                        fontSize: needsSqueeze
+                            ? TextStyles.textNormal.fontSize! * fontScaleRatio
+                            : TextStyles.textNormal.fontSize)),
+                trailing: getTrailingArrow(),
+                onPressed: (BuildContext? context) async {
+                  pushScreen(
+                    context!,
+                    screen: const ChangePassword(),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                },
+              ),
               SettingsTile.navigation(
                 leading: const ChangeForeground(
                     color: LightThemeColors.gradient1,
                     child: Icon(Icons.lock_clock)),
                 title: Text(l10n.settingsLabelAutlock,
-                    style: TextStyles.textNormal),
+                    style: TextStyles.textNormal.copyWith(
+                        fontSize: needsSqueeze
+                            ? TextStyles.textNormal.fontSize! * fontScaleRatio
+                            : TextStyles.textNormal.fontSize)),
                 trailing: getTrailingArrow(),
                 onPressed: (BuildContext? context) async {
                   pushScreen(context!,
@@ -292,8 +386,11 @@ class _TabSettingsState extends State<TabSettings> {
               SettingsTile.navigation(
                 leading: ChangeForeground(
                     color: LightThemeColors.gradient1, child: icon),
-                trailing: getTrailingArrow(),
-                title: Text(settingsUnlockLabel, style: TextStyles.textNormal),
+                title: Text(settingsUnlockLabel,
+                    style: TextStyles.textNormal.copyWith(
+                        fontSize: needsSqueeze
+                            ? TextStyles.textNormal.fontSize! * fontScaleRatio
+                            : TextStyles.textNormal.fontSize)),
                 value: Observer(builder: (context) {
                   return settingsStore.settings.biometricEnabled
                       ? Text(l10n.generalLabelEnabled,
@@ -303,9 +400,20 @@ class _TabSettingsState extends State<TabSettings> {
                               .copyWith(
                                   color:
                                       Theme.of(context).colorScheme.secondary,
+                                  fontSize: needsSqueeze
+                                      ? Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .fontSize! *
+                                          fontScaleRatio
+                                      : Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .fontSize,
                                   fontFamily: ThemeFonts.secondary))
                       : Text(l10n.generalLabelDisabled);
                 }),
+                trailing: getTrailingArrow(),
                 onPressed: (BuildContext? context) {
                   pushScreen(
                     context!,
@@ -318,82 +426,98 @@ class _TabSettingsState extends State<TabSettings> {
             ],
           ),
           SettingsSection(
-              title: getSettingsHeader(l10n.settingsHeaderAbout, true),
-              tiles: <SettingsTile>[
-                SettingsTile.navigation(
-                  leading: const ChangeForeground(
-                      color: LightThemeColors.gradient1,
-                      child: Icon(Icons.people)),
-                  title: Text(l10n.settingsLabelJoinCommunity,
-                      style: TextStyles.textNormal),
-                  trailing: Container(),
-                  onPressed: (BuildContext? context) async {
-                    pushScreen(
-                      context!,
-                      screen: const JoinCommunity(),
-                      withNavBar: false, // OPTIONAL VALUE. True by default.
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    );
-                  },
-                ),
-                SettingsTile.navigation(
-                  leading: const ChangeForeground(
-                      color: LightThemeColors.gradient1,
-                      child: Icon(Icons.account_balance_wallet_outlined)),
-                  trailing: Observer(builder: (BuildContext context) {
-                    if (qubicHubStore.updateAvailable) {
-                      return const Icon(Icons.info, color: Colors.red);
-                    }
-                    return getTrailingArrow();
-                  }),
-                  title: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(l10n.settingsLabelWalletInfo,
-                            style: TextStyles.textNormal),
-                        Observer(builder: (BuildContext context) {
-                          if (qubicHubStore.versionInfo == null) {
-                            return Text(l10n.generalLabelLoading);
-                          }
-                          return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                    "Version ${qubicHubStore.versionInfo!}${qubicHubStore.buildNumber!.isNotEmpty ? " (${qubicHubStore.buildNumber!})" : ""}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                            fontFamily: ThemeFonts.secondary)),
-                                qubicHubStore.updateAvailable
-                                    ? Text("Update available",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall!
-                                            .copyWith(
-                                                color: Colors.red,
-                                                fontFamily:
-                                                    ThemeFonts.secondary))
-                                    : Container(),
-                              ]);
-                        })
-                      ]),
-                  // onPressed: (BuildContext? context) async {
-                  //   pushNewScreen(
-                  //     context!,
-                  //     screen: const AboutWallet(),
-                  //     withNavBar: false, // OPTIONAL VALUE. True by default.
-                  //     pageTransitionAnimation:
-                  //         PageTransitionAnimation.cupertino,
-                  //   );
-                  // }),
-                ),
-              ])
+            title: getSettingsHeader(l10n.settingsHeaderAbout, true),
+            tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                leading: const ChangeForeground(
+                    color: LightThemeColors.gradient1,
+                    child: Icon(Icons.people)),
+                title: Text(l10n.settingsLabelJoinCommunity,
+                    style: TextStyles.textNormal.copyWith(
+                        fontSize: needsSqueeze
+                            ? TextStyles.textNormal.fontSize! * fontScaleRatio
+                            : TextStyles.textNormal.fontSize)),
+                trailing: Container(),
+                onPressed: (BuildContext? context) async {
+                  pushScreen(
+                    context!,
+                    screen: const JoinCommunity(),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                },
+              ),
+              SettingsTile.navigation(
+                leading: const ChangeForeground(
+                    color: LightThemeColors.gradient1,
+                    child: Icon(Icons.account_balance_wallet_outlined)),
+                trailing: Observer(builder: (BuildContext context) {
+                  if (qubicHubStore.updateAvailable) {
+                    return const Icon(Icons.info, color: Colors.red);
+                  }
+                  return getTrailingArrow();
+                }),
+                title: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(l10n.settingsLabelWalletInfo,
+                          style: TextStyles.textNormal.copyWith(
+                              fontSize: needsSqueeze
+                                ? TextStyles.textNormal.fontSize! *
+                                    fontScaleRatio
+                                  : TextStyles.textNormal.fontSize)),
+                      Observer(builder: (BuildContext context) {
+                        if (qubicHubStore.versionInfo == null) {
+                          return Text(l10n.generalLabelLoading);
+                        }
+                        return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                  "Version ${qubicHubStore.versionInfo!}${qubicHubStore.buildNumber!.isNotEmpty ? " (${qubicHubStore.buildNumber!})" : ""}",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondary,
+                                          fontSize: needsSqueeze
+                                            ? Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall!
+                                                    .fontSize! *
+                                                fontScaleRatio
+                                              : Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .fontSize,
+                                          fontFamily: ThemeFonts.secondary)),
+                              qubicHubStore.updateAvailable
+                                  ? Text("Update available",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall!
+                                          .copyWith(
+                                              color: Colors.red,
+                                              fontFamily: ThemeFonts.secondary))
+                                  : Container(),
+                            ]);
+                      })
+                    ]),
+                // onPressed: (BuildContext? context) async {
+                //   pushNewScreen(
+                //     context!,
+                //     screen: const AboutWallet(),
+                //     withNavBar: false, // OPTIONAL VALUE. True by default.
+                //     pageTransitionAnimation:
+                //         PageTransitionAnimation.cupertino,
+                //   );
+                // }),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -403,14 +527,21 @@ class _TabSettingsState extends State<TabSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          minimum: ThemeEdgeInsets.pageInsets
-              .copyWith(left: 0, right: 0, top: 0, bottom: 0),
-          child: Column(children: [
-            Expanded(
-                child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: getBody()))
-          ])),
+        minimum: ThemeEdgeInsets.pageInsets
+            .copyWith(left: 0, right: 0, top: 0, bottom: 0),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                getHeader(),
+                getSettings(),
+              ],
+          ),
+        ),
+      ),
     );
   }
 }
