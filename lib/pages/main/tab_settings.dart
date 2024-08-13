@@ -177,6 +177,7 @@ class _TabSettingsState extends State<TabSettings> {
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
       child: SettingsList(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         applicationType: ApplicationType.material,
         contentPadding: const EdgeInsets.all(0),
         darkTheme: theme,
@@ -224,8 +225,6 @@ class _TabSettingsState extends State<TabSettings> {
                           await secureStorage.deleteWallet();
                           await settingsStore.loadSettings();
                           appStore.checkWalletIsInitialized();
-                          appStore.setCurrentTabIndex(
-                              0); // so after another wallet is created, it goes to Home
                           appStore.signOut();
                           timedController.stopFetchTimer();
                           Navigator.pop(context);
