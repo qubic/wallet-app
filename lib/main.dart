@@ -51,8 +51,6 @@ class WalletApp extends StatefulWidget {
 }
 
 class _WalletAppState extends State<WalletApp> {
-  final QubicCmd qubicCmd = getIt<QubicCmd>();
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
