@@ -53,6 +53,9 @@ showAlertDialog(BuildContext context, String title, String message,
     onPressed: () async {
       if (primaryButtonFunction != null) {
         primaryButtonFunction();
+      } else {
+        Navigator.of(context)
+            .pop(); // if not custom action defined, the alert is dismissed
       }
     },
   );
