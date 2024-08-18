@@ -689,7 +689,7 @@
     },
     "cmdErrorCreatingTransferTransactionGeneric": "Fehler beim Erstellen der Überweisungstransaktion",
     "cmdErrorCreatingTransferTransactionEmpty": "Fehler beim Erstellen der Überweisungstransaktion. Die generierte Transaktion ist leer",
-    "cmdErrorCreatingTransferTransaction": "Fehler beim Erstellen der Überweisungstransaktionn: {errorDescription}",
+    "cmdErrorCreatingTransferTransaction": "Fehler beim Erstellen der Überweisungstransaktion: {errorDescription}",
     "@cmdErrorCreatingTransferTransaction": {
         "placeholders": {
             "errorDescription": {
