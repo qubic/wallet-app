@@ -5,6 +5,7 @@ class QubicId {
   late String _publicId; //The public ID
   late String _name; //A descriptive name of the ID
   late double? _amount; //The amount of the ID
+  late bool _watchOnly; // This ID is watch only, means _privateSeed is empty
 
   factory QubicId.fromJson(Map<String, dynamic> json) {
     var privateSeed = json['privateSeed'];
@@ -19,6 +20,7 @@ class QubicId {
     _publicId = publicId.replaceAll(",", "_");
     _name = name.replaceAll(",", "_");
     _amount = amount;
+    _watchOnly = _privateSeed == '' ? true : false;
   }
 
   double? getAmount() {
@@ -27,6 +29,7 @@ class QubicId {
 
   void setPrivateSeed(String? privateSeed) {
     _privateSeed = privateSeed?.replaceAll(",", "_");
+    _watchOnly = _privateSeed == '' ? true : false;
   }
 
   void setPublicId(String publicId) {
@@ -48,4 +51,6 @@ class QubicId {
   getName() {
     return _name;
   }
+
+  isWatchOnly() => _watchOnly;
 }

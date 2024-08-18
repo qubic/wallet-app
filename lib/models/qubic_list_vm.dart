@@ -20,10 +20,14 @@ class QubicListVm {
   @observable
   late bool? hasPendingTransaction;
 
+  @observable
+  late bool watchOnly;
+
   QubicListVm(String publicId, String name, this.amount, this.amountTick,
-      Map<String, QubicAssetDto>? assets) {
+      Map<String, QubicAssetDto>? assets, this.watchOnly) {
     _publicId = publicId.replaceAll(",", "_");
     _name = name.replaceAll(",", "_");
+
     this.assets.clear();
     if (assets != null) {
       this.assets.addAll(assets);
@@ -95,6 +99,7 @@ class QubicListVm {
         original.name,
         original.amount,
         original.amountTick,
-        Map<String, QubicAssetDto>.from(original.getClonedAssets()));
+        Map<String, QubicAssetDto>.from(original.getClonedAssets()),
+        original.watchOnly);
   }
 }
