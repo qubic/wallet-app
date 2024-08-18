@@ -66,14 +66,18 @@ abstract class _ApplicationStore with Store {
 
   @computed
   int get totalAmounts {
-    return currentQubicIDs.fold<int>(
+    return currentQubicIDs
+        .where((qubic) => !qubic.watchOnly)
+        .fold<int>(
         0, (sum, qubic) => sum + (qubic.amount ?? 0));
   }
 
   @computed
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
-    return currentQubicIDs.fold<double>(0,
+    return currentQubicIDs
+        .where((qubic) => !qubic.watchOnly)
+        .fold<double>(0,
         (sum, qubic) => sum + (qubic.amount ?? 0) * marketInfo!.priceAsDouble);
   }
 
@@ -85,7 +89,9 @@ abstract class _ApplicationStore with Store {
   List<QubicAssetDto> get totalShares {
     List<QubicAssetDto> shares = [];
     List<QubicAssetDto> tokens = [];
-    currentQubicIDs.forEach((id) {
+    currentQubicIDs
+        .where((qubic) => !qubic.watchOnly)
+        .forEach((id) {
       id.assets.forEach((key, asset) {
         QubicAssetDto temp = asset.clone();
         temp.ownedAmount ??= 0;
@@ -235,7 +241,8 @@ abstract class _ApplicationStore with Store {
     await secureStorage.addManyIds(ids);
     for (var element in ids) {
       currentQubicIDs.add(QubicListVm(
-          element.getPublicId(), element.getName(), null, null, null));
+          element.getPublicId(), element.getName(), null, null, null,
+          element.getPrivateSeed() == '' ? true : false));
     }
   }
 
@@ -244,12 +251,13 @@ abstract class _ApplicationStore with Store {
     //Todo store in wallet
 
     await secureStorage.addID(QubicId(privateSeed, publicId, name, null));
-    currentQubicIDs.add(QubicListVm(publicId, name, null, null, null));
+    currentQubicIDs.add(QubicListVm(publicId, name, null, null, null,
+      privateSeed == '' ? true : false));
   }
 
   Future<String> getSeedById(String publicId) async {
-    var result = await secureStorage.getIdByPublicKey(publicId);
-    return result.getPrivateSeed();
+      var result = await secureStorage.getIdByPublicKey(publicId);
+      return result.getPrivateSeed();
   }
 
   @action
@@ -262,8 +270,6 @@ abstract class _ApplicationStore with Store {
         await secureStorage.renameId(publicId, name);
         return;
       }
-
-      //currentQubicIDs.forEach((element) {
     } //);
   }
 

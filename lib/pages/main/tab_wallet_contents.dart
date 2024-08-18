@@ -39,6 +39,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final bool showTickOnTop = false;
   final ScrollController _scrollController = ScrollController();
   String? signInError;
+
   // int? currentTick;
 
   ReactionDisposer? disposeAutorun;
@@ -137,7 +138,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                       onPressed: () {
                         pushScreen(
                           context,
-                          screen: const AddAccount(),
+                          screen: const AddAccount(
+                            isWatchOnly: false,
+                          ),
                           withNavBar: false, // OPTIONAL VALUE. True by default.
                           pageTransitionAnimation:
                               PageTransitionAnimation.cupertino,
@@ -168,11 +171,120 @@ class _TabWalletContentsState extends State<TabWalletContents> {
           });
       return;
     }
-    pushScreen(
-      context,
-      screen: const AddAccount(),
-      withNavBar: false, // OPTIONAL VALUE. True by default.
-      pageTransitionAnimation: PageTransitionAnimation.cupertino,
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return FractionallySizedBox(
+          heightFactor: 0.4,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(
+                    ThemePaddings.normalPadding,
+                    ThemePaddings.normalPadding,
+                    ThemePaddings.normalPadding,
+                    0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      constraints:
+                          const BoxConstraints(minWidth: 400, maxWidth: 500),
+                      child: Card(
+                        color: LightThemeColors.cardBackground,
+                        elevation: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              ThemePaddings.normalPadding,
+                              ThemePaddings.normalPadding,
+                              ThemePaddings.normalPadding,
+                              0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              ListTile(
+                                leading: Icon(Icons.account_circle),
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Create New Account",
+                                        style: TextStyles.labelText.copyWith()),
+                                    Text("Add new Qubic account",
+                                        style: TextStyles.textNormal.copyWith())
+                                  ],
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  pushScreen(
+                                    context,
+                                    screen:
+                                        const AddAccount(isWatchOnly: false),
+                                    withNavBar: false,
+                                    pageTransitionAnimation:
+                                        PageTransitionAnimation.cupertino,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      constraints:
+                          const BoxConstraints(minWidth: 400, maxWidth: 500),
+                      child: Card(
+                        color: LightThemeColors.cardBackground,
+                        elevation: 0,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(
+                              ThemePaddings.normalPadding,
+                              ThemePaddings.normalPadding,
+                              ThemePaddings.normalPadding,
+                              0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              ListTile(
+                                leading: Icon(Icons.visibility),
+                                title: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Watch only address",
+                                      style: TextStyles.labelText,
+                                    ),
+                                    Text(
+                                      "Track a Qubic public address",
+                                      style: TextStyles.textNormal.copyWith(),
+                                    ),
+                                  ],
+                                ),
+                                onTap: () {
+                                  Navigator.pop(context);
+                                  pushScreen(
+                                    context,
+                                    screen: const AddAccount(isWatchOnly: true),
+                                    withNavBar: false,
+                                    pageTransitionAnimation:
+                                        PageTransitionAnimation.cupertino,
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 

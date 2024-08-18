@@ -229,7 +229,8 @@ class SecureStorage {
     List<QubicListVm> list = [];
     for (int i = 0; i < settings.publicIds.length; i++) {
       list.add(QubicListVm(
-          settings.publicIds[i], settings.names[i], null, null, null));
+          settings.publicIds[i], settings.names[i], null, null, null,
+          settings.isWatchOnly[i]));
     }
     return list;
   }
@@ -288,7 +289,7 @@ class SecureStorage {
       throw Exception("ID not found");
     }
     return QubicId(settings.privateSeeds[i], settings.publicIds[i],
-        settings.names[i], null);
+          settings.names[i], null);
   }
 
   //Removes a Qubic ID from the secure Storage (Based on its public key)
