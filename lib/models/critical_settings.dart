@@ -26,6 +26,8 @@ class CriticalSettings {
   /// The derivation index for the generated Ids
   late int derivationIndex;
 
+  late List<bool> isWatchOnly;
+
   CriticalSettings(
       {required this.storedPasswordHash,
       required this.publicIds,
@@ -35,6 +37,7 @@ class CriticalSettings {
       this.mnemonic,
       this.idsGeneratedFromMnemonic = const []}) {
     padding ??= _generateRandomString();
+    isWatchOnly = privateSeeds.map((seed) => seed == '-1').toList();
   }
 
   String _generateRandomString() {

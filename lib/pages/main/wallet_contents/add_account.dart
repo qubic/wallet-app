@@ -21,7 +21,9 @@ import 'package:qubic_wallet/timed_controller.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AddAccount extends StatefulWidget {
-  const AddAccount({super.key});
+  final bool isWatchOnly;
+
+  const AddAccount({super.key, required this.isWatchOnly});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -29,7 +31,8 @@ class AddAccount extends StatefulWidget {
 }
 
 class _AddAccountState extends State<AddAccount> {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final _createAccountFormKey = GlobalKey<FormBuilderState>();
+  final _watchOnlyFormKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
@@ -38,6 +41,8 @@ class _AddAccountState extends State<AddAccount> {
   bool generatingId = false;
 
   String? generatedPublicId;
+  String? watchOnlyId;
+
   @override
   void initState() {
     super.initState();
@@ -138,7 +143,7 @@ class _AddAccountState extends State<AddAccount> {
               ]),
               ThemedControls.spacerVerticalMini(),
               FormBuilder(
-                  key: _formKey,
+                  key: _createAccountFormKey,
                   child: Column(
                     children: [
                       FormBuilderTextField(
@@ -272,7 +277,8 @@ class _AddAccountState extends State<AddAccount> {
                                                   ThemePaddings.smallPadding),
                                           child: IconButton(
                                               onPressed: () async {
-                                                if ((_formKey.currentState
+                                                if ((_createAccountFormKey
+                                                                .currentState
                                                                 ?.instantValue[
                                                             "privateSeed"]
                                                         as String)
@@ -281,7 +287,8 @@ class _AddAccountState extends State<AddAccount> {
                                                   return;
                                                 }
                                                 copyToClipboard(
-                                                    _formKey.currentState
+                                                    _createAccountFormKey
+                                                            .currentState
                                                             ?.instantValue[
                                                         "privateSeed"],
                                                     context);
@@ -318,69 +325,116 @@ class _AddAccountState extends State<AddAccount> {
                               l10n.addAccountHeaderKeepPrivateSeedSecret,
                               style: TextStyles.assetSecondaryTextLabel)),
                       const SizedBox(height: ThemePaddings.normalPadding),
-                      ThemedControls.spacerVerticalNormal(),
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(l10n.generalLabeQubicAddressAndPublicID,
-                              style: TextStyles.labelTextNormal)),
-                      ThemedControls.spacerVerticalMini(),
-                      Builder(builder: (context) {
-                        return ThemedControls.card(
-                            child: Flex(direction: Axis.horizontal, children: [
-                          Flexible(
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                ThemedControls.spacerVerticalMini(),
-                                generatedPublicId == null
-                                    ? privateSeed.value.text.isEmpty
-                                        ? Text(
-                                            l10n
-                                                .addAccountHintAddressNoPrivateSeed,
-                                            textAlign: TextAlign.right,
-                                            style: TextStyles.textNormal
-                                                .copyWith(
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontStyle:
-                                                        FontStyle.italic))
-                                        : Text(
-                                            l10n
-                                                .addAccountHintAddressInvalidPrivateSeed,
-                                            style: TextStyles.textNormal
-                                                .copyWith(
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                    fontStyle:
-                                                        FontStyle.italic))
-                                    : SelectableText(generatedPublicId!,
-                                        style: TextStyles.textNormal)
-                              ])),
-                          generatedPublicId == null
-                              ? Container()
-                              : IconButton(
-                                  onPressed: () async {
-                                    if (generatedPublicId == null) {
-                                      return;
-                                    }
-                                    copyToClipboard(
-                                        generatedPublicId!, context);
-                                  },
-                                  icon: LightThemeColors.shouldInvertIcon
-                                      ? ThemedControls.invertedColors(
-                                          child: Image.asset(
-                                              "assets/images/Group 2400.png"))
-                                      : Image.asset(
-                                          "assets/images/Group 2400.png"))
-                        ]));
-                      })
                     ],
                   ))
             ],
           ))
         ]));
+  }
+
+  Widget getWatchOnlyScrollView() {
+    final l10n = l10nOf(context);
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Row(children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ThemedControls.pageHeader(headerText: "Watch Only"),
+              ThemedControls.spacerVerticalSmall(),
+              FormBuilder(
+                key: _watchOnlyFormKey,
+                child: Column(
+                  children: [
+                    const Text("Add a public Qubic address to watch. You do not have the permission to send or receive any transaction."),
+                    ThemedControls.spacerVerticalHuge(),
+                    Row(children: [
+                      Text(l10n.addAccountLabelAccountName,
+                          style: TextStyles.labelTextNormal),
+                      Tooltip(
+                          triggerMode: TooltipTriggerMode.tap,
+                          showDuration: const Duration(seconds: 5),
+                          message: l10n.addAccountTooltipAccountName,
+                          child: LightThemeColors.shouldInvertIcon
+                              ? ThemedControls.invertedColors(
+                                  child: Image.asset(
+                                      "assets/images/question-active-16.png"))
+                              : Image.asset(
+                                  "assets/images/question-active-16.png")),
+                    ]),
+                    ThemedControls.spacerVerticalSmall(),
+                    FormBuilderTextField(
+                      onSubmitted: (String? text) {
+                        saveIdHandler();
+                      },
+                      name: "accountName",
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(
+                            errorText: l10n.generalErrorRequiredField),
+                        CustomFormFieldValidators.isNameAvailable(
+                            currentQubicIDs: appStore.currentQubicIDs,
+                            context: context)
+                      ]),
+                      readOnly: isLoading,
+                      style: TextStyles.inputBoxSmallStyle,
+                      decoration: ThemeInputDecorations.normalInputbox
+                          .copyWith(hintText: l10n.addAccountHintAccountName),
+                      autocorrect: false,
+                      autofillHints: null,
+                    ),
+                    ThemedControls.spacerVerticalSmall(),
+                    Row(children: [
+                      Text(l10n.generalLabeQubicAddressAndPublicID,
+                          style: TextStyles.labelTextNormal),
+                      ThemedControls.spacerHorizontalSmall(),
+                      Tooltip(
+                          triggerMode: TooltipTriggerMode.tap,
+                          showDuration: const Duration(seconds: 5),
+                          message: "A Public ID is made of 60 upper cases.",
+                          child: LightThemeColors.shouldInvertIcon
+                              ? ThemedControls.invertedColors(
+                                  child: Image.asset(
+                                      "assets/images/question-active-16.png"))
+                              : Image.asset(
+                                  "assets/images/question-active-16.png")),
+                    ]),
+                    ThemedControls.spacerVerticalMini(),
+                    FormBuilderTextField(
+                      name: "publicAddress",
+                      maxLength: 60,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(
+                            errorText: l10n.generalErrorRequiredField),
+                        CustomFormFieldValidators.isPublicID(context: context)
+                        // Use a validator suitable for public addresses
+                      ]),
+                      onChanged: (value) {
+                        setState(() {
+                          watchOnlyId = value;
+                        });
+                      },
+                      onSubmitted: (value) {
+                        savePublicIdHandler();
+                      },
+                      readOnly: isLoading,
+                      style: TextStyles.inputBoxSmallStyle,
+                      decoration: ThemeInputDecorations.normalInputbox
+                          .copyWith(hintText: l10n.addAccountHintAccountName),
+                      autocorrect: false,
+                      autofillHints: null,
+                    ),
+                    ThemedControls.spacerVerticalNormal(),
+                    ThemedControls.spacerVerticalNormal(),
+                    const SizedBox(height: ThemePaddings.normalPadding),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
   }
 
   List<Widget> getButtons() {
@@ -401,7 +455,8 @@ class _AddAccountState extends State<AddAccount> {
       ThemedControls.spacerHorizontalNormal(),
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
-              onPressed: saveIdHandler,
+              onPressed:
+                  widget.isWatchOnly ? savePublicIdHandler : saveIdHandler,
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
                   child: Text(l10n.generalButtonSave,
@@ -410,13 +465,52 @@ class _AddAccountState extends State<AddAccount> {
     ];
   }
 
+  void savePublicIdHandler() async {
+    final l10n = l10nOf(context);
+    _watchOnlyFormKey.currentState?.validate();
+    if (!_watchOnlyFormKey.currentState!.isValid) {
+      return;
+    }
+
+    //Prevent duplicates
+    if (appStore.currentQubicIDs
+        .where(((element) =>
+            element.publicId == watchOnlyId!.replaceAll(",", "_")))
+        .isNotEmpty) {
+      _globalSnackBar.show(l10n.generalSnackBarMessageAccountAlreadyExist);
+
+      return;
+    }
+
+    await _savePublicId();
+    getIt<TimedController>().interruptFetchTimer();
+  }
+
+  Future<void> _savePublicId() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await appStore.addId(
+        _watchOnlyFormKey.currentState?.instantValue["accountName"] as String,
+        watchOnlyId!,
+        '-1');
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (!mounted) return;
+    Navigator.pop(context);
+  }
+
   void saveIdHandler() async {
     final l10n = l10nOf(context);
-    _formKey.currentState?.validate();
+    _createAccountFormKey.currentState?.validate();
     if (generatingId) {
       return;
     }
-    if (!_formKey.currentState!.isValid) {
+    if (!_createAccountFormKey.currentState!.isValid) {
       return;
     }
 
@@ -439,6 +533,7 @@ class _AddAccountState extends State<AddAccount> {
         builder: (BuildContext context) {
           return SafeArea(
               child: AddAccountWarningSheet(onAccept: () async {
+            if (!mounted) return;
             Navigator.pop(context);
             await _saveId();
             getIt<TimedController>().interruptFetchTimer();
@@ -453,14 +548,15 @@ class _AddAccountState extends State<AddAccount> {
       isLoading = true;
     });
     await appStore.addId(
-      _formKey.currentState?.instantValue["accountName"] as String,
+      _createAccountFormKey.currentState?.instantValue["accountName"] as String,
       generatedPublicId!,
-      _formKey.currentState?.instantValue["privateSeed"] as String,
+      _createAccountFormKey.currentState?.instantValue["privateSeed"] as String,
     );
 
     setState(() {
       isLoading = false;
     });
+    if (!mounted) return;
     Navigator.pop(context);
   }
 
@@ -469,6 +565,7 @@ class _AddAccountState extends State<AddAccount> {
   bool showAccountInfoTooltip = false;
   bool showSeedInfoTooltip = false;
   bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -481,7 +578,11 @@ class _AddAccountState extends State<AddAccount> {
                 minimum: ThemeEdgeInsets.pageInsets
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
-                  Expanded(child: getScrollView()),
+                  Expanded(
+                    child: widget.isWatchOnly
+                        ? getWatchOnlyScrollView() // Use the watch-only UI
+                        : getScrollView(), // Use the old form UI without watch-only snippet
+                  ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: getButtons())
