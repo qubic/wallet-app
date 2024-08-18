@@ -62,15 +62,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
           },
         );
       }
-    } else if (state == AppLifecycleState.resumed) {
+    }
+    if (state == AppLifecycleState.resumed) {
       // Cancel the timer when the app is resumed
       _lockTimer?.cancel();
       if (!applicationStore.isSignedIn) {
         context.go('/signIn');
       }
-    }
-    if (state == AppLifecycleState.resumed) {
-      qubicCmd.reinitialize();
     }
   }
 
