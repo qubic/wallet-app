@@ -279,8 +279,6 @@ class _AccountListItemState extends State<AccountListItem> {
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewInExplorer,
-                    enabled:
-                        widget.item.amount != null && widget.item.amount! > 0,
                     child: Text(l10n.accountButtonViewInExplorer),
                   ),
                   PopupMenuItem<CardItem>(
