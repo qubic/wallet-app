@@ -220,6 +220,7 @@ class _AddAccountState extends State<AddAccount> {
                             try {
                               setState(() {
                                 generatingId = true;
+                                generatedPublicId = null;
                               });
                               var newId =
                                   await qubicCmd.getPublicIdFromSeed(value);
@@ -346,8 +347,10 @@ class _AddAccountState extends State<AddAccount> {
                                                     fontStyle:
                                                         FontStyle.italic))
                                         : Text(
-                                            l10n
-                                                .addAccountHintAddressInvalidPrivateSeed,
+                                            !generatingId
+                                                ? l10n
+                                                    .addAccountHintAddressInvalidPrivateSeed
+                                                : l10n.generalLabelLoading,
                                             style: TextStyles.textNormal
                                                 .copyWith(
                                                     fontSize: 12,
