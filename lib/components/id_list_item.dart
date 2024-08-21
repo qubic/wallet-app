@@ -198,7 +198,6 @@ class IdListItem extends StatelessWidget {
               ),
               PopupMenuItem<CardItem>(
                 value: CardItem.viewInExplorer,
-                enabled: item.amount != null && item.amount! > 0,
                 child: Text(l10n.accountButtonViewInExplorer),
               ),
               PopupMenuItem<CardItem>(
