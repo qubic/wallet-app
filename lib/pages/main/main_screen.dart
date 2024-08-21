@@ -22,6 +22,7 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:privacy_screen/privacy_screen.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialTabIndex;
@@ -76,6 +77,20 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
+    PrivacyScreen.instance.enable(
+      iosOptions: const PrivacyIosOptions(
+        enablePrivacy: true,
+        autoLockAfterSeconds: 0,
+        lockTrigger: IosLockTrigger.didEnterBackground,
+      ),
+      androidOptions: const PrivacyAndroidOptions(
+        enableSecure: true,
+        autoLockAfterSeconds: 0,
+      ),
+      blurEffect: PrivacyBlurEffect.dark,
+      backgroundColor: Colors.transparent,
+    );
 
     _timedController.setupFetchTimer(true);
     _timedController.setupSlowTimer(true);
