@@ -24,7 +24,7 @@ Find us on discord (https://discord.com/invite/2vDMR8m).
 # Supported Platforms
 
 - [x] iOS - Available in the [App Store](https://apps.apple.com/us/app/qubic-wallet/id6502265811)
-- [x] Android - Available soon in Play Store
+- [x] Android - Available in the [Play Store](https://play.google.com/store/apps/details?id=org.qubic.wallet)
 - [x] Windows
 - [x] Linux
 - [x] MacOS
@@ -61,7 +61,7 @@ Your keys are never shared to any 3rd party. Yet the wallet uses some backend se
 
 ### Access to Qubic Network
 
-Access to the Qubic Network is currently provided by the wonderful work of (https://www.qubic.org). We are working with a new version to iterface directly with the Computor nodes.
+Access to the Qubic Network is currently provided by the wonderful work of (https://www.qubic.org). We are working with a new version to interface directly with the Computor nodes.
 
 # Compiling - Downloading - Running
 
@@ -120,7 +120,3 @@ Abovementioned restrictions should apply to all modification, alteration, merge,
 The above copyright notice and this permission notice shall be included in all copies or substantial portions, modifications and alterations of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-# Donations
-
-If you want to support us, please donate to WZFSPXPLXKNWFDLNMZHQTGMSRIHBEBITVDUXOSVSZGBREGIUVNWVZBIETEQF
