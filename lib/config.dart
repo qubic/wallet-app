@@ -37,18 +37,18 @@ abstract class Config {
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(
-          filename: "qubic-helper-win-x64-3_0_5.exe",
+          filename: "qubic-helper-win-x64-3_0_6.exe",
           downloadPath:
               "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-win-x64-3_0_6.exe",
           checksum: "55236d3b6d5d7c795807cbf89f77423d"),
       linux64: QubicHelperConfigEntry(
-          filename: "qubic-helper-linux-x64-3_0_5",
+          filename: "qubic-helper-linux-x64-3_0_6",
           downloadPath:
               "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-linux-x64-3_0_6",
           checksum: "503a87fadc425692b7d0d0579f56683e"),
       macOs64: QubicHelperConfigEntry(
-          filename: "qubic-helper-mac-x64-3_0_5",
+          filename: "qubic-helper-mac-x64-3_0_6",
           downloadPath:
               "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-mac-x64-3_0_6",
-          checksum: "bc83e4f4350eab06a92a456ca30b5755"));
+          checksum: "45588af4b72234858dca3e1094f2aaeb"));
 }
