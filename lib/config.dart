@@ -39,17 +39,16 @@ abstract class Config {
       win64: QubicHelperConfigEntry(
           filename: "qubic-helper-win-x64-3_0_5.exe",
           downloadPath:
-              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/3.0.5/qubic-helper-win-x64-3_0_5.exe",
-          checksum:
-              "17c9931483d65d693f304b8da7a19522"), // was 4dcab1001193a7ed3abf3485cd99eff0 for 2_0_1
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-win-x64-3_0_6.exe",
+          checksum: "55236d3b6d5d7c795807cbf89f77423d"),
       linux64: QubicHelperConfigEntry(
           filename: "qubic-helper-linux-x64-3_0_5",
           downloadPath:
-              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/3.0.5/qubic-helper-linux-x64-3_0_5",
-          checksum: "a1737ce965a51e33ded5fd2ddddc9fe9"),
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-linux-x64-3_0_6",
+          checksum: "503a87fadc425692b7d0d0579f56683e"),
       macOs64: QubicHelperConfigEntry(
           filename: "qubic-helper-mac-x64-3_0_5",
           downloadPath:
-              "https://github.com/Qubic-Hub/qubic-helper-utils/releases/download/3.0.5/qubic-helper-mac-x64-3_0_5",
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-mac-x64-3_0_6",
           checksum: "bc83e4f4350eab06a92a456ca30b5755"));
 }
