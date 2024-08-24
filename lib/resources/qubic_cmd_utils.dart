@@ -47,12 +47,12 @@ class QubicCmdUtils {
     }
   }
 
-  Future<String> _getHelperFileFullPath() async {
+  Future<String> _getHelperFileFullPath({bool isExecutionPath = true}) async {
     var directory = await getApplicationSupportDirectory();
 
     String scriptPath = path.join(directory.path, _getConfig().filename);
 
-    if (UniversalPlatform.isMacOS) {
+    if (UniversalPlatform.isMacOS && isExecutionPath) {
       // copy the script to the temporary directory from where it can be executed
       scriptPath = await copyScriptToTempDirectory(scriptPath);
     }
@@ -61,12 +61,14 @@ class QubicCmdUtils {
   }
 
   Future<bool> checkIfUtilitiesExist() async {
-    return await File(await _getHelperFileFullPath()).exists();
+    return await File(await _getHelperFileFullPath(isExecutionPath: false))
+        .exists();
   }
 
   Future<bool> checkUtilitiesChecksum() async {
-    String generatedChecksum =
-        await _getFileChecksum(await _getHelperFileFullPath()) ?? "";
+    String generatedChecksum = await _getFileChecksum(
+            await _getHelperFileFullPath(isExecutionPath: false)) ??
+        "";
     String configChecksum = _getConfig().checksum;
     return (generatedChecksum == configChecksum);
   }
