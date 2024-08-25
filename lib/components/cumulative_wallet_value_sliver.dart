@@ -53,17 +53,13 @@ class _CumulativeWalletValueSliverState
   }
 
   Widget getTotalUSD() {
-    return Text("\$${numberFormat.format(appStore.totalAmountsInUSD.toInt())}",
-        style: TextStyles.sliverSmall);
-    // return AmountFormatted(
-    //   amount: appStore.totalAmountsInUSD.toInt(),
-    //   prefix: "\$",
-    //   isInHeader: true,
-    //   hideLabel: true,
-    //   currencyName: 'USD',
-    //   labelOffset: -2,
-    //   textStyle: TextStyles.sliverSmall,
-    // );
+    // Create a NumberFormat object for USD currency with 2 decimal places
+    NumberFormat currencyFormat =
+        NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+
+    // Format the double value as a USD amount
+    String formattedValue = currencyFormat.format(appStore.totalAmountsInUSD);
+    return Text(formattedValue);
   }
 
   Widget getConversion() {
