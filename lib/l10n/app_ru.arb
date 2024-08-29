@@ -188,7 +188,7 @@
     "generalBiometricTypeIris": "Iris",
     "generalBiometricTypeOS": "OS",
     "generalBiometricTypeGeneric": "Biometric",
-    "settingsLabelManageBiometrics": "Manage Unlock with {biometricTypeLabel}",
+    "settingsLabelManageBiometrics": "Управляйте разблокировкой с помощью {biometricTypeLabel}",
     "@settingsLabelManageBiometrics": {
         "placeholders": {
             "biometricTypeLabel": {
