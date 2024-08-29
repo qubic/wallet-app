@@ -59,7 +59,7 @@ class _CumulativeWalletValueSliverState
 
     // Format the double value as a USD amount
     String formattedValue = currencyFormat.format(appStore.totalAmountsInUSD);
-    return Text(formattedValue);
+    return Text(formattedValue, style: TextStyles.sliverSmall);
   }
 
   Widget getConversion() {
