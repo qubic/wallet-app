@@ -739,5 +739,15 @@
     },
     "generalErrorFileRequired": "Выберите файл",
     "generalErrorPathRequired": "Выберите путь",
-    "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15."
+    "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15.",
+    "cmdErrorVerifyingIdentityGeneric": "Ошибка при проверке личности.",
+    "cmdErrorVerifyingIdentity": "Невозможно подтвердить вашу личность: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "addAccountInvalidWatchOnlyId": "Недействительный адрес только для просмотра!"
 }

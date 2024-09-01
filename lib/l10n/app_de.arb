@@ -739,5 +739,15 @@
     },
     "generalErrorFileRequired": "Bitte wählen Sie eine Datei",
     "generalErrorPathRequired": "Bitte wählen Sie einen Pfad",
-    "homeWarningTooManyAccounts": "Sie haben mehr als 15 Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben."
+    "homeWarningTooManyAccounts": "Sie haben mehr als 15 Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
+    "cmdErrorVerifyingIdentityGeneric": "Fehler bei der Überprüfung der Identität.",
+    "cmdErrorVerifyingIdentity": "Ihre Identität kann nicht überprüft werden: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "addAccountInvalidWatchOnlyId": "Ungültige Watch-Only-Adresse!"
 }

@@ -472,6 +472,28 @@ class _AddAccountState extends State<AddAccount> {
       return;
     }
 
+    String? publicId = _watchOnlyFormKey.currentState?.instantValue["publicAddress"] as String?;
+
+    if (publicId == null || publicId.isEmpty) {
+      _globalSnackBar.show("Error! Please input your watch address. It should not be empty.");
+      return;
+    }
+
+    try {
+      // Verify the public ID
+      bool isValid = await qubicCmd.verifyIdentity(publicId);
+
+      if (!isValid) {
+        // Show an error message if verification fails
+        _globalSnackBar.showError(l10n.addAccountErrorVerifyIdentityWrongIdentity);
+        return;
+      }
+    } catch (e) {
+      // Handle errors during verification
+      _globalSnackBar.showError(l10n.addAccountErrorVerifyIdentityError);
+      return;
+    }
+
     //Prevent duplicates
     if (appStore.currentQubicIDs
         .where(((element) =>

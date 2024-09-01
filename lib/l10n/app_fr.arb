@@ -427,10 +427,6 @@
     "addAccountHintAddressInvalidPrivateSeed": "Seed privée fournie invalide",
     "addAccountErrorTamperedWalletTitle": "PORTEFEUILLE MODIFIÉ DÉTECTÉ",
     "addAccountErrorTamperedWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP OU RISQUEZ UNE PERTE DE FONDS",
-    "addAccountCreateNewAccountModalBottomSheet": "Créer un nouveau compte",
-    "addAccountCreateNewAccountSubtitleModalBottomSheet": "Ajouter un nouveau compte Qubic",
-    "addAccountWatchOnlyAddressModalBottomSheet": "Adresse en lecture seule",
-    "addAccountWatchOnlyAddressSubtitleModalBottomSheet": "Suivre une adresse publique Qubic",
     "sendAssetLabelNumberOfShares": "Nombre de Parts",
     "sendAssetLabelTransactionCost": "Coût de la Transaction (fixe)",
     "sendAssetButtonTransfer": "Transférer",
@@ -657,7 +653,12 @@
     "settingsLabelAutlock": "Verrouiller automatiquement",
     "importVaultDialogTitleTooManyAccounts": "Trop de comptes trouvés",
     "importVaultDialogMessageTooManyAccounts": "Votre fichier vault contient plus de 15 comptes. Tous les comptes seront importés, mais pour pouvoir visualiser vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
+    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Comptes en Consultation Seule et trop de comptes trouvés",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Votre fichier vault contient plus de 15 comptes, dont certains sont en Consultation Seule. Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés, mais pour pouvoir consulter vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
+    "importVaultDialogTitleWatchAccount": "Comptes en Consultation Seule trouvés",
+    "importVaultDialogMessageWatchAccount": "Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés.",
     "importVaultErrorNoAccountsFound": "Aucun compte n'a été trouvé dans votre fichier vault. Nous ne pouvons pas procéder à l'importation.",
+    "importVaultErrorOnlyWatchAccountsFound": "Votre fichier vault contient uniquement des comptes en Consultation Seule. Comme nous ne prenons actuellement pas en charge ces comptes, nous ne pouvons pas procéder à l'importation.",
     "importVaultFilePickerLabel": "Veuillez sélectionner le fichier vault pour continuer:",
     "importVaultFileErrorGeneralMessage": "Erreur lors de l'importation du fichier vault: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
@@ -739,5 +740,15 @@
     },
     "generalErrorFileRequired": "Veuillez remplir le fichier",
     "generalErrorPathRequired": "Veuillez remplir le chemin du fichier",
-    "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins"
+    "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins",
+    "cmdErrorVerifyingIdentityGeneric": "Erreur de vérification de l'identité.",
+    "cmdErrorVerifyingIdentity": "Impossible de vérifier votre identité: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "addAccountInvalidWatchOnlyId": "Adresse en lecture seule invalide!"
 }

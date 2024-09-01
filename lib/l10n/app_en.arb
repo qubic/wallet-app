@@ -409,6 +409,8 @@
             }
         }
     },
+    "addAccountErrorVerifyIdentityWrongIdentity": "Invalid watch address. Please check your watch address input.",
+    "addAccountErrorVerifyIdentityError": "Unable to verify identity!",
     "addAccountErrorNameAlreadyInUse": "Name is already in use",
     "addAccountErrorPublicIDAlreadyInUse": "Public ID already in use",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Max accounts limit reached",
@@ -676,6 +678,8 @@
         }
     },
     "importPrivateSeedDefaultAccountName": "Account 1",
+    "cmdErrorVerifyIdentityJsonDecoding": "Error when decode output of verifyIdentity",
+    "cmdErrorVerifyIdentityParsingError": "Error parsing output of verifyIdentity",
     "cmdErrorCreatingAssetTransferTransactionGeneric": "Error trying to create asset transfer transaction",
     "cmdErrorCreatingAssetTransferTransactionEmpty": "Error trying to create asset transfer transaction. Generated transaction was empty",
     "cmdErrorCreatingAssetTransferTransaction": "Error trying to create asset transfer transaction: {errorDescription}",
@@ -739,5 +743,15 @@
     },
     "generalErrorFileRequired": "Please select a file",
     "generalErrorPathRequired": "Please select a path",
-    "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer."
+    "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
+    "cmdErrorVerifyingIdentityGeneric": "Error verifying the identity.",
+    "cmdErrorVerifyingIdentity": "Cannot verify your identity: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "addAccountInvalidWatchOnlyId": "Invalid Watch Only Address!"
 }

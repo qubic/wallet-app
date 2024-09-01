@@ -739,5 +739,8 @@
     },
     "generalErrorFileRequired": "请选择文件",
     "generalErrorPathRequired": "请选择路径",
-    "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。"
+    "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。",
+    "cmdErrorVerifyingIdentityGeneric": "验证身份时出错。",
+    "cmdErrorVerifyingIdentity": "无法验证您的身份。",
+    "addAccountInvalidWatchOnlyId": "无效的只读地址！"
 }

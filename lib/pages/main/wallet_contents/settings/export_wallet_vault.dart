@@ -385,9 +385,6 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     List<QubicVaultExportSeed> seeds = [];
     for (var element in appStore.currentQubicIDs) {
       var seed = await appStore.getSeedById(element.publicId);
-      // if (seed == "-1") {
-      //   seed = "";
-      // }
       seeds.add(QubicVaultExportSeed(
           seed: seed,
           alias: element.name,
