@@ -653,12 +653,7 @@
     "settingsLabelAutlock": "Verrouiller automatiquement",
     "importVaultDialogTitleTooManyAccounts": "Trop de comptes trouvés",
     "importVaultDialogMessageTooManyAccounts": "Votre fichier vault contient plus de 15 comptes. Tous les comptes seront importés, mais pour pouvoir visualiser vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Comptes en Consultation Seule et trop de comptes trouvés",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Votre fichier vault contient plus de 15 comptes, dont certains sont en Consultation Seule. Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés, mais pour pouvoir consulter vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
-    "importVaultDialogTitleWatchAccount": "Comptes en Consultation Seule trouvés",
-    "importVaultDialogMessageWatchAccount": "Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés.",
     "importVaultErrorNoAccountsFound": "Aucun compte n'a été trouvé dans votre fichier vault. Nous ne pouvons pas procéder à l'importation.",
-    "importVaultErrorOnlyWatchAccountsFound": "Votre fichier vault contient uniquement des comptes en Consultation Seule. Comme nous ne prenons actuellement pas en charge ces comptes, nous ne pouvons pas procéder à l'importation.",
     "importVaultFilePickerLabel": "Veuillez sélectionner le fichier vault pour continuer:",
     "importVaultFileErrorGeneralMessage": "Erreur lors de l'importation du fichier vault: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
