@@ -659,12 +659,7 @@
     "settingsLabelAutlock": "Настройки автоблокировки",
     "importVaultDialogTitleTooManyAccounts": "Найдено слишком много учетных записей",
     "importVaultDialogMessageTooManyAccounts": "Ваш Vault файл содержит более 15 аккаунтов. Все аккаунты будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше 15.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Слишком много аккаунтов с режимом наблюдение.",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Ваш Vault файл содержит более 15 аккаунтов, некоторые из них в режиме наблюдение. Поскольку в настоящее время мы не поддерживаем аккаунты с функцией наблюдения, они будут проигнорированы. Все остальные будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше 15.",
-    "importVaultDialogTitleWatchAccount": "Найдены аккаунты в режиме наблюдения",
-    "importVaultDialogMessageWatchAccount": "Поскольку в настоящее время мы не поддерживаем учетные записи в режиме наблюдения, они будут проигнорированы. Все остальные будут импортированы.",
     "importVaultErrorNoAccountsFound": "В вашем файле Vault не обнаружено аккаунтов.",
-    "importVaultErrorOnlyWatchAccountsFound": "Ваш файл Vault содержит аккаунты только в режиме наблюдения, мы больше не поддерживаем их он не будет импортирован.",
     "importVaultFilePickerLabel": "Для продолжения выберите файл Vault:",
     "importVaultFileErrorGeneralMessage": "Ошибка при импортировании файла Vault: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {

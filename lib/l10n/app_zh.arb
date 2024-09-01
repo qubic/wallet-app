@@ -659,12 +659,7 @@
     "settingsLabelAutlock": "自动锁定设置",
     "importVaultDialogTitleTooManyAccounts": "账户数量过多",
     "importVaultDialogMessageTooManyAccounts": "您的 Vault 文件包含超过 15 个账户。所有账户都将被导入，在查看余额和发送资金前，请将账户数量调整至最多不超过 15 个。",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "观察账户和账户数量过多",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "您的 Vault 文件中包含了超过 15 个账户，其中一些为观察账户。目前不支持观察账户，这些将被忽略，其余账户都将被导入，在查看余额和发送资金前，请将账户数量调整至最多不超过 15 个。",
-    "importVaultDialogTitleWatchAccount": "仅观察账户",
-    "importVaultDialogMessageWatchAccount": "由于当前不支持观察账户，它们将会被忽略，其余账户都将被导入。",
     "importVaultErrorNoAccountsFound": "在您的 Vault 文件中未找到帐户。无法进行导入。",
-    "importVaultErrorOnlyWatchAccountsFound": "您的 Vault 文件仅包含观察账户。目前不支持观察账户，无法进行导入。",
     "importVaultFilePickerLabel": "请选择一个 Vault 文件以继续：",
     "importVaultFileErrorGeneralMessage": "导入 Vault 文件发生错误： {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {

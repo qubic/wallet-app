@@ -658,12 +658,7 @@
     "settingsLabelAutlock": "Otomatik Kilitleme Ayarları",
     "importVaultDialogTitleTooManyAccounts": "Çok fazla hesap bulundu",
     "importVaultDialogMessageTooManyAccounts": "Kasa dosyanız 15'ten fazla hesap içeriyor. Tüm hesaplar içe aktarılacaktır, ancak bakiyelerinizi görüntülemek ve fon gönderebilmek için lütfen 15 veya daha az hesap olacak şekilde bazı hesapları silin.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
-    "importVaultDialogTitleWatchAccount": "Yalnızca görüntüleme hesapları bulundu",
-    "importVaultDialogMessageWatchAccount": "Şu anda yalnızca görüntüleme hesaplarını desteklemediğimiz için bunlar görmezden gelinecektir. Diğer tüm hesaplar içe aktarılacaktır.",
     "importVaultErrorNoAccountsFound": "Kasa Dosyanızad herhangi bir hesap bulunamadı. İçe aktarma işlemine devam edilemiyor.",
-    "importVaultErrorOnlyWatchAccountsFound": "Kasa dosyanız yalnızca görüntüleme hesapları içeriyor. Şu anda yalnızca görüntüleme hesaplarını desteklemediğimiz için içe aktarma işlemini gerçekleştiremiyoruz.",
     "importVaultFilePickerLabel": "Lütfen devam etmek için bir Kasa Dosyası seçin:",
     "importVaultFileErrorGeneralMessage": "Error importing vault file: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {

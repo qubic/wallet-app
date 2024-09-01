@@ -746,7 +746,6 @@
     },
     "generalErrorFileRequired": "Veuillez remplir le fichier",
     "generalErrorPathRequired": "Veuillez remplir le chemin du fichier",
-    "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins",
     "explorerLabelPrice": "Prix",
     "explorerLabelMarketCap": "Capitalisation boursière",
     "accountExplorerLabelLatestTransactions": "Dernières Transactions"

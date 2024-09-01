@@ -659,12 +659,7 @@
     "settingsLabelAutlock": "Auto-Lock Settings",
     "importVaultDialogTitleTooManyAccounts": "Too many accounts found",
     "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
-    "importVaultDialogTitleWatchAccount": "Watch only accounts found",
-    "importVaultDialogMessageWatchAccount": "As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported.",
     "importVaultErrorNoAccountsFound": "No accounts found in your vault file. We can't proceed with the import.",
-    "importVaultErrorOnlyWatchAccountsFound": "Your vault file contains only watch only accounts. As we currently do not support watch only accounts, we can't proceed with the import.",
     "importVaultFilePickerLabel": "Please select a vault file to continue:",
     "importVaultFileErrorGeneralMessage": "Error importing vault file: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
