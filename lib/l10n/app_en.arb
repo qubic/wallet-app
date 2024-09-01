@@ -753,5 +753,15 @@
     "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
     "explorerLabelPrice": "Price",
     "explorerLabelMarketCap": "Market Cap",
-    "accountExplorerLabelLatestTransactions": "Latest Transactions"
+    "accountExplorerLabelLatestTransactions": "Latest Transactions",
+    "cmdErrorVerifyingIdentityGeneric": "Error verifying the identity.",
+    "cmdErrorVerifyingIdentity": "Cannot verify your identity: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+      "placeholders": {
+        "errorDescription": {
+          "type": "String"
+        }
+      }
+    },
+    "addAccountInvalidWatchOnlyId": "Invalid Watch Only Address!"
 }

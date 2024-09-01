@@ -26,7 +26,7 @@ class QubicJs {
     InAppWebView = HeadlessInAppWebView(
       onWebViewCreated: (WVcontroller) async {
         WVcontroller.loadFile(
-            assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_7.html");
+            assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_8.html");
 
         controller = WVcontroller;
       },
@@ -164,6 +164,29 @@ class QubicJs {
           .instance.appLocalization.cmdErrorCreatingVaultFileGeneratedIsEmpty);
     }
     return base64Decode(result.value['base64']!);
+  }
+
+  Future<bool> verifyIdentity(String publicId) async {
+    await initialize();
+
+    String functionBody = "return await runBrowser('verifyIdentity', '${publicId
+        .replaceAll("'", "\\'")}');";
+
+    CallAsyncJavaScriptResult? result =
+    await controller!.callAsyncJavaScript(functionBody: functionBody);
+
+    if (result == null) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingIdentityGeneric);
+    }
+
+    if (result.error != null) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingIdentity(result.error ?? ""));
+    }
+
+    // Return the result as a boolean
+    return result.value['isValid'];
   }
 
   Future<List<QubicImportVaultSeed>> importVault(

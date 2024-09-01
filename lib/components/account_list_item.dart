@@ -175,8 +175,11 @@ class _AccountListItemState extends State<AccountListItem> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text(l10n.deleteAccountDialogTitle, style: TextStyles.alertHeader),
-      content:
-          Text(l10n.deleteAccountDialogMessage, style: TextStyles.alertText),
+      content: Text(
+          isItemWatchOnly()
+              ? l10n.deleteAccountDialogMessageWatchOnly
+              : l10n.deleteAccountDialogMessage,
+          style: TextStyles.alertText),
       actions: [
         cancelButton,
         continueButton,
@@ -444,10 +447,12 @@ class _AccountListItemState extends State<AccountListItem> {
                                     Text(widget.item.name,
                                         style: TextStyles.accountName),
                                     ThemedControls.spacerHorizontalSmall(),
-                                    isItemWatchOnly() ?  const Icon(
-                                      Icons.remove_red_eye_rounded,
-                                      color: LightThemeColors.color4,
-                                    ) : Container(),
+                                    isItemWatchOnly()
+                                        ? const Icon(
+                                            Icons.remove_red_eye_rounded,
+                                            color: LightThemeColors.color4,
+                                          )
+                                        : Container(),
                                   ])),
                               getCardMenu(context)
                             ]),

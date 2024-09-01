@@ -464,6 +464,7 @@ class _AddAccountState extends State<AddAccount> {
                     FormBuilderTextField(
                       name: "publicAddress",
                       maxLength: 60,
+                      maxLines: 2,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
                             errorText: l10n.generalErrorRequiredField),
@@ -530,6 +531,28 @@ class _AddAccountState extends State<AddAccount> {
     final l10n = l10nOf(context);
     _watchOnlyFormKey.currentState?.validate();
     if (!_watchOnlyFormKey.currentState!.isValid) {
+      return;
+    }
+
+    String? publicId = _watchOnlyFormKey.currentState?.instantValue["publicAddress"] as String?;
+
+    if (publicId == null || publicId.isEmpty) {
+      _globalSnackBar.show("Error! Please input your watch address. It should not be empty.");
+      return;
+    }
+
+    try {
+      // Verify the public ID
+      bool isValid = await qubicCmd.verifyIdentity(publicId);
+
+      if (!isValid) {
+        // Show an error message if verification fails
+        _globalSnackBar.showError(l10n.addAccountErrorVerifyIdentityWrongIdentity);
+        return;
+      }
+    } catch (e) {
+      // Handle errors during verification
+      _globalSnackBar.showError(l10n.addAccountErrorVerifyIdentityError);
       return;
     }
 
