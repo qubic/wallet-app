@@ -252,7 +252,7 @@ class _TabExplorerState extends State<TabExplorer> {
                   child: tickPanel(l10n.explorerLabelMarketCap,
                       "\$${explorerStore.networkOverview!.marketCap.asThousands()}"))
             ]),
-            ThemedControls.spacerVerticalSmall(),
+            ThemedControls.spacerHorizontalMini(),
             Flex(direction: Axis.horizontal, children: [
               Expanded(
                   flex: 1,
