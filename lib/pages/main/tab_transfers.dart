@@ -60,6 +60,7 @@ class _TabTransfersState extends State<TabTransfers> {
         onRefresh: () async {
           await _timedController.interruptFetchTimer();
         },
+        backgroundColor: LightThemeColors.refreshIndicatorBackground,
         child: Container(
             color: LightThemeColors.background,
             child: Scrollbar(

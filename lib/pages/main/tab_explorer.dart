@@ -390,6 +390,7 @@ class _TabExplorerState extends State<TabExplorer> {
             onRefresh: () async {
               refreshOverview();
             },
+            backgroundColor: LightThemeColors.refreshIndicatorBackground,
             child: Scrollbar(
                 controller: _scrollController,
                 child:
