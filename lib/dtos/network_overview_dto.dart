@@ -10,15 +10,20 @@ class NetworkOverviewDto {
   int numberOfEntities;
   @observable
   int supply;
+  @observable
+  double price;
+  @observable
+  int marketCap;
   List<TickDto> ticks;
 
   NetworkOverviewDto(
-    this.numberOfTicks,
-    this.numberOfEmptyTicks,
-    this.numberOfEntities,
-    this.supply,
-    this.ticks,
-  );
+      this.numberOfTicks,
+      this.numberOfEmptyTicks,
+      this.numberOfEntities,
+      this.supply,
+      this.ticks,
+      this.price,
+      this.marketCap);
 
   String get tickQualityPercentage => numberOfTicks == 0
       ? "0"
@@ -27,8 +32,14 @@ class NetworkOverviewDto {
 
   factory NetworkOverviewDto.clone(NetworkOverviewDto other,
       {bool descendingTicks = false}) {
-    return NetworkOverviewDto(other.numberOfTicks, other.numberOfEmptyTicks,
-        other.numberOfEntities, other.supply, List<TickDto>.from(other.ticks));
+    return NetworkOverviewDto(
+        other.numberOfTicks,
+        other.numberOfEmptyTicks,
+        other.numberOfEntities,
+        other.supply,
+        List<TickDto>.from(other.ticks),
+        other.price,
+        other.marketCap);
   }
 
   factory NetworkOverviewDto.fromJson(Map<String, dynamic> data,
@@ -41,6 +52,8 @@ class NetworkOverviewDto {
         data['numberOfEmptyTicks'],
         data['numberOfEntities'],
         data['supply'],
-        descendingTicks ? a.reversed.toList() : a);
+        descendingTicks ? a.reversed.toList() : a,
+        data['price'],
+        data['marketCapitalization']);
   }
 }
