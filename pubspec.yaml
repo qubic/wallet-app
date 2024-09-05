@@ -43,7 +43,7 @@ dependencies:
   equatable: ^2.0.5
   settings_ui: ^2.0.2
   package_info_plus: ^8.0.0
-  local_auth: ^2.1.7
+  local_auth: ^2.3.0
   http: ^1.2.1
   universal_platform: ^1.0.0+1
   path_provider: ^2.1.1
