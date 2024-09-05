@@ -157,6 +157,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
               onRefresh: () async {
                 await _timedController.interruptFetchTimer();
               },
+              backgroundColor: LightThemeColors.refreshIndicatorBackground,
               child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Observer(builder: (context) {
