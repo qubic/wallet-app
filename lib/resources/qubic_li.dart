@@ -230,7 +230,7 @@ class QubicLi {
         'Authorization': 'bearer ${_authenticationToken!}',
         'Content-Type': 'application/json'
       });
-      response = response = await http.get(
+      response = await http.get(
           Uri.https(Config.walletDomain, Config.URL_TickOverview),
           headers: headers);
       appStore.decreasePendingRequests();
