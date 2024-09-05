@@ -209,9 +209,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text("Create New Account",
+                                    Text(l10n.addAccountCreateNewAccountModalBottomSheet,
                                         style: TextStyles.labelText.copyWith()),
-                                    Text("Add new Qubic account",
+                                    Text(l10n.addAccountCreateNewAccountSubtitleModalBottomSheet,
                                         style: TextStyles.textNormal.copyWith())
                                   ],
                                 ),
@@ -253,11 +253,11 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "Watch only address",
+                                      l10n.addAccountWatchOnlyAddressModalBottomSheet,
                                       style: TextStyles.labelText,
                                     ),
                                     Text(
-                                      "Track a Qubic public address",
+                                      l10n.addAccountWatchOnlyAddressSubtitleModalBottomSheet,
                                       style: TextStyles.textNormal.copyWith(),
                                     ),
                                   ],
