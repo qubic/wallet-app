@@ -117,7 +117,7 @@ class _TabTransfersState extends State<TabTransfers> {
                                   ThemePaddings.normalPadding,
                                   ThemePaddings.miniPadding),
                               child: ThemedControls.pageHeader(
-                                  headerText: l10n.filterTransfersTitle)),
+                                  headerText: l10n.appTabTransfers)),
                         )
                       ])),
                       Observer(builder: (context) {

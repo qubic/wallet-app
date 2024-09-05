@@ -34,6 +34,8 @@ abstract class Config {
   static const servicesDomain = "wallet.qubic-hub.com";
   static const URL_VersionInfo = "/versionInfo.php";
 
+  static const URL_WebExplorer = "https://explorer.qubic.org";
+
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(

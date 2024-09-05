@@ -48,7 +48,7 @@ which features the Web Crypto API and use Javascript libs for the cryptographic 
 
 ### Desktop version
 
-In order to not have to embed a javascript runtime inside the application, for desktop apps, we have compiled the Javascript libs to standalone executables using pkg. You can find them here: https://github.com/Qubic-Hub/qubic-helper-utils
+In order to not have to embed a javascript runtime inside the application, for desktop apps, we have compiled the Javascript libs to standalone executables using pkg. You can find them here: https://github.com/qubic/ts-library-wrapper
 Desktop versions try to locate the appropriate executable and if it's missing it automatically downloads it (or allows the user to manually download it).
 
 ### Anti-tampering
