@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pagination_flutter/pagination.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qubic_wallet/components/adabtive_refresh_indicator.dart';
+import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_loading_indicator.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
@@ -387,7 +387,7 @@ class _TabExplorerState extends State<TabExplorer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: AdabtiveRefreshIndicator(
+        body: AdaptiveRefreshIndicator(
             edgeOffset: 60,
             onRefresh: () async {
               refreshOverview();

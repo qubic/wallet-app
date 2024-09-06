@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qubic_wallet/components/adabtive_refresh_indicator.dart';
+import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/components/tick_indication_styled.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
@@ -57,7 +57,7 @@ class _TabTransfersState extends State<TabTransfers> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
-    return AdabtiveRefreshIndicator(
+    return AdaptiveRefreshIndicator(
         edgeOffset: 58,
         onRefresh: () async {
           await _timedController.interruptFetchTimer();

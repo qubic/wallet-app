@@ -4,7 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/account_list_item.dart';
-import 'package:qubic_wallet/components/adabtive_refresh_indicator.dart';
+import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/cumulative_wallet_value_sliver.dart';
 import 'package:qubic_wallet/components/gradient_container.dart';
 import 'package:qubic_wallet/components/id_list_item.dart';
@@ -182,7 +182,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
     final l10n = l10nOf(context);
 
     return Scaffold(
-        body: AdabtiveRefreshIndicator(
+        body: AdaptiveRefreshIndicator(
             edgeOffset: sliverExpanded,
             onRefresh: () async {
               await _timedController.interruptFetchTimer();

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class AdabtiveRefreshIndicator extends StatelessWidget {
+class AdaptiveRefreshIndicator extends StatelessWidget {
   final Future Function() onRefresh;
   final Widget child;
   final double edgeOffset;
-  const AdabtiveRefreshIndicator(
+  const AdaptiveRefreshIndicator(
       {super.key,
       required this.onRefresh,
       required this.child,

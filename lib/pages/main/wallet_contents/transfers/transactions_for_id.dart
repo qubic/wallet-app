@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:qubic_wallet/components/adabtive_refresh_indicator.dart';
+import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -154,7 +154,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
         body: SafeArea(
             minimum: ThemeEdgeInsets.pageInsets
                 .copyWith(bottom: ThemePaddings.normalPadding),
-            child: AdabtiveRefreshIndicator(
+            child: AdaptiveRefreshIndicator(
               onRefresh: () async {
                 await _timedController.interruptFetchTimer();
               },
