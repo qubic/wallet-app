@@ -335,8 +335,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                       vertical:
                                           ThemePaddings.normalPadding / 2),
                                   child: AccountListItem(
-                                      item: appStore.currentQubicIDs[0])));
-                        }, childCount: 100),
+                                      item: appStore.currentQubicIDs[index])));
+                        }, childCount: appStore.currentQubicIDs.length),
                       );
                     }
                   }),
