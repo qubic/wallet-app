@@ -176,110 +176,108 @@ class _TabWalletContentsState extends State<TabWalletContents> {
       context: context,
       isScrollControlled: true,
       builder: (BuildContext context) {
-        return FractionallySizedBox(
-          heightFactor: 0.4,
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    ThemePaddings.normalPadding,
-                    ThemePaddings.normalPadding,
-                    ThemePaddings.normalPadding,
-                    0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      constraints:
-                          const BoxConstraints(minWidth: 400, maxWidth: 500),
-                      child: Card(
-                        color: LightThemeColors.cardBackground,
-                        elevation: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                              ThemePaddings.normalPadding,
-                              ThemePaddings.normalPadding,
-                              ThemePaddings.normalPadding,
-                              0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              ListTile(
-                                leading: Icon(Icons.account_circle),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(l10n.addAccountCreateNewAccountModalBottomSheet,
-                                        style: TextStyles.labelText.copyWith()),
-                                    Text(l10n.addAccountCreateNewAccountSubtitleModalBottomSheet,
-                                        style: TextStyles.textNormal.copyWith())
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  pushScreen(
-                                    context,
-                                    screen:
-                                        const AddAccount(isWatchOnly: false),
-                                    withNavBar: false,
-                                    pageTransitionAnimation:
-                                        PageTransitionAnimation.cupertino,
-                                  );
-                                },
+        return SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(
+                  ThemePaddings.normalPadding,
+                  ThemePaddings.normalPadding,
+                  ThemePaddings.normalPadding,
+                  ThemePaddings.normalPadding),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
+                    child: Card(
+                      color: LightThemeColors.cardBackground,
+                      elevation: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                            ThemePaddings.normalPadding,
+                            ThemePaddings.normalPadding,
+                            ThemePaddings.normalPadding,
+                            0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.account_circle),
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    l10n.addAccountCreateNewAccountModalBottomSheet,
+                                    style: TextStyles.labelText.copyWith(),
+                                  ),
+                                  Text(
+                                    l10n.addAccountCreateNewAccountSubtitleModalBottomSheet,
+                                    style: TextStyles.textNormal.copyWith(),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                              onTap: () {
+                                Navigator.pop(context);
+                                pushScreen(
+                                  context,
+                                  screen: const AddAccount(isWatchOnly: false),
+                                  withNavBar: false,
+                                  pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino,
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    Container(
-                      constraints:
-                          const BoxConstraints(minWidth: 400, maxWidth: 500),
-                      child: Card(
-                        color: LightThemeColors.cardBackground,
-                        elevation: 0,
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(
-                              ThemePaddings.normalPadding,
-                              ThemePaddings.normalPadding,
-                              ThemePaddings.normalPadding,
-                              0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              ListTile(
-                                leading: Icon(Icons.visibility),
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      l10n.addAccountWatchOnlyAddressModalBottomSheet,
-                                      style: TextStyles.labelText,
-                                    ),
-                                    Text(
-                                      l10n.addAccountWatchOnlyAddressSubtitleModalBottomSheet,
-                                      style: TextStyles.textNormal.copyWith(),
-                                    ),
-                                  ],
-                                ),
-                                onTap: () {
-                                  Navigator.pop(context);
-                                  pushScreen(
-                                    context,
-                                    screen: const AddAccount(isWatchOnly: true),
-                                    withNavBar: false,
-                                    pageTransitionAnimation:
-                                        PageTransitionAnimation.cupertino,
-                                  );
-                                },
+                  ),
+                  Container(
+                    constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
+                    child: Card(
+                      color: LightThemeColors.cardBackground,
+                      elevation: 0,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                            ThemePaddings.normalPadding,
+                            ThemePaddings.normalPadding,
+                            ThemePaddings.normalPadding,
+                            0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ListTile(
+                              leading: const Icon(Icons.visibility),
+                              title: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    l10n.addAccountWatchOnlyAddressModalBottomSheet,
+                                    style: TextStyles.labelText,
+                                  ),
+                                  Text(
+                                    l10n.addAccountWatchOnlyAddressSubtitleModalBottomSheet,
+                                    style: TextStyles.textNormal.copyWith(),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                              onTap: () {
+                                Navigator.pop(context);
+                                pushScreen(
+                                  context,
+                                  screen: const AddAccount(isWatchOnly: true),
+                                  withNavBar: false,
+                                  pageTransitionAnimation:
+                                  PageTransitionAnimation.cupertino,
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

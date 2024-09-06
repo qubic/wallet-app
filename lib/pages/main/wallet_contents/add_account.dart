@@ -325,6 +325,66 @@ class _AddAccountState extends State<AddAccount> {
                               l10n.addAccountHeaderKeepPrivateSeedSecret,
                               style: TextStyles.assetSecondaryTextLabel)),
                       const SizedBox(height: ThemePaddings.normalPadding),
+                      ThemedControls.spacerVerticalNormal(),
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: Text(l10n.generalLabeQubicAddressAndPublicID,
+                              style: TextStyles.labelTextNormal)),
+                      ThemedControls.spacerVerticalMini(),
+                      Builder(builder: (context) {
+                        return ThemedControls.card(
+                            child: Flex(direction: Axis.horizontal, children: [
+                          Flexible(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                ThemedControls.spacerVerticalMini(),
+                                generatedPublicId == null
+                                    ? privateSeed.value.text.isEmpty
+                                        ? Text(
+                                            l10n
+                                                .addAccountHintAddressNoPrivateSeed,
+                                            textAlign: TextAlign.right,
+                                            style: TextStyles.textNormal
+                                                .copyWith(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontStyle:
+                                                        FontStyle.italic))
+                                        : Text(
+                                            !generatingId
+                                                ? l10n
+                                                    .addAccountHintAddressInvalidPrivateSeed
+                                                : l10n.generalLabelLoading,
+                                            style: TextStyles.textNormal
+                                                .copyWith(
+                                                    fontSize: 12,
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontStyle:
+                                                        FontStyle.italic))
+                                    : SelectableText(generatedPublicId!,
+                                        style: TextStyles.textNormal)
+                              ])),
+                          generatedPublicId == null
+                              ? Container()
+                              : IconButton(
+                                  onPressed: () async {
+                                    if (generatedPublicId == null) {
+                                      return;
+                                    }
+                                    copyToClipboard(
+                                        generatedPublicId!, context);
+                                  },
+                                  icon: LightThemeColors.shouldInvertIcon
+                                      ? ThemedControls.invertedColors(
+                                          child: Image.asset(
+                                              "assets/images/Group 2400.png"))
+                                      : Image.asset(
+                                          "assets/images/Group 2400.png"))
+                        ]));
+                      })
                     ],
                   ))
             ],
@@ -341,17 +401,18 @@ class _AddAccountState extends State<AddAccount> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: "Watch Only"),
+              ThemedControls.pageHeader(headerText: l10n.addAccountWatchOnlyPageTitle),
               ThemedControls.spacerVerticalSmall(),
               FormBuilder(
                 key: _watchOnlyFormKey,
                 child: Column(
                   children: [
-                    const Text("Add a public Qubic address to watch. You do not have the permission to send or receive any transaction."),
+                    Text(l10n.addAccountWatchOnlySubtitle),
                     ThemedControls.spacerVerticalHuge(),
                     Row(children: [
                       Text(l10n.addAccountLabelAccountName,
                           style: TextStyles.labelTextNormal),
+                      ThemedControls.spacerHorizontalSmall(),
                       Tooltip(
                           triggerMode: TooltipTriggerMode.tap,
                           showDuration: const Duration(seconds: 5),
@@ -391,7 +452,7 @@ class _AddAccountState extends State<AddAccount> {
                       Tooltip(
                           triggerMode: TooltipTriggerMode.tap,
                           showDuration: const Duration(seconds: 5),
-                          message: "A Public ID is made of 60 upper cases.",
+                          message: l10n.addAccountWatchOnlyQubicAddressTooltip,
                           child: LightThemeColors.shouldInvertIcon
                               ? ThemedControls.invertedColors(
                                   child: Image.asset(
@@ -420,7 +481,7 @@ class _AddAccountState extends State<AddAccount> {
                       readOnly: isLoading,
                       style: TextStyles.inputBoxSmallStyle,
                       decoration: ThemeInputDecorations.normalInputbox
-                          .copyWith(hintText: l10n.addAccountHintAccountName),
+                          .copyWith(hintText: l10n.addAccountWatchOnlyHintQubicAddress),
                       autocorrect: false,
                       autofillHints: null,
                     ),
