@@ -52,6 +52,22 @@ abstract class _ApplicationStore with Store {
     currentTabIndex = index;
   }
 
+  // Observable to trigger the Add Account ModalBottomSheet
+  @observable
+  bool showAddAccountModal = false;
+
+// Action to toggle the Add Account signal
+  @action
+  void triggerAddAccountModal() {
+    showAddAccountModal = true;
+  }
+
+// Action to clear the Add Account signal after the modal is shown
+  @action
+  void clearAddAccountModal() {
+    showAddAccountModal = false;
+  }
+
   @observable
   ObservableList<QubicListVm> currentQubicIDs = ObservableList<QubicListVm>();
   @observable

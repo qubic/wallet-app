@@ -23,6 +23,7 @@ import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:privacy_screen/privacy_screen.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialTabIndex;
@@ -291,6 +292,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // }
     // return getMain();
     return Observer(builder: (context) {
+      if (applicationStore.showAddAccountModal) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showAddAccountModal(context);
+          // Reset the trigger to avoid showing the modal again unintentionally
+          applicationStore.clearAddAccountModal();
+        });
+      }
+
       if (UniversalPlatform.isDesktop && !settingsStore.cmdUtilsAvailable) {
         return const Scaffold(body: DownloadCmdUtils());
       }
