@@ -33,7 +33,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final TimedController _timedController = getIt<TimedController>();
 
-  final double sliverCollapsed = 80;
   final double sliverExpanded = 185;
 
   double _sliverShowPercent = 1;
@@ -65,7 +64,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
       setState(() {
         _sliverShowPercent =
-            1 - (_scrollController.offset / (sliverExpanded - sliverCollapsed));
+            1 - (_scrollController.offset / (sliverExpanded - kToolbarHeight));
         if (_sliverShowPercent < 0) {
           _sliverShowPercent = 0;
         }
@@ -183,7 +182,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
     return Scaffold(
         body: AdaptiveRefreshIndicator(
-            edgeOffset: sliverExpanded,
+            edgeOffset: kToolbarHeight,
             onRefresh: () async {
               await _timedController.interruptFetchTimer();
             },
@@ -207,49 +206,54 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                     ],
                     floating: false,
                     pinned: true,
-                    collapsedHeight: sliverCollapsed,
-                    expandedHeight: sliverExpanded,
-                    flexibleSpace: Stack(
-                      children: [
-                        const Positioned.fill(child: GradientContainer()),
-                        Positioned.fill(
-                            child: SingleChildScrollView(
-                          child: Column(children: [
-                            Padding(
-                                padding: const EdgeInsets.fromLTRB(
-                                    0,
-                                    ThemePaddings.normalPadding,
-                                    0,
-                                    ThemePaddings.normalPadding),
-                                child: Center(
-                                    child: showTickOnTop
-                                        ? TickIndicatorStyled(
-                                            textStyle: TextStyles.whiteTickText)
-                                        : Container())),
-                            Transform.translate(
-                                offset:
-                                    Offset(0, -10 * (1 - _sliverShowPercent)),
-                                child: Opacity(
-                                    opacity: _sliverShowPercent,
-                                    child:
-                                        const CumulativeWalletValueSliver())),
-                          ]),
-                        )),
-                        Positioned(
-                          bottom: -7,
-                          left: 0,
-                          right: 0,
-                          child: Container(
-                            height: 20,
-                            decoration: const BoxDecoration(
-                              color: LightThemeColors.background,
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(40),
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: sliverExpanded - kToolbarHeight,
+                      child: Stack(
+                        children: [
+                          const Positioned.fill(child: GradientContainer()),
+                          Positioned.fill(
+                              child: SingleChildScrollView(
+                            child: Column(children: [
+                              if (showTickOnTop)
+                                Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        0,
+                                        ThemePaddings.normalPadding,
+                                        0,
+                                        ThemePaddings.normalPadding),
+                                    child: Center(
+                                        child: showTickOnTop
+                                            ? TickIndicatorStyled(
+                                                textStyle:
+                                                    TextStyles.whiteTickText)
+                                            : Container())),
+                              Transform.translate(
+                                  offset:
+                                      Offset(0, -10 * (1 - _sliverShowPercent)),
+                                  child: Opacity(
+                                      opacity: _sliverShowPercent,
+                                      child:
+                                          const CumulativeWalletValueSliver())),
+                            ]),
+                          )),
+                          Positioned(
+                            bottom: -7,
+                            left: 0,
+                            right: 0,
+                            child: Container(
+                              height: 20,
+                              decoration: const BoxDecoration(
+                                color: LightThemeColors.background,
+                                borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(40),
+                                ),
                               ),
                             ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   SliverList(
