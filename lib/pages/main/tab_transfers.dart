@@ -58,7 +58,7 @@ class _TabTransfersState extends State<TabTransfers> {
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
     return AdaptiveRefreshIndicator(
-        edgeOffset: 58,
+        edgeOffset: kToolbarHeight,
         onRefresh: () async {
           await _timedController.interruptFetchTimer();
         },

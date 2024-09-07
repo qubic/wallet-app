@@ -388,7 +388,7 @@ class _TabExplorerState extends State<TabExplorer> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: AdaptiveRefreshIndicator(
-            edgeOffset: 60,
+            edgeOffset: kToolbarHeight,
             onRefresh: () async {
               refreshOverview();
             },
