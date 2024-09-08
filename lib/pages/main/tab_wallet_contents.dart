@@ -186,6 +186,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
             onRefresh: () async {
               await _timedController.interruptFetchTimer();
             },
+            backgroundColor: LightThemeColors.refreshIndicatorBackground,
             child: Container(
               color: LightThemeColors.background,
               child: CustomScrollView(

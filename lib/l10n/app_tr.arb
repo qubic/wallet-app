@@ -740,5 +740,7 @@
     },
     "generalErrorFileRequired": "Lütfen bir dosya seçin",
     "generalErrorPathRequired": "Lütfen bir yol seçin",
-    "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz."
+    "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz.",
+    "explorerLabelPrice": "Fiyat",
+    "explorerLabelMarketCap": "Piyasa Değeri"
 }

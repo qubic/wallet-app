@@ -90,6 +90,8 @@ class LightThemeColors {
 
   static const menuActive = Color.fromARGB(255, 27, 222, 245);
   static const menuInactive = Color.fromARGB(255, 152, 157, 162);
+
+  static const refreshIndicatorBackground = cardBackground;
 }
 
 class xLightThemeColors {

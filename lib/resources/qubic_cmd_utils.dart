@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
 import 'dart:convert';
@@ -46,18 +47,28 @@ class QubicCmdUtils {
     }
   }
 
-  Future<String> _getHelperFileFullPath() async {
+  Future<String> _getHelperFileFullPath({bool isExecutionPath = true}) async {
     var directory = await getApplicationSupportDirectory();
-    return (path.join(directory.path, _getConfig().filename));
+
+    String scriptPath = path.join(directory.path, _getConfig().filename);
+
+    if (UniversalPlatform.isMacOS && isExecutionPath) {
+      // copy the script to the temporary directory from where it can be executed
+      scriptPath = await copyScriptToTempDirectory(scriptPath);
+    }
+
+    return scriptPath;
   }
 
   Future<bool> checkIfUtilitiesExist() async {
-    return await File(await _getHelperFileFullPath()).exists();
+    return await File(await _getHelperFileFullPath(isExecutionPath: false))
+        .exists();
   }
 
   Future<bool> checkUtilitiesChecksum() async {
-    String generatedChecksum =
-        await _getFileChecksum(await _getHelperFileFullPath()) ?? "";
+    String generatedChecksum = await _getFileChecksum(
+            await _getHelperFileFullPath(isExecutionPath: false)) ??
+        "";
     String configChecksum = _getConfig().checksum;
     return (generatedChecksum == configChecksum);
   }
@@ -113,11 +124,41 @@ class QubicCmdUtils {
     return base64Decode(response.base64!);
   }
 
+  Future<String> copyScriptToTempDirectory(String originalScriptPath) async {
+    // Read the file from the original path
+    File originalFile = File(originalScriptPath);
+
+    // Get the temporary directory
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = '${tempDir.path}/${_getConfig().filename}';
+
+    File tempFile = File(tempPath);
+    if (!await tempFile.exists()) {
+      // Copy the script to the temporary directory if does not exists already
+      tempFile = await originalFile.copy(tempPath);
+
+      // Make the script executable
+      await Process.run('chmod', ['+x', tempPath]);
+    }
+
+    return tempFile.path;
+  }
+
   Future<String> getPublicIdFromSeed(String seed) async {
     await validateFileStreamSignature();
-    final p = await Process.run(
-        await _getHelperFileFullPath(), ['createPublicId', seed],
+
+    String scriptPath = await _getHelperFileFullPath();
+
+    final p = await Process.run(scriptPath, ['createPublicId', seed],
         runInShell: true);
+
+    if (p.exitCode != 0) {
+      debugPrint('Script execution failed with exit code ${p.exitCode}');
+      debugPrint(p.stderr);
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorGettingPublicIdFromSeed(p.stderr));
+    }
+
     late dynamic parsedJson;
     try {
       parsedJson = jsonDecode(p.stdout.toString());
