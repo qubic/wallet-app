@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "Данные кошелька удалены с устройства",
     "generalSnackBarMessageQRScannedWithSuccess": "QR код отсканирован успешно",
     "generalSnackBarMessageAccountAlreadyExist": "Этот аккаунт уже существует в кошельке",
-    "generalSnackBarMessageTransactionSubmitted": "Отправка новой транзакции в сеть Qubic",
+    "generalSnackBarMessageTransactionSubmitted": "Ваша транзакция была сохранена для тика {tick}",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "ОС не поддерживается",
     "generalErrorOnlyLowercaseChar": "Должны быть только строчные буквы.",
     "generalErrorOnlyUppercaseChar": "Должны быть только заглавные буквы.",

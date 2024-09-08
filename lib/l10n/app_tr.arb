@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "Cüzdan verisi cihazdan silindi",
     "generalSnackBarMessageQRScannedWithSuccess": "QR kod başarılı bir şekilde tarandı",
     "generalSnackBarMessageAccountAlreadyExist": "Bu hesap zaten cüdanında mevcut",
-    "generalSnackBarMessageTransactionSubmitted": "Qubic ağına yeni işlem gönderildi",
+    "generalSnackBarMessageTransactionSubmitted": "İşleminiz yayılmak üzere {tick} kodlu Tick'te saklandı",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "Bu işletim sistemi desteklenmiyor",
     "generalErrorOnlyLowercaseChar": "Yalnızca küçük harfler içermelidir.",
     "generalErrorOnlyUppercaseChar": "Yalnızca büyük harfler içermelidir.",

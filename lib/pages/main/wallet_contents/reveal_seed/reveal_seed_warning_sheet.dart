@@ -81,14 +81,13 @@ class _RevealSeedWarningSheetState extends State<RevealSeedWarningSheet> {
       Expanded(
           child: hasAccepted
               ? ThemedControls.primaryButtonBigPadded(
-                  onPressed: transferNowHandler,
-                  text: l10n.generalButtonProceed)
+                  onPressed: proceedHandler, text: l10n.generalButtonProceed)
               : ThemedControls.primaryButtonBigDisabledPadded(
                   text: l10n.generalButtonProceed)),
     ];
   }
 
-  void transferNowHandler() async {
+  void proceedHandler() async {
     if (!hasAccepted) {
       return;
     }

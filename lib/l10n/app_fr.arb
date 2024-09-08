@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "Données du portefeuille effacées de l'appareil",
     "generalSnackBarMessageQRScannedWithSuccess": "QR Code scanné avec succès",
     "generalSnackBarMessageAccountAlreadyExist": "Ce compte existe déjà dans votre portefeuille",
-    "generalSnackBarMessageTransactionSubmitted": "Nouvelle transaction soumise au réseau Qubic",
+    "generalSnackBarMessageTransactionSubmitted": "Votre transaction a été enregistrée pour la propagation dans tick {tick}",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "Système d'exploitation non pris en charge",
     "generalErrorOnlyLowercaseChar": "Doit contenir uniquement des lettres minuscules.",
     "generalErrorOnlyUppercaseChar": "Doit contenir uniquement des lettres majuscules.",

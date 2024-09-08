@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "Wallet data erased from device",
     "generalSnackBarMessageQRScannedWithSuccess": "Successfully scanned QR Code",
     "generalSnackBarMessageAccountAlreadyExist": "This account already exists in your wallet",
-    "generalSnackBarMessageTransactionSubmitted": "Submitted new transaction to Qubic network",
+    "generalSnackBarMessageTransactionSubmitted": "Your transaction has been stored for propagation in tick {tick}.",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "OS not supported",
     "generalErrorOnlyLowercaseChar": "Must contain only lowercase letters.",
     "generalErrorOnlyUppercaseChar": "Must contain only uppercase letters.",

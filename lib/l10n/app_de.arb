@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "Wallet-Daten vom Gerät gelöscht.",
     "generalSnackBarMessageQRScannedWithSuccess": "QR-Code erfolgreich gescannt.",
     "generalSnackBarMessageAccountAlreadyExist": "Dieses Konto existiert bereits in Ihrer Wallet.",
-    "generalSnackBarMessageTransactionSubmitted": "Neue Transaktion an das Qubic-Netzwerk übermittelt.",
+    "generalSnackBarMessageTransactionSubmitted": "Ihre Transaktion wurde zur Verbreitung im Tick {tick} gespeichert.",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "Betriebssystem wird nicht unterstützt.",
     "generalErrorOnlyLowercaseChar": "Darf nur Kleinbuchstaben enthalten.",
     "generalErrorOnlyUppercaseChar": "Darf nur Großbuchstaben enthalten.",

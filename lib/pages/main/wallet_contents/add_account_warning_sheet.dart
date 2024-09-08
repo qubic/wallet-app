@@ -77,7 +77,7 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
       Expanded(
           child: hasAccepted
               ? ThemedControls.primaryButtonBigWithChild(
-                  onPressed: transferNowHandler,
+                  onPressed: proceedHandler,
                   child: Padding(
                     padding:
                         const EdgeInsets.all(ThemePaddings.smallPadding + 3),
@@ -95,7 +95,7 @@ class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
     ];
   }
 
-  void transferNowHandler() async {
+  void proceedHandler() async {
     if (!hasAccepted) {
       return;
     }
