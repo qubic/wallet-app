@@ -65,6 +65,8 @@ class LightThemeColors {
   static const inputBorderColor = Color(0xFF202E3C);
   static const darkButtonBorderColor = Color(0xFF282F36);
 
+  static const walletConnectURLColor = Color(0xFF4B5565);
+
 //  static const gradient1 = Color(0xFF0F27FF);
   static const gradient1 = buttonPrimary;
   static const gradient2 = Color(0xFF045d68);

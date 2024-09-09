@@ -4,6 +4,7 @@ import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_hub.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
@@ -35,4 +36,5 @@ void setupDI() {
   getIt.registerSingleton<TimedController>(TimedController());
 
   getIt.registerSingleton<QubicCmd>(QubicCmd());
+  getIt.registerSingleton<WalletConnectService>(WalletConnectService());
 }

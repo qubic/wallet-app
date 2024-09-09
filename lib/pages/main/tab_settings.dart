@@ -15,6 +15,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_v
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/auto_lock_settings.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -186,6 +187,21 @@ class _TabSettingsState extends State<TabSettings> {
           SettingsSection(
             title: getSettingsHeader(l10n.settingsHeaderAccountsAndData, true),
             tiles: <SettingsTile>[
+              SettingsTile.navigation(
+                leading: const ChangeForeground(
+                    color: LightThemeColors.gradient1, child: Icon(Icons.lock)),
+                title: Text("WALLET CONNECT",
+                    style: TextStyles.textNormal), //TODO REPLACE WITH L10N
+                trailing: Container(),
+                onPressed: (BuildContext context) {
+                  pushScreen(
+                    context!,
+                    screen: const WalletConnect(),
+                    withNavBar: false, // OPTIONAL VALUE. True by default.
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                },
+              ),
               SettingsTile.navigation(
                 leading: const ChangeForeground(
                     color: LightThemeColors.gradient1, child: Icon(Icons.lock)),

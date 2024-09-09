@@ -14,6 +14,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -280,8 +281,30 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 ThemePaddings.smallPadding,
                                 ThemePaddings.normalPadding,
                                 ThemePaddings.miniPadding),
-                            child: Text(l10n.homeHeader,
-                                style: TextStyles.sliverCardPreLabel)))
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  //Header text
+                                  Text(l10n.homeHeader,
+                                      style: TextStyles.sliverCardPreLabel),
+
+                                  //WalletConnect button : TODO Update when we have final designs
+                                  ThemedControls.transparentButtonWithChild(
+                                      onPressed: () async {
+                                        pushScreen(
+                                          context,
+                                          screen: const AddWalletConnect(),
+                                          withNavBar: false,
+                                          pageTransitionAnimation:
+                                              PageTransitionAnimation.cupertino,
+                                        );
+                                      },
+                                      child: Row(children: [
+                                        Image.asset("assets/images/wc-scan.png")
+                                      ]))
+                                ])))
                   ])),
                   Observer(builder: (context) {
                     if (appStore.currentQubicIDs.isEmpty) {

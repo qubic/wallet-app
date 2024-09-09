@@ -15,6 +15,7 @@ import 'package:qubic_wallet/pages/main/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -41,6 +42,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final ApplicationStore applicationStore = getIt<ApplicationStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   late final ReactionDisposer _disposeSnackbarAuto;
+  final WalletConnectService walletConnectService =
+      getIt<WalletConnectService>();
 
   late AnimatedSnackBar? errorBar;
   late AnimatedSnackBar? notificationBar;
@@ -77,6 +80,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
+    if (settingsStore.settings != null &&
+        settingsStore.settings.walletConnectEnabled) {
+      walletConnectService.initialize();
+    }
 
     PrivacyScreen.instance.enable(
       iosOptions: const PrivacyIosOptions(

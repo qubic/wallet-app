@@ -152,6 +152,42 @@ class CustomFormFieldValidators {
     };
   }
 
+  static FormFieldValidator<T> isWalletConnectConnectionURL<T>(
+      {String? errorText, required BuildContext context}) {
+    final l10n = l10nOf(context);
+    return (T? valueCandidate) {
+      if (valueCandidate == null ||
+          (valueCandidate is String && valueCandidate.trim().isEmpty)) {
+        return errorText ?? FormBuilderLocalizations.current.requiredErrorText;
+      }
+
+      if (valueCandidate is String && valueCandidate.length != 187) {
+        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+      }
+
+      if (valueCandidate is String &&
+          valueCandidate.startsWith("wc:") != true) {
+        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+      }
+
+      if (valueCandidate is String &&
+          valueCandidate.contains("expiryTimestamp=") == false) {
+        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+      }
+
+      if (valueCandidate is String &&
+          valueCandidate.contains("symKey=") == false) {
+        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+      }
+
+      if (valueCandidate is String && valueCandidate.contains("@") == false) {
+        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+      }
+
+      return null;
+    };
+  }
+
   static FormFieldValidator<T> isSeed<T>(
       {String? errorText, required BuildContext context}) {
     final l10n = l10nOf(context);

@@ -70,4 +70,11 @@ abstract class _SettingsStore with Store {
     settings = Settings.clone(settings);
     await secureStorage.setWalletSettings(settings);
   }
+
+  @action
+  Future<void> setWalletConnectEnabled(bool value) async {
+    settings.walletConnectEnabled = value;
+    settings = Settings.clone(settings);
+    await secureStorage.setWalletSettings(settings);
+  }
 }
