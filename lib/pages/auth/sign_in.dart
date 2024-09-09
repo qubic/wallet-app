@@ -336,7 +336,7 @@ class _SignInState extends State<SignIn>
                         await _settingsStore.loadSettings();
                         _appStore.checkWalletIsInitialized();
                         _appStore.signOut();
-                        _timedController.stopFetchTimer();
+                        _timedController.stopFetchTimers();
                         Navigator.pop(context);
                         _globalSnackbar
                             .show(l10n.generalSnackBarMessageWalletDataErased);

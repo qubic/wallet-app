@@ -199,7 +199,7 @@ class _TabSettingsState extends State<TabSettings> {
                       0); // so after unlock, it goes to Home
                   appStore.signOut();
                   appStore.checkWalletIsInitialized();
-                  timedController.stopFetchTimer();
+                  timedController.stopFetchTimers();
                   context.go('/signInNoAuth');
                 },
               ),
@@ -226,7 +226,7 @@ class _TabSettingsState extends State<TabSettings> {
                           await settingsStore.loadSettings();
                           appStore.checkWalletIsInitialized();
                           appStore.signOut();
-                          timedController.stopFetchTimer();
+                          timedController.stopFetchTimers();
                           Navigator.pop(context);
                           context.go("/signInNoAuth");
                           _globalSnackBar.show(
