@@ -51,4 +51,9 @@ abstract class Config {
           downloadPath:
               "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-mac-x64-3_0_6",
           checksum: "45588af4b72234858dca3e1094f2aaeb"));
+
+  // This will only be read in Debug mode. In Release mode, proxy setup is ignored.
+  static const bool useProxy = false; // Can be set to `true` to use a proxy
+  static const String proxyIP = '192.168.1.1'; // Replace with actual proxy IP
+  static const int proxyPort = 8888; // Replace with actual proxy port
 }

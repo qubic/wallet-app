@@ -15,6 +15,7 @@ import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
+import 'package:qubic_wallet/helpers/custom_proxy.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
@@ -42,6 +43,16 @@ class QubicLi {
     _gettingCurrentBalances = false;
     _gettingNetworkAssets = false;
     _gettingNetworkTransactions = false;
+  }
+
+  QubicLi() {
+    // Initialization code
+    // Set global HttpOverrides
+    if (!kReleaseMode && Config.useProxy && Config.proxyIP.isNotEmpty) {
+      final proxy =
+          CustomProxy(ipAddress: Config.proxyIP, port: Config.proxyPort);
+      proxy.enable();
+    }
   }
 
   static Map<String, String> getHeaders() {
