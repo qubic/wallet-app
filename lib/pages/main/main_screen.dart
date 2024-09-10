@@ -181,7 +181,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _timedController.stopFetchTimer();
+    _timedController.stopFetchTimers();
     _disposeSnackbarAuto();
 
     WidgetsBinding.instance.removeObserver(this);

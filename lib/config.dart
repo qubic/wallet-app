@@ -25,6 +25,7 @@ abstract class Config {
 
   static const fetchEverySeconds = 60;
   static const fetchEverySecondsSlow = 60 * 5;
+  static const inactiveSecondsLimit = 120;
 
   static const checkForTamperedUtils = true;
 
