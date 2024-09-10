@@ -368,7 +368,6 @@
     "accountExplorerLabelTotalOutgoing": "总转出",
     "accountExplorerLabelReportedBy": "报告来自",
     "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 笔交易在此纪元} other{{count} 笔交易在此纪元}}",
     "transactionItemLabelIncludedByTickLeader": "由刻度验证者包含的交易",
     "transactionItemLabelNotIncludedByTickLeader": "不由刻度验证者包含的交易",
     "transactionItemLabelTransactionId": "交易 ID",

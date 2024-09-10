@@ -368,7 +368,6 @@
     "accountExplorerLabelTotalOutgoing": "Total Outgoing",
     "accountExplorerLabelReportedBy": "Reported by",
     "accountExplorerLabelNoResultsFound": "No transactions for this ID in this epoch",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transaction in this epoch} other{{count} transactions in this epoch}}",
     "transactionItemLabelIncludedByTickLeader": "Included by Tick Leader",
     "transactionItemLabelNotIncludedByTickLeader": "Not included by Tick Leader",
     "transactionItemLabelTransactionId": "Transaction ID",
@@ -749,5 +748,6 @@
     "generalErrorPathRequired": "Please select a path",
     "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
     "explorerLabelPrice": "Price",
-    "explorerLabelMarketCap": "Market Cap"
+    "explorerLabelMarketCap": "Market Cap",
+    "accountExplorerLabelLatestTransactions": "Latest Transactions"
 }
