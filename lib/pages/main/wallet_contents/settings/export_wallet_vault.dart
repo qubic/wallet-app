@@ -349,10 +349,6 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     if (isLoading) {
       return;
     }
-    setState(() {
-      emptyPathError = false;
-      isLoading = true;
-    });
     _formKey.currentState?.validate();
     if ((selectedPath == null) && (!useShareController)) {
       setState(() {
