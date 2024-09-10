@@ -112,6 +112,8 @@ class ExplorerIdInfoDto {
           ?.map<ExplorerTransactionInfoDto>(
               (e) => ExplorerTransactionInfoDto.fromJson(e))
           .toList();
+      latestTransfers
+          ?.sort((a, b) => b.tick.compareTo(a.tick)); // sorting latest first
     }
 
     //reportedValues is a key-value store, have to convert to an array
