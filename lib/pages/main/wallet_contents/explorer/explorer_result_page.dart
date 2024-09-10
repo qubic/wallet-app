@@ -209,7 +209,10 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
   List<Widget>? getActions() {
     return <Widget>[
       IconButton(
-        icon: Image.asset("assets/images/explorer.png"),
+        icon: const ImageIcon(AssetImage('assets/images/explorer.png'),
+            color: LightThemeColors
+                .primary // Optional: color to apply to the image
+            ),
         onPressed: () async {
           String explorerUrl = Config.URL_WebExplorer;
 
