@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/components/currency_label.dart';
 import 'package:qubic_wallet/components/transaction_details.dart';
 import 'package:qubic_wallet/di.dart';
@@ -43,11 +44,7 @@ class TransactionResend extends StatelessWidget {
         return Container(
             width: double.infinity,
             child: Text(l10n.generalLabelToFromAddress(prepend),
-                textAlign: TextAlign.start,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(fontFamily: ThemeFonts.primary)));
+                style: TextStyles.labelText));
       }),
       Text(id,
           style: Theme.of(context)
@@ -86,21 +83,10 @@ class TransactionResend extends StatelessWidget {
                 isInHeader: false,
                 style: TextStyles.accountAmountLabel)
           ]),
+          const SizedBox(height: ThemePaddings.normalPadding),
           getFromTo(context, l10n.generalLabelFrom, item.sourceId),
-          const SizedBox(height: ThemePaddings.smallPadding),
-          getFromTo(context, l10n.generalLabelTo, item.destId),
-          const SizedBox(height: ThemePaddings.smallPadding),
-          Container(
-              width: double.infinity,
-              child: Text(l10n.sendItemLabelTargetTick,
-                  textAlign: TextAlign.start, style: TextStyles.labelText)),
-          Observer(builder: (context) {
-            return Text(
-                l10n.sendItemLabelResendTargetTickValue(
-                    (appStore.currentTick + 20).asThousands(),
-                    appStore.currentTick.asThousands()),
-                style: TextStyles.textNormal);
-          })
+          const SizedBox(height: ThemePaddings.normalPadding),
+          getFromTo(context, l10n.generalLabelTo, item.destId)
         ]));
   }
 }

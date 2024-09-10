@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "钱包数据已从设备中删除",
     "generalSnackBarMessageQRScannedWithSuccess": "成功扫描二维码",
     "generalSnackBarMessageAccountAlreadyExist": "您的钱包中已存在此帐户",
-    "generalSnackBarMessageTransactionSubmitted": "向 Qubic 网络提交新交易",
+    "generalSnackBarMessageTransactionSubmitted": "您的交易已被存储以便在 tick 中传播 {tick}",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "系统不支持",
     "generalErrorOnlyLowercaseChar": "只包含小写字母。",
     "generalErrorOnlyUppercaseChar": "只包含大写字母。",
