@@ -116,6 +116,70 @@ class _AddAccountState extends State<AddAccount> {
         });
   }
 
+  void showWatchOnlyQRScanner() {
+    final l10n = l10nOf(context);
+
+    showModalBottomSheet<void>(
+        context: context,
+        useSafeArea: true,
+        builder: (BuildContext context) {
+          final l10n = l10nOf(context);
+
+          return Stack(children: [
+            MobileScanner(
+              // fit: BoxFit.contain,
+              controller: MobileScannerController(
+                detectionSpeed: DetectionSpeed.normal,
+                facing: CameraFacing.back,
+                torchEnabled: false,
+              ),
+
+              onDetect: (capture) {
+                final List<Barcode> barcodes = capture.barcodes;
+                bool foundSuccess = false;
+                for (final barcode in barcodes) {
+                  if (barcode.rawValue != null) {
+                    var value = publicId.text;
+                    value = barcode.rawValue!
+                        .replaceAll("https://wallet.qubic.org/payment/", "");
+                    var validator =
+                    CustomFormFieldValidators.isPublicID(context: context);
+                    if (validator(value) == null) {
+                      if (foundSuccess == true) {
+                        break;
+                      }
+                      publicId.text = value;
+                      foundSuccess = true;
+                    }
+                  }
+                }
+                if (foundSuccess) {
+                  Navigator.pop(context);
+                  _globalSnackBar
+                      .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
+                }
+              },
+            ),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                    color: Colors.white60,
+                    width: double.infinity,
+                    child: Padding(
+                        padding:
+                        const EdgeInsets.all(ThemePaddings.normalPadding),
+                        child: Text(l10n.sendItemLabelQRScannerInstructions,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            textAlign: TextAlign.center))))
+          ]);
+        });
+  }
+
   Widget getScrollView() {
     final l10n = l10nOf(context);
     return SingleChildScrollView(
@@ -409,6 +473,7 @@ class _AddAccountState extends State<AddAccount> {
                   children: [
                     Text(l10n.addAccountWatchOnlySubtitle),
                     ThemedControls.spacerVerticalHuge(),
+                    // Account name & Tooltip
                     Row(children: [
                       Text(l10n.addAccountLabelAccountName,
                           style: TextStyles.labelTextNormal),
@@ -425,6 +490,7 @@ class _AddAccountState extends State<AddAccount> {
                                   "assets/images/question-active-16.png")),
                     ]),
                     ThemedControls.spacerVerticalSmall(),
+                    // Account name form
                     FormBuilderTextField(
                       onSubmitted: (String? text) {
                         saveIdHandler();
@@ -444,7 +510,8 @@ class _AddAccountState extends State<AddAccount> {
                       autocorrect: false,
                       autofillHints: null,
                     ),
-                    ThemedControls.spacerVerticalSmall(),
+                    ThemedControls.spacerVerticalHuge(),
+                    // Qubic address and Tooltip
                     Row(children: [
                       Text(l10n.generalLabeQubicAddressAndPublicID,
                           style: TextStyles.labelTextNormal),
@@ -460,9 +527,11 @@ class _AddAccountState extends State<AddAccount> {
                               : Image.asset(
                                   "assets/images/question-active-16.png")),
                     ]),
-                    ThemedControls.spacerVerticalMini(),
+                    ThemedControls.spacerVerticalSmall(),
+                    // Qubic Address form
                     FormBuilderTextField(
                       name: "publicAddress",
+                      controller: publicId,
                       maxLength: 60,
                       maxLines: 2,
                       validator: FormBuilderValidators.compose([
@@ -487,7 +556,20 @@ class _AddAccountState extends State<AddAccount> {
                       autofillHints: null,
                     ),
                     ThemedControls.spacerVerticalNormal(),
-                    ThemedControls.spacerVerticalNormal(),
+                    if (isMobile)
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: ThemedControls.primaryButtonNormal(
+                              onPressed: () {
+                                showWatchOnlyQRScanner();
+                              },
+                              text: l10n.generalButtonUseQRCode,
+                              icon: !LightThemeColors.shouldInvertIcon
+                                  ? ThemedControls.invertedColors(
+                                  child: Image.asset(
+                                      "assets/images/Group 2294.png"))
+                                  : Image.asset(
+                                  "assets/images/Group 2294.png"))),
                     const SizedBox(height: ThemePaddings.normalPadding),
                   ],
                 ),
@@ -645,6 +727,7 @@ class _AddAccountState extends State<AddAccount> {
   }
 
   TextEditingController privateSeed = TextEditingController();
+  TextEditingController publicId = TextEditingController();
 
   bool showAccountInfoTooltip = false;
   bool showSeedInfoTooltip = false;
