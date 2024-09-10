@@ -77,8 +77,11 @@ class _TabTransfersState extends State<TabTransfers> {
                             TickRefresh(),
                             ThemedControls.spacerHorizontalSmall(),
                             SliverButton(
-                              icon: const Icon(Icons.filter_list,
-                                  color: LightThemeColors.primary),
+                              icon: const ImageIcon(
+                                  AssetImage('assets/images/filter_trx.png'),
+                                  color: LightThemeColors
+                                      .primary // Optional: color to apply to the image
+                                  ),
                               onPressed: () {
                                 pushScreen(
                                   context,

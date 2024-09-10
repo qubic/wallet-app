@@ -442,8 +442,11 @@ class _TabExplorerState extends State<TabExplorer> {
                           }
                         }),
                       SliverButton(
-                        icon: const Icon(Icons.filter_list,
-                            color: LightThemeColors.primary),
+                        icon: const ImageIcon(
+                            AssetImage('assets/images/explorer_search.png'),
+                            color: LightThemeColors
+                                .primary // Optional: color to apply to the image
+                            ),
                         onPressed: () {
                           pushScreen(
                             context,
