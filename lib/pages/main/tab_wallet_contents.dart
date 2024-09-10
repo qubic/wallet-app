@@ -16,6 +16,7 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
@@ -31,6 +32,7 @@ class TabWalletContents extends StatefulWidget {
 
 class _TabWalletContentsState extends State<TabWalletContents> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
+  final SettingsStore settingsStore = getIt<SettingsStore>();
   final TimedController _timedController = getIt<TimedController>();
 
   final double sliverCollapsed = 80;
@@ -289,21 +291,31 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                   //Header text
                                   Text(l10n.homeHeader,
                                       style: TextStyles.sliverCardPreLabel),
-
-                                  //WalletConnect button : TODO Update when we have final designs
-                                  ThemedControls.transparentButtonWithChild(
-                                      onPressed: () async {
-                                        pushScreen(
-                                          context,
-                                          screen: const AddWalletConnect(),
-                                          withNavBar: false,
-                                          pageTransitionAnimation:
-                                              PageTransitionAnimation.cupertino,
-                                        );
-                                      },
-                                      child: Row(children: [
-                                        Image.asset("assets/images/wc-scan.png")
-                                      ]))
+                                  Observer(builder: (context) {
+                                    print("in!");
+                                    if (settingsStore
+                                        .settings.walletConnectEnabled) {
+                                      return ThemedControls
+                                          .transparentButtonWithChild(
+                                              onPressed: () async {
+                                                pushScreen(
+                                                  context,
+                                                  screen:
+                                                      const AddWalletConnect(),
+                                                  withNavBar: false,
+                                                  pageTransitionAnimation:
+                                                      PageTransitionAnimation
+                                                          .cupertino,
+                                                );
+                                              },
+                                              child: Row(children: [
+                                                Image.asset(
+                                                    "assets/images/wc-scan.png")
+                                              ]));
+                                    } else {
+                                      return Container();
+                                    }
+                                  }),
                                 ])))
                   ])),
                   Observer(builder: (context) {

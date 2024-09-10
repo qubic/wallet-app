@@ -54,6 +54,7 @@ class WalletConnectService {
               code: -1, message: "User forcefully disconnected"),
           topic: sessionData.topic);
     }));
+    web3Wallet!.core.relayClient.disconnect();
   }
 
   /// Checks that walletconnect is initialized before trying to trigger an event

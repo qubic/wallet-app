@@ -53,8 +53,8 @@ class _PairState extends State<Pair> {
 
   @override
   void dispose() {
-    super.dispose();
     listener.cancel();
+    super.dispose();
   }
 
   // Gets the text for WC method available from connection

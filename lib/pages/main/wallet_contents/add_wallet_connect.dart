@@ -17,6 +17,7 @@ import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -35,6 +36,7 @@ class AddWalletConnect extends StatefulWidget {
 
 class _AddWalletConnectState extends State<AddWalletConnect> {
   final _formKey = GlobalKey<FormBuilderState>();
+  final settingsStore = getIt<SettingsStore>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
