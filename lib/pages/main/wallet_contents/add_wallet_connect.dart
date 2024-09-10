@@ -95,6 +95,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                 fullscreenDialog: true));
 
         if (userhasConfirmed != null && userhasConfirmed) {
+          //Accepted
           try {
             setState(() {
               isConnecting = true;
@@ -117,7 +118,8 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
               wcError = e.toString();
             });
           }
-        } else {
+        } else if (userhasConfirmed == null) {
+          //Rejected
           setState(() {
             isLoading = false;
             isConnecting = false;
@@ -131,6 +133,17 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           }
           _globalSnackBar
               .show("Wallet connect connection rejected"); //TODO i10n
+        } else {
+          // false : expired
+          setState(() {
+            isLoading = false;
+            isConnecting = false;
+          });
+
+          if (context.mounted) {
+            Navigator.of(context).pop();
+          }
+          _globalSnackBar.show("Wallet connect session proposal timed out");
         }
       });
     });
@@ -362,6 +375,10 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     setState(() {
       isLoading = true;
     });
+
+    if (!walletConnectService.web3Wallet!.core.relayClient.isConnected) {
+      await walletConnectService.web3Wallet!.core.relayClient.connect();
+    }
     try {
       var conInfo = await walletConnectService.pair(Uri.parse(wcText.text));
     } catch (e) {

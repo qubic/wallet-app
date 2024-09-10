@@ -144,6 +144,16 @@ class WalletConnectService {
       onSessionProposal.add(args);
     });
 
+    web3Wallet!.onProposalExpire.subscribe((SessionProposalEvent? args) {
+      onSessionProposal.add(args);
+    });
+
+    web3Wallet!.core.relayClient.onRelayClientDisconnect.subscribe((args) {
+      if (settingsStore.settings.walletConnectEnabled) {
+        web3Wallet!.core.relayClient.connect();
+      }
+    });
+
     //Event emitter registrations
     web3Wallet!.registerEventEmitter(
         chainId: Config.walletConnectChainId, event: wcEvents.amountChanged);

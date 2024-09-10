@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/reauthenticate/authenticate_password.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -33,17 +36,25 @@ class Pair extends StatefulWidget {
 
 class _PairState extends State<Pair> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
-
+  final WalletConnectService wcService = getIt<WalletConnectService>();
   bool hasAccepted = false;
 
+  late final StreamSubscription<SessionProposalEvent?> listener;
   @override
   void initState() {
     super.initState();
+
+    listener = wcService.onProposalExpire.stream.listen((event) {
+      if (event!.id == widget.pairingId) {
+        Navigator.of(context).pop(false);
+      }
+    });
   }
 
   @override
   void dispose() {
     super.dispose();
+    listener.cancel();
   }
 
   // Gets the text for WC method available from connection
