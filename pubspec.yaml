@@ -55,6 +55,7 @@ dependencies:
   file_picker: ^8.0.6
   downloadsfolder: ^1.1.0
   privacy_screen: ^0.0.6
+  http_interceptor: ^2.0.0
 
 dev_dependencies:
   flutter_test:
