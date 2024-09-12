@@ -368,7 +368,6 @@
     "accountExplorerLabelTotalOutgoing": "Ausgang gesamt",
     "accountExplorerLabelReportedBy": "Gemeldet von",
     "accountExplorerLabelNoResultsFound": "Keine Transaktionen für diese ID in dieser Epoche.",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 Transaktion in dieser Epoche} other{{count} Transaktionen in dieser Epoche}}",
     "transactionItemLabelIncludedByTickLeader": "Enthalten vom Tick-Leader",
     "transactionItemLabelNotIncludedByTickLeader": "Nicht enthalten vom Tick-Leader",
     "transactionItemLabelTransactionId": "Transaktions-ID",
@@ -749,5 +748,6 @@
     "generalErrorPathRequired": "Bitte wählen Sie einen Pfad",
     "homeWarningTooManyAccounts": "Sie haben mehr als 15 Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
     "explorerLabelPrice": "Preis",
-    "explorerLabelMarketCap": "Marktkapitalisierung"
+    "explorerLabelMarketCap": "Marktkapitalisierung",
+    "accountExplorerLabelLatestTransactions": "Letzte Transaktionen"
 }

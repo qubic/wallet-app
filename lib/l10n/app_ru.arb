@@ -368,7 +368,6 @@
     "accountExplorerLabelTotalOutgoing": "Общее кол-во выводов",
     "accountExplorerLabelReportedBy": "Подтверждена",
     "accountExplorerLabelNoResultsFound": "Нет транзакций для этого ID в эту эпоху",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 транзакция в этой эпохе} other{{count} транзакций в этой эпохе}}",
     "transactionItemLabelIncludedByTickLeader": "Включительно с лидером тика",
     "transactionItemLabelNotIncludedByTickLeader": "Не включено в лидера тика",
     "transactionItemLabelTransactionId": "ID транзакции",

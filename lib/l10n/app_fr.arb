@@ -368,7 +368,6 @@
     "accountExplorerLabelTotalOutgoing": "Total Sortant",
     "accountExplorerLabelReportedBy": "Rapporté par",
     "accountExplorerLabelNoResultsFound": "Aucune transaction pour cet ID dans cette époque",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transaction dans cette époque} other{{count} transactions dans cette époque}}",
     "transactionItemLabelIncludedByTickLeader": "Inclus par le Leader du Tick",
     "transactionItemLabelNotIncludedByTickLeader": "Non inclus par le Leader du Tick",
     "transactionItemLabelTransactionId": "ID de la Transaction",
@@ -749,5 +748,6 @@
     "generalErrorPathRequired": "Veuillez remplir le chemin du fichier",
     "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins",
     "explorerLabelPrice": "Prix",
-    "explorerLabelMarketCap": "Capitalisation boursière"
+    "explorerLabelMarketCap": "Capitalisation boursière",
+    "accountExplorerLabelLatestTransactions": "Dernières Transactions"
 }

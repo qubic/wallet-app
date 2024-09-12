@@ -367,7 +367,6 @@
     "accountExplorerLabelTotalOutgoing": "Total Saliente",
     "accountExplorerLabelReportedBy": "Reportado por",
     "accountExplorerLabelNoResultsFound": "No se encontraron transacciones para esta dirección en esta época.",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transacción en esta época} other{{count} transacciones en esta época}}}",
     "transactionItemLabelIncludedByTickLeader": "Incluído por el Tick Líder",
     "transactionItemLabelNotIncludedByTickLeader": "No incluído por el Tick Líder",
     "transactionItemLabelTransactionId": "ID de la Transacción",
@@ -748,5 +747,6 @@
     "generalErrorPathRequired": "Por favor, selecciona un directorio",
     "homeWarningTooManyAccounts": "Tienes más de 15 cuentas en tu Wallet. No podrás ver los balances o hacer transferencias hasta que no elimines algunas de ellas hasta tener 15 o menos",
     "explorerLabelPrice": "Precio",
-    "explorerLabelMarketCap": "Capitalización de mercado"
+    "explorerLabelMarketCap": "Capitalización de mercado",
+    "accountExplorerLabelLatestTransactions": "Últimas Transacciones"
 }

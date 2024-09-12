@@ -367,8 +367,6 @@
     "accountExplorerLabelTotalIncoming": "Toplam Gelen",
     "accountExplorerLabelTotalOutgoing": "Toplam Giden",
     "accountExplorerLabelReportedBy": "Bildiren",
-    "accountExplorerLabelNoResultsFound": "Bu dönem için bu ID'ye ait işlem bulunmamaktadır",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transaction in this epoch} other{{count} transactions in this epoch}}",
     "transactionItemLabelIncludedByTickLeader": "Tick Lideri Tarafından Dahil Edilen",
     "transactionItemLabelNotIncludedByTickLeader": "Tick Lideri Tarafından Dagil Edilmeyen",
     "transactionItemLabelTransactionId": "Transfer ID'si",
