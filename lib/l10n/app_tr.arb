@@ -431,7 +431,7 @@
     "addAccountHintAddressNoPrivateSeed": "Özel anahtar girilmedi",
     "addAccountHintAddressInvalidPrivateSeed": "Geçersiz özel anahtar girildi",
     "addAccountErrorTamperedWalletTitle": "KUSURLU CÜZDAN TESPİT EDİLDİ",
-    "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nQUBIC-HUB.COM'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
+    "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nHTTPS://GITHUB.COM/QUBIC/WALLET-APP'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
     "sendAssetLabelNumberOfShares": "Hisse Sayısı",
     "sendAssetLabelTransactionCost": "Trasfer Ücreti (sabit)",
     "sendAssetButtonTransfer": "Transfer",

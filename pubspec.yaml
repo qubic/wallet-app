@@ -1,5 +1,5 @@
 name: qubic_wallet
-description: A Wallet for the Qubic Network created by Qubic-Hub.com
+description: A Wallet for the Qubic Network created by https://qubic.org/
 publish_to: "none"
 version: 1.2.0+45
 environment:
