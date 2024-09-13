@@ -4,11 +4,10 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 abstract class ButtonStyles {
   static ButtonStyle dangerButtonBig = ButtonStyle(
       overlayColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.dangerColor.withOpacity(0.8)),
+          LightThemeColors.dangerColor.withOpacity(0.2)),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
-              side: const BorderSide(
-                  width: 1.5, color: LightThemeColors.dangerColor),
+              side: BorderSide.none,
               borderRadius: BorderRadius.circular(12.0))));
 
   static ButtonStyle primaryButtonBig = ButtonStyle(
