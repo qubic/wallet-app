@@ -9,6 +9,9 @@ abstract class ThemePaddings {
   /// 8px
   static const smallPadding = 8.0;
 
+  /// 12px
+  static const mediumPadding = 12.0;
+
   /// 16px
   static const normalPadding = 16.0;
 
@@ -33,7 +36,7 @@ class LightThemeColors {
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);
 
-  static const dangerColor = Color(0xFF381D1E);
+  static const dangerColor = Color(0xFFF97066);
 
   static const textColorSecondary = Color(0xFF808B9B);
 
