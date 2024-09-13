@@ -658,7 +658,7 @@
         }
     },
     "autolockLabelDurationImmediately": "Immediately",
-    "settingsLabelAutlock": "Auto-Lock Settings",
+    "settingsLabelAutlock": "Auto-Lock",
     "importVaultDialogTitleTooManyAccounts": "Too many accounts found",
     "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
     "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
