@@ -1,4 +1,5 @@
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
@@ -21,8 +22,10 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -119,297 +122,197 @@ class _TabSettingsState extends State<TabSettings> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Widget getHeader() {
+  Widget build(BuildContext context) {
     final l10n = l10nOf(context);
-    return Padding(
-        padding: const EdgeInsets.only(
-            left: ThemePaddings.normalPadding,
-            right: ThemePaddings.normalPadding,
-            top: ThemePaddings.hugePadding,
-            bottom: ThemePaddings.smallPadding),
-        child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Text(l10n.appTabSettings, style: TextStyles.pageTitle)
-        ]));
-  }
-
-  Widget getBody() {
-    return Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [getHeader(), getSettings()]);
-  }
-
-  Widget getSettingsHeader(String text, bool isFirst) {
-    return Padding(
-        padding: isFirst
-            ? const EdgeInsets.fromLTRB(0, 0, 0, ThemePaddings.smallPadding)
-            : const EdgeInsets.fromLTRB(
-                0, ThemePaddings.bigPadding, 0, ThemePaddings.smallPadding),
-        child: Transform.translate(
-            offset: const Offset(-16, 0),
-            child: Text(text, style: TextStyles.textBold)));
-  }
-
-  Widget getSettings() {
-    final l10n = l10nOf(context);
-
-    var theme = SettingsThemeData(
-      settingsSectionBackground: LightThemeColors.cardBackground,
-      //Theme.of(context).cardTheme.color,
-      settingsListBackground: LightThemeColors.background,
-      dividerColor: Colors.transparent,
-      titleTextColor: Theme.of(context).colorScheme.onBackground,
-    );
-
-    Widget getTrailingArrow() {
-      return Container();
-//      return Icon(Icons.arrow_forward_ios_outlined,
-      //        color:
-      //          Theme.of(context).textTheme.bodySmall!.color!.withOpacity(0.2));
-    }
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-      child: SettingsList(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        applicationType: ApplicationType.material,
-        contentPadding: const EdgeInsets.all(0),
-        darkTheme: theme,
-        lightTheme: theme,
-        sections: [
-          SettingsSection(
-            title: getSettingsHeader(l10n.settingsHeaderAccountsAndData, true),
-            tiles: <SettingsTile>[
-              SettingsTile.navigation(
-                leading: const ChangeForeground(
-                    color: LightThemeColors.gradient1, child: Icon(Icons.lock)),
-                title:
-                    Text(l10n.settingsLockWallet, style: TextStyles.textNormal),
-                trailing: Container(),
-                onPressed: (BuildContext context) {
-                  appStore.reportGlobalError("");
-                  appStore.reportGlobalNotification("");
-                  appStore.setCurrentTabIndex(
-                      0); // so after unlock, it goes to Home
-                  appStore.signOut();
-                  appStore.checkWalletIsInitialized();
-                  timedController.stopFetchTimers();
-                  context.go('/signInNoAuth');
-                },
-              ),
-              SettingsTile.navigation(
-                leading: const ChangeForeground(
-                    color: LightThemeColors.gradient1,
-                    child: Icon(Icons.cleaning_services_outlined)),
-                title: Text(l10n.generalButtonEraseWalletData,
-                    style: TextStyles.textNormal),
-                trailing: Container(),
-                onPressed: (BuildContext context) async {
-                  //MODAL TO CHECK IF USER AGREES
-                  showModalBottomSheet<void>(
-                      context: context,
-                      isScrollControlled: true,
-                      useRootNavigator: true,
-                      useSafeArea: true,
-                      backgroundColor: LightThemeColors.background,
-                      builder: (BuildContext context) {
-                        return SafeArea(
-                            child: EraseWalletSheet(onAccept: () async {
-                          if (!context.mounted) return;
-                          await secureStorage.deleteWallet();
-                          await settingsStore.loadSettings();
-                          appStore.checkWalletIsInitialized();
-                          appStore.signOut();
-                          timedController.stopFetchTimers();
-                          Navigator.pop(context);
-                          context.go("/signInNoAuth");
-                          _globalSnackBar.show(
-                              l10n.generalSnackBarMessageWalletDataErased);
-                        }, onReject: () async {
-                          Navigator.pop(context);
-                        }));
-                      });
-                },
-              ),
-              SettingsTile.navigation(
-                leading: const ChangeForeground(
-                    color: LightThemeColors.gradient1,
-                    child: Icon(Icons.file_present)),
-                title: Text(l10n.settingsLabelExportWalletVaultFile,
-                    style: TextStyles.textNormal),
-                trailing: Container(),
-                onPressed: (BuildContext context) async {
-                  pushScreen(context,
-                      screen: const ExportWalletVault(),
-                      withNavBar: false,
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino);
-                },
-              ),
-            ],
-          ),
-          SettingsSection(
-            title: getSettingsHeader(l10n.settingsHeaderSecurity, true),
-            tiles: <SettingsTile>[
-              SettingsTile.navigation(
-                  leading: const ChangeForeground(
-                      color: LightThemeColors.gradient1,
-                      child: Icon(Icons.password)),
-                  trailing: getTrailingArrow(),
-                  title: Text(l10n.settingsLabelChangePassword,
-                      style: TextStyles.textNormal),
-                  onPressed: (BuildContext? context) async {
-                    pushScreen(
-                      context!,
-                      screen: const ChangePassword(),
-                      withNavBar: false, // OPTIONAL VALUE. True by default.
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    );
-                  }),
-              SettingsTile.navigation(
-                leading: const ChangeForeground(
-                    color: LightThemeColors.gradient1,
-                    child: Icon(Icons.lock_clock)),
-                title: Text(l10n.settingsLabelAutlock,
-                    style: TextStyles.textNormal),
-                trailing: getTrailingArrow(),
-                onPressed: (BuildContext? context) async {
-                  pushScreen(context!,
-                      screen: AutoLockSettings(),
-                      withNavBar: false,
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino);
-                },
-              ),
-              SettingsTile.navigation(
-                leading: ChangeForeground(
-                    color: LightThemeColors.gradient1, child: icon),
-                trailing: getTrailingArrow(),
-                title: Text(settingsUnlockLabel, style: TextStyles.textNormal),
-                value: Observer(builder: (context) {
-                  return settingsStore.settings.biometricEnabled
-                      ? Text(l10n.generalLabelEnabled,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontFamily: ThemeFonts.secondary))
-                      : Text(l10n.generalLabelDisabled);
-                }),
-                onPressed: (BuildContext? context) {
-                  pushScreen(
-                    context!,
-                    screen: const ManageBiometrics(),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
-                },
-              ),
-            ],
-          ),
-          SettingsSection(
-              title: getSettingsHeader(l10n.settingsHeaderAbout, true),
-              tiles: <SettingsTile>[
-                SettingsTile.navigation(
-                  leading: const ChangeForeground(
-                      color: LightThemeColors.gradient1,
-                      child: Icon(Icons.people)),
-                  title: Text(l10n.settingsLabelJoinCommunity,
-                      style: TextStyles.textNormal),
-                  trailing: Container(),
-                  onPressed: (BuildContext? context) async {
-                    pushScreen(
-                      context!,
-                      screen: const JoinCommunity(),
-                      withNavBar: false, // OPTIONAL VALUE. True by default.
-                      pageTransitionAnimation:
-                          PageTransitionAnimation.cupertino,
-                    );
-                  },
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(l10n.appTabSettings, style: TextStyles.textExtraLargeBold),
+        backgroundColor: Colors.transparent,
+      ),
+      body: Padding(
+        padding: ThemeEdgeInsets.pageInsets,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _SettingsListTile(
+                      prefix: const Icon(
+                        Icons.lock,
+                        color: LightThemeColors.textColorSecondary,
+                      ),
+                      title: l10n.settingsLockWallet,
+                      suffix: const SizedBox.shrink(),
+                      onPressed: () {
+                        appStore.reportGlobalError("");
+                        appStore.reportGlobalNotification("");
+                        appStore.setCurrentTabIndex(
+                            0); // so after unlock, it goes to Home
+                        appStore.signOut();
+                        appStore.checkWalletIsInitialized();
+                        timedController.stopFetchTimers();
+                        context.go('/signInNoAuth');
+                      },
+                    ),
+                    _SettingsListTile(
+                      prefix: SvgPicture.asset(AppIcons.autoLock, height: 20),
+                      title: l10n.settingsLabelAutlock,
+                      onPressed: () {
+                        pushScreen(context,
+                            screen: AutoLockSettings(),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino);
+                      },
+                    ),
+                    _SettingsListTile(
+                      prefix: SvgPicture.asset(AppIcons.export, height: 20),
+                      title: l10n.settingsLabelExportWalletVaultFile,
+                      onPressed: () async {
+                        pushScreen(context,
+                            screen: const ExportWalletVault(),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino);
+                      },
+                    ),
+                    _SettingsListTile(
+                      prefix:
+                          SvgPicture.asset(AppIcons.changePassword, height: 20),
+                      title: l10n.settingsLabelChangePassword,
+                      onPressed: () {
+                        pushScreen(
+                          context,
+                          screen: const ChangePassword(),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      },
+                    ),
+                    _SettingsListTile(
+                      prefix: SvgPicture.asset(AppIcons.faceId, height: 20),
+                      title: settingsUnlockLabel,
+                      onPressed: () {
+                        pushScreen(
+                          context,
+                          screen: const ManageBiometrics(),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      },
+                    ),
+                    _SettingsListTile(
+                      prefix:
+                          SvgPicture.asset(AppIcons.walletConnect, height: 20),
+                      title: l10n.settingsLabelWalletConnect,
+                      onPressed: () {},
+                    ),
+                    _SettingsListTile(
+                      prefix: SvgPicture.asset(AppIcons.community, height: 20),
+                      title: l10n.settingsLabelJoinCommunity,
+                      onPressed: () {
+                        pushScreen(
+                          context,
+                          screen: const JoinCommunity(),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      },
+                    ),
+                    _SettingsListTile(
+                      prefix:
+                          SvgPicture.asset(AppIcons.privacyPolicy, height: 20),
+                      title: l10n.settingsLabelPrivacyPolicy,
+                      onPressed: () {},
+                      suffix:
+                          SvgPicture.asset(AppIcons.externalLink, height: 20),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 60,
+                      child: ThemedControls.dangerButtonBigWithClild(
+                        child: Text(l10n.generalButtonEraseWalletData,
+                            style: TextStyles.destructiveButtonText),
+                        onPressed: () {
+                          showModalBottomSheet<void>(
+                              context: context,
+                              isScrollControlled: true,
+                              useRootNavigator: true,
+                              useSafeArea: true,
+                              backgroundColor: LightThemeColors.background,
+                              builder: (BuildContext context) {
+                                return SafeArea(
+                                    child: EraseWalletSheet(onAccept: () async {
+                                  if (!context.mounted) return;
+                                  await secureStorage.deleteWallet();
+                                  await settingsStore.loadSettings();
+                                  appStore.checkWalletIsInitialized();
+                                  appStore.signOut();
+                                  timedController.stopFetchTimers();
+                                  Navigator.pop(context);
+                                  context.go("/signInNoAuth");
+                                  _globalSnackBar.show(l10n
+                                      .generalSnackBarMessageWalletDataErased);
+                                }, onReject: () async {
+                                  Navigator.pop(context);
+                                }));
+                              });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                SettingsTile.navigation(
-                  leading: const ChangeForeground(
-                      color: LightThemeColors.gradient1,
-                      child: Icon(Icons.account_balance_wallet_outlined)),
-                  trailing: Observer(builder: (BuildContext context) {
-                    if (qubicHubStore.updateAvailable) {
-                      return const Icon(Icons.info, color: Colors.red);
-                    }
-                    return getTrailingArrow();
-                  }),
-                  title: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(l10n.settingsLabelWalletInfo,
-                            style: TextStyles.textNormal),
-                        Observer(builder: (BuildContext context) {
-                          if (qubicHubStore.versionInfo == null) {
-                            return Text(l10n.generalLabelLoading);
-                          }
-                          return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                    "Version ${qubicHubStore.versionInfo!}${qubicHubStore.buildNumber!.isNotEmpty ? " (${qubicHubStore.buildNumber!})" : ""}",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall!
-                                        .copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                            fontFamily: ThemeFonts.secondary)),
-                                qubicHubStore.updateAvailable
-                                    ? Text("Update available",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelSmall!
-                                            .copyWith(
-                                                color: Colors.red,
-                                                fontFamily:
-                                                    ThemeFonts.secondary))
-                                    : Container(),
-                              ]);
-                        })
-                      ]),
-                  // onPressed: (BuildContext? context) async {
-                  //   pushNewScreen(
-                  //     context!,
-                  //     screen: const AboutWallet(),
-                  //     withNavBar: false, // OPTIONAL VALUE. True by default.
-                  //     pageTransitionAnimation:
-                  //         PageTransitionAnimation.cupertino,
-                  //   );
-                  // }),
-                ),
-              ])
-        ],
+              ),
+            ),
+            Text(
+              "Qubic Wallet v.${qubicHubStore.versionInfo!}${qubicHubStore.buildNumber!.isNotEmpty ? " (${qubicHubStore.buildNumber!})" : ""}",
+            )
+          ],
+        ),
       ),
     );
   }
+}
+
+class _SettingsListTile extends StatelessWidget {
+  final String title;
+  final Widget prefix;
+  final Widget? suffix;
+  final Function()? onPressed;
+  const _SettingsListTile(
+      {required this.title,
+      required this.prefix,
+      required this.onPressed,
+      this.suffix});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-          minimum: ThemeEdgeInsets.pageInsets
-              .copyWith(left: 0, right: 0, top: 0, bottom: 0),
-          child: Column(children: [
-            Expanded(
-                child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    child: getBody()))
-          ])),
+    return TextButton(
+      style: TextButton.styleFrom(
+          padding: const EdgeInsets.symmetric(
+              vertical: ThemePaddings.normalPadding, horizontal: 0),
+          shape: const RoundedRectangleBorder()),
+      onPressed: onPressed,
+      child: Row(
+        children: [
+          prefix,
+          const SizedBox(width: ThemePaddings.normalPadding),
+          Expanded(
+            child: Text(
+              title,
+              style: TextStyles.labelText,
+            ),
+          ),
+          suffix == null
+              ? const Icon(Icons.arrow_forward_ios_outlined,
+                  size: 14, color: LightThemeColors.textColorSecondary)
+              : suffix!
+        ],
+      ),
     );
   }
 }
