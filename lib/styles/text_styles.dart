@@ -316,10 +316,10 @@ class TextStyles {
   );
 
   static TextStyle destructiveButtonText = const TextStyle(
-    color: Color(0xFFF97066),
+    color: LightThemeColors.dangerColor,
     fontSize: ThemeFontSizes.large,
     fontWeight: FontWeight.w500,
     height: 0.11,
-    letterSpacing: -0.32,
+    letterSpacing: -0.02,
   );
 }
