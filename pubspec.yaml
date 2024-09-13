@@ -56,6 +56,7 @@ dependencies:
   downloadsfolder: ^1.1.0
   privacy_screen: ^0.0.6
   http_interceptor: ^2.0.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -97,5 +98,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
     - assets/launcher-icons/
     - assets/qubic_js/
