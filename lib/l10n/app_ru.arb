@@ -170,7 +170,7 @@
     "explorerSearchLabelCriteria": "Тик / TX ID / Публичный ID",
     "explorerSearchLabelNoResults": "Не найдено соответствий",
     "explorerSearchLabelResults": "{count, plural, =1{Найден 1 результат} other{Найдено {count} результата(ов))}}",
-    "explorerTickResultLabelBlockStatus": "Статус блока",
+    "explorerTickResultLabelBlockStatus": "Статус тика",
     "explorerTickResultLabelBlockStatusEmpty": "Пусто",
     "explorerTickResultLabelBlockStatusNonEmpty": "Не пустой",
     "explorerTickResultLabelBlockStatusUnknown": "Неизвестно",

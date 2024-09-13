@@ -217,12 +217,12 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
           String explorerUrl = Config.URL_WebExplorer;
 
           if (widget.resultType == ExplorerResultType.publicId) {
-            explorerUrl += "/network/address/${widget.qubicId}";
+            explorerUrl += "/network/address/$qubicId";
           } else if (widget.resultType == ExplorerResultType.tick) {
-            explorerUrl += "/network/tick/${widget.tick}";
+            explorerUrl += "/network/tick/$tick";
           } else {
             // if transaction type
-            explorerUrl += "/network/tx/${widget.focusedTransactionHash}";
+            explorerUrl += "/network/tx/$focusedTransactionHash";
           }
 
           if (await canLaunchUrlString(explorerUrl)) {
