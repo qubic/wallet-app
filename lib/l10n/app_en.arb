@@ -170,7 +170,7 @@
     "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
     "explorerSearchLabelNoResults": "No results found matching",
     "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
-    "explorerTickResultLabelBlockStatus": "Block Status",
+    "explorerTickResultLabelBlockStatus": "Tick Status",
     "explorerTickResultLabelBlockStatusEmpty": "Empty",
     "explorerTickResultLabelBlockStatusNonEmpty": "Non Empty",
     "explorerTickResultLabelBlockStatusUnknown": "Unknown",

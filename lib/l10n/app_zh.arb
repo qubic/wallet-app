@@ -170,7 +170,7 @@
     "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
     "explorerSearchLabelNoResults": "没有找到匹配的结果。",
     "explorerSearchLabelResults": "{count, plural, =1{找到 1 个结果} other{找到 {count} 个结果}}",
-    "explorerTickResultLabelBlockStatus": "区块状态",
+    "explorerTickResultLabelBlockStatus": "滴答状态",
     "explorerTickResultLabelBlockStatusEmpty": "空",
     "explorerTickResultLabelBlockStatusNonEmpty": "非空",
     "explorerTickResultLabelBlockStatusUnknown": "未知",
