@@ -74,14 +74,17 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
           }
         });
       });
-
-      handleBiometricsAuth();
     }
   }
 
+  bool firstRun = true;
   @override
-  void dispose() {
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (firstRun) {
+      handleBiometricsAuth();
+      firstRun = false;
+    }
   }
 
   Widget getCTA() {
