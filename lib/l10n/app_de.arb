@@ -658,7 +658,7 @@
         }
     },
     "autolockLabelDurationImmediately": "Sofort",
-    "settingsLabelAutlock": "Auto-Lock-Einstellungen",
+    "settingsLabelAutlock": "Auto-Lock",
     "importVaultDialogTitleTooManyAccounts": "Zu viele Konten gefunden",
     "importVaultDialogMessageTooManyAccounts": "Ihre Tresor-Datei enthält mehr als 15 Konten. Alle Konten werden importiert, aber um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
     "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch-only und zu viele Konten gefunden",
