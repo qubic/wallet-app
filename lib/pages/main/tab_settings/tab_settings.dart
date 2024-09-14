@@ -19,6 +19,7 @@ import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class TabSettings extends StatefulWidget {
   const TabSettings({super.key});
@@ -37,6 +38,8 @@ class _TabSettingsState extends State<TabSettings> {
   String settingsUnlockLabel = "";
   Widget settingsUnlockIcon = const Icon(Icons.fingerprint);
   bool isFirstOpen = true;
+
+  final defaultIconHeight = 20.0;
 
   @override
   void didChangeDependencies() {
@@ -87,18 +90,20 @@ class _TabSettingsState extends State<TabSettings> {
                       },
                     ),
                     SettingsListTile(
-                      prefix: SvgPicture.asset(AppIcons.autoLock, height: 20),
+                      prefix: SvgPicture.asset(AppIcons.autoLock,
+                          height: defaultIconHeight),
                       title: l10n.settingsLabelAutlock,
                       path: AutoLockSettings(),
                     ),
                     SettingsListTile(
-                      prefix: SvgPicture.asset(AppIcons.export, height: 20),
+                      prefix: SvgPicture.asset(AppIcons.export,
+                          height: defaultIconHeight),
                       title: l10n.settingsLabelExportWalletVaultFile,
                       path: const ExportWalletVault(),
                     ),
                     SettingsListTile(
-                      prefix:
-                          SvgPicture.asset(AppIcons.changePassword, height: 20),
+                      prefix: SvgPicture.asset(AppIcons.changePassword,
+                          height: defaultIconHeight),
                       title: l10n.settingsLabelChangePassword,
                       path: const ChangePassword(),
                     ),
@@ -107,24 +112,27 @@ class _TabSettingsState extends State<TabSettings> {
                       title: settingsUnlockLabel,
                       path: const ManageBiometrics(),
                     ),
+                    // SettingsListTile(
+                    //   prefix:
+                    //       SvgPicture.asset(AppIcons.walletConnect, height: defaultIconHeight),
+                    //   title: l10n.settingsLabelWalletConnect,
+                    //   onPressed: () {},
+                    // ),
                     SettingsListTile(
-                      prefix:
-                          SvgPicture.asset(AppIcons.walletConnect, height: 20),
-                      title: l10n.settingsLabelWalletConnect,
-                      onPressed: () {},
-                    ),
-                    SettingsListTile(
-                      prefix: SvgPicture.asset(AppIcons.community, height: 20),
+                      prefix: SvgPicture.asset(AppIcons.community,
+                          height: defaultIconHeight),
                       title: l10n.settingsLabelJoinCommunity,
                       path: const JoinCommunity(),
                     ),
                     SettingsListTile(
-                      prefix:
-                          SvgPicture.asset(AppIcons.privacyPolicy, height: 20),
+                      prefix: SvgPicture.asset(AppIcons.privacyPolicy,
+                          height: defaultIconHeight),
                       title: l10n.settingsLabelPrivacyPolicy,
-                      onPressed: () {},
-                      suffix:
-                          SvgPicture.asset(AppIcons.externalLink, height: 20),
+                      onPressed: () {
+                        launchUrlString("https://qubic.org/Privacy-policy");
+                      },
+                      suffix: SvgPicture.asset(AppIcons.externalLink,
+                          height: defaultIconHeight),
                     ),
                     EraseWalletDataButton(),
                   ],
