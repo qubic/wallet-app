@@ -186,7 +186,7 @@
     "settingsLockWallet": "锁定钱包",
     "settingsHeaderSecurity": "安全",
     "settingsLabelChangePassword": "更改密码",
-    "settingsLabelPrivacyPolicy": "隐私政策",
+    "settingsLabelPrivacyPolicy": "Privacy Policy",
     "settingsLabelExportWalletVaultFile": "导出钱包 Vault 文件",
     "settingsHeaderAbout": "关于",
     "settingsLabelJoinCommunity": "加入社区",

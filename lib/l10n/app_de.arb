@@ -183,7 +183,7 @@
     "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Zeigt 1 von 1 Transaktion im Tick} other{Zeigt 1 von {count} Transaktionen im Tick}}}",
     "settingsTitle": "Einstellungen",
     "settingsHeaderAccountsAndData": "Konten und Daten",
-    "settingsLockWallet": "Wallet sperren",
+    "settingsLockWallet": "Privacy Policy",
     "settingsHeaderSecurity": "Sicherheit",
     "settingsLabelChangePassword": "Passwort ändern",
     "settingsLabelPrivacyPolicy": "Datenschutz-Richtlinie",
