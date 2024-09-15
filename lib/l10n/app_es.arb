@@ -658,12 +658,7 @@
     "settingsLabelAutlock": "Configuración de Autobloqueo",
     "importVaultDialogTitleTooManyAccounts": "El archivo vault contiene demasiadas cuentas",
     "importVaultDialogMessageTooManyAccounts": "El archivo seleccionado contiene más de 15 cuentas. Todas las cuentas serán agregadas al wallet pero para poder ver los balances y hacer transferencias, debes eliminar algunas hasta tener 15 o menos.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "El archivo vault contiene demasiadas cuentas y cuentas de solo lectura",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "El archivo seleccionado contiene más de 15 cuentas y algunas de sólo lectura. Debido a que no soportamos aún cuentas de sólo lectura, estas serán ignoradas. Todas las otras cuentas serán agregadas al wallet pero para poder ver los balances y hacer transferencias, debes eliminar algunas hasta tener 15 o menos.",
-    "importVaultDialogTitleWatchAccount": "El archivo vault contiene cuentas de sólo lectura",
-    "importVaultDialogMessageWatchAccount": "Debido a que no soportamos aún cuentas de sólo lectura, estas serán ignoradas. Todas las otras cuentas serán agregadas al wallet.",
     "importVaultErrorNoAccountsFound": "No se encontraron cuentas en el archivo vault.",
-    "importVaultErrorOnlyWatchAccountsFound": "Lamentamos no poder procesar tu archivo vault porque todas las cuentas son de sólo lectura. Estamos trabajando para soportar estas cuentas en futuras versiones.",
     "importVaultFilePickerLabel": "Por favor, selecciona un archivo vault para continuar:",
     "importVaultFileErrorGeneralMessage": "Error al importar el archivo vault: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {

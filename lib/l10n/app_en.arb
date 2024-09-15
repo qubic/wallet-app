@@ -415,6 +415,8 @@
             }
         }
     },
+    "addAccountErrorVerifyIdentityWrongIdentity": "Invalid watch address. Please check your watch address input.",
+    "addAccountErrorVerifyIdentityError": "Unable to verify identity!",
     "addAccountErrorNameAlreadyInUse": "Name is already in use",
     "addAccountErrorPublicIDAlreadyInUse": "Public ID already in use",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Max accounts limit reached",
@@ -433,6 +435,15 @@
     "addAccountHintAddressInvalidPrivateSeed": "Invalid private seed provided",
     "addAccountErrorTamperedWalletTitle": "TAMPERED WALLET DETECTED",
     "addAccountErrorTamperedWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM HTTPS://GITHUB.COM/QUBIC/WALLET-APP OR RISK LOSS OF FUNDS",
+    "addAccountWatchOnlyPageTitle": "Add Watch Only Account",
+    "addAccountWatchOnlySubtitle": "Add a public Qubic address to watch. You do not have the permission to send or receive any transaction.",
+    "addAccountWatchOnlyAccountName": "Account Name",
+    "addAccountWatchOnlyQubicAddressTooltip": "A Public ID is made of 60 upper cases.",
+    "addAccountWatchOnlyHintQubicAddress": "Enter a Qubic Address",
+    "addAccountCreateNewAccountModalBottomSheet": "Create New Account",
+    "addAccountCreateNewAccountSubtitleModalBottomSheet": "Add new Qubic account",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Watch only address",
+    "addAccountWatchOnlyAddressSubtitleModalBottomSheet": "Track a Qubic public address",
     "sendAssetLabelNumberOfShares": "Number of Shares",
     "sendAssetLabelTransactionCost": "Transaction Cost (fixed)",
     "sendAssetButtonTransfer": "Transfer",
@@ -451,6 +462,7 @@
     "addAccountWarningSheetCheckboxLabel": "I understand the above",
     "deleteAccountDialogTitle": "Delete Account",
     "deleteAccountDialogMessage": "Are you sure you want to delete this Qubic Account from your wallet? (Any funds associated with this Account will not be removed)\n\nMAKE SURE YOU HAVE A BACKUP OF YOUR PRIVATE SEED BEFORE DELETING THIS ACCOUNT!",
+    "deleteAccountDialogMessageWatchOnly": "Are you sure you want to delete this Qubic Watch Only Account from your wallet?",
     "deleteAccountDialogButtonDelete": "Delete Account",
     "renameAccountDialogTitle": "Rename Account",
     "renameAccountLabelName": "Name",
@@ -659,12 +671,7 @@
     "settingsLabelAutlock": "Auto-Lock Settings",
     "importVaultDialogTitleTooManyAccounts": "Too many accounts found",
     "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
-    "importVaultDialogTitleWatchAccount": "Watch only accounts found",
-    "importVaultDialogMessageWatchAccount": "As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported.",
     "importVaultErrorNoAccountsFound": "No accounts found in your vault file. We can't proceed with the import.",
-    "importVaultErrorOnlyWatchAccountsFound": "Your vault file contains only watch only accounts. As we currently do not support watch only accounts, we can't proceed with the import.",
     "importVaultFilePickerLabel": "Please select a vault file to continue:",
     "importVaultFileErrorGeneralMessage": "Error importing vault file: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
@@ -683,6 +690,8 @@
         }
     },
     "importPrivateSeedDefaultAccountName": "Account 1",
+    "cmdErrorVerifyIdentityJsonDecoding": "Error when decode output of verifyIdentity",
+    "cmdErrorVerifyIdentityParsingError": "Error parsing output of verifyIdentity",
     "cmdErrorCreatingAssetTransferTransactionGeneric": "Error trying to create asset transfer transaction",
     "cmdErrorCreatingAssetTransferTransactionEmpty": "Error trying to create asset transfer transaction. Generated transaction was empty",
     "cmdErrorCreatingAssetTransferTransaction": "Error trying to create asset transfer transaction: {errorDescription}",
@@ -749,5 +758,15 @@
     "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
     "explorerLabelPrice": "Price",
     "explorerLabelMarketCap": "Market Cap",
-    "accountExplorerLabelLatestTransactions": "Latest Transactions"
+    "accountExplorerLabelLatestTransactions": "Latest Transactions",
+    "cmdErrorVerifyingIdentityGeneric": "Error verifying the identity.",
+    "cmdErrorVerifyingIdentity": "Cannot verify your identity: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+      "placeholders": {
+        "errorDescription": {
+          "type": "String"
+        }
+      }
+    },
+    "addAccountInvalidWatchOnlyId": "Invalid Watch Only Address!"
 }

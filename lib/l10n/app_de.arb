@@ -659,12 +659,7 @@
     "settingsLabelAutlock": "Auto-Lock-Einstellungen",
     "importVaultDialogTitleTooManyAccounts": "Zu viele Konten gefunden",
     "importVaultDialogMessageTooManyAccounts": "Ihre Tresor-Datei enthält mehr als 15 Konten. Alle Konten werden importiert, aber um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch-only und zu viele Konten gefunden",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Ihre Vault-Datei enthält mehr als 15 Konten, einige davon sind Watch-only. Da wir derzeit keine Watch-only-Konten unterstützen, werden diese ignoriert. Alle anderen werden importiert, aber um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
-    "importVaultDialogTitleWatchAccount": "Watch-only-Konten gefunden",
-    "importVaultDialogMessageWatchAccount": "Da wir derzeit keine Watch-only-Konten unterstützen, werden diese ignoriert. Alle anderen werden importiert.",
     "importVaultErrorNoAccountsFound": "In Ihrer Tresor-Datei wurden keine Konten gefunden. Wir können den Import nicht fortsetzen.",
-    "importVaultErrorOnlyWatchAccountsFound": "Ihre Tresor-Datei enthält nur Watch-only-Konten. Da wir derzeit keine Watch-only-Konten unterstützen, können wir den Import nicht fortsetzen.",
     "importVaultFilePickerLabel": "Bitte wählen Sie eine Tresor-Datei aus, um fortzufahren:",
     "importVaultFileErrorGeneralMessage": "Fehler beim Importieren der Tresor-Datei: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {

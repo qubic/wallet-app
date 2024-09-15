@@ -45,11 +45,12 @@ class _AccountListItemState extends State<AccountListItem> {
   bool totalBalanceVisible = true;
   late ReactionDisposer _disposer;
 
+  bool isItemWatchOnly() => widget.item.watchOnly;
+
   @override
   void initState() {
     super.initState();
     totalBalanceVisible = _settingsStore.settings.totalBalanceVisible ?? true;
-
     _disposer = autorun((_) {
       setState(() {
         totalBalanceVisible = _settingsStore.totalBalanceVisible;
@@ -174,8 +175,11 @@ class _AccountListItemState extends State<AccountListItem> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text(l10n.deleteAccountDialogTitle, style: TextStyles.alertHeader),
-      content:
-          Text(l10n.deleteAccountDialogMessage, style: TextStyles.alertText),
+      content: Text(
+          isItemWatchOnly()
+              ? l10n.deleteAccountDialogMessageWatchOnly
+              : l10n.deleteAccountDialogMessage,
+          style: TextStyles.alertText),
       actions: [
         cancelButton,
         continueButton,
@@ -281,10 +285,11 @@ class _AccountListItemState extends State<AccountListItem> {
                     value: CardItem.viewInExplorer,
                     child: Text(l10n.accountButtonViewInExplorer),
                   ),
-                  PopupMenuItem<CardItem>(
-                    value: CardItem.reveal,
-                    child: Text(l10n.accountButtonRevealPrivateSeed),
-                  ),
+                  if (!isItemWatchOnly()) // Check if item is not watch-only
+                    PopupMenuItem<CardItem>(
+                      value: CardItem.reveal,
+                      child: Text(l10n.accountButtonRevealPrivateSeed),
+                    ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.rename,
                     child: Text(l10n.generalButtonRename),
@@ -305,52 +310,56 @@ class _AccountListItemState extends State<AccountListItem> {
       overflowButtonSpacing: ThemePaddings.smallPadding,
       buttonPadding: const EdgeInsets.fromLTRB(ThemeFontSizes.large,
           ThemeFontSizes.large, ThemeFontSizes.large, ThemeFontSizes.large),
-      children: [
-        widget.item.amount != null
-            ? ThemedControls.primaryButtonBig(
+      children: isItemWatchOnly()
+          ? [Container()]
+          : [
+              widget.item.amount != null //&& widget.item.
+                  ? ThemedControls.primaryButtonBig(
+                      onPressed: () {
+                        // Perform some action
+                        pushScreen(
+                          context,
+                          screen: Send(item: widget.item),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      },
+                      text: l10n.accountButtonSend,
+                      icon: LightThemeColors.shouldInvertIcon
+                          ? ThemedControls.invertedColors(
+                              child: Image.asset("assets/images/send.png"))
+                          : Image.asset("assets/images/send.png"))
+                  : Container(),
+              ThemedControls.primaryButtonBig(
                 onPressed: () {
-                  // Perform some action
                   pushScreen(
                     context,
-                    screen: Send(item: widget.item),
+                    screen: Receive(item: widget.item),
                     withNavBar: false, // OPTIONAL VALUE. True by default.
                     pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                 },
-                text: l10n.accountButtonSend,
-                icon: LightThemeColors.shouldInvertIcon
+                icon: !LightThemeColors.shouldInvertIcon
                     ? ThemedControls.invertedColors(
-                        child: Image.asset("assets/images/send.png"))
-                    : Image.asset("assets/images/send.png"))
-            : Container(),
-        ThemedControls.primaryButtonBig(
-          onPressed: () {
-            pushScreen(
-              context,
-              screen: Receive(item: widget.item),
-              withNavBar: false, // OPTIONAL VALUE. True by default.
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
-          },
-          icon: !LightThemeColors.shouldInvertIcon
-              ? ThemedControls.invertedColors(
-                  child: Image.asset("assets/images/receive.png"))
-              : Image.asset("assets/images/receive.png"),
-          text: l10n.accountButtonReceive,
-        ),
-        widget.item.assets.keys.isNotEmpty
-            ? ThemedControls.primaryButtonBig(
-                text: l10n.accountButtonAssets,
-                onPressed: () {
-                  pushScreen(
-                    context,
-                    screen: Assets(PublicId: widget.item.publicId),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
-                })
-            : Container()
-      ],
+                        child: Image.asset("assets/images/receive.png"))
+                    : Image.asset("assets/images/receive.png"),
+                text: l10n.accountButtonReceive,
+              ),
+              widget.item.assets.keys.isNotEmpty
+                  ? ThemedControls.primaryButtonBig(
+                      text: l10n.accountButtonAssets,
+                      onPressed: () {
+                        pushScreen(
+                          context,
+                          screen: Assets(PublicId: widget.item.publicId),
+                          withNavBar: false, // OPTIONAL VALUE. True by default.
+                          pageTransitionAnimation:
+                              PageTransitionAnimation.cupertino,
+                        );
+                      })
+                  : Container(),
+            ],
     );
   }
 
@@ -434,8 +443,17 @@ class _AccountListItemState extends State<AccountListItem> {
                             children: [
                               Flexible(
                                   fit: FlexFit.loose,
-                                  child: Text(widget.item.name,
-                                      style: TextStyles.accountName)),
+                                  child: Row(children: [
+                                    Text(widget.item.name,
+                                        style: TextStyles.accountName),
+                                    ThemedControls.spacerHorizontalSmall(),
+                                    isItemWatchOnly()
+                                        ? const Icon(
+                                            Icons.remove_red_eye_rounded,
+                                            color: LightThemeColors.color4,
+                                          )
+                                        : Container(),
+                                  ])),
                               getCardMenu(context)
                             ]),
                         ThemedControls.spacerVerticalSmall(),

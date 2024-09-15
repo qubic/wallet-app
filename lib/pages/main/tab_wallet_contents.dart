@@ -39,6 +39,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final bool showTickOnTop = false;
   final ScrollController _scrollController = ScrollController();
   String? signInError;
+
   // int? currentTick;
 
   ReactionDisposer? disposeAutorun;
@@ -137,7 +138,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                       onPressed: () {
                         pushScreen(
                           context,
-                          screen: const AddAccount(),
+                          screen: const AddAccount(
+                            isWatchOnly: false,
+                          ),
                           withNavBar: false, // OPTIONAL VALUE. True by default.
                           pageTransitionAnimation:
                               PageTransitionAnimation.cupertino,
@@ -168,12 +171,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
           });
       return;
     }
-    pushScreen(
-      context,
-      screen: const AddAccount(),
-      withNavBar: false, // OPTIONAL VALUE. True by default.
-      pageTransitionAnimation: PageTransitionAnimation.cupertino,
-    );
+
+    appStore.triggerAddAccountModal();
   }
 
   @override

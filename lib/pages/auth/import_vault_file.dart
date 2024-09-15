@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
 
@@ -227,7 +228,6 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
   ///
   /// This function validates the form and imports the vault file
   /// If the number of accounts to be imported is more than 15, a dialog is shown to the user
-  /// If the there are watchOnly accounts, a dialog is shown to the user
   /// If the number of accounts to be imported is less than 15, the wallet is created
   Future<void> handleProceed() async {
     final l10n = l10nOf(context);
@@ -237,35 +237,15 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
       return;
     }
 
-    // get total number of watchOnly accounts
     int toBeImportedCount =
         importedSeeds!.where((element) => element.getSeed() != "").length;
-    int watchOnlyAccounts = importedSeeds!.length - toBeImportedCount;
     String messageTitle = "";
     String messageText = "";
 
     if (toBeImportedCount > 15) {
       // More than 15 accounts to be imported found
-      if (watchOnlyAccounts > 0) {
-        // watch only accounts found
-        messageTitle =
-            l10n.importVaultDialogTitleTooManyAccountsAndWatchAccounts;
-        messageText =
-            l10n.importVaultDialogMessageTooManyAccountsAndWatchAccounts;
-      } else {
-        // no watch only accounts found
-        messageTitle = l10n.importVaultDialogTitleTooManyAccounts;
-        messageText = l10n.importVaultDialogMessageTooManyAccounts;
-      }
-    } else {
-      // less than 15 accounts to be imported
-      if (watchOnlyAccounts > 0) {
-        //There are watchOnly accounts
-        messageTitle = l10n.importVaultDialogTitleWatchAccount;
-        messageText = l10n.importVaultDialogMessageWatchAccount;
-      } else {
-        // there are no watchOnly accounts, normal case do nothing. keep for readability
-      }
+      messageTitle = l10n.importVaultDialogTitleTooManyAccounts;
+      messageText = l10n.importVaultDialogMessageTooManyAccounts;
     }
 
     if ((messageTitle.isNotEmpty) && (messageText.isNotEmpty)) {
@@ -349,15 +329,6 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
       return false;
     }
 
-    if (importedSeeds!.length ==
-        importedSeeds!.where((element) => element.getSeed() == "").length) {
-      setState(() {
-        importError = l10n.importVaultErrorOnlyWatchAccountsFound;
-        isLoading = false;
-      });
-      return false;
-    }
-
     return true;
   }
 
@@ -377,11 +348,11 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
         await appStore.checkWalletIsInitialized();
         List<QubicId> ids = [];
         for (var importedSeed in importedSeeds!) {
-          if (importedSeed.getSeed() != "") {
-            //Remove this when watchOnly accounts are supported
-            ids.add(QubicId(importedSeed.getSeed(), importedSeed.getPublicId(),
-                importedSeed.getAlias()!, 0));
-          }
+          ids.add(QubicId(
+              importedSeed.getSeed(),
+              importedSeed.getPublicId(),
+              importedSeed.getAlias()!,
+              0));
         }
         await appStore.addManyIds(ids);
         await getIt<QubicLi>().authenticate();
