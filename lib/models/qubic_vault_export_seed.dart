@@ -3,9 +3,13 @@ class QubicVaultExportSeed {
   final String alias; //The seed alias
   final String seed; //The unencrypted seed
   final String publicId; //The public id of the seed
+  final bool isOnlyWatch; // Is watch only account
 
   QubicVaultExportSeed(
-      {required this.alias, required this.seed, required this.publicId});
+      {required this.alias,
+      required this.seed,
+      required this.publicId,
+      this.isOnlyWatch = false});
 
   /// Converts this instance of [QubicVaultExportSeed] to a JSON map.
   Map<String, dynamic> toJson() {
@@ -13,6 +17,7 @@ class QubicVaultExportSeed {
     data['alias'] = alias;
     data['seed'] = seed;
     data['publicId'] = publicId;
+    data['isOnlyWatch'] = isOnlyWatch;
     return data;
   }
 
@@ -21,6 +26,7 @@ class QubicVaultExportSeed {
     data['alias'] = alias.replaceAll("\"", "'");
     data['seed'] = seed.replaceAll("\"", "'");
     data['publicId'] = publicId.replaceAll("\"", "'");
+    data['isOnlyWatch'] = isOnlyWatch;
     return data;
   }
 
@@ -30,6 +36,8 @@ class QubicVaultExportSeed {
       alias: json['alias'],
       publicId: json['publicId'],
       seed: json['seed'],
+      isOnlyWatch:
+          json.containsKey('isOnlyWatch') ? json['isOnlyWatch'] : false,
     );
   }
 }

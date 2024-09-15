@@ -106,6 +106,20 @@ class QubicCmd {
         .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
+  Future<bool> verifyIdentity(String publicId) async {
+    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
+      return await qubicJs.verifyIdentity(publicId);
+    }
+    if (UniversalPlatform.isLinux ||
+        UniversalPlatform.isWindows ||
+        UniversalPlatform.isMacOS) {
+      return await qubicCmdUtils.verifyIdentity(publicId);
+    }
+
+    throw Exception(LocalizationManager.instance.appLocalization
+        .generalErrorUnsupportedOS);
+  }
+
   Future<Uint8List> createVaultFile(
       String password, List<QubicVaultExportSeed> seeds) async {
     if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {

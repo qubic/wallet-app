@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:pagination_flutter/pagination.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_loading_indicator.dart';
 import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
@@ -244,6 +245,18 @@ class _TabExplorerState extends State<TabExplorer> {
             Flex(direction: Axis.horizontal, children: [
               Expanded(
                   flex: 1,
+                  child: tickPanel(l10n.explorerLabelPrice,
+                      "\$${explorerStore.networkOverview!.price.toString()}")),
+              ThemedControls.spacerHorizontalMini(),
+              Expanded(
+                  flex: 1,
+                  child: tickPanel(l10n.explorerLabelMarketCap,
+                      "\$${explorerStore.networkOverview!.marketCap.asThousands()}"))
+            ]),
+            ThemedControls.spacerVerticalMini(),
+            Flex(direction: Axis.horizontal, children: [
+              Expanded(
+                  flex: 1,
                   child: tickPanel(
                       l10n.explorerLabelTotalTicks,
                       explorerStore.networkOverview!.numberOfTicks
@@ -386,10 +399,12 @@ class _TabExplorerState extends State<TabExplorer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: RefreshIndicator(
+        body: AdaptiveRefreshIndicator(
+            edgeOffset: kToolbarHeight,
             onRefresh: () async {
               refreshOverview();
             },
+            backgroundColor: LightThemeColors.refreshIndicatorBackground,
             child: Scrollbar(
                 controller: _scrollController,
                 child:
@@ -427,8 +442,11 @@ class _TabExplorerState extends State<TabExplorer> {
                           }
                         }),
                       SliverButton(
-                        icon: const Icon(Icons.filter_list,
-                            color: LightThemeColors.primary),
+                        icon: const ImageIcon(
+                            AssetImage('assets/images/explorer_search.png'),
+                            color: LightThemeColors
+                                .primary // Optional: color to apply to the image
+                            ),
                         onPressed: () {
                           pushScreen(
                             context,

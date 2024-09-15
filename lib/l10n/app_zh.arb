@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "钱包数据已从设备中删除",
     "generalSnackBarMessageQRScannedWithSuccess": "成功扫描二维码",
     "generalSnackBarMessageAccountAlreadyExist": "您的钱包中已存在此帐户",
-    "generalSnackBarMessageTransactionSubmitted": "向 Qubic 网络提交新交易",
+    "generalSnackBarMessageTransactionSubmitted": "您的交易已被存储以便在 tick 中传播 {tick}",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "系统不支持",
     "generalErrorOnlyLowercaseChar": "只包含小写字母。",
     "generalErrorOnlyUppercaseChar": "只包含大写字母。",
@@ -163,7 +170,7 @@
     "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
     "explorerSearchLabelNoResults": "没有找到匹配的结果。",
     "explorerSearchLabelResults": "{count, plural, =1{找到 1 个结果} other{找到 {count} 个结果}}",
-    "explorerTickResultLabelBlockStatus": "区块状态",
+    "explorerTickResultLabelBlockStatus": "滴答状态",
     "explorerTickResultLabelBlockStatusEmpty": "空",
     "explorerTickResultLabelBlockStatusNonEmpty": "非空",
     "explorerTickResultLabelBlockStatusUnknown": "未知",
@@ -361,7 +368,6 @@
     "accountExplorerLabelTotalOutgoing": "总转出",
     "accountExplorerLabelReportedBy": "报告来自",
     "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 笔交易在此纪元} other{{count} 笔交易在此纪元}}",
     "transactionItemLabelIncludedByTickLeader": "由刻度验证者包含的交易",
     "transactionItemLabelNotIncludedByTickLeader": "不由刻度验证者包含的交易",
     "transactionItemLabelTransactionId": "交易 ID",
@@ -653,12 +659,7 @@
     "settingsLabelAutlock": "自动锁定设置",
     "importVaultDialogTitleTooManyAccounts": "账户数量过多",
     "importVaultDialogMessageTooManyAccounts": "您的 Vault 文件包含超过 15 个账户。所有账户都将被导入，在查看余额和发送资金前，请将账户数量调整至最多不超过 15 个。",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "观察账户和账户数量过多",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "您的 Vault 文件中包含了超过 15 个账户，其中一些为观察账户。目前不支持观察账户，这些将被忽略，其余账户都将被导入，在查看余额和发送资金前，请将账户数量调整至最多不超过 15 个。",
-    "importVaultDialogTitleWatchAccount": "仅观察账户",
-    "importVaultDialogMessageWatchAccount": "由于当前不支持观察账户，它们将会被忽略，其余账户都将被导入。",
     "importVaultErrorNoAccountsFound": "在您的 Vault 文件中未找到帐户。无法进行导入。",
-    "importVaultErrorOnlyWatchAccountsFound": "您的 Vault 文件仅包含观察账户。目前不支持观察账户，无法进行导入。",
     "importVaultFilePickerLabel": "请选择一个 Vault 文件以继续：",
     "importVaultFileErrorGeneralMessage": "导入 Vault 文件发生错误： {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
@@ -740,5 +741,7 @@
     },
     "generalErrorFileRequired": "请选择文件",
     "generalErrorPathRequired": "请选择路径",
-    "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。"
+    "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。",
+    "explorerLabelPrice": "价格",
+    "explorerLabelMarketCap": "市值"
 }

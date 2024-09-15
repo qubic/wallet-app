@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/components/tick_indication_styled.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
@@ -56,10 +57,12 @@ class _TabTransfersState extends State<TabTransfers> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
-    return RefreshIndicator(
+    return AdaptiveRefreshIndicator(
+        edgeOffset: kToolbarHeight,
         onRefresh: () async {
           await _timedController.interruptFetchTimer();
         },
+        backgroundColor: LightThemeColors.refreshIndicatorBackground,
         child: Container(
             color: LightThemeColors.background,
             child: Scrollbar(
@@ -74,8 +77,11 @@ class _TabTransfersState extends State<TabTransfers> {
                             TickRefresh(),
                             ThemedControls.spacerHorizontalSmall(),
                             SliverButton(
-                              icon: const Icon(Icons.filter_list,
-                                  color: LightThemeColors.primary),
+                              icon: const ImageIcon(
+                                  AssetImage('assets/images/filter_trx.png'),
+                                  color: LightThemeColors
+                                      .primary // Optional: color to apply to the image
+                                  ),
                               onPressed: () {
                                 pushScreen(
                                   context,
@@ -116,7 +122,7 @@ class _TabTransfersState extends State<TabTransfers> {
                                   ThemePaddings.normalPadding,
                                   ThemePaddings.miniPadding),
                               child: ThemedControls.pageHeader(
-                                  headerText: l10n.filterTransfersTitle)),
+                                  headerText: l10n.appTabTransfers)),
                         )
                       ])),
                       Observer(builder: (context) {

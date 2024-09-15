@@ -36,9 +36,7 @@ class ExplorerResultPageQubicId extends StatelessWidget {
     final l10n = l10nOf(context);
 
     if (idInfo.latestTransfers != null) {
-      return Text(
-          l10n.accountExplorerLabelNumberOfResultsFound(
-              idInfo.latestTransfers!.length),
+      return Text(l10n.accountExplorerLabelLatestTransactions,
           style: TextStyles.textExtraLargeBold);
     } else {
       return Text(l10n.accountExplorerLabelNoResultsFound);

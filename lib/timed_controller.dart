@@ -1,12 +1,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
-class TimedController {
+class TimedController extends WidgetsBindingObserver {
   Timer? _fetchTimer;
   // ignore: unused_field
   Timer? _fetchTimerSlow;
@@ -14,9 +15,50 @@ class TimedController {
   DateTime? lastFetch;
   DateTime? lastFetchSlow;
 
+  Timer? _backgroundTimer;
+
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
-  TimedController();
+  TimedController() {
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.inactive) {
+      // Start background timer to pause after 120 seconds
+      _backgroundTimer =
+          Timer(const Duration(seconds: Config.inactiveSecondsLimit), () {
+        stopFetchTimers();
+      });
+    } else if (state == AppLifecycleState.resumed) {
+      // Cancel the background timer if app returns to foreground before the delay
+      _backgroundTimer?.cancel();
+      restartFetchTimersIfNeeded();
+    }
+  }
+
+  stopFetchTimers() {
+    if (_fetchTimer != null) {
+      _fetchTimer!.cancel();
+      _fetchTimer = null;
+    }
+    if (_fetchTimerSlow != null) {
+      _fetchTimerSlow!.cancel();
+      _fetchTimerSlow = null;
+    }
+  }
+
+  /// Restart the fetching timer if it's not already running
+  restartFetchTimersIfNeeded() {
+    if (_fetchTimer == null) {
+      setupFetchTimer(true);
+    }
+    if (_fetchTimerSlow == null) {
+      setupSlowTimer(true);
+    }
+  }
 
   /// Fetch balances assets and transactions from the network
   /// Makes four calls (balances, network balances, network assets, network transactions
@@ -109,15 +151,6 @@ class TimedController {
       appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
       //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
     }
-  }
-
-  /// Stop the fetching timer
-  /// If the timer is not running, it does nothing
-  stopFetchTimer() {
-    if (_fetchTimer == null) {
-      return;
-    }
-    _fetchTimer!.cancel();
   }
 
   /// Restart the fetching timer.

@@ -21,7 +21,9 @@ import 'package:qubic_wallet/timed_controller.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AddAccount extends StatefulWidget {
-  const AddAccount({super.key});
+  final bool isWatchOnly;
+
+  const AddAccount({super.key, required this.isWatchOnly});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -29,7 +31,8 @@ class AddAccount extends StatefulWidget {
 }
 
 class _AddAccountState extends State<AddAccount> {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final _createAccountFormKey = GlobalKey<FormBuilderState>();
+  final _watchOnlyFormKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
@@ -38,6 +41,8 @@ class _AddAccountState extends State<AddAccount> {
   bool generatingId = false;
 
   String? generatedPublicId;
+  String? watchOnlyId;
+
   @override
   void initState() {
     super.initState();
@@ -111,6 +116,70 @@ class _AddAccountState extends State<AddAccount> {
         });
   }
 
+  void showWatchOnlyQRScanner() {
+    final l10n = l10nOf(context);
+
+    showModalBottomSheet<void>(
+        context: context,
+        useSafeArea: true,
+        builder: (BuildContext context) {
+          final l10n = l10nOf(context);
+
+          return Stack(children: [
+            MobileScanner(
+              // fit: BoxFit.contain,
+              controller: MobileScannerController(
+                detectionSpeed: DetectionSpeed.normal,
+                facing: CameraFacing.back,
+                torchEnabled: false,
+              ),
+
+              onDetect: (capture) {
+                final List<Barcode> barcodes = capture.barcodes;
+                bool foundSuccess = false;
+                for (final barcode in barcodes) {
+                  if (barcode.rawValue != null) {
+                    var value = publicId.text;
+                    value = barcode.rawValue!
+                        .replaceAll("https://wallet.qubic.org/payment/", "");
+                    var validator =
+                    CustomFormFieldValidators.isPublicID(context: context);
+                    if (validator(value) == null) {
+                      if (foundSuccess == true) {
+                        break;
+                      }
+                      publicId.text = value;
+                      foundSuccess = true;
+                    }
+                  }
+                }
+                if (foundSuccess) {
+                  Navigator.pop(context);
+                  _globalSnackBar
+                      .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
+                }
+              },
+            ),
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                    color: Colors.white60,
+                    width: double.infinity,
+                    child: Padding(
+                        padding:
+                        const EdgeInsets.all(ThemePaddings.normalPadding),
+                        child: Text(l10n.sendItemLabelQRScannerInstructions,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic,
+                            ),
+                            textAlign: TextAlign.center))))
+          ]);
+        });
+  }
+
   Widget getScrollView() {
     final l10n = l10nOf(context);
     return SingleChildScrollView(
@@ -138,7 +207,7 @@ class _AddAccountState extends State<AddAccount> {
               ]),
               ThemedControls.spacerVerticalMini(),
               FormBuilder(
-                  key: _formKey,
+                  key: _createAccountFormKey,
                   child: Column(
                     children: [
                       FormBuilderTextField(
@@ -272,7 +341,8 @@ class _AddAccountState extends State<AddAccount> {
                                                   ThemePaddings.smallPadding),
                                           child: IconButton(
                                               onPressed: () async {
-                                                if ((_formKey.currentState
+                                                if ((_createAccountFormKey
+                                                                .currentState
                                                                 ?.instantValue[
                                                             "privateSeed"]
                                                         as String)
@@ -281,7 +351,8 @@ class _AddAccountState extends State<AddAccount> {
                                                   return;
                                                 }
                                                 copyToClipboard(
-                                                    _formKey.currentState
+                                                    _createAccountFormKey
+                                                            .currentState
                                                             ?.instantValue[
                                                         "privateSeed"],
                                                     context);
@@ -346,8 +417,10 @@ class _AddAccountState extends State<AddAccount> {
                                                     fontStyle:
                                                         FontStyle.italic))
                                         : Text(
-                                            l10n
-                                                .addAccountHintAddressInvalidPrivateSeed,
+                                            !generatingId
+                                                ? l10n
+                                                    .addAccountHintAddressInvalidPrivateSeed
+                                                : l10n.generalLabelLoading,
                                             style: TextStyles.textNormal
                                                 .copyWith(
                                                     fontSize: 12,
@@ -383,6 +456,131 @@ class _AddAccountState extends State<AddAccount> {
         ]));
   }
 
+  Widget getWatchOnlyScrollView() {
+    final l10n = l10nOf(context);
+    return SingleChildScrollView(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Row(children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ThemedControls.pageHeader(headerText: l10n.addAccountWatchOnlyPageTitle),
+              ThemedControls.spacerVerticalSmall(),
+              FormBuilder(
+                key: _watchOnlyFormKey,
+                child: Column(
+                  children: [
+                    Text(l10n.addAccountWatchOnlySubtitle),
+                    ThemedControls.spacerVerticalHuge(),
+                    // Account name & Tooltip
+                    Row(children: [
+                      Text(l10n.addAccountLabelAccountName,
+                          style: TextStyles.labelTextNormal),
+                      ThemedControls.spacerHorizontalSmall(),
+                      Tooltip(
+                          triggerMode: TooltipTriggerMode.tap,
+                          showDuration: const Duration(seconds: 5),
+                          message: l10n.addAccountTooltipAccountName,
+                          child: LightThemeColors.shouldInvertIcon
+                              ? ThemedControls.invertedColors(
+                                  child: Image.asset(
+                                      "assets/images/question-active-16.png"))
+                              : Image.asset(
+                                  "assets/images/question-active-16.png")),
+                    ]),
+                    ThemedControls.spacerVerticalSmall(),
+                    // Account name form
+                    FormBuilderTextField(
+                      onSubmitted: (String? text) {
+                        saveIdHandler();
+                      },
+                      name: "accountName",
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(
+                            errorText: l10n.generalErrorRequiredField),
+                        CustomFormFieldValidators.isNameAvailable(
+                            currentQubicIDs: appStore.currentQubicIDs,
+                            context: context)
+                      ]),
+                      readOnly: isLoading,
+                      style: TextStyles.inputBoxSmallStyle,
+                      decoration: ThemeInputDecorations.normalInputbox
+                          .copyWith(hintText: l10n.addAccountHintAccountName),
+                      autocorrect: false,
+                      autofillHints: null,
+                    ),
+                    ThemedControls.spacerVerticalHuge(),
+                    // Qubic address and Tooltip
+                    Row(children: [
+                      Text(l10n.generalLabeQubicAddressAndPublicID,
+                          style: TextStyles.labelTextNormal),
+                      ThemedControls.spacerHorizontalSmall(),
+                      Tooltip(
+                          triggerMode: TooltipTriggerMode.tap,
+                          showDuration: const Duration(seconds: 5),
+                          message: l10n.addAccountWatchOnlyQubicAddressTooltip,
+                          child: LightThemeColors.shouldInvertIcon
+                              ? ThemedControls.invertedColors(
+                                  child: Image.asset(
+                                      "assets/images/question-active-16.png"))
+                              : Image.asset(
+                                  "assets/images/question-active-16.png")),
+                    ]),
+                    ThemedControls.spacerVerticalSmall(),
+                    // Qubic Address form
+                    FormBuilderTextField(
+                      name: "publicAddress",
+                      controller: publicId,
+                      maxLength: 60,
+                      maxLines: 2,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(
+                            errorText: l10n.generalErrorRequiredField),
+                        CustomFormFieldValidators.isPublicID(context: context)
+                        // Use a validator suitable for public addresses
+                      ]),
+                      onChanged: (value) {
+                        setState(() {
+                          watchOnlyId = value;
+                        });
+                      },
+                      onSubmitted: (value) {
+                        savePublicIdHandler();
+                      },
+                      readOnly: isLoading,
+                      style: TextStyles.inputBoxSmallStyle,
+                      decoration: ThemeInputDecorations.normalInputbox
+                          .copyWith(hintText: l10n.addAccountWatchOnlyHintQubicAddress),
+                      autocorrect: false,
+                      autofillHints: null,
+                    ),
+                    ThemedControls.spacerVerticalNormal(),
+                    if (isMobile)
+                      Align(
+                          alignment: Alignment.topLeft,
+                          child: ThemedControls.primaryButtonNormal(
+                              onPressed: () {
+                                showWatchOnlyQRScanner();
+                              },
+                              text: l10n.generalButtonUseQRCode,
+                              icon: !LightThemeColors.shouldInvertIcon
+                                  ? ThemedControls.invertedColors(
+                                  child: Image.asset(
+                                      "assets/images/Group 2294.png"))
+                                  : Image.asset(
+                                  "assets/images/Group 2294.png"))),
+                    const SizedBox(height: ThemePaddings.normalPadding),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ]),
+    );
+  }
+
   List<Widget> getButtons() {
     final l10n = l10nOf(context);
 
@@ -401,7 +599,8 @@ class _AddAccountState extends State<AddAccount> {
       ThemedControls.spacerHorizontalNormal(),
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
-              onPressed: saveIdHandler,
+              onPressed:
+                  widget.isWatchOnly ? savePublicIdHandler : saveIdHandler,
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
                   child: Text(l10n.generalButtonSave,
@@ -410,13 +609,74 @@ class _AddAccountState extends State<AddAccount> {
     ];
   }
 
+  void savePublicIdHandler() async {
+    final l10n = l10nOf(context);
+    _watchOnlyFormKey.currentState?.validate();
+    if (!_watchOnlyFormKey.currentState!.isValid) {
+      return;
+    }
+
+    String? publicId = _watchOnlyFormKey.currentState?.instantValue["publicAddress"] as String?;
+
+    if (publicId == null || publicId.isEmpty) {
+      _globalSnackBar.show("Error! Please input your watch address. It should not be empty.");
+      return;
+    }
+
+    try {
+      // Verify the public ID
+      bool isValid = await qubicCmd.verifyIdentity(publicId);
+
+      if (!isValid) {
+        // Show an error message if verification fails
+        _globalSnackBar.showError(l10n.addAccountErrorVerifyIdentityWrongIdentity);
+        return;
+      }
+    } catch (e) {
+      // Handle errors during verification
+      _globalSnackBar.showError(l10n.addAccountErrorVerifyIdentityError);
+      return;
+    }
+
+    //Prevent duplicates
+    if (appStore.currentQubicIDs
+        .where(((element) =>
+            element.publicId == watchOnlyId!.replaceAll(",", "_")))
+        .isNotEmpty) {
+      _globalSnackBar.show(l10n.generalSnackBarMessageAccountAlreadyExist);
+
+      return;
+    }
+
+    await _savePublicId();
+    getIt<TimedController>().interruptFetchTimer();
+  }
+
+  Future<void> _savePublicId() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    await appStore.addId(
+        _watchOnlyFormKey.currentState?.instantValue["accountName"] as String,
+        watchOnlyId!,
+        '');
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (!mounted) return;
+    Navigator.pop(context);
+  }
+
   void saveIdHandler() async {
     final l10n = l10nOf(context);
-    _formKey.currentState?.validate();
+    _createAccountFormKey.currentState?.validate();
     if (generatingId) {
       return;
     }
-    if (!_formKey.currentState!.isValid) {
+    if (!_createAccountFormKey.currentState!.isValid) {
       return;
     }
 
@@ -439,6 +699,7 @@ class _AddAccountState extends State<AddAccount> {
         builder: (BuildContext context) {
           return SafeArea(
               child: AddAccountWarningSheet(onAccept: () async {
+            if (!mounted) return;
             Navigator.pop(context);
             await _saveId();
             getIt<TimedController>().interruptFetchTimer();
@@ -453,18 +714,20 @@ class _AddAccountState extends State<AddAccount> {
       isLoading = true;
     });
     await appStore.addId(
-      _formKey.currentState?.instantValue["accountName"] as String,
+      _createAccountFormKey.currentState?.instantValue["accountName"] as String,
       generatedPublicId!,
-      _formKey.currentState?.instantValue["privateSeed"] as String,
+      _createAccountFormKey.currentState?.instantValue["privateSeed"] as String,
     );
 
     setState(() {
       isLoading = false;
     });
+    if (!mounted) return;
     Navigator.pop(context);
   }
 
   TextEditingController privateSeed = TextEditingController();
+  TextEditingController publicId = TextEditingController();
 
   bool showAccountInfoTooltip = false;
   bool showSeedInfoTooltip = false;
@@ -481,7 +744,11 @@ class _AddAccountState extends State<AddAccount> {
                 minimum: ThemeEdgeInsets.pageInsets
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
-                  Expanded(child: getScrollView()),
+                  Expanded(
+                    child: widget.isWatchOnly
+                        ? getWatchOnlyScrollView() // Use the watch-only UI
+                        : getScrollView(), // Use the old form UI without watch-only snippet
+                  ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: getButtons())

@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "Données du portefeuille effacées de l'appareil",
     "generalSnackBarMessageQRScannedWithSuccess": "QR Code scanné avec succès",
     "generalSnackBarMessageAccountAlreadyExist": "Ce compte existe déjà dans votre portefeuille",
-    "generalSnackBarMessageTransactionSubmitted": "Nouvelle transaction soumise au réseau Qubic",
+    "generalSnackBarMessageTransactionSubmitted": "Votre transaction a été enregistrée pour la propagation dans tick {tick}",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "Système d'exploitation non pris en charge",
     "generalErrorOnlyLowercaseChar": "Doit contenir uniquement des lettres minuscules.",
     "generalErrorOnlyUppercaseChar": "Doit contenir uniquement des lettres majuscules.",
@@ -163,7 +170,7 @@
     "explorerSearchLabelCriteria": "Tick / ID TX / ID Public",
     "explorerSearchLabelNoResults": "Aucun résultat correspondant",
     "explorerSearchLabelResults": "{count, plural, =1{1 résultat trouvé} other{{count} résultats trouvés}}",
-    "explorerTickResultLabelBlockStatus": "Statut du Bloc",
+    "explorerTickResultLabelBlockStatus": "Statut du Tick",
     "explorerTickResultLabelBlockStatusEmpty": "Vide",
     "explorerTickResultLabelBlockStatusNonEmpty": "Non Vide",
     "explorerTickResultLabelBlockStatusUnknown": "Inconnu",
@@ -361,7 +368,6 @@
     "accountExplorerLabelTotalOutgoing": "Total Sortant",
     "accountExplorerLabelReportedBy": "Rapporté par",
     "accountExplorerLabelNoResultsFound": "Aucune transaction pour cet ID dans cette époque",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transaction dans cette époque} other{{count} transactions dans cette époque}}",
     "transactionItemLabelIncludedByTickLeader": "Inclus par le Leader du Tick",
     "transactionItemLabelNotIncludedByTickLeader": "Non inclus par le Leader du Tick",
     "transactionItemLabelTransactionId": "ID de la Transaction",
@@ -740,5 +746,8 @@
     },
     "generalErrorFileRequired": "Veuillez remplir le fichier",
     "generalErrorPathRequired": "Veuillez remplir le chemin du fichier",
-    "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins"
+    "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins",
+    "explorerLabelPrice": "Prix",
+    "explorerLabelMarketCap": "Capitalisation boursière",
+    "accountExplorerLabelLatestTransactions": "Dernières Transactions"
 }

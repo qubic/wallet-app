@@ -22,6 +22,8 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:privacy_screen/privacy_screen.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialTabIndex;
@@ -44,17 +46,18 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   late AnimatedSnackBar? errorBar;
   late AnimatedSnackBar? notificationBar;
 
-  Timer? _lockTimer;
+  Timer? _autoLockTimer;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.paused ||
+        (UniversalPlatform.isDesktop && state == AppLifecycleState.hidden)) {
       // Lock the app immediately if the timeout is 0 (Immediately)
       if (settingsStore.settings.autoLockTimeout == 0) {
         applicationStore.signOut();
       } else {
         // Start the auto-lock timer when the app goes to background
-        _lockTimer = Timer(
+        _autoLockTimer = Timer(
           Duration(minutes: settingsStore.settings.autoLockTimeout),
           () {
             // Lock the app
@@ -63,9 +66,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         );
       }
     }
-    if (state == AppLifecycleState.resumed) {
+
+    if (state == AppLifecycleState.resumed ||
+        (UniversalPlatform.isDesktop && state == AppLifecycleState.inactive)) {
       // Cancel the timer when the app is resumed
-      _lockTimer?.cancel();
+      _autoLockTimer?.cancel();
       if (!applicationStore.isSignedIn) {
         context.go('/signIn');
       }
@@ -76,6 +81,22 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
+    if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
+      PrivacyScreen.instance.enable(
+        iosOptions: const PrivacyIosOptions(
+          enablePrivacy: true,
+          autoLockAfterSeconds: 0,
+          lockTrigger: IosLockTrigger.didEnterBackground,
+        ),
+        androidOptions: const PrivacyAndroidOptions(
+          enableSecure: true,
+          autoLockAfterSeconds: 0,
+        ),
+        blurEffect: PrivacyBlurEffect.dark,
+        backgroundColor: Colors.transparent,
+      );
+    }
 
     _timedController.setupFetchTimer(true);
     _timedController.setupSlowTimer(true);
@@ -166,11 +187,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _timedController.stopFetchTimer();
+    _timedController.stopFetchTimers();
     _disposeSnackbarAuto();
 
     WidgetsBinding.instance.removeObserver(this);
-    _lockTimer?.cancel();
+    _autoLockTimer?.cancel();
 
     super.dispose();
   }
@@ -276,6 +297,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // }
     // return getMain();
     return Observer(builder: (context) {
+      if (applicationStore.showAddAccountModal) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showAddAccountModal(context);
+          // Reset the trigger to avoid showing the modal again unintentionally
+          applicationStore.clearAddAccountModal();
+        });
+      }
+
       if (UniversalPlatform.isDesktop && !settingsStore.cmdUtilsAvailable) {
         return const Scaffold(body: DownloadCmdUtils());
       }

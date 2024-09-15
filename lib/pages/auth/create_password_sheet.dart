@@ -64,7 +64,6 @@ class _CreatePasswordSheetState extends State<CreatePasswordSheet> {
     ]);
   }
 
-//transferNowHandler
   List<Widget> getButtons() {
     final l10n = l10nOf(context);
 

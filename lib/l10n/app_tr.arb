@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "Cüzdan verisi cihazdan silindi",
     "generalSnackBarMessageQRScannedWithSuccess": "QR kod başarılı bir şekilde tarandı",
     "generalSnackBarMessageAccountAlreadyExist": "Bu hesap zaten cüdanında mevcut",
-    "generalSnackBarMessageTransactionSubmitted": "Qubic ağına yeni işlem gönderildi",
+    "generalSnackBarMessageTransactionSubmitted": "İşleminiz yayılmak üzere {tick} kodlu Tick'te saklandı",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "Bu işletim sistemi desteklenmiyor",
     "generalErrorOnlyLowercaseChar": "Yalnızca küçük harfler içermelidir.",
     "generalErrorOnlyUppercaseChar": "Yalnızca büyük harfler içermelidir.",
@@ -163,7 +170,7 @@
     "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
     "explorerSearchLabelNoResults": "No results found matching",
     "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
-    "explorerTickResultLabelBlockStatus": "Blok Durumu",
+    "explorerTickResultLabelBlockStatus": "Tik Durumu",
     "explorerTickResultLabelBlockStatusEmpty": "Boş",
     "explorerTickResultLabelBlockStatusNonEmpty": "Boş Olmayan",
     "explorerTickResultLabelBlockStatusUnknown": "Unknown",
@@ -360,8 +367,6 @@
     "accountExplorerLabelTotalIncoming": "Toplam Gelen",
     "accountExplorerLabelTotalOutgoing": "Toplam Giden",
     "accountExplorerLabelReportedBy": "Bildiren",
-    "accountExplorerLabelNoResultsFound": "Bu dönem için bu ID'ye ait işlem bulunmamaktadır",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transaction in this epoch} other{{count} transactions in this epoch}}",
     "transactionItemLabelIncludedByTickLeader": "Tick Lideri Tarafından Dahil Edilen",
     "transactionItemLabelNotIncludedByTickLeader": "Tick Lideri Tarafından Dagil Edilmeyen",
     "transactionItemLabelTransactionId": "Transfer ID'si",
@@ -426,7 +431,7 @@
     "addAccountHintAddressNoPrivateSeed": "Özel anahtar girilmedi",
     "addAccountHintAddressInvalidPrivateSeed": "Geçersiz özel anahtar girildi",
     "addAccountErrorTamperedWalletTitle": "KUSURLU CÜZDAN TESPİT EDİLDİ",
-    "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nQUBIC-HUB.COM'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
+    "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nHTTPS://GITHUB.COM/QUBIC/WALLET-APP'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
     "sendAssetLabelNumberOfShares": "Hisse Sayısı",
     "sendAssetLabelTransactionCost": "Trasfer Ücreti (sabit)",
     "sendAssetButtonTransfer": "Transfer",
@@ -653,12 +658,7 @@
     "settingsLabelAutlock": "Otomatik Kilitleme Ayarları",
     "importVaultDialogTitleTooManyAccounts": "Çok fazla hesap bulundu",
     "importVaultDialogMessageTooManyAccounts": "Kasa dosyanız 15'ten fazla hesap içeriyor. Tüm hesaplar içe aktarılacaktır, ancak bakiyelerinizi görüntülemek ve fon gönderebilmek için lütfen 15 veya daha az hesap olacak şekilde bazı hesapları silin.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
-    "importVaultDialogTitleWatchAccount": "Yalnızca görüntüleme hesapları bulundu",
-    "importVaultDialogMessageWatchAccount": "Şu anda yalnızca görüntüleme hesaplarını desteklemediğimiz için bunlar görmezden gelinecektir. Diğer tüm hesaplar içe aktarılacaktır.",
     "importVaultErrorNoAccountsFound": "Kasa Dosyanızad herhangi bir hesap bulunamadı. İçe aktarma işlemine devam edilemiyor.",
-    "importVaultErrorOnlyWatchAccountsFound": "Kasa dosyanız yalnızca görüntüleme hesapları içeriyor. Şu anda yalnızca görüntüleme hesaplarını desteklemediğimiz için içe aktarma işlemini gerçekleştiremiyoruz.",
     "importVaultFilePickerLabel": "Lütfen devam etmek için bir Kasa Dosyası seçin:",
     "importVaultFileErrorGeneralMessage": "Error importing vault file: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
@@ -740,5 +740,7 @@
     },
     "generalErrorFileRequired": "Lütfen bir dosya seçin",
     "generalErrorPathRequired": "Lütfen bir yol seçin",
-    "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz."
+    "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz.",
+    "explorerLabelPrice": "Fiyat",
+    "explorerLabelMarketCap": "Piyasa Değeri"
 }

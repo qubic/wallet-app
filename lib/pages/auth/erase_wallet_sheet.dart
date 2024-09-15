@@ -66,7 +66,6 @@ class _EraseWalletSheetState extends State<EraseWalletSheet> {
     ]);
   }
 
-//transferNowHandler
   List<Widget> getButtons() {
     final l10n = l10nOf(context);
 

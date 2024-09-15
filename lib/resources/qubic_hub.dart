@@ -1,11 +1,13 @@
 // ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
+import 'package:http_interceptor/http/intercepted_http.dart';
 import 'dart:convert';
 
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/update_details_dto.dart';
 import 'package:qubic_wallet/dtos/version_info_dto.dart';
+import 'package:qubic_wallet/resources/http_interceptors.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -18,6 +20,10 @@ class QubicHub {
   // ignore: unused_field
   String? _refreshToken;
   String? get authenticationToken => _authenticationToken;
+
+  final client = InterceptedHttp.build(
+    interceptors: [LoggingInterceptor()],
+  );
 
   String getUserAgentHeader() {
     String OS = UniversalPlatform.isAndroid
@@ -73,7 +79,7 @@ class QubicHub {
       headers.addEntries([
         MapEntry('User-Agent', getUserAgentHeader()),
       ]);
-      response = await http.get(
+      response = await client.get(
           Uri.https(Config.servicesDomain, Config.URL_VersionInfo),
           headers: headers);
       appStore.decreasePendingRequests();
@@ -113,7 +119,7 @@ class QubicHub {
       headers.addEntries([
         MapEntry('User-Agent', getUserAgentHeader()),
       ]);
-      response = await http.get(
+      response = await client.get(
           Uri.https(Config.servicesDomain, Config.URL_VersionInfo, {
             'ver': updateVersion,
           }),

@@ -76,7 +76,14 @@
     "generalSnackBarMessageWalletDataErased": "Datos del Wallet eliminados del dispositivo",
     "generalSnackBarMessageQRScannedWithSuccess": "Se escaneó el código QR con éxito",
     "generalSnackBarMessageAccountAlreadyExist": "Esta cuenta ya existe en el Wallet",
-    "generalSnackBarMessageTransactionSubmitted": "Nueva transacción enviada a la red Qubic",
+    "generalSnackBarMessageTransactionSubmitted": "Tu transacción se ha guardado y será enviada en el tick {tick}",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "Sistema no soportado",
     "generalErrorOnlyLowercaseChar": "Debe contener sólo letras mayúsculas",
     "generalErrorOnlyUppercaseChar": "Debe contener sólo letras minúsculas",
@@ -360,7 +367,6 @@
     "accountExplorerLabelTotalOutgoing": "Total Saliente",
     "accountExplorerLabelReportedBy": "Reportado por",
     "accountExplorerLabelNoResultsFound": "No se encontraron transacciones para esta dirección en esta época.",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transacción en esta época} other{{count} transacciones en esta época}}}",
     "transactionItemLabelIncludedByTickLeader": "Incluído por el Tick Líder",
     "transactionItemLabelNotIncludedByTickLeader": "No incluído por el Tick Líder",
     "transactionItemLabelTransactionId": "ID de la Transacción",
@@ -652,12 +658,7 @@
     "settingsLabelAutlock": "Configuración de Autobloqueo",
     "importVaultDialogTitleTooManyAccounts": "El archivo vault contiene demasiadas cuentas",
     "importVaultDialogMessageTooManyAccounts": "El archivo seleccionado contiene más de 15 cuentas. Todas las cuentas serán agregadas al wallet pero para poder ver los balances y hacer transferencias, debes eliminar algunas hasta tener 15 o menos.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "El archivo vault contiene demasiadas cuentas y cuentas de solo lectura",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "El archivo seleccionado contiene más de 15 cuentas y algunas de sólo lectura. Debido a que no soportamos aún cuentas de sólo lectura, estas serán ignoradas. Todas las otras cuentas serán agregadas al wallet pero para poder ver los balances y hacer transferencias, debes eliminar algunas hasta tener 15 o menos.",
-    "importVaultDialogTitleWatchAccount": "El archivo vault contiene cuentas de sólo lectura",
-    "importVaultDialogMessageWatchAccount": "Debido a que no soportamos aún cuentas de sólo lectura, estas serán ignoradas. Todas las otras cuentas serán agregadas al wallet.",
     "importVaultErrorNoAccountsFound": "No se encontraron cuentas en el archivo vault.",
-    "importVaultErrorOnlyWatchAccountsFound": "Lamentamos no poder procesar tu archivo vault porque todas las cuentas son de sólo lectura. Estamos trabajando para soportar estas cuentas en futuras versiones.",
     "importVaultFilePickerLabel": "Por favor, selecciona un archivo vault para continuar:",
     "importVaultFileErrorGeneralMessage": "Error al importar el archivo vault: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
@@ -739,5 +740,8 @@
     },
     "generalErrorFileRequired": "Por favor, selecciona un archivo",
     "generalErrorPathRequired": "Por favor, selecciona un directorio",
-    "homeWarningTooManyAccounts": "Tienes más de 15 cuentas en tu Wallet. No podrás ver los balances o hacer transferencias hasta que no elimines algunas de ellas hasta tener 15 o menos"
+    "homeWarningTooManyAccounts": "Tienes más de 15 cuentas en tu Wallet. No podrás ver los balances o hacer transferencias hasta que no elimines algunas de ellas hasta tener 15 o menos",
+    "explorerLabelPrice": "Precio",
+    "explorerLabelMarketCap": "Capitalización de mercado",
+    "accountExplorerLabelLatestTransactions": "Últimas Transacciones"
 }
