@@ -185,13 +185,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                                     widget.item!.publicId == tran.destId ||
                                         widget.item!.publicId == tran.sourceId;
                               }
-
-                              bool matchesFilter = appStore.transactionFilter ==
-                                      null ||
-                                  appStore.transactionFilter!.matchesVM(
-                                      tran); //If there are active filters, only show transactions that match the filters
-
-                              if (matchesItem && matchesFilter) {
+                              if (matchesItem) {
                                 added++;
 
                                 results.add(TransactionItem(item: tran));
