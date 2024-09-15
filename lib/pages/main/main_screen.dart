@@ -78,19 +78,21 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    PrivacyScreen.instance.enable(
-      iosOptions: const PrivacyIosOptions(
-        enablePrivacy: true,
-        autoLockAfterSeconds: 0,
-        lockTrigger: IosLockTrigger.didEnterBackground,
-      ),
-      androidOptions: const PrivacyAndroidOptions(
-        enableSecure: true,
-        autoLockAfterSeconds: 0,
-      ),
-      blurEffect: PrivacyBlurEffect.dark,
-      backgroundColor: Colors.transparent,
-    );
+    if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
+      PrivacyScreen.instance.enable(
+        iosOptions: const PrivacyIosOptions(
+          enablePrivacy: true,
+          autoLockAfterSeconds: 0,
+          lockTrigger: IosLockTrigger.didEnterBackground,
+        ),
+        androidOptions: const PrivacyAndroidOptions(
+          enableSecure: true,
+          autoLockAfterSeconds: 0,
+        ),
+        blurEffect: PrivacyBlurEffect.dark,
+        backgroundColor: Colors.transparent,
+      );
+    }
 
     _timedController.setupFetchTimer(true);
     _timedController.setupSlowTimer(true);
