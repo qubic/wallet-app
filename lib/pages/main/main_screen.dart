@@ -45,17 +45,18 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   late AnimatedSnackBar? errorBar;
   late AnimatedSnackBar? notificationBar;
 
-  Timer? _lockTimer;
+  Timer? _autoLockTimer;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.paused ||
+        (UniversalPlatform.isDesktop && state == AppLifecycleState.hidden)) {
       // Lock the app immediately if the timeout is 0 (Immediately)
       if (settingsStore.settings.autoLockTimeout == 0) {
         applicationStore.signOut();
       } else {
         // Start the auto-lock timer when the app goes to background
-        _lockTimer = Timer(
+        _autoLockTimer = Timer(
           Duration(minutes: settingsStore.settings.autoLockTimeout),
           () {
             // Lock the app
@@ -64,9 +65,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         );
       }
     }
-    if (state == AppLifecycleState.resumed) {
+
+    if (state == AppLifecycleState.resumed ||
+        (UniversalPlatform.isDesktop && state == AppLifecycleState.inactive)) {
       // Cancel the timer when the app is resumed
-      _lockTimer?.cancel();
+      _autoLockTimer?.cancel();
       if (!applicationStore.isSignedIn) {
         context.go('/signIn');
       }
@@ -187,7 +190,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     _disposeSnackbarAuto();
 
     WidgetsBinding.instance.removeObserver(this);
-    _lockTimer?.cancel();
+    _autoLockTimer?.cancel();
 
     super.dispose();
   }
