@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -75,15 +76,32 @@ class _RevealSeedWarningSheetState extends State<RevealSeedWarningSheet> {
     final l10n = l10nOf(context);
     return [
       Expanded(
-          child: ThemedControls.transparentButtonBigPadded(
-              onPressed: widget.onReject, text: l10n.generalButtonCancel)),
+          child: ThemedControls.transparentButtonBigWithChild(
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                  child: Text(l10n.generalButtonCancel,
+                      textAlign: TextAlign.center,
+                      style: TextStyles.transparentButtonText)),
+              onPressed: widget.onReject)),
       ThemedControls.spacerHorizontalSmall(),
       Expanded(
           child: hasAccepted
-              ? ThemedControls.primaryButtonBigPadded(
-                  onPressed: proceedHandler, text: l10n.generalButtonProceed)
-              : ThemedControls.primaryButtonBigDisabledPadded(
-                  text: l10n.generalButtonProceed)),
+              ? ThemedControls.primaryButtonBigWithChild(
+                  onPressed: proceedHandler,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                    child: Text(l10n.generalButtonProceed,
+                        textAlign: TextAlign.center,
+                        style: TextStyles.primaryButtonText),
+                  ))
+              : ThemedControls.primaryButtonBigDisabledWithChild(
+                  child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                  child: Text(l10n.generalButtonProceed,
+                      textAlign: TextAlign.center,
+                      style: TextStyles.primaryButtonText),
+                ))),
     ];
   }
 
