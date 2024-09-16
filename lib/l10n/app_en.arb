@@ -325,6 +325,7 @@
     "joinCommunityLabelReddit": "Reddit",
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
+    "joinCommunityLabelInstagram": "Instagram",
     "revealSeedTitle": "Private Seed",
     "revealSeedHeader": "of {accountName}",
     "@revealSeedHeader": {

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/components/community_list_tile.dart';
@@ -18,37 +20,37 @@ class JoinCommunity extends StatelessWidget {
               style: TextStyles.textExtraLargeBold)),
       body: ListView(
         padding: ThemeEdgeInsets.pageInsets,
-        children: const [
+        children: [
           CommunityListTile(
-              title: "Discord",
+              title: l10n.joinCommunityLabelDiscord,
               prefixIconPath: AppIcons.discord,
               url: "https://discord.com/invite/qubic"),
           CommunityListTile(
-              title: "Telegram",
+              title: l10n.joinCommunityLabelTelegram,
               prefixIconPath: AppIcons.telegram,
               url: "https://t.me/qubic_network"),
           CommunityListTile(
-              title: "X (Twitter)",
+              title: l10n.joinCommunityLabelTwitter,
               prefixIconPath: AppIcons.x,
               url: "https://twitter.com/_Qubic_"),
           CommunityListTile(
-              title: "Reddit",
+              title: l10n.joinCommunityLabelReddit,
               prefixIconPath: AppIcons.reddit,
               url: "https://www.reddit.com/r/Qubic/"),
           CommunityListTile(
-              title: "YouTube",
+              title: l10n.joinCommunityLabelYouTube,
               prefixIconPath: AppIcons.youtube,
               url: "https://www.youtube.com/@_qubic_/videos"),
           CommunityListTile(
-              title: "GitHub",
+              title: l10n.joinCommunityLabelGitHub,
               prefixIconPath: AppIcons.github,
               url: "https://github.com/qubic"),
           CommunityListTile(
-              title: "LinkedIn",
+              title: l10n.joinCommunityLabelLinkedIn,
               prefixIconPath: AppIcons.linkedin,
               url: "https://www.linkedin.com/company/qubicnetwork/"),
           CommunityListTile(
-              title: "Instagram",
+              title: l10n.joinCommunityLabelInstagram,
               prefixIconPath: AppIcons.instagram,
               url: "https://www.instagram.com/_qubic_official/"),
         ],

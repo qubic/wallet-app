@@ -323,6 +323,7 @@
     "joinCommunityLabelReddit": "Reddit",
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
+    "joinCommunityLabelInstagram": "Instagram",
     "revealSeedTitle": "Semilla Privada",
     "revealSeedHeader": "de {accountName}",
     "@revealSeedHeader": {
