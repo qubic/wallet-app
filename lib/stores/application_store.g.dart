@@ -301,25 +301,6 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
         .run(() => super.setBalancesAndAssets(balances, assets));
   }
 
-  late final _$setAmountsAndAssetsAsyncAction =
-      AsyncAction('_ApplicationStore.setAmountsAndAssets', context: context);
-
-  @override
-  Future<void> setAmountsAndAssets(
-      List<BalanceDto> balances, List<QubicAssetDto> assets) {
-    return _$setAmountsAndAssetsAsyncAction
-        .run(() => super.setAmountsAndAssets(balances, assets));
-  }
-
-  late final _$setCurrentBalancesAsyncAction =
-      AsyncAction('_ApplicationStore.setCurrentBalances', context: context);
-
-  @override
-  Future<void> setCurrentBalances(List<BalanceDto> balances) {
-    return _$setCurrentBalancesAsyncAction
-        .run(() => super.setCurrentBalances(balances));
-  }
-
   late final _$updateTransactionsAsyncAction =
       AsyncAction('_ApplicationStore.updateTransactions', context: context);
 
