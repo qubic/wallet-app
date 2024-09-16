@@ -10,7 +10,7 @@ import 'package:qubic_wallet/pages/main/tab_settings/components/settings_list_ti
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/auto_lock_settings.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
