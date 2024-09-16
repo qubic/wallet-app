@@ -27,7 +27,7 @@ abstract class ThemePaddings {
 
 class LightThemeColors {
   static const shouldInvertIcon = true;
-  static const primary = Color(0xFFDDDDDD);
+  static const primary = Color(0xFFFFFFFF);
   static const surface = Color(0xFF222229);
   static const background = Color(0xFF101820);
   static const navBg = Color(0xFF0C131B);
