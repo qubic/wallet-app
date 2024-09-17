@@ -325,6 +325,7 @@
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
     "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "Seed Privée",
     "revealSeedHeader": "de {accountName}",
     "@revealSeedHeader": {

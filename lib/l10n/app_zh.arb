@@ -325,6 +325,7 @@
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
     "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "私钥种子",
     "revealSeedHeader": "属于 {accountName}",
     "@revealSeedHeader": {

@@ -324,6 +324,7 @@
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
     "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "Semilla Privada",
     "revealSeedHeader": "de {accountName}",
     "@revealSeedHeader": {

@@ -325,6 +325,7 @@
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
     "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "Özel Anahtar",
     "revealSeedHeader": "of {accountName}",
     "@revealSeedHeader": {

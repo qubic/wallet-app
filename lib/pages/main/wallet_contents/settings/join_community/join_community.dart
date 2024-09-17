@@ -50,6 +50,10 @@ class JoinCommunity extends StatelessWidget {
               prefixIconPath: AppIcons.linkedin,
               url: "https://www.linkedin.com/company/qubicnetwork/"),
           CommunityListTile(
+              title: l10n.joinCommunityLabelTiktok,
+              prefixIconPath: AppIcons.tiktok,
+              url: "https://www.tiktok.com/@_qubic_official"),
+          CommunityListTile(
               title: l10n.joinCommunityLabelInstagram,
               prefixIconPath: AppIcons.instagram,
               url: "https://www.instagram.com/_qubic_official/"),
