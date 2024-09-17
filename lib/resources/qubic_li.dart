@@ -585,45 +585,4 @@ class QubicLi {
     }
     return assets;
   }
-
-  /// Gets the market info from the network
-  Future<MarketInfoDto> getMarketInfo() async {
-    appStore.incrementPendingRequests();
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({'Content-Type': 'application/json'});
-      response = await http
-          .get(Uri.https(Config.walletDomain, Config.URL_MarketInfo),
-              headers: headers)
-          .catchError((e) {
-        appStore.decreasePendingRequests();
-        throw Exception('Failed to contact server for fetching market info.');
-      });
-      appStore.decreasePendingRequests();
-    } catch (e) {
-      appStore.decreasePendingRequests();
-      throw Exception('Failed to contact server for fetching market info.');
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late MarketInfoDto marketInfo;
-
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception('Failed to fetch market info. Could not parse response');
-    }
-    try {
-      marketInfo = MarketInfoDto.fromJson(parsedJson);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch market info. Server response is missing required info');
-    }
-    return marketInfo;
-  }
 }

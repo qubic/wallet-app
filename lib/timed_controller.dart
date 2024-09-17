@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
+import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
 class TimedController extends WidgetsBindingObserver {
@@ -15,6 +17,7 @@ class TimedController extends WidgetsBindingObserver {
   DateTime? lastFetchSlow;
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
+  final QubicStatsApi _statsApi = getIt<QubicStatsApi>();
 
   stopFetchTimers() {
     if (_fetchTimer != null) {
@@ -79,15 +82,15 @@ class TimedController extends WidgetsBindingObserver {
 
   /// Fetch the market info from the backend
   /// If the call fails, it shows a snackbar with the error message
-  /// If the call succeeds, it updates the store with the results
-  _getMarketInfo() async {
-    _apiService.getMarketInfo().then((marketInfo) {
-      debugPrint(
-          "Got market info: ${marketInfo.capitalization} ${marketInfo.price} ${marketInfo.currency} ${marketInfo.supply}");
+  /// If the call succeeds, it updates the appStore with the results
+  Future<void> _getMarketInfo() async {
+    try {
+      final marketInfo = await _statsApi.getMarketInfo();
+      debugPrint(marketInfo.toString());
       appStore.setMarketInfo(marketInfo);
-    }).onError((e, stackTrace) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-    });
+    } on AppError catch (e) {
+      appStore.reportGlobalError(e.message);
+    }
   }
 
   /// Called by the main timer
