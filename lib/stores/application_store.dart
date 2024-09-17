@@ -301,7 +301,10 @@ abstract class _ApplicationStore with Store {
   @action
 
   /// Sets the $QUBIC amount for an account
-  void setAmounts(List<CurrentBalanceDto> amounts) {
+  /// Returns the  IDs whose amounts have changed <PublicID, newAmount>
+  Map<String, int> setAmounts(List<CurrentBalanceDto> amounts) {
+    Map<String, int> changedIds = {};
+
     for (var i = 0; i < currentQubicIDs.length; i++) {
       List<CurrentBalanceDto> amountsForID = amounts
           .where((e) => e.publicId == currentQubicIDs[i].publicId)
@@ -309,7 +312,14 @@ abstract class _ApplicationStore with Store {
       for (var j = 0; j < amountsForID.length; j++) {
         if (currentQubicIDs[i].publicId == amountsForID[j].publicId) {
           var item = QubicListVm.clone(currentQubicIDs[i]);
+
+          //Add the ID that has changed to the list
+          if ((item.amount != amountsForID[j].amount) &&
+              (changedIds.containsKey(item.publicId) == false)) {
+            changedIds[item.publicId] = item.amount ?? -1;
+          }
           item.amount = amountsForID[j].amount;
+
           currentQubicIDs[i] = item;
         }
       }
@@ -318,16 +328,42 @@ abstract class _ApplicationStore with Store {
       newList.addAll(currentQubicIDs);
       currentQubicIDs = newList;
     }
+    return changedIds;
   }
 
   /// Sets the Assets for an account
-  void setAssets(List<QubicAssetDto> assetsForAllIDs) {
+  /// Returns the list of IDs whose assets have changed
+  /// as <PublicID, [QubicAssetDto]>
+  Map<String, List<QubicAssetDto>> setAssets(
+      List<QubicAssetDto> assetsForAllIDs) {
+    Map<String, List<QubicAssetDto>> changedIds = {};
+
     for (var i = 0; i < currentQubicIDs.length; i++) {
       List<QubicAssetDto> assetsForID = assetsForAllIDs
           .where((e) => e.publicId == currentQubicIDs[i].publicId)
           .toList();
       for (var j = 0; j < assetsForID.length; j++) {
         if (assetsForID[j].publicId == currentQubicIDs[i].publicId) {
+          // Detect changes start
+          var assetInfo = currentQubicIDs[i]
+              .assets
+              .values
+              .where((el) =>
+                  el.assetName == assetsForID[j].assetName &&
+                  el.contractIndex == assetsForID[j].contractIndex &&
+                  el.issuerIdentity == assetsForID[j].issuerIdentity)
+              .firstOrNull;
+          if (assetInfo != null) {
+            if (assetInfo.ownedAmount != assetsForID[j].ownedAmount) {
+              if (changedIds.containsKey(currentQubicIDs[i].publicId) ==
+                  false) {
+                changedIds[currentQubicIDs[i].publicId] = [];
+              }
+              changedIds[currentQubicIDs[i].publicId]!.add(assetsForID[j]);
+            }
+          }
+          //Detect changes end
+
           var item = QubicListVm.clone(currentQubicIDs[i]);
           item.setAssets(assetsForID);
           currentQubicIDs[i] = item;
@@ -337,47 +373,8 @@ abstract class _ApplicationStore with Store {
     ObservableList<QubicListVm> newList = ObservableList<QubicListVm>();
     newList.addAll(currentQubicIDs);
     currentQubicIDs = newList;
-  }
 
-  @action
-  Future<void> setAmountsAndAssets(
-      List<BalanceDto> balances, List<QubicAssetDto> assets) async {
-    for (var i = 0; i < currentQubicIDs.length; i++) {
-      BalanceDto? balance = balances
-          .firstWhereOrNull((e) => e.publicId == currentQubicIDs[i].publicId);
-      List<QubicAssetDto> assetsForID = assets
-          .where((e) => e.publicId == currentQubicIDs[i].publicId)
-          .toList();
-
-      if ((assetsForID.isNotEmpty) || (balance != null)) {
-        var item = QubicListVm.clone(currentQubicIDs[i]);
-
-        if (assetsForID.isNotEmpty) {
-          item.setAssets(assetsForID);
-        }
-        if (balance != null) {
-          item.amount = balance.currentEstimatedAmount;
-        }
-
-        currentQubicIDs[i] = item;
-      }
-    }
-    ObservableList<QubicListVm> newList = ObservableList<QubicListVm>();
-    newList.addAll(currentQubicIDs);
-    currentQubicIDs = newList;
-  }
-
-  @action
-  Future<void> setCurrentBalances(List<BalanceDto> balances) async {
-    for (var i = 0; i < currentQubicIDs.length; i++) {
-      BalanceDto? balance = balances
-          .firstWhereOrNull((e) => e.publicId == currentQubicIDs[i].publicId);
-      if (balance != null) {
-        var item = QubicListVm.clone(currentQubicIDs[i]);
-        item.amount = balance.currentEstimatedAmount;
-        currentQubicIDs[i] = item;
-      }
-    }
+    return changedIds;
   }
 
   @action

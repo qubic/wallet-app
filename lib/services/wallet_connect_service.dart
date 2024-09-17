@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -72,31 +73,97 @@ class WalletConnectService {
   }
 
   //Trigger of events to be received in a dapp
-  //Triggers an amount changed event for the wallet connect clients
-  void triggerAmountChangedEvent() {
+
+  //Triggers an amountChanged event for all the wallet connect clients who have subscribed to it
+  //@param changedIDs Map<String, int> with the publicId (key) and number of $Qubic (int)
+  void triggerAmountChangedEvent(Map<String, int> changedIDs) {
     if (!shouldTriggerEvent()) {
       return;
     }
-    // web3Wallet!.emitSessionEvent(
-    //     topic: sessionInfo!.session.topic,
-    //     chainId: Config.walletConnectChainId,
-    //     event: SessionEventParams(
-    //         name: "amountChanged",
-    //         data: {"amount": appStore.currentQubicIDs.length}));
+
+    web3Wallet!
+        .getActiveSessions()
+        .forEach(((String session, SessionData sessionData) {
+      if (sessionData.namespaces.entries.first.value.events
+          .contains(wcEvents.amountChanged)) {
+        List<dynamic> data = [];
+        for (var id in changedIDs.entries) {
+          dynamic item = {};
+          item["publicId"] = id.key;
+          item["amount"] = id.value;
+          data.add(item);
+        }
+
+        web3Wallet!.emitSessionEvent(
+            topic: sessionData.topic,
+            chainId: Config.walletConnectChainId,
+            event:
+                SessionEventParams(name: wcEvents.amountChanged, data: data));
+      }
+    }));
   }
 
 //Triggers an token amount change event for the wallet connect clients
-  void triggerTokenAmountChangedEvent() {
+//@param changedIDs Map<String, List<QubicAssetDto>> (key = publicId) , List ,containes changed token amounts
+  void triggerTokenAmountChangedEvent(
+      Map<String, List<QubicAssetDto>> changedIDs) {
     if (!shouldTriggerEvent()) {
       return;
     }
+
+    web3Wallet!
+        .getActiveSessions()
+        .forEach(((String session, SessionData sessionData) {
+      if (sessionData.namespaces.entries.first.value.events
+          .contains(wcEvents.tokenAmountChanged)) {
+        List<dynamic> data = [];
+        for (var id in changedIDs.entries) {
+          dynamic item = {};
+
+          List<dynamic> tokens = [];
+          tokens.addAll(
+              id.value.map((e) => QubicAssetWC.fromQubicAssetDto(e)).toList());
+
+          item["publicId"] = id.key;
+          item["tokens"] = tokens;
+          data.add(item);
+        }
+
+        web3Wallet!.emitSessionEvent(
+            topic: sessionData.topic,
+            chainId: Config.walletConnectChainId,
+            event: SessionEventParams(
+                name: wcEvents.tokenAmountChanged, data: data));
+      }
+    }));
   }
 
-  //accountsChanged
+  //Triggers an accountsChanged event for all the wallet connect clients who have subscribed to it
   void triggerAccountsChangedEvent() {
     if (!shouldTriggerEvent()) {
       return;
     }
+    web3Wallet!
+        .getActiveSessions()
+        .forEach(((String session, SessionData sessionData) {
+      if (sessionData.namespaces.entries.first.value.events
+          .contains(wcEvents.accountsChanged)) {
+        List<dynamic> data = [];
+        for (var id in appStore.currentQubicIDs) {
+          dynamic item = {};
+          item["publicId"] = id.publicId;
+          item["name"] = id.name;
+          item["amount"] = id.amount ?? -1;
+          data.add(item);
+        }
+
+        web3Wallet!.emitSessionEvent(
+            topic: sessionData.topic,
+            chainId: Config.walletConnectChainId,
+            event:
+                SessionEventParams(name: wcEvents.accountsChanged, data: data));
+      }
+    }));
   }
 
   //tickChanged
@@ -171,13 +238,12 @@ class WalletConnectService {
         method: wcMethods.wRequestAccounts,
         handler: (topic, args) {
           onRequestAccounts.add(RequestAccountsEvent(topic: topic));
-          print("GOT wallet_requestAccounts");
-          print(topic);
           List<dynamic> data = [];
           appStore.currentQubicIDs.forEach(((id) {
             dynamic item = {};
             item["address"] = id.publicId;
             item["name"] = id.name;
+            item["amount"] = id.amount ?? -1;
             data.add(item);
           }));
 

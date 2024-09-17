@@ -17,6 +17,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed.
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_warning_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -155,7 +156,7 @@ class _AccountListItemState extends State<AccountListItem> {
   showRemoveDialog(BuildContext context) {
     final l10n = l10nOf(context);
     late BuildContext dialogContext;
-
+    WalletConnectService wallet3ConnectService = getIt<WalletConnectService>();
     // set up the buttons
     Widget cancelButton = ThemedControls.transparentButtonNormal(
         onPressed: () {
@@ -167,7 +168,10 @@ class _AccountListItemState extends State<AccountListItem> {
       text: l10n.deleteAccountDialogButtonDelete,
       onPressed: () async {
         await _appStore.removeID(widget.item.publicId);
-        Navigator.pop(dialogContext);
+        wallet3ConnectService.triggerAccountsChangedEvent();
+        if (dialogContext.mounted) {
+          Navigator.pop(dialogContext);
+        }
       },
     );
 

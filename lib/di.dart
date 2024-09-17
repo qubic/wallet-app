@@ -33,8 +33,9 @@ void setupDI() {
 
   //Services
   getIt.registerSingleton<QubicHubService>(QubicHubService());
+  getIt.registerSingleton<WalletConnectService>(WalletConnectService());
+
   getIt.registerSingleton<TimedController>(TimedController());
 
   getIt.registerSingleton<QubicCmd>(QubicCmd());
-  getIt.registerSingleton<WalletConnectService>(WalletConnectService());
 }
