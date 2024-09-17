@@ -144,7 +144,9 @@ class _AssetItemState extends State<AssetItem> {
                                       TextStyles.assetSecondaryTextLabelValue),
                             ]),
                       ])),
-              getAssetButtonBar(widget.asset),
+              widget.account.watchOnly
+                  ? ThemedControls.spacerVerticalNormal()
+                  : getAssetButtonBar(widget.asset),
             ])));
   }
 }
