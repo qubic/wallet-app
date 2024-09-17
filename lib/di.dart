@@ -5,6 +5,7 @@ import 'package:qubic_wallet/resources/qubic_hub.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
+import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
@@ -30,6 +31,8 @@ void setupDI() {
 
   getIt.registerSingleton<QubicLi>(QubicLi());
   getIt.registerSingleton<QubicHub>(QubicHub());
+
+  getIt.registerSingleton<QubicStatsApi>(QubicStatsApi());
 
   //Services
   getIt.registerSingleton<QubicHubService>(QubicHubService());
