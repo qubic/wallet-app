@@ -218,16 +218,17 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
 
           if (widget.resultType == ExplorerResultType.publicId) {
             explorerUrl += "/network/address/$qubicId";
-          } else if (widget.resultType == ExplorerResultType.tick) {
-            explorerUrl += "/network/tick/$tick";
-          } else {
-            // if transaction type
+          } else if (focusedTransactionHash != null) {
+            // if showing only one transaction
             explorerUrl += "/network/tx/$focusedTransactionHash";
-          }
+          } else {
+            // it's displaying all the transactions in the tick
+            explorerUrl += "/network/tick/$tick";
 
-          if (await canLaunchUrlString(explorerUrl)) {
-            await launchUrlString(explorerUrl,
-                mode: LaunchMode.externalApplication);
+            if (await canLaunchUrlString(explorerUrl)) {
+              await launchUrlString(explorerUrl,
+                  mode: LaunchMode.externalApplication);
+            }
           }
         },
       ),
