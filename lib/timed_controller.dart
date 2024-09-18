@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -16,6 +17,7 @@ class TimedController extends WidgetsBindingObserver {
   DateTime? lastFetchSlow;
 
   Timer? _backgroundTimer;
+  bool isSignedIn = false;
 
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
@@ -25,14 +27,14 @@ class TimedController extends WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused ||
-        state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.paused) {
       // Start background timer to pause after 120 seconds
       _backgroundTimer =
           Timer(const Duration(seconds: Config.inactiveSecondsLimit), () {
+        log("Kill timers");
         stopFetchTimers();
       });
-    } else if (state == AppLifecycleState.resumed) {
+    } else if (state == AppLifecycleState.resumed && isSignedIn) {
       // Cancel the background timer if app returns to foreground before the delay
       _backgroundTimer?.cancel();
       restartFetchTimersIfNeeded();
@@ -156,10 +158,7 @@ class TimedController extends WidgetsBindingObserver {
   /// Restart the fetching timer.
   /// If the timer is already running, it stops it and starts it again
   interruptFetchTimer() async {
-    if (_fetchTimer == null) {
-      return;
-    }
-    _fetchTimer!.cancel();
+    _fetchTimer?.cancel();
     _apiService.resetGetters();
 
     setupFetchTimer(true);
@@ -176,8 +175,8 @@ class TimedController extends WidgetsBindingObserver {
       await fetchData();
     }
     _fetchTimer = Timer.periodic(
-        const Duration(seconds: Config.fetchEverySeconds), (timer) async {
-      await fetchData();
+        const Duration(seconds: Config.fetchEverySeconds), (timer) {
+      fetchData();
     });
   }
 
@@ -186,10 +185,9 @@ class TimedController extends WidgetsBindingObserver {
     if (makeInitialCall) {
       await fetchDataSlow();
     }
-    _fetchTimerSlow =
-        Timer.periodic(const Duration(seconds: Config.fetchEverySecondsSlow),
-            (timerSlow) async {
-      await fetchDataSlow();
+    _fetchTimerSlow = Timer.periodic(
+        const Duration(seconds: Config.fetchEverySecondsSlow), (timerSlow) {
+      fetchDataSlow();
     });
   }
 }

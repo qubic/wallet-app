@@ -97,6 +97,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         backgroundColor: Colors.transparent,
       );
     }
+    _timedController.isSignedIn = true;
+    _timedController.restartFetchTimersIfNeeded();
     _controller = PersistentTabController(initialIndex: widget.initialTabIndex);
     // _controller.jumpToTab(value);
     _controller.addListener(() {
