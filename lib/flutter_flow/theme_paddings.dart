@@ -9,6 +9,9 @@ abstract class ThemePaddings {
   /// 8px
   static const smallPadding = 8.0;
 
+  /// 12px
+  static const mediumPadding = 12.0;
+
   /// 16px
   static const normalPadding = 16.0;
 
@@ -24,7 +27,7 @@ abstract class ThemePaddings {
 
 class LightThemeColors {
   static const shouldInvertIcon = true;
-  static const primary = Color(0xFFDDDDDD);
+  static const primary = Color(0xFFFFFFFF);
   static const surface = Color(0xFF222229);
   static const background = Color(0xFF101820);
   static const navBg = Color(0xFF0C131B);
@@ -33,7 +36,7 @@ class LightThemeColors {
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);
 
-  static const dangerColor = Color(0xFF381D1E);
+  static const dangerColor = Color(0xFFF97066);
 
   static const textColorSecondary = Color(0xFF808B9B);
 

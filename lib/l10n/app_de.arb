@@ -186,6 +186,7 @@
     "settingsLockWallet": "Wallet sperren",
     "settingsHeaderSecurity": "Sicherheit",
     "settingsLabelChangePassword": "Passwort ändern",
+    "settingsLabelPrivacyPolicy": "Datenschutzrichtlinie",
     "settingsLabelExportWalletVaultFile": "Wallet-Tresordatei exportieren",
     "settingsHeaderAbout": "Über",
     "settingsLabelJoinCommunity": "Community beitreten",
@@ -323,6 +324,8 @@
     "joinCommunityLabelReddit": "Reddit",
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
+    "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "Privater Seed",
     "revealSeedHeader": "von {accountName}",
     "@revealSeedHeader": {
@@ -656,7 +659,7 @@
         }
     },
     "autolockLabelDurationImmediately": "Sofort",
-    "settingsLabelAutlock": "Auto-Lock-Einstellungen",
+    "settingsLabelAutlock": "Auto-Lock",
     "importVaultDialogTitleTooManyAccounts": "Zu viele Konten gefunden",
     "importVaultDialogMessageTooManyAccounts": "Ihre Tresor-Datei enthält mehr als 15 Konten. Alle Konten werden importiert, aber um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
     "importVaultErrorNoAccountsFound": "In Ihrer Tresor-Datei wurden keine Konten gefunden. Wir können den Import nicht fortsetzen.",

@@ -186,6 +186,7 @@
     "settingsHeaderSecurity": "Seguridad",
     "settingsLabelChangePassword": "Cambiar la Contraseña",
     "settingsLabelExportWalletVaultFile": "Exportar archivo Vault del Wallet",
+    "settingsLabelPrivacyPolicy": "Política de privacidad",
     "settingsHeaderAbout": "Acerca de",
     "settingsLabelJoinCommunity": "Unirse a la Comunidad",
     "settingsLabelWalletInfo": "Información del Wallet",
@@ -322,6 +323,8 @@
     "joinCommunityLabelReddit": "Reddit",
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
+    "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "Semilla Privada",
     "revealSeedHeader": "de {accountName}",
     "@revealSeedHeader": {

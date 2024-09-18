@@ -186,6 +186,7 @@
     "settingsLockWallet": "Cüzdanı Kilitle",
     "settingsHeaderSecurity": "Güvenlik",
     "settingsLabelChangePassword": "Şifreyi Değiştir",
+    "settingsLabelPrivacyPolicy": "Gizlilik Politikası",
     "settingsLabelExportWalletVaultFile": "Cüzdan Kilit Dosyasını Dışa Aktar",
     "settingsHeaderAbout": "Hakkında",
     "settingsLabelJoinCommunity": "Topluluğa Katıl",
@@ -323,6 +324,8 @@
     "joinCommunityLabelReddit": "Reddit",
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
+    "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "Özel Anahtar",
     "revealSeedHeader": "of {accountName}",
     "@revealSeedHeader": {
