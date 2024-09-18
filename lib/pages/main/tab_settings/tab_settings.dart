@@ -129,7 +129,8 @@ class _TabSettingsState extends State<TabSettings> {
                           height: defaultIconHeight),
                       title: l10n.settingsLabelPrivacyPolicy,
                       onPressed: () {
-                        launchUrlString("https://qubic.org/Privacy-policy");
+                        launchUrlString("https://qubic.org/Privacy-policy",
+                            mode: LaunchMode.externalApplication);
                       },
                       suffix: SvgPicture.asset(AppIcons.externalLink,
                           height: defaultIconHeight),
