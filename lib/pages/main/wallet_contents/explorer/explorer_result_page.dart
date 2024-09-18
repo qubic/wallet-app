@@ -224,11 +224,11 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
           } else {
             // it's displaying all the transactions in the tick
             explorerUrl += "/network/tick/$tick";
+          }
 
-            if (await canLaunchUrlString(explorerUrl)) {
-              await launchUrlString(explorerUrl,
-                  mode: LaunchMode.externalApplication);
-            }
+          if (await canLaunchUrlString(explorerUrl)) {
+            await launchUrlString(explorerUrl,
+                mode: LaunchMode.externalApplication);
           }
         },
       ),
