@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
@@ -47,6 +49,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   late AnimatedSnackBar? notificationBar;
 
   Timer? _autoLockTimer;
+  Timer? _backgroundTimer;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -64,12 +67,18 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             applicationStore.signOut();
           },
         );
+        // Start the background timer
+        _backgroundTimer =
+            Timer(const Duration(seconds: Config.inactiveSecondsLimit), () {
+          _timedController.stopFetchTimers();
+        });
       }
     }
-
+    // When the app is resumed
     if (state == AppLifecycleState.resumed ||
         (UniversalPlatform.isDesktop && state == AppLifecycleState.inactive)) {
-      // Cancel the timer when the app is resumed
+      _backgroundTimer?.cancel();
+      _timedController.restartFetchTimersIfNeeded();
       _autoLockTimer?.cancel();
       if (!applicationStore.isSignedIn) {
         context.go('/signIn');
@@ -97,6 +106,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         backgroundColor: Colors.transparent,
       );
     }
+    _timedController.restartFetchTimersIfNeeded();
     _controller = PersistentTabController(initialIndex: widget.initialTabIndex);
     // _controller.jumpToTab(value);
     _controller.addListener(() {
