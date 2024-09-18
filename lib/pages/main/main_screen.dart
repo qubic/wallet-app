@@ -74,12 +74,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         });
       }
     }
-
+    // When the app is resumed
     if (state == AppLifecycleState.resumed ||
         (UniversalPlatform.isDesktop && state == AppLifecycleState.inactive)) {
       _backgroundTimer?.cancel();
       _timedController.restartFetchTimersIfNeeded();
-      // Cancel the timer when the app is resumed
       _autoLockTimer?.cancel();
       if (!applicationStore.isSignedIn) {
         context.go('/signIn');
@@ -195,7 +194,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    log("Dispose");
     _timedController.stopFetchTimers();
     _disposeSnackbarAuto();
 
