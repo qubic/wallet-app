@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -15,31 +13,8 @@ class TimedController extends WidgetsBindingObserver {
 
   DateTime? lastFetch;
   DateTime? lastFetchSlow;
-
-  Timer? _backgroundTimer;
-  bool isSignedIn = false;
-
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
-  TimedController() {
-    WidgetsBinding.instance.addObserver(this);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
-      // Start background timer to pause after 120 seconds
-      _backgroundTimer =
-          Timer(const Duration(seconds: Config.inactiveSecondsLimit), () {
-        log("Kill timers");
-        stopFetchTimers();
-      });
-    } else if (state == AppLifecycleState.resumed && isSignedIn) {
-      // Cancel the background timer if app returns to foreground before the delay
-      _backgroundTimer?.cancel();
-      restartFetchTimersIfNeeded();
-    }
-  }
 
   stopFetchTimers() {
     if (_fetchTimer != null) {

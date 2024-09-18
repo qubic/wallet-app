@@ -200,7 +200,6 @@ class _TabSettingsState extends State<TabSettings> {
                   appStore.signOut();
                   appStore.checkWalletIsInitialized();
                   timedController.stopFetchTimers();
-                  timedController.isSignedIn = false;
                   context.go('/signInNoAuth');
                 },
               ),
@@ -228,7 +227,6 @@ class _TabSettingsState extends State<TabSettings> {
                           appStore.checkWalletIsInitialized();
                           appStore.signOut();
                           timedController.stopFetchTimers();
-                          timedController.isSignedIn = false;
                           Navigator.pop(context);
                           context.go("/signInNoAuth");
                           _globalSnackBar.show(
