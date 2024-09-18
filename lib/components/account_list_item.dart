@@ -311,7 +311,7 @@ class _AccountListItemState extends State<AccountListItem> {
       buttonPadding: const EdgeInsets.fromLTRB(ThemeFontSizes.large,
           ThemeFontSizes.large, ThemeFontSizes.large, ThemeFontSizes.large),
       children: isItemWatchOnly()
-          ? [Container()]
+          ? [getAssetsButton(context)]
           : [
               widget.item.amount != null //&& widget.item.
                   ? ThemedControls.primaryButtonBig(
@@ -346,21 +346,25 @@ class _AccountListItemState extends State<AccountListItem> {
                     : Image.asset("assets/images/receive.png"),
                 text: l10n.accountButtonReceive,
               ),
-              widget.item.assets.keys.isNotEmpty
-                  ? ThemedControls.primaryButtonBig(
-                      text: l10n.accountButtonAssets,
-                      onPressed: () {
-                        pushScreen(
-                          context,
-                          screen: Assets(PublicId: widget.item.publicId),
-                          withNavBar: false, // OPTIONAL VALUE. True by default.
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                      })
-                  : Container(),
+              getAssetsButton(context),
             ],
     );
+  }
+
+  Widget getAssetsButton(BuildContext context) {
+    final l10n = l10nOf(context);
+    return widget.item.assets.keys.isNotEmpty
+        ? ThemedControls.primaryButtonBig(
+            text: l10n.accountButtonAssets,
+            onPressed: () {
+              pushScreen(
+                context,
+                screen: Assets(PublicId: widget.item.publicId),
+                withNavBar: false, // OPTIONAL VALUE. True by default.
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              );
+            })
+        : Container();
   }
 
   Widget getAssets(BuildContext context) {
