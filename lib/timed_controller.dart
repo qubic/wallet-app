@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/models/app_error.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -17,6 +18,7 @@ class TimedController extends WidgetsBindingObserver {
   DateTime? lastFetchSlow;
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
+  final _archiveApi = getIt<QubicArchiveApi>();
   final QubicStatsApi _statsApi = getIt<QubicStatsApi>();
 
   stopFetchTimers() {
@@ -99,7 +101,7 @@ class TimedController extends WidgetsBindingObserver {
   fetchData() async {
     try {
       //Fetch the ticks
-      int tick = await _apiService.getCurrentTick();
+      int tick = (await _archiveApi.getCurrentTick()).tick;
       appStore.currentTick = tick;
       _getNetworkBalancesAndAssets();
       lastFetch = DateTime.now();

@@ -186,48 +186,48 @@ class QubicLi {
     return parsedJson['id'];
   }
 
-  /// Gets current tick form the Qubic network
-  Future<int> getCurrentTick() async {
-    try {
-      _assertAuthorized();
-    } catch (e) {
-      rethrow;
-    }
-    appStore.incrementPendingRequests();
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
-      response = await client.get(
-          Uri.https(Config.walletDomain, Config.URL_Tick),
-          headers: headers);
+  // /// Gets current tick form the Qubic network
+  // Future<int> getCurrentTick() async {
+  //   try {
+  //     _assertAuthorized();
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  //   appStore.incrementPendingRequests();
+  //   late http.Response response;
+  //   try {
+  //     var headers = QubicLi.getHeaders();
+  //     headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
+  //     response = await client.get(
+  //         Uri.https(Config.walletDomain, Config.URL_Tick),
+  //         headers: headers);
 
-      appStore.decreasePendingRequests();
-    } catch (e) {
-      appStore.decreasePendingRequests();
-      throw Exception('Failed to contact server for fetching ticks.');
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late CurrentTickDto tickDto;
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception('Failed to fetch ticks. Could not parse response');
-    }
-    try {
-      tickDto = CurrentTickDto.fromJson(parsedJson);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch ticks. Server response is missing required info');
-    }
+  //     appStore.decreasePendingRequests();
+  //   } catch (e) {
+  //     appStore.decreasePendingRequests();
+  //     throw Exception('Failed to contact server for fetching ticks.');
+  //   }
+  //   try {
+  //     _assert200Response(response.statusCode);
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  //   late dynamic parsedJson;
+  //   late CurrentTickDto tickDto;
+  //   try {
+  //     parsedJson = jsonDecode(response.body);
+  //   } catch (e) {
+  //     throw Exception('Failed to fetch ticks. Could not parse response');
+  //   }
+  //   try {
+  //     tickDto = CurrentTickDto.fromJson(parsedJson);
+  //   } catch (e) {
+  //     throw Exception(
+  //         'Failed to fetch ticks. Server response is missing required info');
+  //   }
 
-    return tickDto.tick;
-  }
+  //   return tickDto.tick;
+  // }
 
   // Gets the Qubic network overview for use in explorer
   Future<NetworkOverviewDto> getNetworkOverview() async {
