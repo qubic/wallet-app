@@ -70,13 +70,6 @@ class TimedController extends WidgetsBindingObserver {
       List<String> myIds =
           appStore.currentQubicIDs.map((e) => e.publicId).toList();
 
-      //Fetch balances
-      // if (!_apiService.gettingCurrentBalances) {
-      //   _apiService.getCurrentBalances(myIds).then((balances) {
-      //     appStore.setCurrentBalances(balances);
-      //   });
-      // }
-
       //Fetch network balances
       if (!_apiService.gettingNetworkBalances) {
         _apiService.getNetworkBalances(myIds).then((balances) {

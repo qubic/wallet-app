@@ -7,7 +7,6 @@ import 'dart:convert';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/auth_login_dto.dart';
-import 'package:qubic_wallet/dtos/balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_tick_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
@@ -31,14 +30,12 @@ class QubicLi {
   String? get authenticationToken => _authenticationToken;
 
   bool _gettingNetworkBalances = false;
-  bool _gettingCurrentBalances = false;
   bool _gettingNetworkAssets = false;
   bool _gettingNetworkTransactions = false;
 
   bool get gettingNetworkBalances => _gettingNetworkBalances;
   bool get gettingNetworkAssets => _gettingNetworkAssets;
   bool get gettingNetworkTransactions => _gettingNetworkTransactions;
-  bool get gettingCurrentBalances => _gettingCurrentBalances;
 
   final client = InterceptedHttp.build(
     interceptors: [LoggingInterceptor()],
@@ -46,7 +43,6 @@ class QubicLi {
 
   void resetGetters() {
     _gettingNetworkBalances = false;
-    _gettingCurrentBalances = false;
     _gettingNetworkAssets = false;
     _gettingNetworkTransactions = false;
   }
@@ -393,59 +389,6 @@ class QubicLi {
     } catch (e) {
       throw Exception(
           'Failed to fetch current balances. Server response is missing required info');
-    }
-    return balances;
-  }
-
-  // Gets the balances (and transactions) of a list of public IDs - Wallet/CurrentBalance
-  Future<List<BalanceDto>> getCurrentBalances(List<String> publicIds) async {
-    try {
-      _assertAuthorized();
-    } catch (e) {
-      rethrow;
-    }
-    appStore.incrementPendingRequests();
-    _gettingCurrentBalances = true;
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({
-        'Authorization': 'bearer ${_authenticationToken!}',
-        'Content-Type': 'application/json'
-      });
-      response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_Balance),
-          body: json.encode(publicIds),
-          headers: headers);
-
-      appStore.decreasePendingRequests();
-      _gettingCurrentBalances = false;
-    } catch (e) {
-      appStore.decreasePendingRequests();
-      _gettingCurrentBalances = false;
-      throw Exception('Failed to contact server for fetching balances.');
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late var balances = <BalanceDto>[];
-
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception('Failed to fetch balances. Could not parse response');
-    }
-    try {
-      balances = parsedJson
-          .map((e) => BalanceDto.fromJson(e))
-          .toList()
-          .cast<BalanceDto>();
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch balances. Server response is missing required info');
     }
     return balances;
   }

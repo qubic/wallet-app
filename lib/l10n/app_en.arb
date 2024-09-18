@@ -419,8 +419,8 @@
             }
         }
     },
-    "addAccountErrorVerifyIdentityWrongIdentity": "Invalid watch address. Please check your watch address input.",
-    "addAccountErrorVerifyIdentityError": "Unable to verify identity!",
+    "addAccountErrorVerifyIdentityWrongIdentity": "Invalid watch only address. Please check the entered address.",
+    "addAccountErrorVerifyIdentityError": "Unable to verify the address.",
     "addAccountErrorNameAlreadyInUse": "Name is already in use",
     "addAccountErrorPublicIDAlreadyInUse": "Public ID already in use",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Max accounts limit reached",
@@ -441,13 +441,10 @@
     "addAccountErrorTamperedWalletMessage": "THE WALLET YOU ARE CURRENTLY USING IS TAMPERED.\n\nINSTALL AN OFFICIAL VERSION FROM HTTPS://GITHUB.COM/QUBIC/WALLET-APP OR RISK LOSS OF FUNDS",
     "addAccountWatchOnlyPageTitle": "Add Watch Only Account",
     "addAccountWatchOnlySubtitle": "Add a public Qubic address to watch. You do not have the permission to send or receive any transaction.",
-    "addAccountWatchOnlyAccountName": "Account Name",
-    "addAccountWatchOnlyQubicAddressTooltip": "A Public ID is made of 60 upper cases.",
+    "addAccountWatchOnlyQubicAddressTooltip": "A Public ID is made by 60 uppercase letters.",
     "addAccountWatchOnlyHintQubicAddress": "Enter a Qubic Address",
     "addAccountCreateNewAccountModalBottomSheet": "Create New Account",
-    "addAccountCreateNewAccountSubtitleModalBottomSheet": "Add new Qubic account",
-    "addAccountWatchOnlyAddressModalBottomSheet": "Watch only address",
-    "addAccountWatchOnlyAddressSubtitleModalBottomSheet": "Track a Qubic public address",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Watch Only Account",
     "sendAssetLabelNumberOfShares": "Number of Shares",
     "sendAssetLabelTransactionCost": "Transaction Cost (fixed)",
     "sendAssetButtonTransfer": "Transfer",
@@ -466,7 +463,7 @@
     "addAccountWarningSheetCheckboxLabel": "I understand the above",
     "deleteAccountDialogTitle": "Delete Account",
     "deleteAccountDialogMessage": "Are you sure you want to delete this Qubic Account from your wallet? (Any funds associated with this Account will not be removed)\n\nMAKE SURE YOU HAVE A BACKUP OF YOUR PRIVATE SEED BEFORE DELETING THIS ACCOUNT!",
-    "deleteAccountDialogMessageWatchOnly": "Are you sure you want to delete this Qubic Watch Only Account from your wallet?",
+    "deleteAccountDialogMessageWatchOnly": "Are you sure you want to delete this watch only Account from your wallet?",
     "deleteAccountDialogButtonDelete": "Delete Account",
     "renameAccountDialogTitle": "Rename Account",
     "renameAccountLabelName": "Name",
@@ -694,7 +691,7 @@
         }
     },
     "importPrivateSeedDefaultAccountName": "Account 1",
-    "cmdErrorVerifyIdentityJsonDecoding": "Error when decode output of verifyIdentity",
+    "cmdErrorVerifyIdentityJsonDecoding": "Error when decoding the output of verifyIdentity",
     "cmdErrorVerifyIdentityParsingError": "Error parsing output of verifyIdentity",
     "cmdErrorCreatingAssetTransferTransactionGeneric": "Error trying to create asset transfer transaction",
     "cmdErrorCreatingAssetTransferTransactionEmpty": "Error trying to create asset transfer transaction. Generated transaction was empty",
@@ -766,11 +763,10 @@
     "cmdErrorVerifyingIdentityGeneric": "Error verifying the identity.",
     "cmdErrorVerifyingIdentity": "Cannot verify your identity: {errorDescription}",
     "@cmdErrorVerifyingIdentity": {
-      "placeholders": {
-        "errorDescription": {
-          "type": "String"
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
         }
-      }
-    },
-    "addAccountInvalidWatchOnlyId": "Invalid Watch Only Address!"
+    }
 }
