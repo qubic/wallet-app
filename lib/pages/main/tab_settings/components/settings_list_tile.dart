@@ -44,7 +44,7 @@ class SettingsListTile extends StatelessWidget {
           ),
           suffix == null
               ? const Icon(Icons.arrow_forward_ios_outlined,
-                  size: 14, color: LightThemeColors.textColorSecondary)
+                  size: 14, color: LightThemeColors.textLightGrey)
               : suffix!
         ],
       ),

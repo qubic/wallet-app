@@ -15,9 +15,11 @@ class JoinCommunity extends StatelessWidget {
     final l10n = l10nOf(context);
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: Text(l10n.settingsLabelJoinCommunity,
-              style: TextStyles.textExtraLargeBold)),
+        backgroundColor: Colors.transparent,
+        title: Text(l10n.settingsLabelJoinCommunity,
+            style: TextStyles.textExtraLargeBold),
+        centerTitle: true,
+      ),
       body: ListView(
         padding: ThemeEdgeInsets.pageInsets,
         children: [
