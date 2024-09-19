@@ -34,3 +34,17 @@ class RequestEvent {
 class RequestAccountsEvent extends RequestEvent {
   RequestAccountsEvent({required super.topic});
 }
+
+class RequestSendQubicEvent extends RequestEvent {
+  final String fromID; //From which publicID should the funds flow
+  final String toID; //To which publicID should the funds flow
+  final int amount; //The amount of funds to send
+  final int nonce; //A nonce to send the request
+
+  RequestSendQubicEvent(
+      {required super.topic,
+      required this.fromID,
+      required this.toID,
+      required this.amount,
+      required this.nonce});
+}

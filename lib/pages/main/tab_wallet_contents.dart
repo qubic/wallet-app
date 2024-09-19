@@ -292,7 +292,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                   Text(l10n.homeHeader,
                                       style: TextStyles.sliverCardPreLabel),
                                   Observer(builder: (context) {
-                                    print("in!");
                                     if (settingsStore
                                         .settings.walletConnectEnabled) {
                                       return ThemedControls

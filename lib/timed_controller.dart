@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -47,7 +48,11 @@ class TimedController {
       //Fetch network assets
       if (!_apiService.gettingNetworkAssets) {
         _apiService.getCurrentAssets(myIds).then((assets) {
-          appStore.setAssets(assets);
+          Map<String, List<QubicAssetDto>> changedIds =
+              appStore.setAssets(assets);
+          if (changedIds.isNotEmpty) {
+            _walletConnectService.triggerTokenAmountChangedEvent(changedIds);
+          }
         }, onError: (e) {
           appStore
               .reportGlobalError(e.toString().replaceAll("Exception: ", ""));

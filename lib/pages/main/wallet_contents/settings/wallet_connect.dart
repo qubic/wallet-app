@@ -46,9 +46,6 @@ class _AboutWalletState extends State<WalletConnect> {
   String state =
       "idle"; //proposalWaiting, proposalRejected, proposalAccepted, sessionConnected
 
-  PairingMetadata? pairingMetadata;
-  List<String> pairingMethods = [];
-  List<String> pairingEvents = [];
   int? pairingId;
   Map<String, Namespace>? pairingNamespaces;
 
@@ -75,96 +72,6 @@ class _AboutWalletState extends State<WalletConnect> {
     setState(() {
       walletConnectEnabled = settingsStore.settings.walletConnectEnabled;
     });
-
-    if (walletConnectEnabled) {
-      walletConnectService.initialize().then((value) {
-        setState(() {
-          sessions.clear();
-          sessions.addAll(walletConnectService.web3Wallet!.getActiveSessions());
-          print("Loading " + sessions.keys.length.toString() + " sessions");
-        });
-
-        sessionConnectSubscription = walletConnectService
-            .onSessionConnect.stream
-            .listen((SessionConnect? onData) {
-          print("Got session connect " + onData!.session.topic);
-          setState(() {
-            sessions.clear();
-            sessions
-                .addAll(walletConnectService.web3Wallet!.getActiveSessions());
-          });
-        });
-
-        sessionDisconnectSubscription = walletConnectService
-            .onSessionDisconnect.stream
-            .listen((SessionDelete? onData) {
-          print("Got session disconnect " + onData!.topic);
-          setState(() {
-            sessions.clear();
-            sessions
-                .addAll(walletConnectService.web3Wallet!.getActiveSessions());
-          });
-        });
-
-        walletConnectService.onSessionProposal.stream
-            .listen((SessionProposalEvent? args) {
-          print("Got session proposal");
-          print(args);
-          setState(() {
-            status = "Pending session proposal";
-            if (args != null) {
-              pairingId = args.id;
-              pairingMetadata = args.params.proposer.metadata;
-
-              //Manual parsing (without registering events and methods)
-              // if ((args.params.requiredNamespaces.keys.firstOrNull != null) &&
-              //     (args.params.requiredNamespaces.keys.firstOrNull ==
-              //         "qubic:main")) {
-              //   pairingMethods =
-              //       args.params.requiredNamespaces.entries.first.value.methods;
-              //   pairingEvents =
-              //       args.params.requiredNamespaces.entries.first.value.events;
-              // } else {
-              //Automatic parsing (with registering events and methods)
-              pairingMethods = args.params.generatedNamespaces != null
-                  ? args.params.generatedNamespaces!.entries.first.value.methods
-                  : [];
-              pairingEvents = args.params.generatedNamespaces != null
-                  ? args.params.generatedNamespaces!.entries.first.value.events
-                  : [];
-              pairingNamespaces = args.params.generatedNamespaces;
-              //}
-            }
-          });
-        });
-      });
-
-      // walletConnectService.initialize().then((value) {
-      //   setState(() {
-      //     isLoading = false;
-      //     status = "Ready for connection";
-
-      //     walletConnectService.web3Wallet!.onSessionProposal.subscribe((args) {
-      //       print("Session proposal");
-
-      //       });
-      //     });
-      //     walletConnectService.web3Wallet!.onSessionConnect.subscribe((args) {
-      //       setState(() {
-      //         status = "Session connected";
-      //       });
-      //       print("Sesion connect");
-      //       print(args);
-      //     });
-
-      //     walletConnectService.web3Wallet!.onSessionProposalError
-      //         .subscribe((args) {
-      //       print("Session proposal error");
-      //       print(args);
-      //     });
-      //   });
-      // });
-    }
   }
 
   List<String> getMethods(SessionData sessionData) {

@@ -65,23 +65,19 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
       sessionProposalSubscription = walletConnectService
           .onSessionProposal.stream
           .listen((SessionProposalEvent? args) async {
-        print("Got session proposal");
-        print(args);
-        setState(() {
-          if (args != null) {
-            wcPairingId = args.id;
-            wcPairingMetadata = args.params.proposer.metadata;
-            //Automatic parsing (with registering events and methods)
-            wcPairingMethods = args.params.generatedNamespaces != null
-                ? args.params.generatedNamespaces!.entries.first.value.methods
-                : [];
-            wcPairingEvents = args.params.generatedNamespaces != null
-                ? args.params.generatedNamespaces!.entries.first.value.events
-                : [];
-            wcPairingNamespaces = args.params.generatedNamespaces;
-            //}
-          }
-        });
+        if (args != null) {
+          wcPairingId = args.id;
+          wcPairingMetadata = args.params.proposer.metadata;
+          //Automatic parsing (with registering events and methods)
+          wcPairingMethods = args.params.generatedNamespaces != null
+              ? args.params.generatedNamespaces!.entries.first.value.methods
+              : [];
+          wcPairingEvents = args.params.generatedNamespaces != null
+              ? args.params.generatedNamespaces!.entries.first.value.events
+              : [];
+          wcPairingNamespaces = args.params.generatedNamespaces;
+          //}
+        }
 
         bool? userhasConfirmed =
             await Navigator.of(context).push(MaterialPageRoute<bool>(
@@ -153,10 +149,11 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
 
   @override
   void dispose() {
-    super.dispose();
     if (sessionProposalSubscription != null) {
       sessionProposalSubscription!.cancel();
     }
+
+    super.dispose();
   }
 
   void showQRScanner() {

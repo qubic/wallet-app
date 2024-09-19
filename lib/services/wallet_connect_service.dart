@@ -40,8 +40,11 @@ class WalletConnectService {
 
   StreamController<RequestAccountsEvent> onRequestAccounts =
       StreamController<RequestAccountsEvent>.broadcast();
-  StreamController<void> onRequestSendQubic =
-      StreamController<SessionConnect?>.broadcast();
+
+  //Event that is triggered whan a request to send qubic is received
+  StreamController<RequestSendQubicEvent> onRequestSendQubic =
+      StreamController<RequestSendQubicEvent>.broadcast();
+
   StreamController<void> onRequestSendToken =
       StreamController<SessionConnect?>.broadcast();
 
@@ -51,7 +54,7 @@ class WalletConnectService {
         .forEach(((String session, SessionData sessionData) {
       //web3Wallet!.sessions.delete(session);
       web3Wallet!.disconnectSession(
-          reason: WalletConnectError(
+          reason: const WalletConnectError(
               code: -1, message: "User forcefully disconnected"),
           topic: sessionData.topic);
     }));
@@ -218,7 +221,10 @@ class WalletConnectService {
 
     web3Wallet!.core.relayClient.onRelayClientDisconnect.subscribe((args) {
       if (settingsStore.settings.walletConnectEnabled) {
-        web3Wallet!.core.relayClient.connect();
+        //TODO CHECK THIS APPROACH FOR MEMORY LEAKS
+        web3Wallet = null;
+        this.initialize();
+        //web3Wallet!.core.relayClient.connect();
       }
     });
 
@@ -256,7 +262,15 @@ class WalletConnectService {
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: wcMethods.wSendQubic,
-        handler: (name, args) {});
+        handler: (topic, args) {
+          print(args);
+          onRequestSendQubic.add(RequestSendQubicEvent(
+              topic: topic,
+              fromID: args[0]["fromID"],
+              toID: args[0]["toID"],
+              amount: args[0]["amount"],
+              nonce: args[0]["nonce"]));
+        });
 
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,

@@ -86,6 +86,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       walletConnectService.initialize();
     }
 
+    walletConnectService.onRequestSendQubic.stream.listen((event) {
+      //TODO Show dialog (with timeout)
+    });
+
     PrivacyScreen.instance.enable(
       iosOptions: const PrivacyIosOptions(
         enablePrivacy: true,
