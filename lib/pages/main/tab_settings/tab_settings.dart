@@ -62,90 +62,110 @@ class _TabSettingsState extends State<TabSettings> {
       appBar: AppBar(
         title: Text(l10n.appTabSettings, style: TextStyles.textExtraLargeBold),
         backgroundColor: Colors.transparent,
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: ThemeEdgeInsets.pageInsets,
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SettingsListTile(
-                      prefix: const Icon(
-                        Icons.lock,
-                        color: LightThemeColors.textColorSecondary,
-                      ),
-                      title: l10n.settingsLockWallet,
-                      suffix: const SizedBox.shrink(),
-                      onPressed: () {
-                        appStore.reportGlobalError("");
-                        appStore.reportGlobalNotification("");
-                        appStore.setCurrentTabIndex(
-                            0); // so after unlock, it goes to Home
-                        appStore.signOut();
-                        appStore.checkWalletIsInitialized();
-                        timedController.stopFetchTimers();
-                        context.go('/signInNoAuth');
-                      },
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: ThemeEdgeInsets.pageInsets,
+            sliver: SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  SettingsListTile(
+                    prefix: const Icon(
+                      Icons.lock,
+                      color: LightThemeColors.textColorSecondary,
                     ),
-                    SettingsListTile(
-                      prefix: SvgPicture.asset(AppIcons.autoLock,
-                          height: defaultIconHeight),
-                      title: l10n.settingsLabelAutlock,
-                      path: AutoLockSettings(),
-                    ),
-                    SettingsListTile(
-                      prefix: SvgPicture.asset(AppIcons.export,
-                          height: defaultIconHeight),
-                      title: l10n.settingsLabelExportWalletVaultFile,
-                      path: const ExportWalletVault(),
-                    ),
-                    SettingsListTile(
-                      prefix: SvgPicture.asset(AppIcons.changePassword,
-                          height: defaultIconHeight),
-                      title: l10n.settingsLabelChangePassword,
-                      path: const ChangePassword(),
-                    ),
-                    SettingsListTile(
-                      prefix: settingsUnlockIcon,
-                      title: settingsUnlockLabel,
-                      path: const ManageBiometrics(),
-                    ),
-                    // SettingsListTile(
-                    //   prefix:
-                    //       SvgPicture.asset(AppIcons.walletConnect, height: defaultIconHeight),
-                    //   title: l10n.settingsLabelWalletConnect,
-                    //   onPressed: () {},
-                    // ),
-                    SettingsListTile(
-                      prefix: SvgPicture.asset(AppIcons.community,
-                          height: defaultIconHeight),
-                      title: l10n.settingsLabelJoinCommunity,
-                      path: const JoinCommunity(),
-                    ),
-                    SettingsListTile(
-                      prefix: SvgPicture.asset(AppIcons.privacyPolicy,
-                          height: defaultIconHeight),
-                      title: l10n.settingsLabelPrivacyPolicy,
-                      onPressed: () {
-                        launchUrlString("https://qubic.org/Privacy-policy",
-                            mode: LaunchMode.externalApplication);
-                      },
-                      suffix: SvgPicture.asset(AppIcons.externalLink,
-                          height: defaultIconHeight),
-                    ),
-                    EraseWalletDataButton(),
-                  ],
-                ),
+                    title: l10n.settingsLockWallet,
+                    suffix: const SizedBox.shrink(),
+                    onPressed: () {
+                      appStore.reportGlobalError("");
+                      appStore.reportGlobalNotification("");
+                      appStore.setCurrentTabIndex(
+                          0); // so after unlock, it goes to Home
+                      appStore.signOut();
+                      appStore.checkWalletIsInitialized();
+                      timedController.stopFetchTimers();
+                      context.go('/signInNoAuth');
+                    },
+                  ),
+                  SettingsListTile(
+                    prefix: SvgPicture.asset(AppIcons.autoLock,
+                        height: defaultIconHeight),
+                    title: l10n.settingsLabelAutlock,
+                    path: AutoLockSettings(),
+                  ),
+                  SettingsListTile(
+                    prefix: SvgPicture.asset(AppIcons.export,
+                        height: defaultIconHeight),
+                    title: l10n.settingsLabelExportWalletVaultFile,
+                    path: const ExportWalletVault(),
+                  ),
+                  SettingsListTile(
+                    prefix: SvgPicture.asset(AppIcons.changePassword,
+                        height: defaultIconHeight),
+                    title: l10n.settingsLabelChangePassword,
+                    path: const ChangePassword(),
+                  ),
+                  SettingsListTile(
+                    prefix: settingsUnlockIcon,
+                    title: settingsUnlockLabel,
+                    path: const ManageBiometrics(),
+                  ),
+                  // SettingsListTile(
+                  //   prefix:
+                  //       SvgPicture.asset(AppIcons.walletConnect, height: defaultIconHeight),
+                  //   title: l10n.settingsLabelWalletConnect,
+                  //   onPressed: () {},
+                  // ),
+                  SettingsListTile(
+                    prefix: SvgPicture.asset(AppIcons.community,
+                        height: defaultIconHeight),
+                    title: l10n.settingsLabelJoinCommunity,
+                    path: const JoinCommunity(),
+                  ),
+                  SettingsListTile(
+                    prefix: SvgPicture.asset(AppIcons.privacyPolicy,
+                        height: defaultIconHeight),
+                    title: l10n.settingsLabelPrivacyPolicy,
+                    onPressed: () {
+                      launchUrlString("https://qubic.org/Privacy-policy",
+                          mode: LaunchMode.externalApplication);
+                    },
+                    suffix: SvgPicture.asset(AppIcons.externalLink,
+                        height: defaultIconHeight),
+                  ),
+                  EraseWalletDataButton(),
+                ],
               ),
             ),
-            Text(
-              "Qubic Wallet v.${qubicHubStore.versionInfo!}${qubicHubStore.buildNumber!.isNotEmpty ? " (${qubicHubStore.buildNumber!})" : ""}",
-            )
-          ],
-        ),
+          ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: ThemePaddings.bigPadding),
+              child: Text(
+                "Qubic Wallet v.${qubicHubStore.versionInfo!}${qubicHubStore.buildNumber!.isNotEmpty ? " (${qubicHubStore.buildNumber!})" : ""}",
+                textAlign: TextAlign.center,
+                style: TextStyles.secondaryTextSmall,
+              ),
+            ),
+          )
+        ],
       ),
+
+      // Padding(
+      //   padding: ThemeEdgeInsets.pageInsets,
+      //   child: Column(
+      //     children: [
+      //       Expanded(
+      //         child: SingleChildScrollView(
+      //           child:
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
