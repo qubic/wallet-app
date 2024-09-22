@@ -17,7 +17,7 @@ class ExplorerTransactionInfoDto {
     if (!executed) {
       return ComputedTransactionStatus.failure;
     }
-    if (executed && moneyFlew) {
+    if (executed && (amount == 0 || moneyFlew)) {
       return ComputedTransactionStatus.success;
     }
     if (executed && !moneyFlew) {
