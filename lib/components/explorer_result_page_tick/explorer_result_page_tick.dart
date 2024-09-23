@@ -25,25 +25,27 @@ class ExplorerResultPageTick extends StatelessWidget {
       onRequestViewChange;
 
   Widget listTransactions() {
-    return SliverList.builder(
-      itemBuilder: (context, index) {
-        final transaction = tickInfo.transactions![index];
-        return focusedTransactionId == null ||
-                focusedTransactionId! == transaction.id
-            ? Padding(
-                padding:
-                    const EdgeInsets.only(bottom: ThemePaddings.normalPadding),
-                child: ExplorerResultPageTransactionItem(
-                  transaction: transaction,
-                  isFocused: focusedTransactionId == null
-                      ? false
-                      : focusedTransactionId! == transaction.id,
-                  dataStatus: tickInfo.completed,
-                ),
-              )
-            : const SizedBox.shrink();
-      },
-      itemCount: tickInfo.transactions!.length,
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ThemedControls.spacerVerticalNormal(),
+        for (var transaction in tickInfo.transactions!)
+          focusedTransactionId == null ||
+                  focusedTransactionId! == transaction.id
+              ? Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: ThemePaddings.normalPadding),
+                  child: ExplorerResultPageTransactionItem(
+                    transaction: transaction,
+                    isFocused: focusedTransactionId == null
+                        ? false
+                        : focusedTransactionId! == transaction.id,
+                    dataStatus: tickInfo.completed,
+                  ),
+                )
+              : Container()
+      ],
     );
   }
 
@@ -86,28 +88,28 @@ class ExplorerResultPageTick extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: ExplorerResultPageTickHeader(
-              tickInfo: tickInfo,
-              onTickChange: onRequestViewChange != null
-                  ? (tick) => {
-                        onRequestViewChange!(
-                            RequestViewChangeType.tick, tick, null)
-                      }
-                  : null),
-        ),
-        SliverPadding(
-          padding: EdgeInsets.only(
-              left: ThemeEdgeInsets.pageInsets.left,
-              right: ThemeEdgeInsets.pageInsets.right),
-          sliver: SliverToBoxAdapter(
-            child: getTransactionsHeader(context),
-          ),
-        ),
-        if (tickInfo.transactions != null && tickInfo.transactions!.isNotEmpty)
-          listTransactions(),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ExplorerResultPageTickHeader(
+            tickInfo: tickInfo,
+            onTickChange: onRequestViewChange != null
+                ? (tick) => {
+                      onRequestViewChange!(
+                          RequestViewChangeType.tick, tick, null)
+                    }
+                : null),
+        Padding(
+            padding: EdgeInsets.only(
+                left: ThemeEdgeInsets.pageInsets.left,
+                right: ThemeEdgeInsets.pageInsets.right),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              getTransactionsHeader(context),
+              tickInfo.transactions != null && tickInfo.transactions!.isNotEmpty
+                  ? listTransactions()
+                  : Container()
+            ])),
       ],
     );
   }

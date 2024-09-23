@@ -17,16 +17,19 @@ class ExplorerResultPageQubicId extends StatelessWidget {
   final ExplorerIdInfoDto idInfo;
 
   Widget listTransactions() {
-    return SliverList.builder(
-        itemCount: idInfo.latestTransfers!.length,
-        itemBuilder: (context, index) {
-          final transaction = idInfo.latestTransfers![index];
-          return Padding(
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (var transaction in idInfo.latestTransfers!)
+          Padding(
             padding: const EdgeInsets.only(bottom: ThemePaddings.normalPadding),
             child: ExplorerResultPageTransactionItem(
                 transaction: transaction, isFocused: false, showTick: true),
-          );
-        });
+          ),
+        const SizedBox(height: ThemePaddings.normalPadding)
+      ],
+    );
   }
 
   Widget getTransactionsHeader(BuildContext context) {
@@ -42,16 +45,17 @@ class ExplorerResultPageQubicId extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: ExplorerResultPageQubicIdHeader(idInfo: idInfo),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ExplorerResultPageQubicIdHeader(
+          idInfo: idInfo,
         ),
-        SliverToBoxAdapter(child: getTransactionsHeader(context)),
-        if (idInfo.latestTransfers != null &&
-            idInfo.latestTransfers!.isNotEmpty)
-          listTransactions(),
-        SliverToBoxAdapter(child: ThemedControls.spacerVerticalSmall()),
+        getTransactionsHeader(context),
+        idInfo.latestTransfers != null && idInfo.latestTransfers!.isNotEmpty
+            ? listTransactions()
+            : Container(),
+        ThemedControls.spacerVerticalSmall(),
       ],
     );
   }
