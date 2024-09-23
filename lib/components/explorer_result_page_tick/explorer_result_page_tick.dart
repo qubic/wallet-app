@@ -108,17 +108,6 @@ class ExplorerResultPageTick extends StatelessWidget {
         ),
         if (tickInfo.transactions != null && tickInfo.transactions!.isNotEmpty)
           listTransactions(),
-        // Padding(
-        //     padding: EdgeInsets.only(
-        //         left: ThemeEdgeInsets.pageInsets.left,
-        //         right: ThemeEdgeInsets.pageInsets.right),
-        //     child:
-        //         Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        //       getTransactionsHeader(context),
-        //       tickInfo.transactions != null && tickInfo.transactions!.isNotEmpty
-        //           ? listTransactions()
-        //           : Container()
-        //     ])),
       ],
     );
   }
