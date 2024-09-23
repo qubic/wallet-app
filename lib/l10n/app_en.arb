@@ -56,7 +56,7 @@
             }
         }
     },
-    "generalLabelToFromAddress": "{toOrFrom} address",
+    "generalLabelToFromAddress": "{toOrFrom} Address",
     "@generalLabelToFromAddress": {
         "placeholders": {
             "toOrFrom": {

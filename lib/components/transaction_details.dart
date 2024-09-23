@@ -92,13 +92,14 @@ class TransactionDetails extends StatelessWidget {
           if (source != null) {
             return Container(
                 width: double.infinity,
-                child: Text("$prepend wallet ID \"${source.name}\"",
+                child: Text(
+                    l10n.generalLabelToFromAccount(prepend, source.name),
                     textAlign: TextAlign.start,
                     style: TextStyles.lightGreyTextSmallBold));
           }
           return Container(
               width: double.infinity,
-              child: Text("$prepend address",
+              child: Text(l10n.generalLabelToFromAddress(prepend),
                   textAlign: TextAlign.start,
                   style: TextStyles.lightGreyTextSmallBold));
         }),
