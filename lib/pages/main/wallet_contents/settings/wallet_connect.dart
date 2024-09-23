@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -72,6 +73,17 @@ class _AboutWalletState extends State<WalletConnect> {
     setState(() {
       walletConnectEnabled = settingsStore.settings.walletConnectEnabled;
     });
+    if (mounted) {
+      if ((walletConnectEnabled) && (walletConnectService.web3Wallet != null)) {
+        walletConnectService.web3Wallet!
+            .getActiveSessions()
+            .forEach((key, value) {
+          setState(() {
+            sessions[key] = value;
+          });
+        });
+      }
+    }
   }
 
   List<String> getMethods(SessionData sessionData) {
@@ -100,6 +112,8 @@ class _AboutWalletState extends State<WalletConnect> {
   }
 
   Widget getSessions() {
+    var format = DateFormat('EEE, M/d/y HH:mm');
+
     List<Widget> children = [];
     if (walletConnectService.web3Wallet == null) {
       return Container();
@@ -132,12 +146,25 @@ class _AboutWalletState extends State<WalletConnect> {
           ThemedControls.spacerVerticalNormal(),
           ThemedControls.primaryButtonBigWithChild(
               onPressed: () {
-                walletConnectService.web3Wallet!.disconnectSession(
-                    reason: WalletConnectError(
-                        code: -1, message: "User forcefully disconnected"),
-                    topic: sessionData.topic);
+                try {
+                  setState(() {
+                    sessions.remove(sessionData.topic);
+                  });
+                  walletConnectService.web3Wallet!.disconnectSession(
+                      reason: WalletConnectError(
+                          code: -1, message: "User forcefully disconnected"),
+                      topic: sessionData.topic);
+                } catch (e) {
+                  print(e);
+                }
               },
-              child: Text("Revoke permissions"))
+              child: Text("Revoke permissions")),
+          ThemedControls.spacerVerticalMini(),
+          Center(
+              child: Text(
+            "valid until ${format.format(DateTime.fromMillisecondsSinceEpoch(sessionData.expiry * 1000))}",
+            style: TextStyles.smallInfoText,
+          )),
         ],
       )));
     });

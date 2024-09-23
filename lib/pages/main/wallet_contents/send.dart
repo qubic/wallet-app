@@ -719,12 +719,13 @@ class _SendState extends State<Send> {
       frozenTargetTick = null;
       getIt.get<PersistentTabController>().jumpToTab(1);
     });
-
-    Navigator.pop(context);
-    //Timer(const Duration(seconds: 1), () => Navigator.pop(context));
-
-    final l10n = l10nOf(context);
-    _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted);
+    if (mounted) {
+      Navigator.pop(context);
+    }
+    if (mounted) {
+      final l10n = l10nOf(context);
+      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted);
+    }
 
     setState(() {
       isLoading = false;

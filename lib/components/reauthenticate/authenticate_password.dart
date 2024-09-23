@@ -48,6 +48,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
       setState(() {
         formOpacity = 0;
       });
+
       _auth.canCheckBiometrics.then((value) {
         _auth.getAvailableBiometrics().then((value) {
           if ((value.contains(BiometricType.face)) && (biometricType == null)) {
@@ -74,8 +75,8 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
           }
         });
       });
-
-      handleBiometricsAuth();
+      WidgetsBinding.instance
+          .addPostFrameCallback((_) => handleBiometricsAuth());
     }
   }
 
@@ -98,50 +99,52 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   }
 
   Future<void> handleBiometricsAuth() async {
-    final l10n = l10nOf(context);
+    if (mounted) {
+      final l10n = l10nOf(context);
 
-    if (isLoading) {
-      return;
-    }
-    setState(() {
-      isLoading = true;
-    });
-    try {
-      final bool didAuthenticate = await _auth.authenticate(
-          localizedReason: ' ',
-          options: AuthenticationOptions(
-              biometricOnly: UniversalPlatform.isDesktop ? false : true));
-
-      if (didAuthenticate) {
-        widget.onSuccess();
+      if (isLoading) {
+        return;
       }
       setState(() {
-        isLoading = false;
-        formOpacity = 1;
+        isLoading = true;
       });
-    } on PlatformException catch (err) {
-      if ((err.message != null) &&
-          (err.message!
-              // TODO: can we check the error with the error code? why if the app is in another langauge?
-              .contains("API is locked out due to too many attempts"))) {
+      try {
+        final bool didAuthenticate = await _auth.authenticate(
+            localizedReason: ' ',
+            options: AuthenticationOptions(
+                biometricOnly: UniversalPlatform.isDesktop ? false : true));
+
+        if (didAuthenticate) {
+          widget.onSuccess();
+        }
         setState(() {
           isLoading = false;
           formOpacity = 1;
-          signInError = err.message ?? l10n.authenticateErrorTooManyAttempts;
         });
-      } else if (err.message != null) {
+      } on PlatformException catch (err) {
+        if ((err.message != null) &&
+            (err.message!
+                // TODO: can we check the error with the error code? why if the app is in another langauge?
+                .contains("API is locked out due to too many attempts"))) {
+          setState(() {
+            isLoading = false;
+            formOpacity = 1;
+            signInError = err.message ?? l10n.authenticateErrorTooManyAttempts;
+          });
+        } else if (err.message != null) {
+          setState(() {
+            isLoading = false;
+            formOpacity = 1;
+            signInError = err.message ?? l10n.authenticateErrorGeneral;
+          });
+        }
+      } catch (e) {
         setState(() {
           isLoading = false;
           formOpacity = 1;
-          signInError = err.message ?? l10n.authenticateErrorGeneral;
+          signInError = l10n.authenticateErrorGeneral;
         });
       }
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-        formOpacity = 1;
-        signInError = l10n.authenticateErrorGeneral;
-      });
     }
   }
 

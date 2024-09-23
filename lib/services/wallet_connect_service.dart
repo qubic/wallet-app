@@ -5,9 +5,13 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
+import 'package:qubic_wallet/models/wallet_connect/helpers.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_accounts_event.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
+import 'package:collection/collection.dart';
 
 class WalletConnectService {
   final ApplicationStore appStore = getIt<ApplicationStore>();
@@ -33,6 +37,10 @@ class WalletConnectService {
   /// Event that is triggered when a session is disconnected
   StreamController<SessionExpire?> onSessionExpire =
       StreamController<SessionExpire?>.broadcast();
+
+  /// Event that is triggered when a session is disconnected
+  StreamController<SessionDelete?> onSessionDelete =
+      StreamController<SessionDelete?>.broadcast();
 
   /// Event that is triggered when a session proposal event is expired
   StreamController<SessionProposalEvent?> onProposalExpire =
@@ -83,12 +91,11 @@ class WalletConnectService {
     if (!shouldTriggerEvent()) {
       return;
     }
-
     web3Wallet!
         .getActiveSessions()
         .forEach(((String session, SessionData sessionData) {
       if (sessionData.namespaces.entries.first.value.events
-          .contains(wcEvents.amountChanged)) {
+          .contains(WcEvents.amountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
@@ -101,7 +108,7 @@ class WalletConnectService {
             topic: sessionData.topic,
             chainId: Config.walletConnectChainId,
             event:
-                SessionEventParams(name: wcEvents.amountChanged, data: data));
+                SessionEventParams(name: WcEvents.amountChanged, data: data));
       }
     }));
   }
@@ -118,7 +125,7 @@ class WalletConnectService {
         .getActiveSessions()
         .forEach(((String session, SessionData sessionData) {
       if (sessionData.namespaces.entries.first.value.events
-          .contains(wcEvents.tokenAmountChanged)) {
+          .contains(WcEvents.tokenAmountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
@@ -136,7 +143,7 @@ class WalletConnectService {
             topic: sessionData.topic,
             chainId: Config.walletConnectChainId,
             event: SessionEventParams(
-                name: wcEvents.tokenAmountChanged, data: data));
+                name: WcEvents.tokenAmountChanged, data: data));
       }
     }));
   }
@@ -150,7 +157,7 @@ class WalletConnectService {
         .getActiveSessions()
         .forEach(((String session, SessionData sessionData) {
       if (sessionData.namespaces.entries.first.value.events
-          .contains(wcEvents.accountsChanged)) {
+          .contains(WcEvents.accountsChanged)) {
         List<dynamic> data = [];
         for (var id in appStore.currentQubicIDs) {
           dynamic item = {};
@@ -164,7 +171,7 @@ class WalletConnectService {
             topic: sessionData.topic,
             chainId: Config.walletConnectChainId,
             event:
-                SessionEventParams(name: wcEvents.accountsChanged, data: data));
+                SessionEventParams(name: WcEvents.accountsChanged, data: data));
       }
     }));
   }
@@ -174,6 +181,20 @@ class WalletConnectService {
     if (!shouldTriggerEvent()) {
       return;
     }
+  }
+
+  // Triggers a method result event for a specific topic (and with a specific nonce)
+  void triggerMethodResultEvent(String topic, String? nonce, dynamic result) {
+    if (!shouldTriggerEvent()) {
+      return;
+    }
+    web3Wallet!.emitSessionEvent(
+        topic: topic,
+        chainId: Config.walletConnectChainId,
+        event: SessionEventParams(
+            name: WcEvents.methodResult,
+            data: getSessionEventParamsResult(
+                params: result, nonce: nonce, error: null)));
   }
 
   initialize() async {
@@ -223,27 +244,28 @@ class WalletConnectService {
       if (settingsStore.settings.walletConnectEnabled) {
         //TODO CHECK THIS APPROACH FOR MEMORY LEAKS
         web3Wallet = null;
-        this.initialize();
+        initialize();
         //web3Wallet!.core.relayClient.connect();
       }
     });
 
     //Event emitter registrations
     web3Wallet!.registerEventEmitter(
-        chainId: Config.walletConnectChainId, event: wcEvents.amountChanged);
+        chainId: Config.walletConnectChainId, event: WcEvents.amountChanged);
     web3Wallet!.registerEventEmitter(
         chainId: Config.walletConnectChainId,
-        event: wcEvents.tokenAmountChanged);
+        event: WcEvents.tokenAmountChanged);
     web3Wallet!.registerEventEmitter(
-        chainId: Config.walletConnectChainId, event: wcEvents.accountsChanged);
+        chainId: Config.walletConnectChainId, event: WcEvents.accountsChanged);
     web3Wallet!.registerEventEmitter(
-        chainId: Config.walletConnectChainId, event: wcEvents.tickChanged);
+        chainId: Config.walletConnectChainId, event: WcEvents.methodResult);
 
+    // -------------------------------------------------------- METHODS --------------------------------------------------------
+    // requestAccounts (responds automatically to clients)
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
-        method: wcMethods.wRequestAccounts,
+        method: WcMethods.wRequestAccounts,
         handler: (topic, args) {
-          onRequestAccounts.add(RequestAccountsEvent(topic: topic));
           List<dynamic> data = [];
           appStore.currentQubicIDs.forEach(((id) {
             dynamic item = {};
@@ -252,31 +274,43 @@ class WalletConnectService {
             item["amount"] = id.amount ?? -1;
             data.add(item);
           }));
-
           web3Wallet!.emitSessionEvent(
               topic: topic,
               chainId: Config.walletConnectChainId,
-              event: SessionEventParams(name: "accountsChanged", data: data));
+              event: SessionEventParams(
+                  name: WcEvents.accountsChanged, data: data));
         });
 
+    // sendQubic emits an onRequestSendQubic event if the request is valid
+    // otherwise returns a validation error
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
-        method: wcMethods.wSendQubic,
+        method: WcMethods.wSendQubic,
         handler: (topic, args) {
-          print(args);
-          onRequestSendQubic.add(RequestSendQubicEvent(
-              topic: topic,
-              fromID: args[0]["fromID"],
-              toID: args[0]["toID"],
-              amount: args[0]["amount"],
-              nonce: args[0]["nonce"]));
+          late RequestSendQubicEvent result;
+          try {
+            result = RequestSendQubicEvent.fromMap(
+                args, topic, args["nonce"].toString());
+            result.validateOrThrow();
+
+            //Enhance the result with the pairing metadata
+            if (web3Wallet!.getActiveSessions().containsKey(topic)) {
+              result.setPairingMetadata(
+                  web3Wallet!.getActiveSessions()[topic]!.peer.metadata);
+              onRequestSendQubic.add(result);
+            }
+          } catch (e) {
+            emitErrorSessionEvent(
+                topic, e.toString(), args["nonce"].toString());
+          }
         });
 
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
-        method: wcMethods.wSendAsset,
+        method: WcMethods.wSendAsset,
         handler: (name, args) {});
 
+    // -------------------------------------------------------- END OF METHODS ---------------------------------------------------------
     web3Wallet!.registerAccount(
         accountAddress:
             "000000000000000000000000000000000000000000000000000000000000",
@@ -286,6 +320,27 @@ class WalletConnectService {
       web3Wallet!.registerAccount(
           accountAddress: id.publicId, chainId: Config.walletConnectChainId);
     }));
+  }
+
+  /// Emits an error event to a specific topic
+  emitErrorSessionEvent(String topic, String error, String? nonce) {
+    web3Wallet!.emitSessionEvent(
+        topic: topic,
+        chainId: Config.walletConnectChainId,
+        event: SessionEventParams(
+            name: WcEvents.methodResult,
+            data: getSessionEventParamsResult(
+                params: {}, nonce: nonce, error: error)));
+  }
+
+  emitSuccessSessionEvent(String topic, String? nonce,
+      {dynamic params = const {}}) {
+    web3Wallet!.emitSessionEvent(
+        topic: topic,
+        chainId: Config.walletConnectChainId,
+        event: SessionEventParams(
+            name: WcEvents.methodResult,
+            data: getSessionEventParamsResult(params: params, nonce: nonce)));
   }
 
   WalletConnectService() {}

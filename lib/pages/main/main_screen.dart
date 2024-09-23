@@ -7,8 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
+import 'package:qubic_wallet/components/wallet_connect/approve_token_transfer.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/pages/main/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings.dart';
@@ -50,6 +52,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   Timer? _lockTimer;
 
+  bool WCDialogOpen = false; //Wallet Connect Dialog Open
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
@@ -86,8 +90,44 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       walletConnectService.initialize();
     }
 
-    walletConnectService.onRequestSendQubic.stream.listen((event) {
-      //TODO Show dialog (with timeout)
+    //Wallet Connect Modals
+
+    //Modal for sending qubic
+    walletConnectService.onRequestSendQubic.stream.listen((event) async {
+      //Do not allow multiple modals
+      if (WCDialogOpen) {
+        walletConnectService.emitErrorSessionEvent(
+            event.topic, "user unavailable", event.nonce);
+        return;
+      }
+
+      WCDialogOpen = true;
+      ApproveTokenTransferResult? result =
+          await showDialog<ApproveTokenTransferResult?>(
+              context: context,
+              builder: (context) {
+                return ApproveTokenTransfer(
+                    pairingMetadata: event.pairingMetadata!,
+                    nonce: event.nonce,
+                    fromID: event.fromID,
+                    fromName: event.fromIDName,
+                    amount: event.amount,
+                    toID: event.toID);
+              });
+      //Notify WC on the result
+      if ((result == null)) {
+        walletConnectService.emitErrorSessionEvent(
+            event.topic, "user rejected", event.nonce);
+      } else if (result.success == false) {
+        walletConnectService.emitErrorSessionEvent(
+            event.topic, "user could not authorize transaction", event.nonce);
+      } else {
+        dynamic responseInfo = {};
+        responseInfo['tick'] = result.tick;
+        walletConnectService.emitSuccessSessionEvent(event.topic, event.nonce,
+            params: responseInfo);
+      }
+      WCDialogOpen = false;
     });
 
     PrivacyScreen.instance.enable(

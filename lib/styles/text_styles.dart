@@ -347,4 +347,10 @@ class TextStyles {
       fontWeight: FontWeight.w400,
       color: LightThemeColors.primary,
       letterSpacing: -0.02);
+
+  static TextStyle walletConnect = const TextStyle(
+    fontSize: ThemeFontSizes.huge,
+    fontWeight: FontWeight.bold,
+    color: LightThemeColors.primary,
+  );
 }
