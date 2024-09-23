@@ -173,37 +173,29 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
   }
 
   Widget getScrollView() {
-    return SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        controller: ScrollController(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            resultType == ExplorerResultType.tick ||
-                    resultType == ExplorerResultType.transaction
-                ? ExplorerResultPageTick(
-                    tickInfo: tickInfo!,
-                    focusedTransactionId: focusedTransactionHash,
-                    onRequestViewChange: (type, tick, publicId) {
-                      if (type == RequestViewChangeType.tick) {
-                        setState(() {
-                          focusedTransactionHash = null;
-                          tickInfo = null;
-                          this.tick = tick;
-                          getInfo();
-                        });
-                      } else if (type == RequestViewChangeType.publicId) {
-                        setState(() {
-                          focusedTransactionHash = null;
-                          tickInfo = null;
-                          qubicId = publicId;
-                          getInfo();
-                        });
-                      }
-                    })
-                : ExplorerResultPageQubicId(idInfo: idInfo!),
-          ],
-        ));
+    return resultType == ExplorerResultType.tick ||
+            resultType == ExplorerResultType.transaction
+        ? ExplorerResultPageTick(
+            tickInfo: tickInfo!,
+            focusedTransactionId: focusedTransactionHash,
+            onRequestViewChange: (type, tick, publicId) {
+              if (type == RequestViewChangeType.tick) {
+                setState(() {
+                  focusedTransactionHash = null;
+                  tickInfo = null;
+                  this.tick = tick;
+                  getInfo();
+                });
+              } else if (type == RequestViewChangeType.publicId) {
+                setState(() {
+                  focusedTransactionHash = null;
+                  tickInfo = null;
+                  qubicId = publicId;
+                  getInfo();
+                });
+              }
+            })
+        : ExplorerResultPageQubicId(idInfo: idInfo!);
   }
 
   List<Widget>? getActions() {
