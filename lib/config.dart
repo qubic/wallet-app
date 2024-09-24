@@ -20,6 +20,12 @@ abstract class Config {
 
   static const URL_MarketInfo = "Public/MarketInformation";
 
+  static const archiveDomain = "https://rpc.qubic.org";
+  static const latestTickUrl = "/v1/latestTick";
+
+  static const statsDomain = "https://rpc.qubic.org";
+  static const latestStatsUrl = "/v1/latest-stats";
+
   static const authUser = "guest@qubic.li";
   static const authPass = "guest13@Qubic.li";
 
