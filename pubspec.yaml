@@ -20,7 +20,8 @@ dependencies:
   page_transition: ^2.0.9
   shared_preferences: ^2.2.0
   timeago: ^3.5.0
-  url_launcher: ^6.1.12
+  url_launcher: ^6.3.0
+  url_launcher_ios: ^6.3.1
   mobx: ^2.2.0
   flutter_mobx: null
   flutter_secure_storage: ^9.2.2
@@ -32,10 +33,10 @@ dependencies:
   flutter_form_builder: ^9.1.0
   persistent_bottom_nav_bar_v2: ^5.2.3
   dotted_border: ^2.0.0+3
-  flutter_inappwebview: ^6.0.0
+  flutter_inappwebview: ^6.1.0+1
   skeleton_text: ^3.0.1
   qr_flutter: ^4.1.0
-  share_plus: ^9.0.0
+  share_plus: ^10.0.2
   mobile_scanner: ^5.1.1
   flutter_multi_formatter: ^2.11.11
   pagination_flutter: ^0.0.8
