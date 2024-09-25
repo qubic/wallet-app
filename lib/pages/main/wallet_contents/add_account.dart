@@ -20,10 +20,12 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
-class AddAccount extends StatefulWidget {
-  final bool isWatchOnly;
+enum AddAccountType { createAccount, watchOnly }
 
-  const AddAccount({super.key, required this.isWatchOnly});
+class AddAccount extends StatefulWidget {
+  final AddAccountType type;
+
+  const AddAccount({super.key, required this.type});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -143,7 +145,7 @@ class _AddAccountState extends State<AddAccount> {
                     value = barcode.rawValue!
                         .replaceAll("https://wallet.qubic.org/payment/", "");
                     var validator =
-                    CustomFormFieldValidators.isPublicID(context: context);
+                        CustomFormFieldValidators.isPublicID(context: context);
                     if (validator(value) == null) {
                       if (foundSuccess == true) {
                         break;
@@ -167,7 +169,7 @@ class _AddAccountState extends State<AddAccount> {
                     width: double.infinity,
                     child: Padding(
                         padding:
-                        const EdgeInsets.all(ThemePaddings.normalPadding),
+                            const EdgeInsets.all(ThemePaddings.normalPadding),
                         child: Text(l10n.sendItemLabelQRScannerInstructions,
                             style: const TextStyle(
                               color: Colors.black,
@@ -465,7 +467,8 @@ class _AddAccountState extends State<AddAccount> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: l10n.addAccountWatchOnlyPageTitle),
+              ThemedControls.pageHeader(
+                  headerText: l10n.addAccountWatchOnlyPageTitle),
               ThemedControls.spacerVerticalSmall(),
               FormBuilder(
                 key: _watchOnlyFormKey,
@@ -550,8 +553,8 @@ class _AddAccountState extends State<AddAccount> {
                       },
                       readOnly: isLoading,
                       style: TextStyles.inputBoxSmallStyle,
-                      decoration: ThemeInputDecorations.normalInputbox
-                          .copyWith(hintText: l10n.addAccountWatchOnlyHintQubicAddress),
+                      decoration: ThemeInputDecorations.normalInputbox.copyWith(
+                          hintText: l10n.addAccountWatchOnlyHintQubicAddress),
                       autocorrect: false,
                       autofillHints: null,
                     ),
@@ -566,10 +569,10 @@ class _AddAccountState extends State<AddAccount> {
                               text: l10n.generalButtonUseQRCode,
                               icon: !LightThemeColors.shouldInvertIcon
                                   ? ThemedControls.invertedColors(
-                                  child: Image.asset(
-                                      "assets/images/Group 2294.png"))
+                                      child: Image.asset(
+                                          "assets/images/Group 2294.png"))
                                   : Image.asset(
-                                  "assets/images/Group 2294.png"))),
+                                      "assets/images/Group 2294.png"))),
                     const SizedBox(height: ThemePaddings.normalPadding),
                   ],
                 ),
@@ -599,8 +602,9 @@ class _AddAccountState extends State<AddAccount> {
       ThemedControls.spacerHorizontalNormal(),
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
-              onPressed:
-                  widget.isWatchOnly ? savePublicIdHandler : saveIdHandler,
+              onPressed: widget.type == AddAccountType.watchOnly
+                  ? savePublicIdHandler
+                  : saveIdHandler,
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
                   child: Text(l10n.generalButtonSave,
@@ -616,10 +620,12 @@ class _AddAccountState extends State<AddAccount> {
       return;
     }
 
-    String? publicId = _watchOnlyFormKey.currentState?.instantValue["publicAddress"] as String?;
+    String? publicId = _watchOnlyFormKey
+        .currentState?.instantValue["publicAddress"] as String?;
 
     if (publicId == null || publicId.isEmpty) {
-      _globalSnackBar.show("Error! Please input your watch address. It should not be empty.");
+      _globalSnackBar.show(
+          "Error! Please input your watch address. It should not be empty.");
       return;
     }
 
@@ -629,7 +635,8 @@ class _AddAccountState extends State<AddAccount> {
 
       if (!isValid) {
         // Show an error message if verification fails
-        _globalSnackBar.showError(l10n.addAccountErrorVerifyIdentityWrongIdentity);
+        _globalSnackBar
+            .showError(l10n.addAccountErrorVerifyIdentityWrongIdentity);
         return;
       }
     } catch (e) {
@@ -745,7 +752,7 @@ class _AddAccountState extends State<AddAccount> {
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
                   Expanded(
-                    child: widget.isWatchOnly
+                    child: widget.type == AddAccountType.watchOnly
                         ? getWatchOnlyScrollView() // Use the watch-only UI
                         : getScrollView(), // Use the old form UI without watch-only snippet
                   ),

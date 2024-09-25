@@ -83,7 +83,8 @@ void showAddAccountModal(BuildContext context) {
                           // Action for adding normal account
                           pushScreen(
                             context,
-                            screen: const AddAccount(isWatchOnly: false),
+                            screen: const AddAccount(
+                                type: AddAccountType.createAccount),
                             pageTransitionAnimation:
                                 PageTransitionAnimation.cupertino,
                           );
@@ -123,7 +124,8 @@ void showAddAccountModal(BuildContext context) {
                           // Action for adding watch-only account
                           pushScreen(
                             context,
-                            screen: const AddAccount(isWatchOnly: true),
+                            screen: const AddAccount(
+                                type: AddAccountType.watchOnly),
                             pageTransitionAnimation:
                                 PageTransitionAnimation.cupertino,
                           );
