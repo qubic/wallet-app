@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -9,32 +11,21 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 
 // Show the ModalBottomSheet when the trigger is set in the store
 void showAddAccountModal(BuildContext context) {
-  final applicationStore = getIt<ApplicationStore>();
   final l10n = l10nOf(context);
 
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
-    // Keeps the grabber indicator area transparent
     backgroundColor: Colors.transparent,
     builder: (BuildContext context) {
       return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Grabber indicator
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 10),
-            width: 60,
-            height: 4.5,
-            decoration: BoxDecoration(
-              color: LightThemeColors.color2,
-              borderRadius: BorderRadius.circular(2),
-            ),
-          ),
-          // The actual modal content, anchored to the bottom
           Container(
             // 44px padding from bottom
-            padding: const EdgeInsets.only(bottom: 44),
+            padding: const EdgeInsets.symmetric(
+                    horizontal: ThemePaddings.normalPadding)
+                .copyWith(bottom: 44, top: 5),
             decoration: BoxDecoration(
               color: LightThemeColors.background,
               borderRadius: const BorderRadius.only(
@@ -46,101 +37,90 @@ void showAddAccountModal(BuildContext context) {
                 width: 1,
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(
-                ThemePaddings.normalPadding,
-                ThemePaddings.normalPadding,
-                ThemePaddings.normalPadding,
-                0,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Create New Account
-                  Container(
-                    constraints:
-                        const BoxConstraints(minWidth: 400, maxWidth: 500),
-                    child: Card(
-                      color: LightThemeColors.inputFieldBg,
-                      // Card background color
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side:
-                            const BorderSide(color: LightThemeColors.navBorder),
-                      ),
-                      child: ListTile(
-                        leading: const Icon(Icons.add_circle,
-                            color: LightThemeColors.buttonPrimary),
-                        title: Text(
-                          l10n.addAccountCreateNewAccountModalBottomSheet,
-                          style: TextStyles.labelText.copyWith(
-                              color: LightThemeColors.primary,
-                              fontSize: ThemeFontSizes.normal),
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                          // Action for adding normal account
-                          pushScreen(
-                            context,
-                            screen: const AddAccount(
-                                type: AddAccountType.createAccount),
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino,
-                          );
-                          // Clear the modal trigger
-                          applicationStore.clearAddAccountModal();
-                        },
-                      ),
-                    ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Grabber indicator
+                Container(
+                  width: 48,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: LightThemeColors.navBorder,
+                    borderRadius: BorderRadius.circular(2),
                   ),
-                  // Space between the two buttons
-                  const SizedBox(height: ThemePaddings.smallPadding),
-                  // Watch Only Account
-                  Container(
-                    constraints:
-                        const BoxConstraints(minWidth: 400, maxWidth: 500),
-                    child: Card(
-                      color: LightThemeColors.inputFieldBg,
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        side:
-                            const BorderSide(color: LightThemeColors.navBorder),
-                      ),
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.remove_red_eye,
-                          color: LightThemeColors.buttonPrimary,
-                        ),
-                        title: Text(
-                          l10n.addAccountWatchOnlyAddressModalBottomSheet,
-                          style: TextStyles.labelText.copyWith(
-                              color: LightThemeColors.primary,
-                              fontSize: ThemeFontSizes.normal),
-                        ),
-                        onTap: () {
-                          Navigator.pop(context);
-                          // Action for adding watch-only account
-                          pushScreen(
-                            context,
-                            screen: const AddAccount(
-                                type: AddAccountType.watchOnly),
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino,
-                          );
-                          // Clear the modal trigger
-                          applicationStore.clearAddAccountModal();
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: ThemePaddings.smallPadding),
+                AddAccountTile(
+                  title: l10n.addAccountCreateNewAccountModalBottomSheet,
+                  icon: Icons.add_circle,
+                  type: AddAccountType.createAccount,
+                ),
+                const SizedBox(height: ThemePaddings.smallPadding),
+                AddAccountTile(
+                    title: l10n.addAccountWatchOnlyAddressModalBottomSheet,
+                    icon: Icons.remove_red_eye,
+                    type: AddAccountType.watchOnly),
+                const SizedBox(height: ThemePaddings.smallPadding),
+                AddAccountTile(
+                    title: l10n.importWalletLabelFromPrivateSeed,
+                    icon: Icons.import_export_sharp,
+                    type: AddAccountType.createAccount),
+              ],
             ),
           ),
         ],
       );
     },
   );
+}
+
+class AddAccountTile extends StatelessWidget {
+  AddAccountTile({
+    super.key,
+    required this.type,
+    required this.title,
+    required this.icon,
+  });
+
+  final AddAccountType type;
+  final String title;
+  final IconData icon;
+  final applicationStore = getIt<ApplicationStore>();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 56,
+      width: double.infinity,
+      child: Card(
+        margin: EdgeInsets.zero,
+        color: LightThemeColors.inputFieldBg,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+          side: BorderSide(color: LightThemeColors.border),
+        ),
+        child: ListTile(
+          leading: Icon(icon, color: LightThemeColors.buttonPrimary),
+          title: Text(
+            title,
+            style: TextStyles.labelText.copyWith(
+                color: LightThemeColors.primary,
+                letterSpacing: ThemeFontSizes.letterSpacing,
+                fontSize: ThemeFontSizes.normal),
+          ),
+          onTap: () {
+            Navigator.pop(context);
+            pushScreen(
+              context,
+              screen: AddAccount(type: type),
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+            // Clear the modal trigger
+            applicationStore.clearAddAccountModal();
+          },
+        ),
+      ),
+    );
+  }
 }
