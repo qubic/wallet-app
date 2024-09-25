@@ -93,11 +93,12 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
           qubicArchiveApi.getExplorerTick(tick!),
           qubicArchiveApi.getExplorerTickTransactions(tick!),
         ]);
-        setState(() {
-          tickData = futures[0] as ExplorerTickDto;
-          transactions = futures[1] as List<ExplorerTransactionDto>;
-          isLoading = false;
-        });
+        tickData = futures[0] as ExplorerTickDto;
+        transactions = futures[1] as List<ExplorerTransactionDto>;
+        final computers = await qubicArchiveApi.getComputors(tickData!.epoch);
+        tickData?.tickLeaderId = computers.identities[tickData!.computorIndex];
+        isLoading = false;
+        setState(() {});
       } catch (err) {
         setState(() {
           error = err is AppError ? err.message : err.toString();

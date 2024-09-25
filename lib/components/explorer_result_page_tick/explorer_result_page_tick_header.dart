@@ -63,18 +63,18 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                             ? IconButton(
                                 color: Theme.of(context).colorScheme.secondary,
                                 onPressed: () {
-                                  onTickChange!(tickInfo.tickNumber! - 1);
+                                  onTickChange!(tickInfo.tickNumber - 1);
                                 },
                                 icon:
                                     const Icon(Icons.keyboard_arrow_left_sharp))
                             : Container(),
-                        Text(tickInfo.tickNumber!.asThousands(),
+                        Text(tickInfo.tickNumber.asThousands(),
                             style: TextStyles.textHugeBold),
                         onTickChange != null
                             ? IconButton(
                                 color: Theme.of(context).colorScheme.secondary,
                                 onPressed: () {
-                                  onTickChange!(tickInfo.tickNumber! + 1);
+                                  onTickChange!(tickInfo.tickNumber + 1);
                                 },
                                 icon: const Icon(
                                     Icons.keyboard_arrow_right_sharp))
@@ -146,18 +146,17 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
               l10n.explorerTickResultLabelTickLeader,
               style: panelHeaderStyle,
             ),
-            //TODO Implement TickLeader id
-            // Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            //   Expanded(
-            //       child: Text(
-            //     "${tickInfo.tickLeaderId} - (${tickInfo.tickLeaderShortCode} / ${tickInfo.tickLeaderIndex})",
-            //     style: panelHeaderValue,
-            //   )),
-            //   ThemedControls.spacerHorizontalSmall(),
-            //   CopyButton(
-            //     copiedText: tickInfo.tickLeaderId,
-            //   )
-            // ]),
+            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+              Expanded(
+                  child: Text(
+                "${tickInfo.tickLeaderId}",
+                style: panelHeaderValue,
+              )),
+              ThemedControls.spacerHorizontalSmall(),
+              CopyButton(
+                copiedText: tickInfo.tickLeaderId ?? "-",
+              )
+            ]),
             ThemedControls.spacerVerticalBig(),
           ]))
     ]);

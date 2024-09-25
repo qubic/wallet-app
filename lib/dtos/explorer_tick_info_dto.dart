@@ -74,9 +74,9 @@ class ExplorerTickInfoDto {
 }
 
 class ExplorerTickDto {
-  final int? computorIndex;
-  final int? epoch;
-  final int? tickNumber;
+  final int computorIndex;
+  final int epoch;
+  final int tickNumber;
   final DateTime? timestamp;
   final String? varStruct;
   final String? timeLock;
@@ -84,6 +84,7 @@ class ExplorerTickDto {
   final List<String>? contractFees;
   final String? signatureHex;
   final bool completed;
+  String? tickLeaderId;
 
   ExplorerTickDto({
     required this.computorIndex,
@@ -95,6 +96,7 @@ class ExplorerTickDto {
     required this.transactionIds,
     required this.contractFees,
     required this.signatureHex,
+    this.tickLeaderId,
     this.completed = true,
   });
 
