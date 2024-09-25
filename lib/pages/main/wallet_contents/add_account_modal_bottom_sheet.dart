@@ -32,10 +32,7 @@ void showAddAccountModal(BuildContext context) {
                 topLeft: Radius.circular(20),
                 topRight: Radius.circular(20),
               ),
-              border: Border.all(
-                color: LightThemeColors.navBorder,
-                width: 1,
-              ),
+              border: Border.all(color: LightThemeColors.border),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
