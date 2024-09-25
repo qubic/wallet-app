@@ -1,3 +1,4 @@
+import 'package:downloadsfolder/downloadsfolder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/explorer_result_page_qubic_id/explorer_result_page_qubic_id_header.dart';
@@ -15,18 +16,25 @@ class ExplorerResultPageQubicId extends StatelessWidget {
   });
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
   final ExplorerIdInfoDto idInfo;
-
+  //TODO Show latest transfers for a Public ID here
   Widget listTransactions() {
     return SliverList.builder(
-        itemCount: idInfo.latestTransfers!.length,
-        itemBuilder: (context, index) {
-          final transaction = idInfo.latestTransfers![index];
-          return Padding(
-            padding: const EdgeInsets.only(bottom: ThemePaddings.normalPadding),
-            child: ExplorerResultPageTransactionItem(
-                transaction: transaction, isFocused: false, showTick: true),
-          );
-        });
+      itemCount: 1,
+      itemBuilder: (context, index) => const SizedBox.shrink(),
+    );
+    // return Column(
+    //   mainAxisSize: MainAxisSize.max,
+    //   crossAxisAlignment: CrossAxisAlignment.start,
+    //   children: [
+    //     for (var transaction in idInfo.latestTransfers!)
+    //       Padding(
+    //         padding: const EdgeInsets.only(bottom: ThemePaddings.normalPadding),
+    //         child: ExplorerResultPageTransactionItem(
+    //             transaction: transaction, isFocused: false, showTick: true),
+    //       ),
+    //     const SizedBox(height: ThemePaddings.normalPadding)
+    //   ],
+    // );
   }
 
   Widget getTransactionsHeader(BuildContext context) {

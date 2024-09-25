@@ -20,7 +20,7 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import '../../stores/application_store.dart';
 
 class ExplorerResultPageTransactionItem extends StatelessWidget {
-  final ExplorerTransactionInfoDto transaction;
+  final ExplorerTransactionDto transaction;
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
 
@@ -67,42 +67,6 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
     ]);
   }
 
-  Widget includedByQubicNetwork(BuildContext context) {
-    final l10n = l10nOf(context);
-
-    return Flex(direction: Axis.horizontal, children: [
-      transaction.executed
-          ? GradientForeground(
-              child: Image.asset('assets/images/check-circle-color16.png'))
-          : LightThemeColors.shouldInvertIcon
-              ? ThemedControls.invertedColors(
-                  child: Image.asset('assets/images/close-16.png'))
-              : Image.asset('assets/images/close-16.png'),
-      Expanded(
-          child: Text(
-              "  ${transaction.executed ? l10n.transactionItemLabelIncludedByQubickNetwork : l10n.transactionItemLabelNotIncludedByQubicNetwork}",
-              style: TextStyles.textTiny))
-    ]);
-  }
-
-  Widget includedByTickLeader(BuildContext context) {
-    final l10n = l10nOf(context);
-
-    return Flex(direction: Axis.horizontal, children: [
-      transaction.includedByTickLeader
-          ? GradientForeground(
-              child: Image.asset('assets/images/check-circle-color16.png'))
-          : LightThemeColors.shouldInvertIcon
-              ? ThemedControls.invertedColors(
-                  child: Image.asset('assets/images/close-16.png'))
-              : Image.asset('assets/images/close-16.png'),
-      Expanded(
-          child: Text(
-              "  ${transaction.includedByTickLeader ? l10n.transactionItemLabelIncludedByTickLeader : l10n.transactionItemLabelNotIncludedByTickLeader}",
-              style: TextStyles.textTiny))
-    ]);
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
@@ -114,24 +78,21 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
             child: FittedBox(
                 fit: BoxFit.cover,
                 child: QubicAmount(
-                    amount: transaction.amount)) // transaction.amount)),
+                    amount: int.tryParse(transaction
+                        .transaction.amount!))) // transaction.amount)),
             ),
         Flex(direction: Axis.horizontal, children: [
-          Expanded(
-              flex: 1,
-              child: Column(children: [
-                includedByQubicNetwork(context),
-                ThemedControls.spacerVerticalMini(),
-                includedByTickLeader(context),
-              ])),
           showTick
               ? Expanded(
                   flex: 1,
                   child: CopyableText(
-                      copiedText: transaction.tick.toString(),
+                      copiedText:
+                          transaction.transaction.tickNumber?.toString() ?? "-",
                       child: Text(
-                          l10n.generalLabelTickAndValue(
-                              transaction.tick.asThousands()),
+                          l10n.generalLabelTickAndValue(transaction
+                                  .transaction.tickNumber
+                                  ?.asThousands() ??
+                              "-"),
                           textAlign: TextAlign.right)))
               : Container()
         ]),
@@ -143,35 +104,35 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
                   children: [
                 Text(l10n.transactionItemLabelTransactionId,
                     style: itemHeaderType(context)),
-                Text(transaction.id),
+                Text(transaction.transaction.txId.toString()),
               ])),
-          CopyButton(copiedText: transaction.id),
+          CopyButton(copiedText: transaction.transaction.txId.toString()),
+        ]),
+        // ThemedControls.spacerVerticalSmall(),
+        // Flex(direction: Axis.horizontal, children: [
+        //   Expanded(
+        //       child: Column(
+        //           crossAxisAlignment: CrossAxisAlignment.start,
+        //           children: [
+        //         Text(l10n.transactionItemLabelTransactionDigest,
+        //             style: itemHeaderType(context)),
+        //         Text(transaction.transaction..toString()),
+        //       ])),
+        //   CopyButton(copiedText: transaction.transaction.destId.toString()),
+        // ]),
+        ThemedControls.spacerVerticalSmall(),
+        Flex(direction: Axis.horizontal, children: [
+          Expanded(
+              child: getFromTo(context, l10n.generalLabelFrom,
+                  transaction.transaction.sourceId.toString())),
+          CopyButton(copiedText: transaction.transaction.sourceId.toString()),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Flex(direction: Axis.horizontal, children: [
           Expanded(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                Text(l10n.transactionItemLabelTransactionDigest,
-                    style: itemHeaderType(context)),
-                Text(transaction.digest),
-              ])),
-          CopyButton(copiedText: transaction.digest),
-        ]),
-        ThemedControls.spacerVerticalSmall(),
-        Flex(direction: Axis.horizontal, children: [
-          Expanded(
-              child: getFromTo(
-                  context, l10n.generalLabelFrom, transaction.sourceId)),
-          CopyButton(copiedText: transaction.sourceId),
-        ]),
-        ThemedControls.spacerVerticalSmall(),
-        Flex(direction: Axis.horizontal, children: [
-          Expanded(
-              child:
-                  getFromTo(context, l10n.generalLabelTo, transaction.destId)),
-          CopyButton(copiedText: transaction.destId),
+              child: getFromTo(context, l10n.generalLabelTo,
+                  transaction.transaction.destId.toString())),
+          CopyButton(copiedText: transaction.transaction.destId.toString()),
         ]),
       ]),
     );

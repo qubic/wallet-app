@@ -6,7 +6,10 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
+import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/models/app_error.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -37,6 +40,7 @@ class ExplorerResultPage extends StatefulWidget {
 class _ExplorerResultPageState extends State<ExplorerResultPage> {
   final ExplorerStore explorerStore = getIt<ExplorerStore>();
   final QubicLi qubicLi = getIt<QubicLi>();
+  final QubicArchiveApi qubicArchiveApi = getIt<QubicArchiveApi>();
 
   late int? tick;
   late String? qubicId;
@@ -45,8 +49,9 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
 
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
 
-  ExplorerTickInfoDto? tickInfo;
   ExplorerIdInfoDto? idInfo;
+  List<ExplorerTransactionDto>? transactions;
+  ExplorerTickDto? tickData;
 
   bool isLoading = true;
   String? error = "An error";
@@ -76,21 +81,38 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
   }
 
   //Gets info from the backend and stores it in the store
-  void getInfo() {
+  void getInfo() async {
     setState(() {
       isLoading = true;
       error = null;
     });
+
     if (resultType == ExplorerResultType.tick) {
-      qubicLi.getExplorerTickInfo(tick!).then((value) {
+      try {
+        final futures = await Future.wait([
+          qubicArchiveApi.getExplorerTick(tick!),
+          qubicArchiveApi.getExplorerTickTransactions(tick!),
+        ]);
         setState(() {
-          tickInfo = value;
+          tickData = futures[0] as ExplorerTickDto;
+          transactions = futures[1] as List<ExplorerTransactionDto>;
           isLoading = false;
         });
-      },
-          onError: (err) => setState(() {
-                error = err.toString().replaceAll("Exception: ", "");
-              }));
+      } catch (err) {
+        setState(() {
+          error = err is AppError ? err.message : err.toString();
+        });
+      }
+
+      // qubicLi.getExplorerTickInfo(tick!).then((value) {
+      //   setState(() {
+      //     tickInfo = value;
+      //     isLoading = false;
+      //   });
+      // },
+      //     onError: (err) => setState(() {
+      //           error = err.toString().replaceAll("Exception: ", "");
+      //         }));
     } else if (resultType == ExplorerResultType.publicId) {
       //PUBLIC ID
       qubicLi.getExplorerIdInfo(qubicId!).then((value) {
@@ -106,7 +128,7 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
       qubicLi.getExplorerTickInfo(tick!).then((value) {
         explorerStore.setExplorerTickInfo(value);
         setState(() {
-          tickInfo = value;
+          //  tickInfo = value;
           isLoading = false;
         });
       },
@@ -116,25 +138,25 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
     }
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   Widget getErrorView() {
     final l10n = l10nOf(context);
     return Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
           const Icon(Icons.error_outline, size: 48),
           const SizedBox(height: ThemePaddings.normalPadding),
           Text(l10n.generalLabelError,
+              textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .displayMedium!
                   .copyWith(fontFamily: ThemeFonts.primary)),
-          Text(error ?? "-"),
+          Text(
+            error ?? "-",
+            textAlign: TextAlign.center,
+          ),
           FilledButton(
               child: Text(l10n.generalButtonTryAgain),
               onPressed: () {
@@ -176,20 +198,21 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
     return resultType == ExplorerResultType.tick ||
             resultType == ExplorerResultType.transaction
         ? ExplorerResultPageTick(
-            tickInfo: tickInfo!,
+            tickInfo: tickData!,
+            transactions: transactions,
             focusedTransactionId: focusedTransactionHash,
             onRequestViewChange: (type, tick, publicId) {
               if (type == RequestViewChangeType.tick) {
                 setState(() {
                   focusedTransactionHash = null;
-                  tickInfo = null;
+                  tickData = null;
                   this.tick = tick;
                   getInfo();
                 });
               } else if (type == RequestViewChangeType.publicId) {
                 setState(() {
                   focusedTransactionHash = null;
-                  tickInfo = null;
+                  tickData = null;
                   qubicId = publicId;
                   getInfo();
                 });

@@ -10,13 +10,18 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class ExplorerResultPageTickHeader extends StatelessWidget {
-  final ExplorerTickInfoDto tickInfo;
+  final ExplorerTickDto tickInfo;
+  final bool isNotEmpty;
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
 
   final Function(int tick)? onTickChange;
 
-  ExplorerResultPageTickHeader(
-      {super.key, required this.tickInfo, this.onTickChange});
+  ExplorerResultPageTickHeader({
+    super.key,
+    required this.tickInfo,
+    this.onTickChange,
+    required this.isNotEmpty,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +63,18 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                             ? IconButton(
                                 color: Theme.of(context).colorScheme.secondary,
                                 onPressed: () {
-                                  onTickChange!(tickInfo.tick - 1);
+                                  onTickChange!(tickInfo.tickNumber! - 1);
                                 },
                                 icon:
                                     const Icon(Icons.keyboard_arrow_left_sharp))
                             : Container(),
-                        Text(tickInfo.tick.asThousands(),
+                        Text(tickInfo.tickNumber!.asThousands(),
                             style: TextStyles.textHugeBold),
                         onTickChange != null
                             ? IconButton(
                                 color: Theme.of(context).colorScheme.secondary,
                                 onPressed: () {
-                                  onTickChange!(tickInfo.tick + 1);
+                                  onTickChange!(tickInfo.tickNumber! + 1);
                                 },
                                 icon: const Icon(
                                     Icons.keyboard_arrow_right_sharp))
@@ -98,7 +103,7 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                           style: panelHeaderStyle),
                       Row(children: [
                         tickInfo.completed
-                            ? tickInfo.isNonEmpty
+                            ? isNotEmpty
                                 ? const Icon(Icons.check,
                                     color: LightThemeColors.successIncoming)
                                 : const Icon(Icons.error,
@@ -106,7 +111,7 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                             : const Icon(Icons.question_mark,
                                 color: Colors.grey),
                         Text(
-                          " ${tickInfo.completed ? tickInfo.isNonEmpty ? l10n.explorerTickResultLabelBlockStatusNonEmpty : l10n.explorerTickResultLabelBlockStatusEmpty : l10n.explorerTickResultLabelBlockStatusUnknown}",
+                          " ${tickInfo.completed ? isNotEmpty ? l10n.explorerTickResultLabelBlockStatusNonEmpty : l10n.explorerTickResultLabelBlockStatusEmpty : l10n.explorerTickResultLabelBlockStatusUnknown}",
                           style: panelHeaderValue,
                         )
                       ]),
@@ -141,17 +146,18 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
               l10n.explorerTickResultLabelTickLeader,
               style: panelHeaderStyle,
             ),
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(
-                  child: Text(
-                "${tickInfo.tickLeaderId} - (${tickInfo.tickLeaderShortCode} / ${tickInfo.tickLeaderIndex})",
-                style: panelHeaderValue,
-              )),
-              ThemedControls.spacerHorizontalSmall(),
-              CopyButton(
-                copiedText: tickInfo.tickLeaderId,
-              )
-            ]),
+            //TODO Implement TickLeader id
+            // Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            //   Expanded(
+            //       child: Text(
+            //     "${tickInfo.tickLeaderId} - (${tickInfo.tickLeaderShortCode} / ${tickInfo.tickLeaderIndex})",
+            //     style: panelHeaderValue,
+            //   )),
+            //   ThemedControls.spacerHorizontalSmall(),
+            //   CopyButton(
+            //     copiedText: tickInfo.tickLeaderId,
+            //   )
+            // ]),
             ThemedControls.spacerVerticalBig(),
           ]))
     ]);
