@@ -61,7 +61,7 @@ void showAddAccountModal(BuildContext context) {
                 AddAccountTile(
                     title: l10n.importWalletLabelFromPrivateSeed,
                     icon: Icons.import_export_sharp,
-                    type: AddAccountType.createAccount),
+                    type: AddAccountType.importPrivateSeed),
               ],
             ),
           ),
