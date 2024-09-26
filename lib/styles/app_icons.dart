@@ -19,4 +19,7 @@ abstract class AppIcons {
   static const String linkedin = '${_path}linkedin.svg';
   static const String tiktok = '${_path}tiktok.svg';
   static const String instagram = '${_path}instagram.svg';
+  static const String eye = '${_path}eye.svg';
+  static const String plusCircular = '${_path}plus_circular.svg';
+  static const String import = '${_path}import.svg';
 }

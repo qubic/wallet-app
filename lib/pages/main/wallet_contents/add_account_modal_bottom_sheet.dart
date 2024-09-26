@@ -1,10 +1,12 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
@@ -49,18 +51,18 @@ void showAddAccountModal(BuildContext context) {
                 const SizedBox(height: ThemePaddings.smallPadding),
                 AddAccountTile(
                   title: l10n.addAccountCreateNewAccountModalBottomSheet,
-                  icon: Icons.add_circle,
+                  iconPath: AppIcons.plusCircular,
                   type: AddAccountType.createAccount,
                 ),
                 const SizedBox(height: ThemePaddings.smallPadding),
                 AddAccountTile(
                     title: l10n.addAccountWatchOnlyAddressModalBottomSheet,
-                    icon: Icons.remove_red_eye,
+                    iconPath: AppIcons.eye,
                     type: AddAccountType.watchOnly),
                 const SizedBox(height: ThemePaddings.smallPadding),
                 AddAccountTile(
                     title: l10n.importWalletLabelFromPrivateSeed,
-                    icon: Icons.import_export_sharp,
+                    iconPath: AppIcons.import,
                     type: AddAccountType.importPrivateSeed),
               ],
             ),
@@ -76,12 +78,12 @@ class AddAccountTile extends StatelessWidget {
     super.key,
     required this.type,
     required this.title,
-    required this.icon,
+    required this.iconPath,
   });
 
   final AddAccountType type;
   final String title;
-  final IconData icon;
+  final String iconPath;
   final applicationStore = getIt<ApplicationStore>();
 
   @override
@@ -98,7 +100,7 @@ class AddAccountTile extends StatelessWidget {
           side: BorderSide(color: LightThemeColors.border),
         ),
         child: ListTile(
-          leading: Icon(icon, color: LightThemeColors.buttonPrimary),
+          leading: SvgPicture.asset(iconPath),
           title: Text(
             title,
             style: TextStyles.labelText.copyWith(
