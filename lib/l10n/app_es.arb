@@ -746,5 +746,19 @@
     "homeWarningTooManyAccounts": "Tienes más de 15 cuentas en tu Wallet. No podrás ver los balances o hacer transferencias hasta que no elimines algunas de ellas hasta tener 15 o menos",
     "explorerLabelPrice": "Precio",
     "explorerLabelMarketCap": "Capitalización de mercado",
-    "accountExplorerLabelLatestTransactions": "Últimas Transacciones"
+    "accountExplorerLabelLatestTransactions": "Últimas Transacciones",
+    "settingsLabelWalletConnect": "Wallet Connect",
+    "addAccountErrorVerifyIdentityWrongIdentity": "Dirección de sólo lectura inválida. Por favor, verifica la dirección ingresada.",
+    "addAccountErrorVerifyIdentityError": "No se puede verificar la dirección",
+    "addAccountWatchOnlyPageTitle": "Agregar cuenta de sólo lectura",
+    "addAccountWatchOnlySubtitle": "Agregar una dirección pública para sólo lectura. No se podrán realizar transacciones.",
+    "addAccountWatchOnlyQubicAddressTooltip": "El ID público se compone de 60 letras mayúsculas.",
+    "addAccountWatchOnlyHintQubicAddress": "Ingresa una dirección Qubic",
+    "addAccountCreateNewAccountModalBottomSheet": "Crear Nueva Cuenta",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Cuenta de Sólo Lectura",
+    "deleteAccountDialogMessageWatchOnly": "¿Estás seguro que quieres eliminar esta cuenta de sólo lectura de tu Wallet?",
+    "cmdErrorVerifyIdentityJsonDecoding": "Error al decodificar el resultado de verifyIdentity",
+    "cmdErrorVerifyIdentityParsingError": "Error al parsear el resultado de verifyIdentity",
+    "cmdErrorVerifyingIdentityGeneric": "Error al verificar la identidad",
+    "cmdErrorVerifyingIdentity": "No se puede verificar la identidad: {errorDescription}"
 }
