@@ -229,7 +229,7 @@ class _AddAccountState extends State<AddAccount> {
     return getScrollView(
         title: l10n.addAccountHeader,
         isPrivateSeedReadOnly: true,
-        hasPrivateSeedRandomButton: true,
+        hasPrivateSeedRandomButton: false,
         hasQrCodeButton: false,
         hasPrivateSeedTip: true);
   }
