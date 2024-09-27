@@ -2,7 +2,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/account_list_item.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/cumulative_wallet_value_sliver.dart';
@@ -14,12 +13,12 @@ import 'package:qubic_wallet/components/tick_refresh.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/add_account.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 class TabWalletContents extends StatefulWidget {
   const TabWalletContents({super.key});
@@ -136,15 +135,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                   ThemedControls.spacerVerticalNormal(),
                   FilledButton.icon(
                       onPressed: () {
-                        pushScreen(
-                          context,
-                          screen: const AddAccount(
-                            isWatchOnly: false,
-                          ),
-                          withNavBar: false, // OPTIONAL VALUE. True by default.
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
+                        showAddAccountModal(context);
                       },
                       icon: const Icon(Icons.add_box),
                       label: Text(l10n.homeButtonAddAccount))

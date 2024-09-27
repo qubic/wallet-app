@@ -35,6 +35,7 @@ class LightThemeColors {
   static const successIncoming = Color(0xFF179C6C);
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);
+  static final border = Colors.white.withOpacity(0.03);
 
   static const dangerColor = Color(0xFFF97066);
 
@@ -183,6 +184,8 @@ abstract class ThemeFontSizes {
   static const loginTitle = 36;
 
   static const errorLabel = 12.5;
+
+  static const letterSpacing = -0.02;
 }
 
 abstract class ThemeFonts {

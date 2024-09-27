@@ -20,10 +20,12 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
-class AddAccount extends StatefulWidget {
-  final bool isWatchOnly;
+enum AddAccountType { createAccount, watchOnly, importPrivateSeed }
 
-  const AddAccount({super.key, required this.isWatchOnly});
+class AddAccount extends StatefulWidget {
+  final AddAccountType type;
+
+  const AddAccount({super.key, required this.type});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -39,19 +41,61 @@ class _AddAccountState extends State<AddAccount> {
 
   bool detected = false;
   bool generatingId = false;
-
   String? generatedPublicId;
   String? watchOnlyId;
 
   @override
-  void initState() {
-    super.initState();
-    qubicCmd.initialize();
+  void didChangeDependencies() {
+    if (widget.type == AddAccountType.createAccount) {
+      generatePrivateSeed();
+      onPrivateSeedChanged();
+    }
+    super.didChangeDependencies();
   }
 
-  @override
-  void dispose() {
-    super.dispose();
+  onPrivateSeedChanged() async {
+    final l10n = l10nOf(context);
+    final value = privateSeed.value.text;
+    var v = CustomFormFieldValidators.isSeed(context: context);
+    if (value.trim().isNotEmpty && v(value) == null) {
+      try {
+        setState(() {
+          generatingId = true;
+        });
+        var newId = await qubicCmd.getPublicIdFromSeed(value);
+        setState(() {
+          generatedPublicId = newId;
+          generatingId = false;
+        });
+      } catch (e) {
+        if (e.toString().startsWith("Exception: CRITICAL:")) {
+          showAlertDialog(
+              context,
+              l10n.addAccountErrorTamperedWalletTitle,
+              isAndroid
+                  ? l10n.addAccountErrorTamperedAndroidWalletMessage
+                  : isIOS
+                      ? l10n.addAccountErrorTamperediOSWalletMessage
+                      : l10n.addAccountErrorTamperedWalletMessage);
+        }
+        setState(() {
+          privateSeed.value = TextEditingValue.empty;
+          generatedPublicId = null;
+        });
+      }
+      return;
+    }
+    setState(() {
+      generatedPublicId = null;
+    });
+  }
+
+  generatePrivateSeed() {
+    if (generatingId) {
+      return;
+    }
+    var seed = getRandomSeed();
+    privateSeed.text = seed;
   }
 
   void showQRScanner() {
@@ -143,7 +187,7 @@ class _AddAccountState extends State<AddAccount> {
                     value = barcode.rawValue!
                         .replaceAll("https://wallet.qubic.org/payment/", "");
                     var validator =
-                    CustomFormFieldValidators.isPublicID(context: context);
+                        CustomFormFieldValidators.isPublicID(context: context);
                     if (validator(value) == null) {
                       if (foundSuccess == true) {
                         break;
@@ -167,7 +211,7 @@ class _AddAccountState extends State<AddAccount> {
                     width: double.infinity,
                     child: Padding(
                         padding:
-                        const EdgeInsets.all(ThemePaddings.normalPadding),
+                            const EdgeInsets.all(ThemePaddings.normalPadding),
                         child: Text(l10n.sendItemLabelQRScannerInstructions,
                             style: const TextStyle(
                               color: Colors.black,
@@ -180,7 +224,32 @@ class _AddAccountState extends State<AddAccount> {
         });
   }
 
-  Widget getScrollView() {
+  Widget getCreateAccountView() {
+    final l10n = l10nOf(context);
+    return getScrollView(
+        title: l10n.addAccountHeader,
+        isPrivateSeedReadOnly: true,
+        hasPrivateSeedRandomButton: false,
+        hasQrCodeButton: false,
+        hasPrivateSeedTip: true);
+  }
+
+  Widget getImportAccountView() {
+    final l10n = l10nOf(context);
+    return getScrollView(
+        title: l10n.importWalletLabelFromPrivateSeed,
+        isPrivateSeedReadOnly: false,
+        hasPrivateSeedRandomButton: false,
+        hasQrCodeButton: true,
+        hasPrivateSeedTip: false);
+  }
+
+  Widget getScrollView(
+      {required String title,
+      required bool isPrivateSeedReadOnly,
+      required bool hasPrivateSeedRandomButton,
+      required bool hasQrCodeButton,
+      required bool hasPrivateSeedTip}) {
     final l10n = l10nOf(context);
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -189,7 +258,7 @@ class _AddAccountState extends State<AddAccount> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: l10n.addAccountHeader),
+              ThemedControls.pageHeader(headerText: title),
               ThemedControls.spacerVerticalSmall(),
               Row(children: [
                 Text(l10n.addAccountLabelAccountName,
@@ -205,7 +274,7 @@ class _AddAccountState extends State<AddAccount> {
                                 "assets/images/question-active-16.png"))
                         : Image.asset("assets/images/question-active-16.png")),
               ]),
-              ThemedControls.spacerVerticalMini(),
+              ThemedControls.spacerVerticalSmall(),
               FormBuilder(
                   key: _createAccountFormKey,
                   child: Column(
@@ -245,27 +314,31 @@ class _AddAccountState extends State<AddAccount> {
                                 : Image.asset(
                                     "assets/images/question-active-16.png")),
                         Expanded(child: Container()),
-                        ThemedControls.transparentButtonSmall(
-                            onPressed: () {
-                              if (generatingId) {
-                                return;
-                              }
-                              FocusManager.instance.primaryFocus?.unfocus();
+                        if (hasPrivateSeedRandomButton)
+                          ThemedControls.transparentButtonSmall(
+                              onPressed: () {
+                                if (generatingId) {
+                                  return;
+                                }
+                                FocusManager.instance.primaryFocus?.unfocus();
 
-                              var seed = getRandomSeed();
-                              privateSeed.text = seed;
-                            },
-                            text: l10n.addAccountButtonCreateRandom,
-                            icon: LightThemeColors.shouldInvertIcon
-                                ? ThemedControls.invertedColors(
-                                    child: Image.asset(
-                                        "assets/images/private seed-16.png"))
-                                : Image.asset(
-                                    "assets/images/private seed-16.png"))
+                                var seed = getRandomSeed();
+                                privateSeed.text = seed;
+                              },
+                              text: l10n.addAccountButtonCreateRandom,
+                              icon: LightThemeColors.shouldInvertIcon
+                                  ? ThemedControls.invertedColors(
+                                      child: Image.asset(
+                                          "assets/images/private seed-16.png"))
+                                  : Image.asset(
+                                      "assets/images/private seed-16.png"))
                       ]),
+                      // Spacer instead of the default button padding
+                      if (!hasPrivateSeedRandomButton)
+                        ThemedControls.spacerVerticalSmall(),
                       FormBuilderTextField(
                         name: "privateSeed",
-                        readOnly: isLoading,
+                        readOnly: isPrivateSeedReadOnly || isLoading,
                         controller: privateSeed,
                         enableSuggestions: false,
                         keyboardType: TextInputType.visiblePassword,
@@ -280,48 +353,8 @@ class _AddAccountState extends State<AddAccount> {
                         onSubmitted: (value) {
                           saveIdHandler();
                         },
-                        onChanged: (value) async {
-                          var v = CustomFormFieldValidators.isSeed(
-                              context: context);
-                          if (value != null &&
-                              value.trim().isNotEmpty &&
-                              v(value) == null) {
-                            try {
-                              setState(() {
-                                generatingId = true;
-                              });
-                              var newId =
-                                  await qubicCmd.getPublicIdFromSeed(value);
-                              setState(() {
-                                generatedPublicId = newId;
-                                generatingId = false;
-                              });
-                            } catch (e) {
-                              if (e
-                                  .toString()
-                                  .startsWith("Exception: CRITICAL:")) {
-                                showAlertDialog(
-                                    context,
-                                    l10n.addAccountErrorTamperedWalletTitle,
-                                    isAndroid
-                                        ? l10n
-                                            .addAccountErrorTamperedAndroidWalletMessage
-                                        : isIOS
-                                            ? l10n
-                                                .addAccountErrorTamperediOSWalletMessage
-                                            : l10n
-                                                .addAccountErrorTamperedWalletMessage);
-                              }
-                              setState(() {
-                                privateSeed.value = TextEditingValue.empty;
-                                generatedPublicId = null;
-                              });
-                            }
-                            return;
-                          }
-                          setState(() {
-                            generatedPublicId = null;
-                          });
+                        onChanged: (value) {
+                          onPrivateSeedChanged();
                         },
                         maxLines: 2,
                         style: TextStyles.inputBoxSmallStyle,
@@ -368,7 +401,7 @@ class _AddAccountState extends State<AddAccount> {
                         autocorrect: false,
                         autofillHints: null,
                       ),
-                      if (isMobile)
+                      if (isMobile && hasQrCodeButton)
                         Align(
                             alignment: Alignment.topLeft,
                             child: ThemedControls.primaryButtonNormal(
@@ -382,14 +415,15 @@ class _AddAccountState extends State<AddAccount> {
                                             "assets/images/Group 2294.png"))
                                     : Image.asset(
                                         "assets/images/Group 2294.png"))),
-                      ThemedControls.spacerVerticalNormal(),
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                              l10n.addAccountHeaderKeepPrivateSeedSecret,
-                              style: TextStyles.assetSecondaryTextLabel)),
-                      const SizedBox(height: ThemePaddings.normalPadding),
-                      ThemedControls.spacerVerticalNormal(),
+                      if (hasPrivateSeedTip) ...[
+                        ThemedControls.spacerVerticalNormal(),
+                        Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                                l10n.addAccountHeaderKeepPrivateSeedSecret,
+                                style: TextStyles.assetSecondaryTextLabel)),
+                      ],
+                      ThemedControls.spacerVerticalHuge(),
                       Align(
                           alignment: Alignment.topLeft,
                           child: Text(l10n.generalLabeQubicAddressAndPublicID,
@@ -465,7 +499,8 @@ class _AddAccountState extends State<AddAccount> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: l10n.addAccountWatchOnlyPageTitle),
+              ThemedControls.pageHeader(
+                  headerText: l10n.addAccountWatchOnlyPageTitle),
               ThemedControls.spacerVerticalSmall(),
               FormBuilder(
                 key: _watchOnlyFormKey,
@@ -550,8 +585,8 @@ class _AddAccountState extends State<AddAccount> {
                       },
                       readOnly: isLoading,
                       style: TextStyles.inputBoxSmallStyle,
-                      decoration: ThemeInputDecorations.normalInputbox
-                          .copyWith(hintText: l10n.addAccountWatchOnlyHintQubicAddress),
+                      decoration: ThemeInputDecorations.normalInputbox.copyWith(
+                          hintText: l10n.addAccountWatchOnlyHintQubicAddress),
                       autocorrect: false,
                       autofillHints: null,
                     ),
@@ -566,10 +601,10 @@ class _AddAccountState extends State<AddAccount> {
                               text: l10n.generalButtonUseQRCode,
                               icon: !LightThemeColors.shouldInvertIcon
                                   ? ThemedControls.invertedColors(
-                                  child: Image.asset(
-                                      "assets/images/Group 2294.png"))
+                                      child: Image.asset(
+                                          "assets/images/Group 2294.png"))
                                   : Image.asset(
-                                  "assets/images/Group 2294.png"))),
+                                      "assets/images/Group 2294.png"))),
                     const SizedBox(height: ThemePaddings.normalPadding),
                   ],
                 ),
@@ -599,8 +634,9 @@ class _AddAccountState extends State<AddAccount> {
       ThemedControls.spacerHorizontalNormal(),
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
-              onPressed:
-                  widget.isWatchOnly ? savePublicIdHandler : saveIdHandler,
+              onPressed: widget.type == AddAccountType.watchOnly
+                  ? savePublicIdHandler
+                  : saveIdHandler,
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
                   child: Text(l10n.generalButtonSave,
@@ -616,10 +652,12 @@ class _AddAccountState extends State<AddAccount> {
       return;
     }
 
-    String? publicId = _watchOnlyFormKey.currentState?.instantValue["publicAddress"] as String?;
+    String? publicId = _watchOnlyFormKey
+        .currentState?.instantValue["publicAddress"] as String?;
 
     if (publicId == null || publicId.isEmpty) {
-      _globalSnackBar.show("Error! Please input your watch address. It should not be empty.");
+      _globalSnackBar.show(
+          "Error! Please input your watch address. It should not be empty.");
       return;
     }
 
@@ -629,7 +667,8 @@ class _AddAccountState extends State<AddAccount> {
 
       if (!isValid) {
         // Show an error message if verification fails
-        _globalSnackBar.showError(l10n.addAccountErrorVerifyIdentityWrongIdentity);
+        _globalSnackBar
+            .showError(l10n.addAccountErrorVerifyIdentityWrongIdentity);
         return;
       }
     } catch (e) {
@@ -745,9 +784,11 @@ class _AddAccountState extends State<AddAccount> {
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
                   Expanded(
-                    child: widget.isWatchOnly
+                    child: widget.type == AddAccountType.watchOnly
                         ? getWatchOnlyScrollView() // Use the watch-only UI
-                        : getScrollView(), // Use the old form UI without watch-only snippet
+                        : widget.type == AddAccountType.importPrivateSeed
+                            ? getImportAccountView()
+                            : getCreateAccountView(), // Use the old form UI without watch-only snippet
                   ),
                   Row(
                       mainAxisAlignment: MainAxisAlignment.end,

@@ -320,6 +320,6 @@ class TextStyles {
     fontSize: ThemeFontSizes.large,
     fontWeight: FontWeight.w500,
     height: 0.11,
-    letterSpacing: -0.02,
+    letterSpacing: ThemeFontSizes.letterSpacing,
   );
 }
