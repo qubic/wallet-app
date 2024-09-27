@@ -41,19 +41,53 @@ class _AddAccountState extends State<AddAccount> {
 
   bool detected = false;
   bool generatingId = false;
-
   String? generatedPublicId;
   String? watchOnlyId;
 
   @override
-  void initState() {
-    qubicCmd.initialize();
+  void didChangeDependencies() {
     if (widget.type == AddAccountType.createAccount) {
-      Future.delayed(const Duration(seconds: 2), () {
-        generatePrivateSeed();
-      });
+      generatePrivateSeed();
+      onPrivateSeedChanged();
     }
-    super.initState();
+    super.didChangeDependencies();
+  }
+
+  onPrivateSeedChanged() async {
+    final l10n = l10nOf(context);
+    final value = privateSeed.value.text;
+    var v = CustomFormFieldValidators.isSeed(context: context);
+    if (value.trim().isNotEmpty && v(value) == null) {
+      try {
+        setState(() {
+          generatingId = true;
+        });
+        var newId = await qubicCmd.getPublicIdFromSeed(value);
+        setState(() {
+          generatedPublicId = newId;
+          generatingId = false;
+        });
+      } catch (e) {
+        if (e.toString().startsWith("Exception: CRITICAL:")) {
+          showAlertDialog(
+              context,
+              l10n.addAccountErrorTamperedWalletTitle,
+              isAndroid
+                  ? l10n.addAccountErrorTamperedAndroidWalletMessage
+                  : isIOS
+                      ? l10n.addAccountErrorTamperediOSWalletMessage
+                      : l10n.addAccountErrorTamperedWalletMessage);
+        }
+        setState(() {
+          privateSeed.value = TextEditingValue.empty;
+          generatedPublicId = null;
+        });
+      }
+      return;
+    }
+    setState(() {
+      generatedPublicId = null;
+    });
   }
 
   generatePrivateSeed() {
@@ -195,7 +229,7 @@ class _AddAccountState extends State<AddAccount> {
     return getScrollView(
         title: l10n.addAccountHeader,
         isPrivateSeedReadOnly: true,
-        hasPrivateSeedRandomButton: false,
+        hasPrivateSeedRandomButton: true,
         hasQrCodeButton: false,
         hasPrivateSeedTip: true);
   }
@@ -319,48 +353,8 @@ class _AddAccountState extends State<AddAccount> {
                         onSubmitted: (value) {
                           saveIdHandler();
                         },
-                        onChanged: (value) async {
-                          var v = CustomFormFieldValidators.isSeed(
-                              context: context);
-                          if (value != null &&
-                              value.trim().isNotEmpty &&
-                              v(value) == null) {
-                            try {
-                              setState(() {
-                                generatingId = true;
-                              });
-                              var newId =
-                                  await qubicCmd.getPublicIdFromSeed(value);
-                              setState(() {
-                                generatedPublicId = newId;
-                                generatingId = false;
-                              });
-                            } catch (e) {
-                              if (e
-                                  .toString()
-                                  .startsWith("Exception: CRITICAL:")) {
-                                showAlertDialog(
-                                    context,
-                                    l10n.addAccountErrorTamperedWalletTitle,
-                                    isAndroid
-                                        ? l10n
-                                            .addAccountErrorTamperedAndroidWalletMessage
-                                        : isIOS
-                                            ? l10n
-                                                .addAccountErrorTamperediOSWalletMessage
-                                            : l10n
-                                                .addAccountErrorTamperedWalletMessage);
-                              }
-                              setState(() {
-                                privateSeed.value = TextEditingValue.empty;
-                                generatedPublicId = null;
-                              });
-                            }
-                            return;
-                          }
-                          setState(() {
-                            generatedPublicId = null;
-                          });
+                        onChanged: (value) {
+                          onPrivateSeedChanged();
                         },
                         maxLines: 2,
                         style: TextStyles.inputBoxSmallStyle,

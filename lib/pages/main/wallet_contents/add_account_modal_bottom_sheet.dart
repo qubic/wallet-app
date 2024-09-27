@@ -1,8 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -14,6 +13,10 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 // Show the ModalBottomSheet when the trigger is set in the store
 void showAddAccountModal(BuildContext context) {
   final l10n = l10nOf(context);
+  final QubicCmd qubicCmd = getIt<QubicCmd>();
+  if (!qubicCmd.qubicJs.isReady) {
+    qubicCmd.initialize();
+  }
 
   showModalBottomSheet(
     context: context,
