@@ -38,7 +38,14 @@ class _AddAccountState extends State<AddAccount> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
+  final TextEditingController privateSeed = TextEditingController();
+  final TextEditingController publicId = TextEditingController();
+  final TextEditingController accountName = TextEditingController();
 
+  bool firstOpen = true;
+  bool showAccountInfoTooltip = false;
+  bool showSeedInfoTooltip = false;
+  bool isLoading = false;
   bool detected = false;
   bool generatingId = false;
   String? generatedPublicId;
@@ -46,9 +53,14 @@ class _AddAccountState extends State<AddAccount> {
 
   @override
   void didChangeDependencies() {
-    if (widget.type == AddAccountType.createAccount) {
-      generatePrivateSeed();
-      onPrivateSeedChanged();
+    if (firstOpen) {
+      accountName.text = l10nOf(context)
+          .generalLabelAccount(appStore.currentQubicIDs.length + 1);
+      if (widget.type == AddAccountType.createAccount) {
+        generatePrivateSeed();
+        onPrivateSeedChanged();
+      }
+      firstOpen = false;
     }
     super.didChangeDependencies();
   }
@@ -291,6 +303,7 @@ class _AddAccountState extends State<AddAccount> {
                               currentQubicIDs: appStore.currentQubicIDs,
                               context: context)
                         ]),
+                        controller: accountName,
                         readOnly: isLoading,
                         style: TextStyles.inputBoxSmallStyle,
                         decoration: ThemeInputDecorations.normalInputbox
@@ -531,6 +544,7 @@ class _AddAccountState extends State<AddAccount> {
                         saveIdHandler();
                       },
                       name: "accountName",
+                      controller: accountName,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
                             errorText: l10n.generalErrorRequiredField),
@@ -765,12 +779,6 @@ class _AddAccountState extends State<AddAccount> {
     Navigator.pop(context);
   }
 
-  TextEditingController privateSeed = TextEditingController();
-  TextEditingController publicId = TextEditingController();
-
-  bool showAccountInfoTooltip = false;
-  bool showSeedInfoTooltip = false;
-  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return PopScope(

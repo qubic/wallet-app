@@ -29,6 +29,14 @@
     "generalLabelInfo": "信息",
     "generalLabelDate": "日期",
     "generalLabelID": "ID",
+    "generalLabelAccount": "账户 {accountNumber}",
+    "@generalLabelAccount": {
+        "placeholders": {
+            "accountNumber": {
+                "type": "int"
+            }
+        }
+    },
     "generalLabelTransaction": "交易",
     "generalLabelLoading": "加载中...",
     "generalLabelUnknown": "未知",

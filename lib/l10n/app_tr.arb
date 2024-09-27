@@ -29,6 +29,14 @@
     "generalLabelInfo": "Bilgi",
     "generalLabelDate": "Tarih",
     "generalLabelID": "ID",
+    "generalLabelAccount": "Hesap {accountNumber}",
+    "@generalLabelAccount": {
+        "placeholders": {
+            "accountNumber": {
+                "type": "int"
+            }
+        }
+    },
     "generalLabelTransaction": "Transfer",
     "generalLabelLoading": "Yükleniyor...",
     "generalLabelUnknown": "Bilinmeyen",

@@ -29,6 +29,14 @@
     "generalLabelInfo": "Информация",
     "generalLabelDate": "Дата",
     "generalLabelID": "ID",
+    "generalLabelAccount": "Аккаунт {accountNumber}",
+    "@generalLabelAccount": {
+        "placeholders": {
+            "accountNumber": {
+                "type": "int"
+            }
+        }
+    },
     "generalLabelTransaction": "Транзакция",
     "generalLabelLoading": "Загрузка...",
     "generalLabelUnknown": "Неизвестно",
