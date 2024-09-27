@@ -29,6 +29,14 @@
     "generalLabelInfo": "Information",
     "generalLabelDate": "Datum",
     "generalLabelID": "ID",
+    "generalLabelAccount": "Konto {accountNumber}",
+    "@generalLabelAccount": {
+        "placeholders": {
+            "accountNumber": {
+                "type": "int"
+            }
+        }
+    },
     "generalLabelTransaction": "Transaktion",
     "generalLabelLoading": "Lädt...",
     "generalLabelUnknown": "Unbekannt",
