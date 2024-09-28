@@ -129,7 +129,7 @@
     "homeLabelTotalBalance": "Toplam Bakiye",
     "homeHeader": "Cüzdandaki Hesaplar",
     "homeLabelNoAccountsInWallet": "Cüzdanınızda henüz herhangi bir Qubic hesabınız yok",
-    "homeButtonAddAccount": "Yeni Hesap Ekle",
+    "homeButtonAddAccount": "Hesap Ekle",
     "transfersTitle": "Dönem Transferleri",
     "transfersLabelAllTransactions": "Bütün Transferler",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Hesaplarınız için bu dönemde filtrelerinize uyan hiçbir işlem bulunmuyor",

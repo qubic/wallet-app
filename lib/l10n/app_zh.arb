@@ -129,7 +129,7 @@
     "homeLabelTotalBalance": "总余额",
     "homeHeader": "钱包中的账户",
     "homeLabelNoAccountsInWallet": "您当前的钱包中还没有 Qubic 账户。",
-    "homeButtonAddAccount": "添加新账户",
+    "homeButtonAddAccount": "添加账户",
     "transfersTitle": "纪元转账",
     "transfersLabelAllTransactions": "所有交易",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "在您的账户当前纪元中，没有匹配您筛选条件的任何交易。",
@@ -754,5 +754,27 @@
     "generalErrorPathRequired": "请选择路径",
     "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。",
     "explorerLabelPrice": "价格",
-    "explorerLabelMarketCap": "市值"
+    "explorerLabelMarketCap": "市值",
+    "settingsLabelWalletConnect": "钱包连接",
+    "addAccountErrorVerifyIdentityWrongIdentity": "无效的观察地址。请检查输入的地址。",
+    "addAccountErrorVerifyIdentityError": "无法验证地址。",
+    "addAccountWatchOnlyPageTitle": "添加观察账户",
+    "addAccountWatchOnlySubtitle": "添加一个 Qubic 地址进行监控，您没有权限发送或接收任何交易。",
+    "addAccountWatchOnlyQubicAddressTooltip": "Qubic 地址由 60 个大写英文字母组成。",
+    "addAccountWatchOnlyHintQubicAddress": "输入 Qubic 地址",
+    "addAccountCreateNewAccountModalBottomSheet": "创建新账户",
+    "addAccountWatchOnlyAddressModalBottomSheet": "观察账户",
+    "deleteAccountDialogMessageWatchOnly": "是否确定要从您的钱包中删除此观察账户？",
+    "cmdErrorVerifyIdentityJsonDecoding": "解码 verifyIdentity 的输出时出错。",
+    "cmdErrorVerifyIdentityParsingError": "解析 verifyIdentity 输出时出错。",
+    "cmdErrorVerifyingIdentityGeneric": "身份验证出错。",
+    "cmdErrorVerifyingIdentity": "无法验证您的身份： {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "accountExplorerLabelLatestTransactions": "最新交易"
 }

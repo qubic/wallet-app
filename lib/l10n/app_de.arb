@@ -129,7 +129,7 @@
     "homeLabelTotalBalance": "Gesamtguthaben",
     "homeHeader": "Konten im Wallet",
     "homeLabelNoAccountsInWallet": "Sie haben noch keine Qubic-Konten in Ihrem Wallet.",
-    "homeButtonAddAccount": "Neues Konto hinzufügen",
+    "homeButtonAddAccount": "Konto hinzufügen",
     "transfersTitle": "Übertragungen der Epoche",
     "transfersLabelAllTransactions": "Alle Transaktionen",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Keine Transaktionen sind in dieser Epoche für Ihre Konten anhand des Filters vorhanden.",
