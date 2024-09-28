@@ -2,6 +2,11 @@ name: Build Flutter Windows App
 
 on:
   workflow_dispatch:  # Allows manual triggering from GitHub Actions tab
+    inputs:
+      branch:
+        description: 'Branch to build'
+        default: 'feature/window_workflow'  # You can change the default branch if needed
+        required: false
 
 jobs:
   build-windows:
