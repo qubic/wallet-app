@@ -752,8 +752,29 @@
     },
     "generalErrorFileRequired": "Bitte wählen Sie eine Datei",
     "generalErrorPathRequired": "Bitte wählen Sie einen Pfad",
-    "homeWarningTooManyAccounts": "Sie haben mehr als 15 Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
+    "homeWarningTooManyAccounts": "Sie haben mehr als 15 Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und QUBICs zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
     "explorerLabelPrice": "Preis",
     "explorerLabelMarketCap": "Marktkapitalisierung",
-    "accountExplorerLabelLatestTransactions": "Letzte Transaktionen"
+    "accountExplorerLabelLatestTransactions": "Letzte Transaktionen",
+    "settingsLabelWalletConnect": "Wallet Connect",
+    "addAccountErrorVerifyIdentityWrongIdentity": "Ungültige Watch-Only-Adresse. Bitte überprüfen Sie die eingegebene Adresse.",
+    "addAccountErrorVerifyIdentityError": "Die Adresse konnte nicht überprüft werden.",
+    "addAccountWatchOnlyPageTitle": "Watch-Only-Konto hinzufügen",
+    "addAccountWatchOnlySubtitle": "Fügen Sie eine öffentliche Qubic-Adresse hinzu, um sie zu beobachten. Sie haben nicht die Berechtigung, Transaktionen zu senden oder zu empfangen.",
+    "addAccountWatchOnlyQubicAddressTooltip": "Eine öffentliche ID besteht aus 60 Großbuchstaben.",
+    "addAccountWatchOnlyHintQubicAddress": "Geben Sie eine Qubic-Adresse ein",
+    "addAccountCreateNewAccountModalBottomSheet": "Neues Konto erstellen",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Watch-Only-Konto",
+    "deleteAccountDialogMessageWatchOnly": "Sind Sie sicher, dass Sie dieses Watch-Only-Konto aus Ihrem Wallet löschen möchten?",
+    "cmdErrorVerifyIdentityJsonDecoding": "Fehler beim Dekodieren der Ausgabe von verifyIdentity",
+    "cmdErrorVerifyIdentityParsingError": "Fehler beim Parsen der Ausgabe von verifyIdentity",
+    "cmdErrorVerifyingIdentityGeneric": "Fehler bei der Überprüfung der Identität.",
+    "cmdErrorVerifyingIdentity": "Ihre Identität konnte nicht überprüft werden: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    }
 }
