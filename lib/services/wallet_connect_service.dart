@@ -245,7 +245,6 @@ class WalletConnectService {
         //TODO CHECK THIS APPROACH FOR MEMORY LEAKS
         web3Wallet = null;
         initialize();
-        //web3Wallet!.core.relayClient.connect();
       }
     });
 

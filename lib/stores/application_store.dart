@@ -316,7 +316,7 @@ abstract class _ApplicationStore with Store {
           //Add the ID that has changed to the list
           if ((item.amount != amountsForID[j].amount) &&
               (changedIds.containsKey(item.publicId) == false)) {
-            changedIds[item.publicId] = amountsForID[j].amount ?? -1;
+            changedIds[item.publicId] = amountsForID[j].amount;
           }
           item.amount = amountsForID[j].amount;
 

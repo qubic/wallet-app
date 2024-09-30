@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
@@ -91,10 +92,11 @@ class _AboutWalletState extends State<WalletConnect> {
     if (sessionData.requiredNamespaces == null) {
       return [];
     }
-    if (sessionData.requiredNamespaces!["qubic:main"] == null) {
+    if (sessionData.requiredNamespaces![Config.walletConnectChainId] == null) {
       return [];
     }
-    sessionData.requiredNamespaces?["qubic:main"]!.methods.forEach((string) {
+    sessionData.requiredNamespaces?[Config.walletConnectChainId]!.methods
+        .forEach((string) {
       if ((string == "wallet_requestAccounts")) {
         methods.add(
             "View your wallet accounts and their balance"); //<!-- TODO ADD TRANSLATION HERE
@@ -155,7 +157,7 @@ class _AboutWalletState extends State<WalletConnect> {
                           code: -1, message: "User forcefully disconnected"),
                       topic: sessionData.topic);
                 } catch (e) {
-                  print(e);
+                  //Silently ignore
                 }
               },
               child: Text("Revoke permissions")),

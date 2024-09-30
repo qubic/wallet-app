@@ -92,7 +92,7 @@ class TextStyles {
   static TextStyle lightGreyTextSmallBold = const TextStyle(
       fontSize: ThemeFontSizes.small,
       fontWeight: FontWeight.bold,
-      color: Color(0xFF808B9B));
+      color: LightThemeColors.textLightGrey);
 
   static TextStyle labelText = const TextStyle(
       fontSize: ThemeFontSizes.label,
