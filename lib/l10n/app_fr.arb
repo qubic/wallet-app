@@ -129,7 +129,7 @@
     "homeLabelTotalBalance": "Solde Total",
     "homeHeader": "Comptes dans le Portefeuille",
     "homeLabelNoAccountsInWallet": "Vous n'avez pas encore de comptes Qubic dans votre portefeuille",
-    "homeButtonAddAccount": "Ajouter un Nouveau Compte",
+    "homeButtonAddAccount": "Ajouter Compte",
     "transfersTitle": "Transferts Epoch",
     "transfersLabelAllTransactions": "Toutes les Transactions",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Aucune transaction dans cette époque pour vos comptes ne correspond à vos filtres",
@@ -760,5 +760,26 @@
     "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins",
     "explorerLabelPrice": "Prix",
     "explorerLabelMarketCap": "Capitalisation boursière",
-    "accountExplorerLabelLatestTransactions": "Dernières Transactions"
+    "accountExplorerLabelLatestTransactions": "Dernières Transactions",
+    "settingsLabelWalletConnect": "Connexion au portefeuille",
+    "addAccountErrorVerifyIdentityWrongIdentity": "Adresse en lecture seule invalide. Veuillez vérifier l'adresse saisie.",
+    "addAccountErrorVerifyIdentityError": "Impossible de vérifier l'adresse.",
+    "addAccountWatchOnlyPageTitle": "Ajouter un compte en lecture seule",
+    "addAccountWatchOnlySubtitle": "Ajoutez une adresse publique Qubic à surveiller. Vous n'avez pas l'autorisation d'envoyer ou de recevoir des transactions.",
+    "addAccountWatchOnlyQubicAddressTooltip": "Un ID public est composé de 60 lettres majuscules.",
+    "addAccountWatchOnlyHintQubicAddress": "Entrez une adresse Qubic",
+    "addAccountCreateNewAccountModalBottomSheet": "Créer un nouveau compte",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Compte en lecture seule",
+    "deleteAccountDialogMessageWatchOnly": "Êtes-vous sûr de vouloir supprimer ce compte en lecture seule de votre portefeuille?",
+    "cmdErrorVerifyIdentityJsonDecoding": "Erreur lors du décodage de la sortie de la vérification de l'identité",
+    "cmdErrorVerifyIdentityParsingError": "Erreur lors de l'analyse de la sortie de la vérification de l'identité",
+    "cmdErrorVerifyingIdentityGeneric": "Erreur lors de la vérification de l'identité.",
+    "cmdErrorVerifyingIdentity": "Impossible de vérifier votre identité: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    }
 }

@@ -129,7 +129,7 @@
     "homeLabelTotalBalance": "Total Balance",
     "homeHeader": "Accounts in Wallet",
     "homeLabelNoAccountsInWallet": "You don't have any Qubic Accounts in your wallet yet",
-    "homeButtonAddAccount": "Add New Account",
+    "homeButtonAddAccount": "Add Account",
     "transfersTitle": "Epoch Transfers",
     "transfersLabelAllTransactions": "All Transactions",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "No transactions in this epoch for your accounts match your filters",

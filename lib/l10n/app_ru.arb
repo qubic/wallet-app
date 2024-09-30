@@ -753,5 +753,28 @@
     "generalErrorPathRequired": "Выберите путь",
     "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15.",
     "explorerLabelPrice": "Цена",
-    "explorerLabelMarketCap": "Рыночная капитализация"
+    "explorerLabelMarketCap": "Рыночная капитализация",
+    "settingsLabelWalletConnect": "Соединение кошелька",
+    "addAccountErrorVerifyIdentityWrongIdentity": "Неверный адрес для наблюдения. Проверьте адрес.",
+    "addAccountErrorVerifyIdentityError": "Невозможно верифицировать адрес.",
+    "addAccountWatchOnlyPageTitle": "Добавить аккаунт для наблюдения",
+    "addAccountWatchOnlySubtitle": "Добавить публичный адрес Qubic для наблюдения. Вы не сможете делать транзакции с него.",
+    "addAccountWatchOnlyQubicAddressTooltip": "Публичный ID состоит из 60-ти больших латинских букв.",
+    "addAccountWatchOnlyHintQubicAddress": "Введите адрес Qubic",
+    "addAccountCreateNewAccountModalBottomSheet": "Создать новый аккаунт",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Аккаунт только для наблюдения",
+    "deleteAccountDialogMessageWatchOnly": "Вы уверены что хотите удалить аккаунт только для наблюдения?",
+    "cmdErrorVerifyIdentityJsonDecoding": "Ошибка декодирования",
+    "cmdErrorVerifyIdentityParsingError": "Ошибка декодирования вывода",
+    "cmdErrorVerifyingIdentityGeneric": "Ошибка идентификации.",
+    "cmdErrorVerifyingIdentity": "Ошибка идентификации: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "joinCommunityLabelTiktok": "TikTok",
+    "accountExplorerLabelLatestTransactions": "Последние транзакции"
 }
