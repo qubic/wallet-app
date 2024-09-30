@@ -9,13 +9,16 @@ import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 // Show the ModalBottomSheet when the trigger is set in the store
 void showAddAccountModal(BuildContext context) {
   final l10n = l10nOf(context);
-  final QubicCmd qubicCmd = getIt<QubicCmd>();
-  if (!qubicCmd.qubicJs.isReady) {
-    qubicCmd.initialize();
+  if (UniversalPlatform.isMobile) {
+    final QubicCmd qubicCmd = getIt<QubicCmd>();
+    if (!qubicCmd.qubicJs.isReady) {
+      qubicCmd.initialize();
+    }
   }
 
   showModalBottomSheet(
