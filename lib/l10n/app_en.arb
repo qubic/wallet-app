@@ -776,5 +776,44 @@
                 "type": "String"
             }
         }
-    }
+    },
+
+    "wcScopeRequestAccounts": "View your wallet accounts and their balance",
+    "wcScopeSendQubic": "Ask you to send Qubic from your wallet accounts",
+    "wcScopeSendAssets": "Ask you to send Qubic Assets from your wallet accounts",
+    "wcScopeForbiddenTransfer": "Transfer Qubic or Qubic Assets without your consent",
+    "wcUnknownDapp": "Unknown dApp",
+    "wcAppInfoHeader": "This app is able to",
+    "wcAppInfoHeaderPair" :"This app will be able to",
+    "wcAppInfoHeaderPairForbidden": "This app will not be able to",
+
+    "wcErrorUserDisconnected": "User forcefully disconnected",
+    "wcRevokePermissions": "Revoke permissions",
+    "wcDappsConnectedNone":"Your wallet is not connected to any dApps",
+    "wcDappsConnectedFollowing":"Your wallet is connected with the following dApps",
+    "wcEnable":"Enable WalletConnect",
+    "wcApprovedConnections":"Approved connections",
+    "wcValidUntil": "Valid until {date}",
+    "@wcValidUntil": {
+        "placeholders": {
+            "date": { "type" : "String"}
+        }
+    },
+    "wcSendSenderAddress": "Sender address {addressPlaceholder}",
+    "@wcSendSenderAddress": {
+        "placeholders" : { 
+            "addressPlaceholder": { "type":"String"}
+        }
+    },
+    "wcSendRecipientAddress": "Recipient address",
+    "wcConnectionApproved": "WalletConnect connection approved",
+    "wcConnectionRejected": "WalletConnect connection rejected",
+    "wcConnectionProposalTimeout": "WalletConnect session proposal timed out",
+    "wcPointCameraToQR": "Please point the camera to a QR Code containing the WalletConnect connection info",
+    "wcAddWcTitle":"Pair via WalletConnect",
+    "wcAddURL": "WalletConnect connection URL",
+    "pasteURLHere": "Paste URL here",
+    "approvingConnection": "Approving connection",
+    "pleaseWait": "Please wait"
+    
 }

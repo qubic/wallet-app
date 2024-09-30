@@ -55,7 +55,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   @override
   void initState() {
     super.initState();
-
     walletConnectService.initialize().then((value) {
       sessionProposalSubscription = walletConnectService
           .onSessionProposal.stream
@@ -96,13 +95,12 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
             await walletConnectService.web3Wallet!.approveSession(
                 id: wcPairingId!, namespaces: wcPairingNamespaces!);
 
-            var timer = Timer(Duration(seconds: 1), () {
+            Timer(const Duration(seconds: 1), () {
               if (context.mounted) {
                 Navigator.of(context).pop();
               }
-
-              _globalSnackBar
-                  .show("Wallet connect connection approved"); //TODO i10n
+              final l10n = l10nOf(context);
+              _globalSnackBar.show(l10n.wcConnectionApproved);
             });
           } catch (e) {
             setState(() {
@@ -121,11 +119,11 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
               id: wcPairingId!,
               reason: Errors.getSdkError(Errors.USER_REJECTED));
 
-          if (context.mounted) {
+          if (mounted) {
             Navigator.of(context).pop();
+            final l10n = l10nOf(context);
+            _globalSnackBar.show(l10n.wcConnectionRejected);
           }
-          _globalSnackBar
-              .show("Wallet connect connection rejected"); //TODO i10n
         } else {
           // false : expired
           setState(() {
@@ -133,10 +131,11 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
             isConnecting = false;
           });
 
-          if (context.mounted) {
+          if (mounted) {
+            final l10n = l10nOf(context);
             Navigator.of(context).pop();
+            _globalSnackBar.show(l10n.wcConnectionProposalTimeout);
           }
-          _globalSnackBar.show("Wallet connect session proposal timed out");
         }
       });
     });
@@ -198,11 +197,11 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                 child: Container(
                     color: Colors.white60,
                     width: double.infinity,
-                    child: const Padding(
-                        padding: EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(
-                            "Please point the camera to a QR Code containing the WalletConnect connection info", //TODO i10n
-                            style: TextStyle(
+                    child: Padding(
+                        padding:
+                            const EdgeInsets.all(ThemePaddings.normalPadding),
+                        child: Text(l10n.wcPointCameraToQR,
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
@@ -233,7 +232,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(headerText: "Pair via WalletConnect"),
+              ThemedControls.pageHeader(headerText: l10n.wcAddWcTitle),
               ThemedControls.spacerVerticalSmall(),
               getErrors(),
               Column(
@@ -244,7 +243,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text("WalletConnect connection URL", //TODO i10n
+                          Text(l10n.wcAddURL,
                               style: TextStyles.labelTextNormal),
                         ]),
                   ]),
@@ -268,7 +267,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                         readOnly: isLoading,
                         style: TextStyles.inputBoxSmallStyle,
                         decoration: ThemeInputDecorations.normalInputbox
-                            .copyWith(hintText: "Paste URL here"),
+                            .copyWith(hintText: l10n.pasteURLHere),
                         autocorrect: false,
                         autofillHints: null,
                       ),
@@ -349,9 +348,8 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                 ),
                 ThemedControls.spacerHorizontalNormal(),
                 ThemedControls.pageHeader(
-                    headerText: "Approving connection", //TODO i10n
-                    subheaderText: "Please wait" //TODO i10n
-                    )
+                    headerText: l10n.approvingConnection,
+                    subheaderText: l10n.pleaseWait)
               ]),
         )
       ],
@@ -359,7 +357,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   }
 
   void proceedHandler() async {
-    final l10n = l10nOf(context);
     _formKey.currentState?.validate();
 
     if (!_formKey.currentState!.isValid) {
@@ -374,7 +371,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
       await walletConnectService.web3Wallet!.core.relayClient.connect();
     }
     try {
-      var conInfo = await walletConnectService.pair(Uri.parse(wcText.text));
+      await walletConnectService.pair(Uri.parse(wcText.text));
     } catch (e) {
       if (e is WalletConnectError) {
         setState(() {

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -11,7 +10,6 @@ import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
-import 'package:collection/collection.dart';
 
 class WalletConnectService {
   final ApplicationStore appStore = getIt<ApplicationStore>();
@@ -160,11 +158,13 @@ class WalletConnectService {
           .contains(WcEvents.accountsChanged)) {
         List<dynamic> data = [];
         for (var id in appStore.currentQubicIDs) {
-          dynamic item = {};
-          item["publicId"] = id.publicId;
-          item["name"] = id.name;
-          item["amount"] = id.amount ?? -1;
-          data.add(item);
+          if (id.watchOnly == false) {
+            dynamic item = {};
+            item["publicId"] = id.publicId;
+            item["name"] = id.name;
+            item["amount"] = id.amount ?? -1;
+            data.add(item);
+          }
         }
 
         web3Wallet!.emitSessionEvent(
@@ -242,7 +242,6 @@ class WalletConnectService {
 
     web3Wallet!.core.relayClient.onRelayClientDisconnect.subscribe((args) {
       if (settingsStore.settings.walletConnectEnabled) {
-        //TODO CHECK THIS APPROACH FOR MEMORY LEAKS
         web3Wallet = null;
         initialize();
       }
@@ -267,11 +266,13 @@ class WalletConnectService {
         handler: (topic, args) {
           List<dynamic> data = [];
           appStore.currentQubicIDs.forEach(((id) {
-            dynamic item = {};
-            item["address"] = id.publicId;
-            item["name"] = id.name;
-            item["amount"] = id.amount ?? -1;
-            data.add(item);
+            if (id.watchOnly == false) {
+              dynamic item = {};
+              item["address"] = id.publicId;
+              item["name"] = id.name;
+              item["amount"] = id.amount ?? -1;
+              data.add(item);
+            }
           }));
           web3Wallet!.emitSessionEvent(
               topic: topic,
@@ -316,8 +317,10 @@ class WalletConnectService {
         chainId: Config.walletConnectChainId);
 
     appStore.currentQubicIDs.forEach(((id) {
-      web3Wallet!.registerAccount(
-          accountAddress: id.publicId, chainId: Config.walletConnectChainId);
+      if (id.watchOnly == false) {
+        web3Wallet!.registerAccount(
+            accountAddress: id.publicId, chainId: Config.walletConnectChainId);
+      }
     }));
   }
 
@@ -342,7 +345,7 @@ class WalletConnectService {
             data: getSessionEventParamsResult(params: params, nonce: nonce)));
   }
 
-  WalletConnectService() {}
+  WalletConnectService();
 
   /// Pairs WC with a URL
   Future<PairingInfo> pair(Uri uri) async {

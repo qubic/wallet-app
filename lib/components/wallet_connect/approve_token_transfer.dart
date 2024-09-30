@@ -76,7 +76,10 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                 if (mounted) {
                   bool authenticated = await reAuthDialog(context);
                   if (!authenticated) {
-                    Navigator.pop(context);
+                    if (mounted) {
+                      //required to remove the warning
+                      Navigator.pop(context);
+                    }
                     return;
                   }
                 }
@@ -155,11 +158,22 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
               ),
               //dAPP title
               ThemedControls.spacerVerticalBig(),
-              Text(widget.pairingMetadata?.name ?? "Unknown dApp",
+              Text(
+                  widget.pairingMetadata == null ||
+                          widget.pairingMetadata?.name == null ||
+                          widget.pairingMetadata!.name.isEmpty
+                      ? l10n.wcUnknownDapp
+                      : widget.pairingMetadata!.name,
                   style: TextStyles.walletConnectDappTitle),
               ThemedControls.spacerVerticalSmall(),
-              Text(widget.pairingMetadata?.url ?? "Unknown URL",
+              Text(
+                  widget.pairingMetadata == null ||
+                          widget.pairingMetadata?.url == null ||
+                          widget.pairingMetadata!.url.isEmpty
+                      ? l10n.wcUnknownDapp
+                      : widget.pairingMetadata!.url,
                   style: TextStyles.walletConnectDappUrl),
+
               //--------- End of header
               ThemedControls.spacerVerticalBig(),
               ThemedControls.card(
@@ -171,17 +185,16 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                     ]),
                     ThemedControls.spacerVerticalBig(),
                     Text(
-                      "Sender address" +
-                          (widget.fromName != null
-                              ? " (${widget.fromName})"
-                              : ""),
+                      l10n.wcSendSenderAddress((widget.fromName != null
+                          ? " (${widget.fromName})"
+                          : "")),
                       style: TextStyles.lightGreyTextSmall,
                     ),
                     ThemedControls.spacerVerticalMini(),
                     Text(widget.fromID ?? "-", style: TextStyles.textNormal),
                     ThemedControls.spacerVerticalSmall(),
                     Text(
-                      "Recipient address",
+                      l10n.wcSendRecipientAddress,
                       style: TextStyles.lightGreyTextSmall,
                     ),
                     ThemedControls.spacerVerticalMini(),

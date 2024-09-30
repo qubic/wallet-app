@@ -3,7 +3,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/components/reauthenticate/authenticate_password.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -76,25 +75,24 @@ class _PairState extends State<Pair> {
 
   // Gets a list of all requested WC methods
   List<Widget> getMethods() {
+    final l10n = l10nOf(context);
+
     List<Widget> methods = [];
 
-    widget.pairingMethods.forEach((string) {
+    for (var string in widget.pairingMethods) {
       if ((string == "wallet_requestAccounts")) {
-        methods.add(getMethod(
-            "View your wallet accounts and their balance")); //TODO i10n
+        methods.add(getMethod(l10n.wcScopeRequestAccounts));
         methods.add(ThemedControls.spacerVerticalMini());
       }
       if (string == "sendQubic") {
-        methods.add(getMethod(
-            "Ask you to send Qubic from your wallet accounts")); //TODO i10n
+        methods.add(getMethod(l10n.wcScopeSendQubic));
         methods.add(ThemedControls.spacerVerticalMini());
       }
       if (string == "sendAsset") {
-        methods.add(getMethod(
-            "Ask you to send Assets from your wallet accounts")); //TODO i10n
+        methods.add(getMethod(l10n.wcScopeSendAssets));
         methods.add(ThemedControls.spacerVerticalMini());
       }
-    });
+    }
     return methods;
   }
 
@@ -153,10 +151,20 @@ class _PairState extends State<Pair> {
               ),
               //dAPP title
               ThemedControls.spacerVerticalBig(),
-              Text(widget.pairingMetadata?.name ?? "Unknown dApp",
+              Text(
+                  widget.pairingMetadata == null ||
+                          widget.pairingMetadata?.name == null ||
+                          widget.pairingMetadata!.name.isEmpty
+                      ? l10n.wcUnknownDapp
+                      : widget.pairingMetadata!.name,
                   style: TextStyles.walletConnectDappTitle),
               ThemedControls.spacerVerticalSmall(),
-              Text(widget.pairingMetadata?.url ?? "Unknown URL",
+              Text(
+                  widget.pairingMetadata == null ||
+                          widget.pairingMetadata?.url == null ||
+                          widget.pairingMetadata!.url.isEmpty
+                      ? l10n.wcUnknownDapp
+                      : widget.pairingMetadata!.url,
                   style: TextStyles.walletConnectDappUrl),
               //--------- End of header
               ThemedControls.spacerVerticalBig(),
@@ -165,7 +173,7 @@ class _PairState extends State<Pair> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Text("This app will be able to:",
+                    Text(l10n.wcAppInfoHeaderPair,
                         style: TextStyles.walletConnectDapPermissionHeader),
                     ThemedControls.spacerVerticalSmall(),
                     ...getMethods()
@@ -177,11 +185,10 @@ class _PairState extends State<Pair> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Text("This app will not be able to:",
+                    Text(l10n.wcAppInfoHeaderPairForbidden,
                         style: TextStyles.walletConnectDapPermissionHeader),
                     ThemedControls.spacerVerticalSmall(),
-                    getMethod("Transfer Qubic or Assets without your consent",
-                        isGranted: false)
+                    getMethod(l10n.wcScopeForbiddenTransfer, isGranted: false)
                   ]))
               //--------- End of non permissions
             ],

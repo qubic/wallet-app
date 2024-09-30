@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
-import 'package:qubic_wallet/components/copyable_text.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/qubic_hub_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -19,7 +17,6 @@ import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:settings_ui/settings_ui.dart';
-import 'package:url_launcher/link.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
 class WalletConnect extends StatefulWidget {
@@ -42,14 +39,6 @@ class _AboutWalletState extends State<WalletConnect> {
   bool isLoading = false;
 
   TextEditingController pairController = TextEditingController();
-
-  String status = "Initializing...";
-
-  String state =
-      "idle"; //proposalWaiting, proposalRejected, proposalAccepted, sessionConnected
-
-  int? pairingId;
-  Map<String, Namespace>? pairingNamespaces;
 
   bool walletConnectEnabled = false;
 
@@ -88,6 +77,8 @@ class _AboutWalletState extends State<WalletConnect> {
   }
 
   List<String> getMethods(SessionData sessionData) {
+    final l10n = l10nOf(context);
+
     List<String> methods = [];
     if (sessionData.requiredNamespaces == null) {
       return [];
@@ -96,24 +87,24 @@ class _AboutWalletState extends State<WalletConnect> {
       return [];
     }
     sessionData.requiredNamespaces?[Config.walletConnectChainId]!.methods
+        // ignore: avoid_function_literals_in_foreach_calls
         .forEach((string) {
       if ((string == "wallet_requestAccounts")) {
-        methods.add(
-            "View your wallet accounts and their balance"); //<!-- TODO ADD TRANSLATION HERE
+        methods.add(l10n.wcScopeRequestAccounts);
       }
       if (string == "sendQubic") {
-        methods.add(
-            "Ask you to send Qubic from your wallet accounts"); //<!-- TODO ADD TRANSLATION HERE
+        methods.add(l10n.wcScopeSendQubic);
       }
       if (string == "sendAsset") {
-        methods.add(
-            "Ask you to send Qubic Assets from your wallet accounts"); //<!-- TODO ADD TRANSLATION HERE
+        methods.add(l10n.wcScopeSendAssets);
       }
     });
     return methods;
   }
 
   Widget getSessions() {
+    final l10n = l10nOf(context);
+
     var format = DateFormat('EEE, M/d/y HH:mm');
 
     List<Widget> children = [];
@@ -125,26 +116,29 @@ class _AboutWalletState extends State<WalletConnect> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(sessionData.peer.metadata.name ?? "Unknown dApp",
+          Text(
+              sessionData.peer.metadata.name.isEmpty
+                  ? l10n.wcUnknownDapp
+                  : sessionData.peer.metadata.name,
               style: TextStyles.walletConnectDappTitle),
-          Text(sessionData.peer.metadata.url ?? "Unknown dApp",
+          Text(
+              sessionData.peer.metadata.url.isEmpty
+                  ? l10n.wcUnknownDapp
+                  : sessionData.peer.metadata.name,
               style: TextStyles.walletConnectDappUrl),
           ThemedControls.spacerVerticalNormal(),
-          Text("This app is be able to",
+          Text(l10n.wcAppInfoHeader,
               style: TextStyles.walletConnectDapPermissionHeader),
           ThemedControls.spacerVerticalSmall(),
-          ...getMethods(sessionData)
-              .map((e) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(children: [
-                          Image.asset("assets/images/permission-granted.png"),
-                          ThemedControls.spacerHorizontalSmall(),
-                          Expanded(child: Text(e))
-                        ]),
-                        ThemedControls.spacerVerticalMini()
-                      ]))
-              .toList(),
+          ...getMethods(sessionData).map((e) =>
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(children: [
+                  Image.asset("assets/images/permission-granted.png"),
+                  ThemedControls.spacerHorizontalSmall(),
+                  Expanded(child: Text(e))
+                ]),
+                ThemedControls.spacerVerticalMini()
+              ])),
           ThemedControls.spacerVerticalNormal(),
           ThemedControls.primaryButtonBigWithChild(
               onPressed: () {
@@ -154,17 +148,18 @@ class _AboutWalletState extends State<WalletConnect> {
                   });
                   walletConnectService.web3Wallet!.disconnectSession(
                       reason: WalletConnectError(
-                          code: -1, message: "User forcefully disconnected"),
+                          code: -1, message: l10n.wcErrorUserDisconnected),
                       topic: sessionData.topic);
                 } catch (e) {
                   //Silently ignore
                 }
               },
-              child: Text("Revoke permissions")),
+              child: Text(l10n.wcRevokePermissions)),
           ThemedControls.spacerVerticalMini(),
           Center(
               child: Text(
-            "valid until ${format.format(DateTime.fromMillisecondsSinceEpoch(sessionData.expiry * 1000))}",
+            l10n.wcValidUntil(format.format(DateTime.fromMillisecondsSinceEpoch(
+                sessionData.expiry * 1000))),
             style: TextStyles.smallInfoText,
           )),
         ],
@@ -172,23 +167,25 @@ class _AboutWalletState extends State<WalletConnect> {
     });
 
     if (children.isEmpty) {
-      return Text("Your wallet is not connected to any dApps");
+      return Text(l10n.wcDappsConnectedNone);
     }
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       ThemedControls.spacerVerticalSmall(),
-      Text("Your wallet is connected with the following dApps:"),
+      Text(l10n.wcDappsConnectedFollowing),
       ThemedControls.spacerVerticalBig(),
       ...children,
     ]);
   }
 
   Widget getWalletConnectEnabledRadio() {
+    final l10n = l10nOf(context);
+
     var theme = SettingsThemeData(
       settingsSectionBackground: LightThemeColors.cardBackground,
       //Theme.of(context).cardTheme.color,
       settingsListBackground: LightThemeColors.background,
       dividerColor: Colors.transparent,
-      titleTextColor: Theme.of(context).colorScheme.onBackground,
+      titleTextColor: Theme.of(context).colorScheme.onSurface,
     );
     return Column(children: [
       SettingsList(
@@ -216,8 +213,7 @@ class _AboutWalletState extends State<WalletConnect> {
                     }
                   },
                   initialValue: walletConnectEnabled,
-                  title: Text("Enable Wallet Connect",
-                      style: TextStyles.labelText),
+                  title: Text(l10n.wcEnable, style: TextStyles.labelText),
                 ),
               ],
             ),
@@ -226,13 +222,15 @@ class _AboutWalletState extends State<WalletConnect> {
   }
 
   Widget getScrollView() {
+    final l10n = l10nOf(context);
+
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           //Create a radio button
           getWalletConnectEnabledRadio(),
           ThemedControls.spacerVerticalNormal(),
-          Text("Approved connections", style: TextStyles.sliverHeader),
+          Text(l10n.wcApprovedConnections, style: TextStyles.sliverHeader),
           getSessions(),
         ]));
   }

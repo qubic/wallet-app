@@ -1,6 +1,3 @@
-import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:qubic_wallet/helpers/id_validators.dart';
-
 /// WalletConnect Methods
 abstract class WcMethods {
   /// Get the client to request a list of all accounts in wallet

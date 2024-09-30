@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
-import 'package:qubic_wallet/components/qubic_asset.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
-import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
@@ -66,7 +62,6 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = l10nOf(context);
     return Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,

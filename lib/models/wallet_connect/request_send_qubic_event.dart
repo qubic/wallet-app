@@ -1,11 +1,9 @@
-import 'dart:math';
-
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
-import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+// ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
