@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_result_qubic_id.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_result_tick.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_result_transaction.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -191,12 +193,45 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
     ];
   }
 
+  ExplorerResult? checkKeyword(String keyword) {
+    String trimmedKeyword = keyword.trim();
+
+    if (trimmedKeyword.length == 60) {
+      if (RegExp(r'^[A-Z\s]+$').hasMatch(trimmedKeyword)) {
+        return ExplorerResult.publicId;
+      }
+      if (RegExp(r'^[a-z]+$').hasMatch(trimmedKeyword)) {
+        return ExplorerResult.transaction;
+      }
+    } else if (int.tryParse(keyword.replaceAll(',', ''))?.toString().length ==
+        8) {
+      return ExplorerResult.tick;
+    }
+
+    return null;
+  }
+
   void searchHandler() async {
     _formKey.currentState?.validate();
     if (!_formKey.currentState!.isValid) {
       return;
     }
-
+    final term = _formKey.currentState!.fields["searchTerm"]!.value as String;
+    if (checkKeyword(term) == null) {
+      return;
+    } else {
+      pushScreen(context,
+          screen: checkKeyword(term) == ExplorerResult.tick
+              ? ExplorerResultPage(
+                  resultType: ExplorerResultType.tick, tick: int.tryParse(term))
+              : checkKeyword(term) == ExplorerResult.publicId
+                  ? ExplorerResultPage(
+                      resultType: ExplorerResultType.publicId, qubicId: term)
+                  : ExplorerResultPage(
+                      resultType: ExplorerResultType.transaction,
+                      qubicId: term));
+      return;
+    }
     setState(() {
       isLoading = true;
     });
