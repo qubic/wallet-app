@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -153,10 +154,11 @@ class _TransactionsForIdState extends State<TransactionsForId> {
         body: SafeArea(
             minimum: ThemeEdgeInsets.pageInsets
                 .copyWith(bottom: ThemePaddings.normalPadding),
-            child: RefreshIndicator(
+            child: AdaptiveRefreshIndicator(
               onRefresh: () async {
                 await _timedController.interruptFetchTimer();
               },
+              backgroundColor: LightThemeColors.refreshIndicatorBackground,
               child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Observer(builder: (context) {
@@ -185,13 +187,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                                     widget.item!.publicId == tran.destId ||
                                         widget.item!.publicId == tran.sourceId;
                               }
-
-                              bool matchesFilter = appStore.transactionFilter ==
-                                      null ||
-                                  appStore.transactionFilter!.matchesVM(
-                                      tran); //If there are active filters, only show transactions that match the filters
-
-                              if (matchesItem && matchesFilter) {
+                              if (matchesItem) {
                                 added++;
 
                                 results.add(TransactionItem(item: tran));

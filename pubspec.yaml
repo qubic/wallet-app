@@ -1,7 +1,7 @@
 name: qubic_wallet
-description: A Wallet for the Qubic Network created by Qubic-Hub.com
+description: A Wallet for the Qubic Network created by https://qubic.org/
 publish_to: "none"
-version: 1.2.0+45
+version: 1.2.0+49
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
@@ -43,7 +43,7 @@ dependencies:
   equatable: ^2.0.5
   settings_ui: ^2.0.2
   package_info_plus: ^8.0.0
-  local_auth: ^2.1.7
+  local_auth: ^2.3.0
   http: ^1.2.1
   universal_platform: ^1.0.0+1
   path_provider: ^2.1.1
@@ -56,6 +56,8 @@ dependencies:
   downloadsfolder: ^1.1.0
   privacy_screen: ^0.0.6
   walletconnect_flutter_v2: ^2.0.14
+  http_interceptor: ^2.0.0
+  flutter_svg: ^2.0.10+1
 
 dev_dependencies:
   flutter_test:
@@ -97,5 +99,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/icons/
     - assets/launcher-icons/
     - assets/qubic_js/

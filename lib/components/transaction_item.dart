@@ -16,6 +16,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
+import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
@@ -25,6 +26,7 @@ import 'package:qubic_wallet/timed_controller.dart';
 import 'transaction_direction_item.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
 
 enum CardItem {
   details,
@@ -39,7 +41,7 @@ class TransactionItem extends StatelessWidget {
   TransactionItem({super.key, required this.item});
   final _timedController = getIt<TimedController>();
   final _globalSnackBar = getIt<GlobalSnackBar>();
-
+  final QubicLi _apiService = getIt<QubicLi>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   Future<void> showResendDialog(BuildContext context) async {
@@ -56,28 +58,30 @@ class TransactionItem extends StatelessWidget {
           ),
           actions: <Widget>[
             ThemedControls.transparentButtonBig(
-              text: l10n.generalLabelNo,
+              text: l10n.generalButtonCancel,
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             ThemedControls.primaryButtonBig(
-              text: l10n.generalLabelYes,
+              text: l10n.accountButtonSend,
               onPressed: () async {
                 var result = await reAuthDialog(context);
                 if (!result) {
                   return;
                 }
 
-                bool success = await sendTransactionDialog(
-                    context,
-                    item.sourceId,
-                    item.destId,
-                    item.amount,
-                    appStore.currentTick + 20);
+                // get fresh latet tick
+                int latestTick = await _apiService.getCurrentTick();
+                int targetTick = latestTick + defaultTargetTickType.value;
+
+                bool success = await sendTransactionDialog(context,
+                    item.sourceId, item.destId, item.amount, targetTick);
+
                 if (success) {
-                  _globalSnackBar
-                      .show(l10n.generalSnackBarMessageTransactionSubmitted);
+                  _globalSnackBar.show(
+                      l10n.generalSnackBarMessageTransactionSubmitted(
+                          targetTick!.asThousands()));
                 }
                 await _timedController.interruptFetchTimer();
 

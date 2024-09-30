@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,13 @@ import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/components/wallet_connect/approve_token_transfer.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/pages/main/tab_explorer.dart';
-import 'package:qubic_wallet/pages/main/tab_settings.dart';
+import 'package:qubic_wallet/pages/main/tab_settings/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -26,6 +28,7 @@ import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:privacy_screen/privacy_screen.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialTabIndex;
@@ -50,30 +53,40 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   late AnimatedSnackBar? errorBar;
   late AnimatedSnackBar? notificationBar;
 
-  Timer? _lockTimer;
+  Timer? _autoLockTimer;
+  Timer? _backgroundTimer;
 
   bool WCDialogOpen = false; //Wallet Connect Dialog Open
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.paused ||
+        (UniversalPlatform.isDesktop && state == AppLifecycleState.hidden)) {
       // Lock the app immediately if the timeout is 0 (Immediately)
       if (settingsStore.settings.autoLockTimeout == 0) {
         applicationStore.signOut();
       } else {
         // Start the auto-lock timer when the app goes to background
-        _lockTimer = Timer(
+        _autoLockTimer = Timer(
           Duration(minutes: settingsStore.settings.autoLockTimeout),
           () {
             // Lock the app
             applicationStore.signOut();
           },
         );
+        // Start the background timer
+        _backgroundTimer =
+            Timer(const Duration(seconds: Config.inactiveSecondsLimit), () {
+          _timedController.stopFetchTimers();
+        });
       }
     }
-    if (state == AppLifecycleState.resumed) {
-      // Cancel the timer when the app is resumed
-      _lockTimer?.cancel();
+    // When the app is resumed
+    if (state == AppLifecycleState.resumed ||
+        (UniversalPlatform.isDesktop && state == AppLifecycleState.inactive)) {
+      _backgroundTimer?.cancel();
+      _timedController.restartFetchTimersIfNeeded();
+      _autoLockTimer?.cancel();
       if (!applicationStore.isSignedIn) {
         context.go('/signIn');
       }
@@ -130,22 +143,67 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       WCDialogOpen = false;
     });
 
-    PrivacyScreen.instance.enable(
-      iosOptions: const PrivacyIosOptions(
-        enablePrivacy: true,
-        autoLockAfterSeconds: 0,
-        lockTrigger: IosLockTrigger.didEnterBackground,
-      ),
-      androidOptions: const PrivacyAndroidOptions(
-        enableSecure: true,
-        autoLockAfterSeconds: 0,
-      ),
-      blurEffect: PrivacyBlurEffect.dark,
-      backgroundColor: Colors.transparent,
-    );
+    if (settingsStore.settings != null &&
+        settingsStore.settings.walletConnectEnabled) {
+      walletConnectService.initialize();
+    }
 
-    _timedController.setupFetchTimer(true);
-    _timedController.setupSlowTimer(true);
+    //Wallet Connect Modals
+
+    //Modal for sending qubic
+    walletConnectService.onRequestSendQubic.stream.listen((event) async {
+      //Do not allow multiple modals
+      if (WCDialogOpen) {
+        walletConnectService.emitErrorSessionEvent(
+            event.topic, "user unavailable", event.nonce);
+        return;
+      }
+
+      WCDialogOpen = true;
+      ApproveTokenTransferResult? result =
+          await showDialog<ApproveTokenTransferResult?>(
+              context: context,
+              builder: (context) {
+                return ApproveTokenTransfer(
+                    pairingMetadata: event.pairingMetadata!,
+                    nonce: event.nonce,
+                    fromID: event.fromID,
+                    fromName: event.fromIDName,
+                    amount: event.amount,
+                    toID: event.toID);
+              });
+      //Notify WC on the result
+      if ((result == null)) {
+        walletConnectService.emitErrorSessionEvent(
+            event.topic, "user rejected", event.nonce);
+      } else if (result.success == false) {
+        walletConnectService.emitErrorSessionEvent(
+            event.topic, "user could not authorize transaction", event.nonce);
+      } else {
+        dynamic responseInfo = {};
+        responseInfo['tick'] = result.tick;
+        walletConnectService.emitSuccessSessionEvent(event.topic, event.nonce,
+            params: responseInfo);
+      }
+      WCDialogOpen = false;
+    });
+
+    if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
+      PrivacyScreen.instance.enable(
+        iosOptions: const PrivacyIosOptions(
+          enablePrivacy: true,
+          autoLockAfterSeconds: 0,
+          lockTrigger: IosLockTrigger.didEnterBackground,
+        ),
+        androidOptions: const PrivacyAndroidOptions(
+          enableSecure: true,
+          autoLockAfterSeconds: 0,
+        ),
+        blurEffect: PrivacyBlurEffect.dark,
+        backgroundColor: Colors.transparent,
+      );
+    }
+    _timedController.restartFetchTimersIfNeeded();
     _controller = PersistentTabController(initialIndex: widget.initialTabIndex);
     // _controller.jumpToTab(value);
     _controller.addListener(() {
@@ -233,11 +291,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _timedController.stopFetchTimer();
+    _timedController.stopFetchTimers();
     _disposeSnackbarAuto();
 
     WidgetsBinding.instance.removeObserver(this);
-    _lockTimer?.cancel();
+    _autoLockTimer?.cancel();
 
     super.dispose();
   }
@@ -343,6 +401,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // }
     // return getMain();
     return Observer(builder: (context) {
+      if (applicationStore.showAddAccountModal) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          showAddAccountModal(context);
+          // Reset the trigger to avoid showing the modal again unintentionally
+          applicationStore.clearAddAccountModal();
+        });
+      }
+
       if (UniversalPlatform.isDesktop && !settingsStore.cmdUtilsAvailable) {
         return const Scaffold(body: DownloadCmdUtils());
       }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/explorer_result_page_qubic_id/explorer_result_page_qubic_id.dart';
 import 'package:qubic_wallet/components/explorer_result_page_tick/explorer_result_page_tick.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
@@ -10,6 +11,7 @@ import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 enum ExplorerResultType { publicId, tick, transaction }
 
@@ -171,48 +173,69 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
   }
 
   Widget getScrollView() {
-    return SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        controller: ScrollController(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            resultType == ExplorerResultType.tick ||
-                    resultType == ExplorerResultType.transaction
-                ? ExplorerResultPageTick(
-                    tickInfo: tickInfo!,
-                    focusedTransactionId: focusedTransactionHash,
-                    onRequestViewChange: (type, tick, publicId) {
-                      if (type == RequestViewChangeType.tick) {
-                        setState(() {
-                          focusedTransactionHash = null;
-                          tickInfo = null;
-                          this.tick = tick;
-                          getInfo();
-                        });
-                      } else if (type == RequestViewChangeType.publicId) {
-                        setState(() {
-                          focusedTransactionHash = null;
-                          tickInfo = null;
-                          qubicId = publicId;
-                          getInfo();
-                        });
-                      }
-                    })
-                : ExplorerResultPageQubicId(idInfo: idInfo!),
-          ],
-        ));
+    return resultType == ExplorerResultType.tick ||
+            resultType == ExplorerResultType.transaction
+        ? ExplorerResultPageTick(
+            tickInfo: tickInfo!,
+            focusedTransactionId: focusedTransactionHash,
+            onRequestViewChange: (type, tick, publicId) {
+              if (type == RequestViewChangeType.tick) {
+                setState(() {
+                  focusedTransactionHash = null;
+                  tickInfo = null;
+                  this.tick = tick;
+                  getInfo();
+                });
+              } else if (type == RequestViewChangeType.publicId) {
+                setState(() {
+                  focusedTransactionHash = null;
+                  tickInfo = null;
+                  qubicId = publicId;
+                  getInfo();
+                });
+              }
+            })
+        : ExplorerResultPageQubicId(idInfo: idInfo!);
+  }
+
+  List<Widget>? getActions() {
+    return <Widget>[
+      IconButton(
+        icon: const ImageIcon(AssetImage('assets/images/explorer.png'),
+            color: LightThemeColors
+                .primary // Optional: color to apply to the image
+            ),
+        onPressed: () async {
+          String explorerUrl = Config.URL_WebExplorer;
+
+          if (widget.resultType == ExplorerResultType.publicId) {
+            explorerUrl += "/network/address/$qubicId";
+          } else if (focusedTransactionHash != null) {
+            // if showing only one transaction
+            explorerUrl += "/network/tx/$focusedTransactionHash";
+          } else {
+            // it's displaying all the transactions in the tick
+            explorerUrl += "/network/tick/$tick";
+          }
+
+          if (await canLaunchUrlString(explorerUrl)) {
+            await launchUrlString(explorerUrl,
+                mode: LaunchMode.externalApplication);
+          }
+        },
+      ),
+    ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: resultType == ExplorerResultType.tick ||
-                  resultType == ExplorerResultType.transaction
-              ? LightThemeColors.cardBackground
-              : Colors.transparent,
-        ),
+            backgroundColor: resultType == ExplorerResultType.tick ||
+                    resultType == ExplorerResultType.transaction
+                ? LightThemeColors.cardBackground
+                : Colors.transparent,
+            actions: getActions()),
         body: SafeArea(
             minimum: resultType == ExplorerResultType.tick ||
                     resultType == ExplorerResultType.transaction

@@ -8,19 +8,38 @@ import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
-class TimedController {
+class TimedController extends WidgetsBindingObserver {
   Timer? _fetchTimer;
   // ignore: unused_field
   Timer? _fetchTimerSlow;
 
   DateTime? lastFetch;
   DateTime? lastFetchSlow;
-
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
   final WalletConnectService _walletConnectService =
       getIt<WalletConnectService>();
-  TimedController();
+
+  stopFetchTimers() {
+    if (_fetchTimer != null) {
+      _fetchTimer!.cancel();
+      _fetchTimer = null;
+    }
+    if (_fetchTimerSlow != null) {
+      _fetchTimerSlow!.cancel();
+      _fetchTimerSlow = null;
+    }
+  }
+
+  /// Restart the fetching timer if it's not already running
+  restartFetchTimersIfNeeded() {
+    if (_fetchTimer == null) {
+      setupFetchTimer(true);
+    }
+    if (_fetchTimerSlow == null) {
+      setupSlowTimer(true);
+    }
+  }
 
   /// Fetch balances assets and transactions from the network
   /// Makes four calls (balances, network balances, network assets, network transactions
@@ -115,22 +134,10 @@ class TimedController {
     }
   }
 
-  /// Stop the fetching timer
-  /// If the timer is not running, it does nothing
-  stopFetchTimer() {
-    if (_fetchTimer == null) {
-      return;
-    }
-    _fetchTimer!.cancel();
-  }
-
   /// Restart the fetching timer.
   /// If the timer is already running, it stops it and starts it again
   interruptFetchTimer() async {
-    if (_fetchTimer == null) {
-      return;
-    }
-    _fetchTimer!.cancel();
+    _fetchTimer?.cancel();
     _apiService.resetGetters();
 
     setupFetchTimer(true);
@@ -147,8 +154,8 @@ class TimedController {
       await fetchData();
     }
     _fetchTimer = Timer.periodic(
-        const Duration(seconds: Config.fetchEverySeconds), (timer) async {
-      await fetchData();
+        const Duration(seconds: Config.fetchEverySeconds), (timer) {
+      fetchData();
     });
   }
 
@@ -157,10 +164,9 @@ class TimedController {
     if (makeInitialCall) {
       await fetchDataSlow();
     }
-    _fetchTimerSlow =
-        Timer.periodic(const Duration(seconds: Config.fetchEverySecondsSlow),
-            (timerSlow) async {
-      await fetchDataSlow();
+    _fetchTimerSlow = Timer.periodic(
+        const Duration(seconds: Config.fetchEverySecondsSlow), (timerSlow) {
+      fetchDataSlow();
     });
   }
 }

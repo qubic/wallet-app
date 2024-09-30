@@ -9,6 +9,9 @@ abstract class ThemePaddings {
   /// 8px
   static const smallPadding = 8.0;
 
+  /// 12px
+  static const mediumPadding = 12.0;
+
   /// 16px
   static const normalPadding = 16.0;
 
@@ -24,7 +27,7 @@ abstract class ThemePaddings {
 
 class LightThemeColors {
   static const shouldInvertIcon = true;
-  static const primary = Color(0xFFDDDDDD);
+  static const primary = Color(0xFFFFFFFF);
   static const surface = Color(0xFF222229);
   static const background = Color(0xFF101820);
   static const navBg = Color(0xFF0C131B);
@@ -32,8 +35,9 @@ class LightThemeColors {
   static const successIncoming = Color(0xFF179C6C);
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);
+  static final border = Colors.white.withOpacity(0.03);
 
-  static const dangerColor = Color(0xFF381D1E);
+  static const dangerColor = Color(0xFFF97066);
 
   static const textColorSecondary = Color(0xFF808B9B);
 
@@ -46,7 +50,7 @@ class LightThemeColors {
   static const color3 = Color(0xFF5E5E5E);
   static const color4 = Color(0xFF787878);
   static const color5 = Color(0xFF919191);
-  static const color6 = Color(0xFF808B9B);
+  static const color6 = Color(0xFF707A8A);
   static const color7 = Color(0xFFCCCCCC);
   static const color8 = Color(0xFFE6E6E6);
   static const color9 = Color(0xFFD1D1D1);
@@ -92,6 +96,8 @@ class LightThemeColors {
 
   static const menuActive = Color.fromARGB(255, 27, 222, 245);
   static const menuInactive = Color.fromARGB(255, 152, 157, 162);
+
+  static const refreshIndicatorBackground = cardBackground;
 }
 
 class xLightThemeColors {
@@ -180,6 +186,8 @@ abstract class ThemeFontSizes {
   static const loginTitle = 36;
 
   static const errorLabel = 12.5;
+
+  static const letterSpacing = -0.02;
 }
 
 abstract class ThemeFonts {

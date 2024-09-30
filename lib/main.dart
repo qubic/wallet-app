@@ -19,9 +19,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 Future<void> main() async {
   DArgon2Flutter.init(); //Initialize DArgon 2
-  setupDI(); //Dependency injection
-
   WidgetsFlutterBinding.ensureInitialized();
+  setupDI(); //Dependency injection
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,

@@ -60,6 +60,43 @@ class QubicCmdUtils {
     return scriptPath;
   }
 
+  Future<bool> verifyIdentity(String publicId) async {
+    await validateFileStreamSignature();
+
+    String scriptPath = await _getHelperFileFullPath();
+
+    // Execute the command
+    final p = await Process.run(scriptPath, ['verifyIdentity', publicId], runInShell: true);
+
+    if (p.exitCode != 0) {
+      debugPrint('Script execution failed with exit code ${p.exitCode}');
+      debugPrint(p.stderr);
+      throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyingIdentityGeneric);
+    }
+
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      // throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyingIdentityParsingOutput);
+      throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyIdentityJsonDecoding);
+    }
+
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      // throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyingIdentityParsingOutput);
+      throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyIdentityParsingError);
+    }
+
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyingIdentity(response.error ?? ""));
+    }
+
+    return response.isValid ?? false;
+  }
+
   Future<bool> checkIfUtilitiesExist() async {
     return await File(await _getHelperFileFullPath(isExecutionPath: false))
         .exists();

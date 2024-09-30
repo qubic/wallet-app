@@ -167,17 +167,25 @@ class _SignInState extends State<SignIn>
         }
       }
     });
+  }
 
-    //Automatic local authentication on launch of widget
-    _disposeLocalAuth = autorun((_) {
-      if (((widget.disableLocalAuth == null)) &&
-          (_settingsStore.settings.biometricEnabled)) {
-        setState(() {
-          formOpacity = 0;
-        });
-        handleBiometricsAuth();
-      }
-    });
+  bool firstRun = true;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (firstRun) {
+      //Automatic local authentication on launch of widget
+      _disposeLocalAuth = autorun((_) {
+        if (((widget.disableLocalAuth == null)) &&
+            (_settingsStore.settings.biometricEnabled)) {
+          setState(() {
+            formOpacity = 0;
+          });
+          handleBiometricsAuth();
+        }
+      });
+      firstRun = false;
+    }
   }
 
   @override
@@ -336,7 +344,7 @@ class _SignInState extends State<SignIn>
                         await _settingsStore.loadSettings();
                         _appStore.checkWalletIsInitialized();
                         _appStore.signOut();
-                        _timedController.stopFetchTimer();
+                        _timedController.stopFetchTimers();
                         Navigator.pop(context);
                         _globalSnackbar
                             .show(l10n.generalSnackBarMessageWalletDataErased);

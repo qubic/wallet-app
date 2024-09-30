@@ -29,6 +29,14 @@
     "generalLabelInfo": "Information",
     "generalLabelDate": "Datum",
     "generalLabelID": "ID",
+    "generalLabelAccount": "Konto {accountNumber}",
+    "@generalLabelAccount": {
+        "placeholders": {
+            "accountNumber": {
+                "type": "int"
+            }
+        }
+    },
     "generalLabelTransaction": "Transaktion",
     "generalLabelLoading": "Lädt...",
     "generalLabelUnknown": "Unbekannt",
@@ -76,7 +84,14 @@
     "generalSnackBarMessageWalletDataErased": "Wallet-Daten vom Gerät gelöscht.",
     "generalSnackBarMessageQRScannedWithSuccess": "QR-Code erfolgreich gescannt.",
     "generalSnackBarMessageAccountAlreadyExist": "Dieses Konto existiert bereits in Ihrer Wallet.",
-    "generalSnackBarMessageTransactionSubmitted": "Neue Transaktion an das Qubic-Netzwerk übermittelt.",
+    "generalSnackBarMessageTransactionSubmitted": "Ihre Transaktion wurde zur Verbreitung im Tick {tick} gespeichert.",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "Betriebssystem wird nicht unterstützt.",
     "generalErrorOnlyLowercaseChar": "Darf nur Kleinbuchstaben enthalten.",
     "generalErrorOnlyUppercaseChar": "Darf nur Großbuchstaben enthalten.",
@@ -114,7 +129,7 @@
     "homeLabelTotalBalance": "Gesamtguthaben",
     "homeHeader": "Konten im Wallet",
     "homeLabelNoAccountsInWallet": "Sie haben noch keine Qubic-Konten in Ihrem Wallet.",
-    "homeButtonAddAccount": "Neues Konto hinzufügen",
+    "homeButtonAddAccount": "Konto hinzufügen",
     "transfersTitle": "Übertragungen der Epoche",
     "transfersLabelAllTransactions": "Alle Transaktionen",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Keine Transaktionen sind in dieser Epoche für Ihre Konten anhand des Filters vorhanden.",
@@ -163,7 +178,7 @@
     "explorerSearchLabelCriteria": "Tick / TX ID / Öffentliche ID",
     "explorerSearchLabelNoResults": "Keine Ergebnisse gefunden für",
     "explorerSearchLabelResults": "{count, plural, =1{1 Ergebnis gefunden} other{{count} Ergebnisse gefunden}}",
-    "explorerTickResultLabelBlockStatus": "Block-Status",
+    "explorerTickResultLabelBlockStatus": "Tick-Status",
     "explorerTickResultLabelBlockStatusEmpty": "Leer",
     "explorerTickResultLabelBlockStatusNonEmpty": "Nicht leer",
     "explorerTickResultLabelBlockStatusUnknown": "Unbekannt",
@@ -179,6 +194,7 @@
     "settingsLockWallet": "Wallet sperren",
     "settingsHeaderSecurity": "Sicherheit",
     "settingsLabelChangePassword": "Passwort ändern",
+    "settingsLabelPrivacyPolicy": "Datenschutzrichtlinie",
     "settingsLabelExportWalletVaultFile": "Wallet-Tresordatei exportieren",
     "settingsHeaderAbout": "Über",
     "settingsLabelJoinCommunity": "Community beitreten",
@@ -316,6 +332,8 @@
     "joinCommunityLabelReddit": "Reddit",
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
+    "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "Privater Seed",
     "revealSeedHeader": "von {accountName}",
     "@revealSeedHeader": {
@@ -361,7 +379,6 @@
     "accountExplorerLabelTotalOutgoing": "Ausgang gesamt",
     "accountExplorerLabelReportedBy": "Gemeldet von",
     "accountExplorerLabelNoResultsFound": "Keine Transaktionen für diese ID in dieser Epoche.",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 Transaktion in dieser Epoche} other{{count} Transaktionen in dieser Epoche}}",
     "transactionItemLabelIncludedByTickLeader": "Enthalten vom Tick-Leader",
     "transactionItemLabelNotIncludedByTickLeader": "Nicht enthalten vom Tick-Leader",
     "transactionItemLabelTransactionId": "Transaktions-ID",
@@ -650,15 +667,10 @@
         }
     },
     "autolockLabelDurationImmediately": "Sofort",
-    "settingsLabelAutlock": "Auto-Lock-Einstellungen",
+    "settingsLabelAutlock": "Auto-Lock",
     "importVaultDialogTitleTooManyAccounts": "Zu viele Konten gefunden",
     "importVaultDialogMessageTooManyAccounts": "Ihre Tresor-Datei enthält mehr als 15 Konten. Alle Konten werden importiert, aber um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch-only und zu viele Konten gefunden",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Ihre Vault-Datei enthält mehr als 15 Konten, einige davon sind Watch-only. Da wir derzeit keine Watch-only-Konten unterstützen, werden diese ignoriert. Alle anderen werden importiert, aber um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
-    "importVaultDialogTitleWatchAccount": "Watch-only-Konten gefunden",
-    "importVaultDialogMessageWatchAccount": "Da wir derzeit keine Watch-only-Konten unterstützen, werden diese ignoriert. Alle anderen werden importiert.",
     "importVaultErrorNoAccountsFound": "In Ihrer Tresor-Datei wurden keine Konten gefunden. Wir können den Import nicht fortsetzen.",
-    "importVaultErrorOnlyWatchAccountsFound": "Ihre Tresor-Datei enthält nur Watch-only-Konten. Da wir derzeit keine Watch-only-Konten unterstützen, können wir den Import nicht fortsetzen.",
     "importVaultFilePickerLabel": "Bitte wählen Sie eine Tresor-Datei aus, um fortzufahren:",
     "importVaultFileErrorGeneralMessage": "Fehler beim Importieren der Tresor-Datei: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
@@ -740,5 +752,29 @@
     },
     "generalErrorFileRequired": "Bitte wählen Sie eine Datei",
     "generalErrorPathRequired": "Bitte wählen Sie einen Pfad",
-    "homeWarningTooManyAccounts": "Sie haben mehr als 15 Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben."
+    "homeWarningTooManyAccounts": "Sie haben mehr als 15 Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und QUBICs zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
+    "explorerLabelPrice": "Preis",
+    "explorerLabelMarketCap": "Marktkapitalisierung",
+    "accountExplorerLabelLatestTransactions": "Letzte Transaktionen",
+    "settingsLabelWalletConnect": "Wallet Connect",
+    "addAccountErrorVerifyIdentityWrongIdentity": "Ungültige Watch-Only-Adresse. Bitte überprüfen Sie die eingegebene Adresse.",
+    "addAccountErrorVerifyIdentityError": "Die Adresse konnte nicht überprüft werden.",
+    "addAccountWatchOnlyPageTitle": "Watch-Only-Konto hinzufügen",
+    "addAccountWatchOnlySubtitle": "Fügen Sie eine öffentliche Qubic-Adresse hinzu, um sie zu beobachten. Sie haben nicht die Berechtigung, Transaktionen zu senden oder zu empfangen.",
+    "addAccountWatchOnlyQubicAddressTooltip": "Eine öffentliche ID besteht aus 60 Großbuchstaben.",
+    "addAccountWatchOnlyHintQubicAddress": "Geben Sie eine Qubic-Adresse ein",
+    "addAccountCreateNewAccountModalBottomSheet": "Neues Konto erstellen",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Watch-Only-Konto",
+    "deleteAccountDialogMessageWatchOnly": "Sind Sie sicher, dass Sie dieses Watch-Only-Konto aus Ihrem Wallet löschen möchten?",
+    "cmdErrorVerifyIdentityJsonDecoding": "Fehler beim Dekodieren der Ausgabe von verifyIdentity",
+    "cmdErrorVerifyIdentityParsingError": "Fehler beim Parsen der Ausgabe von verifyIdentity",
+    "cmdErrorVerifyingIdentityGeneric": "Fehler bei der Überprüfung der Identität.",
+    "cmdErrorVerifyingIdentity": "Ihre Identität konnte nicht überprüft werden: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    }
 }

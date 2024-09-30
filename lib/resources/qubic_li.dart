@@ -1,12 +1,12 @@
 // ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
+import 'package:http_interceptor/http/intercepted_http.dart';
 import 'dart:convert';
 
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/auth_login_dto.dart';
-import 'package:qubic_wallet/dtos/balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_tick_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
@@ -15,6 +15,8 @@ import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
+import 'package:qubic_wallet/helpers/custom_proxy.dart';
+import 'package:qubic_wallet/resources/http_interceptors.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
@@ -28,20 +30,31 @@ class QubicLi {
   String? get authenticationToken => _authenticationToken;
 
   bool _gettingNetworkBalances = false;
-  bool _gettingCurrentBalances = false;
   bool _gettingNetworkAssets = false;
   bool _gettingNetworkTransactions = false;
 
   bool get gettingNetworkBalances => _gettingNetworkBalances;
   bool get gettingNetworkAssets => _gettingNetworkAssets;
   bool get gettingNetworkTransactions => _gettingNetworkTransactions;
-  bool get gettingCurrentBalances => _gettingCurrentBalances;
+
+  final client = InterceptedHttp.build(
+    interceptors: [LoggingInterceptor()],
+  );
 
   void resetGetters() {
     _gettingNetworkBalances = false;
-    _gettingCurrentBalances = false;
     _gettingNetworkAssets = false;
     _gettingNetworkTransactions = false;
+  }
+
+  QubicLi() {
+    // Initialization code
+    // Set global HttpOverrides
+    if (!kReleaseMode && Config.useProxy && Config.proxyIP.isNotEmpty) {
+      final proxy =
+          CustomProxy(ipAddress: Config.proxyIP, port: Config.proxyPort);
+      proxy.enable();
+    }
   }
 
   static Map<String, String> getHeaders() {
@@ -91,7 +104,7 @@ class QubicLi {
       headers.addAll({
         'Content-Type': 'application/json',
       });
-      response = await http.post(
+      response = await client.post(
           Uri.https(Config.walletDomain, Config.URL_Login),
           body: json.encode({
             'userName': Config.authUser,
@@ -146,7 +159,7 @@ class QubicLi {
         'Authorization': 'bearer ${_authenticationToken!}',
         'Content-Type': 'application/json'
       });
-      response = await http.post(
+      response = await client.post(
           Uri.https(Config.walletDomain, Config.URL_Transaction),
           body: json.encode({'SignedTransaction': transaction}),
           headers: headers);
@@ -185,7 +198,8 @@ class QubicLi {
     try {
       var headers = QubicLi.getHeaders();
       headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
-      response = await http.get(Uri.https(Config.walletDomain, Config.URL_Tick),
+      response = await client.get(
+          Uri.https(Config.walletDomain, Config.URL_Tick),
           headers: headers);
 
       appStore.decreasePendingRequests();
@@ -230,7 +244,7 @@ class QubicLi {
         'Authorization': 'bearer ${_authenticationToken!}',
         'Content-Type': 'application/json'
       });
-      response = response = await http.get(
+      response = await client.get(
           Uri.https(Config.walletDomain, Config.URL_TickOverview),
           headers: headers);
       appStore.decreasePendingRequests();
@@ -278,7 +292,7 @@ class QubicLi {
         'Authorization': 'bearer ${_authenticationToken!}',
         'Content-Type': 'application/json'
       });
-      response = await http.post(
+      response = await client.post(
           Uri.https(Config.walletDomain, Config.URL_NetworkTransactions),
           body: json.encode(publicIds),
           headers: headers);
@@ -339,7 +353,7 @@ class QubicLi {
         'Authorization': 'bearer ${_authenticationToken!}',
         'Content-Type': 'application/json'
       });
-      response = await http.post(
+      response = await client.post(
           Uri.https(Config.walletDomain, Config.URL_NetworkBalances),
           body: json.encode(publicIds),
           headers: headers);
@@ -379,59 +393,6 @@ class QubicLi {
     return balances;
   }
 
-  // Gets the balances (and transactions) of a list of public IDs - Wallet/CurrentBalance
-  Future<List<BalanceDto>> getCurrentBalances(List<String> publicIds) async {
-    try {
-      _assertAuthorized();
-    } catch (e) {
-      rethrow;
-    }
-    appStore.incrementPendingRequests();
-    _gettingCurrentBalances = true;
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({
-        'Authorization': 'bearer ${_authenticationToken!}',
-        'Content-Type': 'application/json'
-      });
-      response = await http.post(
-          Uri.https(Config.walletDomain, Config.URL_Balance),
-          body: json.encode(publicIds),
-          headers: headers);
-
-      appStore.decreasePendingRequests();
-      _gettingCurrentBalances = false;
-    } catch (e) {
-      appStore.decreasePendingRequests();
-      _gettingCurrentBalances = false;
-      throw Exception('Failed to contact server for fetching balances.');
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late var balances = <BalanceDto>[];
-
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception('Failed to fetch balances. Could not parse response');
-    }
-    try {
-      balances = parsedJson
-          .map((e) => BalanceDto.fromJson(e))
-          .toList()
-          .cast<BalanceDto>();
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch balances. Server response is missing required info');
-    }
-    return balances;
-  }
-
   /// Gets current tick form the Qubic network
   Future<List<ExplorerQueryDto>> getExplorerQuery(String query) async {
     try {
@@ -444,7 +405,7 @@ class QubicLi {
     try {
       var headers = QubicLi.getHeaders();
       headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
-      response = await http.get(
+      response = await client.get(
           Uri.https(Config.walletDomain, Config.URL_ExplorerQuery,
               {'searchTerm': query}),
           headers: headers);
@@ -490,7 +451,7 @@ class QubicLi {
     try {
       var headers = QubicLi.getHeaders();
       headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
-      response = await http.get(
+      response = await client.get(
           Uri.https(Config.walletDomain, Config.URL_ExplorerTickInfo,
               {'tick': tick.toString()}),
           headers: headers);
@@ -536,7 +497,7 @@ class QubicLi {
     try {
       var headers = QubicLi.getHeaders();
       headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
-      response = await http.get(
+      response = await client.get(
           Uri.https(
               Config.walletDomain, "${Config.URL_ExplorerIdInfo}/$publicId"),
           headers: headers);
@@ -586,7 +547,7 @@ class QubicLi {
         'Authorization': 'bearer ${_authenticationToken!}',
         'Content-Type': 'application/json'
       });
-      response = await http.post(
+      response = await client.post(
           Uri.https(Config.walletDomain, Config.URL_Assets),
           body: json.encode(publicIds),
           headers: headers);

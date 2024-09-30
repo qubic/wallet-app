@@ -29,6 +29,14 @@
     "generalLabelInfo": "Información",
     "generalLabelDate": "Fecha",
     "generalLabelID": "ID",
+    "generalLabelAccount": "Cuenta {accountNumber}",
+    "@generalLabelAccount": {
+        "placeholders": {
+            "accountNumber": {
+                "type": "int"
+            }
+        }
+    },
     "generalLabelTransaction": "Transacción",
     "generalLabelLoading": "Cargando...",
     "generalLabelUnknown": "Desconocido",
@@ -76,7 +84,14 @@
     "generalSnackBarMessageWalletDataErased": "Datos del Wallet eliminados del dispositivo",
     "generalSnackBarMessageQRScannedWithSuccess": "Se escaneó el código QR con éxito",
     "generalSnackBarMessageAccountAlreadyExist": "Esta cuenta ya existe en el Wallet",
-    "generalSnackBarMessageTransactionSubmitted": "Nueva transacción enviada a la red Qubic",
+    "generalSnackBarMessageTransactionSubmitted": "Tu transacción se ha guardado y será enviada en el tick {tick}",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "Sistema no soportado",
     "generalErrorOnlyLowercaseChar": "Debe contener sólo letras mayúsculas",
     "generalErrorOnlyUppercaseChar": "Debe contener sólo letras minúsculas",
@@ -113,7 +128,7 @@
     "homeLabelTotalBalance": "Balance Total",
     "homeHeader": "Cuentas en el Wallet",
     "homeLabelNoAccountsInWallet": "Aún no tienes cuentas en este Wallet.",
-    "homeButtonAddAccount": "Agregar Nueva Cuenta",
+    "homeButtonAddAccount": "Agregar Cuenta",
     "transfersTitle": "Transferencias de la Época",
     "transfersLabelAllTransactions": "Todas las transacciones",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "No se encontraron transacciones en esta época que coincidan los filtros seleccionados",
@@ -179,6 +194,7 @@
     "settingsHeaderSecurity": "Seguridad",
     "settingsLabelChangePassword": "Cambiar la Contraseña",
     "settingsLabelExportWalletVaultFile": "Exportar archivo Vault del Wallet",
+    "settingsLabelPrivacyPolicy": "Política de privacidad",
     "settingsHeaderAbout": "Acerca de",
     "settingsLabelJoinCommunity": "Unirse a la Comunidad",
     "settingsLabelWalletInfo": "Información del Wallet",
@@ -315,6 +331,8 @@
     "joinCommunityLabelReddit": "Reddit",
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
+    "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "Semilla Privada",
     "revealSeedHeader": "de {accountName}",
     "@revealSeedHeader": {
@@ -360,7 +378,6 @@
     "accountExplorerLabelTotalOutgoing": "Total Saliente",
     "accountExplorerLabelReportedBy": "Reportado por",
     "accountExplorerLabelNoResultsFound": "No se encontraron transacciones para esta dirección en esta época.",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transacción en esta época} other{{count} transacciones en esta época}}}",
     "transactionItemLabelIncludedByTickLeader": "Incluído por el Tick Líder",
     "transactionItemLabelNotIncludedByTickLeader": "No incluído por el Tick Líder",
     "transactionItemLabelTransactionId": "ID de la Transacción",
@@ -627,9 +644,9 @@
     "welcomeButtonImportExistingWallet": "Importar un Wallet Existente",
     "importWalletTitle": "Importar Wallet",
     "importWalletSubHeader": "Selecciona como quieres importar tu Wallet",
-    "importWalletLabelFromVaultFile": "Importar el archivo Vault",
+    "importWalletLabelFromVaultFile": "Importar Archivo Vault",
     "importWalletLabelFromVaultFileDescription": "Importar un Wallet existente con múltiples cuentas a través de un archivo Vault.",
-    "importWalletLabelFromPrivateSeed": "Importar la semilla privada",
+    "importWalletLabelFromPrivateSeed": "Importar Semilla Privada",
     "importWalletLabelFromPrivateSeedDescription": "Importar una cuenta existente ingresando las 55 letras de su semilla privada.",
     "generalLabelSelectFilePath": "Selecciona la ruta del archivo",
     "importVaultSubHeader": "Selecciona un archivo con extensión .qubic-vault",
@@ -652,12 +669,7 @@
     "settingsLabelAutlock": "Configuración de Autobloqueo",
     "importVaultDialogTitleTooManyAccounts": "El archivo vault contiene demasiadas cuentas",
     "importVaultDialogMessageTooManyAccounts": "El archivo seleccionado contiene más de 15 cuentas. Todas las cuentas serán agregadas al wallet pero para poder ver los balances y hacer transferencias, debes eliminar algunas hasta tener 15 o menos.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "El archivo vault contiene demasiadas cuentas y cuentas de solo lectura",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "El archivo seleccionado contiene más de 15 cuentas y algunas de sólo lectura. Debido a que no soportamos aún cuentas de sólo lectura, estas serán ignoradas. Todas las otras cuentas serán agregadas al wallet pero para poder ver los balances y hacer transferencias, debes eliminar algunas hasta tener 15 o menos.",
-    "importVaultDialogTitleWatchAccount": "El archivo vault contiene cuentas de sólo lectura",
-    "importVaultDialogMessageWatchAccount": "Debido a que no soportamos aún cuentas de sólo lectura, estas serán ignoradas. Todas las otras cuentas serán agregadas al wallet.",
     "importVaultErrorNoAccountsFound": "No se encontraron cuentas en el archivo vault.",
-    "importVaultErrorOnlyWatchAccountsFound": "Lamentamos no poder procesar tu archivo vault porque todas las cuentas son de sólo lectura. Estamos trabajando para soportar estas cuentas en futuras versiones.",
     "importVaultFilePickerLabel": "Por favor, selecciona un archivo vault para continuar:",
     "importVaultFileErrorGeneralMessage": "Error al importar el archivo vault: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
@@ -739,5 +751,22 @@
     },
     "generalErrorFileRequired": "Por favor, selecciona un archivo",
     "generalErrorPathRequired": "Por favor, selecciona un directorio",
-    "homeWarningTooManyAccounts": "Tienes más de 15 cuentas en tu Wallet. No podrás ver los balances o hacer transferencias hasta que no elimines algunas de ellas hasta tener 15 o menos"
+    "homeWarningTooManyAccounts": "Tienes más de 15 cuentas en tu Wallet. No podrás ver los balances o hacer transferencias hasta que no elimines algunas de ellas hasta tener 15 o menos",
+    "explorerLabelPrice": "Precio",
+    "explorerLabelMarketCap": "Capitalización de mercado",
+    "accountExplorerLabelLatestTransactions": "Últimas Transacciones",
+    "settingsLabelWalletConnect": "Wallet Connect",
+    "addAccountErrorVerifyIdentityWrongIdentity": "Dirección de sólo lectura inválida. Por favor, verifica la dirección ingresada.",
+    "addAccountErrorVerifyIdentityError": "No se puede verificar la dirección",
+    "addAccountWatchOnlyPageTitle": "Agregar Cuenta de Sólo Lectura",
+    "addAccountWatchOnlySubtitle": "Agregar una dirección pública para sólo lectura. No se podrán realizar transacciones.",
+    "addAccountWatchOnlyQubicAddressTooltip": "El ID público se compone de 60 letras mayúsculas.",
+    "addAccountWatchOnlyHintQubicAddress": "Ingresa una dirección Qubic",
+    "addAccountCreateNewAccountModalBottomSheet": "Crear Nueva Cuenta",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Cuenta de Sólo Lectura",
+    "deleteAccountDialogMessageWatchOnly": "¿Estás seguro que quieres eliminar esta cuenta de sólo lectura de tu Wallet?",
+    "cmdErrorVerifyIdentityJsonDecoding": "Error al decodificar el resultado de verifyIdentity",
+    "cmdErrorVerifyIdentityParsingError": "Error al parsear el resultado de verifyIdentity",
+    "cmdErrorVerifyingIdentityGeneric": "Error al verificar la identidad",
+    "cmdErrorVerifyingIdentity": "No se puede verificar la identidad: {errorDescription}"
 }

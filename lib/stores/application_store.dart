@@ -2,7 +2,6 @@
 
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -52,6 +51,22 @@ abstract class _ApplicationStore with Store {
     currentTabIndex = index;
   }
 
+  // Observable to trigger the Add Account ModalBottomSheet
+  @observable
+  bool showAddAccountModal = false;
+
+// Action to toggle the Add Account signal
+  @action
+  void triggerAddAccountModal() {
+    showAddAccountModal = true;
+  }
+
+// Action to clear the Add Account signal after the modal is shown
+  @action
+  void clearAddAccountModal() {
+    showAddAccountModal = false;
+  }
+
   @observable
   ObservableList<QubicListVm> currentQubicIDs = ObservableList<QubicListVm>();
   @observable
@@ -66,14 +81,15 @@ abstract class _ApplicationStore with Store {
 
   @computed
   int get totalAmounts {
-    return currentQubicIDs.fold<int>(
-        0, (sum, qubic) => sum + (qubic.amount ?? 0));
+    return currentQubicIDs
+        .where((qubic) => !qubic.watchOnly)
+        .fold<int>(0, (sum, qubic) => sum + (qubic.amount ?? 0));
   }
 
   @computed
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
-    return currentQubicIDs.fold<double>(0,
+    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(0,
         (sum, qubic) => sum + (qubic.amount ?? 0) * marketInfo!.priceAsDouble);
   }
 
@@ -85,7 +101,7 @@ abstract class _ApplicationStore with Store {
   List<QubicAssetDto> get totalShares {
     List<QubicAssetDto> shares = [];
     List<QubicAssetDto> tokens = [];
-    currentQubicIDs.forEach((id) {
+    currentQubicIDs.where((qubic) => !qubic.watchOnly).forEach((id) {
       id.assets.forEach((key, asset) {
         QubicAssetDto temp = asset.clone();
         temp.ownedAmount ??= 0;
@@ -234,8 +250,8 @@ abstract class _ApplicationStore with Store {
   Future<void> addManyIds(List<QubicId> ids) async {
     await secureStorage.addManyIds(ids);
     for (var element in ids) {
-      currentQubicIDs.add(QubicListVm(
-          element.getPublicId(), element.getName(), null, null, null));
+      currentQubicIDs.add(QubicListVm(element.getPublicId(), element.getName(),
+          null, null, null, element.getPrivateSeed() == '' ? true : false));
     }
   }
 
@@ -244,7 +260,8 @@ abstract class _ApplicationStore with Store {
     //Todo store in wallet
 
     await secureStorage.addID(QubicId(privateSeed, publicId, name, null));
-    currentQubicIDs.add(QubicListVm(publicId, name, null, null, null));
+    currentQubicIDs.add(QubicListVm(
+        publicId, name, null, null, null, privateSeed == '' ? true : false));
   }
 
   Future<String> getSeedById(String publicId) async {
@@ -262,8 +279,6 @@ abstract class _ApplicationStore with Store {
         await secureStorage.renameId(publicId, name);
         return;
       }
-
-      //currentQubicIDs.forEach((element) {
     } //);
   }
 

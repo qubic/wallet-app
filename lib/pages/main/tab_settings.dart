@@ -13,6 +13,7 @@ import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/auto_lock_settings.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect.dart';
@@ -215,7 +216,7 @@ class _TabSettingsState extends State<TabSettings> {
                       0); // so after unlock, it goes to Home
                   appStore.signOut();
                   appStore.checkWalletIsInitialized();
-                  timedController.stopFetchTimer();
+                  timedController.stopFetchTimers();
                   context.go('/signInNoAuth');
                 },
               ),
@@ -242,7 +243,7 @@ class _TabSettingsState extends State<TabSettings> {
                           await settingsStore.loadSettings();
                           appStore.checkWalletIsInitialized();
                           appStore.signOut();
-                          timedController.stopFetchTimer();
+                          timedController.stopFetchTimers();
                           Navigator.pop(context);
                           context.go("/signInNoAuth");
                           _globalSnackBar.show(

@@ -349,10 +349,6 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     if (isLoading) {
       return;
     }
-    setState(() {
-      emptyPathError = false;
-      isLoading = true;
-    });
     _formKey.currentState?.validate();
     if ((selectedPath == null) && (!useShareController)) {
       setState(() {
@@ -386,7 +382,10 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
     for (var element in appStore.currentQubicIDs) {
       var seed = await appStore.getSeedById(element.publicId);
       seeds.add(QubicVaultExportSeed(
-          seed: seed, alias: element.name, publicId: element.publicId));
+          seed: seed,
+          alias: element.name,
+          publicId: element.publicId,
+          isOnlyWatch: seed == '' ? true : false));
     }
     return seeds;
   }

@@ -80,9 +80,14 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
     }
   }
 
+  bool firstRun = true;
   @override
-  void dispose() {
-    super.dispose();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (firstRun) {
+      handleBiometricsAuth();
+      firstRun = false;
+    }
   }
 
   Widget getCTA() {
@@ -220,17 +225,12 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
           onPressed: _authenticateHandler,
           child: Builder(builder: (context) {
             if (isLoading) {
-              return Padding(
-                  padding: const EdgeInsets.all(
-                    ThemePaddings.normalPadding,
-                  ),
-                  child: SizedBox(
-                      height: 21,
-                      width: 21,
-                      child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                          color:
-                              Theme.of(context).colorScheme.inversePrimary)));
+              return SizedBox(
+                  height: 21,
+                  width: 21,
+                  child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Theme.of(context).colorScheme.inversePrimary));
             } else {
               return Text(l10n.authenticateButtonAuthenticate,
                   style: TextStyles.primaryButtonText);

@@ -29,6 +29,14 @@
     "generalLabelInfo": "Информация",
     "generalLabelDate": "Дата",
     "generalLabelID": "ID",
+    "generalLabelAccount": "Аккаунт {accountNumber}",
+    "@generalLabelAccount": {
+        "placeholders": {
+            "accountNumber": {
+                "type": "int"
+            }
+        }
+    },
     "generalLabelTransaction": "Транзакция",
     "generalLabelLoading": "Загрузка...",
     "generalLabelUnknown": "Неизвестно",
@@ -76,7 +84,14 @@
     "generalSnackBarMessageWalletDataErased": "Данные кошелька удалены с устройства",
     "generalSnackBarMessageQRScannedWithSuccess": "QR код отсканирован успешно",
     "generalSnackBarMessageAccountAlreadyExist": "Этот аккаунт уже существует в кошельке",
-    "generalSnackBarMessageTransactionSubmitted": "Отправка новой транзакции в сеть Qubic",
+    "generalSnackBarMessageTransactionSubmitted": "Ваша транзакция была сохранена для тика {tick}",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "ОС не поддерживается",
     "generalErrorOnlyLowercaseChar": "Должны быть только строчные буквы.",
     "generalErrorOnlyUppercaseChar": "Должны быть только заглавные буквы.",
@@ -163,7 +178,7 @@
     "explorerSearchLabelCriteria": "Тик / TX ID / Публичный ID",
     "explorerSearchLabelNoResults": "Не найдено соответствий",
     "explorerSearchLabelResults": "{count, plural, =1{Найден 1 результат} other{Найдено {count} результата(ов))}}",
-    "explorerTickResultLabelBlockStatus": "Статус блока",
+    "explorerTickResultLabelBlockStatus": "Статус тика",
     "explorerTickResultLabelBlockStatusEmpty": "Пусто",
     "explorerTickResultLabelBlockStatusNonEmpty": "Не пустой",
     "explorerTickResultLabelBlockStatusUnknown": "Неизвестно",
@@ -179,6 +194,7 @@
     "settingsLockWallet": "Заблокировать кошелек",
     "settingsHeaderSecurity": "Безопасность",
     "settingsLabelChangePassword": "Поменять пароль",
+    "settingsLabelPrivacyPolicy": "Политика конфиденциальности",
     "settingsLabelExportWalletVaultFile": "Экспортировать Vault File",
     "settingsHeaderAbout": "О нас",
     "settingsLabelJoinCommunity": "Присоединиться к сообществу",
@@ -316,6 +332,7 @@
     "joinCommunityLabelReddit": "Reddit",
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
+    "joinCommunityLabelInstagram": "Instagram",
     "revealSeedTitle": "Секретный сид",
     "revealSeedHeader": "of {accountName}",
     "@revealSeedHeader": {
@@ -361,7 +378,6 @@
     "accountExplorerLabelTotalOutgoing": "Общее кол-во выводов",
     "accountExplorerLabelReportedBy": "Подтверждена",
     "accountExplorerLabelNoResultsFound": "Нет транзакций для этого ID в эту эпоху",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 транзакция в этой эпохе} other{{count} транзакций в этой эпохе}}",
     "transactionItemLabelIncludedByTickLeader": "Включительно с лидером тика",
     "transactionItemLabelNotIncludedByTickLeader": "Не включено в лидера тика",
     "transactionItemLabelTransactionId": "ID транзакции",
@@ -653,12 +669,7 @@
     "settingsLabelAutlock": "Настройки автоблокировки",
     "importVaultDialogTitleTooManyAccounts": "Найдено слишком много учетных записей",
     "importVaultDialogMessageTooManyAccounts": "Ваш Vault файл содержит более 15 аккаунтов. Все аккаунты будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше 15.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Слишком много аккаунтов с режимом наблюдение.",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Ваш Vault файл содержит более 15 аккаунтов, некоторые из них в режиме наблюдение. Поскольку в настоящее время мы не поддерживаем аккаунты с функцией наблюдения, они будут проигнорированы. Все остальные будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше 15.",
-    "importVaultDialogTitleWatchAccount": "Найдены аккаунты в режиме наблюдения",
-    "importVaultDialogMessageWatchAccount": "Поскольку в настоящее время мы не поддерживаем учетные записи в режиме наблюдения, они будут проигнорированы. Все остальные будут импортированы.",
     "importVaultErrorNoAccountsFound": "В вашем файле Vault не обнаружено аккаунтов.",
-    "importVaultErrorOnlyWatchAccountsFound": "Ваш файл Vault содержит аккаунты только в режиме наблюдения, мы больше не поддерживаем их он не будет импортирован.",
     "importVaultFilePickerLabel": "Для продолжения выберите файл Vault:",
     "importVaultFileErrorGeneralMessage": "Ошибка при импортировании файла Vault: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
@@ -740,5 +751,30 @@
     },
     "generalErrorFileRequired": "Выберите файл",
     "generalErrorPathRequired": "Выберите путь",
-    "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15."
+    "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15.",
+    "explorerLabelPrice": "Цена",
+    "explorerLabelMarketCap": "Рыночная капитализация",
+    "settingsLabelWalletConnect": "Соединение кошелька",
+    "addAccountErrorVerifyIdentityWrongIdentity": "Неверный адрес для наблюдения. Проверьте адрес.",
+    "addAccountErrorVerifyIdentityError": "Невозможно верифицировать адрес.",
+    "addAccountWatchOnlyPageTitle": "Добавить аккаунт для наблюдения",
+    "addAccountWatchOnlySubtitle": "Добавить публичный адрес Qubic для наблюдения. Вы не сможете делать транзакции с него.",
+    "addAccountWatchOnlyQubicAddressTooltip": "Публичный ID состоит из 60-ти больших латинских букв.",
+    "addAccountWatchOnlyHintQubicAddress": "Введите адрес Qubic",
+    "addAccountCreateNewAccountModalBottomSheet": "Создать новый аккаунт",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Аккаунт только для наблюдения",
+    "deleteAccountDialogMessageWatchOnly": "Вы уверены что хотите удалить аккаунт только для наблюдения?",
+    "cmdErrorVerifyIdentityJsonDecoding": "Ошибка декодирования",
+    "cmdErrorVerifyIdentityParsingError": "Ошибка декодирования вывода",
+    "cmdErrorVerifyingIdentityGeneric": "Ошибка идентификации.",
+    "cmdErrorVerifyingIdentity": "Ошибка идентификации: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "joinCommunityLabelTiktok": "TikTok",
+    "accountExplorerLabelLatestTransactions": "Последние транзакции"
 }

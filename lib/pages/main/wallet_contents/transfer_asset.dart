@@ -17,6 +17,7 @@ import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:intl/intl.dart';
@@ -26,17 +27,7 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-
-enum TargetTickType {
-  autoCurrentPlus20,
-  autoCurrentPlus40,
-  autoCurrentPlus60,
-  manual
-}
-
-const int autoCurrentPlus20Value = 20;
-const int autoCurrentPlus40Value = 40;
-const int autoCurrentPlus60Value = 60;
+import 'package:qubic_wallet/helpers/target_tick.dart';
 
 class TransferAsset extends StatefulWidget {
   final QubicListVm item;
@@ -51,14 +42,12 @@ class TransferAsset extends StatefulWidget {
 class _TransferAssetState extends State<TransferAsset> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
+  final QubicLi apiService = getIt<QubicLi>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalKey<_TransferAssetState> widgetKey = GlobalKey();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
-  int targetTick = 0;
-  int? frozenTargetTick;
-  int? frozenCurrentTick;
   String? transferError;
-  TargetTickType targetTickType = TargetTickType.autoCurrentPlus20;
+  TargetTickTypeEnum targetTickType = defaultTargetTickType;
 
   final NumberFormat formatter = NumberFormat.decimalPatternDigits(
     locale: 'en_us',
@@ -66,25 +55,21 @@ class _TransferAssetState extends State<TransferAsset> {
   );
 
   List<bool> expanded = [false];
-  List<DropdownMenuItem<TargetTickType>> getTickList() {
+
+  List<DropdownMenuItem<TargetTickTypeEnum>> getTickList() {
     final l10n = l10nOf(context);
-    return [
-      DropdownMenuItem(
-          value: TargetTickType.autoCurrentPlus20,
-          child: Text(
-              l10n.sendItemLabelTargetTickAutomatic(autoCurrentPlus20Value))),
-      DropdownMenuItem(
-          value: TargetTickType.autoCurrentPlus40,
-          child: Text(
-              l10n.sendItemLabelTargetTickAutomatic(autoCurrentPlus40Value))),
-      DropdownMenuItem(
-          value: TargetTickType.autoCurrentPlus60,
-          child: Text(
-              l10n.sendItemLabelTargetTickAutomatic(autoCurrentPlus60Value))),
-      DropdownMenuItem(
-          value: TargetTickType.manual,
-          child: Text(l10n.sendItemLabelTargetTickManual))
-    ];
+
+    return TargetTickTypeEnum.values.map((targetTickType) {
+      return DropdownMenuItem<TargetTickTypeEnum>(
+        value: targetTickType,
+        child: Text(
+            targetTickType == TargetTickTypeEnum.manual
+                ? l10n.sendItemLabelTargetTickManual
+                : l10n.sendItemLabelTargetTickAutomatic(targetTickType.value),
+            style: TextStyles
+                .inputBoxSmallStyle), // Display name without enum prefix
+      );
+    }).toList();
   }
 
   String? generatedPublicId;
@@ -278,33 +263,10 @@ class _TransferAssetState extends State<TransferAsset> {
         });
   }
 
-  Widget getAdvancedRadio(TargetTickType type, String label) {
-    return InkWell(
-        onTap: () {
-          setState(() {
-            targetTickType = type;
-          });
-        },
-        child: Ink(
-            child: ListTile(
-                dense: true,
-                minVerticalPadding: ThemePaddings.miniPadding,
-                subtitle: Row(children: [
-                  Radio<TargetTickType>(
-                      value: type,
-                      groupValue: targetTickType,
-                      onChanged: (TargetTickType? value) {
-                        setState(() {
-                          targetTickType = value ?? type;
-                        });
-                      }),
-                  Text(label)
-                ]))));
-  }
-
   List<Widget> getOverrideTick() {
     final l10n = l10nOf(context);
-    if ((targetTickType == TargetTickType.manual) && (expanded[0] == true)) {
+    if ((targetTickType == TargetTickTypeEnum.manual) &&
+        (expanded[0] == true)) {
       return [
         ThemedControls.spacerVerticalSmall(),
         Row(
@@ -320,10 +282,7 @@ class _TransferAssetState extends State<TransferAsset> {
                       appStore.currentTick.asThousands()),
                   style: TextStyles.transparentButtonTextSmall);
             }), onPressed: () {
-              if (widget.item.amount == null) {
-                return;
-              }
-              if (widget.item.amount! > 0) {
+              if (appStore.currentTick > 0) {
                 tickController.text = appStore.currentTick.toString();
               }
             }),
@@ -349,53 +308,6 @@ class _TransferAssetState extends State<TransferAsset> {
     return [Container()];
   }
 
-  Widget getAutoTick() {
-    final l10n = l10nOf(context);
-    if (targetTickType != TargetTickType.manual) {
-      return Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ThemedControls.spacerVerticalNormal(),
-            ThemedControls.spacerVerticalNormal(),
-            Text(l10n.sendItemLabelTargetTick,
-                style: TextStyles.labelTextNormal),
-            ThemedControls.spacerVerticalMini(),
-            ThemedControls.inputboxlikeLabel(
-                child: Observer(builder: (context) {
-              int tick = 0;
-              if (frozenTargetTick != null) {
-                tick = frozenTargetTick!;
-              } else {
-                if (targetTickType == TargetTickType.autoCurrentPlus20) {
-                  tick = appStore.currentTick + autoCurrentPlus20Value;
-                }
-                if (targetTickType == TargetTickType.autoCurrentPlus40) {
-                  tick = appStore.currentTick + autoCurrentPlus40Value;
-                }
-                if (targetTickType == TargetTickType.autoCurrentPlus60) {
-                  tick = appStore.currentTick + autoCurrentPlus60Value;
-                }
-              }
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: RichText(
-                      text: TextSpan(children: [
-                    TextSpan(
-                        text: tick.asThousands(),
-                        style: TextStyles.inputBoxNormalStyle),
-                    TextSpan(
-                        text:
-                            " ${l10n.sendItemLabelCurrentTick(frozenCurrentTick?.asThousands() ?? appStore.currentTick.asThousands())}",
-                        style: TextStyles.inputBoxSmallStyle)
-                  ])));
-            }))
-          ]);
-    }
-    return Container();
-  }
-
   Widget getAdvancedOptions() {
     final l10n = l10nOf(context);
     return Column(
@@ -406,17 +318,16 @@ class _TransferAssetState extends State<TransferAsset> {
           Text(l10n.sendItemLabelDetermineTargetTick,
               style: TextStyles.labelTextNormal),
           ThemedControls.spacerVerticalMini(),
-          ThemedControls.dropdown<TargetTickType>(
+          ThemedControls.dropdown<TargetTickTypeEnum>(
               value: targetTickType,
-              onChanged: (TargetTickType? value) {
+              onChanged: (TargetTickTypeEnum? value) {
                 // This is called when the user selects an item.
                 setState(() {
                   targetTickType = value!;
                 });
               },
               items: getTickList()),
-          Column(children: getOverrideTick()),
-          getAutoTick(),
+          Column(children: getOverrideTick())
         ]);
   }
 
@@ -514,7 +425,10 @@ class _TransferAssetState extends State<TransferAsset> {
       controller: numberOfSharesCtrl,
       enableSuggestions: false,
       textAlign: TextAlign.end,
-      keyboardType: TextInputType.number,
+      keyboardType: const TextInputType.numberWithOptions(
+        decimal: false, // Set to true if you want to allow decimal numbers
+        signed: false, // Set to true if you want to allow signed numbers
+      ),
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(
             errorText: l10n.generalErrorRequiredField),
@@ -731,22 +645,19 @@ class _TransferAssetState extends State<TransferAsset> {
       return;
     }
 
-    //Make sure that current tick is not in the past
-
     setState(() {
       isLoading = true;
-
-      frozenCurrentTick = appStore.currentTick;
-      if (targetTickType == TargetTickType.manual) {
-        frozenTargetTick = int.tryParse(tickController.text);
-      } else if (targetTickType == TargetTickType.autoCurrentPlus20) {
-        frozenTargetTick = frozenCurrentTick! + 20;
-      } else if (targetTickType == TargetTickType.autoCurrentPlus40) {
-        frozenTargetTick = frozenCurrentTick! + 40;
-      } else if (targetTickType == TargetTickType.autoCurrentPlus60) {
-        frozenTargetTick = frozenCurrentTick! + 60;
-      }
     });
+
+    int? targetTick;
+
+    if (targetTickType == TargetTickTypeEnum.manual) {
+      targetTick = int.tryParse(tickController.text);
+    } else {
+      // fetch latest tick
+      int latestTick = await apiService.getCurrentTick();
+      targetTick = latestTick + targetTickType.value;
+    }
 
     bool result = await sendAssetTransferTransactionDialog(
         context,
@@ -755,7 +666,7 @@ class _TransferAssetState extends State<TransferAsset> {
         widget.asset.assetName,
         widget.asset.issuerIdentity,
         getAssetAmount(),
-        frozenTargetTick!);
+        targetTick!);
 
     if (!result) {
       setState(() {
@@ -768,18 +679,13 @@ class _TransferAssetState extends State<TransferAsset> {
     //Clear the state
     setState(() {
       isLoading = false;
-      frozenCurrentTick = null;
-      frozenTargetTick = null;
       getIt.get<PersistentTabController>().jumpToTab(1);
     });
 
     Navigator.pop(context);
-    //Timer(const Duration(seconds: 1), () => Navigator.pop(context));
-    _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted);
 
-    setState(() {
-      isLoading = false;
-    });
+    _globalSnackBar.show(l10n
+        .generalSnackBarMessageTransactionSubmitted(targetTick!.asThousands()));
   }
 
   TextEditingController destinationID = TextEditingController();

@@ -128,6 +128,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
+  late final _$showAddAccountModalAtom =
+      Atom(name: '_ApplicationStore.showAddAccountModal', context: context);
+
+  @override
+  bool get showAddAccountModal {
+    _$showAddAccountModalAtom.reportRead();
+    return super.showAddAccountModal;
+  }
+
+  @override
+  set showAddAccountModal(bool value) {
+    _$showAddAccountModalAtom.reportWrite(value, super.showAddAccountModal, () {
+      super.showAddAccountModal = value;
+    });
+  }
+
   late final _$currentQubicIDsAtom =
       Atom(name: '_ApplicationStore.currentQubicIDs', context: context);
 
@@ -317,6 +333,28 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  void triggerAddAccountModal() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.triggerAddAccountModal');
+    try {
+      return super.triggerAddAccountModal();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void clearAddAccountModal() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.clearAddAccountModal');
+    try {
+      return super.clearAddAccountModal();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void reportGlobalError(String error) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.reportGlobalError');
@@ -436,6 +474,7 @@ globalNotification: ${globalNotification},
 currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
 currentTabIndex: ${currentTabIndex},
+showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
 transactionFilter: ${transactionFilter},

@@ -25,6 +25,7 @@ abstract class Config {
 
   static const fetchEverySeconds = 60;
   static const fetchEverySecondsSlow = 60 * 5;
+  static const inactiveSecondsLimit = 120;
 
   static const checkForTamperedUtils = true;
 
@@ -34,23 +35,30 @@ abstract class Config {
   static const servicesDomain = "wallet.qubic-hub.com";
   static const URL_VersionInfo = "/versionInfo.php";
 
+  static const URL_WebExplorer = "https://explorer.qubic.org";
+
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(
-          filename: "qubic-helper-win-x64-3_0_6.exe",
+          filename: "qubic-helper-win-x64-3_0_8.exe",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-win-x64-3_0_6.exe",
-          checksum: "55236d3b6d5d7c795807cbf89f77423d"),
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-win-x64-3_0_8.exe",
+          checksum: "25a673010749a2c1cbbf97d023b02b1b"),
       linux64: QubicHelperConfigEntry(
-          filename: "qubic-helper-linux-x64-3_0_6",
+          filename: "qubic-helper-linux-x64-3_0_8",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-linux-x64-3_0_6",
-          checksum: "503a87fadc425692b7d0d0579f56683e"),
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-linux-x64-3_0_8",
+          checksum: "43a6f19eea3289ed53b45987305e06f0"),
       macOs64: QubicHelperConfigEntry(
-          filename: "qubic-helper-mac-x64-3_0_6",
+          filename: "qubic-helper-mac-x64-3_0_8",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.6/qubic-helper-mac-x64-3_0_6",
-          checksum: "45588af4b72234858dca3e1094f2aaeb"));
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-mac-x64-3_0_8",
+          checksum: "8166782f742251d486309f0007d96a59"));
+
+  // This will only be read in Debug mode. In Release mode, proxy setup is ignored.
+  static const bool useProxy = false; // Can be set to `true` to use a proxy
+  static const String proxyIP = '192.168.1.1'; // Replace with actual proxy IP
+  static const int proxyPort = 8888; // Replace with actual proxy port
 
   //Configuration for Wallet Connect
   static const walletConnectProjectId = "b2ace378845f0e4806ef23d2732f77a4";

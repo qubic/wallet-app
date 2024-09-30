@@ -20,7 +20,7 @@
     "generalButtonClearAll": "Hepsini Temizle",
     "generalButtonShowAll": "Hepsini Göster",
     "generalButtonUseQRCode": "QR Kod Kullan",
-    "generalButtonCopyAddress": "Copy Address",
+    "generalButtonCopyAddress": "Adresi Kopyala",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
     "generalLabelCurrencyQubic": "QUBIC",
@@ -29,6 +29,14 @@
     "generalLabelInfo": "Bilgi",
     "generalLabelDate": "Tarih",
     "generalLabelID": "ID",
+    "generalLabelAccount": "Hesap {accountNumber}",
+    "@generalLabelAccount": {
+        "placeholders": {
+            "accountNumber": {
+                "type": "int"
+            }
+        }
+    },
     "generalLabelTransaction": "Transfer",
     "generalLabelLoading": "Yükleniyor...",
     "generalLabelUnknown": "Bilinmeyen",
@@ -36,7 +44,7 @@
     "generalLabelTo": "a",
     "generalLabeQubicAddress": "Qubic Adres",
     "generalLabeQubicAddressAndPublicID": "Qubic Adres (Halka Açık ID)",
-    "generalLabelQubicAddressWithAccountName": "Qubic Address {accountName}",
+    "generalLabelQubicAddressWithAccountName": "Qubic Adres {accountName}",
     "@generalLabelQubicAddressWithAccountName": {
         "placeholders": {
             "accountName": {
@@ -44,7 +52,7 @@
             }
         }
     },
-    "generalLabelToFromAccount": "{toFrom} wallet account \"{accountName}\"",
+    "generalLabelToFromAccount": "{toFrom} cüzdan hesabı \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
             "toFrom": {
@@ -56,7 +64,7 @@
             }
         }
     },
-    "generalLabelToFromAddress": "{toOrFrom} address",
+    "generalLabelToFromAddress": "{toOrFrom} adres",
     "@generalLabelToFromAddress": {
         "placeholders": {
             "toOrFrom": {
@@ -76,11 +84,18 @@
     "generalSnackBarMessageWalletDataErased": "Cüzdan verisi cihazdan silindi",
     "generalSnackBarMessageQRScannedWithSuccess": "QR kod başarılı bir şekilde tarandı",
     "generalSnackBarMessageAccountAlreadyExist": "Bu hesap zaten cüdanında mevcut",
-    "generalSnackBarMessageTransactionSubmitted": "Qubic ağına yeni işlem gönderildi",
+    "generalSnackBarMessageTransactionSubmitted": "İşleminiz yayılmak üzere {tick} kodlu Tick'te saklandı",
+    "@generalSnackBarMessageTransactionSubmitted": {
+        "placeholders": {
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
     "generalErrorUnsupportedOS": "Bu işletim sistemi desteklenmiyor",
     "generalErrorOnlyLowercaseChar": "Yalnızca küçük harfler içermelidir.",
     "generalErrorOnlyUppercaseChar": "Yalnızca büyük harfler içermelidir.",
-    "generalErrorMinCharLength": "Must be {minCharLength} characters long.",
+    "generalErrorMinCharLength": "{minCharLength} karakter uzunluğunda olmalıdır.",
     "@generalErrorMinCharLength": {
         "placeholders": {
             "minCharLength": {
@@ -88,7 +103,7 @@
             }
         }
     },
-    "generalErrorValueMustBeLowerThan": "Must be less than {maxValuePlusOne}.",
+    "generalErrorValueMustBeLowerThan": "{maxValuePlusOne} değerinden küçük olmalıdır.",
     "@generalErrorValueMustBeLowerThan": {
         "placeholders": {
             "maxValuePlusOne": {
@@ -114,7 +129,7 @@
     "homeLabelTotalBalance": "Toplam Bakiye",
     "homeHeader": "Cüzdandaki Hesaplar",
     "homeLabelNoAccountsInWallet": "Cüzdanınızda henüz herhangi bir Qubic hesabınız yok",
-    "homeButtonAddAccount": "Yeni Hesap Ekle",
+    "homeButtonAddAccount": "Hesap Ekle",
     "transfersTitle": "Dönem Transferleri",
     "transfersLabelAllTransactions": "Bütün Transferler",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Hesaplarınız için bu dönemde filtrelerinize uyan hiçbir işlem bulunmuyor",
@@ -122,8 +137,8 @@
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Bu dönem içerisinde filtreleriniz uyan hiçbir işlem bulunmamaktadır",
     "transfersLabelNoTransactionsFoundInAccount": "Bu dönem içirinde herhangi bir işlem bulunmamaktadır",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
-    "transfersLabelFor": "Transfers for",
-    "transfersLabelForAccount": "Transfers for \"{accountName}\"",
+    "transfersLabelFor": "Transferler",
+    "transfersLabelForAccount": "\"{accountName}\" Transferleri",
     "@transfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -136,9 +151,9 @@
     "filterTransfersLabelByQubicID": "Qubic ID'sine Göre",
     "filterTransfersLabelAnyStatus": "Herhangi Bir Durum",
     "filterTransfersLabelByStatus": "Duruma Göre",
-    "filterTransfersLabelByDirection": "Filter by Direction",
-    "filterTransfersFieldHintByDirection": "By Direction",
-    "generalLabelAnyDirection": "Herhangi Bir Yön",
+    "filterTransfersLabelByDirection": "Yöne Göre Filtrele",
+    "filterTransfersFieldHintByDirection": "Yöne Göre",
+    "generalLabelAnyDirection": "Herhangi Bir Yöne",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Clear 1 Active Filter} other{Clear {filtersCount} Active Filters}}",
     "explorerTitle": "Dönem Gezgini",
     "explorerLabelEpoch": "Epoch {currentEpoch}",
@@ -161,13 +176,13 @@
     "explorerLabelLoadingData": "Bu dönem için gezgin verileri güncelleniyor.",
     "explorerSearchTitle": "Gezgin Araması",
     "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
-    "explorerSearchLabelNoResults": "No results found matching",
+    "explorerSearchLabelNoResults": "Eşleşen sonuç bulunamadı",
     "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
-    "explorerTickResultLabelBlockStatus": "Blok Durumu",
+    "explorerTickResultLabelBlockStatus": "Tik Durumu",
     "explorerTickResultLabelBlockStatusEmpty": "Boş",
     "explorerTickResultLabelBlockStatusNonEmpty": "Boş Olmayan",
-    "explorerTickResultLabelBlockStatusUnknown": "Unknown",
-    "explorerTickResultLabelDataStatus": "Data Status",
+    "explorerTickResultLabelBlockStatusUnknown": "Bilinmeyen",
+    "explorerTickResultLabelDataStatus": "Data Durumu",
     "explorerTickResultLabelInfoCompleted": "Tamamlanmış",
     "explorerTickResultLabelInfoNotValidated": "Doğrulanmamış",
     "explorerTickResultLabelTickLeader": "Tick Lideri - (Short Code / Index)",
@@ -179,6 +194,7 @@
     "settingsLockWallet": "Cüzdanı Kilitle",
     "settingsHeaderSecurity": "Güvenlik",
     "settingsLabelChangePassword": "Şifreyi Değiştir",
+    "settingsLabelPrivacyPolicy": "Gizlilik Politikası",
     "settingsLabelExportWalletVaultFile": "Cüzdan Kilit Dosyasını Dışa Aktar",
     "settingsHeaderAbout": "Hakkında",
     "settingsLabelJoinCommunity": "Topluluğa Katıl",
@@ -188,7 +204,7 @@
     "generalBiometricTypeIris": "İris Tanıma",
     "generalBiometricTypeOS": "İşletim Sistemi",
     "generalBiometricTypeGeneric": "Biyometrik",
-    "settingsLabelManageBiometrics": "Manage Unlock with {biometricTypeLabel}",
+    "settingsLabelManageBiometrics": "Kilidi Açmayı {biometricTypeLabel} ile Yönet",
     "@settingsLabelManageBiometrics": {
         "placeholders": {
             "biometricTypeLabel": {
@@ -197,7 +213,7 @@
             }
         }
     },
-    "manageBiometricsTitle": "Manage Unlock with {biometricTypeLabel}",
+    "manageBiometricsTitle": "Kilidi Açmayı {biometricTypeLabel} ile Yönet",
     "@manageBiometricsTitle": {
         "placeholders": {
             "biometricTypeLabel": {
@@ -206,7 +222,7 @@
             }
         }
     },
-    "manageBiometricsSwitchLabel": "Use Unlock with {biometricTypeLabel}",
+    "manageBiometricsSwitchLabel": "Kilidi Açmayı {biometricTypeLabel} ile Yönet",
     "@manageBiometricsSwitchLabel": {
         "placeholders": {
             "biometricTypeLabel": {
@@ -266,7 +282,7 @@
             }
         }
     },
-    "assetsLabelCurrentBalance": "Balance in ID: {amount} QUBIC",
+    "assetsLabelCurrentBalance": "ID'deki Bakiye: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
             "amount": {
@@ -274,10 +290,10 @@
             }
         }
     },
-    "assetsLabelSmartContractShares": "Smart Contract Shares",
-    "assetsButtonSend": "Send",
-    "assetsTitle": "Assets",
-    "assetsHeader": "of \"{accountName}\"",
+    "assetsLabelSmartContractShares": "Akıllı Sözleşme Hisseleri",
+    "assetsButtonSend": "Gönder",
+    "assetsTitle": "Varlıklar",
+    "assetsHeader": "\"{accountName}\"",
     "@assetsHeader": {
         "placeholders": {
             "accountName": {
@@ -316,6 +332,8 @@
     "joinCommunityLabelReddit": "Reddit",
     "joinCommunityLabelTwitter": "Twitter",
     "joinCommunityLabelLinkedIn": "LinkedIn",
+    "joinCommunityLabelInstagram": "Instagram",
+    "joinCommunityLabelTiktok": "TikTok",
     "revealSeedTitle": "Özel Anahtar",
     "revealSeedHeader": "of {accountName}",
     "@revealSeedHeader": {
@@ -349,7 +367,7 @@
     "eraseDataSheetCheckboxLabel": "Evet, cüzdan verimi sil.",
     "accountExplorerTitle": "Qubic Adres",
     "accountExplorerLabelCurrentValue": "Güncel Değeri",
-    "accountExplorerLabelValueReportedBy": "Value reported by {ip}",
+    "accountExplorerLabelValueReportedBy": "{ip} tarafından bildirilen değer",
     "@accountExplorerLabelValueReportedBy": {
         "placeholders": {
             "ip": {
@@ -360,8 +378,6 @@
     "accountExplorerLabelTotalIncoming": "Toplam Gelen",
     "accountExplorerLabelTotalOutgoing": "Toplam Giden",
     "accountExplorerLabelReportedBy": "Bildiren",
-    "accountExplorerLabelNoResultsFound": "Bu dönem için bu ID'ye ait işlem bulunmamaktadır",
-    "accountExplorerLabelNumberOfResultsFound": "{count, plural, =1{1 transaction in this epoch} other{{count} transactions in this epoch}}",
     "transactionItemLabelIncludedByTickLeader": "Tick Lideri Tarafından Dahil Edilen",
     "transactionItemLabelNotIncludedByTickLeader": "Tick Lideri Tarafından Dagil Edilmeyen",
     "transactionItemLabelTransactionId": "Transfer ID'si",
@@ -386,7 +402,7 @@
     "transactionItemLabelConfirmedDate": "Onaylanma Tarihi",
     "transactionItemLabelDetails": "Transfer Detayları",
     "sendItemLabelTargetTick": "Hedef Tick",
-    "sendItemLabelTargetTickAutomatic": "Automatically: Current + {addingTicks}",
+    "sendItemLabelTargetTickAutomatic": "Otomatik olarak: Mevcut + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
         "placeholders": {
             "addingTicks": {
@@ -426,11 +442,11 @@
     "addAccountHintAddressNoPrivateSeed": "Özel anahtar girilmedi",
     "addAccountHintAddressInvalidPrivateSeed": "Geçersiz özel anahtar girildi",
     "addAccountErrorTamperedWalletTitle": "KUSURLU CÜZDAN TESPİT EDİLDİ",
-    "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nQUBIC-HUB.COM'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
+    "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nHTTPS://GITHUB.COM/QUBIC/WALLET-APP'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
     "sendAssetLabelNumberOfShares": "Hisse Sayısı",
     "sendAssetLabelTransactionCost": "Trasfer Ücreti (sabit)",
     "sendAssetButtonTransfer": "Transfer",
-    "sendAssetErrorTickIsInThePast": "Provided tick is in the past. Current tick is {currentTick}",
+    "sendAssetErrorTickIsInThePast": "Tick geçmiştedir. Mevcut Tick: {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
             "currentTick": {
@@ -475,7 +491,7 @@
     "toggleableQRCodeButtonShow": "QR Kodu Göster",
     "toggleableQRCodeButtonHide": "QR Kodu Sakla",
     "sendItemLabelQRScannerInstructions": "Lütfen kamerayı bir Qubic QR Koduna odaklayın \n(wallet.qubic.org tarafından üretilen QR Kodlar da uyumludur)",
-    "sendItemButtonSetCurrentTick": "Current ({currentTickFormatted})",
+    "sendItemButtonSetCurrentTick": "Mevcut ({currentTickFormatted})",
     "@sendItemButtonSetCurrentTick": {
         "placeholders": {
             "currentTickFormatted": {
@@ -485,7 +501,7 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Adres Seç",
     "sendItemLabelSelectSenderAddressLineTwo": "Cüzdan Hesaplarınızdan",
-    "sendItemLabelCurrentTick": "(Current Tick: {currentTickFormatted})",
+    "sendItemLabelCurrentTick": "(Mevcut Tick: {currentTickFormatted})",
     "@sendItemLabelCurrentTick": {
         "placeholders": {
             "currentTickFormatted": {
@@ -501,7 +517,7 @@
     "exportWalletVaultLabelSelectFilePathInstructions": "Kasa dosyasını kaydetmek için bir konum seçmek üzere cihazınızı gözden geçirin",
     "exportWalletVaultTextFieldHintPassword": "Kasa Dosyası şifresi",
     "exportWalletVaultErrorEmptyPassword": "Lütfen kasa dosyanızın şifresini girin",
-    "exportWalletVaultErrorPasswordMinLength": "Vault password must be at least {minLength} characters long",
+    "exportWalletVaultErrorPasswordMinLength": "Kasa parolası en az {minLength} karakter uzunluğunda olmalıdır",
     "@exportWalletVaultErrorPasswordMinLength": {
         "placeholders": {
             "minLength": {
@@ -512,7 +528,7 @@
     "exportWalletVaultTextFieldHintRepeatPassword": "Kasa dosyası şifresini tekrar girin",
     "exportWalletVaultErrorEmptyRepeatPassword": "Lütfen kasa dosyası şifresini tekrar girin",
     "exportWalletVaultSnackbarSuccessMessage": "Kasa Dosyası başarıyla dışarıya aktarıldı",
-    "exportWalletVaultSnackbarSuccessMessageWithPath": "Vault file successfully exported to {filePath}",
+    "exportWalletVaultSnackbarSuccessMessageWithPath": "Kasa dosyası başarıyla {filePath} konumuna aktarıldı",
     "@exportWalletVaultSnackbarSuccessMessageWithPath": {
         "placeholders": {
             "filePath": {
@@ -526,7 +542,7 @@
     "transfersListLabelReceiveIn": "Kabul Et",
     "transfersListLabelSharePublicIdInstructionsOne": "Lütfen aşağıdaki Halka Açık ID'yi gönderen kişiyle paylaşın:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Veya QR kodu gösterin",
-    "transferAssetHeaderForShares": "Transfer {assetName} shares",
+    "transferAssetHeaderForShares": "{assetName} Hisse Transferi",
     "@transferAssetHeaderForShares": {
         "placeholders": {
             "assetName": {
@@ -534,7 +550,7 @@
             }
         }
     },
-    "transferAssetHeaderForTokens": "Transfer {assetName} tokens",
+    "transferAssetHeaderForTokens": "{assetName} Token Transferi",
     "@transferAssetHeaderForTokens": {
         "placeholders": {
             "assetName": {
@@ -550,7 +566,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "{assetName} shares owned by ID: {formattedAmount}",
+    "transferAssetLabelOwnedShares": "ID'nin {assetName} hisse sahipliği miktarı: {formattedAmount}",
     "@transferAssetLabelOwnedShares": {
         "placeholders": {
             "assetName": {
@@ -561,7 +577,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "{assetName} tokens owned by ID: {formattedAmount}",
+    "transferAssetLabelOwnedTokens": "ID'nin {assetName} token sahipliği miktarı: {formattedAmount}",
     "@transferAssetLabelOwnedTokens": {
         "placeholders": {
             "assetName": {
@@ -572,9 +588,9 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
+    "generalAllTransactionDetails": "ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nDurum: {status}\nOluşturuldu: {created}\nSaklanan: {stored}\nSahnelenen: {staged}\nYayınlanan: {broadcasted}\nOnaylanan: {confirmed}\nDurum Tarihi: {statusUpdate}\nHedef Tick: {targetTick}\nBekliyor: {isPending}\nFiyat: {price} \nMiktar: {quantity}\nPara Akışı: {moneyFlow}",
     "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
+        "description": "This contains the string that will be copied to the clipboard containing all the transaction details",
         "placeholders": {
             "trxId": {
                 "type": "String"
@@ -653,14 +669,9 @@
     "settingsLabelAutlock": "Otomatik Kilitleme Ayarları",
     "importVaultDialogTitleTooManyAccounts": "Çok fazla hesap bulundu",
     "importVaultDialogMessageTooManyAccounts": "Kasa dosyanız 15'ten fazla hesap içeriyor. Tüm hesaplar içe aktarılacaktır, ancak bakiyelerinizi görüntülemek ve fon gönderebilmek için lütfen 15 veya daha az hesap olacak şekilde bazı hesapları silin.",
-    "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Watch only and too many accounts found",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Your vault file contains more than 15 accounts, some of them watch only. As we currently do not support watch only accounts, they will be ignored. All the other ones will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
-    "importVaultDialogTitleWatchAccount": "Yalnızca görüntüleme hesapları bulundu",
-    "importVaultDialogMessageWatchAccount": "Şu anda yalnızca görüntüleme hesaplarını desteklemediğimiz için bunlar görmezden gelinecektir. Diğer tüm hesaplar içe aktarılacaktır.",
     "importVaultErrorNoAccountsFound": "Kasa Dosyanızad herhangi bir hesap bulunamadı. İçe aktarma işlemine devam edilemiyor.",
-    "importVaultErrorOnlyWatchAccountsFound": "Kasa dosyanız yalnızca görüntüleme hesapları içeriyor. Şu anda yalnızca görüntüleme hesaplarını desteklemediğimiz için içe aktarma işlemini gerçekleştiremiyoruz.",
     "importVaultFilePickerLabel": "Lütfen devam etmek için bir Kasa Dosyası seçin:",
-    "importVaultFileErrorGeneralMessage": "Error importing vault file: {errorDescription}",
+    "importVaultFileErrorGeneralMessage": "Kasa dosyası içe aktarılırken hata oluştu: {errorDescription}",
     "@importVaultFileErrorGeneralMessage": {
         "placeholders": {
             "errorDescription": {
@@ -668,7 +679,7 @@
             }
         }
     },
-    "exportWalletVaultErrorGeneralMessage": "Error creating vault file: {errorDescription}",
+    "exportWalletVaultErrorGeneralMessage": "Kasa dosyası oluşturulurken hata oluştu: {errorDescription}",
     "@exportWalletVaultErrorGeneralMessage": {
         "placeholders": {
             "errorDescription": {
@@ -679,7 +690,7 @@
     "importPrivateSeedDefaultAccountName": "Hesap 1",
     "cmdErrorCreatingAssetTransferTransactionGeneric": "Varlık transfer işlemi oluşturulmaya çalışılırken hata oluştu",
     "cmdErrorCreatingAssetTransferTransactionEmpty": "Varlık transfer işlemi oluşturulmaya çalışılırken hata oluştu. Oluşturulan trasnfer boştu",
-    "cmdErrorCreatingAssetTransferTransaction": "Error trying to create asset transfer transaction: {errorDescription}",
+    "cmdErrorCreatingAssetTransferTransaction": "Varlık transferi işlemi oluşturulurken hata oluştu: {errorDescription}",
     "@cmdErrorCreatingAssetTransferTransaction": {
         "placeholders": {
             "errorDescription": {
@@ -689,7 +700,7 @@
     },
     "cmdErrorCreatingTransferTransactionGeneric": "Transfer işlemi oluşturulmaya çalışılırken hata oluştu",
     "cmdErrorCreatingTransferTransactionEmpty": "Transfer işlemi oluşturulmaya çalışılırken hata oluştu. Oluşturulan trasnfer boştu",
-    "cmdErrorCreatingTransferTransaction": "Error trying to create transfer transaction: {errorDescription}",
+    "cmdErrorCreatingTransferTransaction": "Transfer işlemi oluşturulurken hata oluştu: {errorDescription}",
     "@cmdErrorCreatingTransferTransaction": {
         "placeholders": {
             "errorDescription": {
@@ -699,7 +710,7 @@
     },
     "cmdErrorGettingPublicIdFromSeedGeneric": "Özel anahtardan halka açık ID'si alınmaya çalışılırken hata oluştu",
     "cmdErrorGettingPublicIdFromSeedEmpty": "Özel anahtardan halka açık ID'si alınmaya çalışılırken hata oluştu. Oluşturulan halka açık ID boş",
-    "cmdErrorGettingPublicIdFromSeed": "Error trying to get public ID from seed: {errorDescription}",
+    "cmdErrorGettingPublicIdFromSeed": "Özel Anahtardan, Halka Açık ID almaya çalışırken hata oluştu: {errorDescription}",
     "@cmdErrorGettingPublicIdFromSeed": {
         "placeholders": {
             "errorDescription": {
@@ -714,7 +725,7 @@
     "importVaultFileSeedsNullError": "Kasa dosyası hatalı biçimlendirilmiş ve hesap bilgilerini içermiyor",
     "importVaultFileSeedsMalformedError": "Kasa Dosyası hatalı biçimlendirilmiş hesap bilgileri içeriyor",
     "importVaultFileParsedSeedsNullError": "Hesaplar kasa dosyasından ayrıştırılamadı",
-    "importVaultFileAccountMissingName": "Account entry {accountIndex} is missing account name",
+    "importVaultFileAccountMissingName": "Hesap girişi {accountIndex} hesap adı eksik",
     "@importVaultFileAccountMissingName": {
         "placeholders": {
             "accountIndex": {
@@ -722,7 +733,7 @@
             }
         }
     },
-    "importVaultFileAccountMissingPublicId": "Account entry {accountIndex} is missing public ID",
+    "importVaultFileAccountMissingPublicId": "Hesap girişi {accountIndex} Halka Açık ID eksik",
     "@importVaultFileAccountMissingPublicId": {
         "placeholders": {
             "accountIndex": {
@@ -730,7 +741,7 @@
             }
         }
     },
-    "importVaultFileAccountMissingSeed": "Account entry {accountIndex} is missing seed",
+    "importVaultFileAccountMissingSeed": "Hesap girişi {accountIndex} Özel Anahtar eksik",
     "@importVaultFileAccountMissingSeed": {
         "placeholders": {
             "accountIndex": {
@@ -740,5 +751,30 @@
     },
     "generalErrorFileRequired": "Lütfen bir dosya seçin",
     "generalErrorPathRequired": "Lütfen bir yol seçin",
-    "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz."
+    "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz.",
+    "explorerLabelPrice": "Fiyat",
+    "explorerLabelMarketCap": "Piyasa Değeri",
+    "settingsLabelWalletConnect": "Cüzdan Bağlantısı",
+    "addAccountErrorVerifyIdentityWrongIdentity": "Geçersiz yanlızca izleme adresi. Lütfen girilen adresi kontrol edin.",
+    "addAccountErrorVerifyIdentityError": "Adres doğrulanamadı.",
+    "addAccountWatchOnlyPageTitle": "Yalnızca İzleme Hesabı Ekle",
+    "addAccountWatchOnlySubtitle": "İzlemek için herkese açık bir Qubic adresi ekleyin. Herhangi bir işlem gönderme veya alma izniniz yok.",
+    "addAccountWatchOnlyQubicAddressTooltip": "Halka Açık ID 60 büyük harften oluşmalıdır.",
+    "addAccountWatchOnlyHintQubicAddress": "Bir Qubic Adresi Girin",
+    "addAccountCreateNewAccountModalBottomSheet": "Yeni Hesap Oluştur",
+    "addAccountWatchOnlyAddressModalBottomSheet": "Sadece İzle Hesabı",
+    "deleteAccountDialogMessageWatchOnly": "Bu yalnızca saat hesabını cüzdanınızdan silmek istediğinizden emin misiniz?",
+    "cmdErrorVerifyIdentityJsonDecoding": "Kimlik doğrulama çıktısının kodunu çözerken hata oluştu",
+    "cmdErrorVerifyIdentityParsingError": "Kimlik doğrulama çıktısını ayrıştırma hatası",
+    "cmdErrorVerifyingIdentityGeneric": "Kimliğin doğrulanmasında hata oluştu.",
+    "cmdErrorVerifyingIdentity": "Kimliğiniz doğrulanamıyor: {errorDescription}",
+    "@cmdErrorVerifyingIdentity": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "accountExplorerLabelNoResultsFound": "Bu dönemde bu kimlik için işlem yok",
+    "accountExplorerLabelLatestTransactions": "Son İşlemler"
 }
