@@ -150,41 +150,41 @@ class QubicLi {
   }
 
   /// Submits a transcation (with amount transfer) to the Qubic network
-  Future<String> submitTransaction(String transaction) async {
-    appStore.incrementPendingRequests();
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({
-        'Authorization': 'bearer ${_authenticationToken!}',
-        'Content-Type': 'application/json'
-      });
-      response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_Transaction),
-          body: json.encode({'SignedTransaction': transaction}),
-          headers: headers);
-      appStore.decreasePendingRequests();
-    } catch (e) {
-      appStore.decreasePendingRequests();
-      throw Exception('Failed to contact server for submitting transaction.');
-    }
-    if (kDebugMode) {
-      print(response.body);
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception(
-          'Failed to submit transaction. Could not parse response.');
-    }
-    return parsedJson['id'];
-  }
+  // Future<String> submitTransaction(String transaction) async {
+  //   appStore.incrementPendingRequests();
+  //   late http.Response response;
+  //   try {
+  //     var headers = QubicLi.getHeaders();
+  //     headers.addAll({
+  //       'Authorization': 'bearer ${_authenticationToken!}',
+  //       'Content-Type': 'application/json'
+  //     });
+  //     response = await client.post(
+  //         Uri.https(Config.walletDomain, Config.URL_Transaction),
+  //         body: json.encode({'SignedTransaction': transaction}),
+  //         headers: headers);
+  //     appStore.decreasePendingRequests();
+  //   } catch (e) {
+  //     appStore.decreasePendingRequests();
+  //     throw Exception('Failed to contact server for submitting transaction.');
+  //   }
+  //   if (kDebugMode) {
+  //     print(response.body);
+  //   }
+  //   try {
+  //     _assert200Response(response.statusCode);
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  //   late dynamic parsedJson;
+  //   try {
+  //     parsedJson = jsonDecode(response.body);
+  //   } catch (e) {
+  //     throw Exception(
+  //         'Failed to submit transaction. Could not parse response.');
+  //   }
+  //   return parsedJson['id'];
+  // }
 
   // /// Gets current tick form the Qubic network
   // Future<int> getCurrentTick() async {

@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_hub.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -35,6 +36,7 @@ void setupDI() {
 
   getIt.registerSingleton<QubicStatsApi>(QubicStatsApi());
   getIt.registerSingleton<QubicArchiveApi>(QubicArchiveApi());
+  getIt.registerSingleton<QubicLiveApi>(QubicLiveApi());
 
   //Services
   getIt.registerSingleton<QubicHubService>(QubicHubService());

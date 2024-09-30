@@ -29,6 +29,9 @@ abstract class Config {
   static const statsDomain = "https://rpc.qubic.org";
   static const latestStatsUrl = "/v1/latest-stats";
 
+  static const liveDomain = "https://rpc.qubic.org";
+  static const submitTransaction = "/v1/broadcast-transaction";
+
   static const authUser = "guest@qubic.li";
   static const authPass = "guest13@Qubic.li";
 
