@@ -7,16 +7,16 @@ PODS:
     - FlutterMacOS
   - flutter_inappwebview_macos (0.0.1):
     - FlutterMacOS
-    - OrderedSet (~> 5.0)
+    - OrderedSet (~> 6.0.3)
   - flutter_secure_storage_macos (6.1.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
   - local_auth_darwin (0.0.1):
     - Flutter
     - FlutterMacOS
-  - mobile_scanner (5.1.1):
+  - mobile_scanner (5.2.3):
     - FlutterMacOS
-  - OrderedSet (5.0.0)
+  - OrderedSet (6.0.3)
   - package_info_plus (0.0.1):
     - FlutterMacOS
   - path_provider_foundation (0.0.1):
@@ -89,12 +89,12 @@ SPEC CHECKSUMS:
   Argon2Swift: 295b8bde7ba61434f227f5610b8813c42e866f74
   dargon2_flutter_desktop: 5c9ada7e2681da7dc95052e4fcc1e61ad17e27e1
   downloadsfolder: f8c4d35588cc58b607898ebbbdbeb5c0e7f04a46
-  flutter_inappwebview_macos: 9600c9df9fdb346aaa8933812009f8d94304203d
+  flutter_inappwebview_macos: bdf207b8f4ebd58e86ae06cd96b147de99a67c9b
   flutter_secure_storage_macos: 59459653abe1adb92abbc8ea747d79f8d19866c9
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   local_auth_darwin: 66e40372f1c29f383a314c738c7446e2f7fdadc3
-  mobile_scanner: 1efac1e53c294b24e3bb55bcc7f4deee0233a86b
-  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
+  mobile_scanner: 0a05256215b047af27b9495db3b77640055e8824
+  OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
