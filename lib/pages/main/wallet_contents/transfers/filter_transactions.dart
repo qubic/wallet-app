@@ -394,7 +394,6 @@ class _FilterTransactionsState extends State<FilterTransactions> {
     if (!_formKey.currentState!.isValid) {
       return;
     }
-    print(selectedDirection);
     //Prevent duplicates
     appStore.setTransactionFilters(
         selectedQubicId, selectedStatus, selectedDirection);
