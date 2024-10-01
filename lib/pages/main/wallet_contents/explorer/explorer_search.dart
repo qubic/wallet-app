@@ -183,6 +183,7 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                           height: 23,
                           width: 24,
                           child: CircularProgressIndicator(
+                              strokeWidth: 2,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                   Theme.of(context).colorScheme.onPrimary)))
                       : Text(l10n.generalButtonSearch,
