@@ -1,5 +1,7 @@
 import 'package:mobx/mobx.dart';
+import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/stores/application_store.dart';
 
 enum TransactionDirection { incoming, outgoing }
 
@@ -57,6 +59,8 @@ class TransactionFilter {
   });
 
   bool matchesVM(TransactionVm filtered) {
+    final appstore = getIt<ApplicationStore>();
+
     if (amountFrom != null) {
       if (filtered.amount < amountFrom!) {
         return false;
@@ -104,6 +108,18 @@ class TransactionFilter {
         }
       }
       if ((filtered.destId != qubicId) && (filtered.sourceId != qubicId)) {
+        return false;
+      }
+    }
+    // If no qubic publicId was specified, compare it to all user publicIds
+    if (qubicId == null) {
+      if (direction == TransactionDirection.incoming &&
+          !appstore.currentQubicIDs.any((e) => filtered.destId == e.publicId)) {
+        return false;
+      }
+      if (direction == TransactionDirection.outgoing &&
+          !appstore.currentQubicIDs
+              .any((e) => filtered.sourceId == e.publicId)) {
         return false;
       }
     }
