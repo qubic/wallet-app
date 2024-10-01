@@ -151,7 +151,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                       : [
                           Text(
                             l10n.generalLabelAnyDirection,
-                            style: TextStyles.textNormal,
+                            style: TextStyles.secondaryTextNormal,
                           )
                         ]),
             );
@@ -352,12 +352,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                         children: [
                           getAccountsDropdown(),
                           const SizedBox(height: ThemePaddings.normalPadding),
-                          selectedQubicId != null
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: ThemePaddings.hugePadding),
-                                  child: getDirectionDropdown())
-                              : Container(),
+                          getDirectionDropdown(),
                           const SizedBox(height: ThemePaddings.normalPadding),
                           getStatusDropdown(),
                         ],
@@ -399,7 +394,6 @@ class _FilterTransactionsState extends State<FilterTransactions> {
     if (!_formKey.currentState!.isValid) {
       return;
     }
-
     //Prevent duplicates
     appStore.setTransactionFilters(
         selectedQubicId, selectedStatus, selectedDirection);

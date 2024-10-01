@@ -16,6 +16,8 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:blur/blur.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {
   DArgon2Flutter.init(); //Initialize DArgon 2
@@ -52,11 +54,19 @@ class WalletApp extends StatefulWidget {
 
 class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
   final QubicCmd qubicCmd = getIt<QubicCmd>();
+  bool _isInBackground = false;
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
+    if (state == AppLifecycleState.inactive) {
+      setState(() {
+        _isInBackground = true;
+      });
+    } else if (state == AppLifecycleState.resumed) {
       qubicCmd.reinitialize();
+      setState(() {
+        _isInBackground = false;
+      });
     }
   }
 
@@ -91,9 +101,9 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
       themeMode: ThemeMode.dark,
 
       /// Theme config for FlexColorScheme version 7.3.x. Make sure you use
-// same or higher package version, but still same major version. If you
-// use a lower package version, some properties may not be supported.
-// In that case remove them after copying this theme to your app.
+      // same or higher package version, but still same major version. If you
+      // use a lower package version, some properties may not be supported.
+      // In that case remove them after copying this theme to your app.
       theme: FlexThemeData.dark(
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.dark,
@@ -118,6 +128,24 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
         blendLevel: 2,
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
       ),
+      builder: (context, child) {
+        return Stack(
+          children: [
+            child ?? const SizedBox.shrink(),
+            if (_isInBackground && UniversalPlatform.isMobile)
+              Positioned.fill(
+                child: Blur(
+                  blur: 21.0,
+                  colorOpacity: 0.5,
+                  blurColor: Colors.black,
+                  child: Container(
+                    color: Colors.black.withOpacity(0.2),
+                  ),
+                ),
+              ),
+          ],
+        );
+      },
       // darkTheme: FlexThemeData.dark(
       //   colorScheme: ColorScheme.fromSeed(
       //     brightness: Brightness.light,
@@ -145,9 +173,9 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
 
       //   // To use the Playground font, add GoogleFonts package and uncomment
       // ),
-// If you do not have a themeMode switch, uncomment this line
-// to let the device system mode control the theme mode:
-// themeMode: ThemeMode.system,
+      // If you do not have a themeMode switch, uncomment this line
+      // to let the device system mode control the theme mode:
+      // themeMode: ThemeMode.system,
     );
   }
 }
