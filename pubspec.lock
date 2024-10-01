@@ -81,6 +81,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
+  blur:
+    dependency: "direct main"
+    description:
+      name: blur
+      sha256: c17450404bceea429100e0838d19bbfaa6ad1f3053e7bac78a0264bbd60cfe01
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -266,7 +274,7 @@ packages:
     source: hosted
     version: "3.2.0"
   dargon2_flutter_mobile:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: dargon2_flutter_mobile
       sha256: "22b1b5229371c229cb55ca214262c6cb2189d40f7ef4ab87c1bea75bc2c582bf"
@@ -1165,14 +1173,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.5.1"
-  privacy_screen:
-    dependency: "direct main"
-    description:
-      name: privacy_screen
-      sha256: b80297d2726d96e8a8341149e81a415302755f02d3af7c05c820d9e191bbfbee
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.6"
   provider:
     dependency: transitive
     description:
@@ -1582,10 +1582,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: f652077d0bdf60abe4c1f6377448e8655008eef28f128bc023f7b5e8dfeb48fc
+      sha256: "5c5f338a667b4c644744b661f309fb8080bb94b18a7e91ef1dbd343bed00ed6d"
       url: "https://pub.dev"
     source: hosted
-    version: "14.2.4"
+    version: "14.2.5"
   watcher:
     dependency: transitive
     description:
