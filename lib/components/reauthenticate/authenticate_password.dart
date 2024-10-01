@@ -82,7 +82,9 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (firstRun) {
-      handleBiometricsAuth();
+      if (settingsStore.settings.biometricEnabled && !widget.passOnly) {
+        handleBiometricsAuth();
+      }
       firstRun = false;
     }
   }
@@ -225,8 +227,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                   width: 21,
                   child: CircularProgressIndicator(
                       strokeWidth: 2,
-                      color:
-                          Theme.of(context).colorScheme.inversePrimary));
+                      color: Theme.of(context).colorScheme.inversePrimary));
             } else {
               return Text(l10n.authenticateButtonAuthenticate,
                   style: TextStyles.primaryButtonText);

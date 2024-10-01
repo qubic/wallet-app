@@ -32,7 +32,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final TimedController _timedController = getIt<TimedController>();
 
-  final double sliverExpanded = 185;
+  final double sliverExpanded = 195;
 
   double _sliverShowPercent = 1;
   final bool showTickOnTop = false;
