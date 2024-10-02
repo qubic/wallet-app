@@ -1,6 +1,9 @@
+import 'dart:async';
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AppError {
   final String message;
@@ -11,8 +14,18 @@ class AppError {
   AppError(this.message, this.type, {this.statusCode, this.code});
 
   @override
-  String toString() =>
-      'AppError(message: $message, type: $type, statusCode: $statusCode, code: $code)';
+  String toString() {
+    String errorMessage = message;
+
+    if (statusCode != null) {
+      errorMessage += ', ${l10nWrapper.l10n!.generalStatusCode}: $statusCode';
+    }
+    if (code != null) {
+      errorMessage += ', ${l10nWrapper.l10n!.generalCode}: $code';
+    }
+
+    return errorMessage;
+  }
 
   /// This consructor is used when the error comes from server (bad response).
   ///
@@ -21,10 +34,14 @@ class AppError {
   factory AppError.serverErrorParse(DioException error) {
     log(error.response?.data?.toString() ?? "NULL",
         name: "AppError.serverErrorParse");
-    final serverMessage = error.response?.data['message'] ?? "Not Defined";
+    final serverMessage = error.response?.data['message'] ??
+        l10nWrapper.l10n!.generalErrorUnexpectedError;
     final code = error.response?.data['code'];
-    return AppError("Server error: $serverMessage", ErrorType.server,
-        statusCode: error.response?.statusCode, code: code);
+    return AppError(
+        "${l10nWrapper.l10n!.generalErrorServerError}: $serverMessage",
+        ErrorType.server,
+        statusCode: error.response?.statusCode,
+        code: code);
   }
 }
 
@@ -40,24 +57,43 @@ class ErrorHandler {
   static AppError handleError(Object? error) {
     log(error.toString());
     log(error.runtimeType.toString(), name: "Error type");
-    if (error.runtimeType == DioException) {
-      switch ((error as DioException).type) {
-        case DioExceptionType.connectionTimeout:
-        case DioExceptionType.sendTimeout:
-        case DioExceptionType.receiveTimeout:
-          return AppError('Connection Timeout', ErrorType.network);
-        case DioExceptionType.badResponse:
-          return AppError.serverErrorParse(error);
-        case DioExceptionType.cancel:
-          return AppError('Request Cancelled', ErrorType.network);
-        case DioExceptionType.unknown:
-        default:
-          return AppError('Unexpected Error', ErrorType.unknown);
-      }
-    } else if (error is TypeError) {
-      return AppError('Could not parse response, $error', ErrorType.format);
-    } else {
-      return AppError(error.toString(), ErrorType.unknown);
+    switch (error) {
+      case DioException dioError:
+        switch (dioError.type) {
+          case DioExceptionType.connectionTimeout:
+          case DioExceptionType.sendTimeout:
+          case DioExceptionType.receiveTimeout:
+            return AppError(l10nWrapper.l10n!.generalErrorConnectionTimeout,
+                ErrorType.network);
+          case DioExceptionType.connectionError:
+            return AppError(l10nWrapper.l10n!.generalErrorNoInternetConnection,
+                ErrorType.network);
+          case DioExceptionType.badResponse:
+            return AppError.serverErrorParse(dioError);
+          case DioExceptionType.cancel:
+            return AppError(l10nWrapper.l10n!.generalErrorRequestCancelled,
+                ErrorType.network);
+          case DioExceptionType.unknown:
+          default:
+            return AppError(l10nWrapper.l10n!.generalErrorUnexpectedError,
+                ErrorType.unknown);
+        }
+
+      case TypeError _:
+        return AppError(
+            '${l10nWrapper.l10n!.generalErrorCouldntParseResponse}, $error',
+            ErrorType.format);
+
+      case SocketException _:
+        return AppError(l10nWrapper.l10n!.generalErrorNoInternetConnection,
+            ErrorType.network);
+
+      case TimeoutException _:
+        return AppError(
+            l10nWrapper.l10n!.generalErrorConnectionTimeout, ErrorType.network);
+
+      default:
+        return AppError(error.toString(), ErrorType.unknown);
     }
   }
 }
