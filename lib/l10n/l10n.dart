@@ -16,7 +16,9 @@ AppLocalizations l10nOf(BuildContext context) {
 
 class L10nWrapper {
   AppLocalizations? l10n;
-  L10nWrapper();
+  void setL10n(AppLocalizations l10) {
+    l10n = l10;
+  }
 }
 
 final l10nWrapper = L10nWrapper();
