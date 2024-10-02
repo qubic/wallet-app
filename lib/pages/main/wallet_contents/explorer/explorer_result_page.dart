@@ -104,16 +104,6 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
           error = err is AppError ? err.message : err.toString();
         });
       }
-
-      // qubicLi.getExplorerTickInfo(tick!).then((value) {
-      //   setState(() {
-      //     tickInfo = value;
-      //     isLoading = false;
-      //   });
-      // },
-      //     onError: (err) => setState(() {
-      //           error = err.toString().replaceAll("Exception: ", "");
-      //         }));
     } else if (resultType == ExplorerResultType.publicId) {
       //PUBLIC ID
       qubicLi.getExplorerIdInfo(qubicId!).then((value) {
