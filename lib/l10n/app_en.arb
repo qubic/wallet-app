@@ -193,7 +193,7 @@
     "explorerTickResultLabelDataStatus": "Data Status",
     "explorerTickResultLabelInfoCompleted": "Completed",
     "explorerTickResultLabelInfoNotValidated": "Not Validated",
-    "explorerTickResultLabelTickLeader": "Tick Leader - (Short Code / Index)",
+    "explorerTickResultLabelTickLeader": "Tick Leader",
     "explorerTickResultLabelNoTransactionsFound": "No transactions in this tick",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
     "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}}",

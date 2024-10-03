@@ -185,7 +185,7 @@
     "explorerTickResultLabelDataStatus": "数据状态",
     "explorerTickResultLabelInfoCompleted": "完成",
     "explorerTickResultLabelInfoNotValidated": "未验证",
-    "explorerTickResultLabelTickLeader": "刻度验证者 - (Short Code / Index)",
+    "explorerTickResultLabelTickLeader": "刻度验证者",
     "explorerTickResultLabelNoTransactionsFound": "此刻度中无交易",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 笔交易在此刻度} other{{count} 笔交易在此刻度}}",
     "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{正在显示 1 of 1 笔交易在此刻度} other{正在显示 1 of {count} 笔交易在此刻度}}}",
