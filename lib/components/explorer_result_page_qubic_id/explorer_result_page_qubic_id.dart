@@ -1,7 +1,10 @@
+import 'package:downloadsfolder/downloadsfolder.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/explorer_result_page_qubic_id/explorer_result_page_qubic_id_header.dart';
+import 'package:qubic_wallet/components/explorer_results/explorer_result_page_transaction_item.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -13,7 +16,7 @@ class ExplorerResultPageQubicId extends StatelessWidget {
   });
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
   final ExplorerIdInfoDto idInfo;
-  //TODO Show latest transfers ExplorerResultPageTransactionItem for a Public ID here
+  //TODO Show latest transfers  ExplorerResultPageTransactionItem(transaction:transaction,isFocused:false,showTick: true) for a Public ID here
   Widget listTransactions() {
     return SliverList.builder(
       itemCount: 0,
