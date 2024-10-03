@@ -117,29 +117,6 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                       ]),
                     ],
                   )),
-              Flexible(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(l10n.explorerTickResultLabelDataStatus,
-                          style: panelHeaderStyle),
-                      Row(children: [
-                        tickInfo.completed
-                            ? const Icon(Icons.check,
-                                color: LightThemeColors.successIncoming)
-                            : const Icon(Icons.hourglass_empty,
-                                color: LightThemeColors.error),
-                        Text(
-                          " ${tickInfo.completed ? l10n.explorerTickResultLabelInfoCompleted : l10n.explorerTickResultLabelInfoNotValidated}",
-                          style: tickInfo.completed
-                              ? panelHeaderValue
-                              : panelHeaderValue.copyWith(
-                                  color: LightThemeColors.error),
-                        )
-                      ]),
-                    ],
-                  )),
             ]),
             ThemedControls.spacerVerticalNormal(),
             Text(
