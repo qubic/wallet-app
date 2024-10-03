@@ -57,8 +57,6 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
   String? error = "An error";
   @override
   void initState() {
-    super.initState();
-
     focusedTransactionHash = widget.focusedTransactionHash;
 
     tick = widget.tick;
@@ -66,6 +64,7 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
     resultType = widget.resultType;
     validateNonMissingQueryData();
     getInfo();
+    super.initState();
   }
 
   // Validates that query data is not missing for this widget
@@ -87,7 +86,8 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
       error = null;
     });
 
-    if (resultType == ExplorerResultType.tick) {
+    if (resultType == ExplorerResultType.tick ||
+        resultType == ExplorerResultType.transaction) {
       try {
         final futures = await Future.wait([
           qubicArchiveApi.getExplorerTick(tick!),
@@ -105,21 +105,9 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
         });
       }
     } else if (resultType == ExplorerResultType.publicId) {
-      //PUBLIC ID
       qubicLi.getExplorerIdInfo(qubicId!).then((value) {
         setState(() {
           idInfo = value;
-          isLoading = false;
-        });
-      },
-          onError: (err) => setState(() {
-                error = err.toString().replaceAll("Exception: ", "");
-              }));
-    } else if (resultType == ExplorerResultType.transaction) {
-      qubicLi.getExplorerTickInfo(tick!).then((value) {
-        explorerStore.setExplorerTickInfo(value);
-        setState(() {
-          //  tickInfo = value;
           isLoading = false;
         });
       },

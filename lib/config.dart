@@ -24,6 +24,7 @@ abstract class Config {
   static tickData(int tick) => "/v1/ticks/$tick/tick-data";
   static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
   static computors(int epoch) => "/v1/epochs/$epoch/computors";
+  static transaction(String transaction) => "/v2/transactions/$transaction";
 
   static const statsDomain = "https://rpc.qubic.org";
   static const latestStatsUrl = "/v1/latest-stats";

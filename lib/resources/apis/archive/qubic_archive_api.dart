@@ -52,4 +52,17 @@ class QubicArchiveApi {
       _explorerStore.decreasePendingRequests();
     }
   }
+
+  Future<ExplorerTransactionDto> getTransaction(String transaction) async {
+    try {
+      _explorerStore.incrementPendingRequests();
+      final response =
+          await _dio.get('$_baseUrl${Config.transaction(transaction)}');
+      return ExplorerTransactionDto.fromJson(response.data);
+    } catch (error) {
+      throw ErrorHandler.handleError(error);
+    } finally {
+      _explorerStore.decreasePendingRequests();
+    }
+  }
 }
