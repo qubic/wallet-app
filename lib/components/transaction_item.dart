@@ -17,6 +17,7 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 // ignore: depend_on_referenced_packages
@@ -43,7 +44,7 @@ class TransactionItem extends StatelessWidget {
   final _timedController = getIt<TimedController>();
   final _globalSnackBar = getIt<GlobalSnackBar>();
   final QubicLi _apiService = getIt<QubicLi>();
-  final _archiveApi = getIt<QubicArchiveApi>();
+  final _liveApi = getIt<QubicLiveApi>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   Future<void> showResendDialog(BuildContext context) async {
@@ -74,7 +75,7 @@ class TransactionItem extends StatelessWidget {
                 }
 
                 // get fresh latet tick
-                int latestTick = (await _archiveApi.getCurrentTick()).tick;
+                int latestTick = (await _liveApi.getCurrentTick()).tick;
                 int targetTick = latestTick + defaultTargetTickType.value;
 
                 bool success = await sendTransactionDialog(context,
