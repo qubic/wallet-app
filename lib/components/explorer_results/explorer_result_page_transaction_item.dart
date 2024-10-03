@@ -108,18 +108,6 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
               ])),
           CopyButton(copiedText: transaction.transaction.txId.toString()),
         ]),
-        // ThemedControls.spacerVerticalSmall(),
-        // Flex(direction: Axis.horizontal, children: [
-        //   Expanded(
-        //       child: Column(
-        //           crossAxisAlignment: CrossAxisAlignment.start,
-        //           children: [
-        //         Text(l10n.transactionItemLabelTransactionDigest,
-        //             style: itemHeaderType(context)),
-        //         Text(transaction.transaction..toString()),
-        //       ])),
-        //   CopyButton(copiedText: transaction.transaction.destId.toString()),
-        // ]),
         ThemedControls.spacerVerticalSmall(),
         Flex(direction: Axis.horizontal, children: [
           Expanded(
