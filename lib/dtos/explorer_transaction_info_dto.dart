@@ -93,7 +93,8 @@ class ExplorerTransactionDto {
     if (!executed) {
       return ComputedTransactionStatus.failure;
     }
-    if (executed && moneyFlew) {
+    if (executed &&
+        (int.tryParse(transaction.amount ?? "0") == 0 || moneyFlew)) {
       return ComputedTransactionStatus.success;
     }
     if (executed && !moneyFlew) {
