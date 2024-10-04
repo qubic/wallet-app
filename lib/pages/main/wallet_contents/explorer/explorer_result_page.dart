@@ -104,7 +104,9 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
           error = err is AppError ? err.message : err.toString();
         });
       }
-    } else if (resultType == ExplorerResultType.publicId) {
+    }
+    // TODO Migrate this to get Id info and Id latest transactions
+    else if (resultType == ExplorerResultType.publicId) {
       qubicLi.getExplorerIdInfo(qubicId!).then((value) {
         setState(() {
           idInfo = value;
