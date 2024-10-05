@@ -14,6 +14,7 @@ import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -39,6 +40,7 @@ class _SendState extends State<Send> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi apiService = getIt<QubicLi>();
+  final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   String? transferError;
@@ -589,6 +591,12 @@ class _SendState extends State<Send> {
 
     _formKey.currentState?.validate();
     if (!_formKey.currentState!.isValid) {
+      return;
+    }
+
+    if (await qubicCmd.verifyIdentity(destinationID.text) == false) {
+      _globalSnackBar
+          .showError(l10n.accountSendSectionInvalidDestinationAddress);
       return;
     }
 
