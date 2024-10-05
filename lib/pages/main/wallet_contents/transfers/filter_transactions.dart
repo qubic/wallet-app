@@ -253,6 +253,11 @@ class _FilterTransactionsState extends State<FilterTransactions> {
             value: e.publicId,
             child: Column(children: [
               IdListItemSelect(item: e, showAmount: false),
+              if (e.publicId != appStore.currentQubicIDs.last.publicId)
+                const Divider(
+                  color: LightThemeColors.primary,
+                  height: ThemePaddings.hugePadding,
+                )
             ])))
         .toList());
 
