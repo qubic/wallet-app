@@ -788,6 +788,8 @@
     "wcAppInfoHeaderPairForbidden": "This app will not be able to",
 
     "wcErrorUserDisconnected": "User forcefully disconnected",
+    "wcErrorInvalidURL" :"Invalid WalletConnect connection URL",
+
     "wcRevokePermissions": "Revoke permissions",
     "wcDappsConnectedNone":"Your wallet is not connected to any dApps",
     "wcDappsConnectedFollowing":"Your wallet is connected with the following dApps",
@@ -815,5 +817,4 @@
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",
     "pleaseWait": "Please wait"
-    
 }

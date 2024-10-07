@@ -162,26 +162,27 @@ class CustomFormFieldValidators {
       }
 
       if (valueCandidate is String && valueCandidate.length != 187) {
-        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+        ;
+        return l10n.wcErrorInvalidURL;
       }
 
       if (valueCandidate is String &&
           valueCandidate.startsWith("wc:") != true) {
-        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+        return l10n.wcErrorInvalidURL;
       }
 
       if (valueCandidate is String &&
           valueCandidate.contains("expiryTimestamp=") == false) {
-        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+        return l10n.wcErrorInvalidURL;
       }
 
       if (valueCandidate is String &&
           valueCandidate.contains("symKey=") == false) {
-        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+        return l10n.wcErrorInvalidURL;
       }
 
       if (valueCandidate is String && valueCandidate.contains("@") == false) {
-        return "Invalid WalletConnect connection URL"; //TODO ADD WALLETCONNECT ERROR VALIDATION
+        return l10n.wcErrorInvalidURL;
       }
 
       return null;
