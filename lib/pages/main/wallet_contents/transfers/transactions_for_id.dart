@@ -219,6 +219,20 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                                         qubicId: widget.publicQubicId);
                                   });
                                 }));
+                          } else {
+                            results.insert(
+                                0,
+                                getTransactionFiltersInfo(context,
+                                    numberOfFilters:
+                                        transactionFilter!.totalActiveFilters -
+                                            1,
+                                    numberOfResults: results.length ~/ 2,
+                                    onTap: () {
+                                  setState(() {
+                                    transactionFilter = TransactionFilter(
+                                        qubicId: widget.publicQubicId);
+                                  });
+                                }));
                           }
                           return Column(
                               mainAxisAlignment: MainAxisAlignment.start,
