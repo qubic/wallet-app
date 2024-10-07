@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -80,15 +81,15 @@ class _PairState extends State<Pair> {
     List<Widget> methods = [];
 
     for (var string in widget.pairingMethods) {
-      if ((string == "wallet_requestAccounts")) {
+      if ((string == WcMethods.wRequestAccounts)) {
         methods.add(getMethod(l10n.wcScopeRequestAccounts));
         methods.add(ThemedControls.spacerVerticalMini());
       }
-      if (string == "sendQubic") {
+      if (string == WcMethods.wSendQubic) {
         methods.add(getMethod(l10n.wcScopeSendQubic));
         methods.add(ThemedControls.spacerVerticalMini());
       }
-      if (string == "sendAsset") {
+      if (string == WcMethods.wSendAsset) {
         methods.add(getMethod(l10n.wcScopeSendAssets));
         methods.add(ThemedControls.spacerVerticalMini());
       }
