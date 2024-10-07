@@ -93,16 +93,6 @@ class WalletConnectService {
 
     if (web3Wallet!.pairings.get(sessionPairingTopic) != null) return true;
 
-    if (web3Wallet!
-        .getCompletedRequestsForPairing(pairingTopic: sessionPairingTopic)
-        .isNotEmpty) return true;
-
-    if (web3Wallet!
-        .getPendingSessionProposals()
-        .values
-        .where((e) => e.pairingTopic == sessionPairingTopic)
-        .isNotEmpty) return true;
-
     return false;
   }
 

@@ -37,6 +37,9 @@ class Pair extends StatefulWidget {
 class _PairState extends State<Pair> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
+
+  bool isLoading = false;
+  String? wcError;
   bool hasAccepted = false;
 
   late final StreamSubscription<SessionProposalEvent?> listener;
@@ -57,6 +60,17 @@ class _PairState extends State<Pair> {
   void dispose() {
     listener.cancel();
     super.dispose();
+  }
+
+  Widget getErrors() {
+    if (wcError != null) {
+      return Column(children: [
+        ThemedControls.errorLabel(wcError ?? "-"),
+        ThemedControls.spacerVerticalNormal(),
+      ]);
+    } else {
+      return Container();
+    }
   }
 
   // Gets the text for WC method available from connection
@@ -116,14 +130,41 @@ class _PairState extends State<Pair> {
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
               onPressed: () {
-                Navigator.of(context).pop(true);
+                handleProceed();
               },
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: Text(l10n.generalButtonProceed,
-                      textAlign: TextAlign.center,
-                      style: TextStyles.primaryButtonText))))
+                  child: isLoading
+                      ? SizedBox(
+                          height: 23,
+                          width: 23,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary),
+                        )
+                      : Text(l10n.generalButtonProceed,
+                          textAlign: TextAlign.center,
+                          style: TextStyles.primaryButtonText))))
     ];
+  }
+
+  void handleProceed() async {
+    try {
+      setState(() {
+        isLoading = true;
+      });
+      await wcService.web3Wallet!.approveSession(
+          id: widget.pairingId, namespaces: widget.pairingNamespaces!);
+      if (mounted) {
+        Navigator.of(context).pop(true);
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+        wcError = e.toString();
+      });
+    }
   }
 
   Widget getScrollView() {
@@ -171,6 +212,7 @@ class _PairState extends State<Pair> {
                   style: TextStyles.walletConnectDappUrl),
               //--------- End of header
               ThemedControls.spacerVerticalBig(),
+              getErrors(),
               //--------- Permissions
               ThemedControls.card(
                   child: Column(

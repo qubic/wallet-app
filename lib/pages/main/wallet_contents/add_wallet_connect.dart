@@ -43,7 +43,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   bool isLoading = false;
   bool foundSuccess = false; //True if QR code scanner worked correctly
   bool isConnecting = false;
-
+  Timer? pairingTimer;
   StreamSubscription<SessionProposalEvent?>? sessionProposalSubscription;
   StreamSubscription<SessionProposalErrorEvent?>?
       sessionProposalErrorSubscription;
@@ -68,31 +68,37 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
             setState(() {
               wcError = l10n.wcErrorUnsupportedChains;
               isLoading = false;
+              if (pairingTimer != null) pairingTimer!.cancel();
             });
           } else if (args.error.code == 5101) {
             setState(() {
               wcError = l10n.wcErrorUnsupportedMethods;
               isLoading = false;
+              if (pairingTimer != null) pairingTimer!.cancel();
             });
           } else if (args.error.code == 5102) {
             setState(() {
               wcError = l10n.wcErrorUnsupportedEvents;
               isLoading = false;
+              if (pairingTimer != null) pairingTimer!.cancel();
             });
           } else if (args.error.code == 5103) {
             setState(() {
               wcError = l10n.wcErrorUnsupportedAccounts;
               isLoading = false;
+              if (pairingTimer != null) pairingTimer!.cancel();
             });
           } else if (args.error.code == 5104) {
             setState(() {
               wcError = l10n.wcErrorUnsupportedNamespaces;
               isLoading = false;
+              if (pairingTimer != null) pairingTimer!.cancel();
             });
           } else {
             setState(() {
               wcError = args.error.message;
               isLoading = false;
+              if (pairingTimer != null) pairingTimer!.cancel();
             });
           }
         }
@@ -114,7 +120,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           wcPairingNamespaces = args.params.generatedNamespaces;
           //}
         }
-
+        if (pairingTimer != null) pairingTimer!.cancel();
         bool? userhasConfirmed =
             await Navigator.of(context).push(MaterialPageRoute<bool>(
                 builder: (BuildContext context) {
@@ -131,23 +137,16 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
         if (userhasConfirmed != null && userhasConfirmed) {
           //Accepted
           try {
-            setState(() {
-              isConnecting = true;
-            });
-            await walletConnectService.web3Wallet!.approveSession(
-                id: wcPairingId!, namespaces: wcPairingNamespaces!);
-
-            Timer(const Duration(seconds: 1), () {
-              if (context.mounted) {
-                Navigator.of(context).pop();
-              }
+            if (mounted) {
+              Navigator.of(context).pop();
               final l10n = l10nOf(context);
               _globalSnackBar.show(l10n.wcConnectionApproved);
-            });
+            }
           } catch (e) {
             setState(() {
               isConnecting = false;
               isLoading = false;
+              if (pairingTimer != null) pairingTimer!.cancel();
               wcError = e.toString();
             });
           }
@@ -155,6 +154,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           //Rejected
           setState(() {
             isLoading = false;
+            if (pairingTimer != null) pairingTimer!.cancel();
             isConnecting = false;
           });
           await walletConnectService.web3Wallet!.rejectSession(
@@ -170,6 +170,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           // false : expired
           setState(() {
             isLoading = false;
+            if (pairingTimer != null) pairingTimer!.cancel();
             isConnecting = false;
           });
 
@@ -421,31 +422,35 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
 
       if (walletConnectService
           .sessionPairingTopicAlreadyExists(pairResult.topic)) {
-        if (mounted) {
-          final l10n = l10nOf(context);
+        final l10n = l10nOf(context);
+        pairingTimer = Timer(const Duration(seconds: 10), () {
+          if (mounted) {
+            setState(() {
+              wcError = l10n.wcErrorUsedURL;
+              isLoading = false;
+            });
+          } else {
+            setState(() {
+              wcError = "-";
+              isLoading = false;
+            });
+          }
+        });
 
-          setState(() {
-            wcError = l10n.wcErrorUsedURL;
-            isLoading = false;
-          });
-        } else {
-          setState(() {
-            wcError = "-";
-            isLoading = false;
-          });
-          return;
-        }
+        return;
       }
     } catch (e) {
       if (e is WalletConnectError) {
         setState(() {
           wcError = e.message;
           isLoading = false;
+          if (pairingTimer != null) pairingTimer!.cancel();
         });
       } else {
         setState(() {
           wcError = e.toString();
           isLoading = false;
+          if (pairingTimer != null) pairingTimer!.cancel();
         });
       }
     }
