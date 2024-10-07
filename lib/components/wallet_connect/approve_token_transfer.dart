@@ -8,6 +8,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -93,8 +94,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
 
                 //Get current tick
                 var transactionTick = appStore.currentTick;
-                transactionTick = transactionTick +
-                    5; //TODO Change this when global setting is stored
+                transactionTick = transactionTick + defaultTargetTickType.value;
 
                 //Send the transaction to backend
                 bool result = false;
