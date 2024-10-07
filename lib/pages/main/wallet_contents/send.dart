@@ -372,6 +372,8 @@ class _SendState extends State<Send> {
                                     errorText: l10n.generalErrorRequiredField),
                                 CustomFormFieldValidators.isPublicID(
                                     context: context),
+                                verifyPublicId(l10n
+                                    .accountSendSectionInvalidDestinationAddress),
                               ]),
                               maxLines: 2,
                               style: TextStyles.inputBoxSmallStyle,
@@ -595,8 +597,10 @@ class _SendState extends State<Send> {
     }
 
     if (await qubicCmd.verifyIdentity(destinationID.text) == false) {
-      _globalSnackBar
-          .showError(l10n.accountSendSectionInvalidDestinationAddress);
+      setState(() {
+        validPublicId = false;
+      });
+      _formKey.currentState?.validate();
       return;
     }
 
@@ -646,8 +650,14 @@ class _SendState extends State<Send> {
   TextEditingController tickController = TextEditingController();
 
   bool isLoading = false;
+  bool validPublicId = true;
+  FormFieldValidator verifyPublicId(String message) {
+    return (val) => !validPublicId ? message : null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    validPublicId = true;
     return PopScope(
         canPop: !isLoading,
         child: Scaffold(

@@ -345,6 +345,7 @@ class _TransferAssetState extends State<TransferAsset> {
         FormBuilderValidators.required(
             errorText: l10n.generalErrorRequiredField),
         CustomFormFieldValidators.isPublicID(context: context),
+        verifyPublicId(l10n.accountSendSectionInvalidDestinationAddress),
       ]),
       maxLines: 2,
       style: TextStyles.inputBoxSmallStyle,
@@ -642,14 +643,16 @@ class _TransferAssetState extends State<TransferAsset> {
       return;
     }
 
-    bool authenticated = await reAuthDialog(context);
-    if (!authenticated) {
+    if (await qubicCmd.verifyIdentity(destinationID.text) == false) {
+      setState(() {
+        validPublicId = false;
+      });
+      _formKey.currentState?.validate();
       return;
     }
 
-    if (await qubicCmd.verifyIdentity(destinationID.text) == false) {
-      _globalSnackBar
-          .showError(l10n.accountSendSectionInvalidDestinationAddress);
+    bool authenticated = await reAuthDialog(context);
+    if (!authenticated) {
       return;
     }
 
@@ -702,8 +705,14 @@ class _TransferAssetState extends State<TransferAsset> {
   TextEditingController tickController = TextEditingController();
 
   bool isLoading = false;
+  bool validPublicId = true;
+  FormFieldValidator verifyPublicId(String message) {
+    return (val) => !validPublicId ? message : null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    validPublicId = true;
     return PopScope(
         canPop: !isLoading,
         child: Scaffold(
