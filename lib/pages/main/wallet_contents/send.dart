@@ -16,6 +16,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -42,6 +43,7 @@ class _SendState extends State<Send> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi apiService = getIt<QubicLi>();
   final _liveApi = getIt<QubicLiveApi>();
+  final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   String? transferError;
@@ -373,6 +375,8 @@ class _SendState extends State<Send> {
                                     errorText: l10n.generalErrorRequiredField),
                                 CustomFormFieldValidators.isPublicID(
                                     context: context),
+                                verifyPublicId(l10n
+                                    .accountSendSectionInvalidDestinationAddress),
                               ]),
                               maxLines: 2,
                               style: TextStyles.inputBoxSmallStyle,
@@ -595,6 +599,14 @@ class _SendState extends State<Send> {
       return;
     }
 
+    if (await qubicCmd.verifyIdentity(destinationID.text) == false) {
+      setState(() {
+        validPublicId = false;
+      });
+      _formKey.currentState?.validate();
+      return;
+    }
+
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
       return;
@@ -641,8 +653,14 @@ class _SendState extends State<Send> {
   TextEditingController tickController = TextEditingController();
 
   bool isLoading = false;
+  bool validPublicId = true;
+  FormFieldValidator verifyPublicId(String message) {
+    return (val) => !validPublicId ? message : null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    validPublicId = true;
     return PopScope(
         canPop: !isLoading,
         child: Scaffold(

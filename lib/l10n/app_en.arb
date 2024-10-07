@@ -279,6 +279,7 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Advanced Options",
+    "accountSendSectionInvalidDestinationAddress": "Invalid destination address",
     "assetsLabelOwned": "Owned",
     "assetsLabelPossessed": "Possessed",
     "assetsLabelContractName": "Contract Name",
