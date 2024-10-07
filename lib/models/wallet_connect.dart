@@ -8,6 +8,13 @@ abstract class WcMethods {
 
   /// Send assets from an account to a destination address
   static const wSendAsset = "sendAsset";
+
+  /// Sign a transaction 
+  static const wSignTransaction = "signTransaction";
+
+  /// Sign a transaction 
+  static const wSignGeneric = "signGeneric";
+
 }
 
 abstract class WcEvents {

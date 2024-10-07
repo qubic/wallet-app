@@ -7,6 +7,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/qubic_hub_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -89,13 +90,13 @@ class _AboutWalletState extends State<WalletConnect> {
     sessionData.requiredNamespaces?[Config.walletConnectChainId]!.methods
         // ignore: avoid_function_literals_in_foreach_calls
         .forEach((string) {
-      if ((string == "wallet_requestAccounts")) {
+      if ((string == WcMethods.wRequestAccounts)) {
         methods.add(l10n.wcScopeRequestAccounts);
       }
-      if (string == "sendQubic") {
+      if (string == WcMethods.wSendQubic) {
         methods.add(l10n.wcScopeSendQubic);
       }
-      if (string == "sendAsset") {
+      if (string == WcMethods.wSendAsset) {
         methods.add(l10n.wcScopeSendAssets);
       }
     });
