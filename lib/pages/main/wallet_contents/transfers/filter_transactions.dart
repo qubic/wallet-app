@@ -255,9 +255,13 @@ class _FilterTransactionsState extends State<FilterTransactions> {
           Row(children: [
             Text(
               l10n.filterTransfersLabelAnyQubicID,
-              style: TextStyles.textNormal,
+              style: TextStyles.accountName,
             ),
           ]),
+          const Divider(
+            color: LightThemeColors.primary,
+            height: ThemePaddings.hugePadding,
+          )
         ])));
     selectableItems.addAll(appStore.currentQubicIDs
         .map((e) => DropdownMenuItem<String?>(
