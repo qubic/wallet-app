@@ -93,7 +93,8 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
 
                 //Get current tick
                 var transactionTick = appStore.currentTick;
-                transactionTick = transactionTick + 20;
+                transactionTick = transactionTick +
+                    5; //TODO Change this when global setting is stored
 
                 //Send the transaction to backend
                 bool result = false;

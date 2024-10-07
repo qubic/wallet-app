@@ -789,7 +789,12 @@
 
     "wcErrorUserDisconnected": "User forcefully disconnected",
     "wcErrorInvalidURL" :"Invalid WalletConnect connection URL",
-
+    "wcErrorUnsupportedChains": "Pair request contains unsupported chains",
+    "wcErrorUnsupportedMethods": "Pair request contains unsupported methods",
+    "wcErrorUnsupportedEvents": "Pair request contains unsupported events",
+    "wcErrorUnsupportedAccounts": "Pair request contains unsupported accounts",
+    "wcErrorUnsupportedNamespaces": "Pair request contains unsupported namespaces",
+    "wcErrorUsedURL": "A connection has already been established via this URL",
     "wcRevokePermissions": "Revoke permissions",
     "wcDappsConnectedNone":"Your wallet is not connected to any dApps",
     "wcDappsConnectedFollowing":"Your wallet is connected with the following dApps",

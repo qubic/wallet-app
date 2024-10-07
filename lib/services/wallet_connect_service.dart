@@ -84,6 +84,28 @@ class WalletConnectService {
     return true;
   }
 
+  bool sessionPairingTopicAlreadyExists(String sessionPairingTopic) {
+    if (web3Wallet!
+        .getActiveSessions()
+        .values
+        .where((e) => e.pairingTopic == sessionPairingTopic)
+        .isNotEmpty) return true;
+
+    if (web3Wallet!.pairings.get(sessionPairingTopic) != null) return true;
+
+    if (web3Wallet!
+        .getCompletedRequestsForPairing(pairingTopic: sessionPairingTopic)
+        .isNotEmpty) return true;
+
+    if (web3Wallet!
+        .getPendingSessionProposals()
+        .values
+        .where((e) => e.pairingTopic == sessionPairingTopic)
+        .isNotEmpty) return true;
+
+    return false;
+  }
+
   //Trigger of events to be received in a dapp
 
   //Triggers an amountChanged event for all the wallet connect clients who have subscribed to it
@@ -223,6 +245,8 @@ class WalletConnectService {
       onSessionConnect.add(args);
     });
 
+    web3Wallet!.pairings.getAll().forEach((element) {});
+
     web3Wallet!.onSessionDelete.subscribe((SessionDelete? args) {
       onSessionDisconnect.add(args);
     });
@@ -357,7 +381,11 @@ class WalletConnectService {
 
   /// Pairs WC with a URL
   Future<PairingInfo> pair(Uri uri) async {
-    pairingInfo = await web3Wallet!.pair(uri: uri);
-    return pairingInfo!;
+    try {
+      pairingInfo = await web3Wallet!.pair(uri: uri);
+      return pairingInfo!;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

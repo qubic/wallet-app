@@ -58,33 +58,35 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   void initState() {
     super.initState();
     walletConnectService.initialize().then((value) {
+      final l10n = l10nOf(context);
+
       sessionProposalErrorSubscription = walletConnectService
           .onSessionProposalError.stream
           .listen((SessionProposalErrorEvent? args) {
         if (args != null) {
           if (args.error.code == 5100) {
             setState(() {
-              wcError = "Pair request contains unsupported chains"; //TODO i10n
+              wcError = l10n.wcErrorUnsupportedChains;
               isLoading = false;
             });
           } else if (args.error.code == 5101) {
             setState(() {
-              wcError = "Pair request contains unsupported methods";
+              wcError = l10n.wcErrorUnsupportedMethods;
               isLoading = false;
             });
           } else if (args.error.code == 5102) {
             setState(() {
-              wcError = "Pair request contains unsupported events";
+              wcError = l10n.wcErrorUnsupportedEvents;
               isLoading = false;
             });
           } else if (args.error.code == 5103) {
             setState(() {
-              wcError = "Pair request contains unsupported accounts";
+              wcError = l10n.wcErrorUnsupportedAccounts;
               isLoading = false;
             });
           } else if (args.error.code == 5104) {
             setState(() {
-              wcError = "Pair request contains unsupported namespace";
+              wcError = l10n.wcErrorUnsupportedNamespaces;
               isLoading = false;
             });
           } else {
@@ -185,6 +187,9 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   void dispose() {
     if (sessionProposalSubscription != null) {
       sessionProposalSubscription!.cancel();
+    }
+    if (sessionProposalErrorSubscription != null) {
+      sessionProposalErrorSubscription!.cancel();
     }
 
     super.dispose();
@@ -411,7 +416,26 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
       await walletConnectService.web3Wallet!.core.relayClient.connect();
     }
     try {
-      await walletConnectService.pair(Uri.parse(wcText.text));
+      PairingInfo pairResult =
+          await walletConnectService.pair(Uri.parse(wcText.text));
+
+      if (walletConnectService
+          .sessionPairingTopicAlreadyExists(pairResult.topic)) {
+        if (mounted) {
+          final l10n = l10nOf(context);
+
+          setState(() {
+            wcError = l10n.wcErrorUsedURL;
+            isLoading = false;
+          });
+        } else {
+          setState(() {
+            wcError = "-";
+            isLoading = false;
+          });
+          return;
+        }
+      }
     } catch (e) {
       if (e is WalletConnectError) {
         setState(() {
