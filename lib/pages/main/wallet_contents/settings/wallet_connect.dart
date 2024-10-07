@@ -125,7 +125,7 @@ class _AboutWalletState extends State<WalletConnect> {
           Text(
               sessionData.peer.metadata.url.isEmpty
                   ? l10n.wcUnknownDapp
-                  : sessionData.peer.metadata.name,
+                  : sessionData.peer.metadata.url,
               style: TextStyles.walletConnectDappUrl),
           ThemedControls.spacerVerticalNormal(),
           Text(l10n.wcAppInfoHeader,

@@ -113,33 +113,44 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         return;
       }
 
-      WCDialogOpen = true;
-      ApproveTokenTransferResult? result =
-          await showDialog<ApproveTokenTransferResult?>(
-              context: context,
-              builder: (context) {
-                return ApproveTokenTransfer(
-                    pairingMetadata: event.pairingMetadata!,
-                    nonce: event.nonce,
-                    fromID: event.fromID,
-                    fromName: event.fromIDName,
-                    amount: event.amount,
-                    toID: event.toID);
-              });
-      //Notify WC on the result
-      if ((result == null)) {
-        walletConnectService.emitErrorSessionEvent(
-            event.topic, "user rejected", event.nonce);
-      } else if (result.success == false) {
-        walletConnectService.emitErrorSessionEvent(
-            event.topic, "user could not authorize transaction", event.nonce);
-      } else {
-        dynamic responseInfo = {};
-        responseInfo['tick'] = result.tick;
-        walletConnectService.emitSuccessSessionEvent(event.topic, event.nonce,
-            params: responseInfo);
+      if (mounted) {
+        WCDialogOpen = true;
+
+//  bool? hasAuthenticated =
+//       await Navigator.of(context).push(MaterialPageRoute<bool>(
+//           builder: (BuildContext context) {
+//             return const Reauthenticate();
+//           },
+//           fullscreenDialog: true));
+
+        var result = await Navigator.of(context)
+            .push(MaterialPageRoute<ApproveTokenTransferResult?>(
+                builder: (BuildContext context) {
+                  return ApproveTokenTransfer(
+                      pairingMetadata: event.pairingMetadata!,
+                      nonce: event.nonce,
+                      fromID: event.fromID,
+                      fromName: event.fromIDName,
+                      amount: event.amount,
+                      toID: event.toID);
+                },
+                fullscreenDialog: true));
+
+        //Notify WC on the result
+        if ((result == null)) {
+          walletConnectService.emitErrorSessionEvent(
+              event.topic, "user rejected", event.nonce);
+        } else if (result.success == false) {
+          walletConnectService.emitErrorSessionEvent(
+              event.topic, "user could not authorize transaction", event.nonce);
+        } else {
+          dynamic responseInfo = {};
+          responseInfo['tick'] = result.tick;
+          walletConnectService.emitSuccessSessionEvent(event.topic, event.nonce,
+              params: responseInfo);
+        }
+        WCDialogOpen = false;
       }
-      WCDialogOpen = false;
     });
 
     if (settingsStore.settings != null &&

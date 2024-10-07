@@ -44,6 +44,9 @@ class WalletConnectService {
   StreamController<SessionProposalEvent?> onProposalExpire =
       StreamController<SessionProposalEvent?>.broadcast();
 
+  StreamController<SessionProposalErrorEvent?> onSessionProposalError =
+      StreamController<SessionProposalErrorEvent?>.broadcast();
+
   StreamController<RequestAccountsEvent> onRequestAccounts =
       StreamController<RequestAccountsEvent>.broadcast();
 
@@ -234,6 +237,11 @@ class WalletConnectService {
 
     web3Wallet!.onSessionProposal.subscribe((SessionProposalEvent? args) {
       onSessionProposal.add(args);
+    });
+
+    web3Wallet!.onSessionProposalError
+        .subscribe((SessionProposalErrorEvent? args) {
+      onSessionProposalError.add(args);
     });
 
     web3Wallet!.onProposalExpire.subscribe((SessionProposalEvent? args) {

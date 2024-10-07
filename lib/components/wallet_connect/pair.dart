@@ -46,7 +46,9 @@ class _PairState extends State<Pair> {
 
     listener = wcService.onProposalExpire.stream.listen((event) {
       if (event!.id == widget.pairingId) {
-        Navigator.of(context).pop(false);
+        if (mounted) {
+          Navigator.of(context).pop(false);
+        }
       }
     });
   }

@@ -4,17 +4,16 @@ abstract class WcMethods {
   static const wRequestAccounts = "wallet_requestAccounts";
 
   /// Send qubic from an account to a destination address
-  static const wSendQubic = "sendQubic";
+  static const wSendQubic = "qubic_sendQubic";
 
   /// Send assets from an account to a destination address
-  static const wSendAsset = "sendAsset";
+  static const wSendAsset = "qubic_sendAsset";
 
-  /// Sign a transaction 
-  static const wSignTransaction = "signTransaction";
+  /// Sign a transaction
+  static const wSignTransaction = "qubic_signTransaction";
 
-  /// Sign a transaction 
-  static const wSignGeneric = "signGeneric";
-
+  /// Sign a transaction
+  static const wSignGeneric = "qubic_signGeneric";
 }
 
 abstract class WcEvents {

@@ -801,13 +801,6 @@
             "date": { "type" : "String"}
         }
     },
-    "wcSendSenderAddress": "Sender address {addressPlaceholder}",
-    "@wcSendSenderAddress": {
-        "placeholders" : { 
-            "addressPlaceholder": { "type":"String"}
-        }
-    },
-    "wcSendRecipientAddress": "Recipient address",
     "wcConnectionApproved": "WalletConnect connection approved",
     "wcConnectionRejected": "WalletConnect connection rejected",
     "wcConnectionProposalTimeout": "WalletConnect session proposal timed out",

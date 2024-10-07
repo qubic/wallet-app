@@ -45,6 +45,8 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   bool isConnecting = false;
 
   StreamSubscription<SessionProposalEvent?>? sessionProposalSubscription;
+  StreamSubscription<SessionProposalErrorEvent?>?
+      sessionProposalErrorSubscription;
 
   int? wcPairingId;
   PairingMetadata? wcPairingMetadata;
@@ -56,6 +58,44 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   void initState() {
     super.initState();
     walletConnectService.initialize().then((value) {
+      sessionProposalErrorSubscription = walletConnectService
+          .onSessionProposalError.stream
+          .listen((SessionProposalErrorEvent? args) {
+        if (args != null) {
+          if (args.error.code == 5100) {
+            setState(() {
+              wcError = "Pair request contains unsupported chains"; //TODO i10n
+              isLoading = false;
+            });
+          } else if (args.error.code == 5101) {
+            setState(() {
+              wcError = "Pair request contains unsupported methods";
+              isLoading = false;
+            });
+          } else if (args.error.code == 5102) {
+            setState(() {
+              wcError = "Pair request contains unsupported events";
+              isLoading = false;
+            });
+          } else if (args.error.code == 5103) {
+            setState(() {
+              wcError = "Pair request contains unsupported accounts";
+              isLoading = false;
+            });
+          } else if (args.error.code == 5104) {
+            setState(() {
+              wcError = "Pair request contains unsupported namespace";
+              isLoading = false;
+            });
+          } else {
+            setState(() {
+              wcError = args.error.message;
+              isLoading = false;
+            });
+          }
+        }
+      });
+
       sessionProposalSubscription = walletConnectService
           .onSessionProposal.stream
           .listen((SessionProposalEvent? args) async {

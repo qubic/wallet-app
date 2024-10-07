@@ -42,10 +42,17 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
   bool hasAccepted = false;
-
+  String? toIdName;
   @override
   void initState() {
     super.initState();
+
+    var item = appStore.currentQubicIDs.where((e) => e.publicId == widget.toID);
+    if (item.isNotEmpty) {
+      setState(() {
+        toIdName = item.first.name;
+      });
+    }
   }
 
   @override
@@ -86,8 +93,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
 
                 //Get current tick
                 var transactionTick = appStore.currentTick;
-                transactionTick =
-                    transactionTick + 20; //TODO CHANGE WITH GLOBAL TICK OFFSET
+                transactionTick = transactionTick + 20;
 
                 //Send the transaction to backend
                 bool result = false;
@@ -185,18 +191,23 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                     ]),
                     ThemedControls.spacerVerticalBig(),
                     Text(
-                      l10n.wcSendSenderAddress((widget.fromName != null
-                          ? " (${widget.fromName})"
-                          : "")),
+                      l10n.generalLabelToFromAccount(
+                          l10n.generalLabelFrom, widget.fromName ?? "-"),
                       style: TextStyles.lightGreyTextSmall,
                     ),
                     ThemedControls.spacerVerticalMini(),
                     Text(widget.fromID ?? "-", style: TextStyles.textNormal),
                     ThemedControls.spacerVerticalSmall(),
-                    Text(
-                      l10n.wcSendRecipientAddress,
-                      style: TextStyles.lightGreyTextSmall,
-                    ),
+                    toIdName != null
+                        ? Text(
+                            l10n.generalLabelToFromAccount(
+                                l10n.generalLabelTo, toIdName!),
+                            style: TextStyles.lightGreyTextSmall,
+                          )
+                        : Text(
+                            l10n.generalLabelToFromAddress(l10n.generalLabelTo),
+                            style: TextStyles.lightGreyTextSmall,
+                          ),
                     ThemedControls.spacerVerticalMini(),
                     Text(widget.toID ?? "-", style: TextStyles.textNormal)
                   ]))
