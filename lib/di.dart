@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_hub.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -34,7 +35,11 @@ void setupDI() {
 
   //Services
   getIt.registerSingleton<QubicHubService>(QubicHubService());
+
+  //WalletConnect
   getIt.registerSingleton<WalletConnectService>(WalletConnectService());
+  getIt.registerSingleton<WalletConnectModalsController>(
+      WalletConnectModalsController());
 
   getIt.registerSingleton<TimedController>(TimedController());
   getIt.registerSingleton<BiometricService>(BiometricService());

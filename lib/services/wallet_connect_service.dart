@@ -4,7 +4,7 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
-import 'package:qubic_wallet/models/wallet_connect/helpers.dart';
+import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_accounts_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -19,6 +19,10 @@ class WalletConnectService {
   PairingInfo? pairingInfo;
 
   Web3Wallet? web3Wallet;
+
+  //A callback that is called when a request to send qubic is received
+  Future<ApproveTokenTransferResult> Function(RequestSendQubicEvent event)?
+      sendQubicHandler;
 
   /// Event that is triggered when a session is connected
   StreamController<SessionConnect?> onSessionConnect =
@@ -44,18 +48,16 @@ class WalletConnectService {
   StreamController<SessionProposalEvent?> onProposalExpire =
       StreamController<SessionProposalEvent?>.broadcast();
 
+  /// Event that is triggered when a session proposal event has an error
   StreamController<SessionProposalErrorEvent?> onSessionProposalError =
       StreamController<SessionProposalErrorEvent?>.broadcast();
 
-  StreamController<RequestAccountsEvent> onRequestAccounts =
-      StreamController<RequestAccountsEvent>.broadcast();
+  /// Sets the handler for the requestSendQubic event
+  void setRequestSendQubicHandler(
+      {required ApproveTokenTransferResult Function(RequestSendQubicEvent event)
+          handler}) {}
 
-  //Event that is triggered whan a request to send qubic is received
-  StreamController<RequestSendQubicEvent> onRequestSendQubic =
-      StreamController<RequestSendQubicEvent>.broadcast();
-
-  StreamController<void> onRequestSendToken =
-      StreamController<SessionConnect?>.broadcast();
+  WalletConnectService();
 
   void disconnect() {
     web3Wallet!
@@ -191,27 +193,6 @@ class WalletConnectService {
     }));
   }
 
-  //tickChanged
-  void triggerTickChangedEvent() {
-    if (!shouldTriggerEvent()) {
-      return;
-    }
-  }
-
-  // Triggers a method result event for a specific topic (and with a specific nonce)
-  void triggerMethodResultEvent(String topic, String? nonce, dynamic result) {
-    if (!shouldTriggerEvent()) {
-      return;
-    }
-    web3Wallet!.emitSessionEvent(
-        topic: topic,
-        chainId: Config.walletConnectChainId,
-        event: SessionEventParams(
-            name: WcEvents.methodResult,
-            data: getSessionEventParamsResult(
-                params: result, nonce: nonce, error: null)));
-  }
-
   initialize() async {
     if (web3Wallet != null) {
       return;
@@ -234,8 +215,6 @@ class WalletConnectService {
     web3Wallet!.onSessionConnect.subscribe((args) {
       onSessionConnect.add(args);
     });
-
-    web3Wallet!.pairings.getAll().forEach((element) {});
 
     web3Wallet!.onSessionDelete.subscribe((SessionDelete? args) {
       onSessionDisconnect.add(args);
@@ -277,15 +256,13 @@ class WalletConnectService {
         event: WcEvents.tokenAmountChanged);
     web3Wallet!.registerEventEmitter(
         chainId: Config.walletConnectChainId, event: WcEvents.accountsChanged);
-    web3Wallet!.registerEventEmitter(
-        chainId: Config.walletConnectChainId, event: WcEvents.methodResult);
 
     // -------------------------------------------------------- METHODS --------------------------------------------------------
     // requestAccounts (responds automatically to clients)
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wRequestAccounts,
-        handler: (topic, args) {
+        handler: (topic, args) async {
           List<dynamic> data = [];
           appStore.currentQubicIDs.forEach(((id) {
             if (id.watchOnly == false) {
@@ -296,34 +273,38 @@ class WalletConnectService {
               data.add(item);
             }
           }));
-          web3Wallet!.emitSessionEvent(
-              topic: topic,
-              chainId: Config.walletConnectChainId,
-              event: SessionEventParams(
-                  name: WcEvents.accountsChanged, data: data));
+          return data;
         });
 
-    // sendQubic emits an onRequestSendQubic event if the request is valid
+    // sendQubic uses the sendQubicHandler callback if the request is valid
     // otherwise returns a validation error
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSendQubic,
-        handler: (topic, args) {
-          late RequestSendQubicEvent result;
-          try {
-            result = RequestSendQubicEvent.fromMap(
-                args, topic, args["nonce"].toString());
-            result.validateOrThrow();
+        handler: (topic, args) async {
+          final sessionRequest = web3Wallet!.pendingRequests.getAll().first;
+          late RequestSendQubicEvent event;
 
-            //Enhance the result with the pairing metadata
+          if (sendQubicHandler == null) {
+            throw ArgumentError("sendQubicHandler is not set");
+          }
+          try {
+            event =
+                RequestSendQubicEvent.fromMap(args, topic, sessionRequest.id);
+            event.validateOrThrow();
+
             if (web3Wallet!.getActiveSessions().containsKey(topic)) {
-              result.setPairingMetadata(
+              event.setPairingMetadata(
                   web3Wallet!.getActiveSessions()[topic]!.peer.metadata);
-              onRequestSendQubic.add(result);
+            } else {
+              throw "Session not found";
             }
+            return await sendQubicHandler!(event);
           } catch (e) {
-            emitErrorSessionEvent(
-                topic, e.toString(), args["nonce"].toString());
+            if (e is JsonRpcError) {
+              rethrow;
+            }
+            throw JsonRpcError(code: -2, message: e.toString());
           }
         });
 
@@ -335,7 +316,7 @@ class WalletConnectService {
     // -------------------------------------------------------- END OF METHODS ---------------------------------------------------------
     web3Wallet!.registerAccount(
         accountAddress:
-            "000000000000000000000000000000000000000000000000000000000000",
+            "000000000000000000000000000000000000000000000000000000000000", //Hardcoded in order to use wallet_ methods
         chainId: Config.walletConnectChainId);
 
     appStore.currentQubicIDs.forEach(((id) {
@@ -345,29 +326,6 @@ class WalletConnectService {
       }
     }));
   }
-
-  /// Emits an error event to a specific topic
-  emitErrorSessionEvent(String topic, String error, String? nonce) {
-    web3Wallet!.emitSessionEvent(
-        topic: topic,
-        chainId: Config.walletConnectChainId,
-        event: SessionEventParams(
-            name: WcEvents.methodResult,
-            data: getSessionEventParamsResult(
-                params: {}, nonce: nonce, error: error)));
-  }
-
-  emitSuccessSessionEvent(String topic, String? nonce,
-      {dynamic params = const {}}) {
-    web3Wallet!.emitSessionEvent(
-        topic: topic,
-        chainId: Config.walletConnectChainId,
-        event: SessionEventParams(
-            name: WcEvents.methodResult,
-            data: getSessionEventParamsResult(params: params, nonce: nonce)));
-  }
-
-  WalletConnectService();
 
   /// Pairs WC with a URL
   Future<PairingInfo> pair(Uri uri) async {

@@ -11,6 +11,7 @@ import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
+import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -42,8 +43,10 @@ class ApproveTokenTransfer extends StatefulWidget {
 class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
+  final QubicLi _apiService = getIt<QubicLi>();
   bool hasAccepted = false;
   String? toIdName;
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -91,35 +94,44 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                     return;
                   }
                 }
-
+                setState(() {
+                  isLoading = true;
+                });
                 //Get current tick
-                var transactionTick = appStore.currentTick;
-                transactionTick = transactionTick + defaultTargetTickType.value;
+                int latestTick = await _apiService.getCurrentTick();
+                int targetTick = latestTick + defaultTargetTickType.value;
 
                 //Send the transaction to backend
                 bool result = false;
                 if (mounted) {
                   result = await sendTransactionDialog(context, widget.fromID!,
-                      widget.toID!, widget.amount, transactionTick);
+                      widget.toID!, widget.amount, targetTick);
                   if (result) {
+                    setState(() {
+                      isLoading = true;
+                    });
                     //If the transaction was successful
+
                     if (mounted) {
                       Navigator.of(context).pop(ApproveTokenTransferResult(
                           //Return the success and tick
-                          success: result,
-                          tick: transactionTick));
+
+                          tick: targetTick));
                       getIt.get<PersistentTabController>().jumpToTab(1);
                       getIt<GlobalSnackBar>().show(
                           l10nOf(context) //Show snackbar
                               .generalSnackBarMessageTransactionSubmitted(
-                                  transactionTick.toString()));
+                                  targetTick.toString()));
                     }
                   } else {
                     //Else, transaction failed
+                    setState(() {
+                      isLoading = false;
+                    });
                     if (mounted) {
                       Navigator.of(context).pop(ApproveTokenTransferResult(
                           //Return the success and tick
-                          success: result,
+
                           tick: null));
                       getIt.get<PersistentTabController>().jumpToTab(1);
                       getIt<GlobalSnackBar>()
@@ -131,9 +143,18 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
               },
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: Text(l10n.generalButtonProceed,
-                      textAlign: TextAlign.center,
-                      style: TextStyles.primaryButtonText))))
+                  child: isLoading
+                      ? SizedBox(
+                          height: 23,
+                          width: 23,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color:
+                                  Theme.of(context).colorScheme.inversePrimary),
+                        )
+                      : Text(l10n.generalButtonProceed,
+                          textAlign: TextAlign.center,
+                          style: TextStyles.primaryButtonText))))
     ];
   }
 
@@ -220,7 +241,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: true,
+        canPop: !isLoading,
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,

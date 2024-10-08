@@ -11,7 +11,6 @@ class RequestSendQubicEvent extends RequestEvent {
   final String fromID; //From which publicID should the funds flow
   final String toID; //To which publicID should the funds flow
   final int amount; //The amount of funds to send
-  final String? nonce; //A nonce to send the request
 
   late final String fromIDName; //The name of the fromID
   late final PairingMetadata?
@@ -38,16 +37,22 @@ class RequestSendQubicEvent extends RequestEvent {
     this.pairingMetadata = pairingMetadata;
   }
 
-  RequestSendQubicEvent(
-      {required super.topic,
-      required this.fromID,
-      required this.toID,
-      required this.amount,
-      required this.nonce});
+  //Gets only the data stored here (in a dynamic format)
+  dynamic getData() {
+    return {fromID: fromID, toID: toID, amount: amount};
+  }
+
+  RequestSendQubicEvent({
+    required super.topic,
+    required super.requestId,
+    required this.fromID,
+    required this.toID,
+    required this.amount,
+  });
 
   //Creates a RequestSendQubicEvent from a map validating data types
   factory RequestSendQubicEvent.fromMap(
-      Map<String, dynamic> map, String topic, String? nonce) {
+      Map<String, dynamic> map, String topic, int requestId) {
     var validFromID = FormBuilderValidators.compose([
       FormBuilderValidators.required(errorText: "fromID is required"),
       CustomFormFieldValidators.isPublicIDNoContext(
@@ -77,11 +82,12 @@ class RequestSendQubicEvent extends RequestEvent {
     }
 
     return RequestSendQubicEvent(
-        topic: topic.toString(),
-        fromID: map["fromID"],
-        toID: map["toID"],
-        amount: int.parse(map["amount"]),
-        nonce: nonce);
+      topic: topic.toString(),
+      requestId: requestId,
+      fromID: map["fromID"],
+      toID: map["toID"],
+      amount: int.parse(map["amount"]),
+    );
   }
 
   get isPublicIDNoContext => null;

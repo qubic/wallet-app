@@ -1,3 +1,5 @@
+import 'dart:async';
+
 /// WalletConnect Methods
 abstract class WcMethods {
   /// Get the client to request a list of all accounts in wallet
@@ -25,7 +27,9 @@ abstract class WcEvents {
 
   /// The amount of qubics in an account has changed
   static const amountChanged = "amountChanged";
+}
 
-  /// A generic result of method invocation
-  static const methodResult = "methodResult";
+abstract class WcErrors {
+  static const qwGeneralError = -1;
+  static const qwUserUnavailable = -1;
 }

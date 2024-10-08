@@ -2,5 +2,5 @@
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 
 class RequestAccountsEvent extends RequestEvent {
-  RequestAccountsEvent({required super.topic});
+  RequestAccountsEvent({required super.topic, required super.requestId});
 }

@@ -85,7 +85,9 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (firstRun) {
-      handleBiometricsAuth();
+      if (settingsStore.settings.biometricEnabled && !widget.passOnly) {
+        handleBiometricsAuth();
+      }
       firstRun = false;
     }
   }

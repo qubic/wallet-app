@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -8,11 +7,10 @@ import 'package:go_router/go_router.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/change_foreground.dart';
-import 'package:qubic_wallet/components/wallet_connect/approve_token_transfer.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/pages/main/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/tab_settings.dart';
@@ -52,10 +50,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   late AnimatedSnackBar? errorBar;
   late AnimatedSnackBar? notificationBar;
 
+  final WalletConnectModalsController wcModalsController =
+      getIt<WalletConnectModalsController>();
+
   Timer? _autoLockTimer;
   Timer? _backgroundTimer;
 
-  bool WCDialogOpen = false; //Wallet Connect Dialog Open
+  bool wCDialogOpen = false; //Wallet Connect Dialog Open
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -92,111 +93,24 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     }
   }
 
+  /// Sets up events and modal handling for WalletConnect
+  void _setupWalletConnect() {
+    if (settingsStore.settings.walletConnectEnabled) {
+      walletConnectService.initialize();
+    }
+    //Modal for sending qubic
+    walletConnectService.sendQubicHandler = (event) async {
+      return await wcModalsController.handleSendQubic(event, context);
+    };
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    if (settingsStore.settings != null &&
-        settingsStore.settings.walletConnectEnabled) {
-      walletConnectService.initialize();
-    }
+    _setupWalletConnect();
 
-    //Wallet Connect Modals
-
-    //Modal for sending qubic
-    walletConnectService.onRequestSendQubic.stream.listen((event) async {
-      //Do not allow multiple modals
-      if (WCDialogOpen) {
-        walletConnectService.emitErrorSessionEvent(
-            event.topic, "user unavailable", event.nonce);
-        return;
-      }
-
-      if (mounted) {
-        WCDialogOpen = true;
-
-//  bool? hasAuthenticated =
-//       await Navigator.of(context).push(MaterialPageRoute<bool>(
-//           builder: (BuildContext context) {
-//             return const Reauthenticate();
-//           },
-//           fullscreenDialog: true));
-
-        var result = await Navigator.of(context)
-            .push(MaterialPageRoute<ApproveTokenTransferResult?>(
-                builder: (BuildContext context) {
-                  return ApproveTokenTransfer(
-                      pairingMetadata: event.pairingMetadata!,
-                      nonce: event.nonce,
-                      fromID: event.fromID,
-                      fromName: event.fromIDName,
-                      amount: event.amount,
-                      toID: event.toID);
-                },
-                fullscreenDialog: true));
-
-        //Notify WC on the result
-        if ((result == null)) {
-          walletConnectService.emitErrorSessionEvent(
-              event.topic, "user rejected", event.nonce);
-        } else if (result.success == false) {
-          walletConnectService.emitErrorSessionEvent(
-              event.topic, "user could not authorize transaction", event.nonce);
-        } else {
-          dynamic responseInfo = {};
-          responseInfo['tick'] = result.tick;
-          walletConnectService.emitSuccessSessionEvent(event.topic, event.nonce,
-              params: responseInfo);
-        }
-        WCDialogOpen = false;
-      }
-    });
-
-    if (settingsStore.settings != null &&
-        settingsStore.settings.walletConnectEnabled) {
-      walletConnectService.initialize();
-    }
-
-    //Wallet Connect Modals
-
-    //Modal for sending qubic
-    walletConnectService.onRequestSendQubic.stream.listen((event) async {
-      //Do not allow multiple modals
-      if (WCDialogOpen) {
-        walletConnectService.emitErrorSessionEvent(
-            event.topic, "user unavailable", event.nonce);
-        return;
-      }
-
-      WCDialogOpen = true;
-      ApproveTokenTransferResult? result =
-          await showDialog<ApproveTokenTransferResult?>(
-              context: context,
-              builder: (context) {
-                return ApproveTokenTransfer(
-                    pairingMetadata: event.pairingMetadata!,
-                    nonce: event.nonce,
-                    fromID: event.fromID,
-                    fromName: event.fromIDName,
-                    amount: event.amount,
-                    toID: event.toID);
-              });
-      //Notify WC on the result
-      if ((result == null)) {
-        walletConnectService.emitErrorSessionEvent(
-            event.topic, "user rejected", event.nonce);
-      } else if (result.success == false) {
-        walletConnectService.emitErrorSessionEvent(
-            event.topic, "user could not authorize transaction", event.nonce);
-      } else {
-        dynamic responseInfo = {};
-        responseInfo['tick'] = result.tick;
-        walletConnectService.emitSuccessSessionEvent(event.topic, event.nonce,
-            params: responseInfo);
-      }
-      WCDialogOpen = false;
-    });
     _timedController.restartFetchTimersIfNeeded();
     _controller = PersistentTabController(initialIndex: widget.initialTabIndex);
     // _controller.jumpToTab(value);
