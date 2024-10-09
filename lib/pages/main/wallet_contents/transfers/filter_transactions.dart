@@ -15,7 +15,8 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 class FilterTransactions extends StatefulWidget {
-  const FilterTransactions({super.key});
+  final TransactionFilter? initialFilter;
+  const FilterTransactions({super.key, this.initialFilter});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -29,9 +30,19 @@ class _FilterTransactionsState extends State<FilterTransactions> {
   String? selectedQubicId;
   ComputedTransactionStatus? selectedStatus;
   TransactionDirection? selectedDirection;
+
+  bool isFilterForId() => widget.initialFilter?.qubicId != null;
+
   @override
   void initState() {
     super.initState();
+
+    if (isFilterForId()) {
+      selectedQubicId = widget.initialFilter?.qubicId;
+      selectedStatus = widget.initialFilter?.status;
+      selectedDirection = widget.initialFilter?.direction;
+      return;
+    }
 
     if (appStore.transactionFilter!.qubicId != null) {
       selectedQubicId = appStore.transactionFilter!.qubicId!;
@@ -264,6 +275,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                 isDense: true,
                 name: "qubicId",
                 icon: SizedBox(height: 2, child: Container()),
+                enabled: !isFilterForId(),
                 onChanged: (value) {
                   setState(() {
                     selectedQubicId = value;
@@ -271,7 +283,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                 },
                 initialValue: selectedQubicId,
                 decoration: ThemeInputDecorations.dropdownBox.copyWith(
-                    suffix: selectedQubicId == null
+                    suffix: selectedQubicId == null || isFilterForId()
                         ? const SizedBox(height: 12)
                         : SizedBox(
                             height: 25,
@@ -392,6 +404,15 @@ class _FilterTransactionsState extends State<FilterTransactions> {
   void saveIdHandler() async {
     _formKey.currentState?.validate();
     if (!_formKey.currentState!.isValid) {
+      return;
+    }
+    if (isFilterForId()) {
+      Navigator.pop(
+          context,
+          TransactionFilter(
+              qubicId: selectedQubicId,
+              status: selectedStatus,
+              direction: selectedDirection));
       return;
     }
     //Prevent duplicates

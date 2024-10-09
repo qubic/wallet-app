@@ -1,6 +1,7 @@
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
@@ -9,13 +10,11 @@ import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
-
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transactions.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
 
 class TransactionsForId extends StatefulWidget {
   final String publicQubicId;
@@ -141,15 +140,37 @@ class _TransactionsForIdState extends State<TransactionsForId> {
     super.initState();
     walletItem = appStore.currentQubicIDs.firstWhereOrNull(
         (element) => element.publicId == widget.publicQubicId);
+    transactionFilter = TransactionFilter(qubicId: widget.publicQubicId);
   }
+
+  TransactionFilter? transactionFilter;
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
-
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
+          actions: [
+            IconButton(
+              icon: const ImageIcon(AssetImage('assets/images/filter_trx.png'),
+                  color: LightThemeColors.primary),
+              onPressed: () async {
+                final selectedFilter = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          FilterTransactions(initialFilter: transactionFilter),
+                    ));
+                if (selectedFilter != null) {
+                  setState(() {
+                    transactionFilter = selectedFilter;
+                  });
+                }
+              },
+            ),
+            ThemedControls.spacerHorizontalSmall(),
+          ],
         ),
         body: SafeArea(
             minimum: ThemeEdgeInsets.pageInsets
@@ -161,54 +182,64 @@ class _TransactionsForIdState extends State<TransactionsForId> {
               backgroundColor: LightThemeColors.refreshIndicatorBackground,
               child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  child: Observer(builder: (context) {
-                    return Column(
-                        // runAlignment: WrapAlignment.center,
-                        // alignment: WrapAlignment.center,
-                        // crossAxisAlignment: WrapCrossAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          ThemedControls.pageHeader(
-                              headerText: (widget.item == null
-                                  ? l10n.transfersLabelFor
-                                  : l10n.transfersLabelForAccount(
-                                      widget.item!.name)),
-                              subheaderText: widget.publicQubicId),
-                          Observer(builder: (context) {
-                            List<Widget> results = [];
-                            int added = 0;
-                            appStore.currentTransactions.reversed
-                                .forEach((tran) {
-                              bool matchesItem =
-                                  true; //If this widget has a specific item, only show transactions that involve that item
-                              if (widget.item != null) {
-                                matchesItem =
-                                    widget.item!.publicId == tran.destId ||
-                                        widget.item!.publicId == tran.sourceId;
-                              }
-                              if (matchesItem) {
-                                added++;
-
-                                results.add(TransactionItem(item: tran));
-                                results.add(const SizedBox(
-                                    height: ThemePaddings.normalPadding));
-                              }
-                            });
-                            if (added == 0) {
-                              results.add(getEmptyTransactionsForSingleID(
-                                  context: context,
-                                  hasFiltered: false,
-                                  numberOfFilters: null,
-                                  onTap: () {}));
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        ThemedControls.pageHeader(
+                            headerText: (widget.item == null
+                                ? l10n.transfersLabelFor
+                                : l10n.transfersLabelForAccount(
+                                    widget.item!.name)),
+                            subheaderText: widget.publicQubicId),
+                        Builder(builder: (context) {
+                          List<Widget> results = [];
+                          appStore.currentTransactions.reversed.forEach((tran) {
+                            bool matchesItem = true;
+                            if (transactionFilter != null) {
+                              matchesItem = transactionFilter!.matchesVM(tran);
                             }
-                            return Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: results);
-                          })
-                        ]);
-                  })),
+                            if (matchesItem) {
+                              results.add(TransactionItem(item: tran));
+                              results.add(const SizedBox(
+                                  height: ThemePaddings.normalPadding));
+                            }
+                          });
+                          if (results.isEmpty) {
+                            results.add(getEmptyTransactionsForSingleID(
+                                context: context,
+                                hasFiltered:
+                                    transactionFilter?.status != null ||
+                                        transactionFilter?.direction != null,
+                                numberOfFilters:
+                                    transactionFilter!.totalActiveFilters - 1,
+                                onTap: () {
+                                  setState(() {
+                                    transactionFilter = TransactionFilter(
+                                        qubicId: widget.publicQubicId);
+                                  });
+                                }));
+                          } else {
+                            results.insert(
+                                0,
+                                getTransactionFiltersInfo(context,
+                                    numberOfFilters:
+                                        transactionFilter!.totalActiveFilters -
+                                            1,
+                                    numberOfResults: results.length ~/ 2,
+                                    onTap: () {
+                                  setState(() {
+                                    transactionFilter = TransactionFilter(
+                                        qubicId: widget.publicQubicId);
+                                  });
+                                }));
+                          }
+                          return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: results);
+                        })
+                      ])),
             )));
   }
 }
