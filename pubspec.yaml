@@ -55,6 +55,8 @@ dependencies:
   animated_snack_bar: ^0.4.0
   file_picker: ^8.0.6
   downloadsfolder: ^1.1.0
+  privacy_screen: ^0.0.6
+  walletconnect_flutter_v2: ^2.0.14
   blur: ^4.0.0
   http_interceptor: ^2.0.0
   flutter_svg: ^2.0.10+1

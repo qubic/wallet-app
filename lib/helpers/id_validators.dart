@@ -152,6 +152,43 @@ class CustomFormFieldValidators {
     };
   }
 
+  static FormFieldValidator<T> isWalletConnectConnectionURL<T>(
+      {String? errorText, required BuildContext context}) {
+    final l10n = l10nOf(context);
+    return (T? valueCandidate) {
+      if (valueCandidate == null ||
+          (valueCandidate is String && valueCandidate.trim().isEmpty)) {
+        return errorText ?? FormBuilderLocalizations.current.requiredErrorText;
+      }
+
+      if (valueCandidate is String && valueCandidate.length != 187) {
+        ;
+        return l10n.wcErrorInvalidURL;
+      }
+
+      if (valueCandidate is String &&
+          valueCandidate.startsWith("wc:") != true) {
+        return l10n.wcErrorInvalidURL;
+      }
+
+      if (valueCandidate is String &&
+          valueCandidate.contains("expiryTimestamp=") == false) {
+        return l10n.wcErrorInvalidURL;
+      }
+
+      if (valueCandidate is String &&
+          valueCandidate.contains("symKey=") == false) {
+        return l10n.wcErrorInvalidURL;
+      }
+
+      if (valueCandidate is String && valueCandidate.contains("@") == false) {
+        return l10n.wcErrorInvalidURL;
+      }
+
+      return null;
+    };
+  }
+
   static FormFieldValidator<T> isSeed<T>(
       {String? errorText, required BuildContext context}) {
     final l10n = l10nOf(context);
@@ -204,6 +241,61 @@ class CustomFormFieldValidators {
       }
       if (!valid) {
         return l10n.generalErrorOnlyLowercaseChar;
+      }
+
+      return null;
+    };
+  }
+
+  static FormFieldValidator<T> isPublicIDNoContext<T>({String? errorText}) {
+    HashSet validChars = HashSet();
+    validChars.addAll({
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z"
+    });
+
+    return (T? valueCandidate) {
+      if (valueCandidate == null ||
+          (valueCandidate is String && valueCandidate.trim().isEmpty)) {
+        return errorText;
+      }
+
+      if (valueCandidate is String && valueCandidate.length != 60) {
+        return errorText;
+      }
+
+      bool valid = true;
+      for (int i = 0; i < (valueCandidate as String).length; i++) {
+        if (!validChars.contains(valueCandidate[i])) {
+          valid = false;
+        }
+      }
+      if (!valid) {
+        return errorText;
       }
 
       return null;

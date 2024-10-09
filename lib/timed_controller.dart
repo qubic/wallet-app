@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
 class TimedController extends WidgetsBindingObserver {
@@ -15,6 +17,8 @@ class TimedController extends WidgetsBindingObserver {
   DateTime? lastFetchSlow;
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
+  final WalletConnectService _walletConnectService =
+      getIt<WalletConnectService>();
 
   stopFetchTimers() {
     if (_fetchTimer != null) {
@@ -50,20 +54,28 @@ class TimedController extends WidgetsBindingObserver {
       //Fetch network balances
       if (!_apiService.gettingNetworkBalances) {
         _apiService.getNetworkBalances(myIds).then((balances) {
-          debugPrint("Got balances for ${balances.length} IDs");
-          appStore.setAmounts(balances);
+          Map<String, int> changedIds = appStore.setAmounts(balances);
+          if (changedIds.isNotEmpty) {
+            _walletConnectService.triggerAmountChangedEvent(changedIds);
+          }
         }, onError: (e) {
           appStore
               .reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-          //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
         });
       }
 
       //Fetch network assets
       if (!_apiService.gettingNetworkAssets) {
-        _apiService
-            .getCurrentAssets(myIds)
-            .then((assets) => appStore.setAssets(assets));
+        _apiService.getCurrentAssets(myIds).then((assets) {
+          Map<String, List<QubicAssetDto>> changedIds =
+              appStore.setAssets(assets);
+          if (changedIds.isNotEmpty) {
+            _walletConnectService.triggerTokenAmountChangedEvent(changedIds);
+          }
+        }, onError: (e) {
+          appStore
+              .reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+        });
       }
 
       if (!_apiService.gettingNetworkTransactions) {
@@ -73,7 +85,6 @@ class TimedController extends WidgetsBindingObserver {
       }
     } on Exception catch (e) {
       appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
     }
   }
 
