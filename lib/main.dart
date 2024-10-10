@@ -1,21 +1,20 @@
+import 'package:blur/blur.dart';
 import 'package:dargon2_flutter/dargon2_flutter.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:blur/blur.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {
@@ -83,11 +82,6 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-    if (localizations != null) {
-      LocalizationManager.instance.setLocalizations(localizations);
-    }
-
     return MaterialApp.router(
       title: 'Qubic Wallet',
       routerConfig: appRouter,
@@ -128,6 +122,12 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
       ),
       builder: (context, child) {
+        final localizations = AppLocalizations.of(context);
+        if (localizations != null) {
+          LocalizationManager.instance.setLocalizations(localizations);
+          l10nWrapper.setL10n(localizations);
+        }
+
         return Stack(
           children: [
             child ?? const SizedBox.shrink(),

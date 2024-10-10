@@ -17,6 +17,8 @@ import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -44,6 +46,7 @@ class _TransferAssetState extends State<TransferAsset> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi apiService = getIt<QubicLi>();
+  final _liveApi = getIt<QubicLiveApi>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalKey<_TransferAssetState> widgetKey = GlobalKey();
@@ -666,7 +669,7 @@ class _TransferAssetState extends State<TransferAsset> {
       targetTick = int.tryParse(tickController.text);
     } else {
       // fetch latest tick
-      int latestTick = await apiService.getCurrentTick();
+      int latestTick = (await _liveApi.getCurrentTick()).tick;
       targetTick = latestTick + targetTickType.value;
     }
 
