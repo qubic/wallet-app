@@ -3,6 +3,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -38,7 +39,7 @@ Future<bool> sendAssetTransferTransactionDialog(
   try {
     transactionKey = await qubicCmd.createAssetTransferTransaction(seed,
         destinationId, assetName, issuer, numberOfAssets, destinationTick);
-    await getIt.get<QubicLi>().submitTransaction(transactionKey);
+    await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
     return true;
   } catch (e) {
     if (e.toString().startsWith("Exception: CRITICAL:")) {
@@ -79,7 +80,7 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
 
   //We have the transaction, now let's call the API
   try {
-    await getIt.get<QubicLi>().submitTransaction(transactionKey);
+    await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
   } catch (e) {
     showAlertDialog(
         context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
