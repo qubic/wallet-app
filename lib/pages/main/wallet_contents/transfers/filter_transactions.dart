@@ -235,7 +235,12 @@ class _FilterTransactionsState extends State<FilterTransactions> {
     final l10n = l10nOf(context);
     List<QubicListVm?> accounts = [];
     accounts.add(null);
-    accounts.addAll(appStore.currentQubicIDs);
+    appStore.currentQubicIDs.forEach((e) {
+      accounts.add(e); // Add actual item
+      if (e != appStore.currentQubicIDs.last) {
+        accounts.add(null); // Add null for the divider
+      }
+    });
 
     List<DropdownMenuItem<String?>> selectableItems = [];
     selectableItems.add(DropdownMenuItem<String?>(
@@ -252,19 +257,29 @@ class _FilterTransactionsState extends State<FilterTransactions> {
             height: ThemePaddings.hugePadding,
           )
         ])));
-    selectableItems.addAll(appStore.currentQubicIDs
-        .map((e) => DropdownMenuItem<String?>(
-            value: e.publicId,
-            child: Column(children: [
-              IdListItemSelect(item: e, showAmount: false),
-              if (e.publicId != appStore.currentQubicIDs.last.publicId)
-                const Divider(
-                  color: LightThemeColors.primary,
-                  height: ThemePaddings.hugePadding,
-                )
-            ])))
-        .toList());
-
+    // Add each QubicID with dividers
+    int dividerIndex = 0; // To give unique values to dividers
+    selectableItems.addAll(
+      appStore.currentQubicIDs
+          .expand((e) => [
+                DropdownMenuItem<String?>(
+                  value: e.publicId,
+                  child: IdListItemSelect(item: e, showAmount: false),
+                ),
+                if (e.publicId != appStore.currentQubicIDs.last.publicId)
+                  DropdownMenuItem<String?>(
+                    // Unique value for the divider
+                    value: 'divider_$dividerIndex',
+                    // Disable this item so divider couldn't be chosen
+                    enabled: false,
+                    child: const Divider(
+                      color: LightThemeColors.primary,
+                      height: ThemePaddings.hugePadding,
+                    ),
+                  ),
+              ])
+          .toList(),
+    );
     return ClipRRect(
         borderRadius: BorderRadius.circular(12.0),
         clipBehavior: Clip.hardEdge,
