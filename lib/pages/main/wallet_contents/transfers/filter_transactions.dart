@@ -246,12 +246,10 @@ class _FilterTransactionsState extends State<FilterTransactions> {
     final l10n = l10nOf(context);
     List<QubicListVm?> accounts = [];
     accounts.add(null);
-    appStore.currentQubicIDs.forEach((e) {
+    for (var e in appStore.currentQubicIDs) {
+      accounts.add(null);
       accounts.add(e); // Add actual item
-      if (e != appStore.currentQubicIDs.last) {
-        accounts.add(null); // Add null for the divider
-      }
-    });
+    }
 
     List<DropdownMenuItem<String?>> selectableItems = [];
     selectableItems.add(DropdownMenuItem<String?>(
@@ -263,10 +261,6 @@ class _FilterTransactionsState extends State<FilterTransactions> {
               style: TextStyles.accountName,
             ),
           ]),
-          const Divider(
-            color: LightThemeColors.primary,
-            height: ThemePaddings.hugePadding,
-          )
         ])));
     // Add each QubicID with dividers
     int dividerIndex = 0; // To give unique values to dividers
@@ -274,84 +268,81 @@ class _FilterTransactionsState extends State<FilterTransactions> {
       appStore.currentQubicIDs
           .expand((e) => [
                 DropdownMenuItem<String?>(
+                  // Unique value for the divider
+                  value: 'divider_$dividerIndex',
+                  // Disable this item so divider couldn't be chosen
+                  enabled: false,
+                  child: const Divider(
+                    color: LightThemeColors.primary,
+                    height: ThemePaddings.hugePadding,
+                  ),
+                ),
+                DropdownMenuItem<String?>(
                   value: e.publicId,
                   child: IdListItemSelect(item: e, showAmount: false),
                 ),
-                if (e.publicId != appStore.currentQubicIDs.last.publicId)
-                  DropdownMenuItem<String?>(
-                    // Unique value for the divider
-                    value: 'divider_$dividerIndex',
-                    // Disable this item so divider couldn't be chosen
-                    enabled: false,
-                    child: const Divider(
-                      color: LightThemeColors.primary,
-                      height: ThemePaddings.hugePadding,
-                    ),
-                  ),
               ])
           .toList(),
     );
     return ClipRRect(
         borderRadius: BorderRadius.circular(12.0),
         clipBehavior: Clip.hardEdge,
-        child: Container(
-            child: FormBuilderDropdown(
-                isDense: true,
-                name: "qubicId",
-                icon: SizedBox(height: 2, child: Container()),
-                enabled: !isFilterForId(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedQubicId = value;
-                  });
-                },
-                initialValue: selectedQubicId,
-                decoration: ThemeInputDecorations.dropdownBox.copyWith(
-                    suffix: selectedQubicId == null || isFilterForId()
-                        ? const SizedBox(height: 12)
-                        : SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: IconButton(
-                              padding: const EdgeInsets.all(0),
-                              icon: const Icon(Icons.close, size: 15.0),
-                              onPressed: () {
-                                _formKey.currentState!.fields['qubicId']
-                                    ?.didChange(null);
-                                setState(() {
-                                  selectedQubicId = null;
-                                });
-                              },
-                            )),
-                    hintText: l10n.filterTransfersLabelByQubicID),
-                selectedItemBuilder: (BuildContext context) {
-                  return accounts.map<Widget>((QubicListVm? item) {
-                    // This is the widget that will be shown when you select an item.
-                    // Here custom text style, alignment and layout size can be applied
-                    // to selected item string.
+        child: FormBuilderDropdown(
+            isDense: true,
+            name: "qubicId",
+            icon: SizedBox(height: 2, child: Container()),
+            onChanged: (value) {
+              setState(() {
+                selectedQubicId = value;
+              });
+            },
+            initialValue: selectedQubicId,
+            decoration: ThemeInputDecorations.dropdownBox.copyWith(
+                suffix: selectedQubicId == null
+                    ? const SizedBox(height: 12)
+                    : SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: IconButton(
+                          padding: const EdgeInsets.all(0),
+                          icon: const Icon(Icons.close, size: 15.0),
+                          onPressed: () {
+                            _formKey.currentState!.fields['qubicId']
+                                ?.didChange(null);
+                            setState(() {
+                              selectedQubicId = null;
+                            });
+                          },
+                        )),
+                hintText: l10n.filterTransfersLabelByQubicID),
+            selectedItemBuilder: (BuildContext context) {
+              return accounts.map<Widget>((QubicListVm? item) {
+                // This is the widget that will be shown when you select an item.
+                // Here custom text style, alignment and layout size can be applied
+                // to selected item string.
 
-                    if (item == null) {
-                      return Text(l10n.filterTransfersLabelAnyQubicID,
-                          style: TextStyles.secondaryTextNormal);
-                    }
-                    return Container(
-                        alignment: Alignment.centerLeft,
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Flexible(
-                                child: Text("${item.name} - ",
-                                    style: TextStyles.textNormal)),
-                            Expanded(
-                                child: Text(item.publicId,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyles.secondaryTextSmall)),
-                          ],
-                        ));
-                  }).toList();
-                },
-                items: selectableItems)));
+                if (item == null) {
+                  return Text(l10n.filterTransfersLabelAnyQubicID,
+                      style: TextStyles.secondaryTextNormal);
+                }
+                return Container(
+                    alignment: Alignment.centerLeft,
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Flexible(
+                            child: Text("${item.name} - ",
+                                style: TextStyles.textNormal)),
+                        Expanded(
+                            child: Text(item.publicId,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyles.secondaryTextSmall)),
+                      ],
+                    ));
+              }).toList();
+            },
+            items: selectableItems));
   }
 
   Widget getScrollView() {
