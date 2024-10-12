@@ -98,6 +98,24 @@ class LightThemeColors {
   static const menuInactive = Color.fromARGB(255, 152, 157, 162);
 
   static const refreshIndicatorBackground = cardBackground;
+
+  // *** New Palette *** //
+
+  static const primary10 = Color(0xFFCCFCFF);
+  static const primary20 = Color(0xFFB0F9FE);
+  static const primary30 = Color(0xFF61F0FE);
+
+  ///Main primary option. Used as for primary buttons, highlighted text, active icons
+  static const primary40 = Color(0xFF1ADEF5);
+  static const primary50 = Color(0xFF03C1DB);
+  static const primary60 = Color(0xFF019AB8);
+  static const primary90 = Color(0xFF112C35);
+  static const grey50 = Color(0xFF808B9B);
+  static const grey60 = Color(0xFF4B5565);
+  static const grey70 = Color(0xFF202E3C);
+  static const grey80 = Color(0xFF151E27);
+  static const grey90 = Color(0xFF101820);
+  static const grey100 = Color(0xFF0C131B);
 }
 
 class xLightThemeColors {
