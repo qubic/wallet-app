@@ -10,6 +10,8 @@
     "generalButtonRename": "Rename",
     "generalButtonSave": "Save",
     "generalButtonProceed": "Proceed",
+    "generalButtonApprove": "Approve",
+    "generalButtonReject": "Reject",
     "generalButtonBack": "Back",
     "generalButtonClose": "Close",
     "generalButtonTryAgain": "Try again",
@@ -777,40 +779,51 @@
             }
         }
     },
-
     "wcScopeRequestAccounts": "View your wallet accounts and their balance",
     "wcScopeSendQubic": "Ask you to send Qubic from your wallet accounts",
     "wcScopeSendAssets": "Ask you to send Qubic Assets from your wallet accounts",
     "wcScopeForbiddenTransfer": "Transfer Qubic or Qubic Assets without your consent",
+    "wcScopeAddConnectionDesc": "Send Qubic or connect to dapps by scanning a QR code",
     "wcUnknownDapp": "Unknown dApp",
     "wcAppInfoHeader": "This app is able to",
-    "wcAppInfoHeaderPair" :"This app will be able to",
+    "wcAppInfoHeaderPair": "This app will be able to",
     "wcAppInfoHeaderPairForbidden": "This app will not be able to",
-
     "wcErrorUserDisconnected": "User forcefully disconnected",
-    "wcErrorInvalidURL" :"Invalid WalletConnect connection URL",
+    "wcErrorInvalidURL": "Invalid WalletConnect connection URL",
+    "wcErrorDeprecatedURL": "Deprecated WalletConnect connection URL",
     "wcErrorUnsupportedChains": "Pair request contains unsupported chains",
     "wcErrorUnsupportedMethods": "Pair request contains unsupported methods",
     "wcErrorUnsupportedEvents": "Pair request contains unsupported events",
     "wcErrorUnsupportedAccounts": "Pair request contains unsupported accounts",
     "wcErrorUnsupportedNamespaces": "Pair request contains unsupported namespaces",
     "wcErrorUsedURL": "A connection has already been established via this URL",
+    "wcErrorUnsupportedNetwork": "Unsupported Network",
+    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Network",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
     "wcRevokePermissions": "Revoke permissions",
-    "wcDappsConnectedNone":"Your wallet is not connected to any dApps",
-    "wcDappsConnectedFollowing":"Your wallet is connected with the following dApps",
-    "wcEnable":"Enable WalletConnect",
-    "wcApprovedConnections":"Approved connections",
+    "wcDappsConnectedNone": "Your wallet is not connected to any dApps",
+    "wcDappsConnectedFollowing": "Your wallet is connected with the following dApps",
+    "wcEnable": "Enable WalletConnect",
+    "wcApprovedConnections": "Approved connections",
     "wcValidUntil": "Valid until {date}",
     "@wcValidUntil": {
         "placeholders": {
-            "date": { "type" : "String"}
+            "date": {
+                "type": "String"
+            }
         }
     },
     "wcConnectionApproved": "WalletConnect connection approved",
     "wcConnectionRejected": "WalletConnect connection rejected",
     "wcConnectionProposalTimeout": "WalletConnect session proposal timed out",
     "wcPointCameraToQR": "Please point the camera to a QR Code containing the WalletConnect connection info",
-    "wcAddWcTitle":"Pair via WalletConnect",
+    "wcAddWcTitle": "Pair via WalletConnect",
     "wcAddURL": "WalletConnect connection URL",
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",

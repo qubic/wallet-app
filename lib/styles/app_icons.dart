@@ -22,4 +22,5 @@ abstract class AppIcons {
   static const String eye = '${_path}eye.svg';
   static const String plusCircular = '${_path}plus_circular.svg';
   static const String import = '${_path}import.svg';
+  static const String warning = '${_path}warning.svg';
 }
