@@ -3,12 +3,15 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -20,6 +23,7 @@ class Pair extends StatefulWidget {
   final List<String> pairingEvents;
   final int pairingId;
   final Map<String, Namespace>? pairingNamespaces;
+  final List<String> unsupportedNetowrks;
 
   const Pair(
       {super.key,
@@ -27,7 +31,8 @@ class Pair extends StatefulWidget {
       required this.pairingMethods,
       required this.pairingMetadata,
       required this.pairingEvents,
-      required this.pairingNamespaces});
+      required this.pairingNamespaces,
+      required this.unsupportedNetowrks});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -46,7 +51,6 @@ class _PairState extends State<Pair> {
   @override
   void initState() {
     super.initState();
-
     listener = wcService.onProposalExpire.stream.listen((event) {
       if (event!.id == widget.pairingId) {
         if (mounted) {
@@ -113,27 +117,67 @@ class _PairState extends State<Pair> {
     return methods;
   }
 
+  Widget getUnsupportedNetworksCard() {
+    final l10n = l10nOf(context);
+    return ThemedControls.card(
+        child: Column(
+      children: [
+        SvgPicture.asset(AppIcons.warning),
+        ThemedControls.spacerVerticalNormal(),
+        Text(
+          l10n.wcErrorUnsupportedNetwork,
+          style: TextStyles.alertHeader,
+        ),
+        ThemedControls.spacerVerticalNormal(),
+        Text(
+          l10n.wcErrorUnsupportedNetworkDescription(
+              getUnsupportedNetworks(widget.unsupportedNetowrks)),
+          style: TextStyles.alertText,
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ));
+  }
+
+  String formatNetworkName(String network) {
+    int colonIndex = network.indexOf(':');
+    bool isEIP = network.startsWith('eip155');
+
+    // If not EIP and colon is found
+    if (!isEIP && colonIndex > -1) {
+      String name = network.substring(0, colonIndex);
+      return name[0].toUpperCase() +
+          name.substring(1); // Capitalize first letter
+    }
+
+    // If it's an EIP network or no colon is found, return the full network
+    return network;
+  }
+
+  String getUnsupportedNetworks(List<String> unsupportedNetworks) {
+    if (unsupportedNetworks.length == 1) {
+      return formatNetworkName(unsupportedNetworks[0]);
+    } else {
+      final networks = unsupportedNetworks.map(formatNetworkName).toList();
+      return "$networks";
+    }
+  }
+
   List<Widget> getButtons() {
     final l10n = l10nOf(context);
 
     return [
-      Expanded(
-          child: ThemedControls.transparentButtonBigWithChild(
-              child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: Text(l10n.generalButtonCancel,
-                      style: TextStyles.transparentButtonText)),
-              onPressed: () {
-                Navigator.pop(context);
-              })),
-      ThemedControls.spacerHorizontalNormal(),
-      Expanded(
+      ThemedControls.spacerVerticalSmall(),
+      if (widget.unsupportedNetowrks.isEmpty)
+        SizedBox(
+          width: double.infinity,
+          height: ButtonStyles.buttonHeight,
           child: ThemedControls.primaryButtonBigWithChild(
               onPressed: () {
                 handleProceed();
               },
               child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
                   child: isLoading
                       ? SizedBox(
                           height: 23,
@@ -143,9 +187,33 @@ class _PairState extends State<Pair> {
                               color:
                                   Theme.of(context).colorScheme.inversePrimary),
                         )
-                      : Text(l10n.generalButtonProceed,
+                      : Text(l10n.generalButtonApprove,
                           textAlign: TextAlign.center,
-                          style: TextStyles.primaryButtonText))))
+                          style: TextStyles.primaryButtonText))),
+        ),
+      ThemedControls.spacerVerticalSmall(),
+      SizedBox(
+          width: double.infinity,
+          height: ButtonStyles.buttonHeight,
+          child: (widget.unsupportedNetowrks.isEmpty)
+              ? ThemedControls.dangerButtonBigWithClild(
+                  child: Padding(
+                      padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                      child: Text(l10n.generalButtonReject,
+                          style: TextStyles.destructiveButtonText)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })
+              : ThemedControls.primaryButtonBigWithChild(
+                  child: Padding(
+                      padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                      child: Text(
+                        l10n.generalButtonCancel,
+                        style: TextStyles.primaryButtonText,
+                      )),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  })),
     ];
   }
 
@@ -174,70 +242,78 @@ class _PairState extends State<Pair> {
         child: Row(children: [
           Expanded(
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              //---------- Header title url and image
-              SizedBox(
-                height: 80,
-                width: 80,
-                child: widget.pairingMetadata != null &&
-                        widget.pairingMetadata!.icons.isNotEmpty
-                    ? FadeInImage(
-                        image: NetworkImage(widget.pairingMetadata!.icons[0]),
-                        placeholder: AssetImage(
-                          'assets/images/dapp-default.png',
-                        ),
-                        imageErrorBuilder: (context, error, stackTrace) =>
-                            Image.asset('assets/images/dapp-default.png'),
-                        fit: BoxFit.contain,
-                      )
-                    : Image.asset('assets/images/dapp-default.png'),
-              ),
-              //dAPP title
-              ThemedControls.spacerVerticalBig(),
-              Text(
-                  widget.pairingMetadata == null ||
-                          widget.pairingMetadata?.name == null ||
-                          widget.pairingMetadata!.name.isEmpty
-                      ? l10n.wcUnknownDapp
-                      : widget.pairingMetadata!.name,
-                  style: TextStyles.walletConnectDappTitle),
-              ThemedControls.spacerVerticalSmall(),
-              Text(
-                  widget.pairingMetadata == null ||
-                          widget.pairingMetadata?.url == null ||
-                          widget.pairingMetadata!.url.isEmpty
-                      ? l10n.wcUnknownDapp
-                      : widget.pairingMetadata!.url,
-                  style: TextStyles.walletConnectDappUrl),
-              //--------- End of header
-              ThemedControls.spacerVerticalBig(),
-              getErrors(),
-              //--------- Permissions
-              ThemedControls.card(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    Text(l10n.wcAppInfoHeaderPair,
-                        style: TextStyles.walletConnectDapPermissionHeader),
-                    ThemedControls.spacerVerticalSmall(),
-                    ...getMethods()
-                  ])),
-              //--------- End of permissions
-              ThemedControls.spacerVerticalNormal(),
-              //--------- Non Permissions
-              ThemedControls.card(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    Text(l10n.wcAppInfoHeaderPairForbidden,
-                        style: TextStyles.walletConnectDapPermissionHeader),
-                    ThemedControls.spacerVerticalSmall(),
-                    getMethod(l10n.wcScopeForbiddenTransfer, isGranted: false)
-                  ]))
-              //--------- End of non permissions
-            ],
-          ))
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                //---------- Header title url and image
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: widget.pairingMetadata != null &&
+                          widget.pairingMetadata!.icons.isNotEmpty
+                      ? FadeInImage(
+                          image: NetworkImage(widget.pairingMetadata!.icons[0]),
+                          placeholder: AssetImage(
+                            'assets/images/dapp-default.png',
+                          ),
+                          imageErrorBuilder: (context, error, stackTrace) =>
+                              Image.asset('assets/images/dapp-default.png'),
+                          fit: BoxFit.contain,
+                        )
+                      : Image.asset('assets/images/dapp-default.png'),
+                ),
+
+                //dAPP title
+                ThemedControls.spacerVerticalBig(),
+                Text(
+                    widget.pairingMetadata == null ||
+                            widget.pairingMetadata?.name == null ||
+                            widget.pairingMetadata!.name.isEmpty
+                        ? l10n.wcUnknownDapp
+                        : widget.pairingMetadata!.name,
+                    style: TextStyles.walletConnectDappTitle),
+                ThemedControls.spacerVerticalSmall(),
+                Text(
+                    widget.pairingMetadata == null ||
+                            widget.pairingMetadata?.url == null ||
+                            widget.pairingMetadata!.url.isEmpty
+                        ? l10n.wcUnknownDapp
+                        : widget.pairingMetadata!.url,
+                    style: TextStyles.walletConnectDappUrl),
+                //--------- End of header
+                ThemedControls.spacerVerticalBig(),
+                getErrors(),
+                if (widget.unsupportedNetowrks!.isEmpty) ...[
+                  //--------- Permissions
+                  if (getMethods().isNotEmpty)
+                    ThemedControls.card(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                          Text(l10n.wcAppInfoHeaderPair,
+                              style:
+                                  TextStyles.walletConnectDapPermissionHeader),
+                          ThemedControls.spacerVerticalSmall(),
+                          ...getMethods()
+                        ])),
+                  //--------- End of permissions
+                  ThemedControls.spacerVerticalNormal(),
+                  //--------- Non Permissions
+                  ThemedControls.card(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        Text(l10n.wcAppInfoHeaderPairForbidden,
+                            style: TextStyles.walletConnectDapPermissionHeader),
+                        ThemedControls.spacerVerticalSmall(),
+                        getMethod(l10n.wcScopeForbiddenTransfer,
+                            isGranted: false)
+                      ]))
+                  //--------- End of non permissions]
+                ],
+                if (widget.unsupportedNetowrks.isNotEmpty) ...[
+                  getUnsupportedNetworksCard()
+                ]
+              ]))
         ]));
   }
 
@@ -254,9 +330,7 @@ class _PairState extends State<Pair> {
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
                   Expanded(child: getScrollView()),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: getButtons())
+                  Column(children: getButtons())
                 ]))));
   }
 }

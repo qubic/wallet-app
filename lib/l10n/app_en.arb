@@ -783,7 +783,6 @@
     "wcScopeSendQubic": "Ask you to send Qubic from your wallet accounts",
     "wcScopeSendAssets": "Ask you to send Qubic Assets from your wallet accounts",
     "wcScopeForbiddenTransfer": "Transfer Qubic or Qubic Assets without your consent",
-    "wcScopeAddConnectionDesc": "Send Qubic or connect to dapps by scanning a QR code",
     "wcUnknownDapp": "Unknown dApp",
     "wcAppInfoHeader": "This app is able to",
     "wcAppInfoHeaderPair": "This app will be able to",

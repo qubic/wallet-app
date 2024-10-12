@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 
 abstract class ButtonStyles {
+  static const double buttonHeight = 48;
   static ButtonStyle dangerButtonBig = ButtonStyle(
       overlayColor: WidgetStatePropertyAll<Color>(
           LightThemeColors.dangerColor.withOpacity(0.2)),
@@ -29,6 +30,13 @@ abstract class ButtonStyles {
           LightThemeColors.extraStrongBackground.withOpacity(0.1)),
       backgroundColor: const WidgetStatePropertyAll<Color>(
           LightThemeColors.buttonBackgroundDisabled),
+      shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0))));
+
+  static ButtonStyle secondaryButtonBig = ButtonStyle(
+      overlayColor: WidgetStatePropertyAll<Color>(
+          LightThemeColors.buttonPrimary.withOpacity(0.1)),
+      backgroundColor: const WidgetStatePropertyAll<Color>(Color(0xff152932)),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0))));
 
