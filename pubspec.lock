@@ -274,7 +274,7 @@ packages:
     source: hosted
     version: "3.2.0"
   dargon2_flutter_mobile:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: dargon2_flutter_mobile
       sha256: "22b1b5229371c229cb55ca214262c6cb2189d40f7ef4ab87c1bea75bc2c582bf"
