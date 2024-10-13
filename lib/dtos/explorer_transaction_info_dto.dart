@@ -22,9 +22,9 @@ class ExplorerTransactionInfoDto {
       return ComputedTransactionStatus.success;
     }
     if (executed && !moneyFlew) {
-      return ComputedTransactionStatus.invalid;
+      return ComputedTransactionStatus.failure;
     }
-    return ComputedTransactionStatus.failure;
+    return ComputedTransactionStatus.invalid;
   }
 
   ExplorerTransactionInfoDto(

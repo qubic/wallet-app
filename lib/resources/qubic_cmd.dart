@@ -31,18 +31,21 @@ class QubicCmd {
   void _disposeQubicCMD() {}
 
   void reinitialize() {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+    if ((UniversalPlatform.isAndroid) ||
+        (UniversalPlatform.isIOS) ||
+        (UniversalPlatform.isWindows) ||
+        (UniversalPlatform.isMacOS)) {
       qubicJs.reInitialize();
     }
   }
 
   void dispose() {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
-      _disploseQubicJS();
-    }
-    if ((UniversalPlatform.isLinux) ||
+    if ((UniversalPlatform.isAndroid) ||
+        (UniversalPlatform.isIOS) ||
         (UniversalPlatform.isWindows) ||
         (UniversalPlatform.isMacOS)) {
+      _disploseQubicJS();
+    } else if (UniversalPlatform.isLinux) {
       _disposeQubicCMD();
     }
   }
