@@ -1,12 +1,17 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/components/wallet_connect/amount_value_header.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
+import 'package:qubic_wallet/helpers/sendTransaction.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/wallet_connect.dart';
+import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
+import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -14,111 +19,40 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
-class Pair extends StatefulWidget {
+class ApproveSign extends StatefulWidget {
   final PairingMetadata? pairingMetadata;
-  final List<String> pairingMethods;
-  final List<String> pairingEvents;
-  final int pairingId;
-  final Map<String, Namespace>? pairingNamespaces;
-
-  const Pair(
-      {super.key,
-      required this.pairingId,
-      required this.pairingMethods,
-      required this.pairingMetadata,
-      required this.pairingEvents,
-      required this.pairingNamespaces});
+  final String? fromID;
+  final String? fromName;
+  final String? toSign;
+  final String? nonce;
+  const ApproveSign({
+    super.key,
+    required this.pairingMetadata,
+    required this.fromID,
+    this.nonce,
+    required this.fromName,
+    required this.toSign,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
-  _PairState createState() => _PairState();
+  _ApproveSignState createState() => _ApproveSignState();
 }
 
-class _PairState extends State<Pair> {
+class _ApproveSignState extends State<ApproveSign> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
-
-  bool isLoading = false;
-  String? wcError;
+  final QubicLi _apiService = getIt<QubicLi>();
   bool hasAccepted = false;
-
-  late final StreamSubscription<SessionProposalEvent?> listener;
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
-
-    listener = wcService.onProposalExpire.stream.listen((event) {
-      if (event!.id == widget.pairingId) {
-        if (mounted) {
-          Navigator.of(context).pop(false);
-        }
-      }
-    });
   }
 
   @override
   void dispose() {
-    listener.cancel();
     super.dispose();
-  }
-
-  Widget getErrors() {
-    if (wcError != null) {
-      return Column(children: [
-        ThemedControls.errorLabel(wcError ?? "-"),
-        ThemedControls.spacerVerticalNormal(),
-      ]);
-    } else {
-      return Container();
-    }
-  }
-
-  // Gets the text for WC method available from connection
-  Widget getMethod(String? text, {bool isGranted = true}) {
-    return Row(
-      children: [
-        Image.asset(isGranted
-            ? "assets/images/permission-granted.png"
-            : "assets/images/permission-denied.png"),
-        ThemedControls.spacerHorizontalSmall(),
-        Expanded(
-            child: Text(
-          text!,
-          style: TextStyles.walletConnectDapPermission,
-        ))
-      ],
-    );
-  }
-
-  // Gets a list of all requested WC methods
-  List<Widget> getMethods() {
-    final l10n = l10nOf(context);
-
-    List<Widget> methods = [];
-
-    for (var string in widget.pairingMethods) {
-      if ((string == WcMethods.wRequestAccounts)) {
-        methods.add(getMethod(l10n.wcScopeRequestAccounts));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
-      if (string == WcMethods.wSendQubic) {
-        methods.add(getMethod(l10n.wcScopeSendQubic));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
-      if (string == WcMethods.wSendAsset) {
-        methods.add(getMethod(l10n.wcScopeSendAssets));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
-      if (string == WcMethods.wSignTransaction) {
-        methods.add(getMethod(l10n.wcScopeSignTransaction));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
-      if (string == WcMethods.wSign) {
-        methods.add(getMethod(l10n.wcScopeSign));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
-    }
-    return methods;
   }
 
   List<Widget> getButtons() {
@@ -127,6 +61,7 @@ class _PairState extends State<Pair> {
     return [
       Expanded(
           child: ThemedControls.transparentButtonBigWithChild(
+              //Reject button
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding),
                   child: Text(l10n.generalButtonCancel,
@@ -137,8 +72,67 @@ class _PairState extends State<Pair> {
       ThemedControls.spacerHorizontalNormal(),
       Expanded(
           child: ThemedControls.primaryButtonBigWithChild(
-              onPressed: () {
-                handleProceed();
+              //Accept button
+              onPressed: () async {
+                //Authenticate the user
+                if (mounted) {
+                  bool authenticated = await reAuthDialog(context);
+                  if (!authenticated) {
+                    if (mounted) {
+                      //required to remove the warning
+                      Navigator.pop(context);
+                    }
+                    return;
+                  }
+                }
+                setState(() {
+                  isLoading = true;
+                });
+                //Get current tick
+                int latestTick = await _apiService.getCurrentTick();
+                int targetTick = latestTick + defaultTargetTickType.value;
+
+                //Send the transaction to backend
+                bool result = false;
+                if (mounted) {
+                  result = true;
+                  //TODO --------- ADD THE RESULT HERE
+                  //result = await sendTransactionDialog(context, widget.fromID!,
+                  //  widget.toID!, widget.amount, targetTick);
+                  if (result) {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    //If the transaction was successful
+
+                    if (mounted) {
+                      Navigator.of(context).pop(ApproveTokenTransferResult(
+                          //Return the success and tick
+
+                          tick: targetTick));
+                      getIt.get<PersistentTabController>().jumpToTab(1);
+                      getIt<GlobalSnackBar>().show(
+                          l10nOf(context) //Show snackbar
+                              .generalSnackBarMessageTransactionSubmitted(
+                                  targetTick.toString()));
+                    }
+                  } else {
+                    //Else, transaction failed
+                    setState(() {
+                      isLoading = false;
+                    });
+                    if (mounted) {
+                      Navigator.of(context).pop(ApproveTokenTransferResult(
+                          //Return the success and tick
+
+                          tick: null));
+                      getIt.get<PersistentTabController>().jumpToTab(1);
+                      getIt<GlobalSnackBar>()
+                          .showError(l10nOf(context) //Show snackbar
+                              .sendItemDialogErrorGeneralTitle);
+                    }
+                  }
+                }
               },
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
@@ -155,24 +149,6 @@ class _PairState extends State<Pair> {
                           textAlign: TextAlign.center,
                           style: TextStyles.primaryButtonText))))
     ];
-  }
-
-  void handleProceed() async {
-    try {
-      setState(() {
-        isLoading = true;
-      });
-      await wcService.web3Wallet!.approveSession(
-          id: widget.pairingId, namespaces: widget.pairingNamespaces!);
-      if (mounted) {
-        Navigator.of(context).pop(true);
-      }
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-        wcError = e.toString();
-      });
-    }
   }
 
   Widget getScrollView() {
@@ -218,32 +194,31 @@ class _PairState extends State<Pair> {
                       ? l10n.wcUnknownDapp
                       : widget.pairingMetadata!.url,
                   style: TextStyles.walletConnectDappUrl),
+
               //--------- End of header
               ThemedControls.spacerVerticalBig(),
-              getErrors(),
-              //--------- Permissions
               ThemedControls.card(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Text(l10n.wcAppInfoHeaderPair,
-                        style: TextStyles.walletConnectDapPermissionHeader),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      AmountValueHeader(amount: 1, suffix: "QUBIC"),
+                    ]),
+                    ThemedControls.spacerVerticalBig(),
+                    Text(
+                      l10n.generalLabelToFromAccount(
+                          l10n.generalLabelFrom, widget.fromName ?? "-"),
+                      style: TextStyles.lightGreyTextSmall,
+                    ),
+                    ThemedControls.spacerVerticalMini(),
+                    Text(widget.fromID ?? "-", style: TextStyles.textNormal),
                     ThemedControls.spacerVerticalSmall(),
-                    ...getMethods()
-                  ])),
-              //--------- End of permissions
-              ThemedControls.spacerVerticalNormal(),
-              //--------- Non Permissions
-              ThemedControls.card(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    Text(l10n.wcAppInfoHeaderPairForbidden,
-                        style: TextStyles.walletConnectDapPermissionHeader),
-                    ThemedControls.spacerVerticalSmall(),
-                    getMethod(l10n.wcScopeForbiddenTransfer, isGranted: false)
+                    Text(
+                      l10n.generalLabelToFromAddress(l10n.generalLabelTo),
+                      style: TextStyles.lightGreyTextSmall,
+                    ),
+                    ThemedControls.spacerVerticalMini(),
                   ]))
-              //--------- End of non permissions
             ],
           ))
         ]));
@@ -252,7 +227,7 @@ class _PairState extends State<Pair> {
   @override
   Widget build(BuildContext context) {
     return PopScope(
-        canPop: true,
+        canPop: !isLoading,
         child: Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,

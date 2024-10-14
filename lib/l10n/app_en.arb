@@ -781,7 +781,10 @@
     "wcScopeRequestAccounts": "View your wallet accounts and their balance",
     "wcScopeSendQubic": "Ask you to send Qubic from your wallet accounts",
     "wcScopeSendAssets": "Ask you to send Qubic Assets from your wallet accounts",
+    "wcScopeSignTransaction": "Ask you to sign transactions with your private seed",
+    "wcScopeSign": "Ask you to sign messages with your private seed",
     "wcScopeForbiddenTransfer": "Transfer Qubic or Qubic Assets without your consent",
+
     "wcUnknownDapp": "Unknown dApp",
     "wcAppInfoHeader": "This app is able to",
     "wcAppInfoHeaderPair" :"This app will be able to",
