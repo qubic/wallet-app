@@ -7,7 +7,6 @@ import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_accounts_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_generic_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
