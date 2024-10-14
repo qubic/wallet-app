@@ -90,7 +90,7 @@ abstract class _ApplicationStore with Store {
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
     return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(0,
-        (sum, qubic) => sum + (qubic.amount ?? 0) * marketInfo!.priceAsDouble);
+        (sum, qubic) => sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
   }
 
   //The market info for $QUBIC
@@ -169,7 +169,7 @@ abstract class _ApplicationStore with Store {
 
   @action
   setMarketInfo(MarketInfoDto newInfo) {
-    marketInfo = newInfo.clone();
+    marketInfo = newInfo;
   }
 
   /// Gets the stored seed by a public Id

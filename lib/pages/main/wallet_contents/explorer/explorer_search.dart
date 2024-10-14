@@ -1,22 +1,24 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_result_qubic_id.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_result_tick.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_result_transaction.dart';
+import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:collection/collection.dart';
-
-import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
-import 'package:qubic_wallet/stores/explorer_store.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 class ExplorerSearch extends StatefulWidget {
   const ExplorerSearch({super.key});
@@ -30,6 +32,7 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ExplorerStore explorerStore = getIt<ExplorerStore>();
   final QubicLi qubicLi = getIt<QubicLi>();
+  final qubicArchive = getIt<QubicArchiveApi>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   late TextEditingController searchController = TextEditingController();
@@ -183,6 +186,7 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                           height: 23,
                           width: 24,
                           child: CircularProgressIndicator(
+                              strokeWidth: 2,
                               valueColor: AlwaysStoppedAnimation<Color>(
                                   Theme.of(context).colorScheme.onPrimary)))
                       : Text(l10n.generalButtonSearch,
@@ -190,30 +194,60 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
     ];
   }
 
+  ExplorerResult? checkKeyword(String keyword) {
+    String trimmedKeyword = keyword.trim();
+
+    if (trimmedKeyword.length == 60) {
+      if (RegExp(r'^[A-Z\s]+$').hasMatch(trimmedKeyword)) {
+        return ExplorerResult.publicId;
+      }
+      if (RegExp(r'^[a-z]+$').hasMatch(trimmedKeyword)) {
+        return ExplorerResult.transaction;
+      }
+    } else if (int.tryParse(keyword.replaceAll(',', ''))?.toString().length ==
+        8) {
+      return ExplorerResult.tick;
+    }
+
+    return null;
+  }
+
   void searchHandler() async {
     _formKey.currentState?.validate();
     if (!_formKey.currentState!.isValid) {
       return;
     }
-
-    setState(() {
-      isLoading = true;
-    });
-
-    try {
-      List<ExplorerQueryDto>? result = await qubicLi.getExplorerQuery(
-          _formKey.currentState!.fields["searchTerm"]!.value as String);
-      setState(() {
-        lastSearchQuery =
-            _formKey.currentState!.fields["searchTerm"]!.value as String;
-        searchResults = result;
-        isLoading = false;
-        FocusManager.instance.primaryFocus?.unfocus();
-      });
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-      });
+    final term = _formKey.currentState!.fields["searchTerm"]!.value as String;
+    if (checkKeyword(term) == null) {
+      return;
+    } else {
+      if (checkKeyword(term) == ExplorerResult.tick) {
+        pushScreen(context,
+            screen: ExplorerResultPage(
+                resultType: ExplorerResultType.tick,
+                tick: int.tryParse(term.replaceAll(',', ''))));
+      } else if (checkKeyword(term) == ExplorerResult.publicId) {
+        pushScreen(context,
+            screen: ExplorerResultPage(
+                resultType: ExplorerResultType.publicId, qubicId: term));
+      } else {
+        setState(() {
+          isLoading = true;
+        });
+        try {
+          final transaction = await qubicArchive.getTransaction(term);
+          pushScreen(context,
+              screen: ExplorerResultPage(
+                  resultType: ExplorerResultType.transaction,
+                  focusedTransactionHash: term,
+                  tick: transaction.transaction.tickNumber));
+        } catch (e) {
+        } finally {
+          setState(() {
+            isLoading = false;
+          });
+        }
+      }
     }
   }
 
