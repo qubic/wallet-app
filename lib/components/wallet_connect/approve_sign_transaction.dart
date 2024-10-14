@@ -26,7 +26,7 @@ class ApproveSignTransaction extends StatefulWidget {
   final String? fromName;
   final int amount;
   final String? toID;
-  final int tick;
+  final int? tick;
   final String? nonce;
   const ApproveSignTransaction(
       {super.key,
@@ -101,11 +101,18 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                   isLoading = true;
                 });
 
+                late int targetTick;
+                if (widget.tick != null) {
+                  targetTick = widget.tick!;
+                } else {
+                  int latestTick = await _apiService.getCurrentTick();
+                  targetTick = latestTick + defaultTargetTickType.value;
+                }
                 //Generate the transaction
                 String? result;
                 if (mounted) {
                   result = await getTransactionDialog(context, widget.fromID!,
-                      widget.toID!, widget.amount, widget.tick);
+                      widget.toID!, widget.amount, targetTick);
                   if (result != null) {
                     setState(() {
                       isLoading = true;
@@ -113,6 +120,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                     if (mounted) {
                       Navigator.of(context).pop(ApproveSignTransactionResult(
                           //Return the success and tick
+                          tick: targetTick,
                           signedTransaction: result));
                       getIt<GlobalSnackBar>()
                           .show(l10nOf(context).wcApprovedSignedTransaction);
@@ -125,6 +133,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                     if (mounted) {
                       Navigator.of(context).pop(ApproveSignTransactionResult(
                           //Return the error
+                          tick: null,
                           signedTransaction: null));
                       getIt<GlobalSnackBar>()
                           .showError(l10nOf(context) //Show snackbar

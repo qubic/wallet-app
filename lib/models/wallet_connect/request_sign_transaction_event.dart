@@ -11,7 +11,7 @@ class RequestSignTransactionEvent extends RequestEvent {
   final String fromID; //From which publicID should the funds flow
   final String toID; //To which publicID should the funds flow
   final int amount; //The amount of funds to send
-  final int tick; //The tick to be used for the transaction
+  final int? tick; //The tick to be used for the transaction
 
   late final String fromIDName; //The name of the fromID
   late final PairingMetadata?
@@ -31,8 +31,10 @@ class RequestSignTransactionEvent extends RequestEvent {
     if (account.publicId == toID) {
       throw ArgumentError("fromID and toID are the same");
     }
-    if (appStore.currentTick > tick) {
-      throw ArgumentError("Tick is already in the past");
+    if (tick != null) {
+      if (appStore.currentTick > tick!) {
+        throw ArgumentError("Tick is already in the past");
+      }
     }
     fromIDName = account.name;
   }
@@ -86,23 +88,22 @@ class RequestSignTransactionEvent extends RequestEvent {
       throw ArgumentError(validAmount);
     }
 
-    var validTick = FormBuilderValidators.compose([
-      FormBuilderValidators.required(errorText: "tick is required"),
-      FormBuilderValidators.positiveNumber(
-          errorText: "tick must be a positive number")
-    ])(map["tick"]);
-
-    if ((map["tick"] == null) || (validTick != null)) {
-      throw ArgumentError(validTick);
+    if (map["tick"] != null) {
+      var validTick = FormBuilderValidators.compose([
+        FormBuilderValidators.positiveNumber(
+            errorText: "tick must be a positive number")
+      ])(map["tick"]);
+      if (validTick != null) {
+        throw ArgumentError(validTick);
+      }
     }
-
     return RequestSignTransactionEvent(
       topic: topic.toString(),
       requestId: requestId,
       fromID: map["fromID"],
       toID: map["toID"],
       amount: int.parse(map["amount"]),
-      tick: int.parse(map["tick"]),
+      tick: map["tick"] != null ? int.parse(map["tick"]) : null,
     );
   }
 

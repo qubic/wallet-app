@@ -3,8 +3,13 @@ class ApproveSignTransactionResult {
   final String? signedTransaction;
   final String? errorMessage;
   final int? errorCode;
-  ApproveSignTransactionResult(
-      {required this.signedTransaction, this.errorCode, this.errorMessage});
+  final int? tick;
+  ApproveSignTransactionResult({
+    required this.signedTransaction,
+    required this.tick,
+    this.errorCode,
+    this.errorMessage,
+  });
 
   ///Important, always provide a toJson otherwise WC serilization will fail
   Map<String, dynamic> toJson() {
@@ -13,6 +18,7 @@ class ApproveSignTransactionResult {
     }
     return {
       'signedTransaction': signedTransaction,
+      'tick': tick,
       'errorMessage': errorMessage,
       'errorCode': errorCode
     };
