@@ -72,4 +72,17 @@ abstract class Config {
   static const bool useProxy = false; // Can be set to `true` to use a proxy
   static const String proxyIP = '192.168.1.1'; // Replace with actual proxy IP
   static const int proxyPort = 8888; // Replace with actual proxy port
+
+  //Configuration for Wallet Connect
+  static const walletConnectProjectId = "b2ace378845f0e4806ef23d2732f77a4";
+  static const walletConnectName = "Qubic Wallet";
+  static const walletConnectDescription = "The official wallet for Qubic chain";
+  static const walletConnectURL = "https://www.qubic.org";
+  static const walletConnectIcons = [
+    "https://wallet.qubic.org/assets/logos/qubic_wallet_dark.svg"
+  ];
+  static const walletConnectRedirectNative = "qubicwallet://";
+  static const walletConnectRedirectUniversal = "https://wallet.qubic.org";
+
+  static const walletConnectChainId = "qubic:main";
 }
