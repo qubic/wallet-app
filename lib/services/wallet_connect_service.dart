@@ -290,7 +290,7 @@ class WalletConnectService {
           return data;
         });
 
-    // sendQubic uses the sendQubicHandler callback if the request is valid
+    // qubic_sendQubic uses the sendQubicHandler callback if the request is valid
     // otherwise returns a validation error
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
@@ -322,6 +322,7 @@ class WalletConnectService {
           }
         });
 
+    // qubic_sign
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSign,
@@ -352,6 +353,7 @@ class WalletConnectService {
           }
         });
 
+    // qubic_signTransaction
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSignTransaction,

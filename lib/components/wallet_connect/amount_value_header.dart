@@ -53,7 +53,7 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
     //return Text(appStore.marketInfo!.price);
     return AmountFormatted(
         amount: 1,
-        stringOverride: appStore.marketInfo!.price,
+        stringOverride: appStore.marketInfo!.price.toString(),
         isInHeader: true,
         currencyName: l10n.generalLabelUSDQubicConversion,
         labelOffset: -2,

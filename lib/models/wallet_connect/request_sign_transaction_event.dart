@@ -31,7 +31,7 @@ class RequestSignTransactionEvent extends RequestEvent {
     if (account.publicId == toID) {
       throw ArgumentError("fromID and toID are the same");
     }
-    if (appStore.currentTick < tick) {
+    if (appStore.currentTick > tick) {
       throw ArgumentError("Tick is already in the past");
     }
     fromIDName = account.name;

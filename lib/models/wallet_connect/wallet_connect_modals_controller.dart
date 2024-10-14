@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:qubic_wallet/components/wallet_connect/approve_sign_transaction.dart';
 import 'package:qubic_wallet/components/wallet_connect/approve_token_transfer.dart';
 
 import 'package:qubic_wallet/models/wallet_connect.dart';
+import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_generic_event.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
 
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
@@ -57,20 +62,21 @@ class WalletConnectModalsController {
   }
 
   //Handles sending Qubic
-  Future<ApproveTokenTransferResult> handleSign(
-      RequestSendQubicEvent event, BuildContext context) async {
+  Future<ApproveSignTransactionResult> handleSignTransaction(
+      RequestSignTransactionEvent event, BuildContext context) async {
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
 
     try {
       var result = await Navigator.of(context)
-          .push(MaterialPageRoute<ApproveTokenTransferResult?>(
+          .push(MaterialPageRoute<ApproveSignTransactionResult?>(
               builder: (BuildContext context) {
-                return ApproveTokenTransfer(
+                return ApproveSignTransaction(
                     pairingMetadata: event.pairingMetadata!,
                     fromID: event.fromID,
                     fromName: event.fromIDName,
                     amount: event.amount,
+                    tick: event.tick,
                     toID: event.toID);
               },
               fullscreenDialog: true));
@@ -91,5 +97,42 @@ class WalletConnectModalsController {
       _wCDialogOpen = false;
       rethrow;
     }
+  }
+
+  //Handles sending Qubic
+  Future<ApproveSignGenericResult> handleSign(
+      RequestSignGenericEvent event, BuildContext context) async {
+    await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
+    _wCDialogOpen = true;
+    return ApproveSignGenericResult(signedMessageBase64: "aa");
+    // try {
+    //   var result = await Navigator.of(context)
+    //       .push(MaterialPageRoute<ApproveSignGenericResult?>(
+    //           builder: (BuildContext context) {
+    //             return ApproveTokenTransfer(
+    //                 pairingMetadata: event.pairingMetadata!,
+    //                 fromID: event.fromID,
+    //                 fromName: event.fromIDName,
+
+    //                 toID: event.toID);
+    //           },
+    //           fullscreenDialog: true));
+    //   _wCDialogOpen = false;
+    //   if (result == null) {
+    //     var err = Errors.getSdkError(Errors.USER_REJECTED);
+    //     throw JsonRpcError(code: err.code, message: err.message);
+    //   } else {
+    //     if ((result.errorCode == null) && (result.errorMessage == null)) {
+    //       return result;
+    //     } else {
+    //       throw JsonRpcError(
+    //           code: result.errorCode ?? -1,
+    //           message: result.errorMessage ?? "An error has occurred");
+    //     }
+    //   }
+    // } catch (e) {
+    //   _wCDialogOpen = false;
+    //   rethrow;
+    // }
   }
 }

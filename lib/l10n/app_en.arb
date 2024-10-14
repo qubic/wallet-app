@@ -826,5 +826,12 @@
     "wcAddURL": "WalletConnect connection URL",
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",
-    "pleaseWait": "Please wait"
+    "pleaseWait": "Please wait",
+
+    "wcApproveSignTransferOf" : "Sign the transfer of",
+    "wcApproveTransferOf" : "Transfer of",
+    "wcApproveSignOf" : "Sign the following message",
+    "wcApprovedSignedTransaction" : "Signed transaction and successfully sent to dApp",
+    "wcApprovedSignedMessage" : "Signed message and successfully sent to dApp"
+
 }
