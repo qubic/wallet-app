@@ -25,12 +25,10 @@ class ApproveSignTransaction extends StatefulWidget {
   final int amount;
   final String? toID;
   final int? tick;
-  final String? nonce;
   const ApproveSignTransaction(
       {super.key,
       required this.pairingMetadata,
       required this.fromID,
-      this.nonce,
       required this.fromName,
       required this.amount,
       required this.tick,

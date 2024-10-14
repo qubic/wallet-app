@@ -10,6 +10,7 @@ import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -23,15 +24,13 @@ class ApproveSign extends StatefulWidget {
   final PairingMetadata? pairingMetadata;
   final String? fromID;
   final String? fromName;
-  final String? toSign;
-  final String? nonce;
+  final String? message;
   const ApproveSign({
     super.key,
     required this.pairingMetadata,
     required this.fromID,
-    this.nonce,
     required this.fromName,
-    required this.toSign,
+    required this.message,
   });
 
   @override
@@ -89,32 +88,30 @@ class _ApproveSignState extends State<ApproveSign> {
                   isLoading = true;
                 });
                 //Get current tick
-                int latestTick = await _apiService.getCurrentTick();
-                int targetTick = latestTick + defaultTargetTickType.value;
 
                 //Send the transaction to backend
-                bool result = false;
+                ApproveSignGenericResult? result;
+                setState(() {
+                  isLoading = true;
+                });
                 if (mounted) {
-                  result = true;
-                  //TODO --------- ADD THE RESULT HERE
-                  //result = await sendTransactionDialog(context, widget.fromID!,
-                  //  widget.toID!, widget.amount, targetTick);
-                  if (result) {
+                  String signedMessage =
+                      "${widget.message ?? "original"} SIGNED"; //TODO --------- ADD THE RESULT HERE
+
+                  if (signedMessage != null) {
                     setState(() {
                       isLoading = true;
                     });
                     //If the transaction was successful
 
                     if (mounted) {
-                      Navigator.of(context).pop(ApproveTokenTransferResult(
+                      Navigator.of(context).pop(ApproveSignGenericResult(
                           //Return the success and tick
+                          signedMessage: signedMessage));
 
-                          tick: targetTick));
-                      getIt.get<PersistentTabController>().jumpToTab(1);
-                      getIt<GlobalSnackBar>().show(
-                          l10nOf(context) //Show snackbar
-                              .generalSnackBarMessageTransactionSubmitted(
-                                  targetTick.toString()));
+                      getIt<GlobalSnackBar>()
+                          .show(l10nOf(context) //Show snackbar
+                              .wcApprovedSignedMessage);
                     }
                   } else {
                     //Else, transaction failed
@@ -122,10 +119,9 @@ class _ApproveSignState extends State<ApproveSign> {
                       isLoading = false;
                     });
                     if (mounted) {
-                      Navigator.of(context).pop(ApproveTokenTransferResult(
+                      Navigator.of(context).pop(ApproveSignGenericResult(
                           //Return the success and tick
-
-                          tick: null));
+                          signedMessage: null));
                       getIt.get<PersistentTabController>().jumpToTab(1);
                       getIt<GlobalSnackBar>()
                           .showError(l10nOf(context) //Show snackbar
@@ -201,9 +197,18 @@ class _ApproveSignState extends State<ApproveSign> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      AmountValueHeader(amount: 1, suffix: "QUBIC"),
-                    ]),
+                    Center(
+                        child: Text("Sign the following message",
+                            style: TextStyles.sliverHeader)),
+                    ThemedControls.spacerVerticalBig(),
+                    Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: ThemePaddings.bigPadding),
+                        child: Text(
+                            widget.message != null
+                                ? widget.message!.replaceAll(r'\n', '\n')
+                                : "-",
+                            style: TextStyles.textNormal)),
                     ThemedControls.spacerVerticalBig(),
                     Text(
                       l10n.generalLabelToFromAccount(
@@ -213,11 +218,6 @@ class _ApproveSignState extends State<ApproveSign> {
                     ThemedControls.spacerVerticalMini(),
                     Text(widget.fromID ?? "-", style: TextStyles.textNormal),
                     ThemedControls.spacerVerticalSmall(),
-                    Text(
-                      l10n.generalLabelToFromAddress(l10n.generalLabelTo),
-                      style: TextStyles.lightGreyTextSmall,
-                    ),
-                    ThemedControls.spacerVerticalMini(),
                   ]))
             ],
           ))

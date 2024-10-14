@@ -12,6 +12,8 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_even
 
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
+import '../../components/wallet_connect/approve_sign.dart';
+
 // Provides a unified place to handle WalletConnect modals
 class WalletConnectModalsController {
   bool _wCDialogOpen = false;
@@ -104,35 +106,35 @@ class WalletConnectModalsController {
       RequestSignGenericEvent event, BuildContext context) async {
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
-    return ApproveSignGenericResult(signedMessageBase64: "aa");
-    // try {
-    //   var result = await Navigator.of(context)
-    //       .push(MaterialPageRoute<ApproveSignGenericResult?>(
-    //           builder: (BuildContext context) {
-    //             return ApproveTokenTransfer(
-    //                 pairingMetadata: event.pairingMetadata!,
-    //                 fromID: event.fromID,
-    //                 fromName: event.fromIDName,
 
-    //                 toID: event.toID);
-    //           },
-    //           fullscreenDialog: true));
-    //   _wCDialogOpen = false;
-    //   if (result == null) {
-    //     var err = Errors.getSdkError(Errors.USER_REJECTED);
-    //     throw JsonRpcError(code: err.code, message: err.message);
-    //   } else {
-    //     if ((result.errorCode == null) && (result.errorMessage == null)) {
-    //       return result;
-    //     } else {
-    //       throw JsonRpcError(
-    //           code: result.errorCode ?? -1,
-    //           message: result.errorMessage ?? "An error has occurred");
-    //     }
-    //   }
-    // } catch (e) {
-    //   _wCDialogOpen = false;
-    //   rethrow;
-    // }
+    try {
+      var result = await Navigator.of(context)
+          .push(MaterialPageRoute<ApproveSignGenericResult?>(
+              builder: (BuildContext context) {
+                return ApproveSign(
+                  pairingMetadata: event.pairingMetadata!,
+                  fromID: event.fromID,
+                  fromName: event.fromIDName,
+                  message: event.message,
+                );
+              },
+              fullscreenDialog: true));
+      _wCDialogOpen = false;
+      if (result == null) {
+        var err = Errors.getSdkError(Errors.USER_REJECTED);
+        throw JsonRpcError(code: err.code, message: err.message);
+      } else {
+        if ((result.errorCode == null) && (result.errorMessage == null)) {
+          return result;
+        } else {
+          throw JsonRpcError(
+              code: result.errorCode ?? -1,
+              message: result.errorMessage ?? "An error has occurred");
+        }
+      }
+    } catch (e) {
+      _wCDialogOpen = false;
+      rethrow;
+    }
   }
 }

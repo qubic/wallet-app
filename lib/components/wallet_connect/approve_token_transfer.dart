@@ -25,12 +25,10 @@ class ApproveTokenTransfer extends StatefulWidget {
   final String? fromName;
   final int amount;
   final String? toID;
-  final String? nonce;
   const ApproveTokenTransfer(
       {super.key,
       required this.pairingMetadata,
       required this.fromID,
-      this.nonce,
       required this.fromName,
       required this.amount,
       required this.toID});
