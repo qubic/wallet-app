@@ -172,7 +172,9 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
                 }
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                     dialogTitle: l10n.importVaultFilePickerLabel,
-                    withData: isMobile,
+                    withData: isMobile ||
+                        isWindows ||
+                        isMacOS, //TODO Sally check this in MacOS
                     initialDirectory: directory?.path,
                     //allowedExtensions: ['qubic-vault'],
                     lockParentWindow: true);
@@ -348,11 +350,8 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
         await appStore.checkWalletIsInitialized();
         List<QubicId> ids = [];
         for (var importedSeed in importedSeeds!) {
-          ids.add(QubicId(
-              importedSeed.getSeed(),
-              importedSeed.getPublicId(),
-              importedSeed.getAlias()!,
-              0));
+          ids.add(QubicId(importedSeed.getSeed(), importedSeed.getPublicId(),
+              importedSeed.getAlias()!, 0));
         }
         await appStore.addManyIds(ids);
         await getIt<QubicLi>().authenticate();
