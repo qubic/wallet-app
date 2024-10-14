@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/account_list_item.dart';
@@ -19,6 +20,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
@@ -192,6 +194,25 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                     actions: <Widget>[
                       TickRefresh(),
                       ThemedControls.spacerHorizontalSmall(),
+                      Observer(builder: (context) {
+                        if (settingsStore.settings.walletConnectEnabled) {
+                          return SliverButton(
+                            onPressed: () {
+                              pushScreen(
+                                context,
+                                screen: const AddWalletConnect(),
+                                withNavBar: false,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                              );
+                            },
+                            icon: SvgPicture.asset(AppIcons.scan,
+                                color: LightThemeColors.primary),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      }),
+                      ThemedControls.spacerHorizontalSmall(),
                       SliverButton(
                         icon: const Icon(Icons.add,
                             color: LightThemeColors.primary),
@@ -289,30 +310,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                   //Header text
                                   Text(l10n.homeHeader,
                                       style: TextStyles.sliverCardPreLabel),
-                                  Observer(builder: (context) {
-                                    if (settingsStore
-                                        .settings.walletConnectEnabled) {
-                                      return ThemedControls
-                                          .transparentButtonWithChild(
-                                              onPressed: () async {
-                                                pushScreen(
-                                                  context,
-                                                  screen:
-                                                      const AddWalletConnect(),
-                                                  withNavBar: false,
-                                                  pageTransitionAnimation:
-                                                      PageTransitionAnimation
-                                                          .cupertino,
-                                                );
-                                              },
-                                              child: Row(children: [
-                                                Image.asset(
-                                                    "assets/images/wc-scan.png")
-                                              ]));
-                                    } else {
-                                      return Container();
-                                    }
-                                  }),
                                 ])))
                   ])),
                   Observer(builder: (context) {
