@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/components/wallet_connect/pair.dart';
 import 'package:qubic_wallet/config.dart';
@@ -16,6 +17,7 @@ import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
@@ -33,9 +35,11 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   final WalletConnectService walletConnectService =
       getIt<WalletConnectService>();
+  final TextEditingController urlController = TextEditingController();
 
   bool isLoading = false;
   bool isConnecting = false;
+  bool canConnect = false;
   Timer? pairingTimer;
   StreamSubscription<SessionProposalEvent?>? sessionProposalSubscription;
   StreamSubscription<SessionProposalErrorEvent?>?
@@ -197,8 +201,96 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     if (sessionProposalErrorSubscription != null) {
       sessionProposalErrorSubscription!.cancel();
     }
-
+    urlController.dispose();
     super.dispose();
+  }
+
+  pasteAndProceed() async {
+    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    String? clipboardText = clipboardData?.text;
+    proceedHandler(clipboardText);
+  }
+
+  pasteToForm() async {
+    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+    String? clipboardText = clipboardData?.text;
+    urlController.text = clipboardText ?? "";
+  }
+
+  void proceedHandler(String? url) async {
+    final l10n = l10nOf(context);
+    if (validateWalletConnectURL(url) != null) {
+      _globalSnackBar.showError(validateWalletConnectURL(url)!);
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    if (!walletConnectService.web3Wallet!.core.relayClient.isConnected) {
+      await walletConnectService.web3Wallet!.core.relayClient.connect();
+    }
+    try {
+      PairingInfo pairResult = await walletConnectService.pair(Uri.parse(url!));
+
+      if (walletConnectService
+          .sessionPairingTopicAlreadyExists(pairResult.topic)) {
+        pairingTimer = Timer(const Duration(seconds: 10), () {
+          if (mounted) {
+            _globalSnackBar.showError(l10n.wcErrorUsedURL);
+            setState(() {
+              isLoading = false;
+            });
+          } else {
+            setState(() {
+              isLoading = false;
+            });
+          }
+        });
+
+        return;
+      }
+    } catch (e) {
+      if (e is WalletConnectError) {
+        _globalSnackBar.showError(e.message);
+        setState(() {
+          isLoading = false;
+          if (pairingTimer != null) pairingTimer!.cancel();
+        });
+      } else {
+        _globalSnackBar.showError(e.toString());
+        setState(() {
+          isLoading = false;
+          if (pairingTimer != null) pairingTimer!.cancel();
+        });
+      }
+    }
+  }
+
+  String? validateWalletConnectURL(String? valueCandidate) {
+    final l10n = l10nOf(context);
+    const requiredLength = Config.wallectConnectUrlLength;
+    final requiredPatterns = ['wc:', 'expiryTimestamp=', 'symKey=', '@'];
+
+    if (valueCandidate == null || valueCandidate.trim().isEmpty) {
+      return l10n.wcErrorInvalidURL;
+    }
+
+    if (valueCandidate.length != requiredLength) {
+      return l10n.wcErrorInvalidURL;
+    }
+
+    if (!requiredPatterns
+        .every((pattern) => valueCandidate.contains(pattern))) {
+      return l10n.wcErrorInvalidURL;
+    }
+
+    if (valueCandidate.contains("@1")) {
+      return l10n.wcErrorDeprecatedURL;
+    }
+
+    return null;
   }
 
   Widget getScrollView() {
@@ -261,6 +353,47 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                         .copyWith(fontWeight: FontWeight.w400),
                   ),
                 )
+              ],
+              if (!isMobile) ...[
+                Text(
+                  l10n.wcAddWcTitle,
+                  style: TextStyles.pageTitle,
+                ),
+                ThemedControls.spacerVerticalNormal(),
+                Text(
+                  l10n.wcAddURL,
+                  style: TextStyles.secondaryTextLarge,
+                ),
+                ThemedControls.spacerVerticalBig(),
+                FormBuilderTextField(
+                    name: "urlController",
+                    controller: urlController,
+                    onChanged: (val) {
+                      canConnect =
+                          (val?.length == Config.wallectConnectUrlLength)
+                              ? true
+                              : false;
+                      setState(() {});
+                    },
+                    style: TextStyles.inputBoxSmallStyle,
+                    decoration: ThemeInputDecorations.normalInputbox.copyWith(
+                        hintText: l10n.pasteURLHere,
+                        suffixIconConstraints:
+                            const BoxConstraints(minHeight: 24, minWidth: 32),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.only(
+                              right: ThemePaddings.normalPadding),
+                          child: SizedBox(
+                            height: 24,
+                            child: ThemedControls.secondaryButtonWithChild(
+                                onPressed: pasteToForm,
+                                child: Text(l10n.generalButtonPaste,
+                                    style: TextStyles.primaryButtonText
+                                        .copyWith(
+                                            color:
+                                                LightThemeColors.primary40))),
+                          ),
+                        ))),
               ]
             ],
           ))
@@ -271,34 +404,51 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     final l10n = l10nOf(context);
 
     return [
-      SizedBox(
-        width: double.infinity,
-        height: ButtonStyles.buttonHeight,
-        child: ThemedControls.secondaryButtonBigWithChild(
-            onPressed: pasteAndProceed,
-            child: Padding(
-                padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                child: isLoading
-                    ? const SizedBox(
-                        height: 23,
-                        width: 23,
-                        child: CircularProgressIndicator(
+      if (isMobile)
+        SizedBox(
+          width: double.infinity,
+          height: ButtonStyles.buttonHeight,
+          child: ThemedControls.secondaryButtonWithChild(
+              onPressed: pasteAndProceed,
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                  child: isLoading
+                      ? const SizedBox(
+                          height: 23,
+                          width: 23,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: LightThemeColors.buttonPrimary),
+                        )
+                      : Text(
+                          l10n.pasteURLHere,
+                          style: TextStyles.primaryButtonText
+                              .copyWith(color: LightThemeColors.primary40),
+                        ))),
+        ),
+      if (!isMobile)
+        SizedBox(
+          width: double.infinity,
+          height: ButtonStyles.buttonHeight,
+          child: ThemedControls.primaryButtonBigWithChild(
+              onPressed: canConnect ? pasteAndProceed : null,
+              enabled: canConnect,
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                  child: isLoading
+                      ? const SizedBox(
+                          height: 23,
+                          width: 23,
+                          child: CircularProgressIndicator(
                             strokeWidth: 2,
-                            color: LightThemeColors.buttonPrimary),
-                      )
-                    : Text(
-                        l10n.pasteURLHere,
-                        style: TextStyles.primaryButtonText
-                            .copyWith(color: LightThemeColors.primary40),
-                      ))),
-      )
+                          ),
+                        )
+                      : Text(
+                          l10n.generalButtonConnect,
+                          style: TextStyles.primaryButtonText,
+                        ))),
+        )
     ];
-  }
-
-  pasteAndProceed() async {
-    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-    String? clipboardText = clipboardData?.text;
-    proceedHandler(clipboardText);
   }
 
   Widget getConnectingView() {
@@ -327,82 +477,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
         )
       ],
     );
-  }
-
-  String? validateWalletConnectURL(String? valueCandidate) {
-    final l10n = l10nOf(context);
-    const requiredLength = 187;
-    final requiredPatterns = ['wc:', 'expiryTimestamp=', 'symKey=', '@'];
-
-    if (valueCandidate == null || valueCandidate.trim().isEmpty) {
-      return l10n.wcErrorInvalidURL;
-    }
-
-    if (valueCandidate.length != requiredLength) {
-      return l10n.wcErrorInvalidURL;
-    }
-
-    if (!requiredPatterns
-        .every((pattern) => valueCandidate.contains(pattern))) {
-      return l10n.wcErrorInvalidURL;
-    }
-
-    if (valueCandidate.contains("@1")) {
-      return l10n.wcErrorDeprecatedURL;
-    }
-
-    return null;
-  }
-
-  void proceedHandler(String? url) async {
-    final l10n = l10nOf(context);
-    if (validateWalletConnectURL(url) != null) {
-      _globalSnackBar.showError(validateWalletConnectURL(url)!);
-      return;
-    }
-
-    setState(() {
-      isLoading = true;
-    });
-
-    if (!walletConnectService.web3Wallet!.core.relayClient.isConnected) {
-      await walletConnectService.web3Wallet!.core.relayClient.connect();
-    }
-    try {
-      PairingInfo pairResult = await walletConnectService.pair(Uri.parse(url!));
-
-      if (walletConnectService
-          .sessionPairingTopicAlreadyExists(pairResult.topic)) {
-        pairingTimer = Timer(const Duration(seconds: 10), () {
-          if (mounted) {
-            _globalSnackBar.showError(l10n.wcErrorUsedURL);
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              isLoading = false;
-            });
-          }
-        });
-
-        return;
-      }
-    } catch (e) {
-      if (e is WalletConnectError) {
-        _globalSnackBar.showError(e.message);
-        setState(() {
-          isLoading = false;
-          if (pairingTimer != null) pairingTimer!.cancel();
-        });
-      } else {
-        _globalSnackBar.showError(e.toString());
-        setState(() {
-          isLoading = false;
-          if (pairingTimer != null) pairingTimer!.cancel();
-        });
-      }
-    }
   }
 
   @override

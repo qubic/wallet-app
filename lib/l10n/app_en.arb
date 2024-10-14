@@ -23,6 +23,8 @@
     "generalButtonShowAll": "Show All",
     "generalButtonUseQRCode": "Use QR Code",
     "generalButtonCopyAddress": "Copy Address",
+    "generalButtonPaste": "Paste",
+    "generalButtonConnect": "Connect",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
     "generalLabelCurrencyQubic": "QUBIC",
@@ -823,7 +825,7 @@
     "wcConnectionProposalTimeout": "WalletConnect session proposal timed out",
     "wcPointCameraToQR": "Please point the camera to a QR Code containing the WalletConnect connection info",
     "wcAddWcTitle": "Pair via WalletConnect",
-    "wcAddURL": "WalletConnect connection URL",
+    "wcAddURL": "Connect to a dapp by pasting WalletConnect connection URL.",
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",
     "pleaseWait": "Please wait"

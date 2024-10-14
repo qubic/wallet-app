@@ -72,4 +72,5 @@ abstract class Config {
   static const walletConnectRedirectUniversal = "https://wallet.qubic.org";
 
   static const walletConnectChainId = "qubic:main";
+  static const wallectConnectUrlLength = 187;
 }

@@ -33,7 +33,8 @@ abstract class ButtonStyles {
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0))));
 
-  static ButtonStyle secondaryButtonBig = ButtonStyle(
+  static ButtonStyle secondaryButton = ButtonStyle(
+      padding: WidgetStateProperty.all(EdgeInsets.zero),
       overlayColor: WidgetStatePropertyAll<Color>(
           LightThemeColors.buttonPrimary.withOpacity(0.1)),
       backgroundColor: const WidgetStatePropertyAll<Color>(Color(0xff152932)),
