@@ -809,23 +809,24 @@
     },
     "wcRevokePermissions": "Revoke permissions",
     "wcDappsConnectedNone": "Your wallet is not connected to any dApps",
-    "wcDappsConnectedFollowing": "Your wallet is connected with the following dApps",
-    "wcEnable": "Enable WalletConnect",
-    "wcApprovedConnections": "Approved connections",
-    "wcValidUntil": "Valid until {date}",
-    "@wcValidUntil": {
-        "placeholders": {
-            "date": {
-                "type": "String"
-            }
-        }
-    },
     "wcConnectionApproved": "WalletConnect connection approved",
     "wcConnectionRejected": "WalletConnect connection rejected",
     "wcConnectionProposalTimeout": "WalletConnect session proposal timed out",
     "wcPointCameraToQR": "Please point the camera to a QR Code containing the WalletConnect connection info",
     "wcAddWcTitle": "Pair via WalletConnect",
     "wcAddURL": "Connect to a dapp by pasting WalletConnect connection URL.",
+    "wcNoPermissions": "This app doesn't have any permissions",
+    "wcOpenApp": "Open App",
+    "wcExpiersInDay": "Session expires in 1 day",
+    "wcExpiersInDays": "Session expires in {days} days",
+    "@wcExpiersInDays": {
+        "placeholders": {
+            "days": {
+                "type": "String"
+            }
+        }
+    },
+    "wcExpiersInLessThanDay": "Session expires less than day",
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",
     "pleaseWait": "Please wait"
