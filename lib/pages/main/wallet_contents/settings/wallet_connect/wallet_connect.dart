@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -14,6 +15,8 @@ import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -186,6 +189,31 @@ class _AboutWalletState extends State<WalletConnect> {
     return Column(
       children: [
         ...children,
+        if (children.length > 0) ...[
+          ThemedControls.spacerVerticalBig(),
+          SizedBox(
+            height: ButtonStyles.buttonHeight,
+            width: double.infinity,
+            child: ThemedControls.dangerButtonBigWithClild(
+                onPressed: () {
+                  try {
+                    sessions.forEach((key, sessionData) async {
+                      await walletConnectService.web3Wallet!.disconnectSession(
+                          reason: WalletConnectError(
+                              code: -1, message: l10n.wcErrorUserDisconnected),
+                          topic: sessionData.topic);
+                    });
+                    setState(() {
+                      sessions.clear();
+                    });
+                  } catch (e) {
+                    //Silently ignore
+                  }
+                },
+                child: Text(l10n.wcDisconnectAll,
+                    style: TextStyles.destructiveButtonText)),
+          )
+        ]
       ],
     );
   }
@@ -208,8 +236,31 @@ class _AboutWalletState extends State<WalletConnect> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          ThemedControls.spacerVerticalNormal(),
           getSessions(),
         ]));
+  }
+
+  Widget getEmptyView() {
+    final l10n = l10nOf(context);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SvgPicture.asset(AppIcons.noConnection),
+        ThemedControls.spacerVerticalNormal(),
+        Text(
+          l10n.wcDappsConnectedNone,
+          style: TextStyles.alertHeader,
+        ),
+        ThemedControls.spacerVerticalNormal(),
+        Text(
+          l10n.wcDappsConnectedNoneHint,
+          textAlign: TextAlign.center,
+          style: TextStyles.alertText,
+        ),
+      ],
+    );
   }
 
   @override
@@ -223,7 +274,7 @@ class _AboutWalletState extends State<WalletConnect> {
         body: SafeArea(
             minimum: ThemeEdgeInsets.pageInsets,
             child: sessions.isEmpty
-                ? Center(child: Text(l10n.wcDappsConnectedNone))
+                ? getEmptyView()
                 : Column(children: [
                     Expanded(child: getScrollView()),
                   ])));

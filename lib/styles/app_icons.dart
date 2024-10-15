@@ -26,4 +26,5 @@ abstract class AppIcons {
   static const String scan = '${_path}scan.svg';
   static const String close = '${_path}close.svg';
   static const String arrowDown = '${_path}arrow_down.svg';
+  static const String noConnection = '${_path}no_connection.svg';
 }

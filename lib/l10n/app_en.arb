@@ -796,7 +796,6 @@
     "wcScopeSignTransaction": "Ask you to sign transactions with your private seed",
     "wcScopeSign": "Ask you to sign messages with your private seed",
     "wcScopeForbiddenTransfer": "Transfer Qubic or Qubic Assets without your consent",
-
     "wcUnknownDapp": "Unknown dApp",
     "wcAppInfoHeader": "This app is able to",
     "wcAppInfoHeaderPair": "This app will be able to",
@@ -820,7 +819,8 @@
         }
     },
     "wcRevokePermissions": "Revoke permissions",
-    "wcDappsConnectedNone": "Your wallet is not connected to any dApps",
+    "wcDappsConnectedNone": "No Active Connections",
+    "wcDappsConnectedNoneHint": "Once you connect to any dapps, you will be able to manage them here",
     "wcConnectionApproved": "WalletConnect connection approved",
     "wcConnectionRejected": "WalletConnect connection rejected",
     "wcConnectionProposalTimeout": "WalletConnect session proposal timed out",
@@ -842,11 +842,10 @@
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",
     "pleaseWait": "Please wait",
-
-    "wcApproveSignTransferOf" : "Sign the transfer of",
-    "wcApproveTransferOf" : "Transfer of",
-    "wcApproveSignOf" : "Sign the following message",
-    "wcApprovedSignedTransaction" : "Signed transaction and successfully sent to dApp",
-    "wcApprovedSignedMessage" : "Signed message and successfully sent to dApp"
-
+    "wcApproveSignTransferOf": "Sign the transfer of",
+    "wcApproveTransferOf": "Transfer of",
+    "wcApproveSignOf": "Sign the following message",
+    "wcApprovedSignedTransaction": "Signed transaction and successfully sent to dApp",
+    "wcApprovedSignedMessage": "Signed message and successfully sent to dApp",
+    "wcDisconnectAll": "Disconnect All Apps"
 }
