@@ -117,12 +117,12 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
               : [];
           wcPairingNamespaces = args.params.generatedNamespaces;
 
-          List<String> requiredNetworkIDs = [];
+          List<String?> requiredNetworkIDs = [];
           args.params.requiredNamespaces.forEach((key, value) {
-            requiredNetworkIDs.addAll(value.chains as List<String>);
+            requiredNetworkIDs.addAll(value.chains?.toList() ?? []);
           });
           for (var network in requiredNetworkIDs) {
-            if (network != Config.walletConnectChainId) {
+            if (network != null && network != Config.walletConnectChainId) {
               notSupportedNetworks.add(network);
             }
           }
