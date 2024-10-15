@@ -28,7 +28,7 @@ class Settings {
   int autoLockTimeout = 3; // Auto-lock timeout in minutes
 
   @observable
-  bool walletConnectEnabled = false; //Is WalletConnect enabled?
+  bool walletConnectEnabled = true; //Is WalletConnect enabled?
 
   Settings(
       {this.biometricEnabled = false,
