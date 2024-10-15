@@ -441,6 +441,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                           width: 23,
                           child: CircularProgressIndicator(
                             strokeWidth: 2,
+                            color: LightThemeColors.extraStrongBackground,
                           ),
                         )
                       : Text(
