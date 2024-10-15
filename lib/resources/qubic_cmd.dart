@@ -13,6 +13,8 @@ class QubicCmd {
   late QubicJs qubicJs;
   late QubicCmdUtils qubicCmdUtils;
 
+  late bool useJs;
+
   Future<void> _initQubicJS() async {
     qubicJs = QubicJs();
     await qubicJs.initialize();
@@ -29,60 +31,62 @@ class QubicCmd {
   void _disposeQubicCMD() {}
 
   void reinitialize() {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+    if ((UniversalPlatform.isAndroid) ||
+        (UniversalPlatform.isIOS) ||
+        (UniversalPlatform.isWindows) ||
+        (UniversalPlatform.isMacOS)) {
       qubicJs.reInitialize();
     }
   }
 
   void dispose() {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
-      _disploseQubicJS();
-    }
-    if ((UniversalPlatform.isLinux) ||
+    if ((UniversalPlatform.isAndroid) ||
+        (UniversalPlatform.isIOS) ||
         (UniversalPlatform.isWindows) ||
         (UniversalPlatform.isMacOS)) {
+      _disploseQubicJS();
+    } else if (UniversalPlatform.isLinux) {
       _disposeQubicCMD();
     }
   }
 
   Future<void> initialize() async {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
-      await _initQubicJS();
-    }
-    if ((UniversalPlatform.isLinux) ||
+    if ((UniversalPlatform.isAndroid) ||
+        (UniversalPlatform.isIOS) ||
         (UniversalPlatform.isWindows) ||
         (UniversalPlatform.isMacOS)) {
+      useJs = true;
+    } else if (UniversalPlatform.isDesktop && UniversalPlatform.isLinux) {
+      useJs = false;
+    } else {
+      throw LocalizationManager
+          .instance.appLocalization.generalErrorUnsupportedOS;
+    }
+
+    if (useJs) {
+      await _initQubicJS();
+    } else {
       _initQubicCMD();
     }
   }
 
   Future<String> getPublicIdFromSeed(String seed) async {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+    if (useJs) {
       return await qubicJs.getPublicIdFromSeed(seed);
-    }
-    if ((UniversalPlatform.isLinux) ||
-        (UniversalPlatform.isWindows) ||
-        (UniversalPlatform.isMacOS)) {
+    } else {
       _initQubicCMD();
       return await qubicCmdUtils.getPublicIdFromSeed(seed);
     }
-    throw LocalizationManager
-        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
   Future<String> createTransaction(
       String seed, String destinationId, int value, int tick) async {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+    if (useJs) {
       return await qubicJs.createTransaction(seed, destinationId, value, tick);
-    }
-    if ((UniversalPlatform.isLinux) ||
-        (UniversalPlatform.isWindows) ||
-        (UniversalPlatform.isMacOS)) {
+    } else {
       return await qubicCmdUtils.createTransaction(
           seed, destinationId, value, tick);
     }
-    throw LocalizationManager
-        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
   Future<String> createAssetTransferTransaction(
@@ -92,67 +96,45 @@ class QubicCmd {
       String assetIssuer,
       int numberOfAssets,
       int tick) async {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+    if (useJs) {
       return await qubicJs.createAssetTransferTransaction(
           seed, destinationId, assetName, assetIssuer, numberOfAssets, tick);
-    }
-    if ((UniversalPlatform.isLinux) ||
-        (UniversalPlatform.isWindows) ||
-        (UniversalPlatform.isMacOS)) {
+    } else {
       return await qubicCmdUtils.createAssetTransferTransaction(
           seed, destinationId, assetName, assetIssuer, numberOfAssets, tick);
     }
-    throw LocalizationManager
-        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
   Future<bool> verifyIdentity(String publicId) async {
-    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
+    if (useJs) {
       return await qubicJs.verifyIdentity(publicId);
-    }
-    if (UniversalPlatform.isLinux ||
-        UniversalPlatform.isWindows ||
-        UniversalPlatform.isMacOS) {
+    } else {
       return await qubicCmdUtils.verifyIdentity(publicId);
     }
-
-    throw Exception(LocalizationManager.instance.appLocalization
-        .generalErrorUnsupportedOS);
   }
 
   Future<Uint8List> createVaultFile(
       String password, List<QubicVaultExportSeed> seeds) async {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+    if (useJs) {
       return await qubicJs.createVaultFile(password, seeds);
-    }
-    if ((UniversalPlatform.isLinux) ||
-        (UniversalPlatform.isWindows) ||
-        (UniversalPlatform.isMacOS)) {
+    } else {
       return await qubicCmdUtils.createVaultFile(password, seeds);
     }
-    throw LocalizationManager
-        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 
   Future<List<QubicImportVaultSeed>> importVaultFile(
       String password, String? filePath, Uint8List? fileContents) async {
-    if ((UniversalPlatform.isAndroid) || (UniversalPlatform.isIOS)) {
+    if (useJs) {
       if (fileContents == null) {
         throw "File contents base64 is required";
       }
       var base64String = base64Encode(fileContents);
       return await qubicJs.importVault(password, base64String);
-    }
-    if ((UniversalPlatform.isLinux) ||
-        (UniversalPlatform.isWindows) ||
-        (UniversalPlatform.isMacOS)) {
+    } else {
       if (filePath == null) {
         throw "File path is required";
       }
       return await qubicCmdUtils.importVaultFile(password, filePath);
     }
-
-    throw LocalizationManager
-        .instance.appLocalization.generalErrorUnsupportedOS;
   }
 }

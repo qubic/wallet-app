@@ -114,3 +114,44 @@ String getTransactionStatusText(
       return l10n.transactionLabelStatusPending;
   }
 }
+
+getTransactionFiltersInfo(BuildContext context,
+    {required int numberOfFilters,
+    required int numberOfResults,
+    required VoidCallback onTap}) {
+  final l10n = l10nOf(context);
+
+  return Container(
+      color: LightThemeColors.background,
+      child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: ThemePaddings.smallPadding,
+          ),
+          child: Flex(
+              direction: MediaQuery.of(context).size.width < 400
+                  ? Axis.vertical
+                  : Axis.horizontal,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                    l10n.transfersLabelShowingTransactionsFound(
+                        numberOfResults),
+                    style: TextStyles.secondaryText),
+                numberOfFilters == 0
+                    ? Container()
+                    : clearFiltersButton(context,
+                        numberOfFilters: numberOfFilters, onTap: onTap)
+              ])));
+}
+
+Widget clearFiltersButton(BuildContext context,
+    {required VoidCallback? onTap, required int numberOfFilters}) {
+  final l10n = l10nOf(context);
+
+  return TextButton(
+      onPressed: onTap,
+      child: Text(l10n.filterTransfersClearFilters(numberOfFilters),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: Theme.of(context).colorScheme.secondary,
+              fontFamily: ThemeFonts.secondary)));
+}

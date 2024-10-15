@@ -113,6 +113,14 @@ class _PairState extends State<Pair> {
         methods.add(getMethod(l10n.wcScopeSendAssets));
         methods.add(ThemedControls.spacerVerticalMini());
       }
+      if (string == WcMethods.wSignTransaction) {
+        methods.add(getMethod(l10n.wcScopeSignTransaction));
+        methods.add(ThemedControls.spacerVerticalMini());
+      }
+      if (string == WcMethods.wSign) {
+        methods.add(getMethod(l10n.wcScopeSign));
+        methods.add(ThemedControls.spacerVerticalMini());
+      }
     }
     return methods;
   }

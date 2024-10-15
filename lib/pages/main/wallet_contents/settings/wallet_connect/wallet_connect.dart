@@ -99,6 +99,12 @@ class _AboutWalletState extends State<WalletConnect> {
       if (string == WcMethods.wSendAsset) {
         methods.add(l10n.wcScopeSendAssets);
       }
+      if (string == WcMethods.wSignTransaction) {
+        methods.add(l10n.wcScopeSignTransaction);
+      }
+      if (string == WcMethods.wSign) {
+        methods.add(l10n.wcScopeSign);
+      }
     });
     return methods;
   }

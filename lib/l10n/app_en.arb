@@ -126,6 +126,14 @@
     "generalErrorEmptyWalletPassword": "Please fill in your password",
     "generalErrorSetWalletPasswordEmpty": "Please fill in a password.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Please fill in the password again.",
+    "generalErrorUnexpectedError": "An unexpected error has occurred",
+    "generalErrorConnectionTimeout": "Connection timed out",
+    "generalErrorNoInternetConnection": "No internet connection",
+    "generalErrorRequestCancelled": "Request Cancelled",
+    "generalErrorCouldntParseResponse": "Could not parse response",
+    "generalErrorServerError": "Server error",
+    "generalStatusCode": "Status Code",
+    "generalCode": "Code",
     "appTabHome": "Home",
     "appTabTransfers": "Transfers",
     "appTabExplorer": "Explorer",
@@ -189,7 +197,7 @@
     "explorerTickResultLabelDataStatus": "Data Status",
     "explorerTickResultLabelInfoCompleted": "Completed",
     "explorerTickResultLabelInfoNotValidated": "Not Validated",
-    "explorerTickResultLabelTickLeader": "Tick Leader - (Short Code / Index)",
+    "explorerTickResultLabelTickLeader": "Tick Leader",
     "explorerTickResultLabelNoTransactionsFound": "No transactions in this tick",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
     "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}}",
@@ -275,6 +283,7 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Advanced Options",
+    "accountSendSectionInvalidDestinationAddress": "Invalid destination address",
     "assetsLabelOwned": "Owned",
     "assetsLabelPossessed": "Possessed",
     "assetsLabelContractName": "Contract Name",
@@ -784,7 +793,10 @@
     "wcScopeRequestAccounts": "View your wallet accounts and their balance",
     "wcScopeSendQubic": "Ask you to send Qubic from your wallet accounts",
     "wcScopeSendAssets": "Ask you to send Qubic Assets from your wallet accounts",
+    "wcScopeSignTransaction": "Ask you to sign transactions with your private seed",
+    "wcScopeSign": "Ask you to sign messages with your private seed",
     "wcScopeForbiddenTransfer": "Transfer Qubic or Qubic Assets without your consent",
+
     "wcUnknownDapp": "Unknown dApp",
     "wcAppInfoHeader": "This app is able to",
     "wcAppInfoHeaderPair": "This app will be able to",
@@ -829,5 +841,12 @@
     "wcExpiersInLessThanDay": "Session expires less than day",
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",
-    "pleaseWait": "Please wait"
+    "pleaseWait": "Please wait",
+
+    "wcApproveSignTransferOf" : "Sign the transfer of",
+    "wcApproveTransferOf" : "Transfer of",
+    "wcApproveSignOf" : "Sign the following message",
+    "wcApprovedSignedTransaction" : "Signed transaction and successfully sent to dApp",
+    "wcApprovedSignedMessage" : "Signed message and successfully sent to dApp"
+
 }

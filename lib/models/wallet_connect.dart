@@ -14,8 +14,8 @@ abstract class WcMethods {
   /// Sign a transaction
   static const wSignTransaction = "qubic_signTransaction";
 
-  /// Sign a transaction
-  static const wSignGeneric = "qubic_signGeneric";
+  /// Sign a generic message
+  static const wSign = "qubic_sign";
 }
 
 abstract class WcEvents {

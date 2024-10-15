@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/wallet_connect/amount_value_header.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -10,7 +9,7 @@ import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -19,26 +18,28 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
-class ApproveTokenTransfer extends StatefulWidget {
+class ApproveSignTransaction extends StatefulWidget {
   final PairingMetadata? pairingMetadata;
   final String? fromID;
   final String? fromName;
   final int amount;
   final String? toID;
-  const ApproveTokenTransfer(
+  final int? tick;
+  const ApproveSignTransaction(
       {super.key,
       required this.pairingMetadata,
       required this.fromID,
       required this.fromName,
       required this.amount,
+      required this.tick,
       required this.toID});
 
   @override
   // ignore: library_private_types_in_public_api
-  _ApproveTokenTransferState createState() => _ApproveTokenTransferState();
+  _ApproveSignTransactionState createState() => _ApproveSignTransactionState();
 }
 
-class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
+class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
   final QubicLi _apiService = getIt<QubicLi>();
@@ -95,43 +96,41 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                 setState(() {
                   isLoading = true;
                 });
-                //Get current tick
-                int latestTick = await _apiService.getCurrentTick();
-                int targetTick = latestTick + defaultTargetTickType.value;
 
-                //Send the transaction to backend
-                bool result = false;
+                late int targetTick;
+                if (widget.tick != null) {
+                  targetTick = widget.tick!;
+                } else {
+                  int latestTick = await _apiService.getCurrentTick();
+                  targetTick = latestTick + defaultTargetTickType.value;
+                }
+                //Generate the transaction
+                String? result;
                 if (mounted) {
-                  result = await sendTransactionDialog(context, widget.fromID!,
+                  result = await getTransactionDialog(context, widget.fromID!,
                       widget.toID!, widget.amount, targetTick);
-                  if (result) {
+                  if (result != null) {
                     setState(() {
                       isLoading = true;
                     });
-                    //If the transaction was successful
-
                     if (mounted) {
-                      Navigator.of(context).pop(ApproveTokenTransferResult(
+                      Navigator.of(context).pop(ApproveSignTransactionResult(
                           //Return the success and tick
-
-                          tick: targetTick));
-                      getIt.get<PersistentTabController>().jumpToTab(1);
-                      getIt<GlobalSnackBar>().show(
-                          l10nOf(context) //Show snackbar
-                              .generalSnackBarMessageTransactionSubmitted(
-                                  targetTick.toString()));
+                          tick: targetTick,
+                          signedTransaction: result));
+                      getIt<GlobalSnackBar>()
+                          .show(l10nOf(context).wcApprovedSignedTransaction);
                     }
                   } else {
-                    //Else, transaction failed
+                    //Else, generation falied
                     setState(() {
-                      isLoading = false;
+                      isLoading = true;
                     });
                     if (mounted) {
-                      Navigator.of(context).pop(ApproveTokenTransferResult(
-                          //Return the success and tick
-
-                          tick: null));
-                      getIt.get<PersistentTabController>().jumpToTab(1);
+                      Navigator.of(context).pop(ApproveSignTransactionResult(
+                          //Return the error
+                          tick: null,
+                          signedTransaction: null));
                       getIt<GlobalSnackBar>()
                           .showError(l10nOf(context) //Show snackbar
                               .sendItemDialogErrorGeneralTitle);
@@ -206,6 +205,10 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                    Center(
+                        child: Text("Sign the transfer of",
+                            style: TextStyles.sliverHeader)),
+                    ThemedControls.spacerVerticalNormal(),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       AmountValueHeader(amount: widget.amount, suffix: "QUBIC"),
                     ]),
@@ -229,7 +232,13 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                             style: TextStyles.lightGreyTextSmall,
                           ),
                     ThemedControls.spacerVerticalMini(),
-                    Text(widget.toID ?? "-", style: TextStyles.textNormal)
+                    Text(widget.toID ?? "-", style: TextStyles.textNormal),
+                    ThemedControls.spacerVerticalSmall(),
+                    Text(
+                      l10n.generalLabelTick,
+                      style: TextStyles.lightGreyTextSmall,
+                    ),
+                    Text(widget.tick.toString(), style: TextStyles.textNormal)
                   ]))
             ],
           ))

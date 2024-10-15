@@ -27,9 +27,9 @@ class TransactionFilter {
     int nu = 0;
     if (qubicId != null) {
       nu++;
-      if (direction != null) {
-        nu++;
-      }
+    }
+    if (direction != null) {
+      nu++;
     }
     if (status != null) {
       nu++;
