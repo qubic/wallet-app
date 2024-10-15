@@ -29,7 +29,7 @@ class LightThemeColors {
   static const shouldInvertIcon = true;
   static const primary = Color(0xFFFFFFFF);
   static const surface = Color(0xFF222229);
-  static const background = Color(0xFF101820);
+  static const background = Color(0xFF0C131B);
   static const navBg = Color(0xFF0C131B);
   static const navBorder = Color(0xFF202E3C);
   static const successIncoming = Color(0xFF179C6C);
@@ -38,10 +38,11 @@ class LightThemeColors {
   static final border = Colors.white.withOpacity(0.03);
 
   static const dangerColor = Color(0xFFF97066);
+  static const dangerBackgroundButton = Color(0xFF272127);
 
   static const textColorSecondary = Color(0xFF808B9B);
 
-  static const menuBg = Color(0xFF192531);
+  static const menuBg = Color(0xFF101820);
 
   static const buttonPrimary = Color(0xFF1bdef5);
 
@@ -57,7 +58,7 @@ class LightThemeColors {
 
   static const disabledStateBg = color2;
 
-  static const inputFieldBg = Color(0xFF151E27);
+  static const inputFieldBg = grey80;
   static const inputFieldHint = Color(0xFF4B5565);
 
   static const secondaryTypography = color6;
