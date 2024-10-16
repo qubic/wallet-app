@@ -160,7 +160,7 @@ class _AboutWalletState extends State<WalletConnect> {
           content: ThemedControls.cardWithBg(
               child: getMethods(sessionData).isEmpty
                   ? Center(
-                      child: Text(l10n.wcDappsConnectedNone),
+                      child: Text(l10n.wcNoPermissions),
                     )
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
