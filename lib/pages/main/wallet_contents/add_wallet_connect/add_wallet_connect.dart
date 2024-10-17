@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,8 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/scanner_corners_border.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/components/scanner_corners_border.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/components/scanner_overlay_clipper.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
@@ -21,6 +23,9 @@ import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
+
+part 'components/add_wallet_connect_mobile_view.dart';
+part 'components/add_wallet_connect_desktop_view.dart';
 
 class AddWalletConnect extends StatefulWidget {
   const AddWalletConnect({super.key});
@@ -38,8 +43,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   final TextEditingController urlController = TextEditingController();
 
   bool isLoading = false;
-  bool isConnecting = false;
-  bool canConnect = false;
   Timer? pairingTimer;
   StreamSubscription<SessionProposalEvent?>? sessionProposalSubscription;
   StreamSubscription<SessionProposalErrorEvent?>?
@@ -154,7 +157,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           } catch (e) {
             _globalSnackBar.showError(e.toString());
             setState(() {
-              isConnecting = false;
               isLoading = false;
               if (pairingTimer != null) pairingTimer!.cancel();
             });
@@ -164,7 +166,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           setState(() {
             isLoading = false;
             if (pairingTimer != null) pairingTimer!.cancel();
-            isConnecting = false;
           });
           await walletConnectService.web3Wallet!.rejectSession(
               id: wcPairingId!,
@@ -180,7 +181,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           setState(() {
             isLoading = false;
             if (pairingTimer != null) pairingTimer!.cancel();
-            isConnecting = false;
           });
 
           if (mounted) {
@@ -209,12 +209,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     String? clipboardText = clipboardData?.text;
     proceedHandler(clipboardText);
-  }
-
-  pasteToForm() async {
-    final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-    String? clipboardText = clipboardData?.text;
-    urlController.text = clipboardText ?? "";
   }
 
   void proceedHandler(String? url) async {
@@ -293,209 +287,31 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     return null;
   }
 
-  Widget getScrollView() {
-    final l10n = l10nOf(context);
-    return SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding:
-            const EdgeInsets.symmetric(horizontal: ThemePaddings.hugePadding),
-        child: Row(children: [
-          Expanded(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ThemedControls.spacerVerticalHuge(),
-              if (isMobile) ...[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                          color: LightThemeColors.inputBorderColor, width: 1),
-                    ),
-                    width: double.infinity,
-                    height: 280,
-                    child: CustomPaint(
-                      foregroundPainter: ScannerCornerBorders(),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: MobileScanner(
-                          fit: BoxFit.cover,
-                          controller: MobileScannerController(
-                            detectionSpeed: DetectionSpeed.noDuplicates,
-                            facing: CameraFacing.back,
-                            torchEnabled: false,
-                          ),
-                          onDetect: (capture) {
-                            final List<Barcode> barcodes = capture.barcodes;
-                            for (final barcode in barcodes) {
-                              if (barcode.rawValue != null && !isLoading) {
-                                _globalSnackBar.show(l10n
-                                    .generalSnackBarMessageQRScannedWithSuccess);
-                                proceedHandler(barcode.rawValue);
-                              }
-                            }
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                ThemedControls.spacerVerticalBig(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: ThemePaddings.normalPadding),
-                  child: Text(
-                    l10n.wcPointCameraToQR,
-                    textAlign: TextAlign.center,
-                    style: TextStyles.labelTextNormal
-                        .copyWith(fontWeight: FontWeight.w400),
-                  ),
-                )
-              ],
-              if (!isMobile) ...[
-                Text(
-                  l10n.wcAddWcTitle,
-                  style: TextStyles.pageTitle,
-                ),
-                ThemedControls.spacerVerticalNormal(),
-                Text(
-                  l10n.wcAddURL,
-                  style: TextStyles.secondaryTextLarge,
-                ),
-                ThemedControls.spacerVerticalBig(),
-                FormBuilderTextField(
-                    name: "urlController",
-                    controller: urlController,
-                    onChanged: (val) {
-                      canConnect =
-                          (val?.length == Config.wallectConnectUrlLength)
-                              ? true
-                              : false;
-                      setState(() {});
-                    },
-                    style: TextStyles.inputBoxSmallStyle,
-                    decoration: ThemeInputDecorations.normalInputbox.copyWith(
-                        hintText: l10n.pasteURLHere,
-                        suffixIconConstraints:
-                            const BoxConstraints(minHeight: 24, minWidth: 32),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.only(
-                              right: ThemePaddings.normalPadding),
-                          child: SizedBox(
-                            height: 24,
-                            child: ThemedControls.secondaryButtonWithChild(
-                                onPressed: pasteToForm,
-                                child: Text(l10n.generalButtonPaste,
-                                    style: TextStyles.primaryButtonText
-                                        .copyWith(
-                                            color:
-                                                LightThemeColors.primary40))),
-                          ),
-                        ))),
-              ]
-            ],
-          ))
-        ]));
-  }
-
-  List<Widget> getButtons() {
-    final l10n = l10nOf(context);
-
-    return [
-      if (isMobile)
-        SizedBox(
-          width: double.infinity,
-          height: ButtonStyles.buttonHeight,
-          child: ThemedControls.secondaryButtonWithChild(
-              onPressed: pasteAndProceed,
-              child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: isLoading
-                      ? const SizedBox(
-                          height: 23,
-                          width: 23,
-                          child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color: LightThemeColors.buttonPrimary),
-                        )
-                      : Text(
-                          l10n.pasteURLHere,
-                          style: TextStyles.primaryButtonText
-                              .copyWith(color: LightThemeColors.primary40),
-                        ))),
-        ),
-      if (!isMobile)
-        SizedBox(
-          width: double.infinity,
-          height: ButtonStyles.buttonHeight,
-          child: ThemedControls.primaryButtonBigWithChild(
-              onPressed: canConnect ? pasteAndProceed : null,
-              enabled: canConnect,
-              child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: isLoading
-                      ? const SizedBox(
-                          height: 23,
-                          width: 23,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2,
-                            color: LightThemeColors.extraStrongBackground,
-                          ),
-                        )
-                      : Text(
-                          l10n.generalButtonConnect,
-                          style: TextStyles.primaryButtonText,
-                        ))),
-        )
-    ];
-  }
-
-  Widget getConnectingView() {
-    final l10n = l10nOf(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Center(
-          child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          Theme.of(context).colorScheme.primary)),
-                ),
-                ThemedControls.spacerHorizontalNormal(),
-                ThemedControls.pageHeader(
-                    headerText: l10n.approvingConnection,
-                    subheaderText: l10n.pleaseWait)
-              ]),
-        )
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return PopScope(
-        canPop: !isLoading,
-        child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
+      canPop: !isLoading,
+      child: (isMobile)
+          ? _AddWalletConnectMobileView(
+              onDetect: (capture) {
+                final List<Barcode> barcodes = capture.barcodes;
+                for (final barcode in barcodes) {
+                  if (barcode.rawValue != null && !isLoading) {
+                    _globalSnackBar
+                        .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
+                    proceedHandler(barcode.rawValue);
+                  }
+                }
+              },
+              pasteAndProceed: pasteAndProceed,
+              isLoading: isLoading,
+            )
+          : _AddWalletConnectDesktopView(
+              isLoading: isLoading,
+              pasteAndProceed: pasteAndProceed,
+              proceedHandler: proceedHandler,
             ),
-            body: SafeArea(
-                minimum: ThemeEdgeInsets.pageInsets
-                    .copyWith(bottom: ThemePaddings.normalPadding),
-                child: isConnecting
-                    ? Column(children: [Expanded(child: getConnectingView())])
-                    : Column(children: [
-                        Expanded(child: getScrollView()),
-                        ...getButtons()
-                      ]))));
+    );
   }
 }
