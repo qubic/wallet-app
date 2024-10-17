@@ -184,29 +184,6 @@ class _AddWalletConnectDesktopViewState
                                 l10n.generalButtonConnect,
                                 style: TextStyles.primaryButtonText,
                               ))),
-              ),
-              SizedBox(
-                width: double.infinity,
-                height: ButtonStyles.buttonHeight,
-                child: ThemedControls.primaryButtonBigWithChild(
-                    onPressed: canConnect ? widget.pasteAndProceed : null,
-                    enabled: canConnect,
-                    child: Padding(
-                        padding: const EdgeInsets.all(
-                            ThemePaddings.smallPadding + 3),
-                        child: widget.isLoading
-                            ? const SizedBox(
-                                height: 23,
-                                width: 23,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: LightThemeColors.extraStrongBackground,
-                                ),
-                              )
-                            : Text(
-                                l10n.generalButtonConnect,
-                                style: TextStyles.primaryButtonText,
-                              ))),
               )
             ],
           ),
