@@ -27,25 +27,22 @@ class Settings {
   @observable
   int autoLockTimeout = 3; // Auto-lock timeout in minutes
 
-  @observable
-  bool walletConnectEnabled = true; //Is WalletConnect enabled?
-
-  Settings(
-      {this.biometricEnabled = false,
-      this.TOTPKey,
-      this.padding,
-      this.totalBalanceVisible = true,
-      this.autoLockTimeout = 3,
-      this.walletConnectEnabled = false});
+  Settings({
+    this.biometricEnabled = false,
+    this.TOTPKey,
+    this.padding,
+    this.totalBalanceVisible = true,
+    this.autoLockTimeout = 3,
+  });
 
   factory Settings.clone(Settings original) {
     return Settings(
-        biometricEnabled: original.biometricEnabled,
-        TOTPKey: original.TOTPKey,
-        padding: original.padding,
-        totalBalanceVisible: original.totalBalanceVisible,
-        autoLockTimeout: original.autoLockTimeout,
-        walletConnectEnabled: original.walletConnectEnabled);
+      biometricEnabled: original.biometricEnabled,
+      TOTPKey: original.TOTPKey,
+      padding: original.padding,
+      totalBalanceVisible: original.totalBalanceVisible,
+      autoLockTimeout: original.autoLockTimeout,
+    );
   }
 
   String toJSON() {
@@ -55,7 +52,6 @@ class Settings {
       'TOTPKey': TOTPKey,
       'totalBalanceVisible': totalBalanceVisible == true ? 'true' : 'false',
       'autoLockTimeout': autoLockTimeout,
-      'walletConnectEnabled': walletConnectEnabled == true ? 'true' : 'false',
     };
     return jsonEncode(json);
   }
@@ -72,11 +68,6 @@ class Settings {
               ? true
               : false,
       autoLockTimeout: json['autoLockTimeout'] ?? 3,
-      walletConnectEnabled: json['walletConnectEnabled'] == null
-          ? false
-          : json['walletConnectEnabled'] == "true"
-              ? true
-              : false,
     );
   }
 }

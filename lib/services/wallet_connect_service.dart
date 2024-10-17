@@ -87,9 +87,6 @@ class WalletConnectService {
 
   /// Checks that walletconnect is initialized before trying to trigger an event
   bool shouldTriggerEvent() {
-    if (!settingsStore.settings.walletConnectEnabled) {
-      return false;
-    }
     if (web3Wallet == null) {
       return false;
     }
@@ -255,10 +252,8 @@ class WalletConnectService {
     });
 
     web3Wallet!.core.relayClient.onRelayClientDisconnect.subscribe((args) {
-      if (settingsStore.settings.walletConnectEnabled) {
-        web3Wallet = null;
-        initialize();
-      }
+      web3Wallet = null;
+      initialize();
     });
 
     //Event emitter registrations

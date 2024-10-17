@@ -194,24 +194,19 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                     actions: <Widget>[
                       TickRefresh(),
                       ThemedControls.spacerHorizontalSmall(),
-                      Observer(builder: (context) {
-                        if (settingsStore.settings.walletConnectEnabled) {
-                          return SliverButton(
-                            onPressed: () {
-                              pushScreen(
-                                context,
-                                screen: const AddWalletConnect(),
-                                withNavBar: false,
-                                pageTransitionAnimation:
-                                    PageTransitionAnimation.cupertino,
-                              );
-                            },
-                            icon: SvgPicture.asset(AppIcons.scan,
-                                color: LightThemeColors.primary),
+                      SliverButton(
+                        onPressed: () {
+                          pushScreen(
+                            context,
+                            screen: const AddWalletConnect(),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
                           );
-                        }
-                        return const SizedBox.shrink();
-                      }),
+                        },
+                        icon: SvgPicture.asset(AppIcons.scan,
+                            color: LightThemeColors.primary),
+                      ),
                       ThemedControls.spacerHorizontalSmall(),
                       SliverButton(
                         icon: const Icon(Icons.add,

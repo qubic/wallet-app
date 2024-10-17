@@ -44,8 +44,6 @@ class _AboutWalletState extends State<WalletConnect> {
 
   TextEditingController pairController = TextEditingController();
 
-  bool walletConnectEnabled = false;
-
   StreamSubscription<SessionConnect?>? sessionConnectSubscription;
   StreamSubscription<SessionDelete?>? sessionDisconnectSubscription;
   StreamSubscription<SessionProposalEvent?>? sessionProposalSubscription;
@@ -64,11 +62,8 @@ class _AboutWalletState extends State<WalletConnect> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      walletConnectEnabled = settingsStore.settings.walletConnectEnabled;
-    });
     if (mounted) {
-      if ((walletConnectEnabled) && (walletConnectService.web3Wallet != null)) {
+      if ((walletConnectService.web3Wallet != null)) {
         walletConnectService.web3Wallet!
             .getActiveSessions()
             .forEach((key, value) {
