@@ -240,13 +240,14 @@ class _AboutWalletState extends State<WalletConnect> {
     final l10n = l10nOf(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SvgPicture.asset(AppIcons.noConnection),
         ThemedControls.spacerVerticalNormal(),
         Text(
           l10n.wcDappsConnectedNone,
           style: TextStyles.alertHeader,
+          textAlign: TextAlign.center,
         ),
         ThemedControls.spacerVerticalNormal(),
         Text(
