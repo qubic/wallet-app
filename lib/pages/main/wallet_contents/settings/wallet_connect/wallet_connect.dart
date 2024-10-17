@@ -189,7 +189,7 @@ class _AboutWalletState extends State<WalletConnect> {
     return Column(
       children: [
         ...children,
-        if (children.length > 0) ...[
+        if (children.length > 1) ...[
           ThemedControls.spacerVerticalBig(),
           SizedBox(
             height: ButtonStyles.buttonHeight,
