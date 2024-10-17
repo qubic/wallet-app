@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/components/wallet_connect_expansion_card.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/qubic_hub_service.dart';
@@ -62,16 +64,19 @@ class _AboutWalletState extends State<WalletConnect> {
   @override
   void initState() {
     super.initState();
-    if (mounted) {
-      if ((walletConnectService.web3Wallet != null)) {
-        walletConnectService.web3Wallet!
-            .getActiveSessions()
-            .forEach((key, value) {
-          setState(() {
-            sessions[key] = value;
-          });
+    if (mounted) {}
+    getActiveSessions();
+  }
+
+  getActiveSessions() {
+    if ((walletConnectService.web3Wallet != null)) {
+      walletConnectService.web3Wallet!
+          .getActiveSessions()
+          .forEach((key, value) {
+        setState(() {
+          sessions[key] = value;
         });
-      }
+      });
     }
   }
 
@@ -113,6 +118,80 @@ class _AboutWalletState extends State<WalletConnect> {
     }
   }
 
+  removeConnection(SessionData session) {
+    final l10n = l10nOf(context);
+    try {
+      setState(() {
+        sessions.remove(session.topic);
+      });
+      walletConnectService.web3Wallet!.disconnectSession(
+          reason: WalletConnectError(
+              code: -1, message: l10n.wcErrorUserDisconnected),
+          topic: session.topic);
+    } catch (e) {
+      //Silently ignore
+    }
+  }
+
+  removeAllConnections() {
+    final l10n = l10nOf(context);
+    try {
+      sessions.forEach((key, sessionData) async {
+        await walletConnectService.web3Wallet!.disconnectSession(
+            reason: WalletConnectError(
+                code: -1, message: l10n.wcErrorUserDisconnected),
+            topic: sessionData.topic);
+      });
+      setState(() {
+        sessions.clear();
+      });
+    } catch (e) {
+      //Silently ignore
+    }
+  }
+
+  showRemoveDialog({SessionData? sesstion}) {
+    bool removeAll = sesstion == null;
+    final l10n = l10nOf(context);
+
+    late BuildContext dialogContext;
+
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(l10n.generalLabelNo),
+      onPressed: () {
+        Navigator.pop(dialogContext);
+      },
+    );
+    Widget continueButton = TextButton(
+      onPressed: () {
+        removeAll ? removeAllConnections() : removeConnection(sesstion);
+        Navigator.pop(dialogContext);
+      },
+      child: Text(l10n.wcDisconnect),
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text(removeAll
+          ? l10n.wcDisconnectAll
+          : "${l10n.wcDisconnect} ${sesstion.peer.metadata.name}"),
+      content: Text(
+          removeAll ? l10n.wcDisconnectAllConfirm : l10n.wcDisconnectConfirm),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        dialogContext = context;
+        return alert;
+      },
+    );
+  }
+
   Widget getSessions() {
     final l10n = l10nOf(context);
 
@@ -129,17 +208,7 @@ class _AboutWalletState extends State<WalletConnect> {
             }
           },
           onRemove: () {
-            try {
-              setState(() {
-                sessions.remove(sessionData.topic);
-              });
-              walletConnectService.web3Wallet!.disconnectSession(
-                  reason: WalletConnectError(
-                      code: -1, message: l10n.wcErrorUserDisconnected),
-                  topic: sessionData.topic);
-            } catch (e) {
-              //Silently ignore
-            }
+            showRemoveDialog(sesstion: sessionData);
           },
           title: [
             Text(
@@ -190,21 +259,7 @@ class _AboutWalletState extends State<WalletConnect> {
             height: ButtonStyles.buttonHeight,
             width: double.infinity,
             child: ThemedControls.dangerButtonBigWithClild(
-                onPressed: () {
-                  try {
-                    sessions.forEach((key, sessionData) async {
-                      await walletConnectService.web3Wallet!.disconnectSession(
-                          reason: WalletConnectError(
-                              code: -1, message: l10n.wcErrorUserDisconnected),
-                          topic: sessionData.topic);
-                    });
-                    setState(() {
-                      sessions.clear();
-                    });
-                  } catch (e) {
-                    //Silently ignore
-                  }
-                },
+                onPressed: showRemoveDialog,
                 child: Text(l10n.wcDisconnectAll,
                     style: TextStyles.destructiveButtonText)),
           )
@@ -255,6 +310,24 @@ class _AboutWalletState extends State<WalletConnect> {
           textAlign: TextAlign.center,
           style: TextStyles.alertText,
         ),
+        ThemedControls.spacerVerticalBig(),
+        Center(
+          child: SizedBox(
+            width: 180,
+            child: ThemedControls.primaryButtonNormal(
+                onPressed: () async {
+                  await pushScreen(
+                    context,
+                    screen: const AddWalletConnect(),
+                    withNavBar: false,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                  //Update active sesstions returning after back
+                  getActiveSessions();
+                },
+                text: l10n.wcAddConnection),
+          ),
+        )
       ],
     );
   }

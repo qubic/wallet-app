@@ -75,7 +75,7 @@ class _AddWalletConnectMobileView extends StatelessWidget {
               right: 0,
               child: AppBar(
                 backgroundColor: Colors.transparent,
-                title: Text("Scan QR Code"),
+                title: Text(l10n.wcAddConnection),
               ),
             ),
             Positioned(

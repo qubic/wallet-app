@@ -847,5 +847,9 @@
     "wcApproveSignOf": "Sign the following message",
     "wcApprovedSignedTransaction": "Signed transaction and successfully sent to dApp",
     "wcApprovedSignedMessage": "Signed message and successfully sent to dApp",
-    "wcDisconnectAll": "Disconnect All Apps"
+    "wcDisconnectAll": "Disconnect All Apps",
+    "wcDisconnectAllConfirm": "Disconnecting the apps will remove all access to your wallet",
+    "wcDisconnect": "Disconnect",
+    "wcDisconnectConfirm": "Disconnecting this app will remove access to your wallet",
+    "wcAddConnection": "Add Connection"
 }
