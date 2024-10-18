@@ -14,8 +14,7 @@ class _AddWalletConnectMobileView extends StatelessWidget {
     final l10n = l10nOf(context);
     return LayoutBuilder(
       builder: (context, constraints) {
-        final overlayWidth =
-            constraints.maxWidth - ThemePaddings.hugePadding * 2;
+        const overlayWidth = 280.0;
         const overlayHeight = 280.0;
 
         // Calculate center vertically and horizontally
