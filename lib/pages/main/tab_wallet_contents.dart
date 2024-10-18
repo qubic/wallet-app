@@ -8,7 +8,6 @@ import 'package:qubic_wallet/components/account_list_item.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/cumulative_wallet_value_sliver.dart';
 import 'package:qubic_wallet/components/gradient_container.dart';
-import 'package:qubic_wallet/components/id_list_item.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/components/tick_indication_styled.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
@@ -85,33 +84,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
     disposeAutorun!();
     _scrollController.dispose();
     // disposer();
-  }
-
-  List<Widget> getAccounts() {
-    List<Widget> accounts = [];
-    for (var element in appStore.currentQubicIDs) {
-      accounts.add(Padding(
-          padding: const EdgeInsets.symmetric(
-              vertical: ThemePaddings.normalPadding / 2),
-          child: IdListItem(item: element)));
-    }
-    return accounts;
-  }
-
-  List<Widget> getAccountCards() {
-    List<Widget> cards = [];
-
-    cards.add(Container());
-
-    cards.add(const CumulativeWalletValueSliver());
-
-    for (var element in appStore.currentQubicIDs) {
-      cards.add(Padding(
-          padding: const EdgeInsets.symmetric(
-              vertical: ThemePaddings.normalPadding / 2),
-          child: IdListItem(item: element)));
-    }
-    return cards;
   }
 
   Widget getEmptyWallet() {
