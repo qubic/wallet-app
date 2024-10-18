@@ -107,15 +107,6 @@ mixin _$SettingsStore on _SettingsStore, Store {
         .run(() => super.setAutoLockTimeout(value));
   }
 
-  late final _$setWalletConnectEnabledAsyncAction =
-      AsyncAction('_SettingsStore.setWalletConnectEnabled', context: context);
-
-  @override
-  Future<void> setWalletConnectEnabled(bool value) {
-    return _$setWalletConnectEnabledAsyncAction
-        .run(() => super.setWalletConnectEnabled(value));
-  }
-
   @override
   String toString() {
     return '''
