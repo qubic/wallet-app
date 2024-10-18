@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -154,40 +155,21 @@ class _AboutWalletState extends State<WalletConnect> {
     bool removeAll = sesstion == null;
     final l10n = l10nOf(context);
 
-    late BuildContext dialogContext;
-
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text(l10n.generalLabelNo),
-      onPressed: () {
-        Navigator.pop(dialogContext);
-      },
-    );
-    Widget continueButton = TextButton(
-      onPressed: () {
-        removeAll ? removeAllConnections() : removeConnection(sesstion);
-        Navigator.pop(dialogContext);
-      },
-      child: Text(l10n.wcDisconnect),
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(removeAll
-          ? l10n.wcDisconnectAll
-          : "${l10n.wcDisconnect} ${sesstion.peer.metadata.name}"),
-      content: Text(
-          removeAll ? l10n.wcDisconnectAllConfirm : l10n.wcDisconnectConfirm),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        dialogContext = context;
-        return alert;
+        return ConfirmationDialog(
+          title: removeAll
+              ? "${l10n.wcDisconnectAll}?"
+              : "${l10n.wcDisconnect} ${sesstion.peer.metadata.name}?",
+          content: removeAll
+              ? l10n.wcDisconnectAllConfirm
+              : l10n.wcDisconnectConfirm,
+          continueText: l10n.wcDisconnect,
+          continueFunction: () {
+            removeAll ? removeAllConnections() : removeConnection(sesstion);
+          },
+        );
       },
     );
   }
@@ -320,7 +302,6 @@ class _AboutWalletState extends State<WalletConnect> {
                     context,
                     screen: const AddWalletConnect(),
                     withNavBar: false,
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
                   );
                   //Update active sesstions returning after back
                   getActiveSessions();
