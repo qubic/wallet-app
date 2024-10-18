@@ -230,8 +230,11 @@ class _PairState extends State<Pair> {
       setState(() {
         isLoading = true;
       });
-      await wcService.web3Wallet!.approveSession(
+      ApproveResponse response = await wcService.web3Wallet!.approveSession(
           id: widget.pairingId, namespaces: widget.pairingNamespaces!);
+
+      debugPrint(response.toString());
+
       if (mounted) {
         Navigator.of(context).pop(true);
       }
@@ -239,6 +242,7 @@ class _PairState extends State<Pair> {
       setState(() {
         isLoading = false;
         wcError = e.toString();
+        debugPrint(e.toString());
       });
     }
   }
