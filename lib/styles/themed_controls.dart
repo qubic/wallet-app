@@ -60,6 +60,17 @@ class ThemedControls {
     );
   }
 
+  static Widget secondaryButtonWithChild(
+      {required void Function()? onPressed,
+      required Widget child,
+      bool? enabled}) {
+    return FilledButton(
+      style: ButtonStyles.secondaryButton,
+      onPressed: onPressed,
+      child: child,
+    );
+  }
+
   static Widget dangerButtonBigWithClild(
       {required void Function()? onPressed, required Widget child}) {
     return TextButton(
@@ -307,12 +318,13 @@ class ThemedControls {
   static Widget primaryButtonSmall(
       {required void Function()? onPressed,
       required String text,
+      TextStyle? style,
       Widget? icon}) {
     return themedButton(
         onPressed: onPressed,
         label: text,
         icon: icon,
-        textStyle: TextStyles.primaryButtonTextSmall,
+        textStyle: style ?? TextStyles.primaryButtonTextSmall,
         buttonStyle: ButtonStyles.primaryButtonBig);
   }
 
