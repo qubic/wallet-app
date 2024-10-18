@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/components/wallet_connect/pair.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
@@ -25,8 +24,8 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
-part 'components/add_wallet_connect_mobile_view.dart';
 part 'components/add_wallet_connect_desktop_view.dart';
+part 'components/add_wallet_connect_mobile_view.dart';
 
 class AddWalletConnect extends StatefulWidget {
   const AddWalletConnect({super.key});
@@ -290,7 +289,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = l10nOf(context);
     return PopScope(
       canPop: !isLoading,
       child: (isMobile)
@@ -299,8 +297,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                 final List<Barcode> barcodes = capture.barcodes;
                 for (final barcode in barcodes) {
                   if (barcode.rawValue != null && !isLoading) {
-                    _globalSnackBar
-                        .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
                     proceedHandler(barcode.rawValue);
                   }
                 }
