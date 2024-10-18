@@ -320,6 +320,7 @@ class _AboutWalletState extends State<WalletConnect> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Text(l10n.settingsLabelWalletConnect),
+          centerTitle: true,
         ),
         body: SafeArea(
             minimum: ThemeEdgeInsets.pageInsets,

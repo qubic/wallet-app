@@ -75,6 +75,7 @@ class _AddWalletConnectMobileView extends StatelessWidget {
               child: AppBar(
                 backgroundColor: Colors.transparent,
                 title: Text(l10n.wcAddConnection),
+                centerTitle: true,
               ),
             ),
             Positioned(
