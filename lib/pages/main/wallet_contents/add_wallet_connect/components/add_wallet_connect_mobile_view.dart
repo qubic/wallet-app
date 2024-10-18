@@ -1,6 +1,6 @@
 part of '../add_wallet_connect.dart';
 
-class _AddWalletConnectMobileView extends StatelessWidget {
+class _AddWalletConnectMobileView extends StatefulWidget {
   final Function(BarcodeCapture capture) onDetect;
   final VoidCallback pasteAndProceed;
   final bool isLoading;
@@ -8,6 +8,26 @@ class _AddWalletConnectMobileView extends StatelessWidget {
       {required this.onDetect,
       required this.pasteAndProceed,
       required this.isLoading});
+
+  @override
+  State<_AddWalletConnectMobileView> createState() =>
+      _AddWalletConnectMobileViewState();
+}
+
+class _AddWalletConnectMobileViewState
+    extends State<_AddWalletConnectMobileView> {
+  // To not show the custom scan window until the camera is initialized
+  bool isCameraInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 400), () {
+      setState(() {
+        isCameraInitialized = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,37 +56,42 @@ class _AddWalletConnectMobileView extends StatelessWidget {
                 torchEnabled: false,
               ),
               scanWindow: scanWindow,
-              onDetect: onDetect,
+              onDetect: widget.onDetect,
             ),
             // Blurred Background excluding the scan window area
-            Positioned.fill(
-              child: ClipPath(
-                clipper: ScannerOverlayClipper(scanWindow),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                  child: Container(
-                    color: Colors.black.withOpacity(0.5),
+            if (isCameraInitialized)
+              Positioned.fill(
+                child: ClipPath(
+                  clipper: ScannerOverlayClipper(scanWindow),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      color: Colors.black.withOpacity(0.5),
+                    ),
                   ),
                 ),
               ),
-            ),
             // Transparent overlay for the scan window (centered vertically)
-            Center(
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                    horizontal: ThemePaddings.hugePadding),
-                width: overlayWidth,
-                height: overlayHeight,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(
-                      color: LightThemeColors.inputBorderColor, width: 1),
-                ),
-                child: CustomPaint(
-                  foregroundPainter: ScannerCornerBorders(),
+            if (isCameraInitialized)
+              Center(
+                child: Container(
+                  width: overlayWidth,
+                  height: overlayHeight,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                        color: LightThemeColors.inputBorderColor, width: 1),
+                  ),
+                  child: CustomPaint(
+                    foregroundPainter: ScannerCornerBorders(),
+                  ),
                 ),
               ),
-            ),
+            // Show loading indicator until the camera is initialized
+            if (!isCameraInitialized)
+              const Center(
+                child: CircularProgressIndicator(),
+              ),
             // AppBar on top of everything
             Positioned(
               top: 0,
@@ -86,11 +111,11 @@ class _AddWalletConnectMobileView extends StatelessWidget {
                 width: double.infinity,
                 height: ButtonStyles.buttonHeight,
                 child: ThemedControls.secondaryButtonWithChild(
-                    onPressed: pasteAndProceed,
+                    onPressed: widget.pasteAndProceed,
                     child: Padding(
                         padding: const EdgeInsets.all(
                             ThemePaddings.smallPadding + 3),
-                        child: isLoading
+                        child: widget.isLoading
                             ? const SizedBox(
                                 height: 23,
                                 width: 23,
