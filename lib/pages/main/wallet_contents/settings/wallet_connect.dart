@@ -52,10 +52,10 @@ class _AboutWalletState extends State<WalletConnect> {
 
   @override
   void dispose() {
-    super.dispose();
     sessionConnectSubscription?.cancel();
     sessionDisconnectSubscription?.cancel();
     sessionProposalSubscription?.cancel();
+    super.dispose();
   }
 
   @override
