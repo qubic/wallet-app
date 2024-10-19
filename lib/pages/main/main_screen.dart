@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
@@ -11,12 +10,14 @@ import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/pages/main/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -43,12 +44,19 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final ApplicationStore applicationStore = getIt<ApplicationStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   late final ReactionDisposer _disposeSnackbarAuto;
+  final WalletConnectService walletConnectService =
+      getIt<WalletConnectService>();
 
   late AnimatedSnackBar? errorBar;
   late AnimatedSnackBar? notificationBar;
 
+  final WalletConnectModalsController wcModalsController =
+      getIt<WalletConnectModalsController>();
+
   Timer? _autoLockTimer;
   Timer? _backgroundTimer;
+
+  bool wCDialogOpen = false; //Wallet Connect Dialog Open
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -85,10 +93,32 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     }
   }
 
+  /// Sets up events and modal handling for WalletConnect
+  void _setupWalletConnect() {
+    if (settingsStore.settings.walletConnectEnabled) {
+      walletConnectService.initialize();
+    }
+    //Modal for sending qubic
+    walletConnectService.sendQubicHandler = (event) async {
+      return await wcModalsController.handleSendQubic(event, context);
+    };
+
+    walletConnectService.signGenericHandler = (event) async {
+      return await wcModalsController.handleSign(event, context);
+    };
+
+    walletConnectService.signTransactionHandler = (event) async {
+      return await wcModalsController.handleSignTransaction(event, context);
+    };
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+
+    _setupWalletConnect();
+
     _timedController.restartFetchTimersIfNeeded();
     _controller = PersistentTabController(initialIndex: widget.initialTabIndex);
     // _controller.jumpToTab(value);

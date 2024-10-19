@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/account_list_item.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/cumulative_wallet_value_sliver.dart';
@@ -15,7 +16,9 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
@@ -30,6 +33,7 @@ class TabWalletContents extends StatefulWidget {
 
 class _TabWalletContentsState extends State<TabWalletContents> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
+  final SettingsStore settingsStore = getIt<SettingsStore>();
   final TimedController _timedController = getIt<TimedController>();
 
   final double sliverExpanded = 185;
@@ -75,9 +79,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
   @override
   void dispose() {
-    super.dispose();
     disposeAutorun!();
     _scrollController.dispose();
+    super.dispose();
     // disposer();
   }
 
@@ -277,8 +281,39 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 ThemePaddings.smallPadding,
                                 ThemePaddings.normalPadding,
                                 ThemePaddings.miniPadding),
-                            child: Text(l10n.homeHeader,
-                                style: TextStyles.sliverCardPreLabel)))
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  //Header text
+                                  Text(l10n.homeHeader,
+                                      style: TextStyles.sliverCardPreLabel),
+                                  Observer(builder: (context) {
+                                    if (settingsStore
+                                        .settings.walletConnectEnabled) {
+                                      return ThemedControls
+                                          .transparentButtonWithChild(
+                                              onPressed: () async {
+                                                pushScreen(
+                                                  context,
+                                                  screen:
+                                                      const AddWalletConnect(),
+                                                  withNavBar: false,
+                                                  pageTransitionAnimation:
+                                                      PageTransitionAnimation
+                                                          .cupertino,
+                                                );
+                                              },
+                                              child: Row(children: [
+                                                Image.asset(
+                                                    "assets/images/wc-scan.png")
+                                              ]));
+                                    } else {
+                                      return Container();
+                                    }
+                                  }),
+                                ])))
                   ])),
                   Observer(builder: (context) {
                     if (appStore.currentQubicIDs.isEmpty) {
