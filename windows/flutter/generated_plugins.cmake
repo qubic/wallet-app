@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  connectivity_plus
   dargon2_flutter_desktop
   downloadsfolder
   flutter_inappwebview_windows
