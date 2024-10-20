@@ -12,7 +12,7 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_generic_event.da
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
+import 'package:reown_walletkit/reown_walletkit.dart';
 
 class WalletConnectService {
   final ApplicationStore appStore = getIt<ApplicationStore>();
@@ -21,7 +21,7 @@ class WalletConnectService {
 
   PairingInfo? pairingInfo;
 
-  Web3Wallet? web3Wallet;
+  ReownWalletKit? web3Wallet;
 
   //------------------------------------ HANDLERS ------------------------------------
   //A callback that is called when a request to send qubic is received
@@ -78,7 +78,7 @@ class WalletConnectService {
         .forEach(((String session, SessionData sessionData) {
       //web3Wallet!.sessions.delete(session);
       web3Wallet!.disconnectSession(
-          reason: const WalletConnectError(
+          reason: const ReownSignError(
               code: -1, message: "User forcefully disconnected"),
           topic: sessionData.topic);
     }));
@@ -208,7 +208,7 @@ class WalletConnectService {
       return;
     }
 
-    web3Wallet = await Web3Wallet.createInstance(
+    web3Wallet = await ReownWalletKit.createInstance(
         projectId: Config.walletConnectProjectId,
         metadata: const PairingMetadata(
           name: Config.walletConnectName,

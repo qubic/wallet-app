@@ -1,5 +1,8 @@
 PODS:
   - Argon2Swift (1.0.4)
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -111,6 +114,8 @@ PODS:
     - FlutterMacOS
   - permission_handler_apple (9.3.0):
     - Flutter
+  - privacy_screen (0.0.1):
+    - Flutter
   - PromisesObjC (2.4.0)
   - SDWebImage (5.19.7):
     - SDWebImage/Core (= 5.19.7)
@@ -126,6 +131,7 @@ PODS:
 
 DEPENDENCIES:
   - Argon2Swift
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - downloadsfolder (from `.symlinks/plugins/downloadsfolder/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
@@ -137,6 +143,7 @@ DEPENDENCIES:
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
+  - privacy_screen (from `.symlinks/plugins/privacy_screen/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
@@ -163,6 +170,8 @@ SPEC REPOS:
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/darwin"
   downloadsfolder:
     :path: ".symlinks/plugins/downloadsfolder/ios"
   file_picker:
@@ -185,6 +194,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   permission_handler_apple:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
+  privacy_screen:
+    :path: ".symlinks/plugins/privacy_screen/ios"
   share_plus:
     :path: ".symlinks/plugins/share_plus/ios"
   shared_preferences_foundation:
@@ -194,6 +205,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Argon2Swift: 295b8bde7ba61434f227f5610b8813c42e866f74
+  connectivity_plus: 4c41c08fc6d7c91f63bc7aec70ffe3730b04f563
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   downloadsfolder: 84af83492bd9ab8c94109ba56fd202d7469d3632
@@ -219,6 +231,7 @@ SPEC CHECKSUMS:
   package_info_plus: 58f0028419748fad15bf008b270aaa8e54380b1c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
+  privacy_screen: 1a131c052ceb3c3659934b003b0d397c2381a24e
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
   share_plus: 8875f4f2500512ea181eef553c3e27dba5135aad

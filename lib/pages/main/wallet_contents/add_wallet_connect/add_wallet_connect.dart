@@ -22,7 +22,7 @@ import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
+import 'package:reown_walletkit/reown_walletkit.dart';
 
 part 'components/add_wallet_connect_desktop_view.dart';
 part 'components/add_wallet_connect_mobile_view.dart';
@@ -169,7 +169,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           });
           await walletConnectService.web3Wallet!.rejectSession(
               id: wcPairingId!,
-              reason: Errors.getSdkError(Errors.USER_REJECTED));
+              reason: Errors.getSdkError(Errors.USER_REJECTED).toSignError());
 
           if (mounted) {
             Navigator.of(context).pop();
@@ -246,7 +246,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
         return;
       }
     } catch (e) {
-      if (e is WalletConnectError) {
+      if (e is ReownSignError) {
         _globalSnackBar.showError(e.message);
         setState(() {
           isLoading = false;
