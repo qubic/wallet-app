@@ -51,7 +51,6 @@ class _AddWalletConnectMobileViewState
             MobileScanner(
               fit: BoxFit.cover,
               controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.noDuplicates,
                 facing: CameraFacing.back,
                 torchEnabled: false,
               ),
