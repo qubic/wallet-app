@@ -1,17 +1,21 @@
 class CurrentTickDto {
-  int tick;
+  final int tick;
+  final int duration;
+  final int epoch;
+  final int initialTick;
 
-  CurrentTickDto(this.tick);
+  CurrentTickDto(
+      {required this.tick,
+      required this.duration,
+      required this.epoch,
+      required this.initialTick});
 
-  factory CurrentTickDto.fromJson(Map<String, dynamic> data) {
-    if (data
-        case {
-          'tick': int currentTick,
-          //'tickDate': String tickDate,
-        }) {
-      return CurrentTickDto(currentTick);
-    } else {
-      throw FormatException('Invalid Tick JSON: $data');
-    }
+  factory CurrentTickDto.fromJson(Map<String, dynamic> json) {
+    return CurrentTickDto(
+      tick: json['tick'],
+      duration: json['duration'],
+      epoch: json['epoch'],
+      initialTick: json['initialTick'],
+    );
   }
 }

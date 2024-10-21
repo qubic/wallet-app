@@ -227,7 +227,7 @@ class _SignInState extends State<SignIn>
   Future<void> handleBiometricsAuth() async {
     final l10n = l10nOf(context);
 
-    if (isLoading) {
+    if (isLoading || !mounted) {
       return;
     }
     setState(() {

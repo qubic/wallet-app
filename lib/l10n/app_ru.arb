@@ -185,7 +185,7 @@
     "explorerTickResultLabelDataStatus": "Статус данных",
     "explorerTickResultLabelInfoCompleted": "Завершено",
     "explorerTickResultLabelInfoNotValidated": "Не подтверждено",
-    "explorerTickResultLabelTickLeader": "Лидер тика - (Короткий код/индекс)",
+    "explorerTickResultLabelTickLeader": "Лидер тика",
     "explorerTickResultLabelNoTransactionsFound": "Нет транзакций в этом тике",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 транзакция в тике} other{{count} транзакций в тике}}",
     "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Показать 1 из 1 транзакций в тике} other{Показать 1 из {count} транзакций в тике}}}",

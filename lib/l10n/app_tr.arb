@@ -185,7 +185,7 @@
     "explorerTickResultLabelDataStatus": "Data Durumu",
     "explorerTickResultLabelInfoCompleted": "Tamamlanmış",
     "explorerTickResultLabelInfoNotValidated": "Doğrulanmamış",
-    "explorerTickResultLabelTickLeader": "Tick Lideri - (Short Code / Index)",
+    "explorerTickResultLabelTickLeader": "Tick Lideri",
     "explorerTickResultLabelNoTransactionsFound": "Bu Tickte Hiçbir Transfer Bulunmamaktadır.",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
     "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}}",

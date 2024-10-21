@@ -39,21 +39,6 @@ class _TabTransfersState extends State<TabTransfers> {
 
   final _scrollController = ScrollController();
 
-  Widget clearFiltersButton(BuildContext context) {
-    final l10n = l10nOf(context);
-
-    return TextButton(
-        onPressed: () {
-          appStore.clearTransactionFilters();
-        },
-        child: Text(
-            l10n.filterTransfersClearFilters(
-                appStore.transactionFilter!.totalActiveFilters),
-            style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                color: Theme.of(context).colorScheme.secondary,
-                fontFamily: ThemeFonts.secondary)));
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
@@ -176,35 +161,16 @@ class _TabTransfersState extends State<TabTransfers> {
                           delegate:
                               SliverChildBuilderDelegate((context, index) {
                             if (index == 0) {
-                              return Container(
-                                  color: LightThemeColors.background,
-                                  child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: ThemePaddings.smallPadding,
-                                      ),
-                                      child: Flex(
-                                          direction: MediaQuery.of(context)
-                                                      .size
-                                                      .width <
-                                                  400
-                                              ? Axis.vertical
-                                              : Axis.horizontal,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                                l10n.transfersLabelShowingTransactionsFound(
-                                                    filteredResults.length),
-                                                style:
-                                                    TextStyles.secondaryText),
-                                            appStore.transactionFilter ==
-                                                        null ||
-                                                    appStore.transactionFilter!
-                                                            .totalActiveFilters ==
-                                                        0
-                                                ? Container()
-                                                : clearFiltersButton(context)
-                                          ])));
+                              return getTransactionFiltersInfo(
+                                context,
+                                numberOfResults: filteredResults.length,
+                                numberOfFilters: appStore.transactionFilter
+                                        ?.totalActiveFilters ??
+                                    0,
+                                onTap: () {
+                                  appStore.clearTransactionFilters();
+                                },
+                              );
                             }
                             return Container(
                                 color: LightThemeColors.background,

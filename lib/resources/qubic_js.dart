@@ -86,8 +86,8 @@ class QubicJs {
     assetIssuer = assetIssuer.replaceAll("'", "\\'");
 
     String functionBody =
-        "await runBrowser('createTransactionAssetMove','$seed', '$destinationId', '$assetName', '$assetIssuer', $numberOfUnits, $tick)";
-    functionBody = "return $functionBody";
+        "await window.runBrowser('createTransactionAssetMove','$seed', '$destinationId', '$assetName', '$assetIssuer', $numberOfUnits, $tick)";
+    functionBody = "return JSON.stringify($functionBody);";
 
     initialize();
     CallAsyncJavaScriptResult? result =
@@ -101,15 +101,17 @@ class QubicJs {
       throw Exception(LocalizationManager.instance.appLocalization
           .cmdErrorCreatingAssetTransferTransaction(result.error ?? ""));
     }
-    return result.value['transaction'];
+
+    final Map<String, dynamic> data = json.decode(result.value);
+    return data['transaction'];
   }
 
   Future<String> createTransaction(
       String seed, String destinationId, int value, int tick) async {
     String functionBody =
-        "await runBrowser('createTransaction','${seed.replaceAll("'", "\\'")}', '${destinationId.replaceAll("'", "\\'")}', $value, $tick);";
-    functionBody = "return $functionBody";
-    debugPrint(functionBody);
+        "await window.runBrowser('createTransaction','${seed.replaceAll("'", "\\'")}', '${destinationId.replaceAll("'", "\\'")}', $value, $tick)";
+    functionBody = "return JSON.stringify($functionBody);";
+
     initialize();
     CallAsyncJavaScriptResult? result =
         await controller!.callAsyncJavaScript(functionBody: functionBody);
@@ -122,13 +124,16 @@ class QubicJs {
       throw Exception(LocalizationManager.instance.appLocalization
           .cmdErrorCreatingTransferTransaction(result.error ?? ""));
     }
-    return result.value['transaction'];
+    final Map<String, dynamic> data = json.decode(result.value);
+    return data['transaction'];
   }
 
   Future<String> getPublicIdFromSeed(String seed) async {
-    CallAsyncJavaScriptResult? result = await controller!.callAsyncJavaScript(
-        functionBody:
-            "return await runBrowser('createPublicId','${seed.replaceAll("'", "\\'")}');");
+    String functionBody =
+        "await window.runBrowser('createPublicId','${seed.replaceAll("'", "\\'")}')";
+    functionBody = "return JSON.stringify($functionBody);";
+    CallAsyncJavaScriptResult? result =
+        await controller!.callAsyncJavaScript(functionBody: functionBody);
 
     if (result == null) {
       throw Exception(LocalizationManager
@@ -138,46 +143,52 @@ class QubicJs {
       throw Exception(LocalizationManager.instance.appLocalization
           .cmdErrorGettingPublicIdFromSeed(result.error ?? ""));
     }
-    return result.value['publicId'];
+
+    final Map<String, dynamic> data = json.decode(result.value);
+    return data['publicId'];
   }
 
   /// Return base64  vault file
   Future<Uint8List> createVaultFile(
       String password, List<QubicVaultExportSeed> seeds) async {
-    CallAsyncJavaScriptResult? result = await controller!.callAsyncJavaScript(
-        functionBody:
-            "return await runBrowser('wallet.createVaultFile','${password.replaceAll("'", "\\'")}','${jsonEncode(seeds.map((e) => e.toJson()).toList()).replaceAll("'", "\\'")}')");
+    String functionBody =
+        "await window.runBrowser('wallet.createVaultFile','${password.replaceAll("'", "\\'")}','${jsonEncode(seeds.map((e) => e.toJson()).toList()).replaceAll("'", "\\'")}')";
+    functionBody = "return JSON.stringify($functionBody);";
+    CallAsyncJavaScriptResult? result =
+        await controller!.callAsyncJavaScript(functionBody: functionBody);
     if (result == null) {
       throw Exception(LocalizationManager
           .instance.appLocalization.cmdErrorCreatingVaultFileGeneric);
-    }
-    if (result.value['status'] == 'error') {
-      throw Exception(LocalizationManager.instance.appLocalization
-          .exportWalletVaultErrorGeneralMessage(result.value['error'] ?? ""));
     }
     if (result.error != null) {
       throw Exception(LocalizationManager.instance.appLocalization
           .exportWalletVaultErrorGeneralMessage(result.error ?? ""));
     }
-    if (result.value['base64'] == null) {
+    final Map<String, dynamic> data = json.decode(result.value);
+    if (data['status'] == 'error') {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .exportWalletVaultErrorGeneralMessage(result.value['error'] ?? ""));
+    }
+    if (data['base64'] == null) {
       throw Exception(LocalizationManager
           .instance.appLocalization.cmdErrorCreatingVaultFileGeneratedIsEmpty);
     }
-    return base64Decode(result.value['base64']!);
+    return base64Decode(data['base64']!);
   }
 
   Future<bool> verifyIdentity(String publicId) async {
     await initialize();
 
-    String functionBody = "return await runBrowser('verifyIdentity', '${publicId
-        .replaceAll("'", "\\'")}');";
+    String functionBody =
+        "await window.runBrowser('verifyIdentity', '${publicId.replaceAll("'", "\\'")}')";
+    functionBody = "return JSON.stringify($functionBody);";
 
     CallAsyncJavaScriptResult? result =
-    await controller!.callAsyncJavaScript(functionBody: functionBody);
+        await controller!.callAsyncJavaScript(functionBody: functionBody);
 
     if (result == null) {
-      throw Exception(LocalizationManager.instance.appLocalization
-          .cmdErrorVerifyingIdentityGeneric);
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorVerifyingIdentityGeneric);
     }
 
     if (result.error != null) {
@@ -185,45 +196,52 @@ class QubicJs {
           .cmdErrorVerifyingIdentity(result.error ?? ""));
     }
 
-    // Return the result as a boolean
-    return result.value['isValid'];
+    final Map<String, dynamic> data = json.decode(result.value);
+    return data['isValid'];
   }
 
   Future<List<QubicImportVaultSeed>> importVault(
       String password, String baseFileContents) async {
     List<QubicImportVaultSeed>? seeds;
     List<dynamic>? parsedSeeds;
-    CallAsyncJavaScriptResult? result = await controller!.callAsyncJavaScript(
-        functionBody:
-            "return await runBrowser('wallet.importVault','${password.replaceAll("'", "\\'")}','${baseFileContents.replaceAll("'", "\\'")}')");
+
+    String functionBody =
+        "await window.runBrowser('wallet.importVault','${password.replaceAll("'", "\\'")}','${baseFileContents.replaceAll("'", "\\'")}')";
+    functionBody = "return JSON.stringify($functionBody);";
+
+    CallAsyncJavaScriptResult? result =
+        await controller!.callAsyncJavaScript(functionBody: functionBody);
 
     if (result == null) {
       throw Exception(LocalizationManager
           .instance.appLocalization.importVaultFileGenericError);
     }
-    if (result.value['status'] == 'error') {
-      if (result.value['error'] == "Could not parse seeds JSON") {
-        throw Exception(LocalizationManager
-            .instance.appLocalization.importVaultFileOrPasswordError);
-      }
-      throw Exception(LocalizationManager.instance.appLocalization
-          .importVaultFileErrorGeneralMessage(result.value['error'] ?? ""));
-    }
     if (result.error != null) {
       throw Exception(LocalizationManager.instance.appLocalization
           .importVaultFileErrorGeneralMessage(result.error ?? ""));
     }
-    if (result.value['seeds'] == null) {
+    final Map<String, dynamic> data = json.decode(result.value);
+
+    if (data['status'] == 'error') {
+      if (data['error'] == "Could not parse seeds JSON") {
+        throw Exception(LocalizationManager
+            .instance.appLocalization.importVaultFileOrPasswordError);
+      }
+      throw Exception(LocalizationManager.instance.appLocalization
+          .importVaultFileErrorGeneralMessage(data['error'] ?? ""));
+    }
+
+    if (data['seeds'] == null) {
       throw Exception(LocalizationManager
           .instance.appLocalization.importVaultFileSeedsNullError);
     }
-    if (result.value['seeds'].toString().isEmpty) {
+    if (data['seeds'].toString().isEmpty) {
       throw Exception(LocalizationManager
           .instance.appLocalization.importVaultErrorNoAccountsFound);
     }
 
     try {
-      parsedSeeds = result.value['seeds'];
+      parsedSeeds = data['seeds'];
     } catch (e) {
       throw Exception(LocalizationManager
           .instance.appLocalization.importVaultFileSeedsMalformedError);

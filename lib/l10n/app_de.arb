@@ -185,7 +185,7 @@
     "explorerTickResultLabelDataStatus": "Datenstatus",
     "explorerTickResultLabelInfoCompleted": "Abgeschlossen",
     "explorerTickResultLabelInfoNotValidated": "Nicht validiert",
-    "explorerTickResultLabelTickLeader": "Tick-Leader - (Code / Index)",
+    "explorerTickResultLabelTickLeader": "Tick-Leader",
     "explorerTickResultLabelNoTransactionsFound": "Keine Transaktionen in diesem Tick",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 Transaktion im Tick} other{{count} Transaktionen im Tick}}",
     "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Zeigt 1 von 1 Transaktion im Tick} other{Zeigt 1 von {count} Transaktionen im Tick}}}",
