@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -16,6 +17,7 @@ class DomainVerificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return ThemedControls.card(
         borderColor:
             isUnknown() ? LightThemeColors.warning40 : LightThemeColors.error40,
@@ -26,10 +28,10 @@ class DomainVerificationCard extends StatelessWidget {
             ThemedControls.spacerHorizontalSmall(),
             Text(
               isScam()
-                  ? "Known Security Risk"
+                  ? l10n.wcScamTitle
                   : isMisMatch()
-                      ? "Domain Mismatch"
-                      : "Unknown Domain",
+                      ? l10n.wcMismatchTitle
+                      : l10n.wcUnkownTitle,
               style: TextStyles.labelText.copyWith(
                   color: isUnknown()
                       ? LightThemeColors.warning40
@@ -39,10 +41,10 @@ class DomainVerificationCard extends StatelessWidget {
           ThemedControls.spacerVerticalSmall(),
           Text(
             isScam()
-                ? "This domain is flagged as unsafe by multiple security providers. Leave it immediately to protect your assets"
+                ? l10n.wcScamDescription
                 : isMisMatch()
-                    ? "This website has a domain that does not match the sender of this request. Approving may lead to loss of funds"
-                    : "This domain cannot be verified. Check the request carefully before approving",
+                    ? l10n.wcMismatchDescription
+                    : l10n.wcUnkownDescription,
             style: TextStyles.secondaryText,
           )
         ]));

@@ -851,5 +851,11 @@
     "wcDisconnectAllConfirm": "Disconnecting the apps will remove all access to your wallet",
     "wcDisconnect": "Disconnect",
     "wcDisconnectConfirm": "Disconnecting this app will remove access to your wallet",
-    "wcAddConnection": "Add Connection"
+    "wcAddConnection": "Add Connection",
+    "wcScamTitle": "Known Security Risk",
+    "wcScamDescription": "This domain is flagged as unsafe by multiple security providers. Leave it immediately to protect your assets",
+    "wcMismatchTitle": "Domain Mismatch",
+    "wcMismatchDescription": "This website has a domain that does not match the sender of this request. Approving may lead to loss of funds",
+    "wcUnkownTitle": "Unknown Domain",
+    "wcUnkownDescription": "This domain cannot be verified. Check the request carefully before approving"
 }
