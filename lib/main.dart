@@ -16,6 +16,7 @@ import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {
@@ -121,7 +122,10 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 2,
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
-      ),
+      ).copyWith(
+          filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyles.primaryButtonBig,
+      )),
       builder: (context, child) {
         final localizations = AppLocalizations.of(context);
         if (localizations != null) {

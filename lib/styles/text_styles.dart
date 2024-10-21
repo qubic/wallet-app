@@ -35,6 +35,7 @@ class TextStyles {
     fontSize: ThemeFontSizes.large,
     fontWeight: FontWeight.w500,
     color: LightThemeColors.primary,
+    height: 0.11,
   );
 
   static TextStyle transparentButtonPrimary = const TextStyle(

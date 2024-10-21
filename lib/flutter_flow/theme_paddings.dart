@@ -36,7 +36,7 @@ class LightThemeColors {
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);
   static final border = Colors.white.withOpacity(0.03);
-
+  // TODO Replace with error40 from the new palette
   static const dangerColor = Color(0xFFF97066);
   static const dangerBackgroundButton = Color(0xFF272127);
 
@@ -117,6 +117,15 @@ class LightThemeColors {
   static const grey80 = Color(0xFF151E27);
   static const grey90 = Color(0xFF101820);
   static const grey100 = Color(0xFF0C131B);
+
+  static const error40 = Color(0xFFF97066);
+  static const error90 = Color(0xFF381D1E);
+
+  static const success40 = Color(0xFF47CD89);
+  static const success90 = Color(0xFF11322D);
+
+  static const warning40 = Color(0xFFCDA747);
+  static const warning90 = Color(0xFF322D11);
 }
 
 class xLightThemeColors {
