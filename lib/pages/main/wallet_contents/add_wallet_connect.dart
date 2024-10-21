@@ -54,6 +54,8 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   List<String> wcPairingEvents = [];
   Map<String, Namespace>? wcPairingNamespaces;
   String? wcError = "";
+
+  MobileScannerController? controller;
   @override
   void initState() {
     super.initState();
@@ -192,6 +194,12 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     if (sessionProposalErrorSubscription != null) {
       sessionProposalErrorSubscription!.cancel();
     }
+    if (pairingTimer != null) {
+      pairingTimer!.cancel();
+    }
+    if (controller != null) {
+      controller!.dispose();
+    }
 
     super.dispose();
   }
@@ -204,14 +212,16 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
         useSafeArea: true,
         builder: (BuildContext context) {
           bool foundSuccess = false;
+          controller = MobileScannerController(
+            detectionSpeed: DetectionSpeed.normal,
+            facing: CameraFacing.back,
+            torchEnabled: false,
+          );
           return Stack(children: [
             MobileScanner(
               // fit: BoxFit.contain,
-              controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.normal,
-                facing: CameraFacing.back,
-                torchEnabled: false,
-              ),
+
+              controller: controller!,
 
               onDetect: (capture) {
                 final List<Barcode> barcodes = capture.barcodes;

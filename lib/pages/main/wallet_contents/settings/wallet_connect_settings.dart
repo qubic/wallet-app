@@ -1,18 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/wallet_connect.dart';
-import 'package:qubic_wallet/resources/secure_storage.dart';
-import 'package:qubic_wallet/services/qubic_hub_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
-import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -20,41 +13,26 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:settings_ui/settings_ui.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
-class WalletConnect extends StatefulWidget {
-  const WalletConnect({super.key});
+class WalletConnectSettings extends StatefulWidget {
+  const WalletConnectSettings({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _AboutWalletState createState() => _AboutWalletState();
+  _WalletConnectSettingsState createState() => _WalletConnectSettingsState();
 }
 
-class _AboutWalletState extends State<WalletConnect> {
-  final ApplicationStore appStore = getIt<ApplicationStore>();
+class _WalletConnectSettingsState extends State<WalletConnectSettings> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
-  final SecureStorage secureStorage = getIt<SecureStorage>();
-  final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
-  final QubicHubService qubicService = getIt<QubicHubService>();
-  final GlobalSnackBar snackBar = getIt<GlobalSnackBar>();
   final WalletConnectService walletConnectService =
       getIt<WalletConnectService>();
-  bool isLoading = false;
-
-  TextEditingController pairController = TextEditingController();
 
   bool walletConnectEnabled = false;
-
-  StreamSubscription<SessionConnect?>? sessionConnectSubscription;
-  StreamSubscription<SessionDelete?>? sessionDisconnectSubscription;
-  StreamSubscription<SessionProposalEvent?>? sessionProposalSubscription;
   void setupWCEvents() {}
 
   Map<String, SessionData> sessions = {};
 
   @override
   void dispose() {
-    sessionConnectSubscription?.cancel();
-    sessionDisconnectSubscription?.cancel();
-    sessionProposalSubscription?.cancel();
     super.dispose();
   }
 
@@ -78,35 +56,17 @@ class _AboutWalletState extends State<WalletConnect> {
   }
 
   List<String> getMethods(SessionData sessionData) {
-    final l10n = l10nOf(context);
-
-    List<String> methods = [];
     if (sessionData.requiredNamespaces == null) {
       return [];
     }
     if (sessionData.requiredNamespaces![Config.walletConnectChainId] == null) {
       return [];
     }
-    sessionData.requiredNamespaces?[Config.walletConnectChainId]!.methods
-        // ignore: avoid_function_literals_in_foreach_calls
-        .forEach((string) {
-      if ((string == WcMethods.wRequestAccounts)) {
-        methods.add(l10n.wcScopeRequestAccounts);
-      }
-      if (string == WcMethods.wSendQubic) {
-        methods.add(l10n.wcScopeSendQubic);
-      }
-      if (string == WcMethods.wSendAsset) {
-        methods.add(l10n.wcScopeSendAssets);
-      }
-      if (string == WcMethods.wSignTransaction) {
-        methods.add(l10n.wcScopeSignTransaction);
-      }
-      if (string == WcMethods.wSign) {
-        methods.add(l10n.wcScopeSign);
-      }
-    });
-    return methods;
+    List<String> localizedStrings = getLocalizedPairingMethods(
+        sessionData.requiredNamespaces?[Config.walletConnectChainId]!.methods ??
+            [],
+        context);
+    return localizedStrings;
   }
 
   Widget getSessions() {
@@ -214,8 +174,6 @@ class _AboutWalletState extends State<WalletConnect> {
                       await walletConnectService.initialize();
                     } else {
                       await settingsStore.setWalletConnectEnabled(false);
-
-                      sessionConnectSubscription?.cancel();
                       walletConnectService.disconnect();
                     }
                   },

@@ -12,7 +12,6 @@ import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
-import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -40,7 +39,6 @@ class ApproveTokenTransfer extends StatefulWidget {
 
 class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  final WalletConnectService wcService = getIt<WalletConnectService>();
   final QubicLi _apiService = getIt<QubicLi>();
   bool hasAccepted = false;
   String? toIdName;

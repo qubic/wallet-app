@@ -742,6 +742,21 @@
     },
     "cmdErrorCreatingVaultFileGeneric": "Error trying to create vault file",
     "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Error trying to create vault file. Generated vault file is empty",
+    
+    "cmdErrorCreatingSignatureGeneric": "Error trying to create signature",    
+    "cmdErrorCreatingSignatureDigestEmpty": "Error trying to create signature. Digest is empty",    
+    "cmdErrorCreatingSignatureSignedDataEmpty": "Error trying to create signature. Signed data is empty",    
+    "cmdErrorCreatingSignatureSignatureEmpty": "Error trying to create signature. Signature is empty",    
+
+    "cmdErrorCreatingSignature": "Error trying to create signature: {errorDescription}",
+    "@cmdErrorCreatingSignature": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+
     "importVaultFileOrPasswordError": "Selected file is not a Qubic Vault file or password is incorrect",
     "importVaultFileGenericError": "Error while trying to import vault file",
     "importVaultFileSeedsNullError": "Vault file is malformed and does not contain account information",
@@ -832,6 +847,29 @@
     "wcApproveTransferOf" : "Transfer of",
     "wcApproveSignOf" : "Sign the following message",
     "wcApprovedSignedTransaction" : "Signed transaction and successfully sent to dApp",
-    "wcApprovedSignedMessage" : "Signed message and successfully sent to dApp"
-
+    "wcApprovedSignedMessage" : "Signed message and successfully sent to dApp",    
+    "signBase64GenericError": "Error trying to sign base64 string: {errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "Error trying to sign UTF-8 string: {errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "Error trying to sign ASCII string: {errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    }
 }
