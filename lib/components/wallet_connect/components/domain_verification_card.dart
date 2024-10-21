@@ -28,10 +28,10 @@ class DomainVerificationCard extends StatelessWidget {
             ThemedControls.spacerHorizontalSmall(),
             Text(
               isScam()
-                  ? l10n.wcScamTitle
+                  ? l10n.wcDomainScamTitle
                   : isMisMatch()
-                      ? l10n.wcMismatchTitle
-                      : l10n.wcUnkownTitle,
+                      ? l10n.wcDomainMismatchTitle
+                      : l10n.wcDomainUnkownTitle,
               style: TextStyles.labelText.copyWith(
                   color: isUnknown()
                       ? LightThemeColors.warning40
@@ -41,10 +41,10 @@ class DomainVerificationCard extends StatelessWidget {
           ThemedControls.spacerVerticalSmall(),
           Text(
             isScam()
-                ? l10n.wcScamDescription
+                ? l10n.wcDomainScamDescription
                 : isMisMatch()
-                    ? l10n.wcMismatchDescription
-                    : l10n.wcUnkownDescription,
+                    ? l10n.wcDomainMismatchDescription
+                    : l10n.wcDomainUnkownDescription,
             style: TextStyles.secondaryText,
           )
         ]));
