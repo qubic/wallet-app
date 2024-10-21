@@ -5,10 +5,16 @@ import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 
 class ThemedControls {
-  static Widget card({required Widget child}) {
+  static Widget card({required Widget child, Color? borderColor}) {
     return Card(
         color: LightThemeColors.cardBackground,
         elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          side: borderColor == null
+              ? BorderSide.none
+              : BorderSide(color: borderColor),
+        ),
         child: Column(children: [
           Padding(
               padding: const EdgeInsets.fromLTRB(

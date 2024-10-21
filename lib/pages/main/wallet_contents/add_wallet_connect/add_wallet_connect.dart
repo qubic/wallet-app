@@ -27,6 +27,8 @@ import 'package:reown_walletkit/reown_walletkit.dart';
 part 'components/add_wallet_connect_desktop_view.dart';
 part 'components/add_wallet_connect_mobile_view.dart';
 
+enum DomainType { valid, unknown, scam, mismatch }
+
 class AddWalletConnect extends StatefulWidget {
   const AddWalletConnect({super.key});
 
@@ -130,6 +132,9 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
             }
           }
         }
+        final invalidApp = args?.verifyContext?.validation.invalid;
+        final unknown = args?.verifyContext?.validation.unknown;
+        final scamApp = args?.verifyContext?.validation.scam;
 
         if (pairingTimer != null) pairingTimer!.cancel();
         bool? userhasConfirmed =
@@ -142,6 +147,13 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                     pairingNamespaces: wcPairingNamespaces,
                     pairingMetadata: wcPairingMetadata,
                     unsupportedNetowrks: notSupportedNetworks,
+                    domainType: scamApp == true
+                        ? DomainType.scam
+                        : invalidApp == true
+                            ? DomainType.mismatch
+                            : unknown == true
+                                ? DomainType.unknown
+                                : DomainType.valid,
                   );
                 },
                 fullscreenDialog: true));
@@ -167,7 +179,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
             isLoading = false;
             if (pairingTimer != null) pairingTimer!.cancel();
           });
-          await walletConnectService.web3Wallet!.rejectSession(
+          await walletConnectService.web3Wallet?.rejectSession(
               id: wcPairingId!,
               reason: Errors.getSdkError(Errors.USER_REJECTED).toSignError());
 
