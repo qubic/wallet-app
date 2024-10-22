@@ -275,7 +275,8 @@ class _AboutWalletState extends State<WalletConnectSettings> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(l10n.settingsLabelWalletConnect),
+          title: Text(l10n.settingsLabelWalletConnect,
+              style: TextStyles.textExtraLargeBold),
           centerTitle: true,
         ),
         body: SafeArea(

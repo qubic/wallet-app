@@ -104,7 +104,8 @@ class _AddWalletConnectMobileViewState
               right: 0,
               child: AppBar(
                 backgroundColor: Colors.transparent,
-                title: Text(l10n.wcAddConnection),
+                title: Text(l10n.wcAddConnection,
+                    style: TextStyles.textExtraLargeBold),
                 centerTitle: true,
               ),
             ),
