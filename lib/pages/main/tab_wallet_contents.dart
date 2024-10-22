@@ -80,9 +80,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
   @override
   void dispose() {
-    super.dispose();
     disposeAutorun!();
     _scrollController.dispose();
+    super.dispose();
     // disposer();
   }
 

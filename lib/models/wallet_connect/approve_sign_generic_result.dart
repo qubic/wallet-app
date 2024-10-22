@@ -1,18 +1,30 @@
+import 'package:qubic_wallet/models/qubic_sign_result.dart';
+
 /// Results for approving a generic sign request
 class ApproveSignGenericResult {
-  final String? signedMessage;
+  final QubicSignResult? result;
   final String? errorMessage;
   final int? errorCode;
   ApproveSignGenericResult(
-      {required this.signedMessage, this.errorCode, this.errorMessage});
+      {required this.result, this.errorCode, this.errorMessage});
 
   ///Important, always provide a toJson otherwise WC serilization will fail
   Map<String, dynamic> toJson() {
     if (errorMessage == null && errorCode == null) {
-      return {'signedMessage': signedMessage};
+      if (result == null) {
+        throw Exception('result is required');
+      } else {
+        return {
+          'result': {
+            'signedData': result!.signedData,
+            'digest': result!.digest,
+            'signature': result!.signature
+          }
+        };
+      }
     }
     return {
-      'signedMessage': signedMessage,
+      'result': null,
       'errorMessage': errorMessage,
       'errorCode': errorCode
     };

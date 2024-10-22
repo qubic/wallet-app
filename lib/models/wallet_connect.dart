@@ -1,5 +1,3 @@
-import 'dart:async';
-
 /// WalletConnect Methods
 abstract class WcMethods {
   /// Get the client to request a list of all accounts in wallet
@@ -18,6 +16,7 @@ abstract class WcMethods {
   static const wSign = "qubic_sign";
 }
 
+/// WalletConnect Events
 abstract class WcEvents {
   /// The list of accounts has changed
   static const accountsChanged = "accountsChanged";
@@ -29,6 +28,7 @@ abstract class WcEvents {
   static const amountChanged = "amountChanged";
 }
 
+/// WalletConnect Errors
 abstract class WcErrors {
   static const qwGeneralError = -1;
   static const qwUserUnavailable = -1;

@@ -7,16 +7,11 @@ import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/components/wallet_connect_expansion_card.dart';
-import 'package:qubic_wallet/resources/secure_storage.dart';
-import 'package:qubic_wallet/services/qubic_hub_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
-import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
@@ -26,50 +21,29 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
 
-class WalletConnect extends StatefulWidget {
-  const WalletConnect({super.key});
+class WalletConnectSettings extends StatefulWidget {
+  const WalletConnectSettings({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
   _AboutWalletState createState() => _AboutWalletState();
 }
 
-class _AboutWalletState extends State<WalletConnect> {
-  final ApplicationStore appStore = getIt<ApplicationStore>();
-  final SettingsStore settingsStore = getIt<SettingsStore>();
-  final SecureStorage secureStorage = getIt<SecureStorage>();
-  final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
-  final QubicHubService qubicService = getIt<QubicHubService>();
-  final GlobalSnackBar snackBar = getIt<GlobalSnackBar>();
+class _AboutWalletState extends State<WalletConnectSettings> {
   final WalletConnectService walletConnectService =
       getIt<WalletConnectService>();
-  bool isLoading = false;
-
-  TextEditingController pairController = TextEditingController();
-
-  StreamSubscription<SessionConnect?>? sessionConnectSubscription;
-  StreamSubscription<SessionDelete?>? sessionDisconnectSubscription;
-  StreamSubscription<SessionProposalEvent?>? sessionProposalSubscription;
-  void setupWCEvents() {}
 
   Map<String, SessionData> sessions = {};
 
   @override
-  void dispose() {
-    super.dispose();
-    sessionConnectSubscription?.cancel();
-    sessionDisconnectSubscription?.cancel();
-    sessionProposalSubscription?.cancel();
-  }
-
-  @override
   void initState() {
     super.initState();
-    if (mounted) {}
-    getActiveSessions();
+    if (mounted) {
+      setActiveSessions();
+    }
   }
 
-  getActiveSessions() {
+  setActiveSessions() {
     if ((walletConnectService.web3Wallet != null)) {
       walletConnectService.web3Wallet!
           .getActiveSessions()
@@ -82,35 +56,17 @@ class _AboutWalletState extends State<WalletConnect> {
   }
 
   List<String> getMethods(SessionData sessionData) {
-    final l10n = l10nOf(context);
-
-    List<String> methods = [];
     if (sessionData.requiredNamespaces == null) {
       return [];
     }
     if (sessionData.requiredNamespaces![Config.walletConnectChainId] == null) {
       return [];
     }
-    sessionData.requiredNamespaces?[Config.walletConnectChainId]!.methods
-        // ignore: avoid_function_literals_in_foreach_calls
-        .forEach((string) {
-      if ((string == WcMethods.wRequestAccounts)) {
-        methods.add(l10n.wcScopeRequestAccounts);
-      }
-      if (string == WcMethods.wSendQubic) {
-        methods.add(l10n.wcScopeSendQubic);
-      }
-      if (string == WcMethods.wSendAsset) {
-        methods.add(l10n.wcScopeSendAssets);
-      }
-      if (string == WcMethods.wSignTransaction) {
-        methods.add(l10n.wcScopeSignTransaction);
-      }
-      if (string == WcMethods.wSign) {
-        methods.add(l10n.wcScopeSign);
-      }
-    });
-    return methods;
+    List<String> localizedStrings = getLocalizedPairingMethods(
+        sessionData.requiredNamespaces?[Config.walletConnectChainId]!.methods ??
+            [],
+        context);
+    return localizedStrings;
   }
 
   Future<void> launchQubicURL(String url) async {
@@ -304,7 +260,7 @@ class _AboutWalletState extends State<WalletConnect> {
                     withNavBar: false,
                   );
                   //Update active sesstions returning after back
-                  getActiveSessions();
+                  setActiveSessions();
                 },
                 text: l10n.wcAddConnection),
           ),

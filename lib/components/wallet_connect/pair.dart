@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -96,31 +96,13 @@ class _PairState extends State<Pair> {
 
   // Gets a list of all requested WC methods
   List<Widget> getMethods() {
-    final l10n = l10nOf(context);
-
+    List<String> localizedStrings =
+        getLocalizedPairingMethods(widget.pairingMethods, context);
     List<Widget> methods = [];
 
-    for (var string in widget.pairingMethods) {
-      if ((string == WcMethods.wRequestAccounts)) {
-        methods.add(getMethod(l10n.wcScopeRequestAccounts));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
-      if (string == WcMethods.wSendQubic) {
-        methods.add(getMethod(l10n.wcScopeSendQubic));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
-      if (string == WcMethods.wSendAsset) {
-        methods.add(getMethod(l10n.wcScopeSendAssets));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
-      if (string == WcMethods.wSignTransaction) {
-        methods.add(getMethod(l10n.wcScopeSignTransaction));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
-      if (string == WcMethods.wSign) {
-        methods.add(getMethod(l10n.wcScopeSign));
-        methods.add(ThemedControls.spacerVerticalMini());
-      }
+    for (var localizedString in localizedStrings) {
+      methods.add(getMethod(localizedString));
+      methods.add(ThemedControls.spacerVerticalMini());
     }
     return methods;
   }
