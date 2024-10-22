@@ -51,14 +51,12 @@ class _AddWalletConnectDesktopViewState
               Expanded(
                   child: SingleChildScrollView(
                       physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: ThemePaddings.hugePadding),
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
                       child: Row(children: [
                         Expanded(
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            ThemedControls.spacerVerticalHuge(),
                             if (isMobile) ...[
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
@@ -114,11 +112,10 @@ class _AddWalletConnectDesktopViewState
                                 ),
                               )
                             ],
-                            Text(
-                              l10n.wcAddWcTitle,
-                              style: TextStyles.pageTitle,
+                            ThemedControls.pageHeader(
+                              headerText: l10n.wcAddWcTitle,
                             ),
-                            ThemedControls.spacerVerticalNormal(),
+                            ThemedControls.spacerVerticalSmall(),
                             Text(
                               l10n.wcAddURL,
                               style: TextStyles.secondaryTextLarge,

@@ -265,6 +265,13 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           isLoading = false;
           if (pairingTimer != null) pairingTimer!.cancel();
         });
+      }
+      if (e is ReownCoreError) {
+        _globalSnackBar.showError(e.message);
+        setState(() {
+          isLoading = false;
+          if (pairingTimer != null) pairingTimer!.cancel();
+        });
       } else {
         _globalSnackBar.showError(e.toString());
         setState(() {
