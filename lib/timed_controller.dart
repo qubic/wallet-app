@@ -62,7 +62,21 @@ class TimedController extends WidgetsBindingObserver {
         _apiService.getNetworkBalances(myIds).then((balances) {
           Map<String, int> changedIds = appStore.setAmounts(balances);
           if (changedIds.isNotEmpty) {
-            _walletConnectService.triggerAmountChangedEvent(changedIds);
+            Map<String, int> changedIdsWithSeed = {};
+
+            //Filter out only non WatchOnly accounts
+            for (var element in changedIds.entries) {
+              if (appStore.currentQubicIDs.any((currentQubicId) {
+                return currentQubicId.publicId == element.key &&
+                    currentQubicId.watchOnly == false;
+              })) {
+                changedIdsWithSeed[element.key] = element.value;
+              }
+            }
+            if (changedIdsWithSeed.isNotEmpty) {
+              _walletConnectService
+                  .triggerAmountChangedEvent(changedIdsWithSeed);
+            }
           }
         }, onError: (e) {
           appStore
@@ -75,8 +89,22 @@ class TimedController extends WidgetsBindingObserver {
         _apiService.getCurrentAssets(myIds).then((assets) {
           Map<String, List<QubicAssetDto>> changedIds =
               appStore.setAssets(assets);
-          if (changedIds.isNotEmpty) {
-            _walletConnectService.triggerTokenAmountChangedEvent(changedIds);
+
+          Map<String, List<QubicAssetDto>> changedIdsWithSeed = {};
+
+          //Filter out only non WatchOnly accounts
+          for (var element in changedIds.entries) {
+            if (appStore.currentQubicIDs.any((currentQubicId) {
+              return currentQubicId.publicId == element.key &&
+                  currentQubicId.watchOnly == false;
+            })) {
+              changedIdsWithSeed[element.key] = element.value;
+            }
+          }
+
+          if (changedIdsWithSeed.isNotEmpty) {
+            _walletConnectService
+                .triggerTokenAmountChangedEvent(changedIdsWithSeed);
           }
         }, onError: (e) {
           appStore
