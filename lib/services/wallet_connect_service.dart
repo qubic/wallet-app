@@ -82,6 +82,7 @@ class WalletConnectService {
               code: -1, message: "User forcefully disconnected"),
           topic: sessionData.topic);
     }));
+
     web3Wallet!.core.relayClient.disconnect();
   }
 
@@ -247,11 +248,19 @@ class WalletConnectService {
       onSessionProposalError.add(args);
     });
 
-    web3Wallet!.onProposalExpire.subscribe((SessionProposalEvent? args) {
-      onSessionProposal.add(args);
-    });
-
     web3Wallet!.core.relayClient.onRelayClientDisconnect.subscribe((args) {
+      web3Wallet!.onSessionConnect.unsubscribeAll();
+      web3Wallet!.onSessionDelete.unsubscribeAll();
+      web3Wallet!.onSessionExpire.unsubscribeAll();
+      web3Wallet!.onProposalExpire.unsubscribeAll();
+      web3Wallet!.onSessionProposal.unsubscribeAll();
+      web3Wallet!.onSessionProposalError.unsubscribeAll();
+
+      web3Wallet!.onAuthRequest.unsubscribeAll();
+      web3Wallet!.onSessionPing.unsubscribeAll();
+      web3Wallet!.onSessionRequest.unsubscribeAll();
+      web3Wallet!.core.relayClient.onRelayClientDisconnect.unsubscribeAll();
+
       web3Wallet = null;
       initialize();
     });

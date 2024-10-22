@@ -22,7 +22,7 @@ class _AddWalletConnectMobileViewState
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 400), () {
+    Future.delayed(const Duration(milliseconds: 600), () {
       setState(() {
         isCameraInitialized = true;
       });
@@ -89,8 +89,13 @@ class _AddWalletConnectMobileViewState
               ),
             // Show loading indicator until the camera is initialized
             if (!isCameraInitialized)
-              const Center(
-                child: CircularProgressIndicator(),
+              Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.black,
+                child: const Center(
+                  child: CircularProgressIndicator(),
+                ),
               ),
             // AppBar on top of everything
             Positioned(
@@ -99,7 +104,8 @@ class _AddWalletConnectMobileViewState
               right: 0,
               child: AppBar(
                 backgroundColor: Colors.transparent,
-                title: Text(l10n.wcAddConnection),
+                title: Text(l10n.wcAddConnection,
+                    style: TextStyles.textExtraLargeBold),
                 centerTitle: true,
               ),
             ),

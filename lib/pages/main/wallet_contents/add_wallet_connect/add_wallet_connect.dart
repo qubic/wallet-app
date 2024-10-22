@@ -213,6 +213,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     if (sessionProposalErrorSubscription != null) {
       sessionProposalErrorSubscription!.cancel();
     }
+    pairingTimer?.cancel();
     urlController.dispose();
     super.dispose();
   }

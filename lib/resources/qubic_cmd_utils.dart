@@ -12,6 +12,8 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
+import 'package:qubic_wallet/models/qubic_js.dart';
+import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
 // ignore: depend_on_referenced_packages
@@ -66,12 +68,15 @@ class QubicCmdUtils {
     String scriptPath = await _getHelperFileFullPath();
 
     // Execute the command
-    final p = await Process.run(scriptPath, ['verifyIdentity', publicId], runInShell: true);
+    final p = await Process.run(
+        scriptPath, [QubicJSFunctions.verifyIdentity, publicId],
+        runInShell: true);
 
     if (p.exitCode != 0) {
       debugPrint('Script execution failed with exit code ${p.exitCode}');
       debugPrint(p.stderr);
-      throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyingIdentityGeneric);
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorVerifyingIdentityGeneric);
     }
 
     late dynamic parsedJson;
@@ -79,7 +84,8 @@ class QubicCmdUtils {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
       // throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyingIdentityParsingOutput);
-      throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyIdentityJsonDecoding);
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorVerifyIdentityJsonDecoding);
     }
 
     QubicCmdResponse response;
@@ -87,11 +93,13 @@ class QubicCmdUtils {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
       // throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyingIdentityParsingOutput);
-      throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyIdentityParsingError);
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorVerifyIdentityParsingError);
     }
 
     if (!response.status) {
-      throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyingIdentity(response.error ?? ""));
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingIdentity(response.error ?? ""));
     }
 
     return response.isValid ?? false;
@@ -129,7 +137,7 @@ class QubicCmdUtils {
     final p = await Process.run(
         await _getHelperFileFullPath(),
         [
-          'wallet.createVaultFile',
+          QubicJSFunctions.createVaultFile,
           password,
           jsonEncode(seeds.map((e) => e.toJsonEsc()).toList())
         ],
@@ -186,7 +194,8 @@ class QubicCmdUtils {
 
     String scriptPath = await _getHelperFileFullPath();
 
-    final p = await Process.run(scriptPath, ['createPublicId', seed],
+    final p = await Process.run(
+        scriptPath, [QubicJSFunctions.createPublicId, seed],
         runInShell: true);
 
     if (p.exitCode != 0) {
@@ -235,7 +244,7 @@ class QubicCmdUtils {
     final p = await Process.run(
         await _getHelperFileFullPath(),
         [
-          'createTransactionAssetMove',
+          QubicJSFunctions.createTransactionAssetMove,
           seed,
           destinationId,
           assetName,
@@ -278,7 +287,7 @@ class QubicCmdUtils {
     final p = await Process.run(
         await _getHelperFileFullPath(),
         [
-          'createTransaction',
+          QubicJSFunctions.createTransaction,
           seed,
           destinationId,
           value.toString(),
@@ -321,7 +330,7 @@ class QubicCmdUtils {
     final p = await Process.run(
         await _getHelperFileFullPath(),
         [
-          'wallet.importVaultFile',
+          QubicJSFunctions.importVaultFile,
           password,
           filePath,
         ],
@@ -387,5 +396,149 @@ class QubicCmdUtils {
     }
 
     return seeds;
+  }
+
+  Future<QubicSignResult> signBase64(String seed, String base64) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          QubicJSFunctions.signRaw,
+          seed,
+          base64,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureGeneric);
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(e.toString()));
+    }
+
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(response.error ?? ""));
+    }
+
+    if (response.digest == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureDigestEmpty);
+    }
+
+    if (response.signature == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignatureEmpty);
+    }
+
+    if (response.signedData == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignedDataEmpty);
+    }
+
+    return QubicSignResult.fromCMDResponse(response);
+  }
+
+  Future<QubicSignResult> signASCII(String seed, String asciiText) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          QubicJSFunctions.signASCII,
+          seed,
+          asciiText,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureGeneric);
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(e.toString()));
+    }
+
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(response.error ?? ""));
+    }
+
+    if (response.digest == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureDigestEmpty);
+    }
+
+    if (response.signature == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignatureEmpty);
+    }
+
+    if (response.signedData == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignedDataEmpty);
+    }
+
+    return QubicSignResult.fromCMDResponse(response);
+  }
+
+  Future<QubicSignResult> signUTF8(String seed, String utf8Text) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          QubicJSFunctions.signUTF8,
+          seed,
+          utf8Text,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureGeneric);
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(e.toString()));
+    }
+
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(response.error ?? ""));
+    }
+
+    if (response.digest == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureDigestEmpty);
+    }
+
+    if (response.signature == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignatureEmpty);
+    }
+
+    if (response.signedData == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignedDataEmpty);
+    }
+
+    return QubicSignResult.fromCMDResponse(response);
   }
 }

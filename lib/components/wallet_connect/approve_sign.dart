@@ -1,18 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qubic_wallet/components/wallet_connect/amount_value_header.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
-import 'package:qubic_wallet/helpers/sendTransaction.dart';
-import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -22,9 +18,10 @@ import 'package:reown_walletkit/reown_walletkit.dart';
 
 class ApproveSign extends StatefulWidget {
   final PairingMetadata? pairingMetadata;
-  final String? fromID;
+  final String fromID;
   final String? fromName;
-  final String? message;
+  final String message;
+
   const ApproveSign({
     super.key,
     required this.pairingMetadata,
@@ -41,7 +38,8 @@ class ApproveSign extends StatefulWidget {
 class _ApproveSignState extends State<ApproveSign> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
-  final QubicLi _apiService = getIt<QubicLi>();
+  final QubicCmd qubicCmd = getIt.get<QubicCmd>();
+
   bool hasAccepted = false;
   bool isLoading = false;
   @override
@@ -87,45 +85,36 @@ class _ApproveSignState extends State<ApproveSign> {
                 setState(() {
                   isLoading = true;
                 });
-                //Get current tick
-
-                //Send the transaction to backend
-                ApproveSignGenericResult? result;
-                setState(() {
-                  isLoading = true;
-                });
                 if (mounted) {
-                  String signedMessage =
-                      "${widget.message ?? "original"} SIGNED"; //TODO --------- ADD THE RESULT HERE
-
-                  if (signedMessage != null) {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    //If the transaction was successful
-
-                    if (mounted) {
-                      Navigator.of(context).pop(ApproveSignGenericResult(
-                          //Return the success and tick
-                          signedMessage: signedMessage));
-
-                      getIt<GlobalSnackBar>()
-                          .show(l10nOf(context) //Show snackbar
-                              .wcApprovedSignedMessage);
-                    }
-                  } else {
-                    //Else, transaction failed
+                  try {
+                    //Get the seed from the Id
+                    String seed = await getIt
+                        .get<ApplicationStore>()
+                        .getSeedByPublicId(widget.fromID);
+                    //Sign the message
+                    QubicSignResult signedMessage =
+                        await qubicCmd.signUTF8(seed, widget.message);
                     setState(() {
                       isLoading = false;
                     });
                     if (mounted) {
                       Navigator.of(context).pop(ApproveSignGenericResult(
                           //Return the success and tick
-                          signedMessage: null));
-                      getIt.get<PersistentTabController>().jumpToTab(1);
+                          result: signedMessage));
+
                       getIt<GlobalSnackBar>()
-                          .showError(l10nOf(context) //Show snackbar
-                              .sendItemDialogErrorGeneralTitle);
+                          .show(l10nOf(context) //Show snackbar
+                              .wcApprovedSignedMessage);
+                    }
+                  } catch (e) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                    if (mounted) {
+                      Navigator.of(context).pop(ApproveSignGenericResult(
+                          //Return the success and tick
+                          result: null));
+                      getIt<GlobalSnackBar>().showError(e.toString());
                     }
                   }
                 }
@@ -198,16 +187,13 @@ class _ApproveSignState extends State<ApproveSign> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                     Center(
-                        child: Text("Sign the following message",
+                        child: Text(l10n.wcApproveSignOf,
                             style: TextStyles.sliverHeader)),
                     ThemedControls.spacerVerticalBig(),
                     Padding(
                         padding: EdgeInsets.symmetric(
                             horizontal: ThemePaddings.bigPadding),
-                        child: Text(
-                            widget.message != null
-                                ? widget.message!.replaceAll(r'\n', '\n')
-                                : "-",
+                        child: Text(widget.message.replaceAll(r'\n', '\n'),
                             style: TextStyles.textNormal)),
                     ThemedControls.spacerVerticalBig(),
                     Text(
@@ -216,7 +202,7 @@ class _ApproveSignState extends State<ApproveSign> {
                       style: TextStyles.lightGreyTextSmall,
                     ),
                     ThemedControls.spacerVerticalMini(),
-                    Text(widget.fromID ?? "-", style: TextStyles.textNormal),
+                    Text(widget.fromID, style: TextStyles.textNormal),
                     ThemedControls.spacerVerticalSmall(),
                   ]))
             ],
