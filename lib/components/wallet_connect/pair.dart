@@ -4,10 +4,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:qubic_wallet/components/wallet_connect/components/domain_verification_card.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/wallet_connect.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -15,7 +18,7 @@ import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
+import 'package:reown_walletkit/reown_walletkit.dart';
 
 class Pair extends StatefulWidget {
   final PairingMetadata? pairingMetadata;
@@ -24,15 +27,18 @@ class Pair extends StatefulWidget {
   final int pairingId;
   final Map<String, Namespace>? pairingNamespaces;
   final List<String> unsupportedNetowrks;
+  final DomainType domainType;
 
-  const Pair(
-      {super.key,
-      required this.pairingId,
-      required this.pairingMethods,
-      required this.pairingMetadata,
-      required this.pairingEvents,
-      required this.pairingNamespaces,
-      required this.unsupportedNetowrks});
+  const Pair({
+    super.key,
+    required this.pairingId,
+    required this.pairingMethods,
+    required this.pairingMetadata,
+    required this.pairingEvents,
+    required this.pairingNamespaces,
+    required this.unsupportedNetowrks,
+    required this.domainType,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -59,6 +65,10 @@ class _PairState extends State<Pair> {
       }
     });
   }
+
+  bool isUnknown() => widget.domainType == DomainType.unknown;
+  bool isScam() => widget.domainType == DomainType.scam;
+  bool isMismatch() => widget.domainType == DomainType.mismatch;
 
   @override
   void dispose() {
@@ -112,7 +122,7 @@ class _PairState extends State<Pair> {
     return ThemedControls.card(
         child: Column(
       children: [
-        SvgPicture.asset(AppIcons.warning),
+        SvgPicture.asset(AppIcons.danger),
         ThemedControls.spacerVerticalNormal(),
         Text(
           l10n.wcErrorUnsupportedNetwork,
@@ -162,24 +172,27 @@ class _PairState extends State<Pair> {
         SizedBox(
           width: double.infinity,
           height: ButtonStyles.buttonHeight,
-          child: ThemedControls.primaryButtonBigWithChild(
+          child: FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: isScam() || isMismatch()
+                    ? LightThemeColors.error40
+                    : isUnknown()
+                        ? LightThemeColors.warning40
+                        : LightThemeColors.primary40,
+              ),
               onPressed: () {
-                handleProceed();
+                if (!isLoading) handleProceed();
               },
-              child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: isLoading
-                      ? SizedBox(
-                          height: 23,
-                          width: 23,
-                          child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary),
-                        )
-                      : Text(l10n.generalButtonApprove,
-                          textAlign: TextAlign.center,
-                          style: TextStyles.primaryButtonText))),
+              child: isLoading
+                  ? SizedBox(
+                      height: 23,
+                      width: 23,
+                      child: CircularProgressIndicator(
+                          strokeWidth: 2, color: LightThemeColors.grey90),
+                    )
+                  : Text(l10n.generalButtonApprove,
+                      textAlign: TextAlign.center,
+                      style: TextStyles.primaryButtonText)),
         ),
       ThemedControls.spacerVerticalSmall(),
       SizedBox(
@@ -190,7 +203,9 @@ class _PairState extends State<Pair> {
                   child: Padding(
                       padding: const EdgeInsets.all(ThemePaddings.smallPadding),
                       child: Text(l10n.generalButtonReject,
-                          style: TextStyles.destructiveButtonText)),
+                          style: isScam() || isMismatch()
+                              ? TextStyles.transparentButtonText
+                              : TextStyles.destructiveButtonText)),
                   onPressed: () {
                     Navigator.of(context).pop();
                   })
@@ -276,7 +291,9 @@ class _PairState extends State<Pair> {
                 //--------- End of header
                 ThemedControls.spacerVerticalBig(),
                 getErrors(),
-                if (widget.unsupportedNetowrks!.isEmpty) ...[
+                if (widget.unsupportedNetowrks.isEmpty) ...[
+                  if (widget.domainType != DomainType.valid)
+                    DomainVerificationCard(domainType: widget.domainType),
                   //--------- Permissions
                   if (getMethods().isNotEmpty)
                     ThemedControls.card(

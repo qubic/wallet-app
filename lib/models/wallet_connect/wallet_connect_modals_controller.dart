@@ -10,7 +10,7 @@ import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart
 import 'package:qubic_wallet/models/wallet_connect/request_sign_generic_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
 
-import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
+import 'package:reown_walletkit/reown_walletkit.dart';
 
 import '../../components/wallet_connect/approve_sign.dart';
 

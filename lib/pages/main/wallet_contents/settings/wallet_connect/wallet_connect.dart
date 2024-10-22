@@ -19,7 +19,7 @@ import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:walletconnect_flutter_v2/walletconnect_flutter_v2.dart';
+import 'package:reown_walletkit/reown_walletkit.dart';
 
 class WalletConnectSettings extends StatefulWidget {
   const WalletConnectSettings({super.key});
@@ -82,8 +82,8 @@ class _AboutWalletState extends State<WalletConnectSettings> {
         sessions.remove(session.topic);
       });
       walletConnectService.web3Wallet!.disconnectSession(
-          reason: WalletConnectError(
-              code: -1, message: l10n.wcErrorUserDisconnected),
+          reason:
+              ReownSignError(code: -1, message: l10n.wcErrorUserDisconnected),
           topic: session.topic);
     } catch (e) {
       //Silently ignore
@@ -95,8 +95,8 @@ class _AboutWalletState extends State<WalletConnectSettings> {
     try {
       sessions.forEach((key, sessionData) async {
         await walletConnectService.web3Wallet!.disconnectSession(
-            reason: WalletConnectError(
-                code: -1, message: l10n.wcErrorUserDisconnected),
+            reason:
+                ReownSignError(code: -1, message: l10n.wcErrorUserDisconnected),
             topic: sessionData.topic);
       });
       setState(() {
