@@ -255,8 +255,7 @@ class WalletConnectService {
       web3Wallet!.onProposalExpire.unsubscribeAll();
       web3Wallet!.onSessionProposal.unsubscribeAll();
       web3Wallet!.onSessionProposalError.unsubscribeAll();
-
-      web3Wallet!.onAuthRequest.unsubscribeAll();
+      web3Wallet!.onSessionAuthRequest.unsubscribeAll();
       web3Wallet!.onSessionPing.unsubscribeAll();
       web3Wallet!.onSessionRequest.unsubscribeAll();
       web3Wallet!.core.relayClient.onRelayClientDisconnect.unsubscribeAll();
