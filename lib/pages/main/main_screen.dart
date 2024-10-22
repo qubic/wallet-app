@@ -95,9 +95,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   /// Sets up events and modal handling for WalletConnect
   void _setupWalletConnect() {
-    if (settingsStore.settings.walletConnectEnabled) {
-      walletConnectService.initialize();
-    }
+    walletConnectService.initialize();
     //Modal for sending qubic
     walletConnectService.sendQubicHandler = (event) async {
       return await wcModalsController.handleSendQubic(event, context);

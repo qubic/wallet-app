@@ -29,19 +29,20 @@ class LightThemeColors {
   static const shouldInvertIcon = true;
   static const primary = Color(0xFFFFFFFF);
   static const surface = Color(0xFF222229);
-  static const background = Color(0xFF101820);
+  static const background = Color(0xFF0C131B);
   static const navBg = Color(0xFF0C131B);
   static const navBorder = Color(0xFF202E3C);
   static const successIncoming = Color(0xFF179C6C);
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);
   static final border = Colors.white.withOpacity(0.03);
-
+  // TODO Replace with error40 from the new palette
   static const dangerColor = Color(0xFFF97066);
+  static const dangerBackgroundButton = Color(0xFF272127);
 
   static const textColorSecondary = Color(0xFF808B9B);
 
-  static const menuBg = Color(0xFF192531);
+  static const menuBg = Color(0xFF101820);
 
   static const buttonPrimary = Color(0xFF1bdef5);
 
@@ -57,7 +58,7 @@ class LightThemeColors {
 
   static const disabledStateBg = color2;
 
-  static const inputFieldBg = Color(0xFF151E27);
+  static const inputFieldBg = grey80;
   static const inputFieldHint = Color(0xFF4B5565);
 
   static const secondaryTypography = color6;
@@ -98,6 +99,33 @@ class LightThemeColors {
   static const menuInactive = Color.fromARGB(255, 152, 157, 162);
 
   static const refreshIndicatorBackground = cardBackground;
+
+  // *** New Palette *** //
+
+  static const primary10 = Color(0xFFCCFCFF);
+  static const primary20 = Color(0xFFB0F9FE);
+  static const primary30 = Color(0xFF61F0FE);
+
+  ///Main primary option. Used as for primary buttons, highlighted text, active icons
+  static const primary40 = Color(0xFF1ADEF5);
+  static const primary50 = Color(0xFF03C1DB);
+  static const primary60 = Color(0xFF019AB8);
+  static const primary90 = Color(0xFF112C35);
+  static const grey50 = Color(0xFF808B9B);
+  static const grey60 = Color(0xFF4B5565);
+  static const grey70 = Color(0xFF202E3C);
+  static const grey80 = Color(0xFF151E27);
+  static const grey90 = Color(0xFF101820);
+  static const grey100 = Color(0xFF0C131B);
+
+  static const error40 = Color(0xFFF97066);
+  static const error90 = Color(0xFF381D1E);
+
+  static const success40 = Color(0xFF47CD89);
+  static const success90 = Color(0xFF11322D);
+
+  static const warning40 = Color(0xFFCDA747);
+  static const warning90 = Color(0xFF322D11);
 }
 
 class xLightThemeColors {
