@@ -57,61 +57,6 @@ class _AddWalletConnectDesktopViewState
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            if (isMobile) ...[
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                        color:
-                                            LightThemeColors.inputBorderColor,
-                                        width: 1),
-                                  ),
-                                  width: double.infinity,
-                                  height: 280,
-                                  child: CustomPaint(
-                                    foregroundPainter: ScannerCornerBorders(),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: MobileScanner(
-                                        fit: BoxFit.cover,
-                                        controller: MobileScannerController(
-                                          detectionSpeed:
-                                              DetectionSpeed.noDuplicates,
-                                          facing: CameraFacing.back,
-                                          torchEnabled: false,
-                                        ),
-                                        onDetect: (capture) {
-                                          final List<Barcode> barcodes =
-                                              capture.barcodes;
-                                          for (final barcode in barcodes) {
-                                            if (barcode.rawValue != null &&
-                                                !widget.isLoading) {
-                                              _globalSnackBar.show(l10n
-                                                  .generalSnackBarMessageQRScannedWithSuccess);
-                                              widget.proceedHandler(
-                                                  barcode.rawValue);
-                                            }
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              ThemedControls.spacerVerticalBig(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: ThemePaddings.normalPadding),
-                                child: Text(
-                                  l10n.wcPointCameraToQR,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyles.labelTextNormal
-                                      .copyWith(fontWeight: FontWeight.w400),
-                                ),
-                              )
-                            ],
                             ThemedControls.pageHeader(
                               headerText: l10n.wcAddWcTitle,
                             ),
