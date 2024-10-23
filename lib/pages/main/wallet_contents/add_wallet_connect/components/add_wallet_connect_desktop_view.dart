@@ -106,7 +106,7 @@ class _AddWalletConnectDesktopViewState
                 width: double.infinity,
                 height: ButtonStyles.buttonHeight,
                 child: ThemedControls.primaryButtonBigWithChild(
-                    onPressed: canConnect
+                    onPressed: canConnect && !widget.isLoading
                         ? () => widget.proceedHandler(urlController.text)
                         : null,
                     enabled: canConnect,
