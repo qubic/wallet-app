@@ -25,10 +25,10 @@ class WalletConnectSettings extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _AboutWalletState createState() => _AboutWalletState();
+  _WalletConnectSettingsState createState() => _WalletConnectSettingsState();
 }
 
-class _AboutWalletState extends State<WalletConnectSettings> {
+class _WalletConnectSettingsState extends State<WalletConnectSettings> {
   final WalletConnectService walletConnectService =
       getIt<WalletConnectService>();
 
