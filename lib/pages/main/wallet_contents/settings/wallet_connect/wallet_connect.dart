@@ -19,6 +19,7 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
+import 'package:reown_sign/reown_sign.dart';
 
 class WalletConnectSettings extends StatefulWidget {
   const WalletConnectSettings({super.key});
@@ -55,8 +56,11 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
   }
 
   List<String> getMethods(SessionData sessionData) {
-    List<String> methods =
-        sessionData.namespaces[Config.walltConnectChainName]?.methods ?? [];
+    List<String> methods = sessionData
+            .namespaces[NamespaceUtils.getNamespaceFromChain(
+                Config.walletConnectChainId)]
+            ?.methods ??
+        [];
 
     List<String> localizedStrings =
         getLocalizedPairingMethods(methods, context);
