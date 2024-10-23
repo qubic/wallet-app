@@ -2,12 +2,10 @@ part of '../add_wallet_connect.dart';
 
 class _AddWalletConnectDesktopView extends StatefulWidget {
   final bool isLoading;
-  final VoidCallback pasteAndProceed;
   final Function(String?) proceedHandler;
   const _AddWalletConnectDesktopView({
     super.key,
     required this.isLoading,
-    required this.pasteAndProceed,
     required this.proceedHandler,
   });
 
@@ -57,61 +55,6 @@ class _AddWalletConnectDesktopViewState
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            if (isMobile) ...[
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
-                                        color:
-                                            LightThemeColors.inputBorderColor,
-                                        width: 1),
-                                  ),
-                                  width: double.infinity,
-                                  height: 280,
-                                  child: CustomPaint(
-                                    foregroundPainter: ScannerCornerBorders(),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(12),
-                                      child: MobileScanner(
-                                        fit: BoxFit.cover,
-                                        controller: MobileScannerController(
-                                          detectionSpeed:
-                                              DetectionSpeed.noDuplicates,
-                                          facing: CameraFacing.back,
-                                          torchEnabled: false,
-                                        ),
-                                        onDetect: (capture) {
-                                          final List<Barcode> barcodes =
-                                              capture.barcodes;
-                                          for (final barcode in barcodes) {
-                                            if (barcode.rawValue != null &&
-                                                !widget.isLoading) {
-                                              _globalSnackBar.show(l10n
-                                                  .generalSnackBarMessageQRScannedWithSuccess);
-                                              widget.proceedHandler(
-                                                  barcode.rawValue);
-                                            }
-                                          }
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              ThemedControls.spacerVerticalBig(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: ThemePaddings.normalPadding),
-                                child: Text(
-                                  l10n.wcPointCameraToQR,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyles.labelTextNormal
-                                      .copyWith(fontWeight: FontWeight.w400),
-                                ),
-                              )
-                            ],
                             ThemedControls.pageHeader(
                               headerText: l10n.wcAddWcTitle,
                             ),
@@ -163,7 +106,9 @@ class _AddWalletConnectDesktopViewState
                 width: double.infinity,
                 height: ButtonStyles.buttonHeight,
                 child: ThemedControls.primaryButtonBigWithChild(
-                    onPressed: canConnect ? widget.pasteAndProceed : null,
+                    onPressed: canConnect && !widget.isLoading
+                        ? () => widget.proceedHandler(urlController.text)
+                        : null,
                     enabled: canConnect,
                     child: Padding(
                         padding: const EdgeInsets.all(

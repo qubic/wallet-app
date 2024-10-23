@@ -117,7 +117,7 @@ class _AddWalletConnectMobileViewState
                 width: double.infinity,
                 height: ButtonStyles.buttonHeight,
                 child: ThemedControls.secondaryButtonWithChild(
-                    onPressed: widget.pasteAndProceed,
+                    onPressed: widget.isLoading ? null : widget.pasteAndProceed,
                     child: Padding(
                         padding: const EdgeInsets.all(
                             ThemePaddings.smallPadding + 3),

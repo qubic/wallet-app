@@ -326,7 +326,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
             )
           : _AddWalletConnectDesktopView(
               isLoading: isLoading,
-              pasteAndProceed: pasteAndProceed,
               proceedHandler: proceedHandler,
             ),
     );

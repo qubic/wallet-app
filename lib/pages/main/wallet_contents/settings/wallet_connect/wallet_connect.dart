@@ -12,7 +12,6 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/components/wallet_connect_expansion_card.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
-import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -20,16 +19,17 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
+import 'package:reown_sign/reown_sign.dart';
 
 class WalletConnectSettings extends StatefulWidget {
   const WalletConnectSettings({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _AboutWalletState createState() => _AboutWalletState();
+  _WalletConnectSettingsState createState() => _WalletConnectSettingsState();
 }
 
-class _AboutWalletState extends State<WalletConnectSettings> {
+class _WalletConnectSettingsState extends State<WalletConnectSettings> {
   final WalletConnectService walletConnectService =
       getIt<WalletConnectService>();
 
@@ -56,16 +56,14 @@ class _AboutWalletState extends State<WalletConnectSettings> {
   }
 
   List<String> getMethods(SessionData sessionData) {
-    if (sessionData.requiredNamespaces == null) {
-      return [];
-    }
-    if (sessionData.requiredNamespaces![Config.walletConnectChainId] == null) {
-      return [];
-    }
-    List<String> localizedStrings = getLocalizedPairingMethods(
-        sessionData.requiredNamespaces?[Config.walletConnectChainId]!.methods ??
-            [],
-        context);
+    List<String> methods = sessionData
+            .namespaces[NamespaceUtils.getNamespaceFromChain(
+                Config.walletConnectChainId)]
+            ?.methods ??
+        [];
+
+    List<String> localizedStrings =
+        getLocalizedPairingMethods(methods, context);
     return localizedStrings;
   }
 
