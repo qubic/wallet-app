@@ -2,12 +2,10 @@ part of '../add_wallet_connect.dart';
 
 class _AddWalletConnectDesktopView extends StatefulWidget {
   final bool isLoading;
-  final VoidCallback pasteAndProceed;
   final Function(String?) proceedHandler;
   const _AddWalletConnectDesktopView({
     super.key,
     required this.isLoading,
-    required this.pasteAndProceed,
     required this.proceedHandler,
   });
 
@@ -108,7 +106,9 @@ class _AddWalletConnectDesktopViewState
                 width: double.infinity,
                 height: ButtonStyles.buttonHeight,
                 child: ThemedControls.primaryButtonBigWithChild(
-                    onPressed: canConnect ? widget.pasteAndProceed : null,
+                    onPressed: canConnect
+                        ? () => widget.proceedHandler(urlController.text)
+                        : null,
                     enabled: canConnect,
                     child: Padding(
                         padding: const EdgeInsets.all(
