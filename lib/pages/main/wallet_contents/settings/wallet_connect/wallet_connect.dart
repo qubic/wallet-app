@@ -56,14 +56,17 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
   }
 
   List<String> getMethods(SessionData sessionData) {
-    List<String> methods = sessionData
-            .namespaces[NamespaceUtils.getNamespaceFromChain(
-                Config.walletConnectChainId)]
-            ?.methods ??
-        [];
+    List<String> methods = NamespaceUtils.getNamespacesMethodsForChainId(
+        chainId:
+            Config.walletConnectChainId, // only chain id supported by the app
+        namespaces: sessionData.namespaces);
 
-    List<String> localizedStrings =
-        getLocalizedPairingMethods(methods, context);
+    List<String> localizedStrings = [];
+
+    if (methods.isNotEmpty) {
+      localizedStrings = getLocalizedPairingMethods(methods, context);
+    }
+
     return localizedStrings;
   }
 
