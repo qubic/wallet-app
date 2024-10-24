@@ -11,6 +11,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/wallet_connect.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
@@ -119,12 +120,11 @@ class _TabSettingsState extends State<TabSettings> {
                               title: settingsUnlockLabel,
                               path: const ManageBiometrics(),
                             ),
-                            // SettingsListTile(
-                            //   prefix:
-                            //       SvgPicture.asset(AppIcons.walletConnect, height: defaultIconHeight),
-                            //   title: l10n.settingsLabelWalletConnect,
-                            //   onPressed: () {},
-                            // ),
+                            SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.walletConnect,
+                                    height: defaultIconHeight),
+                                title: l10n.settingsLabelWalletConnect,
+                                path: const WalletConnectSettings()),
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.community,
                                   height: defaultIconHeight),

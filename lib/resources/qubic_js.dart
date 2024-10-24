@@ -6,8 +6,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter/services.dart' show Uint8List;
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
+import 'package:qubic_wallet/models/qubic_js.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 
 /// A class that handles the secure storage of the wallet. The wallet is stored in the secure storage of the device
@@ -25,8 +28,7 @@ class QubicJs {
     }
     InAppWebView = HeadlessInAppWebView(
       onWebViewCreated: (WVcontroller) async {
-        WVcontroller.loadFile(
-            assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_8.html");
+        WVcontroller.loadFile(assetFilePath: Config.qubicJSAssetPath);
 
         controller = WVcontroller;
       },
@@ -73,6 +75,18 @@ class QubicJs {
     this.controller = controller;
   }
 
+  /// Runs an async JS function with the given parameters and returns the result
+  Future<CallAsyncJavaScriptResult?> runFunction(
+      String functionName, List<String> parameters) async {
+    await initialize();
+    parameters = parameters.map((e) => e.replaceAll("'", "\\'")).toList();
+    String functionBody =
+        "await window.runBrowser('$functionName', '${parameters.join("','")}')";
+
+    functionBody = "return JSON.stringify($functionBody);";
+    return await controller!.callAsyncJavaScript(functionBody: functionBody);
+  }
+
   Future<String> createAssetTransferTransaction(
       String seed,
       String destinationId,
@@ -85,13 +99,15 @@ class QubicJs {
     assetName = assetName.replaceAll("'", "\\'");
     assetIssuer = assetIssuer.replaceAll("'", "\\'");
 
-    String functionBody =
-        "await window.runBrowser('createTransactionAssetMove','$seed', '$destinationId', '$assetName', '$assetIssuer', $numberOfUnits, $tick)";
-    functionBody = "return JSON.stringify($functionBody);";
-
-    initialize();
     CallAsyncJavaScriptResult? result =
-        await controller!.callAsyncJavaScript(functionBody: functionBody);
+        await runFunction(QubicJSFunctions.createTransactionAssetMove, [
+      seed,
+      destinationId,
+      assetName,
+      assetIssuer,
+      numberOfUnits.toString(),
+      tick.toString()
+    ]);
 
     if (result == null) {
       throw Exception(LocalizationManager.instance.appLocalization
@@ -108,13 +124,9 @@ class QubicJs {
 
   Future<String> createTransaction(
       String seed, String destinationId, int value, int tick) async {
-    String functionBody =
-        "await window.runBrowser('createTransaction','${seed.replaceAll("'", "\\'")}', '${destinationId.replaceAll("'", "\\'")}', $value, $tick)";
-    functionBody = "return JSON.stringify($functionBody);";
-
-    initialize();
-    CallAsyncJavaScriptResult? result =
-        await controller!.callAsyncJavaScript(functionBody: functionBody);
+    CallAsyncJavaScriptResult? result = await runFunction(
+        QubicJSFunctions.createTransaction,
+        [seed, destinationId, value.toString(), tick.toString()]);
 
     if (result == null) {
       throw Exception(LocalizationManager
@@ -129,11 +141,10 @@ class QubicJs {
   }
 
   Future<String> getPublicIdFromSeed(String seed) async {
-    String functionBody =
-        "await window.runBrowser('createPublicId','${seed.replaceAll("'", "\\'")}')";
-    functionBody = "return JSON.stringify($functionBody);";
     CallAsyncJavaScriptResult? result =
-        await controller!.callAsyncJavaScript(functionBody: functionBody);
+        await runFunction(QubicJSFunctions.createPublicId, [
+      seed,
+    ]);
 
     if (result == null) {
       throw Exception(LocalizationManager
@@ -151,11 +162,12 @@ class QubicJs {
   /// Return base64  vault file
   Future<Uint8List> createVaultFile(
       String password, List<QubicVaultExportSeed> seeds) async {
-    String functionBody =
-        "await window.runBrowser('wallet.createVaultFile','${password.replaceAll("'", "\\'")}','${jsonEncode(seeds.map((e) => e.toJson()).toList()).replaceAll("'", "\\'")}')";
-    functionBody = "return JSON.stringify($functionBody);";
     CallAsyncJavaScriptResult? result =
-        await controller!.callAsyncJavaScript(functionBody: functionBody);
+        await runFunction(QubicJSFunctions.createVaultFile, [
+      password,
+      jsonEncode(seeds.map((e) => e.toJson()).toList()),
+    ]);
+
     if (result == null) {
       throw Exception(LocalizationManager
           .instance.appLocalization.cmdErrorCreatingVaultFileGeneric);
@@ -177,14 +189,10 @@ class QubicJs {
   }
 
   Future<bool> verifyIdentity(String publicId) async {
-    await initialize();
-
-    String functionBody =
-        "await window.runBrowser('verifyIdentity', '${publicId.replaceAll("'", "\\'")}')";
-    functionBody = "return JSON.stringify($functionBody);";
-
     CallAsyncJavaScriptResult? result =
-        await controller!.callAsyncJavaScript(functionBody: functionBody);
+        await runFunction(QubicJSFunctions.verifyIdentity, [
+      publicId,
+    ]);
 
     if (result == null) {
       throw Exception(LocalizationManager
@@ -200,17 +208,66 @@ class QubicJs {
     return data['isValid'];
   }
 
+  Future<QubicSignResult> signBase64(String seed, String base64) async {
+    CallAsyncJavaScriptResult? result =
+        await runFunction(QubicJSFunctions.signRaw, [seed, base64]);
+
+    if (result == null) {
+      throw Exception(
+          LocalizationManager.instance.appLocalization.signBase64GenericError);
+    }
+    if (result.error != null) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .importVaultFileErrorGeneralMessage(result.error ?? ""));
+    }
+    final Map<String, dynamic> data = json.decode(result.value);
+
+    if (data['status'] == 'error') {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .signBase64GenericError(data['error'] ?? ""));
+    }
+    return QubicSignResult.fromJson(data);
+  }
+
+  Future<QubicSignResult> signASCII(String seed, String ASCIIText) async {
+    CallAsyncJavaScriptResult? result =
+        await runFunction(QubicJSFunctions.signASCII, [seed, ASCIIText]);
+
+    if (result == null) {
+      throw Exception(
+          LocalizationManager.instance.appLocalization.signASCIIGenericError);
+    }
+    if (result.error != null) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .signASCIIGenericError(result.error ?? ""));
+    }
+    final Map<String, dynamic> data = json.decode(result.value);
+    return QubicSignResult.fromJson(data);
+  }
+
+  Future<QubicSignResult> signUTF8(String seed, String UTF8Text) async {
+    CallAsyncJavaScriptResult? result =
+        await runFunction(QubicJSFunctions.signUTF8, [seed, UTF8Text]);
+
+    if (result == null) {
+      throw Exception(
+          LocalizationManager.instance.appLocalization.signUTF8GenericError);
+    }
+    if (result.error != null) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .signUTF8GenericError(result.error ?? ""));
+    }
+    final Map<String, dynamic> data = json.decode(result.value);
+    return QubicSignResult.fromJson(data);
+  }
+
   Future<List<QubicImportVaultSeed>> importVault(
       String password, String baseFileContents) async {
     List<QubicImportVaultSeed>? seeds;
     List<dynamic>? parsedSeeds;
 
-    String functionBody =
-        "await window.runBrowser('wallet.importVault','${password.replaceAll("'", "\\'")}','${baseFileContents.replaceAll("'", "\\'")}')";
-    functionBody = "return JSON.stringify($functionBody);";
-
-    CallAsyncJavaScriptResult? result =
-        await controller!.callAsyncJavaScript(functionBody: functionBody);
+    CallAsyncJavaScriptResult? result = await runFunction(
+        QubicJSFunctions.importVault, [password, baseFileContents]);
 
     if (result == null) {
       throw Exception(LocalizationManager

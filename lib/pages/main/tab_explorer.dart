@@ -93,8 +93,8 @@ class _TabExplorerState extends State<TabExplorer> {
 
   @override
   void dispose() {
-    super.dispose();
     disposeReaction();
+    super.dispose();
     // disposer();
   }
 

@@ -1,5 +1,32 @@
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 
+class QubicAssetWC {
+  final int contractIndex;
+  final String assetName;
+  final String issuerIdentity;
+  final String contractName;
+  final int? ownedAmount;
+  final int? possessedAmount;
+
+  QubicAssetWC(
+      {required this.contractIndex,
+      required this.assetName,
+      required this.issuerIdentity,
+      required this.contractName,
+      required this.ownedAmount,
+      required this.possessedAmount});
+
+  factory QubicAssetWC.fromQubicAssetDto(QubicAssetDto source) {
+    return QubicAssetWC(
+        contractIndex: source.contractIndex,
+        assetName: source.assetName,
+        issuerIdentity: source.issuerIdentity,
+        contractName: source.contractName,
+        ownedAmount: source.ownedAmount,
+        possessedAmount: source.possessedAmount);
+  }
+}
+
 /// A Qubic asset.
 class QubicAssetDto {
   /// The public ID of where the asset belongs
