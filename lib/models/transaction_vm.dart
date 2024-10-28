@@ -69,22 +69,22 @@ class TransactionVm {
   bool moneyFlow;
 
   TransactionVm(
-      this.id,
-      this.sourceId,
-      this.destId,
-      this.amount,
-      this.status,
+      {required this.id,
+      required this.sourceId,
+      required this.destId,
+      required this.amount,
+      required this.status,
       this.created,
       this.stored,
       this.staged,
       this.broadcasted,
       this.confirmed,
       this.statusUpdate,
-      this.targetTick,
-      this.isPending,
+      required this.targetTick,
+      required this.isPending,
       this.price,
       this.quantity,
-      this.moneyFlow);
+      required this.moneyFlow});
 
   ComputedTransactionStatus getStatus() {
     if (isPending) {
@@ -157,21 +157,21 @@ class TransactionVm {
 
   factory TransactionVm.fromTransactionDto(TransactionDto original) {
     return TransactionVm(
-        original.id,
-        original.sourceId,
-        original.destId,
-        original.amount,
-        original.status,
-        original.created,
-        original.stored,
-        original.staged,
-        original.broadcasted,
-        original.confirmed,
-        original.statusUpdate,
-        original.targetTick,
-        original.isPending,
-        original.price,
-        original.quantity,
-        original.moneyFlow);
+        id: original.id,
+        sourceId: original.sourceId,
+        destId: original.destId,
+        amount: original.amount,
+        status: original.status,
+        created: original.created,
+        stored: original.stored,
+        staged: original.staged,
+        broadcasted: original.broadcasted,
+        confirmed: original.confirmed,
+        statusUpdate: original.statusUpdate,
+        targetTick: original.targetTick,
+        isPending: original.isPending,
+        price: original.price,
+        quantity: original.quantity,
+        moneyFlow: original.moneyFlow);
   }
 }

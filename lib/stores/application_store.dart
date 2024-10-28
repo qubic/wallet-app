@@ -73,6 +73,9 @@ abstract class _ApplicationStore with Store {
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
 
+  ObservableList<TransactionVm> pendingTransactions =
+      ObservableList<TransactionVm>();
+
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
 
@@ -89,8 +92,10 @@ abstract class _ApplicationStore with Store {
   @computed
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
-    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(0,
-        (sum, qubic) => sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
+    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(
+        0,
+        (sum, qubic) =>
+            sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
   }
 
   //The market info for $QUBIC
@@ -367,6 +372,14 @@ abstract class _ApplicationStore with Store {
             TransactionVm.fromTransactionDto(transactions[i]);
       }
     }
+    if (pendingTransactions.isNotEmpty) {
+      for (var pendingTrx in pendingTransactions) {
+        if (currentTransactions.any((trx) => trx.id == pendingTrx.id)) {
+          pendingTransactions.remove(pendingTrx);
+        }
+      }
+      currentTransactions.insertAll(0, pendingTransactions);
+    }
   }
 
   int getQubicIDsWithPublicId(String publicId) {
@@ -393,5 +406,10 @@ abstract class _ApplicationStore with Store {
         currentQubicIDs.any(
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
+  }
+
+  @action
+  addPendingTransaction(TransactionVm transaction) {
+    currentTransactions.add(transaction);
   }
 }

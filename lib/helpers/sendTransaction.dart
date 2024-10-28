@@ -3,6 +3,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -80,7 +81,18 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
 
   //We have the transaction, now let's call the API
   try {
-    await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
+    final transactionId =
+        await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
+    final pendingTransaction = TransactionVm(
+        id: transactionId,
+        sourceId: sourceId,
+        destId: destinationId,
+        amount: value,
+        status: ComputedTransactionStatus.pending.name,
+        targetTick: destinationTick,
+        isPending: true,
+        moneyFlow: false);
+    getIt.get<ApplicationStore>().addPendingTransaction(pendingTransaction);
   } catch (e) {
     showAlertDialog(
         context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
