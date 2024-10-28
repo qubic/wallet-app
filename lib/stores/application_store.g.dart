@@ -493,6 +493,17 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  dynamic addPendingTransaction(TransactionVm transaction) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.addPendingTransaction');
+    try {
+      return super.addPendingTransaction(transaction);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 hasStoredWalletSettings: ${hasStoredWalletSettings},

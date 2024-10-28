@@ -81,6 +81,9 @@ abstract class _ApplicationStore with Store {
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
 
+  ObservableList<TransactionVm> pendingTransactions =
+      ObservableList<TransactionVm>();
+
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
 
@@ -415,6 +418,14 @@ abstract class _ApplicationStore with Store {
             TransactionVm.fromTransactionDto(transactions[i]);
       }
     }
+    if (pendingTransactions.isNotEmpty) {
+      for (var pendingTrx in pendingTransactions) {
+        if (currentTransactions.any((trx) => trx.id == pendingTrx.id)) {
+          pendingTransactions.remove(pendingTrx);
+        }
+      }
+      currentTransactions.insertAll(0, pendingTransactions);
+    }
   }
 
   int getQubicIDsWithPublicId(String publicId) {
@@ -441,5 +452,10 @@ abstract class _ApplicationStore with Store {
         currentQubicIDs.any(
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
+  }
+
+  @action
+  addPendingTransaction(TransactionVm transaction) {
+    currentTransactions.add(transaction);
   }
 }
