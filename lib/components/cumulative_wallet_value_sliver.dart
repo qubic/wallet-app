@@ -27,6 +27,13 @@ class _CumulativeWalletValueSliverState
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   bool showingTotalBalance = true;
+  bool isQubicsPrimaryBalance = true;
+
+  togglePrimaryBalance() {
+    setState(() {
+      isQubicsPrimaryBalance = !isQubicsPrimaryBalance;
+    });
+  }
 
   @override
   void initState() {
@@ -34,6 +41,7 @@ class _CumulativeWalletValueSliverState
     showingTotalBalance = settingsStore.settings.totalBalanceVisible ?? true;
   }
 
+// TODO Remove getShares if not used
   List<Widget> getShares(BuildContext context) {
     List<Widget> assets = [];
     for (var asset in appStore.totalShares) {
@@ -45,21 +53,24 @@ class _CumulativeWalletValueSliverState
     return assets;
   }
 
-  Widget getTotalQubics(BuildContext context) {
-    return Text(numberFormat.format(appStore.totalAmounts),
-        style: MediaQuery.of(context).size.width < 400
-            ? TextStyles.sliverBig.copyWith(fontSize: 26)
-            : TextStyles.sliverBig);
+  TextStyle primaryBalanceStyle() => MediaQuery.of(context).size.width < 400
+      ? TextStyles.sliverBig.copyWith(fontSize: 26)
+      : TextStyles.sliverBig;
+
+  TextStyle secondaryBalanceStyle() => TextStyles.sliverSmall;
+
+  String getTotalQubics(BuildContext context) {
+    return numberFormat.format(appStore.totalAmounts);
   }
 
-  Widget getTotalUSD() {
+  String getTotalUSD() {
     // Create a NumberFormat object for USD currency with 2 decimal places
     NumberFormat currencyFormat =
         NumberFormat.currency(symbol: '\$', decimalDigits: 2);
 
     // Format the double value as a USD amount
     String formattedValue = currencyFormat.format(appStore.totalAmountsInUSD);
-    return Text(formattedValue, style: TextStyles.sliverSmall);
+    return formattedValue;
   }
 
   Widget getConversion() {
@@ -101,57 +112,49 @@ class _CumulativeWalletValueSliverState
                           : Image.asset("assets/images/eye-open.png")
                     ]))
               ]),
-          Observer(builder: (context) {
-            if (appStore.totalAmountsInUSD == -1) {
-              return Container();
-            }
-            return AnimatedCrossFade(
-              firstChild: getTotalQubics(context),
-              secondChild: Text(l10n.generalLabelHiddenLong,
-                  style: TextStyles.sliverBig),
-              crossFadeState: showingTotalBalance
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration: 300.ms,
-            );
-          }),
-          Observer(builder: (context) {
-            if (appStore.totalAmountsInUSD == -1) {
-              return Container();
-            }
-            return AnimatedOpacity(
-                opacity: showingTotalBalance ? 1 : 0,
-                duration: const Duration(milliseconds: 300),
-                child: getTotalUSD());
-          }),
-          // SizedBox(
-          //         height: MediaQuery.of(context).size.width < 400 ? 15 : 20,
-          //         width: MediaQuery.of(context).size.width < 400 ? 200 : 240,
-          //         child: Container(
-          //             color: Color.fromARGB(145, 255, 255, 255),
-          //             alignment: Alignment.center))
-          //     .animate(target: showingTotalBalance ? 0 : 1)
-          //     .scaleX(
-          //         duration: const Duration(milliseconds: 300),
-          //         begin: 0,
-          //         end: 1,
-          //         curve: Curves.easeInOut)
-          //     .scaleY(
-          //         duration: const Duration(milliseconds: 300),
-          //         begin: 0,
-          //         end: 1,
-          //         curve: Curves.easeInOut)
-          //     .moveY(
-          //         duration: const Duration(milliseconds: 300),
-          //         begin: MediaQuery.of(context).size.width < 400 ? -45 : -55,
-          //         end: MediaQuery.of(context).size.width < 400 ? -45 : -55,
-          //         curve: Curves.easeInOut)
-          //     .fadeIn(duration: const Duration(milliseconds: 200))
-          //     .blurXY(
-          //         duration: const Duration(milliseconds: 300),
-          //         begin: 7,
-          //         end: 10,
-          //         curve: Curves.easeInOut),
+          GestureDetector(
+            onTap: togglePrimaryBalance,
+            child: Container(
+              color: Colors.transparent,
+              child: Column(
+                children: [
+                  Observer(builder: (context) {
+                    if (appStore.totalAmountsInUSD == -1) {
+                      return Container();
+                    }
+                    return AnimatedCrossFade(
+                      firstChild: Text(
+                        isQubicsPrimaryBalance
+                            ? getTotalQubics(context)
+                            : getTotalUSD(),
+                        style: primaryBalanceStyle(),
+                      ),
+                      secondChild: Text(l10n.generalLabelHiddenLong,
+                          style: TextStyles.sliverBig),
+                      crossFadeState: showingTotalBalance
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                      duration: 300.ms,
+                    );
+                  }),
+                  Observer(builder: (context) {
+                    if (appStore.totalAmountsInUSD == -1) {
+                      return Container();
+                    }
+                    return AnimatedOpacity(
+                        opacity: showingTotalBalance ? 1 : 0,
+                        duration: const Duration(milliseconds: 300),
+                        child: Text(
+                          isQubicsPrimaryBalance
+                              ? getTotalUSD()
+                              : getTotalQubics(context),
+                          style: secondaryBalanceStyle(),
+                        ));
+                  }),
+                ],
+              ),
+            ),
+          )
         ]);
   }
 }
