@@ -92,7 +92,7 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
         targetTick: destinationTick,
         isPending: true,
         moneyFlow: value > 0);
-    getIt.get<ApplicationStore>().setPendingTransaction(pendingTransaction);
+    getIt.get<ApplicationStore>().addPendingTransaction(pendingTransaction);
   } catch (e) {
     showAlertDialog(
         context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
