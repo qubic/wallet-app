@@ -118,8 +118,8 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
         status: ComputedTransactionStatus.pending.name,
         targetTick: destinationTick,
         isPending: true,
-        moneyFlow: false);
-    getIt.get<ApplicationStore>().addPendingTransaction(pendingTransaction);
+        moneyFlow: value > 0);
+    getIt.get<ApplicationStore>().setPendingTransaction(pendingTransaction);
   } catch (e) {
     if (context.mounted) {
       showAlertDialog(
