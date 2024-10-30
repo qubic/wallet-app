@@ -73,9 +73,15 @@ abstract class _ApplicationStore with Store {
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
 
-  ObservableList<TransactionVm> pendingTransactions =
+  /// The system allows only one pending transaction
+  ///
+  /// If there are two pending transactions, the one with the lower tick destination
+  /// will be ignored and the one with the higher tick destination will remain pending
+  @observable
+  TransactionVm? pendingTransaction;
+  @observable
+  ObservableList<TransactionVm> ignoredTransactions =
       ObservableList<TransactionVm>();
-
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
 
@@ -361,24 +367,42 @@ abstract class _ApplicationStore with Store {
 
   @action
   Future<void> updateTransactions(List<TransactionDto> transactions) async {
-    for (var i = 0; i < transactions.length; i++) {
-      var currentIndex = currentTransactions
-          .indexWhere((element) => element.id == transactions[i].id);
-      if (currentIndex == -1) {
-        currentTransactions
-            .add(TransactionVm.fromTransactionDto(transactions[i]));
+    _addOrUpdateCurrentTransactions(transactions);
+    _restoreIgnoredTransactions();
+    _handlePendingTransaction();
+  }
+
+  void _addOrUpdateCurrentTransactions(List<TransactionDto> transactions) {
+    for (var transaction in transactions) {
+      var index = currentTransactions
+          .indexWhere((element) => element.id == transaction.id);
+      var transactionVm = TransactionVm.fromTransactionDto(transaction);
+      if (index == -1) {
+        currentTransactions.add(transactionVm);
       } else {
-        currentTransactions[currentIndex] =
-            TransactionVm.fromTransactionDto(transactions[i]);
+        currentTransactions[index] = transactionVm;
       }
     }
-    if (pendingTransactions.isNotEmpty) {
-      for (var pendingTrx in pendingTransactions) {
-        if (currentTransactions.any((trx) => trx.id == pendingTrx.id)) {
-          pendingTransactions.remove(pendingTrx);
-        }
+  }
+
+  /// Add any of the [ignoredTransactions] to [currentTransactions] if they are not
+  /// already there
+  void _restoreIgnoredTransactions() {
+    for (var trx in ignoredTransactions) {
+      if (!currentTransactions.any((element) => element.id == trx.id)) {
+        currentTransactions.add(trx);
       }
-      currentTransactions.insertAll(0, pendingTransactions);
+    }
+  }
+
+  /// Add the [pendingTransaction] to [currentTransactions] or remove it if it's
+  /// already there
+  void _handlePendingTransaction() {
+    if (pendingTransaction == null) return;
+    if (currentTransactions.any((trx) => trx.id == pendingTransaction?.id)) {
+      clearPendingTransaction();
+    } else {
+      currentTransactions.add(pendingTransaction!);
     }
   }
 
@@ -409,7 +433,29 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
-  addPendingTransaction(TransactionVm transaction) {
-    currentTransactions.add(transaction);
+  setPendingTransaction(TransactionVm transaction) {
+    if (pendingTransaction == null) {
+      pendingTransaction = transaction;
+      return;
+    }
+    if (transaction.targetTick > pendingTransaction!.targetTick) {
+      addIgnoredTransaction(pendingTransaction!);
+      pendingTransaction = transaction;
+    } else if (transaction.targetTick <= pendingTransaction!.targetTick) {
+      addIgnoredTransaction(transaction);
+    }
+  }
+
+  @action
+  clearPendingTransaction() {
+    pendingTransaction = null;
+    currentTransactions.removeWhere((trx) => trx.id == pendingTransaction?.id);
+  }
+
+  @action
+  addIgnoredTransaction(TransactionVm pendingTransaction) {
+    pendingTransaction.isPending = false;
+    pendingTransaction.status = 'Failed';
+    ignoredTransactions.add(pendingTransaction);
   }
 }
