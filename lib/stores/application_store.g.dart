@@ -192,22 +192,6 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
-  late final _$pendingTransactionAtom =
-      Atom(name: '_ApplicationStore.pendingTransaction', context: context);
-
-  @override
-  TransactionVm? get pendingTransaction {
-    _$pendingTransactionAtom.reportRead();
-    return super.pendingTransaction;
-  }
-
-  @override
-  set pendingTransaction(TransactionVm? value) {
-    _$pendingTransactionAtom.reportWrite(value, super.pendingTransaction, () {
-      super.pendingTransaction = value;
-    });
-  }
-
   late final _$ignoredTransactionsAtom =
       Atom(name: '_ApplicationStore.ignoredTransactions', context: context);
 
@@ -221,6 +205,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   set ignoredTransactions(ObservableList<TransactionVm> value) {
     _$ignoredTransactionsAtom.reportWrite(value, super.ignoredTransactions, () {
       super.ignoredTransactions = value;
+    });
+  }
+
+  late final _$pendingTransactionsAtom =
+      Atom(name: '_ApplicationStore.pendingTransactions', context: context);
+
+  @override
+  ObservableList<TransactionVm> get pendingTransactions {
+    _$pendingTransactionsAtom.reportRead();
+    return super.pendingTransactions;
+  }
+
+  @override
+  set pendingTransactions(ObservableList<TransactionVm> value) {
+    _$pendingTransactionsAtom.reportWrite(value, super.pendingTransactions, () {
+      super.pendingTransactions = value;
     });
   }
 
@@ -525,22 +525,44 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  dynamic setPendingTransaction(TransactionVm transaction) {
+  void _restoreIgnoredTransactions() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.setPendingTransaction');
+        name: '_ApplicationStore._restoreIgnoredTransactions');
     try {
-      return super.setPendingTransaction(transaction);
+      return super._restoreIgnoredTransactions();
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic clearPendingTransaction() {
+  void _restorePendingTransaction() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.clearPendingTransaction');
+        name: '_ApplicationStore._restorePendingTransaction');
     try {
-      return super.clearPendingTransaction();
+      return super._restorePendingTransaction();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addPendingTransaction(TransactionVm transaction) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.addPendingTransaction');
+    try {
+      return super.addPendingTransaction(transaction);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic validatePendingTransactions(int currentTick) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.validatePendingTransactions');
+    try {
+      return super.validatePendingTransactions(currentTick);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
@@ -570,8 +592,8 @@ currentInboundUri: ${currentInboundUri},
 showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
-pendingTransaction: ${pendingTransaction},
 ignoredTransactions: ${ignoredTransactions},
+pendingTransactions: ${pendingTransactions},
 transactionFilter: ${transactionFilter},
 pendingRequests: ${pendingRequests},
 marketInfo: ${marketInfo},
