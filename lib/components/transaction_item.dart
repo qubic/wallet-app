@@ -149,7 +149,8 @@ class TransactionItem extends StatelessWidget {
                 value: CardItem.clipboardCopy,
                 child: Text(l10n.transactionItemButtonCopyToClipboard),
               ),
-              if ((item.getStatus() == ComputedTransactionStatus.failure))
+              if (appStore.currentQubicIDs
+                  .any((e) => e.publicId == item.sourceId))
                 PopupMenuItem<CardItem>(
                   value: CardItem.resend,
                   child: Text(l10n.transactionItemButtonResend),
