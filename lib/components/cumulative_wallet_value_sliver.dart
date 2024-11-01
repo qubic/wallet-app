@@ -33,12 +33,15 @@ class _CumulativeWalletValueSliverState
     setState(() {
       isQubicsPrimaryBalance = !isQubicsPrimaryBalance;
     });
+    settingsStore.setQubicsPrimaryBalance(isQubicsPrimaryBalance);
   }
 
   @override
   void initState() {
     super.initState();
     showingTotalBalance = settingsStore.settings.totalBalanceVisible ?? true;
+    isQubicsPrimaryBalance =
+        settingsStore.settings.isQubicsPrimaryBalance ?? true;
   }
 
 // TODO Remove getShares if not used
