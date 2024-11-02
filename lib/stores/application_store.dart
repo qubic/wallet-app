@@ -437,6 +437,12 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
+  void removeIgnoredTransactions(String transactionId) {
+    ignoredTransactions.removeWhere((element) => element.id == transactionId);
+    currentTransactions.removeWhere((element) => element.id == transactionId);
+  }
+
+  @action
   void _restorePendingTransaction() {
     for (var trx in pendingTransactions) {
       if (!currentTransactions.any((element) => element.id == trx.id)) {

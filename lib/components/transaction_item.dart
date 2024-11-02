@@ -30,12 +30,7 @@ import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 
-enum CardItem {
-  details,
-  resend,
-  explorer,
-  clipboardCopy,
-}
+enum CardItem { details, resend, explorer, clipboardCopy, delete }
 
 class TransactionItem extends StatelessWidget {
   final TransactionVm item;
@@ -134,6 +129,9 @@ class TransactionItem extends StatelessWidget {
           if (menuItem == CardItem.details) {
             showDetails(context);
           }
+          if (menuItem == CardItem.delete) {
+            appStore.removeIgnoredTransactions(item.id);
+          }
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
               PopupMenuItem<CardItem>(
@@ -154,6 +152,11 @@ class TransactionItem extends StatelessWidget {
                 PopupMenuItem<CardItem>(
                   value: CardItem.resend,
                   child: Text(l10n.transactionItemButtonResend),
+                ),
+              if (item.getStatus() == ComputedTransactionStatus.failure)
+                PopupMenuItem<CardItem>(
+                  value: CardItem.delete,
+                  child: Text(l10n.generalButtonDelete),
                 )
             ]);
   }
