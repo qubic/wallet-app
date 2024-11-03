@@ -149,7 +149,7 @@ class TransactionItem extends StatelessWidget {
                 value: CardItem.clipboardCopy,
                 child: Text(l10n.transactionItemButtonCopyToClipboard),
               ),
-              if ((item.getStatus() == ComputedTransactionStatus.failure))
+              if ((item.getStatus() != ComputedTransactionStatus.pending))
                 PopupMenuItem<CardItem>(
                   value: CardItem.resend,
                   child: Text(l10n.transactionItemButtonResend),
