@@ -148,7 +148,8 @@ class TransactionItem extends StatelessWidget {
                 child: Text(l10n.transactionItemButtonCopyToClipboard),
               ),
               if (appStore.currentQubicIDs
-                  .any((e) => e.publicId == item.sourceId))
+                      .any((e) => e.publicId == item.sourceId) &&
+                  item.getStatus() != ComputedTransactionStatus.pending)
                 PopupMenuItem<CardItem>(
                   value: CardItem.resend,
                   child: Text(l10n.transactionItemButtonResend),
