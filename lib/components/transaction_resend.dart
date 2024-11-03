@@ -71,17 +71,24 @@ class TransactionResend extends StatelessWidget {
     return Container(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Flex(direction: Axis.horizontal, children: [
+          Flex(direction: Axis.horizontal,
+          crossAxisAlignment: CrossAxisAlignment.end,
+           children: [
             Text(
                 numberFormat.format(
                   item.amount,
                 ),
                 style: TextStyles.accountAmount),
             const SizedBox(width: 6, height: 6),
-            CurrencyLabel(
-                currencyName: l10n.generalLabelCurrencyQubic,
-                isInHeader: false,
-                style: TextStyles.accountAmountLabel)
+             Column(
+                  children: [
+                    CurrencyLabel(
+                        currencyName: l10n.generalLabelCurrencyQubic,
+                        isInHeader: false,
+                        style: TextStyles.accountAmountLabel),
+                    const SizedBox(height: 6),
+                  ],
+                )
           ]),
           const SizedBox(height: ThemePaddings.normalPadding),
           getFromTo(context, l10n.generalLabelFrom, item.sourceId),
