@@ -27,13 +27,24 @@ class _CumulativeWalletValueSliverState
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   bool showingTotalBalance = true;
+  bool isQubicsPrimaryBalance = true;
+
+  togglePrimaryBalance() {
+    setState(() {
+      isQubicsPrimaryBalance = !isQubicsPrimaryBalance;
+    });
+    settingsStore.setQubicsPrimaryBalance(isQubicsPrimaryBalance);
+  }
 
   @override
   void initState() {
     super.initState();
     showingTotalBalance = settingsStore.settings.totalBalanceVisible ?? true;
+    isQubicsPrimaryBalance =
+        settingsStore.settings.isQubicsPrimaryBalance ?? true;
   }
 
+// TODO Remove getShares if not used
   List<Widget> getShares(BuildContext context) {
     List<Widget> assets = [];
     for (var asset in appStore.totalShares) {
@@ -45,21 +56,24 @@ class _CumulativeWalletValueSliverState
     return assets;
   }
 
-  Widget getTotalQubics(BuildContext context) {
-    return Text(numberFormat.format(appStore.totalAmounts),
-        style: MediaQuery.of(context).size.width < 400
-            ? TextStyles.sliverBig.copyWith(fontSize: 26)
-            : TextStyles.sliverBig);
+  TextStyle primaryBalanceStyle() => MediaQuery.of(context).size.width < 400
+      ? TextStyles.sliverBig.copyWith(fontSize: 26)
+      : TextStyles.sliverBig;
+
+  TextStyle secondaryBalanceStyle() => TextStyles.sliverSmall;
+
+  String getTotalQubics(BuildContext context) {
+    return numberFormat.format(appStore.totalAmounts);
   }
 
-  Widget getTotalUSD() {
+  String getTotalUSD() {
     // Create a NumberFormat object for USD currency with 2 decimal places
     NumberFormat currencyFormat =
         NumberFormat.currency(symbol: '\$', decimalDigits: 2);
 
     // Format the double value as a USD amount
     String formattedValue = currencyFormat.format(appStore.totalAmountsInUSD);
-    return Text(formattedValue, style: TextStyles.sliverSmall);
+    return formattedValue;
   }
 
   Widget getConversion() {
@@ -101,29 +115,49 @@ class _CumulativeWalletValueSliverState
                           : Image.asset("assets/images/eye-open.png")
                     ]))
               ]),
-          Observer(builder: (context) {
-            if (appStore.totalAmountsInUSD == -1) {
-              return Container();
-            }
-            return AnimatedCrossFade(
-              firstChild: getTotalQubics(context),
-              secondChild: Text(l10n.generalLabelHiddenLong,
-                  style: TextStyles.sliverBig),
-              crossFadeState: showingTotalBalance
-                  ? CrossFadeState.showFirst
-                  : CrossFadeState.showSecond,
-              duration: 300.ms,
-            );
-          }),
-          Observer(builder: (context) {
-            if (appStore.totalAmountsInUSD == -1) {
-              return Container();
-            }
-            return AnimatedOpacity(
-                opacity: showingTotalBalance ? 1 : 0,
-                duration: const Duration(milliseconds: 300),
-                child: getTotalUSD());
-          }),
+          GestureDetector(
+            onTap: togglePrimaryBalance,
+            child: Container(
+              color: Colors.transparent,
+              child: Column(
+                children: [
+                  Observer(builder: (context) {
+                    if (appStore.totalAmountsInUSD == -1) {
+                      return Container();
+                    }
+                    return AnimatedCrossFade(
+                      firstChild: Text(
+                        isQubicsPrimaryBalance
+                            ? getTotalQubics(context)
+                            : getTotalUSD(),
+                        style: primaryBalanceStyle(),
+                      ),
+                      secondChild: Text(l10n.generalLabelHiddenLong,
+                          style: TextStyles.sliverBig),
+                      crossFadeState: showingTotalBalance
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
+                      duration: 300.ms,
+                    );
+                  }),
+                  Observer(builder: (context) {
+                    if (appStore.totalAmountsInUSD == -1) {
+                      return Container();
+                    }
+                    return AnimatedOpacity(
+                        opacity: showingTotalBalance ? 1 : 0,
+                        duration: const Duration(milliseconds: 300),
+                        child: Text(
+                          isQubicsPrimaryBalance
+                              ? getTotalUSD()
+                              : getTotalQubics(context),
+                          style: secondaryBalanceStyle(),
+                        ));
+                  }),
+                ],
+              ),
+            ),
+          )
         ]);
   }
 }

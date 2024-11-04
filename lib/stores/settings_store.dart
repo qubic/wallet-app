@@ -23,6 +23,9 @@ abstract class _SettingsStore with Store {
   @observable
   bool totalBalanceVisible = true;
 
+  @observable
+  bool isQubicsPrimaryBalance = true;
+
   @action
   Future<void> loadSettings() async {
     Settings newSettings;
@@ -39,6 +42,14 @@ abstract class _SettingsStore with Store {
   Future<void> setTotalBalanceVisible(bool value) async {
     settings.totalBalanceVisible = value;
     totalBalanceVisible = value;
+    settings = Settings.clone(settings);
+    await secureStorage.setWalletSettings(settings);
+  }
+
+  @action
+  Future<void> setQubicsPrimaryBalance(bool value) async {
+    settings.isQubicsPrimaryBalance = value;
+    isQubicsPrimaryBalance = value;
     settings = Settings.clone(settings);
     await secureStorage.setWalletSettings(settings);
   }
