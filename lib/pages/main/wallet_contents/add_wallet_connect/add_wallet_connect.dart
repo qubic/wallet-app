@@ -45,7 +45,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   final TextEditingController urlController = TextEditingController();
 
   bool isLoading = false;
-  Timer? pairingTimer;
   StreamSubscription<SessionProposalEvent?>? sessionProposalSubscription;
   StreamSubscription<SessionProposalErrorEvent?>?
       sessionProposalErrorSubscription;
@@ -67,39 +66,21 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
         if (args != null) {
           if (args.error.code == 5100) {
             _globalSnackBar.showError(l10n.wcErrorUnsupportedChains);
-            setState(() {
-              isLoading = false;
-              if (pairingTimer != null) pairingTimer!.cancel();
-            });
           } else if (args.error.code == 5101) {
             _globalSnackBar.showError(l10n.wcErrorUnsupportedMethods);
-            setState(() {
-              isLoading = false;
-              if (pairingTimer != null) pairingTimer!.cancel();
-            });
           } else if (args.error.code == 5102) {
             _globalSnackBar.showError(l10n.wcErrorUnsupportedEvents);
-            setState(() {
-              isLoading = false;
-              if (pairingTimer != null) pairingTimer!.cancel();
-            });
           } else if (args.error.code == 5103) {
             _globalSnackBar.showError(l10n.wcErrorUnsupportedAccounts);
-            setState(() {
-              isLoading = false;
-              if (pairingTimer != null) pairingTimer!.cancel();
-            });
           } else if (args.error.code == 5104) {
             _globalSnackBar.showError(l10n.wcErrorUnsupportedNamespaces);
-            setState(() {
-              isLoading = false;
-              if (pairingTimer != null) pairingTimer!.cancel();
-            });
           } else {
             _globalSnackBar.showError(args.error.message);
+          }
+
+          if (args.error.code != 0) {
             setState(() {
               isLoading = false;
-              if (pairingTimer != null) pairingTimer!.cancel();
             });
           }
         }
@@ -135,70 +116,68 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
         final invalidApp = args?.verifyContext?.validation.invalid;
         final unknown = args?.verifyContext?.validation.unknown;
         final scamApp = args?.verifyContext?.validation.scam;
+        if (mounted) {
+          bool? userhasConfirmed =
+              await Navigator.of(context).push(MaterialPageRoute<bool>(
+                  builder: (BuildContext context) {
+                    return Pair(
+                      pairingId: wcPairingId!,
+                      pairingEvents: wcPairingEvents,
+                      pairingMethods: wcPairingMethods,
+                      pairingNamespaces: wcPairingNamespaces,
+                      pairingMetadata: wcPairingMetadata,
+                      unsupportedNetowrks: notSupportedNetworks,
+                      domainType: scamApp == true
+                          ? DomainType.scam
+                          : invalidApp == true
+                              ? DomainType.mismatch
+                              : unknown == true
+                                  ? DomainType.unknown
+                                  : DomainType.valid,
+                    );
+                  },
+                  fullscreenDialog: true));
 
-        if (pairingTimer != null) pairingTimer!.cancel();
-        bool? userhasConfirmed =
-            await Navigator.of(context).push(MaterialPageRoute<bool>(
-                builder: (BuildContext context) {
-                  return Pair(
-                    pairingId: wcPairingId!,
-                    pairingEvents: wcPairingEvents,
-                    pairingMethods: wcPairingMethods,
-                    pairingNamespaces: wcPairingNamespaces,
-                    pairingMetadata: wcPairingMetadata,
-                    unsupportedNetowrks: notSupportedNetworks,
-                    domainType: scamApp == true
-                        ? DomainType.scam
-                        : invalidApp == true
-                            ? DomainType.mismatch
-                            : unknown == true
-                                ? DomainType.unknown
-                                : DomainType.valid,
-                  );
-                },
-                fullscreenDialog: true));
+          if (userhasConfirmed != null && userhasConfirmed) {
+            //Accepted
+            try {
+              if (mounted) {
+                Navigator.of(context).pop();
+                final l10n = l10nOf(context);
+                _globalSnackBar.show(l10n.wcConnectionApproved);
+              }
+            } catch (e) {
+              _globalSnackBar.showError(e.toString());
+              setState(() {
+                isLoading = false;
+              });
+            }
+          } else if (userhasConfirmed == null) {
+            //Rejected
+            setState(() {
+              isLoading = false;
+            });
+            await walletConnectService.web3Wallet?.rejectSession(
+                id: wcPairingId!,
+                reason: Errors.getSdkError(Errors.USER_REJECTED).toSignError());
 
-        if (userhasConfirmed != null && userhasConfirmed) {
-          //Accepted
-          try {
             if (mounted) {
               Navigator.of(context).pop();
               final l10n = l10nOf(context);
-              _globalSnackBar.show(l10n.wcConnectionApproved);
+              _globalSnackBar.showError(l10n.wcConnectionRejected);
             }
-          } catch (e) {
-            _globalSnackBar.showError(e.toString());
+          } else {
+            // false : expired
             setState(() {
               isLoading = false;
-              if (pairingTimer != null) pairingTimer!.cancel();
             });
-          }
-        } else if (userhasConfirmed == null) {
-          //Rejected
-          setState(() {
-            isLoading = false;
-            if (pairingTimer != null) pairingTimer!.cancel();
-          });
-          await walletConnectService.web3Wallet?.rejectSession(
-              id: wcPairingId!,
-              reason: Errors.getSdkError(Errors.USER_REJECTED).toSignError());
 
-          if (mounted) {
-            Navigator.of(context).pop();
-            final l10n = l10nOf(context);
-            _globalSnackBar.showError(l10n.wcConnectionRejected);
-          }
-        } else {
-          // false : expired
-          setState(() {
-            isLoading = false;
-            if (pairingTimer != null) pairingTimer!.cancel();
-          });
-
-          if (mounted) {
-            final l10n = l10nOf(context);
-            Navigator.of(context).pop();
-            _globalSnackBar.show(l10n.wcConnectionProposalTimeout);
+            if (mounted) {
+              //double if to pacify the linter
+              final l10n = l10nOf(context);
+              Navigator.of(context).pop();
+              _globalSnackBar.show(l10n.wcConnectionProposalTimeout);
+            }
           }
         }
       });
@@ -213,7 +192,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     if (sessionProposalErrorSubscription != null) {
       sessionProposalErrorSubscription!.cancel();
     }
-    pairingTimer?.cancel();
     urlController.dispose();
     super.dispose();
   }
@@ -243,42 +221,16 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
 
       if (walletConnectService
           .sessionPairingTopicAlreadyExists(pairResult.topic)) {
-        pairingTimer = Timer(const Duration(seconds: 10), () {
-          if (mounted) {
-            _globalSnackBar.showError(l10n.wcErrorUsedURL);
-            setState(() {
-              isLoading = false;
-            });
-          } else {
-            setState(() {
-              isLoading = false;
-            });
-          }
-        });
-
+        _globalSnackBar.showError(l10n.wcErrorUsedURL);
         return;
       }
     } catch (e) {
-      if (e is ReownSignError) {
-        _globalSnackBar.showError(e.message);
-        setState(() {
-          isLoading = false;
-          if (pairingTimer != null) pairingTimer!.cancel();
-        });
-      }
-      if (e is ReownCoreError) {
-        _globalSnackBar.showError(e.message);
-        setState(() {
-          isLoading = false;
-          if (pairingTimer != null) pairingTimer!.cancel();
-        });
-      } else {
-        _globalSnackBar.showError(e.toString());
-        setState(() {
-          isLoading = false;
-          if (pairingTimer != null) pairingTimer!.cancel();
-        });
-      }
+      //This can be a ReownSignError , a ReownCoreError or a generic error
+      _globalSnackBar.showError(e.toString());
+
+      setState(() {
+        isLoading = false;
+      });
     }
   }
 
