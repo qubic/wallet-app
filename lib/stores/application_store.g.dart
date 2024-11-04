@@ -128,6 +128,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
+  late final _$currentInboundUriAtom =
+      Atom(name: '_ApplicationStore.currentInboundUri', context: context);
+
+  @override
+  Uri? get currentInboundUri {
+    _$currentInboundUriAtom.reportRead();
+    return super.currentInboundUri;
+  }
+
+  @override
+  set currentInboundUri(Uri? value) {
+    _$currentInboundUriAtom.reportWrite(value, super.currentInboundUri, () {
+      super.currentInboundUri = value;
+    });
+  }
+
   late final _$showAddAccountModalAtom =
       Atom(name: '_ApplicationStore.showAddAccountModal', context: context);
 
@@ -322,6 +338,17 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
       ActionController(name: '_ApplicationStore', context: context);
 
   @override
+  void setCurrentInboundUrl(Uri? uri) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.setCurrentInboundUrl');
+    try {
+      return super.setCurrentInboundUrl(uri);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setCurrentTabIndex(int index) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.setCurrentTabIndex');
@@ -474,6 +501,7 @@ globalNotification: ${globalNotification},
 currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
 currentTabIndex: ${currentTabIndex},
+currentInboundUri: ${currentInboundUri},
 showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},

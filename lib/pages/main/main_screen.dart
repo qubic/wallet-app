@@ -10,6 +10,7 @@ import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/pages/main/tab_explorer.dart';
@@ -52,6 +53,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   final WalletConnectModalsController wcModalsController =
       getIt<WalletConnectModalsController>();
+
+  final AppLinkController appLinkController = AppLinkController();
 
   Timer? _autoLockTimer;
   Timer? _backgroundTimer;
@@ -201,6 +204,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         }
       }
     });
+
+    if (applicationStore.currentInboundUri != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        //Need to call any extra navigation effects after the builder has finished
+        appLinkController.parseUriString(
+            applicationStore.currentInboundUri!, context);
+      });
+    }
   }
 
   @override

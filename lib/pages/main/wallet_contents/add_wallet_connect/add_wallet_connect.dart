@@ -30,7 +30,8 @@ part 'components/add_wallet_connect_mobile_view.dart';
 enum DomainType { valid, unknown, scam, mismatch }
 
 class AddWalletConnect extends StatefulWidget {
-  const AddWalletConnect({super.key});
+  final String? connectionUrl;
+  const AddWalletConnect({super.key, this.connectionUrl});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -59,6 +60,13 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (widget.connectionUrl != null) {
+        proceedHandler(widget.connectionUrl);
+      }
+    });
+
     walletConnectService.initialize().then((value) {
       final l10n = l10nOf(context);
 
@@ -219,9 +227,19 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     setState(() {
       isLoading = true;
     });
-
-    if (!walletConnectService.web3Wallet!.core.relayClient.isConnected) {
-      await walletConnectService.web3Wallet!.core.relayClient.connect();
+    try {
+      if (walletConnectService.web3Wallet == null) {
+        await walletConnectService.initialize();
+      }
+      if (!walletConnectService.web3Wallet!.core.relayClient.isConnected) {
+        await walletConnectService.web3Wallet!.core.relayClient.connect();
+      }
+    } catch (e) {
+      _globalSnackBar.showError(e.toString());
+      setState(() {
+        isLoading = false;
+        if (pairingTimer != null) pairingTimer!.cancel();
+      });
     }
     try {
       PairingInfo pairResult = await walletConnectService.pair(Uri.parse(url!));
@@ -287,27 +305,44 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     return null;
   }
 
+  //Returns the child widget based on the platform
+  //If the platform is desktop, it will return the desktop view
+  //If the platform is mobile, and an app link is used it will return the desktop view
+  //If the platform is mobile, and no app link is used it will return the mobile view
+
+  Widget getChildWidget() {
+    if (!isMobile) {
+      return _AddWalletConnectDesktopView(
+        isLoading: isLoading,
+        proceedHandler: proceedHandler,
+        connectionUrl: widget.connectionUrl,
+      );
+    }
+    if (widget.connectionUrl != null) {
+      return _AddWalletConnectDesktopView(
+        isLoading: isLoading,
+        proceedHandler: proceedHandler,
+        connectionUrl: widget.connectionUrl,
+      );
+    }
+    return _AddWalletConnectMobileView(
+      onDetect: (capture) {
+        final List<Barcode> barcodes = capture.barcodes;
+        for (final barcode in barcodes) {
+          if (barcode.rawValue != null && !isLoading) {
+            proceedHandler(barcode.rawValue);
+          }
+        }
+      },
+      connectionUrl: widget.connectionUrl,
+      proceedHandler: proceedHandler,
+      pasteAndProceed: pasteAndProceed,
+      isLoading: isLoading,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: !isLoading,
-      child: (isMobile)
-          ? _AddWalletConnectMobileView(
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-                for (final barcode in barcodes) {
-                  if (barcode.rawValue != null && !isLoading) {
-                    proceedHandler(barcode.rawValue);
-                  }
-                }
-              },
-              pasteAndProceed: pasteAndProceed,
-              isLoading: isLoading,
-            )
-          : _AddWalletConnectDesktopView(
-              isLoading: isLoading,
-              proceedHandler: proceedHandler,
-            ),
-    );
+    return PopScope(canPop: !isLoading, child: getChildWidget());
   }
 }

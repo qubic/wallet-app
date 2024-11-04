@@ -91,4 +91,6 @@ abstract class Config {
   static const wallectConnectUrlLength = 187;
   static const wallectConnectPairingTimeoutSeconds = 4;
   static const walletConnectExistsTimeoutSeconds = 2;
+
+  static const CustomURLScheme = "qubic-wallet";
 }
