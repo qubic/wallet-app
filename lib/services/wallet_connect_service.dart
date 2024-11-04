@@ -248,6 +248,16 @@ class WalletConnectService {
       onSessionProposalError.add(args);
     });
 
+    web3Wallet!.onSessionPing.subscribe((args) {
+      print("Session ping: $args");
+      Config.walletConnectChainId;
+      WcMethods.wRequestAccounts;
+    });
+
+    web3Wallet!.onSessionRequest.subscribe((args) {
+      print("Session request: $args");
+    });
+
     web3Wallet!.core.relayClient.onRelayClientDisconnect.subscribe((args) {
       web3Wallet!.onSessionConnect.unsubscribeAll();
       web3Wallet!.onSessionDelete.unsubscribeAll();
@@ -278,7 +288,13 @@ class WalletConnectService {
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wRequestAccounts,
-        handler: (topic, args) async {
+        handler: (topic, args) {
+          final sessionRequest = web3Wallet!.pendingRequests
+              .getAll()
+              .where((e) =>
+                  e.method == WcMethods.wRequestAccounts && e.topic == topic)
+              .last;
+
           List<dynamic> data = [];
           appStore.currentQubicIDs.forEach(((id) {
             if (id.watchOnly == false) {
@@ -289,16 +305,24 @@ class WalletConnectService {
               data.add(item);
             }
           }));
-          return data;
+
+          return web3Wallet!.respondSessionRequest(
+              topic: topic,
+              response: JsonRpcResponse(id: sessionRequest.id, result: data));
         });
 
-    // qubic_sendQubic uses the sendQubicHandler callback if the request is valid
-    // otherwise returns a validation error
+    // // qubic_sendQubic uses the sendQubicHandler callback if the request is valid
+    // // otherwise returns a validation error
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSendQubic,
         handler: (topic, args) async {
-          final sessionRequest = web3Wallet!.pendingRequests.getAll().first;
+          final sessionRequest = web3Wallet!.pendingRequests
+              .getAll()
+              .where(
+                  (e) => e.method == WcMethods.wSendQubic && e.topic == topic)
+              .last;
+
           late RequestSendQubicEvent event;
 
           if (sendQubicHandler == null) {
@@ -315,7 +339,12 @@ class WalletConnectService {
             } else {
               throw "Session not found";
             }
-            return await sendQubicHandler!(event);
+
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(
+                    id: sessionRequest.id,
+                    result: await sendQubicHandler!(event)));
           } catch (e) {
             if (e is JsonRpcError) {
               rethrow;
@@ -324,12 +353,16 @@ class WalletConnectService {
           }
         });
 
-    // qubic_sign
+    // // qubic_sign
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSign,
         handler: (topic, args) async {
-          final sessionRequest = web3Wallet!.pendingRequests.getAll().first;
+          final sessionRequest = web3Wallet!.pendingRequests
+              .getAll()
+              .where((e) => e.method == WcMethods.wSign && e.topic == topic)
+              .last;
+
           late RequestSignGenericEvent event;
 
           if (signGenericHandler == null) {
@@ -346,7 +379,12 @@ class WalletConnectService {
             } else {
               throw "Session not found";
             }
-            return await signGenericHandler!(event);
+
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(
+                    id: sessionRequest.id,
+                    result: await signGenericHandler!(event)));
           } catch (e) {
             if (e is JsonRpcError) {
               rethrow;
@@ -355,12 +393,16 @@ class WalletConnectService {
           }
         });
 
-    // qubic_signTransaction
+    // // qubic_signTransaction
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSignTransaction,
         handler: (topic, args) async {
-          final sessionRequest = web3Wallet!.pendingRequests.getAll().first;
+          final sessionRequest = web3Wallet!.pendingRequests
+              .getAll()
+              .where((e) =>
+                  e.method == WcMethods.wSignTransaction && e.topic == topic)
+              .last;
           late RequestSignTransactionEvent event;
 
           if (signTransactionHandler == null) {
@@ -377,7 +419,12 @@ class WalletConnectService {
             } else {
               throw "Session not found";
             }
-            return await signTransactionHandler!(event);
+
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(
+                    id: sessionRequest.id,
+                    result: await signTransactionHandler!(event)));
           } catch (e) {
             if (e is JsonRpcError) {
               rethrow;

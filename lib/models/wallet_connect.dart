@@ -1,7 +1,7 @@
 /// WalletConnect Methods
 abstract class WcMethods {
   /// Get the client to request a list of all accounts in wallet
-  static const wRequestAccounts = "wallet_requestAccounts";
+  static const wRequestAccounts = "qubic_requestAccounts";
 
   /// Send qubic from an account to a destination address
   static const wSendQubic = "qubic_sendQubic";
