@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -173,5 +174,35 @@ class TransactionVm {
         price: original.price,
         quantity: original.quantity,
         moneyFlow: original.moneyFlow);
+  }
+}
+
+class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
+  @override
+  TransactionVm read(BinaryReader reader) {
+    return TransactionVm(
+        id: reader.readString(),
+        sourceId: reader.readString(),
+        destId: reader.readString(),
+        amount: reader.readInt(),
+        status: reader.readString(),
+        targetTick: reader.readInt(),
+        isPending: reader.readBool(),
+        moneyFlow: reader.readBool());
+  }
+
+  @override
+  int get typeId => 0;
+
+  @override
+  void write(BinaryWriter writer, TransactionVm obj) {
+    writer.writeString(obj.id);
+    writer.writeString(obj.sourceId);
+    writer.writeString(obj.destId);
+    writer.writeInt(obj.amount);
+    writer.writeString(obj.status);
+    writer.writeInt(obj.targetTick);
+    writer.writeBool(obj.isPending);
+    writer.writeBool(obj.moneyFlow);
   }
 }
