@@ -10,6 +10,7 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
@@ -21,6 +22,7 @@ class ApplicationStore = _ApplicationStore with _$ApplicationStore;
 
 abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
+  late final HiveStorage _hiveStorage = getIt<HiveStorage>();
 
   /// If there are stored wallet settings in the device
   @observable
@@ -247,6 +249,7 @@ abstract class _ApplicationStore with Store {
   @action
   Future<bool> signUp(String password) async {
     await secureStorage.deleteWallet();
+    await _hiveStorage.clear();
     final result = await secureStorage.createWallet(password);
     isSignedIn = result;
     currentQubicIDs = ObservableList<QubicListVm>();
@@ -414,6 +417,12 @@ abstract class _ApplicationStore with Store {
     _restorePendingTransaction();
   }
 
+  @action
+  initPendingAndIgonredTransactions() {
+    pendingTransactions.addAll(_hiveStorage.getPendingTransactions());
+    ignoredTransactions.addAll(_hiveStorage.getIgnoredTransactions());
+  }
+
   void _addOrUpdateCurrentTransactions(List<TransactionDto> transactions) {
     for (var transaction in transactions) {
       var index = currentTransactions
@@ -438,6 +447,7 @@ abstract class _ApplicationStore with Store {
 
   @action
   void removeIgnoredTransactions(String transactionId) {
+    _hiveStorage.removeIgnoredTransaction(transactionId);
     ignoredTransactions.removeWhere((element) => element.id == transactionId);
     currentTransactions.removeWhere((element) => element.id == transactionId);
   }
@@ -453,6 +463,7 @@ abstract class _ApplicationStore with Store {
 
   @action
   addPendingTransaction(TransactionVm transaction) {
+    _hiveStorage.addPendingTransaction(transaction);
     pendingTransactions.add(transaction);
   }
 
@@ -461,6 +472,7 @@ abstract class _ApplicationStore with Store {
     pendingTransactions.removeWhere((trx) {
       if (currentTick > trx.targetTick) {
         addIgnoredTransaction(trx);
+        _hiveStorage.removePendingTransaction(trx.id);
         return true;
       }
       return false;
@@ -471,6 +483,7 @@ abstract class _ApplicationStore with Store {
   addIgnoredTransaction(TransactionVm pendingTransaction) {
     pendingTransaction.isPending = false;
     pendingTransaction.status = 'Failed';
+    _hiveStorage.addIgnoredTransaction(pendingTransaction);
     ignoredTransactions.add(pendingTransaction);
   }
 
