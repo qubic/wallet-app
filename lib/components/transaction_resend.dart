@@ -75,7 +75,7 @@ class TransactionResend extends StatelessWidget {
               labelOffset: -0,
               labelHorizOffset: -6,
               textStyle: MediaQuery.of(context).size.width < 400
-                  ? TextStyles.accountAmount.copyWith(fontSize: 16)
+                  ? TextStyles.accountAmount.copyWith(fontSize: 22)
                   : TextStyles.accountAmount,
               labelStyle: TextStyles.accountAmountLabel,
               amount: item.amount,
