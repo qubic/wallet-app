@@ -498,11 +498,33 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  dynamic initPendingAndIgonredTransactions() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.initPendingAndIgonredTransactions');
+    try {
+      return super.initPendingAndIgonredTransactions();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void _restoreIgnoredTransactions() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore._restoreIgnoredTransactions');
     try {
       return super._restoreIgnoredTransactions();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeIgnoredTransactions(String transactionId) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.removeIgnoredTransactions');
+    try {
+      return super.removeIgnoredTransactions(transactionId);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
