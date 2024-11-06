@@ -155,9 +155,9 @@ class QubicCmd {
 
   Future<QubicSignResult> signUTF8(String seed, String utf8Text) async {
     if (useJs) {
-      return await qubicJs.signASCII(seed, utf8Text);
+      return await qubicJs.signUTF8(seed, utf8Text);
     } else {
-      return await qubicCmdUtils.signASCII(seed, utf8Text);
+      return await qubicCmdUtils.signUTF8(seed, utf8Text);
     }
   }
 }

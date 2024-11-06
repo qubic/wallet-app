@@ -94,6 +94,7 @@ class _ApproveSignState extends State<ApproveSign> {
                     //Sign the message
                     QubicSignResult signedMessage =
                         await qubicCmd.signUTF8(seed, widget.message);
+
                     setState(() {
                       isLoading = false;
                     });

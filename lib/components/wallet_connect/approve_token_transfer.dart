@@ -84,7 +84,6 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                   bool authenticated = await reAuthDialog(context);
                   if (!authenticated) {
                     if (mounted) {
-                      //required to remove the warning
                       Navigator.pop(context);
                     }
                     return;
@@ -100,6 +99,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                 //Send the transaction to backend
                 bool result = false;
                 if (mounted) {
+                  //TODO ERROR HANDLING
                   result = await sendTransactionDialog(context, widget.fromID!,
                       widget.toID!, widget.amount, targetTick);
                   if (result) {

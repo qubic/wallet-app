@@ -380,12 +380,11 @@ class WalletConnectService {
             } else {
               throw "Session not found";
             }
-
+            ApproveSignGenericResult result = await signGenericHandler!(event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
-                response: JsonRpcResponse(
-                    id: sessionRequest.id,
-                    result: await signGenericHandler!(event)));
+                response:
+                    JsonRpcResponse(id: sessionRequest.id, result: result));
           } catch (e) {
             if (e is JsonRpcError) {
               rethrow;

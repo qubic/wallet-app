@@ -27,5 +27,5 @@ class QubicSignResult {
         "signature": signature,
       };
 
-  QubicSignResult(String signedData, String digest, String signature);
+  QubicSignResult(this.signedData, this.digest, this.signature);
 }
