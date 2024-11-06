@@ -89,4 +89,6 @@ abstract class Config {
 
   static const walletConnectChainId = "qubic:main";
   static const wallectConnectUrlLength = 187;
+  static const wallectConnectPairingTimeoutSeconds = 4;
+  static const walletConnectExistsTimeoutSeconds = 2;
 }

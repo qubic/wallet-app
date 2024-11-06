@@ -98,6 +98,7 @@ class WalletConnectService {
   }
 
   bool sessionPairingTopicAlreadyExists(String sessionPairingTopic) {
+    //TODO REMOVE THIS
     if (web3Wallet!
         .getActiveSessions()
         .values

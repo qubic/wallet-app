@@ -48,12 +48,14 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   StreamSubscription<SessionProposalEvent?>? sessionProposalSubscription;
   StreamSubscription<SessionProposalErrorEvent?>?
       sessionProposalErrorSubscription;
-
+  Timer? pairingTimer;
+  Timer? existsTimer;
   int? wcPairingId;
   PairingMetadata? wcPairingMetadata;
   List<String> wcPairingMethods = [];
   List<String> wcPairingEvents = [];
   Map<String, Namespace>? wcPairingNamespaces;
+
   @override
   void initState() {
     super.initState();
@@ -89,6 +91,8 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
       sessionProposalSubscription = walletConnectService
           .onSessionProposal.stream
           .listen((SessionProposalEvent? args) async {
+        pairingTimer?.cancel();
+        existsTimer?.cancel();
         List<String> notSupportedNetworks = [];
         if (args != null) {
           log(args.toString());
@@ -193,6 +197,9 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
       sessionProposalErrorSubscription!.cancel();
     }
     urlController.dispose();
+    pairingTimer?.cancel();
+    existsTimer?.cancel();
+    debugPrint("Dispose!");
     super.dispose();
   }
 
@@ -221,9 +228,30 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
 
       if (walletConnectService
           .sessionPairingTopicAlreadyExists(pairResult.topic)) {
-        _globalSnackBar.showError(l10n.wcErrorUsedURL);
+        existsTimer = Timer(
+            const Duration(seconds: Config.walletConnectExistsTimeoutSeconds),
+            () async {
+          if (mounted) {
+            setState(() {
+              isLoading = false;
+            });
+            _globalSnackBar.showError(l10n.wcErrorUsedURL);
+          }
+        });
+
         return;
       }
+
+      pairingTimer = Timer(
+          const Duration(seconds: Config.wallectConnectPairingTimeoutSeconds),
+          () async {
+        if (mounted) {
+          setState(() {
+            isLoading = false;
+          });
+          _globalSnackBar.showError(l10n.wcErrorPairingTimeout);
+        }
+      });
     } catch (e) {
       //This can be a ReownSignError , a ReownCoreError or a generic error
       _globalSnackBar.showError(e.toString());

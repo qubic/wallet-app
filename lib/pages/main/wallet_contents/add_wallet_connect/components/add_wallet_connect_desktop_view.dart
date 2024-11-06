@@ -75,6 +75,7 @@ class _AddWalletConnectDesktopViewState
                                   setState(() {});
                                 },
                                 style: TextStyles.inputBoxSmallStyle,
+                                enabled: !widget.isLoading,
                                 decoration: ThemeInputDecorations.normalInputbox
                                     .copyWith(
                                         hintText: l10n.pasteURLHere,
@@ -90,6 +91,7 @@ class _AddWalletConnectDesktopViewState
                                             child: ThemedControls
                                                 .secondaryButtonWithChild(
                                                     onPressed: pasteToForm,
+                                                    enabled: !widget.isLoading,
                                                     child: Text(
                                                         l10n.generalButtonPaste,
                                                         style: TextStyles

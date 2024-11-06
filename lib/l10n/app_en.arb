@@ -821,6 +821,7 @@
     "wcErrorUnsupportedAccounts": "Pair request contains unsupported accounts",
     "wcErrorUnsupportedNamespaces": "Pair request contains unsupported namespaces",
     "wcErrorUsedURL": "A connection has already been established via this URL",
+    "wcErrorPairingTimeout": "Pairing request timed out.",
     "wcErrorUnsupportedNetwork": "Unsupported Network",
     "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Network",
     "@wcErrorUnsupportedNetworkDescription": {
