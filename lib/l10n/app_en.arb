@@ -887,5 +887,6 @@
     "wcDomainMismatchTitle": "Domain Mismatch",
     "wcDomainMismatchDescription": "This website has a domain that does not match the sender of this request. Approving may lead to loss of funds",
     "wcDomainUnkownTitle": "Unknown Domain",
-    "wcDomainUnkownDescription": "This domain cannot be verified. Check the request carefully before approving"
+    "wcDomainUnkownDescription": "This domain cannot be verified. Check the request carefully before approving",
+    "wcApproveTransaction": "Approve Transaction"
 }
