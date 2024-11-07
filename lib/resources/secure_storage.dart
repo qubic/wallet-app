@@ -28,7 +28,6 @@ class SecureStorageKeys {
   static const publicIdsList = "${prepend}_PIDs"; // The public IDs
   static const namesList = "${prepend}_NAMEs"; // The names of the IDs
   static const settings = "${prepend}_SETTINGS"; // The settings of the wallet
-  static const pendingTransactions = "${prepend}_PENDING";
 }
 
 class PassAndHash {
