@@ -842,16 +842,9 @@
     "wcAddURL": "Connect to a dapp by pasting WalletConnect connection URL.",
     "wcNoPermissions": "This app doesn't have any permissions",
     "wcOpenApp": "Open App",
-    "wcExpiersInDay": "Session expires in 1 day",
-    "wcExpiersInDays": "Session expires in {days} days",
-    "@wcExpiersInDays": {
-        "placeholders": {
-            "days": {
-                "type": "String"
-            }
-        }
-    },
-    "wcExpiersInLessThanDay": "Session expires less than day",
+
+    "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",    
+    "wcExpiresInLessThanDay": "Session expires less than day",
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",
     "pleaseWait": "Please wait",
