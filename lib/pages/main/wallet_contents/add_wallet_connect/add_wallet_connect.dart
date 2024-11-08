@@ -66,6 +66,8 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           .onSessionProposalError.stream
           .listen((SessionProposalErrorEvent? args) {
         if (args != null) {
+          pairingTimer?.cancel();
+          existsTimer?.cancel();
           if (args.error.code == 5100) {
             _globalSnackBar.showError(l10n.wcErrorUnsupportedChains);
           } else if (args.error.code == 5101) {
