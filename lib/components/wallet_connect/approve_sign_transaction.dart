@@ -10,6 +10,7 @@ import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -43,6 +44,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
   final QubicLi _apiService = getIt<QubicLi>();
+  final _liveApi = getIt<QubicLiveApi>();
   bool hasAccepted = false;
   String? toIdName;
   bool isLoading = false;
@@ -101,7 +103,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                 if (widget.tick != null) {
                   targetTick = widget.tick!;
                 } else {
-                  int latestTick = await _apiService.getCurrentTick();
+                  int latestTick = (await _liveApi.getCurrentTick()).tick;
                   targetTick = latestTick + defaultTargetTickType.value;
                 }
                 //Generate the transaction
