@@ -69,7 +69,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           pairingTimer?.cancel();
           existsTimer?.cancel();
           if (args.error.code == 5100) {
-            _globalSnackBar.showError(l10n.wcErrorUnsupportedChains);
+            handgleNotSupportedNetworkError(args);
           } else if (args.error.code == 5101) {
             _globalSnackBar.showError(l10n.wcErrorUnsupportedMethods);
           } else if (args.error.code == 5102) {
@@ -108,16 +108,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
               ? args.params.generatedNamespaces!.entries.first.value.events
               : [];
           wcPairingNamespaces = args.params.generatedNamespaces;
-
-          List<String?> requiredNetworkIDs = [];
-          args.params.requiredNamespaces.forEach((key, value) {
-            requiredNetworkIDs.addAll(value.chains?.toList() ?? []);
-          });
-          for (var network in requiredNetworkIDs) {
-            if (network != null && network != Config.walletConnectChainId) {
-              notSupportedNetworks.add(network);
-            }
-          }
         }
         final invalidApp = args?.verifyContext?.validation.invalid;
         final unknown = args?.verifyContext?.validation.unknown;
@@ -203,6 +193,33 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     existsTimer?.cancel();
     debugPrint("Dispose!");
     super.dispose();
+  }
+
+  handgleNotSupportedNetworkError(SessionProposalErrorEvent args) {
+    List<String> notSupportedNetworks = [];
+    wcPairingId = args.id;
+    List<String?> requiredNetworkIDs = [];
+    args.requiredNamespaces.forEach((key, value) {
+      requiredNetworkIDs.addAll(value.chains?.toList() ?? []);
+    });
+    for (var network in requiredNetworkIDs) {
+      if (network != null && network != Config.walletConnectChainId) {
+        notSupportedNetworks.add(network);
+      }
+    }
+    Navigator.of(context).push(MaterialPageRoute<bool>(
+        builder: (BuildContext context) {
+          return Pair(
+            pairingId: wcPairingId!,
+            pairingEvents: wcPairingEvents,
+            pairingMethods: wcPairingMethods,
+            pairingNamespaces: wcPairingNamespaces,
+            pairingMetadata: wcPairingMetadata,
+            unsupportedNetowrks: notSupportedNetworks,
+            domainType: DomainType.valid,
+          );
+        },
+        fullscreenDialog: true));
   }
 
   pasteAndProceed() async {
