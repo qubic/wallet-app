@@ -40,11 +40,17 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
 
   Widget getTotalUSD() {
     // Create a NumberFormat object for USD currency with 2 decimal places
+
+    num price = appStore.marketInfo!.price! * widget.amount;
+    int decimalDigits = price < 1 ? 10 : 2;
+    print(appStore.marketInfo!.price! * widget.amount);
+
     NumberFormat currencyFormat =
-        NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+        NumberFormat.currency(symbol: '\$', decimalDigits: decimalDigits);
 
     // Format the double value as a USD amount
-    String formattedValue = currencyFormat.format(widget.amount);
+    String formattedValue = currencyFormat.format(price);
+
     return Text(formattedValue, style: TextStyles.sliverSmall);
   }
 
@@ -52,7 +58,7 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
     final l10n = l10nOf(context);
     //return Text(appStore.marketInfo!.price);
     return AmountFormatted(
-        amount: 1,
+        amount: widget.amount,
         stringOverride: appStore.marketInfo!.price.toString(),
         isInHeader: true,
         currencyName: l10n.generalLabelUSDQubicConversion,

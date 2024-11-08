@@ -11,6 +11,7 @@ import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -40,6 +41,8 @@ class ApproveTokenTransfer extends StatefulWidget {
 class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
+  final _liveApi = getIt<QubicLiveApi>();
+
   bool hasAccepted = false;
   String? toIdName;
   bool isLoading = false;
@@ -93,16 +96,25 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                   isLoading = true;
                 });
                 //Get current tick
-                int latestTick = await _apiService.getCurrentTick();
-                int targetTick = latestTick + defaultTargetTickType.value;
+                try {
+                  int latestTick = (await _liveApi.getCurrentTick()).tick;
+                  int targetTick = latestTick + defaultTargetTickType.value;
 
-                //Send the transaction to backend
-                bool result = false;
-                if (mounted) {
-                  //TODO ERROR HANDLING
-                  result = await sendTransactionDialog(context, widget.fromID!,
-                      widget.toID!, widget.amount, targetTick);
-                  if (result) {
+                  //Send the transaction to backend
+                  bool result = false;
+                  if (mounted) {
+                    //TODO ERROR HANDLING
+                    result = await sendTransactionDialog(
+                        context,
+                        widget.fromID!,
+                        widget.toID!,
+                        widget.amount,
+                        targetTick);
+
+                    if (!result) {
+                      throw "Could not send transaction";
+                    }
+
                     setState(() {
                       isLoading = true;
                     });
@@ -119,21 +131,20 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                               .generalSnackBarMessageTransactionSubmitted(
                                   targetTick.toString()));
                     }
-                  } else {
-                    //Else, transaction failed
-                    setState(() {
-                      isLoading = false;
-                    });
-                    if (mounted) {
-                      Navigator.of(context).pop(ApproveTokenTransferResult(
-                          //Return the success and tick
+                  }
+                } catch (e) {
+                  setState(() {
+                    isLoading = false;
+                  });
 
-                          tick: null));
-                      getIt.get<PersistentTabController>().jumpToTab(1);
-                      getIt<GlobalSnackBar>()
-                          .showError(l10nOf(context) //Show snackbar
-                              .sendItemDialogErrorGeneralTitle);
-                    }
+                  if (mounted) {
+                    Navigator.of(context).pop(ApproveTokenTransferResult(
+                        //Return the success and tick
+
+                        tick: null));
+                    getIt<GlobalSnackBar>()
+                        .showError(l10nOf(context) //Show snackbar
+                            .sendItemDialogErrorGeneralTitle);
                   }
                 }
               },
