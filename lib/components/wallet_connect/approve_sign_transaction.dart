@@ -14,6 +14,7 @@ import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -69,91 +70,101 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
     final l10n = l10nOf(context);
 
     return [
-      Expanded(
-          child: ThemedControls.transparentButtonBigWithChild(
-              //Reject button
+      SizedBox(
+        width: double.infinity,
+        height: ButtonStyles.buttonHeight,
+        child: FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: LightThemeColors.primary40,
+            ),
+            onPressed: isLoading
+                ? null
+                : () async {
+                    //Authenticate the user
+                    if (mounted) {
+                      bool authenticated = await reAuthDialog(context);
+                      if (!authenticated) {
+                        if (mounted) {
+                          //required to remove the warning
+                          Navigator.pop(context);
+                        }
+                        return;
+                      }
+                    }
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    late int targetTick;
+                    if (widget.tick != null) {
+                      targetTick = widget.tick!;
+                    } else {
+                      int latestTick = (await _liveApi.getCurrentTick()).tick;
+                      targetTick = latestTick + defaultTargetTickType.value;
+                    }
+                    //Generate the transaction
+                    String? result;
+                    if (mounted) {
+                      result = await getTransactionDialog(
+                          context,
+                          widget.fromID!,
+                          widget.toID!,
+                          widget.amount,
+                          targetTick);
+                      if (result != null) {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        if (mounted) {
+                          Navigator.of(context)
+                              .pop(ApproveSignTransactionResult(
+                                  //Return the success and tick
+                                  tick: targetTick,
+                                  signedTransaction: result));
+                          getIt<GlobalSnackBar>().show(
+                              l10nOf(context).wcApprovedSignedTransaction);
+                        }
+                      } else {
+                        //Else, generation falied
+                        setState(() {
+                          isLoading = true;
+                        });
+                        if (mounted) {
+                          Navigator.of(context)
+                              .pop(ApproveSignTransactionResult(
+                                  //Return the error
+                                  tick: null,
+                                  signedTransaction: null));
+                          getIt<GlobalSnackBar>()
+                              .showError(l10nOf(context) //Show snackbar
+                                  .sendItemDialogErrorGeneralTitle);
+                        }
+                      }
+                    }
+                  },
+            child: isLoading
+                ? SizedBox(
+                    height: 23,
+                    width: 23,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2, color: LightThemeColors.grey90),
+                  )
+                : Text(l10n.generalButtonApprove,
+                    textAlign: TextAlign.center,
+                    style: TextStyles.primaryButtonText)),
+      ),
+      ThemedControls.spacerVerticalSmall(),
+      SizedBox(
+          width: double.infinity,
+          height: ButtonStyles.buttonHeight,
+          child: ThemedControls.dangerButtonBigWithClild(
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: Text(l10n.generalButtonCancel,
-                      style: TextStyles.transparentButtonText)),
+                  child: Text(l10n.generalButtonReject,
+                      style: TextStyles.destructiveButtonText)),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               })),
-      ThemedControls.spacerHorizontalNormal(),
-      Expanded(
-          child: ThemedControls.primaryButtonBigWithChild(
-              //Accept button
-              onPressed: () async {
-                //Authenticate the user
-                if (mounted) {
-                  bool authenticated = await reAuthDialog(context);
-                  if (!authenticated) {
-                    if (mounted) {
-                      //required to remove the warning
-                      Navigator.pop(context);
-                    }
-                    return;
-                  }
-                }
-                setState(() {
-                  isLoading = true;
-                });
-
-                late int targetTick;
-                if (widget.tick != null) {
-                  targetTick = widget.tick!;
-                } else {
-                  int latestTick = (await _liveApi.getCurrentTick()).tick;
-                  targetTick = latestTick + defaultTargetTickType.value;
-                }
-                //Generate the transaction
-                String? result;
-                if (mounted) {
-                  result = await getTransactionDialog(context, widget.fromID!,
-                      widget.toID!, widget.amount, targetTick);
-                  if (result != null) {
-                    setState(() {
-                      isLoading = true;
-                    });
-                    if (mounted) {
-                      Navigator.of(context).pop(ApproveSignTransactionResult(
-                          //Return the success and tick
-                          tick: targetTick,
-                          signedTransaction: result));
-                      getIt<GlobalSnackBar>()
-                          .show(l10nOf(context).wcApprovedSignedTransaction);
-                    }
-                  } else {
-                    //Else, generation falied
-                    setState(() {
-                      isLoading = true;
-                    });
-                    if (mounted) {
-                      Navigator.of(context).pop(ApproveSignTransactionResult(
-                          //Return the error
-                          tick: null,
-                          signedTransaction: null));
-                      getIt<GlobalSnackBar>()
-                          .showError(l10nOf(context) //Show snackbar
-                              .sendItemDialogErrorGeneralTitle);
-                    }
-                  }
-                }
-              },
-              child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: isLoading
-                      ? SizedBox(
-                          height: 23,
-                          width: 23,
-                          child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary),
-                        )
-                      : Text(l10n.generalButtonProceed,
-                          textAlign: TextAlign.center,
-                          style: TextStyles.primaryButtonText))))
     ];
   }
 
@@ -260,9 +271,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
                   Expanded(child: getScrollView()),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: getButtons())
+                  ...getButtons()
                 ]))));
   }
 }
