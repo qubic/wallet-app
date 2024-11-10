@@ -842,8 +842,7 @@
     "wcAddURL": "Connect to a dapp by pasting WalletConnect connection URL.",
     "wcNoPermissions": "This app doesn't have any permissions",
     "wcOpenApp": "Open App",
-
-    "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",    
+    "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",
     "wcExpiresInLessThanDay": "Session expires less than day",
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",
@@ -887,5 +886,7 @@
     "wcDomainMismatchTitle": "Domain Mismatch",
     "wcDomainMismatchDescription": "This website has a domain that does not match the sender of this request. Approving may lead to loss of funds",
     "wcDomainUnkownTitle": "Unknown Domain",
-    "wcDomainUnkownDescription": "This domain cannot be verified. Check the request carefully before approving"
+    "wcDomainUnkownDescription": "This domain cannot be verified. Check the request carefully before approving",
+    "wcApproveTransaction": "Approve Transaction",
+    "wcSignMessage": "Sign Message"
 }

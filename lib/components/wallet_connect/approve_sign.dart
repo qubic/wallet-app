@@ -11,6 +11,7 @@ import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.d
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -56,84 +57,88 @@ class _ApproveSignState extends State<ApproveSign> {
     final l10n = l10nOf(context);
 
     return [
-      Expanded(
-          child: ThemedControls.transparentButtonBigWithChild(
-              //Reject button
+      SizedBox(
+        width: double.infinity,
+        height: ButtonStyles.buttonHeight,
+        child: FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: LightThemeColors.primary40,
+            ),
+            onPressed: isLoading
+                ? null
+                : () async {
+                    //Authenticate the user
+                    if (mounted) {
+                      bool authenticated = await reAuthDialog(context);
+                      if (!authenticated) {
+                        if (mounted) {
+                          //required to remove the warning
+                          Navigator.pop(context);
+                        }
+                        return;
+                      }
+                    }
+                    setState(() {
+                      isLoading = true;
+                    });
+                    if (mounted) {
+                      try {
+                        //Get the seed from the Id
+                        String seed = await getIt
+                            .get<ApplicationStore>()
+                            .getSeedByPublicId(widget.fromID);
+                        //Sign the message
+                        QubicSignResult signedMessage =
+                            await qubicCmd.signUTF8(seed, widget.message);
+
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if (mounted) {
+                          Navigator.of(context).pop(ApproveSignGenericResult(
+                              //Return the success and tick
+                              result: signedMessage));
+
+                          getIt<GlobalSnackBar>()
+                              .show(l10nOf(context) //Show snackbar
+                                  .wcApprovedSignedMessage);
+                        }
+                      } catch (e) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        if (mounted) {
+                          Navigator.of(context).pop(ApproveSignGenericResult(
+                              //Return the success and tick
+                              result: null));
+                          getIt<GlobalSnackBar>().showError(e.toString());
+                        }
+                      }
+                    }
+                  },
+            child: isLoading
+                ? SizedBox(
+                    height: 23,
+                    width: 23,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2, color: LightThemeColors.grey90),
+                  )
+                : Text(l10n.wcSignMessage,
+                    textAlign: TextAlign.center,
+                    style: TextStyles.primaryButtonText)),
+      ),
+      ThemedControls.spacerVerticalSmall(),
+      SizedBox(
+          width: double.infinity,
+          height: ButtonStyles.buttonHeight,
+          child: ThemedControls.dangerButtonBigWithClild(
               child: Padding(
                   padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: Text(l10n.generalButtonCancel,
-                      style: TextStyles.transparentButtonText)),
+                  child: Text(l10n.generalButtonReject,
+                      style: TextStyles.destructiveButtonText)),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               })),
-      ThemedControls.spacerHorizontalNormal(),
-      Expanded(
-          child: ThemedControls.primaryButtonBigWithChild(
-              //Accept button
-              onPressed: () async {
-                //Authenticate the user
-                if (mounted) {
-                  bool authenticated = await reAuthDialog(context);
-                  if (!authenticated) {
-                    if (mounted) {
-                      //required to remove the warning
-                      Navigator.pop(context);
-                    }
-                    return;
-                  }
-                }
-                setState(() {
-                  isLoading = true;
-                });
-                if (mounted) {
-                  try {
-                    //Get the seed from the Id
-                    String seed = await getIt
-                        .get<ApplicationStore>()
-                        .getSeedByPublicId(widget.fromID);
-                    //Sign the message
-                    QubicSignResult signedMessage =
-                        await qubicCmd.signUTF8(seed, widget.message);
-
-                    setState(() {
-                      isLoading = false;
-                    });
-                    if (mounted) {
-                      Navigator.of(context).pop(ApproveSignGenericResult(
-                          //Return the success and tick
-                          result: signedMessage));
-
-                      getIt<GlobalSnackBar>()
-                          .show(l10nOf(context) //Show snackbar
-                              .wcApprovedSignedMessage);
-                    }
-                  } catch (e) {
-                    setState(() {
-                      isLoading = false;
-                    });
-                    if (mounted) {
-                      Navigator.of(context).pop(ApproveSignGenericResult(
-                          //Return the success and tick
-                          result: null));
-                      getIt<GlobalSnackBar>().showError(e.toString());
-                    }
-                  }
-                }
-              },
-              child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: isLoading
-                      ? SizedBox(
-                          height: 23,
-                          width: 23,
-                          child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary),
-                        )
-                      : Text(l10n.generalButtonProceed,
-                          textAlign: TextAlign.center,
-                          style: TextStyles.primaryButtonText))))
     ];
   }
 
@@ -224,9 +229,7 @@ class _ApproveSignState extends State<ApproveSign> {
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
                   Expanded(child: getScrollView()),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: getButtons())
+                  ...getButtons()
                 ]))));
   }
 }
