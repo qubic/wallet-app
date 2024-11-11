@@ -602,6 +602,17 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  void _addTransactionInOrder(List<TransactionVm> transactions) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore._addTransactionInOrder');
+    try {
+      return super._addTransactionInOrder(transactions);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 hasStoredWalletSettings: ${hasStoredWalletSettings},
