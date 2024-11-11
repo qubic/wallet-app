@@ -392,11 +392,7 @@ abstract class _ApplicationStore with Store {
 
   @action
   void _restoreIgnoredTransactions() {
-    for (var trx in ignoredTransactions) {
-      if (!currentTransactions.any((element) => element.id == trx.id)) {
-        currentTransactions.add(trx);
-      }
-    }
+    _addTransactionInOrder(ignoredTransactions);
   }
 
   @action
@@ -408,11 +404,7 @@ abstract class _ApplicationStore with Store {
 
   @action
   void _restorePendingTransaction() {
-    for (var trx in pendingTransactions) {
-      if (!currentTransactions.any((element) => element.id == trx.id)) {
-        currentTransactions.add(trx);
-      }
-    }
+    _addTransactionInOrder(pendingTransactions);
   }
 
   @action
@@ -465,5 +457,21 @@ abstract class _ApplicationStore with Store {
         currentQubicIDs.any(
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
+  }
+
+  @action
+  void _addTransactionInOrder(List<TransactionVm> transactions) {
+    for (var trx in transactions) {
+      if (!currentTransactions.any((element) => element.id == trx.id)) {
+        int insertIndex = currentTransactions.indexWhere(
+          (element) => element.targetTick > trx.targetTick,
+        );
+        if (insertIndex == -1) {
+          currentTransactions.add(trx);
+        } else {
+          currentTransactions.insert(insertIndex, trx);
+        }
+      }
+    }
   }
 }
