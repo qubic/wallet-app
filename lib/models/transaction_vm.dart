@@ -9,8 +9,6 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 enum ComputedTransactionStatus {
   //** Transfer is broadcasted but pending */
   pending,
-  //** Transfer is confirmed */
-  confirmed,
   //** Transfer is successful (processed by computors) */
   success,
   //** Transfer has failed */
@@ -90,9 +88,6 @@ class TransactionVm {
   ComputedTransactionStatus getStatus() {
     if (isPending) {
       return ComputedTransactionStatus.pending;
-    }
-    if ((status == 'Confirmed') || (status == 'Staged')) {
-      return ComputedTransactionStatus.confirmed;
     }
     if ((status == 'Success')) {
       if (moneyFlow == true) {
