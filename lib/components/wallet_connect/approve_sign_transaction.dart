@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/wallet_connect/amount_value_header.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
@@ -149,7 +150,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                     child: CircularProgressIndicator(
                         strokeWidth: 2, color: LightThemeColors.grey90),
                   )
-                : Text(l10n.generalButtonApprove,
+                : Text(l10n.wcSignTransaction,
                     textAlign: TextAlign.center,
                     style: TextStyles.primaryButtonText)),
       ),
@@ -251,7 +252,8 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                       l10n.generalLabelTick,
                       style: TextStyles.lightGreyTextSmall,
                     ),
-                    Text(widget.tick.toString(), style: TextStyles.textNormal)
+                    Text(widget.tick?.asThousands() ?? "-",
+                        style: TextStyles.textNormal)
                   ]))
             ],
           ))
