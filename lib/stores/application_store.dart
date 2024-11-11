@@ -474,7 +474,7 @@ abstract class _ApplicationStore with Store {
   @action
   addIgnoredTransaction(TransactionVm pendingTransaction) {
     pendingTransaction.isPending = false;
-    pendingTransaction.status = 'Failed';
+    pendingTransaction.status = "Invalid";
     _hiveStorage.addIgnoredTransaction(pendingTransaction);
     ignoredTransactions.add(pendingTransaction);
   }

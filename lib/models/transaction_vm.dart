@@ -98,11 +98,11 @@ class TransactionVm {
       if (moneyFlow == true) {
         return ComputedTransactionStatus.success;
       } else {
-        return ComputedTransactionStatus.invalid;
+        return ComputedTransactionStatus.failure;
       }
     }
-    if ((status == 'Failed')) {
-      return ComputedTransactionStatus.failure;
+    if ((status == 'Invalid')) {
+      return ComputedTransactionStatus.invalid;
     }
     return ComputedTransactionStatus.pending;
   }
