@@ -424,7 +424,7 @@
     "sendItemLabelTargetTickManual": "Manual Override",
     "sendItemLabelDetermineTargetTick": "Determine Target Tick",
     "sendItemDialogErrorGeneralTitle": "Error while generating transaction",
-    "sendItemDialogResendTitle": "Resend failed transaction?",
+    "sendItemDialogResendTitle": "Resend transaction?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
