@@ -143,6 +143,13 @@ class _PairState extends State<Pair> {
     int colonIndex = network.indexOf(':');
     bool isEIP = network.startsWith('eip155');
 
+    // Check if the network starts with "qubic"
+    if (network.startsWith('qubic') && colonIndex > -1) {
+      String qubicEnv = network
+          .substring(colonIndex + 1); // Get the environment after "qubic:"
+      return 'Qubic ${qubicEnv[0].toUpperCase()}${qubicEnv.substring(1)}'; // Capitalize first letter of environment
+    }
+
     // If not EIP and colon is found
     if (!isEIP && colonIndex > -1) {
       String name = network.substring(0, colonIndex);
