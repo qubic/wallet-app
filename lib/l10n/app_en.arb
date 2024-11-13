@@ -888,5 +888,6 @@
     "wcDomainUnkownTitle": "Unknown Domain",
     "wcDomainUnkownDescription": "This domain cannot be verified. Check the request carefully before approving",
     "wcApproveTransaction": "Approve Transaction",
-    "wcSignMessage": "Sign Message"
+    "wcSignMessage": "Sign Message",
+    "wcSignTransaction": "Sign Transaction"
 }
