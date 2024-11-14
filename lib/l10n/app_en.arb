@@ -823,7 +823,7 @@
     "wcErrorUsedURL": "A connection has already been established via this URL",
     "wcErrorPairingTimeout": "Pairing request timed out.",
     "wcErrorUnsupportedNetwork": "Unsupported Network",
-    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Network",
+    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Main Network",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
