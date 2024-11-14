@@ -414,7 +414,7 @@
     "sendItemLabelTargetTickManual": "Manuelles Überschreiben",
     "sendItemLabelDetermineTargetTick": "Ziel-Tick bestimmen",
     "sendItemDialogErrorGeneralTitle": "Fehler beim Generieren der Transaktion.",
-    "sendItemDialogResendTitle": "Fehlgeschlagene Transaktion erneut senden?",
+    "sendItemDialogResendTitle": "Transaktion erneut senden?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (aktuell {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {

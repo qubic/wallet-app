@@ -413,7 +413,7 @@
     "sendItemLabelTargetTickManual": "Sobreescribir manualmente",
     "sendItemLabelDetermineTargetTick": "Determinar el Target de Ejecución",
     "sendItemDialogErrorGeneralTitle": "Error al generar la transacción",
-    "sendItemDialogResendTitle": "¿Deseas reenviar la transacción fallida?",
+    "sendItemDialogResendTitle": "¿Deseas reenviar la transacción?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (actual {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
