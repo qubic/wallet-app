@@ -414,7 +414,7 @@
     "sendItemLabelTargetTickManual": "Remplacement Manuel",
     "sendItemLabelDetermineTargetTick": "Déterminer le Tick Cible",
     "sendItemDialogErrorGeneralTitle": "Erreur lors de la génération de la transaction",
-    "sendItemDialogResendTitle": "Renvoyer la transaction échouée?",
+    "sendItemDialogResendTitle": "Renvoyer la transaction?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (actuel {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {

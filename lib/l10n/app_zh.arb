@@ -414,7 +414,7 @@
     "sendItemLabelTargetTickManual": "手动调整",
     "sendItemLabelDetermineTargetTick": "确定目标刻度",
     "sendItemDialogErrorGeneralTitle": "生成交易时出现错误",
-    "sendItemDialogResendTitle": "重新发送失败的交易？",
+    "sendItemDialogResendTitle": "重新发送交易？",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (当前 {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {

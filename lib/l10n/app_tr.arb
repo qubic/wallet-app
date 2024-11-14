@@ -413,7 +413,7 @@
     "sendItemLabelTargetTickManual": "Manuel Geçersiz Kılma",
     "sendItemLabelDetermineTargetTick": "Hedef Tick'i Belirle",
     "sendItemDialogErrorGeneralTitle": "Transfer oluşturulurken bir hata oluştu",
-    "sendItemDialogResendTitle": "Başarısız olan işlem yeniden gönderilsin mi?",
+    "sendItemDialogResendTitle": "Işlem yeniden gönderilsin mi?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {

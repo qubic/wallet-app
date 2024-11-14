@@ -413,7 +413,7 @@
     "sendItemLabelTargetTickManual": "Ручное управление",
     "sendItemLabelDetermineTargetTick": "Определите целевой тик",
     "sendItemDialogErrorGeneralTitle": "Ошибка при генерации транзакции",
-    "sendItemDialogResendTitle": "Повторно отправить неудачную транзакцию?",
+    "sendItemDialogResendTitle": "Повторно отправить транзакцию?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
