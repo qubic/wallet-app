@@ -41,7 +41,18 @@ Future<bool> sendAssetTransferTransactionDialog(
   try {
     transactionKey = await qubicCmd.createAssetTransferTransaction(seed,
         destinationId, assetName, issuer, numberOfAssets, destinationTick);
-    await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
+    final transactionId =
+        await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
+    final pendingTransaction = TransactionVm(
+        id: transactionId,
+        sourceId: sourceId,
+        destId: destinationId,
+        amount: 1000000, //Fixed for asset transfer
+        status: ComputedTransactionStatus.pending.name,
+        targetTick: destinationTick,
+        isPending: true,
+        moneyFlow: true);
+    getIt.get<ApplicationStore>().addPendingTransaction(pendingTransaction);
     return true;
   } catch (e) {
     if (e.toString().startsWith("Exception: CRITICAL:")) {
