@@ -53,7 +53,7 @@ class HiveStorage {
   }
 
   Future<void> clear() async {
-    await Hive.deleteBoxFromDisk(HiveBoxesNames.pendingTransactions.name);
-    await Hive.deleteBoxFromDisk(HiveBoxesNames.ignoredTransactions.name);
+    await ignoredTransactions.clear();
+    await pendingTransactions.clear();
   }
 }
