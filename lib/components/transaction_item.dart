@@ -154,7 +154,7 @@ class TransactionItem extends StatelessWidget {
                   value: CardItem.resend,
                   child: Text(l10n.transactionItemButtonResend),
                 ),
-              if (item.getStatus() == ComputedTransactionStatus.failure)
+              if (item.getStatus() == ComputedTransactionStatus.invalid)
                 PopupMenuItem<CardItem>(
                   value: CardItem.delete,
                   child: Text(l10n.generalButtonDelete),
