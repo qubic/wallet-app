@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -8,6 +7,7 @@ import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
 void showTamperedWalletAlert(BuildContext context) {
@@ -47,7 +47,7 @@ Future<bool> sendAssetTransferTransactionDialog(
         id: transactionId,
         sourceId: sourceId,
         destId: destinationId,
-        amount: 1000000, //Fixed for asset transfer
+        amount: QxInfo.transferAssetFee,
         status: ComputedTransactionStatus.pending.name,
         targetTick: destinationTick,
         isPending: true,
