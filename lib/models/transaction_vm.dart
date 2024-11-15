@@ -13,7 +13,7 @@ enum ComputedTransactionStatus {
   success,
   //** Transfer has failed */
   failure,
-  //** Transfer is invalid (may be successful but invalidated) */
+  //** Transfer is invalid (ignored by netowrk) */
   invalid,
 }
 
