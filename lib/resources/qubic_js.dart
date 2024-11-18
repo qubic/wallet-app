@@ -48,6 +48,10 @@ class QubicJs {
   }
 
   reInitialize() async {
+    if (controller != null) {
+      debugPrint("Reinitialize skipped: Controller is still valid");
+      return;
+    }
     disposeController();
     await initialize();
   }
