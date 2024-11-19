@@ -12,6 +12,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
+import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/components/scanner_corners_border.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/components/scanner_overlay_clipper.dart';
@@ -69,7 +70,8 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           pairingTimer?.cancel();
           existsTimer?.cancel();
           if (args.error.code == 5100) {
-            handgleNotSupportedNetworkError(args);
+            _globalSnackBar
+                .showError(handleUnSupportedNetworkError(args, l10n));
           } else if (args.error.code == 5101) {
             _globalSnackBar.showError(l10n.wcErrorUnsupportedMethods);
           } else if (args.error.code == 5102) {
@@ -95,7 +97,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           .listen((SessionProposalEvent? args) async {
         pairingTimer?.cancel();
         existsTimer?.cancel();
-        List<String> notSupportedNetworks = [];
         if (args != null) {
           log(args.toString());
           wcPairingId = args.id;
@@ -122,7 +123,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                       pairingMethods: wcPairingMethods,
                       pairingNamespaces: wcPairingNamespaces,
                       pairingMetadata: wcPairingMetadata,
-                      unsupportedNetowrks: notSupportedNetworks,
                       domainType: scamApp == true
                           ? DomainType.scam
                           : invalidApp == true
@@ -195,33 +195,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     super.dispose();
   }
 
-  handgleNotSupportedNetworkError(SessionProposalErrorEvent args) {
-    List<String> notSupportedNetworks = [];
-    wcPairingId = args.id;
-    List<String?> requiredNetworkIDs = [];
-    args.requiredNamespaces.forEach((key, value) {
-      requiredNetworkIDs.addAll(value.chains?.toList() ?? []);
-    });
-    for (var network in requiredNetworkIDs) {
-      if (network != null && network != Config.walletConnectChainId) {
-        notSupportedNetworks.add(network);
-      }
-    }
-    Navigator.of(context).push(MaterialPageRoute<bool>(
-        builder: (BuildContext context) {
-          return Pair(
-            pairingId: wcPairingId!,
-            pairingEvents: wcPairingEvents,
-            pairingMethods: wcPairingMethods,
-            pairingNamespaces: wcPairingNamespaces,
-            pairingMetadata: wcPairingMetadata,
-            unsupportedNetowrks: notSupportedNetworks,
-            domainType: DomainType.valid,
-          );
-        },
-        fullscreenDialog: true));
-  }
-
   pasteAndProceed() async {
     final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
     String? clipboardText = clipboardData?.text;
@@ -230,8 +203,8 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
 
   void proceedHandler(String? url) async {
     final l10n = l10nOf(context);
-    if (validateWalletConnectURL(url) != null) {
-      _globalSnackBar.showError(validateWalletConnectURL(url)!);
+    if (validateWalletConnectURL(url, context) != null) {
+      _globalSnackBar.showError(validateWalletConnectURL(url, context)!);
       return;
     }
 
@@ -279,31 +252,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
         isLoading = false;
       });
     }
-  }
-
-  String? validateWalletConnectURL(String? valueCandidate) {
-    final l10n = l10nOf(context);
-    const requiredLength = Config.wallectConnectUrlLength;
-    final requiredPatterns = ['wc:', 'expiryTimestamp=', 'symKey=', '@'];
-
-    if (valueCandidate == null || valueCandidate.trim().isEmpty) {
-      return l10n.wcErrorInvalidURL;
-    }
-
-    if (valueCandidate.length != requiredLength) {
-      return l10n.wcErrorInvalidURL;
-    }
-
-    if (!requiredPatterns
-        .every((pattern) => valueCandidate.contains(pattern))) {
-      return l10n.wcErrorInvalidURL;
-    }
-
-    if (valueCandidate.contains("@1")) {
-      return l10n.wcErrorDeprecatedURL;
-    }
-
-    return null;
   }
 
   @override
