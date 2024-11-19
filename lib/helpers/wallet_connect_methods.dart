@@ -79,15 +79,9 @@ String? validateWalletConnectURL(String? valueCandidate, BuildContext context) {
   const requiredLength = Config.wallectConnectUrlLength;
   final requiredPatterns = ['wc:', 'expiryTimestamp=', 'symKey=', '@'];
 
-  if (valueCandidate == null || valueCandidate.trim().isEmpty) {
-    return l10n.wcErrorInvalidURL;
-  }
-
-  if (valueCandidate.length != requiredLength) {
-    return l10n.wcErrorInvalidURL;
-  }
-
-  if (!requiredPatterns.every((pattern) => valueCandidate.contains(pattern))) {
+  if (valueCandidate == null ||
+      valueCandidate.trim().length != requiredLength ||
+      !requiredPatterns.every((pattern) => valueCandidate.contains(pattern))) {
     return l10n.wcErrorInvalidURL;
   }
 
