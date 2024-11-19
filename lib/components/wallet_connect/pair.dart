@@ -26,7 +26,6 @@ class Pair extends StatefulWidget {
   final List<String> pairingEvents;
   final int pairingId;
   final Map<String, Namespace>? pairingNamespaces;
-  final List<String> unsupportedNetowrks;
   final DomainType domainType;
 
   const Pair({
@@ -36,7 +35,6 @@ class Pair extends StatefulWidget {
     required this.pairingMetadata,
     required this.pairingEvents,
     required this.pairingNamespaces,
-    required this.unsupportedNetowrks,
     required this.domainType,
   });
 
@@ -117,115 +115,50 @@ class _PairState extends State<Pair> {
     return methods;
   }
 
-  Widget getUnsupportedNetworksCard() {
-    final l10n = l10nOf(context);
-    return ThemedControls.card(
-        child: Column(
-      children: [
-        SvgPicture.asset(AppIcons.danger),
-        ThemedControls.spacerVerticalNormal(),
-        Text(
-          l10n.wcErrorUnsupportedNetwork,
-          style: TextStyles.alertHeader,
-        ),
-        ThemedControls.spacerVerticalNormal(),
-        Text(
-          l10n.wcErrorUnsupportedNetworkDescription(
-              getUnsupportedNetworks(widget.unsupportedNetowrks)),
-          style: TextStyles.alertText,
-          textAlign: TextAlign.center,
-        ),
-      ],
-    ));
-  }
-
-  String formatNetworkName(String network) {
-    int colonIndex = network.indexOf(':');
-    bool isEIP = network.startsWith('eip155');
-
-    // Check if the network starts with "qubic"
-    if (network.startsWith('qubic') && colonIndex > -1) {
-      String qubicEnv = network
-          .substring(colonIndex + 1); // Get the environment after "qubic:"
-      return 'Qubic ${qubicEnv[0].toUpperCase()}${qubicEnv.substring(1)}'; // Capitalize first letter of environment
-    }
-
-    // If not EIP and colon is found
-    if (!isEIP && colonIndex > -1) {
-      String name = network.substring(0, colonIndex);
-      return name[0].toUpperCase() +
-          name.substring(1); // Capitalize first letter
-    }
-
-    // If it's an EIP network or no colon is found, return the full network
-    return network;
-  }
-
-  String getUnsupportedNetworks(List<String> unsupportedNetworks) {
-    if (unsupportedNetworks.length == 1) {
-      return formatNetworkName(unsupportedNetworks[0]);
-    } else {
-      final networks = unsupportedNetworks.map(formatNetworkName).toList();
-      return "$networks";
-    }
-  }
-
   List<Widget> getButtons() {
     final l10n = l10nOf(context);
 
     return [
       ThemedControls.spacerVerticalSmall(),
-      if (widget.unsupportedNetowrks.isEmpty)
-        SizedBox(
-          width: double.infinity,
-          height: ButtonStyles.buttonHeight,
-          child: FilledButton(
-              style: FilledButton.styleFrom(
-                backgroundColor: isScam() || isMismatch()
-                    ? LightThemeColors.error40
-                    : isUnknown()
-                        ? LightThemeColors.warning40
-                        : LightThemeColors.primary40,
-              ),
-              onPressed: () {
-                if (!isLoading) handleProceed();
-              },
-              child: isLoading
-                  ? SizedBox(
-                      height: 23,
-                      width: 23,
-                      child: CircularProgressIndicator(
-                          strokeWidth: 2, color: LightThemeColors.grey90),
-                    )
-                  : Text(l10n.generalButtonApprove,
-                      textAlign: TextAlign.center,
-                      style: TextStyles.primaryButtonText)),
-        ),
+      SizedBox(
+        width: double.infinity,
+        height: ButtonStyles.buttonHeight,
+        child: FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: isScam() || isMismatch()
+                  ? LightThemeColors.error40
+                  : isUnknown()
+                      ? LightThemeColors.warning40
+                      : LightThemeColors.primary40,
+            ),
+            onPressed: () {
+              if (!isLoading) handleProceed();
+            },
+            child: isLoading
+                ? SizedBox(
+                    height: 23,
+                    width: 23,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2, color: LightThemeColors.grey90),
+                  )
+                : Text(l10n.generalButtonApprove,
+                    textAlign: TextAlign.center,
+                    style: TextStyles.primaryButtonText)),
+      ),
       ThemedControls.spacerVerticalSmall(),
       SizedBox(
           width: double.infinity,
           height: ButtonStyles.buttonHeight,
-          child: (widget.unsupportedNetowrks.isEmpty)
-              ? ThemedControls.dangerButtonBigWithClild(
-                  child: Padding(
-                      padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                      child: Text(l10n.generalButtonReject,
-                          style: isScam() || isMismatch()
-                              ? TextStyles.transparentButtonText
-                              : TextStyles.destructiveButtonText)),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  })
-              : ThemedControls.primaryButtonBigWithChild(
-                  child: Padding(
-                      padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                      child: Text(
-                        l10n.generalButtonCancel,
-                        style: TextStyles.primaryButtonText,
-                      )),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  })),
+          child: ThemedControls.dangerButtonBigWithClild(
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                  child: Text(l10n.generalButtonReject,
+                      style: isScam() || isMismatch()
+                          ? TextStyles.transparentButtonText
+                          : TextStyles.destructiveButtonText)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              })),
     ];
   }
 
@@ -298,39 +231,32 @@ class _PairState extends State<Pair> {
                 //--------- End of header
                 ThemedControls.spacerVerticalBig(),
                 getErrors(),
-                if (widget.unsupportedNetowrks.isEmpty) ...[
-                  if (widget.domainType != DomainType.valid)
-                    DomainVerificationCard(domainType: widget.domainType),
-                  //--------- Permissions
-                  if (getMethods().isNotEmpty)
-                    ThemedControls.card(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                          Text(l10n.wcAppInfoHeaderPair,
-                              style:
-                                  TextStyles.walletConnectDapPermissionHeader),
-                          ThemedControls.spacerVerticalSmall(),
-                          ...getMethods()
-                        ])),
-                  //--------- End of permissions
-                  ThemedControls.spacerVerticalNormal(),
-                  //--------- Non Permissions
+                if (widget.domainType != DomainType.valid)
+                  DomainVerificationCard(domainType: widget.domainType),
+                //--------- Permissions
+                if (getMethods().isNotEmpty)
                   ThemedControls.card(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                        Text(l10n.wcAppInfoHeaderPairForbidden,
+                        Text(l10n.wcAppInfoHeaderPair,
                             style: TextStyles.walletConnectDapPermissionHeader),
                         ThemedControls.spacerVerticalSmall(),
-                        getMethod(l10n.wcScopeForbiddenTransfer,
-                            isGranted: false)
-                      ]))
-                  //--------- End of non permissions]
-                ],
-                if (widget.unsupportedNetowrks.isNotEmpty) ...[
-                  getUnsupportedNetworksCard()
-                ]
+                        ...getMethods()
+                      ])),
+                //--------- End of permissions
+                ThemedControls.spacerVerticalNormal(),
+                //--------- Non Permissions
+                ThemedControls.card(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                      Text(l10n.wcAppInfoHeaderPairForbidden,
+                          style: TextStyles.walletConnectDapPermissionHeader),
+                      ThemedControls.spacerVerticalSmall(),
+                      getMethod(l10n.wcScopeForbiddenTransfer, isGranted: false)
+                    ]))
+                //--------- End of non permissions]
               ]))
         ]));
   }
