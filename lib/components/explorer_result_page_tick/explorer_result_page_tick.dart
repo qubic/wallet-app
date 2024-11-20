@@ -88,6 +88,7 @@ class ExplorerResultPageTick extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
@@ -101,16 +102,26 @@ class ExplorerResultPageTick extends StatelessWidget {
                       }
                   : null),
         ),
-        SliverPadding(
-          padding: EdgeInsets.only(
-              left: ThemeEdgeInsets.pageInsets.left,
-              right: ThemeEdgeInsets.pageInsets.right),
-          sliver: SliverToBoxAdapter(
-            child: getTransactionsHeader(context),
+        if (transactions != null && transactions!.isNotEmpty) ...[
+          SliverPadding(
+            padding: EdgeInsets.only(
+                left: ThemeEdgeInsets.pageInsets.left,
+                right: ThemeEdgeInsets.pageInsets.right),
+            sliver: SliverToBoxAdapter(
+              child: getTransactionsHeader(context),
+            ),
           ),
-        ),
-        if (transactions != null && transactions!.isNotEmpty)
           listTransactions(),
+        ] else ...[
+          SliverPadding(
+            padding: const EdgeInsets.only(top: ThemePaddings.hugePadding),
+            sliver: SliverToBoxAdapter(
+              child: Center(
+                  child: Text(l10n.explorerTickResultLabelNoTransactionsFound,
+                      style: TextStyles.alertText)),
+            ),
+          )
+        ]
       ],
     );
   }

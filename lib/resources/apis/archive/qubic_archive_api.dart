@@ -14,11 +14,13 @@ class QubicArchiveApi {
 
   final ExplorerStore _explorerStore = getIt<ExplorerStore>();
 
-  Future<ExplorerTickDto> getExplorerTick(int tick) async {
+  Future<ExplorerTickDto?> getExplorerTick(int tick) async {
     try {
       _explorerStore.incrementPendingRequests();
       final response = await _dio.get('$_baseUrl${Config.tickData(tick)}');
-      return ExplorerTickDto.fromJson(response.data["tickData"]);
+      return response.data["tickData"] == null
+          ? ExplorerTickDto(tickNumber: tick)
+          : ExplorerTickDto.fromJson(response.data["tickData"]);
     } catch (error) {
       throw ErrorHandler.handleError(error);
     } finally {
