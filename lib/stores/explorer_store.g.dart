@@ -13,13 +13,13 @@ mixin _$ExplorerStore on _ExplorerStore, Store {
       Atom(name: '_ExplorerStore.networkOverview', context: context);
 
   @override
-  NetworkOverviewDto? get networkOverview {
+  MarketInfoDto? get networkOverview {
     _$networkOverviewAtom.reportRead();
     return super.networkOverview;
   }
 
   @override
-  set networkOverview(NetworkOverviewDto? value) {
+  set networkOverview(MarketInfoDto? value) {
     _$networkOverviewAtom.reportWrite(value, super.networkOverview, () {
       super.networkOverview = value;
     });
@@ -83,7 +83,7 @@ mixin _$ExplorerStore on _ExplorerStore, Store {
   }
 
   @override
-  void setNetworkOverview(NetworkOverviewDto newOverview) {
+  void setNetworkOverview(MarketInfoDto newOverview) {
     final _$actionInfo = _$_ExplorerStoreActionController.startAction(
         name: '_ExplorerStore.setNetworkOverview');
     try {

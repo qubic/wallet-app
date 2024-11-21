@@ -14,6 +14,7 @@ import 'package:qubic_wallet/helpers/epoch_helpers.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_search.dart';
+import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
@@ -23,8 +24,6 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:sticky_headers/sticky_headers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-
-import 'wallet_contents/explorer/explorer_result_page.dart';
 
 class TabExplorer extends StatefulWidget {
   const TabExplorer({super.key});
@@ -38,6 +37,7 @@ class _TabExplorerState extends State<TabExplorer> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final ExplorerStore explorerStore = getIt<ExplorerStore>();
   final QubicLi li = getIt<QubicLi>();
+  final QubicStatsApi statsApi = getIt<QubicStatsApi>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
 
@@ -53,7 +53,8 @@ class _TabExplorerState extends State<TabExplorer> {
       //Calculate number of pages
       setState(() {
         numberOfPages =
-            (explorerStore.networkOverview!.ticks.length / itemsPerPage).ceil();
+            (explorerStore.networkOverview!.ticksInCurrentEpoch! / itemsPerPage)
+                .ceil();
         currentPage = 1;
       });
     } else {
@@ -64,13 +65,13 @@ class _TabExplorerState extends State<TabExplorer> {
   void refreshOverview() {
     explorerStore.incrementPendingRequests();
     try {
-      li.getNetworkOverview().then((value) {
+      statsApi.getMarketInfo().then((value) {
         explorerStore.setNetworkOverview(value);
         explorerStore.decreasePendingRequests();
         setState(() {
-          numberOfPages =
-              (explorerStore.networkOverview!.ticks.length / itemsPerPage)
-                  .ceil();
+          numberOfPages = (explorerStore.networkOverview!.ticksInCurrentEpoch! /
+                  itemsPerPage)
+              .ceil();
           currentPage = 1;
         });
       }, onError: (e) {
@@ -251,7 +252,7 @@ class _TabExplorerState extends State<TabExplorer> {
               Expanded(
                   flex: 1,
                   child: tickPanel(l10n.explorerLabelMarketCap,
-                      "\$${explorerStore.networkOverview!.marketCap.asThousands()}"))
+                      "\$${explorerStore.networkOverview!.marketCap!.asThousands()}"))
             ]),
             ThemedControls.spacerVerticalMini(),
             Flex(direction: Axis.horizontal, children: [
@@ -259,33 +260,35 @@ class _TabExplorerState extends State<TabExplorer> {
                   flex: 1,
                   child: tickPanel(
                       l10n.explorerLabelTotalTicks,
-                      explorerStore.networkOverview!.numberOfTicks
+                      explorerStore.networkOverview!.ticksInCurrentEpoch!
                           .asThousands())),
               ThemedControls.spacerHorizontalMini(),
               Expanded(
                   flex: 1,
                   child: tickPanel(
                       l10n.explorerLabelEmptyTicks,
-                      explorerStore.networkOverview!.numberOfEmptyTicks
+                      explorerStore.networkOverview!.emptyTicksInCurrentEpoch!
                           .asThousands())),
               ThemedControls.spacerHorizontalMini(),
               Expanded(
                   flex: 1,
                   child: tickPanel(l10n.explorerLabelTickQuality,
-                      "${explorerStore.networkOverview!.tickQualityPercentage}%"))
+                      "${explorerStore.networkOverview!.epochTickQuality}%"))
             ]),
             ThemedControls.spacerVerticalMini(),
             Flex(direction: Axis.horizontal, children: [
               Expanded(
                   flex: 1,
-                  child: tickPanel(l10n.explorerLabelTotalSupply,
-                      explorerStore.networkOverview!.supply.asThousands())),
+                  child: tickPanel(
+                      l10n.explorerLabelTotalSupply,
+                      explorerStore.networkOverview!.circulatingSupply!
+                          .asThousands())),
               ThemedControls.spacerHorizontalMini(),
               Expanded(
                   flex: 1,
                   child: tickPanel(
                       l10n.explorerLabelTotalAddresses,
-                      explorerStore.networkOverview!.numberOfEntities
+                      explorerStore.networkOverview!.activeAddresses!
                           .asThousands()))
             ]),
             //Starts here
@@ -333,58 +336,59 @@ class _TabExplorerState extends State<TabExplorer> {
                                   ]))),
                 content: Observer(builder: (context) {
                   List<Widget> items = [];
-                  int min = (currentPage - 1) * itemsPerPage;
-                  int max = currentPage * itemsPerPage;
-                  if (min < 0) {
-                    min = 0;
-                  }
-                  if (max > explorerStore.networkOverview!.ticks.length) {
-                    max = explorerStore.networkOverview!.ticks.length;
-                  }
+                  // int min = (currentPage - 1) * itemsPerPage;
+                  // int max = currentPage * itemsPerPage;
+                  // if (min < 0) {
+                  //   min = 0;
+                  // }
+                  // if (max >
+                  //     explorerStore.networkOverview!.ticksInCurrentEpoch!) {
+                  //   max = explorerStore.networkOverview!.ticksInCurrentEpoch!;
+                  // }
 
-                  List<Widget> lineWidget = [];
-                  int lineCount = 0;
-                  int maxPerLine = width < 400 ? 1 : 2;
-                  for (var i = min; i < max; i++) {
-                    lineWidget.add(TextButton(
-                        onPressed: () {
-                          pushScreen(
-                            context,
-                            screen: ExplorerResultPage(
-                                resultType: ExplorerResultType.tick,
-                                tick: explorerStore
-                                    .networkOverview!.ticks[i].tick),
-                            //TransactionsForId(publicQubicId: item.publicId),
-                            withNavBar:
-                                false, // OPTIONAL VALUE. True by default.
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino,
-                          );
-                        },
-                        child: FittedBox(
-                            child: Text(
-                                explorerStore.networkOverview!.ticks[i].tick
-                                    .asThousands()
-                                    .toString(),
-                                style: TextStyles.textExplorerTick.copyWith(
-                                    color: explorerStore.networkOverview!
-                                            .ticks[i].arbitrated
-                                        ? Theme.of(context).colorScheme.error
-                                        : Theme.of(context)
-                                            .colorScheme
-                                            .primary)))));
-                    if (lineCount == maxPerLine) {
-                      items.add(Row(
-                          mainAxisAlignment: width > 400
-                              ? MainAxisAlignment.spaceEvenly
-                              : MainAxisAlignment.spaceAround,
-                          children: lineWidget));
-                      lineWidget = [];
-                      lineCount = 0;
-                    } else {
-                      lineCount++;
-                    }
-                  }
+                  // List<Widget> lineWidget = [];
+                  // int lineCount = 0;
+                  // int maxPerLine = width < 400 ? 1 : 2;
+                  // for (var i = min; i < max; i++) {
+                  //   lineWidget.add(TextButton(
+                  //       onPressed: () {
+                  //         pushScreen(
+                  //           context,
+                  //           screen: ExplorerResultPage(
+                  //               resultType: ExplorerResultType.tick,
+                  //               tick: explorerStore
+                  //                   .networkOverview!.ticks[i].tick),
+                  //           //TransactionsForId(publicQubicId: item.publicId),
+                  //           withNavBar:
+                  //               false, // OPTIONAL VALUE. True by default.
+                  //           pageTransitionAnimation:
+                  //               PageTransitionAnimation.cupertino,
+                  //         );
+                  //       },
+                  //       child: FittedBox(
+                  //           child: Text(
+                  //               explorerStore.networkOverview!.ticks[i].tick
+                  //                   .asThousands()
+                  //                   .toString(),
+                  //               style: TextStyles.textExplorerTick.copyWith(
+                  //                   color: explorerStore.networkOverview!
+                  //                           .ticks[i].arbitrated
+                  //                       ? Theme.of(context).colorScheme.error
+                  //                       : Theme.of(context)
+                  //                           .colorScheme
+                  //                           .primary)))));
+                  //   if (lineCount == maxPerLine) {
+                  //     items.add(Row(
+                  //         mainAxisAlignment: width > 400
+                  //             ? MainAxisAlignment.spaceEvenly
+                  //             : MainAxisAlignment.spaceAround,
+                  //         children: lineWidget));
+                  //     lineWidget = [];
+                  //     lineCount = 0;
+                  //   } else {
+                  //     lineCount++;
+                  //   }
+                  // }
 
                   return Column(
                     children: items,

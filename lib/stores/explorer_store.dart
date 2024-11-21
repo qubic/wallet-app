@@ -2,7 +2,7 @@
 
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
-import 'package:qubic_wallet/dtos/network_overview_dto.dart';
+import 'package:qubic_wallet/dtos/market_info_dto.dart';
 part 'explorer_store.g.dart';
 
 // flutter pub run build_runner watch --delete-conflicting-outputs
@@ -11,7 +11,7 @@ class ExplorerStore = _ExplorerStore with _$ExplorerStore;
 
 abstract class _ExplorerStore with Store {
   @observable
-  NetworkOverviewDto? networkOverview;
+  MarketInfoDto? networkOverview;
 
   @observable
   ExplorerTickInfoDto? tickInfo;
@@ -27,8 +27,9 @@ abstract class _ExplorerStore with Store {
   }
 
   @action
-  void setNetworkOverview(NetworkOverviewDto newOverview) {
-    networkOverview = NetworkOverviewDto.clone(newOverview);
+  void setNetworkOverview(MarketInfoDto newOverview) {
+    //TODO Check clone
+    networkOverview = newOverview;
   }
 
   @action
