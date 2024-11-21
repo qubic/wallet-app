@@ -102,7 +102,12 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                       Text(l10n.explorerTickResultLabelBlockStatus,
                           style: panelHeaderStyle),
                       Text(
-                        " ${tickInfo.completed ? isNotEmpty ? l10n.explorerTickResultLabelBlockStatusNonEmpty : l10n.explorerTickResultLabelBlockStatusEmpty : l10n.explorerTickResultLabelBlockStatusUnknown}",
+                        tickInfo.completed
+                            ? isNotEmpty
+                                ? l10n
+                                    .explorerTickResultLabelBlockStatusNonEmpty
+                                : l10n.explorerTickResultLabelBlockStatusEmpty
+                            : l10n.explorerTickResultLabelBlockStatusUnknown,
                         style: panelHeaderValue.copyWith(
                           color: isNotEmpty
                               ? LightThemeColors.successIncoming
