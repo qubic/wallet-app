@@ -30,8 +30,10 @@ abstract class _ExplorerStore with Store {
 
   Future<void> getTicks() async {
     try {
-      final respose = await qubicArchive.getNetworkTicks(getCurrentEpoch(),
-          PaginationRequestModel(page: pageNumber, pageSize: 33));
+      final respose = await qubicArchive.getNetworkTicks(
+          getCurrentEpoch(),
+          PaginationRequestModel(
+              page: pageNumber, pageSize: 33, isDescending: true));
       setTicks(respose);
     } catch (e) {}
   }
