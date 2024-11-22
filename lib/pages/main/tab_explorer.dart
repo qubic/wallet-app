@@ -13,6 +13,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/epoch_helpers.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_search.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -43,59 +44,54 @@ class _TabExplorerState extends State<TabExplorer> {
 
   final _scrollController = ScrollController();
   //Pagination Related
-  int numberOfPages = 0;
-  int currentPage = 1;
-  int itemsPerPage = 1000;
 
-  late final disposeReaction =
-      reaction((_) => explorerStore.networkOverview, (value) {
-    if (explorerStore.networkOverview != null) {
-      //Calculate number of pages
-      setState(() {
-        numberOfPages =
-            (explorerStore.networkOverview!.ticksInCurrentEpoch! / itemsPerPage)
-                .ceil();
-        currentPage = 1;
-      });
-    } else {
-      _timedController.interruptFetchTimer();
-    }
-  });
+  // late final disposeReaction =
+  //     reaction((_) => explorerStore.networkOverview, (value) {
+  //   if (explorerStore.networkOverview != null) {
+  //     //Calculate number of pages
+  //     setState(() {
+  //       numberOfPages =
+  //           (explorerStore.networkOverview!.ticksInCurrentEpoch! / itemsPerPage)
+  //               .ceil();
+  //       currentPage = 1;
+  //     });
+  //   } else {
+  //     _timedController.interruptFetchTimer();
+  //   }
+  // });
 
   void refreshOverview() {
-    explorerStore.incrementPendingRequests();
     try {
-      statsApi.getMarketInfo().then((value) {
-        explorerStore.setNetworkOverview(value);
-        explorerStore.decreasePendingRequests();
-        setState(() {
-          numberOfPages = (explorerStore.networkOverview!.ticksInCurrentEpoch! /
-                  itemsPerPage)
-              .ceil();
-          currentPage = 1;
-        });
-      }, onError: (e) {
-        _globalSnackBar.showError(e.toString().replaceAll("Exception: ", ""));
-
-        explorerStore.decreasePendingRequests();
-      });
-    } on Exception catch (e) {
+      explorerStore.getTicks();
+      // statsApi.getMarketInfo().then((value) {
+      //   explorerStore.setNetworkOverview(value);
+      //   explorerStore.getTicks();
+      //   // setState(() {
+      //   //   numberOfPages = (explorerStore.networkOverview!.ticksInCurrentEpoch! /
+      //   //           itemsPerPage)
+      //   //       .ceil();
+      //   //   currentPage = 1;
+      //   // });
+      // }, onError: (e) {
+      //   _globalSnackBar.showError(e.toString().replaceAll("Exception: ", ""));
+      // });
+    } catch (e) {
       _globalSnackBar.showError(e.toString().replaceAll("Exception: ", ""));
     }
   }
 
   @override
   void initState() {
-    super.initState();
-    if (explorerStore.networkOverview == null) {
+    if (explorerStore.networkTicks == null) {
       refreshOverview();
     }
+    super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
-    disposeReaction();
+    // disposeReaction();
     // disposer();
   }
 
@@ -117,7 +113,7 @@ class _TabExplorerState extends State<TabExplorer> {
           Text(l10n.explorerLabelLoadingData, style: TextStyles.secondaryText),
           ThemedControls.spacerVerticalBig(),
           Observer(builder: (context) {
-            if (explorerStore.pendingRequests > 0) {
+            if (explorerStore.isTicksLoading) {
               return const CircularProgressIndicator();
             } else {
               return FilledButton.icon(
@@ -144,8 +140,8 @@ class _TabExplorerState extends State<TabExplorer> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Pagination(
-            numOfPages: numberOfPages,
-            selectedPage: currentPage,
+            numOfPages: explorerStore.networkTicks?.pagination.totalPages ?? 0,
+            selectedPage: explorerStore.pageNumber,
             pagesVisible: width < 400
                 ? 3
                 : width < 440
@@ -154,9 +150,7 @@ class _TabExplorerState extends State<TabExplorer> {
                         ? 2
                         : 3,
             onPageChanged: (page) {
-              setState(() {
-                currentPage = page;
-              });
+              explorerStore.setPageNumber(page);
             },
             nextIcon: Icon(
               Icons.arrow_forward_ios,
@@ -335,9 +329,77 @@ class _TabExplorerState extends State<TabExplorer> {
                                     //     child: getPagination())
                                   ]))),
                 content: Observer(builder: (context) {
-                  List<Widget> items = [];
-                  // int min = (currentPage - 1) * itemsPerPage;
-                  // int max = currentPage * itemsPerPage;
+                  final currentPage = explorerStore.pageNumber;
+                  return explorerStore.networkTicks?.ticks == null
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount:
+                              (explorerStore.networkTicks!.ticks.length / 3)
+                                  .ceil(), // Divide by 3
+                          itemBuilder: (context, index) {
+                            // Calculate the start and end indices for this row
+                            final startIndex = index * 3;
+                            final endIndex = startIndex + 3;
+
+                            // Get the ticks for this row
+                            final rowTicks = explorerStore.networkTicks!.ticks
+                                .sublist(
+                                    startIndex,
+                                    endIndex >
+                                            explorerStore
+                                                .networkTicks!.ticks.length
+                                        ? explorerStore
+                                            .networkTicks!.ticks.length
+                                        : endIndex);
+
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment
+                                  .spaceBetween, // Space between buttons
+                              children: rowTicks.map((tick) {
+                                return Expanded(
+                                  // Make buttons flexible in size
+                                  child: TextButton(
+                                    onPressed: () {
+                                      pushScreen(
+                                        context,
+                                        screen: ExplorerResultPage(
+                                          resultType: ExplorerResultType.tick,
+                                          tick: tick.tick,
+                                        ),
+                                        withNavBar: false,
+                                        pageTransitionAnimation:
+                                            PageTransitionAnimation.cupertino,
+                                      );
+                                    },
+                                    child: FittedBox(
+                                      child: Text(
+                                        tick.tick.asThousands().toString(),
+                                        style: TextStyles.textExplorerTick
+                                            .copyWith(
+                                          color: tick.arbitrated
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .error
+                                              : Theme.of(context)
+                                                  .colorScheme
+                                                  .primary,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }).toList(),
+                            );
+                          },
+                        );
+
+                  // List<Widget> items = [];
+                  // int min = (currentPage - 1) * 100;
+                  // int max = currentPage * 100;
                   // if (min < 0) {
                   //   min = 0;
                   // }
@@ -350,14 +412,15 @@ class _TabExplorerState extends State<TabExplorer> {
                   // int lineCount = 0;
                   // int maxPerLine = width < 400 ? 1 : 2;
                   // for (var i = min; i < max; i++) {
-                  //   lineWidget.add(TextButton(
+                  //   lineWidget.add(
+                  //     TextButton(
                   //       onPressed: () {
                   //         pushScreen(
                   //           context,
                   //           screen: ExplorerResultPage(
                   //               resultType: ExplorerResultType.tick,
-                  //               tick: explorerStore
-                  //                   .networkOverview!.ticks[i].tick),
+                  //               tick:
+                  //                   explorerStore.networkTicks!.ticks[i].tick),
                   //           //TransactionsForId(publicQubicId: item.publicId),
                   //           withNavBar:
                   //               false, // OPTIONAL VALUE. True by default.
@@ -366,17 +429,19 @@ class _TabExplorerState extends State<TabExplorer> {
                   //         );
                   //       },
                   //       child: FittedBox(
-                  //           child: Text(
-                  //               explorerStore.networkOverview!.ticks[i].tick
-                  //                   .asThousands()
-                  //                   .toString(),
-                  //               style: TextStyles.textExplorerTick.copyWith(
-                  //                   color: explorerStore.networkOverview!
-                  //                           .ticks[i].arbitrated
-                  //                       ? Theme.of(context).colorScheme.error
-                  //                       : Theme.of(context)
-                  //                           .colorScheme
-                  //                           .primary)))));
+                  //         child: Text(
+                  //           explorerStore.networkTicks!.ticks[i].tick
+                  //               .asThousands()
+                  //               .toString(),
+                  //           style: TextStyles.textExplorerTick.copyWith(
+                  //               color: explorerStore
+                  //                       .networkTicks!.ticks[i].arbitrated
+                  //                   ? Theme.of(context).colorScheme.error
+                  //                   : Theme.of(context).colorScheme.primary),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   );
                   //   if (lineCount == maxPerLine) {
                   //     items.add(Row(
                   //         mainAxisAlignment: width > 400
@@ -390,9 +455,13 @@ class _TabExplorerState extends State<TabExplorer> {
                   //   }
                   // }
 
-                  return Column(
-                    children: items,
-                  );
+                  // return explorerStore.networkTicks?.ticks == null
+                  //     ? const Center(
+                  //         child: CircularProgressIndicator(),
+                  //       )
+                  //     : Column(
+                  //         children: items,
+                  //       );
                 })),
             //Ends here
           ]));

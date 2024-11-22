@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:math';
+
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 
 abstract class Config {
@@ -25,6 +27,7 @@ abstract class Config {
   static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
   static computors(int epoch) => "/v1/epochs/$epoch/computors";
   static transaction(String transaction) => "/v2/transactions/$transaction";
+  static networkTicks(int epoch) => "/v2/epochs/$epoch/ticks";
 
   static const statsDomain = "https://rpc.qubic.org";
   static const latestStatsUrl = "/v1/latest-stats";

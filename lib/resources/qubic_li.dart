@@ -150,7 +150,7 @@ class QubicLi {
   }
 
   // Gets the Qubic network overview for use in explorer
-  Future<NetworkOverviewDto> getNetworkOverview() async {
+  Future<NetworkTicksDto> getNetworkOverview() async {
     try {
       _assertAuthorized();
     } catch (e) {
@@ -178,7 +178,7 @@ class QubicLi {
       rethrow;
     }
     late dynamic parsedJson;
-    late NetworkOverviewDto networkOverviewDto;
+    late NetworkTicksDto networkOverviewDto;
     try {
       parsedJson = jsonDecode(response.body);
     } catch (e) {
@@ -186,7 +186,7 @@ class QubicLi {
           'Failed to fetch tick overview. Could not parse response');
     }
     try {
-      networkOverviewDto = NetworkOverviewDto.fromJson(parsedJson);
+      networkOverviewDto = NetworkTicksDto.fromJson(parsedJson);
     } catch (e) {
       throw Exception(
           'Failed to fetch tick overview. Server response is missing required info');
@@ -320,7 +320,6 @@ class QubicLi {
     } catch (e) {
       rethrow;
     }
-    explorerStore.incrementPendingRequests();
     late http.Response response;
     try {
       var headers = QubicLi.getHeaders();
@@ -329,9 +328,7 @@ class QubicLi {
           Uri.https(Config.walletDomain, Config.URL_ExplorerQuery,
               {'searchTerm': query}),
           headers: headers);
-      explorerStore.decreasePendingRequests();
     } catch (e) {
-      explorerStore.decreasePendingRequests();
       throw Exception('Failed to contact server for explorer query.');
     }
     try {
@@ -366,7 +363,6 @@ class QubicLi {
     } catch (e) {
       rethrow;
     }
-    explorerStore.incrementPendingRequests();
     late http.Response response;
     try {
       var headers = QubicLi.getHeaders();
@@ -375,9 +371,7 @@ class QubicLi {
           Uri.https(Config.walletDomain, Config.URL_ExplorerTickInfo,
               {'tick': tick.toString()}),
           headers: headers);
-      explorerStore.decreasePendingRequests();
     } catch (e) {
-      explorerStore.decreasePendingRequests();
       throw Exception('Failed to contact server for explorer tick info.');
     }
     if (response.statusCode == 500) {
@@ -412,7 +406,6 @@ class QubicLi {
     } catch (e) {
       rethrow;
     }
-    explorerStore.incrementPendingRequests();
     late http.Response response;
     try {
       var headers = QubicLi.getHeaders();
@@ -421,9 +414,7 @@ class QubicLi {
           Uri.https(
               Config.walletDomain, "${Config.URL_ExplorerIdInfo}/$publicId"),
           headers: headers);
-      explorerStore.decreasePendingRequests();
     } catch (e) {
-      explorerStore.decreasePendingRequests();
       throw Exception('Failed to contact server for explorer id info.');
     }
     try {
