@@ -14,7 +14,7 @@ class ExplorerLoadingIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(children: [
       Observer(builder: (context) {
-        if ((expStore.isTicksLoading) && (expStore.networkOverview != null)) {
+        if ((expStore.isLoading)) {
           return SizedBox(
               width: 10,
               height: 10,

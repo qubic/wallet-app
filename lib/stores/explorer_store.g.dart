@@ -61,15 +61,15 @@ mixin _$ExplorerStore on _ExplorerStore, Store {
       Atom(name: '_ExplorerStore.isTicksLoading', context: context);
 
   @override
-  bool get isTicksLoading {
+  bool get isLoading {
     _$isTicksLoadingAtom.reportRead();
-    return super.isTicksLoading;
+    return super.isLoading;
   }
 
   @override
-  set isTicksLoading(bool value) {
-    _$isTicksLoadingAtom.reportWrite(value, super.isTicksLoading, () {
-      super.isTicksLoading = value;
+  set isLoading(bool value) {
+    _$isTicksLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
     });
   }
 
@@ -137,7 +137,7 @@ mixin _$ExplorerStore on _ExplorerStore, Store {
 networkOverview: ${networkOverview},
 networkTicks: ${networkTicks},
 pageNumber: ${pageNumber},
-isTicksLoading: ${isTicksLoading}
+isTicksLoading: ${isLoading}
     ''';
   }
 }

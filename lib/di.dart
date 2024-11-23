@@ -22,6 +22,7 @@ final GetIt getIt = GetIt.instance;
 /// Setups Dependency injection
 void setupDI() {
   getIt.registerSingleton<QubicArchiveApi>(QubicArchiveApi());
+  getIt.registerSingleton<QubicStatsApi>(QubicStatsApi());
 
   //Stores
   getIt.registerSingleton<ApplicationStore>(ApplicationStore());
@@ -36,7 +37,6 @@ void setupDI() {
   getIt.registerSingleton<QubicLi>(QubicLi());
   getIt.registerSingleton<QubicHub>(QubicHub());
 
-  getIt.registerSingleton<QubicStatsApi>(QubicStatsApi());
   getIt.registerSingleton<QubicLiveApi>(QubicLiveApi());
 
   //Services

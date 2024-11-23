@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:pagination_flutter/pagination.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
@@ -11,20 +10,17 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/epoch_helpers.dart';
-import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/platform_helpers.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_search.dart';
-import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:qubic_wallet/timed_controller.dart';
 import 'package:sticky_headers/sticky_headers.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 class TabExplorer extends StatefulWidget {
   const TabExplorer({super.key});
@@ -37,46 +33,19 @@ class TabExplorer extends StatefulWidget {
 class _TabExplorerState extends State<TabExplorer> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final ExplorerStore explorerStore = getIt<ExplorerStore>();
-  final QubicLi li = getIt<QubicLi>();
-  final QubicStatsApi statsApi = getIt<QubicStatsApi>();
-  final TimedController _timedController = getIt<TimedController>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
 
   final _scrollController = ScrollController();
-  //Pagination Related
 
-  // late final disposeReaction =
-  //     reaction((_) => explorerStore.networkOverview, (value) {
-  //   if (explorerStore.networkOverview != null) {
-  //     //Calculate number of pages
-  //     setState(() {
-  //       numberOfPages =
-  //           (explorerStore.networkOverview!.ticksInCurrentEpoch! / itemsPerPage)
-  //               .ceil();
-  //       currentPage = 1;
-  //     });
-  //   } else {
-  //     _timedController.interruptFetchTimer();
-  //   }
-  // });
-
-  void refreshOverview() {
+  void refreshOverview() async {
     try {
-      explorerStore.getTicks();
-      // statsApi.getMarketInfo().then((value) {
-      //   explorerStore.setNetworkOverview(value);
-      //   explorerStore.getTicks();
-      //   // setState(() {
-      //   //   numberOfPages = (explorerStore.networkOverview!.ticksInCurrentEpoch! /
-      //   //           itemsPerPage)
-      //   //       .ceil();
-      //   //   currentPage = 1;
-      //   // });
-      // }, onError: (e) {
-      //   _globalSnackBar.showError(e.toString().replaceAll("Exception: ", ""));
-      // });
+      explorerStore.setLoading(true);
+      await explorerStore.getTicks();
+      await explorerStore.getOverview();
     } catch (e) {
       _globalSnackBar.showError(e.toString().replaceAll("Exception: ", ""));
+    } finally {
+      explorerStore.setLoading(false);
     }
   }
 
@@ -113,7 +82,7 @@ class _TabExplorerState extends State<TabExplorer> {
           Text(l10n.explorerLabelLoadingData, style: TextStyles.secondaryText),
           ThemedControls.spacerVerticalBig(),
           Observer(builder: (context) {
-            if (explorerStore.isTicksLoading) {
+            if (explorerStore.isLoading) {
               return const CircularProgressIndicator();
             } else {
               return FilledButton.icon(
@@ -329,23 +298,20 @@ class _TabExplorerState extends State<TabExplorer> {
                                     //     child: getPagination())
                                   ]))),
                 content: Observer(builder: (context) {
-                  final currentPage = explorerStore.pageNumber;
                   return explorerStore.networkTicks?.ticks == null
-                      ? const Center(
-                          child: CircularProgressIndicator(),
+                      ? const Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: Center(child: CircularProgressIndicator()),
                         )
                       : ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount:
                               (explorerStore.networkTicks!.ticks.length / 3)
-                                  .ceil(), // Divide by 3
+                                  .ceil(),
                           itemBuilder: (context, index) {
-                            // Calculate the start and end indices for this row
                             final startIndex = index * 3;
                             final endIndex = startIndex + 3;
-
-                            // Get the ticks for this row
                             final rowTicks = explorerStore.networkTicks!.ticks
                                 .sublist(
                                     startIndex,
