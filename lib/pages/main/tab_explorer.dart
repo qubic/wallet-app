@@ -43,7 +43,7 @@ class _TabExplorerState extends State<TabExplorer> {
       await explorerStore.getTicks();
       await explorerStore.getOverview();
     } catch (e) {
-      _globalSnackBar.showError(e.toString().replaceAll("Exception: ", ""));
+      _globalSnackBar.showError(e.toString());
     } finally {
       explorerStore.setLoading(false);
     }
@@ -55,13 +55,6 @@ class _TabExplorerState extends State<TabExplorer> {
       refreshOverview();
     }
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    // disposeReaction();
-    // disposer();
   }
 
   Widget getEmptyExplorer() {
@@ -273,12 +266,6 @@ class _TabExplorerState extends State<TabExplorer> {
                                     subheaderText: l10n.explorerSubHeaderTicks),
                                 Expanded(child: Container()),
                                 getPagination()
-                                // Container(
-                                //     height: 50.0,
-                                //     color: Theme.of(context).colorScheme.background,
-                                //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                //     alignment: Alignment.centerLeft,
-                                //     child: getPagination())
                               ])
                             : Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -288,14 +275,7 @@ class _TabExplorerState extends State<TabExplorer> {
                                         headerText: l10n.explorerHeaderTicks,
                                         subheaderText:
                                             l10n.explorerSubHeaderTicks),
-
                                     getPagination()
-                                    // Container(
-                                    //     height: 50.0,
-                                    //     color: Theme.of(context).colorScheme.background,
-                                    //     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                    //     alignment: Alignment.centerLeft,
-                                    //     child: getPagination())
                                   ]))),
                 content: Observer(builder: (context) {
                   return explorerStore.networkTicks?.ticks == null
@@ -362,74 +342,7 @@ class _TabExplorerState extends State<TabExplorer> {
                             );
                           },
                         );
-
-                  // List<Widget> items = [];
-                  // int min = (currentPage - 1) * 100;
-                  // int max = currentPage * 100;
-                  // if (min < 0) {
-                  //   min = 0;
-                  // }
-                  // if (max >
-                  //     explorerStore.networkOverview!.ticksInCurrentEpoch!) {
-                  //   max = explorerStore.networkOverview!.ticksInCurrentEpoch!;
-                  // }
-
-                  // List<Widget> lineWidget = [];
-                  // int lineCount = 0;
-                  // int maxPerLine = width < 400 ? 1 : 2;
-                  // for (var i = min; i < max; i++) {
-                  //   lineWidget.add(
-                  //     TextButton(
-                  //       onPressed: () {
-                  //         pushScreen(
-                  //           context,
-                  //           screen: ExplorerResultPage(
-                  //               resultType: ExplorerResultType.tick,
-                  //               tick:
-                  //                   explorerStore.networkTicks!.ticks[i].tick),
-                  //           //TransactionsForId(publicQubicId: item.publicId),
-                  //           withNavBar:
-                  //               false, // OPTIONAL VALUE. True by default.
-                  //           pageTransitionAnimation:
-                  //               PageTransitionAnimation.cupertino,
-                  //         );
-                  //       },
-                  //       child: FittedBox(
-                  //         child: Text(
-                  //           explorerStore.networkTicks!.ticks[i].tick
-                  //               .asThousands()
-                  //               .toString(),
-                  //           style: TextStyles.textExplorerTick.copyWith(
-                  //               color: explorerStore
-                  //                       .networkTicks!.ticks[i].arbitrated
-                  //                   ? Theme.of(context).colorScheme.error
-                  //                   : Theme.of(context).colorScheme.primary),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   );
-                  //   if (lineCount == maxPerLine) {
-                  //     items.add(Row(
-                  //         mainAxisAlignment: width > 400
-                  //             ? MainAxisAlignment.spaceEvenly
-                  //             : MainAxisAlignment.spaceAround,
-                  //         children: lineWidget));
-                  //     lineWidget = [];
-                  //     lineCount = 0;
-                  //   } else {
-                  //     lineCount++;
-                  //   }
-                  // }
-
-                  // return explorerStore.networkTicks?.ticks == null
-                  //     ? const Center(
-                  //         child: CircularProgressIndicator(),
-                  //       )
-                  //     : Column(
-                  //         children: items,
-                  //       );
                 })),
-            //Ends here
           ]));
     }));
     return cards;
@@ -483,15 +396,12 @@ class _TabExplorerState extends State<TabExplorer> {
                       SliverButton(
                         icon: const ImageIcon(
                             AssetImage('assets/images/explorer_search.png'),
-                            color: LightThemeColors
-                                .primary // Optional: color to apply to the image
-                            ),
+                            color: LightThemeColors.primary),
                         onPressed: () {
                           pushScreen(
                             context,
                             screen: const ExplorerSearch(),
-                            withNavBar:
-                                false, // OPTIONAL VALUE. True by default.
+                            withNavBar: false,
                             pageTransitionAnimation:
                                 PageTransitionAnimation.cupertino,
                           );
