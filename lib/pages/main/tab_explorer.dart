@@ -94,260 +94,6 @@ class _TabExplorerState extends State<TabExplorer> {
     ));
   }
 
-  Widget getPagination() {
-    double width = MediaQuery.of(context).size.width;
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Pagination(
-            numOfPages: explorerStore.networkTicks?.pagination.totalPages ?? 0,
-            selectedPage: explorerStore.pageNumber,
-            pagesVisible: width < 400
-                ? 3
-                : width < 440
-                    ? 1
-                    : width < 490
-                        ? 2
-                        : 3,
-            onPageChanged: (page) {
-              explorerStore.setPageNumber(page);
-            },
-            nextIcon: Icon(
-              Icons.arrow_forward_ios,
-              color: Theme.of(context).colorScheme.secondary,
-              size: 14,
-            ),
-            previousIcon: Icon(
-              Icons.arrow_back_ios,
-              color: Theme.of(context).colorScheme.secondary,
-              size: 14,
-            ),
-            activeTextStyle: TextStyle(
-              color: Theme.of(context).colorScheme.onSecondary,
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-            ),
-            activeBtnStyle: ButtonStyle(
-              backgroundColor:
-                  MaterialStateProperty.all(LightThemeColors.primary),
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(40),
-                ),
-              ),
-            ),
-            inactiveBtnStyle: ButtonStyle(
-              shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(40),
-              )),
-            ),
-            inactiveTextStyle: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).colorScheme.secondary),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget tickPanel(String title, String contents) {
-    return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: LightThemeColors.cardBackground,
-        ),
-        child: Padding(
-            padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(title, style: TextStyles.secondaryTextSmall)),
-                  FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child:
-                          Text(contents, style: TextStyles.textExtraLargeBold))
-                ])));
-  }
-
-  List<Widget> getExplorerContents() {
-    double width = MediaQuery.of(context).size.width;
-    List<Widget> cards = [];
-
-    cards.add(Observer(builder: (context) {
-      final l10n = l10nOf(context);
-
-      if (explorerStore.networkOverview == null) {
-        return getEmptyExplorer();
-      }
-
-      return Padding(
-          padding: ThemeEdgeInsets.pageInsets,
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            ThemedControls.pageHeader(
-                headerText: l10n.explorerTitle,
-                subheaderText: l10n.explorerLabelEpoch(getCurrentEpoch()),
-                subheaderPill: false),
-
-            ThemedControls.spacerVerticalNormal(),
-            Text(l10n.explorerHeaderOverview,
-                style: TextStyles.labelTextNormal),
-            ThemedControls.spacerVerticalSmall(),
-            Flex(direction: Axis.horizontal, children: [
-              Expanded(
-                  flex: 1,
-                  child: tickPanel(l10n.explorerLabelPrice,
-                      "\$${explorerStore.networkOverview!.price.toString()}")),
-              ThemedControls.spacerHorizontalMini(),
-              Expanded(
-                  flex: 1,
-                  child: tickPanel(l10n.explorerLabelMarketCap,
-                      "\$${explorerStore.networkOverview!.marketCap!.asThousands()}"))
-            ]),
-            ThemedControls.spacerVerticalMini(),
-            Flex(direction: Axis.horizontal, children: [
-              Expanded(
-                  flex: 1,
-                  child: tickPanel(
-                      l10n.explorerLabelTotalTicks,
-                      explorerStore.networkOverview!.ticksInCurrentEpoch!
-                          .asThousands())),
-              ThemedControls.spacerHorizontalMini(),
-              Expanded(
-                  flex: 1,
-                  child: tickPanel(
-                      l10n.explorerLabelEmptyTicks,
-                      explorerStore.networkOverview!.emptyTicksInCurrentEpoch!
-                          .asThousands())),
-              ThemedControls.spacerHorizontalMini(),
-              Expanded(
-                  flex: 1,
-                  child: tickPanel(l10n.explorerLabelTickQuality,
-                      "${explorerStore.networkOverview!.epochTickQuality}%"))
-            ]),
-            ThemedControls.spacerVerticalMini(),
-            Flex(direction: Axis.horizontal, children: [
-              Expanded(
-                  flex: 1,
-                  child: tickPanel(
-                      l10n.explorerLabelTotalSupply,
-                      explorerStore.networkOverview!.circulatingSupply!
-                          .asThousands())),
-              ThemedControls.spacerHorizontalMini(),
-              Expanded(
-                  flex: 1,
-                  child: tickPanel(
-                      l10n.explorerLabelTotalAddresses,
-                      explorerStore.networkOverview!.activeAddresses!
-                          .asThousands()))
-            ]),
-            //Starts here
-            ThemedControls.spacerVerticalBig(),
-
-            StickyHeader(
-                header: Container(
-                    color: Theme.of(context).colorScheme.background,
-                    child: Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            0,
-                            ThemePaddings.smallPadding,
-                            0,
-                            ThemePaddings.smallPadding),
-                        child: width > 400
-                            ? Row(children: [
-                                ThemedControls.pageHeader(
-                                    headerText: l10n.explorerHeaderTicks,
-                                    subheaderText: l10n.explorerSubHeaderTicks),
-                                Expanded(child: Container()),
-                                getPagination()
-                              ])
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                    ThemedControls.pageHeader(
-                                        headerText: l10n.explorerHeaderTicks,
-                                        subheaderText:
-                                            l10n.explorerSubHeaderTicks),
-                                    getPagination()
-                                  ]))),
-                content: Observer(builder: (context) {
-                  return explorerStore.networkTicks?.ticks == null
-                      ? const Padding(
-                          padding: EdgeInsets.only(top: 10),
-                          child: Center(child: CircularProgressIndicator()),
-                        )
-                      : ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount:
-                              (explorerStore.networkTicks!.ticks.length / 3)
-                                  .ceil(),
-                          itemBuilder: (context, index) {
-                            final startIndex = index * 3;
-                            final endIndex = startIndex + 3;
-                            final rowTicks = explorerStore.networkTicks!.ticks
-                                .sublist(
-                                    startIndex,
-                                    endIndex >
-                                            explorerStore
-                                                .networkTicks!.ticks.length
-                                        ? explorerStore
-                                            .networkTicks!.ticks.length
-                                        : endIndex);
-
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment
-                                  .spaceBetween, // Space between buttons
-                              children: rowTicks.map((tick) {
-                                return Expanded(
-                                  // Make buttons flexible in size
-                                  child: TextButton(
-                                    onPressed: () {
-                                      pushScreen(
-                                        context,
-                                        screen: ExplorerResultPage(
-                                          resultType: ExplorerResultType.tick,
-                                          tick: tick.tick,
-                                        ),
-                                        withNavBar: false,
-                                        pageTransitionAnimation:
-                                            PageTransitionAnimation.cupertino,
-                                      );
-                                    },
-                                    child: FittedBox(
-                                      child: Text(
-                                        tick.tick.asThousands().toString(),
-                                        style: TextStyles.textExplorerTick
-                                            .copyWith(
-                                          color: tick.arbitrated
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .error
-                                              : Theme.of(context)
-                                                  .colorScheme
-                                                  .primary,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }).toList(),
-                            );
-                          },
-                        );
-                })),
-          ]));
-    }));
-    return cards;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -415,10 +161,335 @@ class _TabExplorerState extends State<TabExplorer> {
                     expandedHeight: 0,
                   ),
                   SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return getExplorerContents()[index];
-                    }, childCount: getExplorerContents().length),
+                    delegate: SliverChildListDelegate([
+                      Observer(builder: (context) {
+                        if (explorerStore.networkOverview == null) {
+                          return _EmptyExplorer(refresh: refreshOverview);
+                        } else {
+                          return _ExplorerContent();
+                        }
+                      })
+                    ]),
                   ),
                 ]))));
+  }
+}
+
+class ExplorerTicksPagination extends StatelessWidget {
+  const ExplorerTicksPagination({
+    super.key,
+    required this.explorerStore,
+    required this.width,
+    required this.context,
+  });
+
+  final ExplorerStore explorerStore;
+  final double width;
+  final BuildContext context;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Pagination(
+            numOfPages: explorerStore.networkTicks?.pagination.totalPages ?? 0,
+            selectedPage: explorerStore.pageNumber,
+            pagesVisible: width < 400
+                ? 3
+                : width < 440
+                    ? 1
+                    : width < 490
+                        ? 2
+                        : 3,
+            onPageChanged: (page) {
+              explorerStore.setPageNumber(page);
+            },
+            nextIcon: Icon(
+              Icons.arrow_forward_ios,
+              color: Theme.of(context).colorScheme.secondary,
+              size: 14,
+            ),
+            previousIcon: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).colorScheme.secondary,
+              size: 14,
+            ),
+            activeTextStyle: TextStyle(
+              color: Theme.of(context).colorScheme.onSecondary,
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+            ),
+            activeBtnStyle: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all(LightThemeColors.primary),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(40),
+                ),
+              ),
+            ),
+            inactiveBtnStyle: ButtonStyle(
+              shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(40),
+              )),
+            ),
+            inactiveTextStyle: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w700,
+                color: Theme.of(context).colorScheme.secondary),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TickPanel extends StatelessWidget {
+  final String title;
+  final String contents;
+  const _TickPanel(this.title, this.contents);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: LightThemeColors.cardBackground,
+        ),
+        child: Padding(
+            padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(title, style: TextStyles.secondaryTextSmall)),
+                  FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child:
+                          Text(contents, style: TextStyles.textExtraLargeBold))
+                ])));
+  }
+}
+
+class _ExplorerContent extends StatelessWidget {
+  _ExplorerContent();
+
+  final explorerStore = getIt<ExplorerStore>();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+    double width = MediaQuery.of(context).size.width;
+
+    return Padding(
+        padding: ThemeEdgeInsets.pageInsets,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          ThemedControls.pageHeader(
+              headerText: l10n.explorerTitle,
+              subheaderText: l10n.explorerLabelEpoch(getCurrentEpoch()),
+              subheaderPill: false),
+          ThemedControls.spacerVerticalNormal(),
+          Text(l10n.explorerHeaderOverview, style: TextStyles.labelTextNormal),
+          ThemedControls.spacerVerticalSmall(),
+          Flex(direction: Axis.horizontal, children: [
+            Expanded(
+                flex: 1,
+                child: _TickPanel(l10n.explorerLabelPrice,
+                    "\$${explorerStore.networkOverview!.price.toString()}")),
+            ThemedControls.spacerHorizontalMini(),
+            Expanded(
+                flex: 1,
+                child: _TickPanel(l10n.explorerLabelMarketCap,
+                    "\$${explorerStore.networkOverview!.marketCap!.asThousands()}"))
+          ]),
+          ThemedControls.spacerVerticalMini(),
+          Flex(direction: Axis.horizontal, children: [
+            Expanded(
+                flex: 1,
+                child: _TickPanel(
+                    l10n.explorerLabelTotalTicks,
+                    explorerStore.networkOverview!.ticksInCurrentEpoch!
+                        .asThousands())),
+            ThemedControls.spacerHorizontalMini(),
+            Expanded(
+                flex: 1,
+                child: _TickPanel(
+                    l10n.explorerLabelEmptyTicks,
+                    explorerStore.networkOverview!.emptyTicksInCurrentEpoch!
+                        .asThousands())),
+            ThemedControls.spacerHorizontalMini(),
+            Expanded(
+                flex: 1,
+                child: _TickPanel(l10n.explorerLabelTickQuality,
+                    "${explorerStore.networkOverview!.epochTickQuality}%"))
+          ]),
+          ThemedControls.spacerVerticalMini(),
+          Flex(direction: Axis.horizontal, children: [
+            Expanded(
+                flex: 1,
+                child: _TickPanel(
+                    l10n.explorerLabelTotalSupply,
+                    explorerStore.networkOverview!.circulatingSupply!
+                        .asThousands())),
+            ThemedControls.spacerHorizontalMini(),
+            Expanded(
+                flex: 1,
+                child: _TickPanel(
+                    l10n.explorerLabelTotalAddresses,
+                    explorerStore.networkOverview!.activeAddresses!
+                        .asThousands()))
+          ]),
+          //Starts here
+          ThemedControls.spacerVerticalBig(),
+
+          StickyHeader(
+              header: Container(
+                  color: Theme.of(context).colorScheme.background,
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          0,
+                          ThemePaddings.smallPadding,
+                          0,
+                          ThemePaddings.smallPadding),
+                      child: width > 400
+                          ? Row(children: [
+                              ThemedControls.pageHeader(
+                                  headerText: l10n.explorerHeaderTicks,
+                                  subheaderText: l10n.explorerSubHeaderTicks),
+                              Expanded(child: Container()),
+                              ExplorerTicksPagination(
+                                  context: context,
+                                  explorerStore: explorerStore,
+                                  width: width)
+                            ])
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                  ThemedControls.pageHeader(
+                                      headerText: l10n.explorerHeaderTicks,
+                                      subheaderText:
+                                          l10n.explorerSubHeaderTicks),
+                                  ExplorerTicksPagination(
+                                      context: context,
+                                      explorerStore: explorerStore,
+                                      width: width),
+                                ]))),
+              content: Observer(builder: (context) {
+                return explorerStore.networkTicks?.ticks == null
+                    ? const Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Center(child: CircularProgressIndicator()),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount:
+                            (explorerStore.networkTicks!.ticks.length / 3)
+                                .ceil(),
+                        itemBuilder: (context, index) {
+                          final startIndex = index * 3;
+                          final endIndex = startIndex + 3;
+                          final rowTicks = explorerStore.networkTicks!.ticks
+                              .sublist(
+                                  startIndex,
+                                  endIndex >
+                                          explorerStore
+                                              .networkTicks!.ticks.length
+                                      ? explorerStore.networkTicks!.ticks.length
+                                      : endIndex);
+
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment
+                                .spaceBetween, // Space between buttons
+                            children: rowTicks.map((tick) {
+                              return Expanded(
+                                // Make buttons flexible in size
+                                child: TextButton(
+                                  onPressed: () {
+                                    pushScreen(
+                                      context,
+                                      screen: ExplorerResultPage(
+                                        resultType: ExplorerResultType.tick,
+                                        tick: tick.tick,
+                                      ),
+                                      withNavBar: false,
+                                      pageTransitionAnimation:
+                                          PageTransitionAnimation.cupertino,
+                                    );
+                                  },
+                                  child: FittedBox(
+                                    child: Text(
+                                      tick.tick.asThousands().toString(),
+                                      style:
+                                          TextStyles.textExplorerTick.copyWith(
+                                        color: tick.arbitrated
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .error
+                                            : Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          );
+                        },
+                      );
+              })),
+        ]));
+  }
+}
+
+class _EmptyExplorer extends StatelessWidget {
+  final VoidCallback refresh;
+  _EmptyExplorer({super.key, required this.refresh});
+
+  final explorerStore = getIt<ExplorerStore>();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
+    return Center(
+        child: Padding(
+      padding: const EdgeInsets.symmetric(
+          horizontal: ThemePaddings.bigPadding,
+          vertical: ThemePaddings.hugePadding * 2),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GradientForeground(
+              child: const Icon(
+            Icons.account_tree,
+            size: 100,
+          )),
+          Text(l10n.explorerLabelLoadingData, style: TextStyles.secondaryText),
+          ThemedControls.spacerVerticalBig(),
+          Observer(builder: (context) {
+            if (explorerStore.isLoading) {
+              return const CircularProgressIndicator();
+            } else {
+              return FilledButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(
+                          LightThemeColors.buttonBackground)),
+                  onPressed: () async {
+                    refresh();
+                  },
+                  icon: const Icon(Icons.refresh),
+                  label: Text(l10n.explorerButtonRefreshData));
+            }
+          }),
+        ],
+      ),
+    ));
+    ;
   }
 }
