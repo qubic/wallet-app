@@ -40,8 +40,6 @@ class _TabExplorerState extends State<TabExplorer> {
   final ExplorerStore explorerStore = getIt<ExplorerStore>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
 
-  final _scrollController = ScrollController();
-
   void refreshOverview() async {
     try {
       explorerStore.setLoading(true);
@@ -71,16 +69,12 @@ class _TabExplorerState extends State<TabExplorer> {
         refreshOverview();
       },
       backgroundColor: LightThemeColors.refreshIndicatorBackground,
-      child: Scrollbar(
-        controller: _scrollController,
-        child: CustomScrollView(
-          controller: _scrollController,
-          slivers: [
-            _ExplorerAppBar(refreshOverview: refreshOverview),
-            _OverviewContainer(refreshOverview: refreshOverview),
-            _LatestTicksContainer(refreshOverview: refreshOverview),
-          ],
-        ),
+      child: CustomScrollView(
+        slivers: [
+          _ExplorerAppBar(refreshOverview: refreshOverview),
+          _OverviewContainer(refreshOverview: refreshOverview),
+          _LatestTicksContainer(refreshOverview: refreshOverview),
+        ],
       ),
     ));
   }
