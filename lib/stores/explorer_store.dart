@@ -5,7 +5,6 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
 import 'package:qubic_wallet/helpers/epoch_helpers.dart';
-import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/pagination_request_model.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
@@ -36,7 +35,7 @@ abstract class _ExplorerStore with Store {
     final respose = await qubicArchive.getNetworkTicks(
         getCurrentEpoch(),
         PaginationRequestModel(
-            page: pageNumber, pageSize: 33, isDescending: true));
+            page: pageNumber, pageSize: 36, isDescending: true));
     setTicks(respose);
   }
 

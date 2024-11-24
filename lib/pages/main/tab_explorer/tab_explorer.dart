@@ -20,12 +20,13 @@ import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:sticky_headers/sticky_headers.dart';
 
 part 'components/explorer_ticks_pagination.dart';
 part 'components/tick_panel.dart';
-part 'components/explorer_content.dart';
 part 'components/empty_explorer.dart';
+part 'components/latest_ticks_container.dart';
+part 'components/overview_container.dart';
+part 'components/explorer_app_bar.dart';
 
 class TabExplorer extends StatefulWidget {
   const TabExplorer({super.key});
@@ -36,7 +37,6 @@ class TabExplorer extends StatefulWidget {
 }
 
 class _TabExplorerState extends State<TabExplorer> {
-  final ApplicationStore appStore = getIt<ApplicationStore>();
   final ExplorerStore explorerStore = getIt<ExplorerStore>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
 
@@ -66,79 +66,22 @@ class _TabExplorerState extends State<TabExplorer> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: AdaptiveRefreshIndicator(
-            edgeOffset: kToolbarHeight,
-            onRefresh: () async {
-              refreshOverview();
-            },
-            backgroundColor: LightThemeColors.refreshIndicatorBackground,
-            child: Scrollbar(
-                controller: _scrollController,
-                child:
-                    CustomScrollView(controller: _scrollController, slivers: [
-                  SliverAppBar(
-                    backgroundColor: LightThemeColors.background,
-                    actions: <Widget>[
-                      ExplorerLoadingIndicator(),
-                      ThemedControls.spacerHorizontalSmall(),
-                      if (isDesktop)
-                        Observer(builder: (context) {
-                          if (appStore.pendingRequests == 0) {
-                            return Ink(
-                                decoration: const ShapeDecoration(
-                                  color: LightThemeColors.background,
-                                  shape: CircleBorder(),
-                                ),
-                                child: SizedBox(
-                                    width: 32,
-                                    height: 32,
-                                    child: IconButton(
-                                      padding: EdgeInsets.zero,
-                                      color: LightThemeColors.cardBackground,
-                                      highlightColor: LightThemeColors
-                                          .extraStrongBackground,
-                                      onPressed: () {
-                                        refreshOverview();
-                                      },
-                                      icon: const Icon(Icons.refresh,
-                                          color: LightThemeColors.primary,
-                                          size: 20),
-                                    )));
-                          } else {
-                            return Container();
-                          }
-                        }),
-                      SliverButton(
-                        icon: const ImageIcon(
-                            AssetImage('assets/images/explorer_search.png'),
-                            color: LightThemeColors.primary),
-                        onPressed: () {
-                          pushScreen(
-                            context,
-                            screen: const ExplorerSearch(),
-                            withNavBar: false,
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino,
-                          );
-                        },
-                      ),
-                      ThemedControls.spacerHorizontalSmall(),
-                    ],
-                    floating: false,
-                    pinned: false,
-                    collapsedHeight: 60,
-                    expandedHeight: 0,
-                  ),
-                  SliverList(
-                    delegate: SliverChildListDelegate([
-                      Observer(builder: (context) {
-                        if (explorerStore.networkOverview == null) {
-                          return _EmptyExplorer(onRefresh: refreshOverview);
-                        } else {
-                          return _ExplorerContent();
-                        }
-                      })
-                    ]),
-                  ),
-                ]))));
+      edgeOffset: kToolbarHeight,
+      onRefresh: () async {
+        refreshOverview();
+      },
+      backgroundColor: LightThemeColors.refreshIndicatorBackground,
+      child: Scrollbar(
+        controller: _scrollController,
+        child: CustomScrollView(
+          controller: _scrollController,
+          slivers: [
+            _ExplorerAppBar(refreshOverview: refreshOverview),
+            _OverviewContainer(refreshOverview: refreshOverview),
+            _LatestTicksContainer(refreshOverview: refreshOverview),
+          ],
+        ),
+      ),
+    ));
   }
 }
