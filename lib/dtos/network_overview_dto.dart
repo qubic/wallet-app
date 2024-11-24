@@ -10,15 +10,10 @@ class NetworkTicksDto {
     required this.pagination,
   });
 
-  factory NetworkTicksDto.fromJson(Map<String, dynamic> json,
-      {bool descendingTicks = false}) {
-    // List<TickDto> a =
-    //     json['ticks'].map<TickDto>((e) => TickDto.fromJson(e)).toList();
-
+  factory NetworkTicksDto.fromJson(Map<String, dynamic> json) {
     return NetworkTicksDto(
       pagination: PaginationResponseModel.fromJson(json['pagination']),
       ticks: List<TickDto>.from(json['ticks'].map((x) => TickDto.fromJson(x))),
-      //ticks: descendingTicks ? a.reversed.toList() : a,
     );
   }
 }
