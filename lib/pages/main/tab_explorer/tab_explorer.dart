@@ -24,8 +24,8 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 part 'components/explorer_ticks_pagination.dart';
 part 'components/tick_panel.dart';
 part 'components/empty_explorer.dart';
-part 'components/latest_ticks_container.dart';
-part 'components/overview_container.dart';
+part 'containers/latest_ticks_container.dart';
+part 'containers/overview_container.dart';
 part 'components/explorer_app_bar.dart';
 
 class TabExplorer extends StatefulWidget {
