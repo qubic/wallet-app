@@ -61,7 +61,7 @@ class _OverviewContainer extends StatelessWidget {
                       Expanded(
                           flex: 1,
                           child: _TickPanel(l10n.explorerLabelTickQuality,
-                              "${explorerStore.networkOverview!.epochTickQuality}%"))
+                              "${explorerStore.networkOverview!.epochTickQuality?.toStringAsFixed(2)}%"))
                     ]),
                     ThemedControls.spacerVerticalMini(),
                     Flex(direction: Axis.horizontal, children: [
