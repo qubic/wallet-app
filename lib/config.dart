@@ -1,7 +1,5 @@
 // ignore_for_file: constant_identifier_names
 
-import 'dart:math';
-
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 
 abstract class Config {
@@ -15,7 +13,6 @@ abstract class Config {
   static const URL_NetworkTransactions = "Wallet/Transactions";
   static const URL_Assets = "Wallet/Assets";
   static const URL_Transaction = "Public/SubmitTransaction";
-  static const URL_TickOverview = "Network/TickOverview";
   static const URL_ExplorerQuery = "Search/Query";
   static const URL_ExplorerTickInfo = "Network/Block";
   static const URL_ExplorerIdInfo = "Network/Id";
