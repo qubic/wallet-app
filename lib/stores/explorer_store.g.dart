@@ -13,47 +13,63 @@ mixin _$ExplorerStore on _ExplorerStore, Store {
       Atom(name: '_ExplorerStore.networkOverview', context: context);
 
   @override
-  NetworkOverviewDto? get networkOverview {
+  MarketInfoDto? get networkOverview {
     _$networkOverviewAtom.reportRead();
     return super.networkOverview;
   }
 
   @override
-  set networkOverview(NetworkOverviewDto? value) {
+  set networkOverview(MarketInfoDto? value) {
     _$networkOverviewAtom.reportWrite(value, super.networkOverview, () {
       super.networkOverview = value;
     });
   }
 
-  late final _$tickInfoAtom =
-      Atom(name: '_ExplorerStore.tickInfo', context: context);
+  late final _$networkTicksAtom =
+      Atom(name: '_ExplorerStore.networkTicks', context: context);
 
   @override
-  ExplorerTickInfoDto? get tickInfo {
-    _$tickInfoAtom.reportRead();
-    return super.tickInfo;
+  NetworkTicksDto? get networkTicks {
+    _$networkTicksAtom.reportRead();
+    return super.networkTicks;
   }
 
   @override
-  set tickInfo(ExplorerTickInfoDto? value) {
-    _$tickInfoAtom.reportWrite(value, super.tickInfo, () {
-      super.tickInfo = value;
+  set networkTicks(NetworkTicksDto? value) {
+    _$networkTicksAtom.reportWrite(value, super.networkTicks, () {
+      super.networkTicks = value;
     });
   }
 
-  late final _$pendingRequestsAtom =
-      Atom(name: '_ExplorerStore.pendingRequests', context: context);
+  late final _$pageNumberAtom =
+      Atom(name: '_ExplorerStore.pageNumber', context: context);
 
   @override
-  int get pendingRequests {
-    _$pendingRequestsAtom.reportRead();
-    return super.pendingRequests;
+  int get pageNumber {
+    _$pageNumberAtom.reportRead();
+    return super.pageNumber;
   }
 
   @override
-  set pendingRequests(int value) {
-    _$pendingRequestsAtom.reportWrite(value, super.pendingRequests, () {
-      super.pendingRequests = value;
+  set pageNumber(int value) {
+    _$pageNumberAtom.reportWrite(value, super.pageNumber, () {
+      super.pageNumber = value;
+    });
+  }
+
+  late final _$isTicksLoadingAtom =
+      Atom(name: '_ExplorerStore.isTicksLoading', context: context);
+
+  @override
+  bool get isLoading {
+    _$isTicksLoadingAtom.reportRead();
+    return super.isLoading;
+  }
+
+  @override
+  set isLoading(bool value) {
+    _$isTicksLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
     });
   }
 
@@ -61,29 +77,40 @@ mixin _$ExplorerStore on _ExplorerStore, Store {
       ActionController(name: '_ExplorerStore', context: context);
 
   @override
-  dynamic setExplorerTickInfo(ExplorerTickInfoDto newTickInfo) {
+  void setLoading(bool value) {
     final _$actionInfo = _$_ExplorerStoreActionController.startAction(
-        name: '_ExplorerStore.setExplorerTickInfo');
+        name: '_ExplorerStore.setLoading');
     try {
-      return super.setExplorerTickInfo(newTickInfo);
+      return super.setLoading(value);
     } finally {
       _$_ExplorerStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  dynamic clearExplorerTickInfo() {
+  void setTicks(NetworkTicksDto newTicks) {
     final _$actionInfo = _$_ExplorerStoreActionController.startAction(
-        name: '_ExplorerStore.clearExplorerTickInfo');
+        name: '_ExplorerStore.setTicks');
     try {
-      return super.clearExplorerTickInfo();
+      return super.setTicks(newTicks);
     } finally {
       _$_ExplorerStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void setNetworkOverview(NetworkOverviewDto newOverview) {
+  dynamic setPageNumber(int newPageNumber) {
+    final _$actionInfo = _$_ExplorerStoreActionController.startAction(
+        name: '_ExplorerStore.setPageNumber');
+    try {
+      return super.setPageNumber(newPageNumber);
+    } finally {
+      _$_ExplorerStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setNetworkOverview(MarketInfoDto newOverview) {
     final _$actionInfo = _$_ExplorerStoreActionController.startAction(
         name: '_ExplorerStore.setNetworkOverview');
     try {
@@ -105,44 +132,12 @@ mixin _$ExplorerStore on _ExplorerStore, Store {
   }
 
   @override
-  void incrementPendingRequests() {
-    final _$actionInfo = _$_ExplorerStoreActionController.startAction(
-        name: '_ExplorerStore.incrementPendingRequests');
-    try {
-      return super.incrementPendingRequests();
-    } finally {
-      _$_ExplorerStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void decreasePendingRequests() {
-    final _$actionInfo = _$_ExplorerStoreActionController.startAction(
-        name: '_ExplorerStore.decreasePendingRequests');
-    try {
-      return super.decreasePendingRequests();
-    } finally {
-      _$_ExplorerStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void resetPendingRequests() {
-    final _$actionInfo = _$_ExplorerStoreActionController.startAction(
-        name: '_ExplorerStore.resetPendingRequests');
-    try {
-      return super.resetPendingRequests();
-    } finally {
-      _$_ExplorerStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 networkOverview: ${networkOverview},
-tickInfo: ${tickInfo},
-pendingRequests: ${pendingRequests}
+networkTicks: ${networkTicks},
+pageNumber: ${pageNumber},
+isTicksLoading: ${isLoading}
     ''';
   }
 }

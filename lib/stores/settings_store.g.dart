@@ -57,6 +57,23 @@ mixin _$SettingsStore on _SettingsStore, Store {
     });
   }
 
+  late final _$isQubicsPrimaryBalanceAtom =
+      Atom(name: '_SettingsStore.isQubicsPrimaryBalance', context: context);
+
+  @override
+  bool get isQubicsPrimaryBalance {
+    _$isQubicsPrimaryBalanceAtom.reportRead();
+    return super.isQubicsPrimaryBalance;
+  }
+
+  @override
+  set isQubicsPrimaryBalance(bool value) {
+    _$isQubicsPrimaryBalanceAtom
+        .reportWrite(value, super.isQubicsPrimaryBalance, () {
+      super.isQubicsPrimaryBalance = value;
+    });
+  }
+
   late final _$loadSettingsAsyncAction =
       AsyncAction('_SettingsStore.loadSettings', context: context);
 
@@ -72,6 +89,15 @@ mixin _$SettingsStore on _SettingsStore, Store {
   Future<void> setTotalBalanceVisible(bool value) {
     return _$setTotalBalanceVisibleAsyncAction
         .run(() => super.setTotalBalanceVisible(value));
+  }
+
+  late final _$setQubicsPrimaryBalanceAsyncAction =
+      AsyncAction('_SettingsStore.setQubicsPrimaryBalance', context: context);
+
+  @override
+  Future<void> setQubicsPrimaryBalance(bool value) {
+    return _$setQubicsPrimaryBalanceAsyncAction
+        .run(() => super.setQubicsPrimaryBalance(value));
   }
 
   late final _$setBiometricsAsyncAction =
@@ -112,7 +138,8 @@ mixin _$SettingsStore on _SettingsStore, Store {
     return '''
 cmdUtilsAvailable: ${cmdUtilsAvailable},
 settings: ${settings},
-totalBalanceVisible: ${totalBalanceVisible}
+totalBalanceVisible: ${totalBalanceVisible},
+isQubicsPrimaryBalance: ${isQubicsPrimaryBalance}
     ''';
   }
 }

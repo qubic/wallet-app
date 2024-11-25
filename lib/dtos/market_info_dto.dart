@@ -43,4 +43,33 @@ class MarketInfoDto {
   String toString() {
     return 'MarketInfoDtoo(timestamp: $timestamp, circulatingSupply: $circulatingSupply, activeAddresses: $activeAddresses, price: $price, marketCap: $marketCap, epoch: $epoch, currentTick: $currentTick, ticksInCurrentEpoch: $ticksInCurrentEpoch, emptyTicksInCurrentEpoch: $emptyTicksInCurrentEpoch, epochTickQuality: $epochTickQuality, burnedQus: $burnedQus)';
   }
+
+  MarketInfoDto copyWith({
+    String? timestamp,
+    String? circulatingSupply,
+    int? activeAddresses,
+    num? price,
+    String? marketCap,
+    int? epoch,
+    int? currentTick,
+    int? ticksInCurrentEpoch,
+    int? emptyTicksInCurrentEpoch,
+    num? epochTickQuality,
+    String? burnedQus,
+  }) {
+    return MarketInfoDto(
+      timestamp: timestamp ?? this.timestamp,
+      circulatingSupply: circulatingSupply ?? this.circulatingSupply,
+      activeAddresses: activeAddresses ?? this.activeAddresses,
+      price: price ?? this.price,
+      marketCap: marketCap ?? this.marketCap,
+      epoch: epoch ?? this.epoch,
+      currentTick: currentTick ?? this.currentTick,
+      ticksInCurrentEpoch: ticksInCurrentEpoch ?? this.ticksInCurrentEpoch,
+      emptyTicksInCurrentEpoch:
+          emptyTicksInCurrentEpoch ?? this.emptyTicksInCurrentEpoch,
+      epochTickQuality: epochTickQuality ?? this.epochTickQuality,
+      burnedQus: burnedQus ?? this.burnedQus,
+    );
+  }
 }
