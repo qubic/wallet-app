@@ -30,6 +30,7 @@ class ThemedControls {
     return Card(
         color: bgColor,
         elevation: 0,
+        margin: EdgeInsets.zero,
         child: Column(children: [
           Padding(
               padding: const EdgeInsets.fromLTRB(
