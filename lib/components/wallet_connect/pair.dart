@@ -92,7 +92,7 @@ class _PairState extends State<Pair> {
         Image.asset(isGranted
             ? "assets/images/permission-granted.png"
             : "assets/images/permission-denied.png"),
-        ThemedControls.spacerHorizontalSmall(),
+        ThemedControls.spacerHorizontalNormal(),
         Expanded(
             child: Text(
           text!,
