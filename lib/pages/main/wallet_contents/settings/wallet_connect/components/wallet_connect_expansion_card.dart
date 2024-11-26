@@ -76,7 +76,11 @@ class _WallectConnectExpansionCardState
             ThemedControls.spacerHorizontalSmall(),
             SizedBox(
               width: ButtonStyles.buttonHeight,
-              child: ThemedControls.transparentButtonWithChild(
+              child: FilledButton(
+                  style: ButtonStyles.secondaryButton.copyWith(
+                    backgroundColor: const WidgetStatePropertyAll(
+                        LightThemeColors.inputFieldBg),
+                  ),
                   onPressed: toggleExpansion,
                   child: AnimatedRotation(
                       duration: const Duration(milliseconds: 300),

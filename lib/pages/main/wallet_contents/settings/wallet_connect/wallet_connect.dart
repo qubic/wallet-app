@@ -177,7 +177,7 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
                                   Row(children: [
                                     Image.asset(
                                         "assets/images/permission-granted.png"),
-                                    ThemedControls.spacerHorizontalSmall(),
+                                    ThemedControls.spacerHorizontalNormal(),
                                     Expanded(child: Text(e))
                                   ]),
                                   ThemedControls.spacerVerticalMini()
