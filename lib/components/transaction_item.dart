@@ -148,13 +148,14 @@ class TransactionItem extends StatelessWidget {
                 value: CardItem.clipboardCopy,
                 child: Text(l10n.transactionItemButtonCopyToClipboard),
               ),
-              if (appStore.currentQubicIDs
-                      .any((e) => e.publicId == item.sourceId) &&
-                  item.getStatus() != ComputedTransactionStatus.pending)
-                PopupMenuItem<CardItem>(
-                  value: CardItem.resend,
-                  child: Text(l10n.transactionItemButtonResend),
-                ),
+              // sally: commenting this temporary until we improve the resend to support all transfers
+              //if (appStore.currentQubicIDs
+              //      .any((e) => e.publicId == item.sourceId) &&
+              //item.getStatus() != ComputedTransactionStatus.pending)
+              //PopupMenuItem<CardItem>(
+              //value: CardItem.resend,
+              //child: Text(l10n.transactionItemButtonResend),
+              //),
               if (item.getStatus() == ComputedTransactionStatus.invalid)
                 PopupMenuItem<CardItem>(
                   value: CardItem.delete,
