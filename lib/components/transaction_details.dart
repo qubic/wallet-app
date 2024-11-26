@@ -205,21 +205,6 @@ class TransactionDetails extends StatelessWidget {
                           ThemedControls.spacerVerticalSmall(),
                           getCopyableDetails(
                               context,
-                              l10n.transactionItemLabelCreatedDate,
-                              item.broadcasted != null
-                                  ? formatter.format(item.created!.toLocal())
-                                  : l10n.generalLabelUnknown),
-                          ThemedControls.spacerVerticalSmall(),
-                          getCopyableDetails(
-                              context,
-                              l10n.transactionItemLabelBroadcastedDate,
-                              item.broadcasted != null
-                                  ? formatter
-                                      .format(item.broadcasted!.toLocal())
-                                  : l10n.generalLabelUnknown),
-                          ThemedControls.spacerVerticalSmall(),
-                          getCopyableDetails(
-                              context,
                               l10n.transactionItemLabelConfirmedDate,
                               item.confirmed != null
                                   ? formatter.format(item.confirmed!.toLocal())
