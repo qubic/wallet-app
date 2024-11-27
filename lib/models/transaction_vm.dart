@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
+import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum ComputedTransactionStatus {
@@ -108,7 +109,7 @@ class TransactionVm {
         id,
         sourceId,
         destId,
-        amount.toString(),
+        amount.asThousands(),
         status,
         created.toString(),
         stored.toString(),
