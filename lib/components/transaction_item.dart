@@ -93,8 +93,8 @@ class TransactionItem extends StatelessWidget {
                 value: CardItem.clipboardCopy,
                 child: Text(l10n.transactionItemButtonCopyToClipboard),
               ),
-              if (appStore.currentQubicIDs
-                      .any((e) => e.publicId == item.sourceId) &&
+              if (appStore.currentQubicIDs.any(
+                      (e) => e.publicId == item.sourceId && !e.watchOnly) &&
                   item.getStatus() != ComputedTransactionStatus.pending &&
                   item.amount > 0 &&
                   item.destId != QxInfo.mainAssetIssuer &&
