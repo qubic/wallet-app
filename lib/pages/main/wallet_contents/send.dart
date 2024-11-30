@@ -31,7 +31,9 @@ import 'package:qubic_wallet/helpers/target_tick.dart';
 
 class Send extends StatefulWidget {
   final QubicListVm item;
-  const Send({super.key, required this.item});
+  final String? destId;
+  final int? amount;
+  const Send({super.key, required this.item, this.destId, this.amount});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -88,6 +90,8 @@ class _SendState extends State<Send> {
 
   @override
   void initState() {
+    destinationID = TextEditingController(text: widget.destId);
+    amount = TextEditingController(text: widget.amount?.toString() ?? "");
     knownQubicIDs = appStore.currentQubicIDs
         .where((account) => account.publicId != widget.item.publicId)
         .toList();
@@ -648,8 +652,8 @@ class _SendState extends State<Send> {
         .generalSnackBarMessageTransactionSubmitted(targetTick!.asThousands()));
   }
 
-  TextEditingController destinationID = TextEditingController();
-  TextEditingController amount = TextEditingController();
+  late final TextEditingController destinationID;
+  late final TextEditingController amount;
   TextEditingController tickController = TextEditingController();
 
   bool isLoading = false;

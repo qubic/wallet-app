@@ -16,6 +16,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -36,61 +37,7 @@ class TransactionItem extends StatelessWidget {
   final TransactionVm item;
 
   TransactionItem({super.key, required this.item});
-  final _timedController = getIt<TimedController>();
-  final _globalSnackBar = getIt<GlobalSnackBar>();
-  final QubicLi _apiService = getIt<QubicLi>();
-  final _liveApi = getIt<QubicLiveApi>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
-
-  Future<void> showResendDialog(BuildContext context) async {
-    final l10n = l10nOf(context);
-
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(l10n.sendItemDialogResendTitle,
-              style: TextStyles.alertHeader),
-          content: SingleChildScrollView(
-            child: TransactionResend(item: item),
-          ),
-          actions: <Widget>[
-            ThemedControls.transparentButtonBig(
-              text: l10n.generalButtonCancel,
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ThemedControls.primaryButtonBig(
-              text: l10n.accountButtonSend,
-              onPressed: () async {
-                var result = await reAuthDialog(context);
-                if (!result) {
-                  return;
-                }
-
-                // get fresh latet tick
-                int latestTick = (await _liveApi.getCurrentTick()).tick;
-                int targetTick = latestTick + defaultTargetTickType.value;
-
-                bool success = await sendTransactionDialog(context,
-                    item.sourceId, item.destId, item.amount, targetTick);
-
-                if (success) {
-                  _globalSnackBar.show(
-                      l10n.generalSnackBarMessageTransactionSubmitted(
-                          targetTick!.asThousands()));
-                }
-                await _timedController.interruptFetchTimer();
-
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
 
   //Gets the dropdown menu
   Widget getCardMenu(BuildContext context) {
@@ -123,7 +70,16 @@ class TransactionItem extends StatelessWidget {
           }
 
           if (menuItem == CardItem.resend) {
-            showResendDialog(context);
+            pushScreen(
+              context,
+              screen: Send(
+                  amount: item.amount,
+                  destId: item.destId,
+                  item: appStore.currentQubicIDs
+                      .firstWhere((id) => id.publicId == item.sourceId)),
+              withNavBar: false,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
           }
 
           if (menuItem == CardItem.details) {
@@ -149,13 +105,13 @@ class TransactionItem extends StatelessWidget {
                 child: Text(l10n.transactionItemButtonCopyToClipboard),
               ),
               // sally: commenting this temporary until we improve the resend to support all transfers
-              //if (appStore.currentQubicIDs
-              //      .any((e) => e.publicId == item.sourceId) &&
-              //item.getStatus() != ComputedTransactionStatus.pending)
-              //PopupMenuItem<CardItem>(
-              //value: CardItem.resend,
-              //child: Text(l10n.transactionItemButtonResend),
-              //),
+              if (appStore.currentQubicIDs
+                      .any((e) => e.publicId == item.sourceId) &&
+                  item.getStatus() != ComputedTransactionStatus.pending)
+                PopupMenuItem<CardItem>(
+                  value: CardItem.resend,
+                  child: Text(l10n.transactionItemButtonResend),
+                ),
               if (item.getStatus() == ComputedTransactionStatus.invalid)
                 PopupMenuItem<CardItem>(
                   value: CardItem.delete,
