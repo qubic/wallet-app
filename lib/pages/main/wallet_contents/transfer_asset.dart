@@ -486,11 +486,17 @@ class _TransferAssetState extends State<TransferAsset> {
       Text(l10n.sendAssetLabelTransactionCost,
           style: TextStyles.labelTextNormal),
       ThemedControls.spacerVerticalMini(),
-      ThemedControls.inputboxlikeLabel(
-          child: Text("1,000,000 ${l10n.generalLabelCurrencyQubic}",
-              textAlign: TextAlign.center,
-              style: TextStyles.inputBoxNormalStyle
-                  .copyWith(fontWeight: FontWeight.w500))),
+      FormBuilderTextField(
+        name: "fee",
+        readOnly: true,
+        textAlign: TextAlign.center,
+        controller: TextEditingController(text: "1,000,000"),
+        validator: FormBuilderValidators.compose([
+          CustomFormFieldValidators.isLessThanParsed(
+              lessThan: widget.item.amount!, context: context),
+        ]),
+        decoration: ThemeInputDecorations.normalInputbox,
+      ),
       ThemedControls.spacerVerticalMini(),
       getTotalQubicInfo()
     ]);
