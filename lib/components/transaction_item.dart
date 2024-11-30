@@ -41,11 +41,7 @@ class TransactionItem extends StatelessWidget {
             color: LightThemeColors.primary.withAlpha(140)),
         // Callback that sets the selected popup menu item.
         onSelected: (CardItem menuItem) async {
-          // setState(() {
-          //   selectedMenu = item;
-          // });
           if (menuItem == CardItem.explorer) {
-            //showRenameDialog(context);
             pushScreen(
               context,
               screen: ExplorerResultPage(
@@ -53,7 +49,7 @@ class TransactionItem extends StatelessWidget {
                 tick: item.targetTick,
                 focusedTransactionHash: item.id,
               ),
-              withNavBar: false, // OPTIONAL VALUE. True by default.
+              withNavBar: false,
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );
           }
@@ -182,7 +178,6 @@ class TransactionItem extends StatelessWidget {
                           "transactionStatus${item.id}${item.getStatus().toString()}"),
                     ),
                   ),
-                  //                      TransactionStatusItem(item: item)
                   getCardMenu(context)
                 ])),
             Center(
