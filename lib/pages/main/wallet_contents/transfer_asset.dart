@@ -21,6 +21,7 @@ import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:intl/intl.dart';
@@ -490,7 +491,8 @@ class _TransferAssetState extends State<TransferAsset> {
         name: "fee",
         readOnly: true,
         textAlign: TextAlign.center,
-        controller: TextEditingController(text: "1,000,000"),
+        controller:
+            TextEditingController(text: QxInfo.transferAssetFee.asThousands()),
         validator: FormBuilderValidators.compose([
           CustomFormFieldValidators.isLessThanParsed(
               lessThan: widget.item.amount!, context: context),
