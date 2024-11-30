@@ -491,8 +491,9 @@ class _TransferAssetState extends State<TransferAsset> {
         name: "fee",
         readOnly: true,
         textAlign: TextAlign.center,
-        controller:
-            TextEditingController(text: QxInfo.transferAssetFee.asThousands()),
+        controller: TextEditingController(
+            text:
+                "${QxInfo.transferAssetFee.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
         validator: FormBuilderValidators.compose([
           CustomFormFieldValidators.isLessThanParsed(
               lessThan: widget.item.amount!, context: context),
