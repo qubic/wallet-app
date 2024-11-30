@@ -20,6 +20,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
@@ -107,7 +108,11 @@ class TransactionItem extends StatelessWidget {
               // sally: commenting this temporary until we improve the resend to support all transfers
               if (appStore.currentQubicIDs
                       .any((e) => e.publicId == item.sourceId) &&
-                  item.getStatus() != ComputedTransactionStatus.pending)
+                  item.getStatus() != ComputedTransactionStatus.pending &&
+                  item.amount > 0 &&
+                  item.destId != QxInfo.mainAssetIssuer &&
+                  item.destId != QxInfo.qutilAddress &&
+                  item.destId != QxInfo.address)
                 PopupMenuItem<CardItem>(
                   value: CardItem.resend,
                   child: Text(l10n.transactionItemButtonResend),
