@@ -17,6 +17,7 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
+import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -98,7 +99,7 @@ class TransactionItem extends StatelessWidget {
                   item.getStatus() != ComputedTransactionStatus.pending &&
                   item.amount > 0 &&
                   item.destId != QxInfo.mainAssetIssuer &&
-                  item.destId != QxInfo.qutilAddress &&
+                  item.destId != QutilInfo.address &&
                   item.destId != QxInfo.address)
                 PopupMenuItem<CardItem>(
                   value: CardItem.resend,

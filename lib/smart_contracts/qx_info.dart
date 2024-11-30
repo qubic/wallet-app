@@ -10,6 +10,5 @@
   static const issueAssetInputType = 1;
   /// Input type for transferring an asset
   static const transferAssetInputType = 2;
-  static const qutilAddress = "EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVWRF";
   static const mainAssetIssuer = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFXIB";
 }
