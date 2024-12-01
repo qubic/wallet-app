@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 
 enum CardItem { delete, rename }
 
@@ -28,7 +30,16 @@ class IdListItemSelect extends StatelessWidget {
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          Text(item.name, style: TextStyles.accountName),
+          Row(children: [
+            Text(item.name, style: TextStyles.accountName),
+            ThemedControls.spacerHorizontalSmall(),
+            item.watchOnly
+                ? const Icon(
+                    Icons.remove_red_eye_rounded,
+                    color: LightThemeColors.color4,
+                  )
+                : const SizedBox.shrink(),
+          ]),
           AmountFormatted(
             key: ValueKey<String>("qubicAmount${item.publicId}-${item.amount}"),
             amount: item.amount,
