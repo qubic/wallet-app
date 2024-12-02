@@ -177,7 +177,7 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
                                   Row(children: [
                                     Image.asset(
                                         "assets/images/permission-granted.png"),
-                                    ThemedControls.spacerHorizontalSmall(),
+                                    ThemedControls.spacerHorizontalNormal(),
                                     Expanded(child: Text(e))
                                   ]),
                                   ThemedControls.spacerVerticalMini()
@@ -212,13 +212,9 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
     final now = DateTime.now();
     final difference = targetDate.difference(now);
 
-    if (difference.inDays > 1) {
-      return l10n.wcExpiersInDays(difference.inDays.toString());
-    } else if (difference.inDays == 1) {
-      return l10n.wcExpiersInDay;
-    } else {
-      return l10n.wcExpiersInLessThanDay;
-    }
+    return (difference.inHours >= 24)
+        ? l10n.wcExpiresInDays(difference.inDays)
+        : l10n.wcExpiresInLessThanDay;
   }
 
   Widget getScrollView() {

@@ -823,7 +823,7 @@
     "wcErrorUsedURL": "A connection has already been established via this URL",
     "wcErrorPairingTimeout": "Pairing request timed out.",
     "wcErrorUnsupportedNetwork": "Unsupported Network",
-    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Network",
+    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Main Network",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
@@ -842,16 +842,8 @@
     "wcAddURL": "Connect to a dapp by pasting WalletConnect connection URL.",
     "wcNoPermissions": "This app doesn't have any permissions",
     "wcOpenApp": "Open App",
-    "wcExpiersInDay": "Session expires in 1 day",
-    "wcExpiersInDays": "Session expires in {days} days",
-    "@wcExpiersInDays": {
-        "placeholders": {
-            "days": {
-                "type": "String"
-            }
-        }
-    },
-    "wcExpiersInLessThanDay": "Session expires less than day",
+    "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",
+    "wcExpiresInLessThanDay": "Session expires less than day",
     "pasteURLHere": "Paste URL here",
     "approvingConnection": "Approving connection",
     "pleaseWait": "Please wait",
@@ -901,5 +893,8 @@
     "wcDomainMismatchTitle": "Domain Mismatch",
     "wcDomainMismatchDescription": "This website has a domain that does not match the sender of this request. Approving may lead to loss of funds",
     "wcDomainUnkownTitle": "Unknown Domain",
-    "wcDomainUnkownDescription": "This domain cannot be verified. Check the request carefully before approving"
+    "wcDomainUnkownDescription": "This domain cannot be verified. Check the request carefully before approving",
+    "wcApproveTransaction": "Approve Transaction",
+    "wcSignMessage": "Sign Message",
+    "wcSignTransaction": "Sign Transaction"
 }

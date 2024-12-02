@@ -12,6 +12,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
+import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/components/scanner_corners_border.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/components/scanner_overlay_clipper.dart';
@@ -74,8 +75,11 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           .onSessionProposalError.stream
           .listen((SessionProposalErrorEvent? args) {
         if (args != null) {
+          pairingTimer?.cancel();
+          existsTimer?.cancel();
           if (args.error.code == 5100) {
-            _globalSnackBar.showError(l10n.wcErrorUnsupportedChains);
+            _globalSnackBar
+                .showError(handleUnSupportedNetworkError(args, l10n));
           } else if (args.error.code == 5101) {
             _globalSnackBar.showError(l10n.wcErrorUnsupportedMethods);
           } else if (args.error.code == 5102) {
@@ -101,7 +105,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
           .listen((SessionProposalEvent? args) async {
         pairingTimer?.cancel();
         existsTimer?.cancel();
-        List<String> notSupportedNetworks = [];
         if (args != null) {
           log(args.toString());
           wcPairingId = args.id;
@@ -114,16 +117,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
               ? args.params.generatedNamespaces!.entries.first.value.events
               : [];
           wcPairingNamespaces = args.params.generatedNamespaces;
-
-          List<String?> requiredNetworkIDs = [];
-          args.params.requiredNamespaces.forEach((key, value) {
-            requiredNetworkIDs.addAll(value.chains?.toList() ?? []);
-          });
-          for (var network in requiredNetworkIDs) {
-            if (network != null && network != Config.walletConnectChainId) {
-              notSupportedNetworks.add(network);
-            }
-          }
         }
         final invalidApp = args?.verifyContext?.validation.invalid;
         final unknown = args?.verifyContext?.validation.unknown;
@@ -138,7 +131,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
                       pairingMethods: wcPairingMethods,
                       pairingNamespaces: wcPairingNamespaces,
                       pairingMetadata: wcPairingMetadata,
-                      unsupportedNetowrks: notSupportedNetworks,
                       domainType: scamApp == true
                           ? DomainType.scam
                           : invalidApp == true
@@ -219,8 +211,8 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
 
   void proceedHandler(String? url) async {
     final l10n = l10nOf(context);
-    if (validateWalletConnectURL(url) != null) {
-      _globalSnackBar.showError(validateWalletConnectURL(url)!);
+    if (validateWalletConnectURL(url, context) != null) {
+      _globalSnackBar.showError(validateWalletConnectURL(url, context)!);
       return;
     }
 
@@ -340,7 +332,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
       isLoading: isLoading,
     );
   }
-
   @override
   Widget build(BuildContext context) {
     return PopScope(canPop: !isLoading, child: getChildWidget());

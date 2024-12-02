@@ -28,8 +28,9 @@ class ThemedControls {
 
   static Widget cardWithBg({required Widget child, required Color bgColor}) {
     return Card(
-        surfaceTintColor: bgColor,
+        color: bgColor,
         elevation: 0,
+        margin: EdgeInsets.zero,
         child: Column(children: [
           Padding(
               padding: const EdgeInsets.fromLTRB(

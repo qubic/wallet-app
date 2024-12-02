@@ -258,7 +258,6 @@ class QubicJs {
           .signUTF8GenericError(result.error ?? ""));
     }
     final Map<String, dynamic> data = json.decode(result.value);
-    QubicSignResult res = QubicSignResult.fromJson(data);
     return QubicSignResult.fromJson(data);
   }
 

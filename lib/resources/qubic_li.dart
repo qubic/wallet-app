@@ -187,7 +187,7 @@ class QubicLi {
   }
 
   /// Gets current tick form the Qubic network
-  Future<int> getCurrentTick() async {
+  Future<int> getCurrentTickDEPRECATED() async {
     try {
       _assertAuthorized();
     } catch (e) {

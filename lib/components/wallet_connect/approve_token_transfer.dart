@@ -11,8 +11,10 @@ import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -40,6 +42,8 @@ class ApproveTokenTransfer extends StatefulWidget {
 class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi _apiService = getIt<QubicLi>();
+  final _liveApi = getIt<QubicLiveApi>();
+
   bool hasAccepted = false;
   String? toIdName;
   bool isLoading = false;
@@ -64,93 +68,105 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
     final l10n = l10nOf(context);
 
     return [
-      Expanded(
-          child: ThemedControls.transparentButtonBigWithChild(
-              //Reject button
-              child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                  child: Text(l10n.generalButtonCancel,
-                      style: TextStyles.transparentButtonText)),
-              onPressed: () {
-                Navigator.pop(context);
-              })),
-      ThemedControls.spacerHorizontalNormal(),
-      Expanded(
-          child: ThemedControls.primaryButtonBigWithChild(
-              //Accept button
-              onPressed: () async {
-                //Authenticate the user
-                if (mounted) {
-                  bool authenticated = await reAuthDialog(context);
-                  if (!authenticated) {
+      SizedBox(
+        width: double.infinity,
+        height: ButtonStyles.buttonHeight,
+        child: FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: LightThemeColors.primary40,
+            ),
+            onPressed: isLoading
+                ? null
+                : () async {
+                    //Authenticate the user
                     if (mounted) {
-                      Navigator.pop(context);
+                      bool authenticated = await reAuthDialog(context);
+                      if (!authenticated) {
+                        if (mounted) {
+                          Navigator.pop(context);
+                        }
+                        return;
+                      }
                     }
-                    return;
-                  }
-                }
-                setState(() {
-                  isLoading = true;
-                });
-                //Get current tick
-                int latestTick = await _apiService.getCurrentTick();
-                int targetTick = latestTick + defaultTargetTickType.value;
-
-                //Send the transaction to backend
-                bool result = false;
-                if (mounted) {
-                  //TODO ERROR HANDLING
-                  result = await sendTransactionDialog(context, widget.fromID!,
-                      widget.toID!, widget.amount, targetTick);
-                  if (result) {
                     setState(() {
                       isLoading = true;
                     });
-                    //If the transaction was successful
+                    //Get current tick
+                    try {
+                      int latestTick = (await _liveApi.getCurrentTick()).tick;
+                      int targetTick = latestTick + defaultTargetTickType.value;
 
-                    if (mounted) {
-                      Navigator.of(context).pop(ApproveTokenTransferResult(
-                          //Return the success and tick
+                      //Send the transaction to backend
+                      bool result = false;
+                      if (mounted) {
+                        //TODO ERROR HANDLING
+                        result = await sendTransactionDialog(
+                            context,
+                            widget.fromID!,
+                            widget.toID!,
+                            widget.amount,
+                            targetTick);
 
-                          tick: targetTick));
-                      getIt.get<PersistentTabController>().jumpToTab(1);
-                      getIt<GlobalSnackBar>().show(
-                          l10nOf(context) //Show snackbar
-                              .generalSnackBarMessageTransactionSubmitted(
-                                  targetTick.toString()));
+                        if (!result) {
+                          throw "Could not send transaction";
+                        }
+
+                        setState(() {
+                          isLoading = true;
+                        });
+                        //If the transaction was successful
+
+                        if (mounted) {
+                          Navigator.of(context).pop(ApproveTokenTransferResult(
+                              //Return the success and tick
+
+                              tick: targetTick));
+                          getIt.get<PersistentTabController>().jumpToTab(1);
+                          getIt<GlobalSnackBar>().show(
+                              l10nOf(context) //Show snackbar
+                                  .generalSnackBarMessageTransactionSubmitted(
+                                      targetTick.toString()));
+                        }
+                      }
+                    } catch (e) {
+                      setState(() {
+                        isLoading = false;
+                      });
+
+                      if (mounted) {
+                        Navigator.of(context).pop(ApproveTokenTransferResult(
+                            //Return the success and tick
+
+                            tick: null));
+                        getIt<GlobalSnackBar>()
+                            .showError(l10nOf(context) //Show snackbar
+                                .sendItemDialogErrorGeneralTitle);
+                      }
                     }
-                  } else {
-                    //Else, transaction failed
-                    setState(() {
-                      isLoading = false;
-                    });
-                    if (mounted) {
-                      Navigator.of(context).pop(ApproveTokenTransferResult(
-                          //Return the success and tick
-
-                          tick: null));
-                      getIt.get<PersistentTabController>().jumpToTab(1);
-                      getIt<GlobalSnackBar>()
-                          .showError(l10nOf(context) //Show snackbar
-                              .sendItemDialogErrorGeneralTitle);
-                    }
-                  }
-                }
-              },
+                  },
+            child: isLoading
+                ? SizedBox(
+                    height: 23,
+                    width: 23,
+                    child: CircularProgressIndicator(
+                        strokeWidth: 2, color: LightThemeColors.grey90),
+                  )
+                : Text(l10n.wcApproveTransaction,
+                    textAlign: TextAlign.center,
+                    style: TextStyles.primaryButtonText)),
+      ),
+      ThemedControls.spacerVerticalSmall(),
+      SizedBox(
+          width: double.infinity,
+          height: ButtonStyles.buttonHeight,
+          child: ThemedControls.dangerButtonBigWithClild(
               child: Padding(
-                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
-                  child: isLoading
-                      ? SizedBox(
-                          height: 23,
-                          width: 23,
-                          child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              color:
-                                  Theme.of(context).colorScheme.inversePrimary),
-                        )
-                      : Text(l10n.generalButtonProceed,
-                          textAlign: TextAlign.center,
-                          style: TextStyles.primaryButtonText))))
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                  child: Text(l10n.generalButtonReject,
+                      style: TextStyles.destructiveButtonText)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              })),
     ];
   }
 
@@ -247,9 +263,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                     .copyWith(bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
                   Expanded(child: getScrollView()),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: getButtons())
+                  ...getButtons()
                 ]))));
   }
 }
