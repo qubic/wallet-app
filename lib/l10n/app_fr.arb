@@ -398,9 +398,7 @@
     "transactionItemButtonViewDetails": "Voir les Détails",
     "transactionItemButtonResend": "Renvoyer",
     "transactionItemLabelLeadToMoneyFlow": "Conduit à un Flux Monétaire",
-    "transactionItemLabelCreatedDate": "Date de Création",
-    "transactionItemLabelBroadcastedDate": "Date de Diffusion",
-    "transactionItemLabelConfirmedDate": "Date de Confirmation",
+    "transactionItemLabelConfirmedDate": "Horodatage",
     "transactionItemLabelDetails": "Détails du Transfert",
     "sendItemLabelTargetTick": "Tick Cible",
     "sendItemLabelTargetTickAutomatic": "Automatiquement: Actuel + {addingTicks}",
@@ -414,7 +412,7 @@
     "sendItemLabelTargetTickManual": "Remplacement Manuel",
     "sendItemLabelDetermineTargetTick": "Déterminer le Tick Cible",
     "sendItemDialogErrorGeneralTitle": "Erreur lors de la génération de la transaction",
-    "sendItemDialogResendTitle": "Renvoyer la transaction échouée?",
+    "sendItemDialogResendTitle": "Renvoyer la transaction?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (actuel {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {

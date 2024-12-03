@@ -70,8 +70,6 @@ Widget getEmptyTransactionsWidget(
 
 IconData getTransactionStatusIcon(ComputedTransactionStatus status) {
   switch (status) {
-    case ComputedTransactionStatus.confirmed:
-      return Icons.check_circle;
     case ComputedTransactionStatus.failure:
       return Icons.highlight_remove_outlined;
     case ComputedTransactionStatus.invalid:
@@ -85,8 +83,6 @@ IconData getTransactionStatusIcon(ComputedTransactionStatus status) {
 
 Color getTransactionStatusColor(ComputedTransactionStatus status) {
   switch (status) {
-    case ComputedTransactionStatus.confirmed:
-      return Colors.blue;
     case ComputedTransactionStatus.failure:
       return LightThemeColors.error;
     case ComputedTransactionStatus.invalid:
@@ -102,8 +98,6 @@ String getTransactionStatusText(
     ComputedTransactionStatus status, BuildContext context) {
   final l10n = l10nOf(context);
   switch (status) {
-    case ComputedTransactionStatus.confirmed:
-      return l10n.transactionLabelStatusConfirmed;
     case ComputedTransactionStatus.failure:
       return l10n.transactionLabelStatusFailed;
     case ComputedTransactionStatus.invalid:

@@ -94,6 +94,11 @@ class TextStyles {
       fontWeight: FontWeight.bold,
       color: LightThemeColors.textLightGrey);
 
+  static TextStyle lightGreyTextNormal = const TextStyle(
+      fontSize: ThemeFontSizes.normal,
+      fontWeight: FontWeight.normal,
+      color: LightThemeColors.textLightGrey);
+
   static TextStyle labelText = const TextStyle(
       fontSize: ThemeFontSizes.label,
       fontWeight: FontWeight.bold,
