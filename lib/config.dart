@@ -13,7 +13,6 @@ abstract class Config {
   static const URL_NetworkTransactions = "Wallet/Transactions";
   static const URL_Assets = "Wallet/Assets";
   static const URL_Transaction = "Public/SubmitTransaction";
-  static const URL_TickOverview = "Network/TickOverview";
   static const URL_ExplorerQuery = "Search/Query";
   static const URL_ExplorerTickInfo = "Network/Block";
   static const URL_ExplorerIdInfo = "Network/Id";
@@ -25,6 +24,7 @@ abstract class Config {
   static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
   static computors(int epoch) => "/v1/epochs/$epoch/computors";
   static transaction(String transaction) => "/v2/transactions/$transaction";
+  static networkTicks(int epoch) => "/v2/epochs/$epoch/ticks";
 
   static const statsDomain = "https://rpc.qubic.org";
   static const latestStatsUrl = "/v1/latest-stats";

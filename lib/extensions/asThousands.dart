@@ -25,3 +25,14 @@ extension thousands on int {
     return result;
   }
 }
+
+extension StringThousands on String {
+  String asThousands({
+    final String separator = ",",
+    final int digits = 3,
+  }) {
+    return int.tryParse(this)
+            ?.asThousands(separator: separator, digits: digits) ??
+        "-";
+  }
+}

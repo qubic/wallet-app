@@ -101,39 +101,40 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                     children: [
                       Text(l10n.explorerTickResultLabelBlockStatus,
                           style: panelHeaderStyle),
-                      Row(children: [
+                      Text(
                         tickInfo.completed
                             ? isNotEmpty
-                                ? const Icon(Icons.check,
-                                    color: LightThemeColors.successIncoming)
-                                : const Icon(Icons.error,
-                                    color: LightThemeColors.error)
-                            : const Icon(Icons.question_mark,
-                                color: Colors.grey),
-                        Text(
-                          " ${tickInfo.completed ? isNotEmpty ? l10n.explorerTickResultLabelBlockStatusNonEmpty : l10n.explorerTickResultLabelBlockStatusEmpty : l10n.explorerTickResultLabelBlockStatusUnknown}",
-                          style: panelHeaderValue,
-                        )
-                      ]),
+                                ? l10n
+                                    .explorerTickResultLabelBlockStatusNonEmpty
+                                : l10n.explorerTickResultLabelBlockStatusEmpty
+                            : l10n.explorerTickResultLabelBlockStatusUnknown,
+                        style: panelHeaderValue.copyWith(
+                          color: isNotEmpty
+                              ? LightThemeColors.successIncoming
+                              : LightThemeColors.error,
+                        ),
+                      )
                     ],
                   )),
             ]),
-            ThemedControls.spacerVerticalNormal(),
-            Text(
-              l10n.explorerTickResultLabelTickLeader,
-              style: panelHeaderStyle,
-            ),
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(
-                  child: Text(
-                "${tickInfo.tickLeaderId}",
-                style: panelHeaderValue,
-              )),
-              ThemedControls.spacerHorizontalSmall(),
-              CopyButton(
-                copiedText: tickInfo.tickLeaderId ?? "-",
-              )
-            ]),
+            if (tickInfo.tickLeaderId != null) ...[
+              ThemedControls.spacerVerticalNormal(),
+              Text(
+                l10n.explorerTickResultLabelTickLeader,
+                style: panelHeaderStyle,
+              ),
+              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Expanded(
+                    child: Text(
+                  "${tickInfo.tickLeaderId}",
+                  style: panelHeaderValue,
+                )),
+                ThemedControls.spacerHorizontalSmall(),
+                CopyButton(
+                  copiedText: tickInfo.tickLeaderId ?? "-",
+                )
+              ]),
+            ],
             ThemedControls.spacerVerticalBig(),
           ]))
     ]);
