@@ -40,19 +40,19 @@ abstract class Config {
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(
-          filename: "qubic-helper-win-x64-3_0_8.exe",
+          filename: "qubic-helper-win-x64-3_0_9.exe",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-win-x64-3_0_8.exe",
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-win-x64-3_0_9.exe",
           checksum: "25a673010749a2c1cbbf97d023b02b1b"),
       linux64: QubicHelperConfigEntry(
-          filename: "qubic-helper-linux-x64-3_0_8",
+          filename: "qubic-helper-linux-x64-3_0_9",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-linux-x64-3_0_8",
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-linux-x64-3_0_9",
           checksum: "43a6f19eea3289ed53b45987305e06f0"),
       macOs64: QubicHelperConfigEntry(
-          filename: "qubic-helper-mac-x64-3_0_8",
+          filename: "qubic-helper-mac-x64-3_0_9",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-mac-x64-3_0_8",
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-mac-x64-3_0_9",
           checksum: "8166782f742251d486309f0007d96a59"));
 
   // This will only be read in Debug mode. In Release mode, proxy setup is ignored.
