@@ -8,6 +8,7 @@
 
 #include <dargon2_flutter_desktop/dargon2_flutter_desktop_plugin.h>
 #include <downloadsfolder/downloadsfolder_plugin_c_api.h>
+#include <flutter_inappwebview_windows/flutter_inappwebview_windows_plugin_c_api.h>
 #include <flutter_secure_storage_windows/flutter_secure_storage_windows_plugin.h>
 #include <local_auth_windows/local_auth_plugin.h>
 #include <permission_handler_windows/permission_handler_windows_plugin.h>
@@ -21,6 +22,8 @@ void RegisterPlugins(flutter::PluginRegistry* registry) {
       registry->GetRegistrarForPlugin("Dargon2FlutterDesktopPlugin"));
   DownloadsfolderPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("DownloadsfolderPluginCApi"));
+  FlutterInappwebviewWindowsPluginCApiRegisterWithRegistrar(
+      registry->GetRegistrarForPlugin("FlutterInappwebviewWindowsPluginCApi"));
   FlutterSecureStorageWindowsPluginRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("FlutterSecureStorageWindowsPlugin"));
   LocalAuthPluginRegisterWithRegistrar(

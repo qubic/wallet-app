@@ -26,7 +26,7 @@ class QubicJs {
     InAppWebView = HeadlessInAppWebView(
       onWebViewCreated: (WVcontroller) async {
         WVcontroller.loadFile(
-            assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_8.html");
+            assetFilePath: "assets/qubic_js/qubic-helper-html-3_0_9.html");
 
         controller = WVcontroller;
       },
@@ -169,15 +169,15 @@ class QubicJs {
   Future<bool> verifyIdentity(String publicId) async {
     await initialize();
 
-    String functionBody = "return await runBrowser('verifyIdentity', '${publicId
-        .replaceAll("'", "\\'")}');";
+    String functionBody =
+        "return await runBrowser('verifyIdentity', '${publicId.replaceAll("'", "\\'")}');";
 
     CallAsyncJavaScriptResult? result =
-    await controller!.callAsyncJavaScript(functionBody: functionBody);
+        await controller!.callAsyncJavaScript(functionBody: functionBody);
 
     if (result == null) {
-      throw Exception(LocalizationManager.instance.appLocalization
-          .cmdErrorVerifyingIdentityGeneric);
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorVerifyingIdentityGeneric);
     }
 
     if (result.error != null) {

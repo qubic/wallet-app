@@ -18,6 +18,7 @@ import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:intl/intl.dart';
@@ -480,11 +481,19 @@ class _TransferAssetState extends State<TransferAsset> {
       Text(l10n.sendAssetLabelTransactionCost,
           style: TextStyles.labelTextNormal),
       ThemedControls.spacerVerticalMini(),
-      ThemedControls.inputboxlikeLabel(
-          child: Text("1,000,000 ${l10n.generalLabelCurrencyQubic}",
-              textAlign: TextAlign.center,
-              style: TextStyles.inputBoxNormalStyle
-                  .copyWith(fontWeight: FontWeight.w500))),
+      FormBuilderTextField(
+        name: "fee",
+        readOnly: true,
+        textAlign: TextAlign.center,
+        controller: TextEditingController(
+            text:
+                "${QxInfo.transferAssetFee.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
+        validator: FormBuilderValidators.compose([
+          CustomFormFieldValidators.isLessThanParsed(
+              lessThan: widget.item.amount!, context: context),
+        ]),
+        decoration: ThemeInputDecorations.normalInputbox,
+      ),
       ThemedControls.spacerVerticalMini(),
       getTotalQubicInfo()
     ]);
@@ -533,7 +542,7 @@ class _TransferAssetState extends State<TransferAsset> {
                       ThemedControls.spacerVerticalMini(),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         Expanded(
-                            child: Text(l10n.sendAssetLabelNumberOfShares,
+                            child: Text(l10n.accountSendLabelAmount,
                                 style: TextStyles.labelTextNormal)),
                         getPredefinedAmountOptions()
                       ]),

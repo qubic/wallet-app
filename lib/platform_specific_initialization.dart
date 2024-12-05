@@ -12,14 +12,18 @@ import 'package:window_manager/window_manager.dart';
 
 class PlatformSpecificInitilization {
   Future<void> _android() async {
-    //Stop Google ML from calling home
-    final dir = await getApplicationDocumentsDirectory();
-    final path = dir.parent.path;
-    final file =
-        File('$path/databases/com.google.android.datatransport.events');
-    await file.writeAsString('Fake');
-
-    await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      final path = dir.parent.path;
+      final file =
+          File('$path/databases/com.google.android.datatransport.events');
+      if (await file.exists()) {
+        await file.writeAsString('Fake');
+      }
+      await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
   }
 
   Future<void> _iOS() async {}
