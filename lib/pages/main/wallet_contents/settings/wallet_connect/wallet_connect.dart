@@ -7,6 +7,7 @@ import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
@@ -277,7 +278,8 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
           centerTitle: true,
           actions: [
             IconButton(
-              icon: SvgPicture.asset(AppIcons.scan,
+              icon: SvgPicture.asset(
+                  isMobile ? AppIcons.scan : AppIcons.walletConnect,
                   color: LightThemeColors.primary),
               onPressed: () async {
                 await pushScreen(
