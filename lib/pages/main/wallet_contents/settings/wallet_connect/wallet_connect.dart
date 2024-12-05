@@ -275,6 +275,22 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
           title: Text(l10n.settingsLabelWalletConnect,
               style: TextStyles.textExtraLargeBold),
           centerTitle: true,
+          actions: [
+            IconButton(
+              icon: SvgPicture.asset(AppIcons.scan,
+                  color: LightThemeColors.primary),
+              onPressed: () async {
+                await pushScreen(
+                  context,
+                  screen: const AddWalletConnect(),
+                  withNavBar: false,
+                );
+                //Update active sesstions returning after back
+                setActiveSessions();
+              },
+            ),
+            ThemedControls.spacerHorizontalSmall(),
+          ],
         ),
         body: SafeArea(
             minimum: ThemeEdgeInsets.pageInsets,
