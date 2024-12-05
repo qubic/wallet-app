@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -20,7 +21,10 @@ class PlatformSpecificInitilization {
       if (await file.exists()) {
         await file.writeAsString('Fake');
       }
-      await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+
+      if (!kReleaseMode) {
+        await InAppWebViewController.setWebContentsDebuggingEnabled(true);
+      }
     } catch (e) {
       debugPrint('Error: $e');
     }
