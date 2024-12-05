@@ -548,7 +548,7 @@ class _TransferAssetState extends State<TransferAsset> {
                       ThemedControls.spacerVerticalMini(),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         Expanded(
-                            child: Text(l10n.sendAssetLabelNumberOfShares,
+                            child: Text(l10n.accountSendLabelAmount,
                                 style: TextStyles.labelTextNormal)),
                         getPredefinedAmountOptions()
                       ]),
