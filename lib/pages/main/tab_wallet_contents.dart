@@ -13,6 +13,7 @@ import 'package:qubic_wallet/components/tick_indication_styled.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
@@ -176,7 +177,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 PageTransitionAnimation.cupertino,
                           );
                         },
-                        icon: SvgPicture.asset(AppIcons.scan,
+                        icon: SvgPicture.asset(
+                            isMobile ? AppIcons.scan : AppIcons.walletConnect,
                             color: LightThemeColors.primary),
                       ),
                       ThemedControls.spacerHorizontalSmall(),
