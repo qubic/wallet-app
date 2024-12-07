@@ -3,11 +3,12 @@ part of '../add_wallet_connect.dart';
 class _AddWalletConnectDesktopView extends StatefulWidget {
   final bool isLoading;
   final Function(String?) proceedHandler;
-  const _AddWalletConnectDesktopView({
-    super.key,
-    required this.isLoading,
-    required this.proceedHandler,
-  });
+  final String? connectionUrl;
+  const _AddWalletConnectDesktopView(
+      {super.key,
+      required this.isLoading,
+      required this.proceedHandler,
+      this.connectionUrl});
 
   @override
   State<_AddWalletConnectDesktopView> createState() =>
@@ -17,8 +18,16 @@ class _AddWalletConnectDesktopView extends StatefulWidget {
 class _AddWalletConnectDesktopViewState
     extends State<_AddWalletConnectDesktopView> {
   final _globalSnackBar = getIt<GlobalSnackBar>();
-  final urlController = TextEditingController();
+  late final TextEditingController
+      urlController; //= TextEditingController(text: widget.connectionUrl),
   bool canConnect = false;
+
+  @override
+  void initState() {
+    super.initState();
+    urlController = TextEditingController(text: widget.connectionUrl);
+    canConnect = (urlController.text.length == Config.wallectConnectUrlLength);
+  }
 
   pasteToForm() async {
     final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);

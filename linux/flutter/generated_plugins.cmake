@@ -5,6 +5,7 @@
 list(APPEND FLUTTER_PLUGIN_LIST
   dargon2_flutter_desktop
   flutter_secure_storage_linux
+  gtk
   screen_retriever
   url_launcher_linux
   window_manager
