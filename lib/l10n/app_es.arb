@@ -768,5 +768,111 @@
     "cmdErrorVerifyIdentityJsonDecoding": "Error al decodificar el resultado de verifyIdentity",
     "cmdErrorVerifyIdentityParsingError": "Error al parsear el resultado de verifyIdentity",
     "cmdErrorVerifyingIdentityGeneric": "Error al verificar la identidad",
-    "cmdErrorVerifyingIdentity": "No se puede verificar la identidad: {errorDescription}"
+    "cmdErrorVerifyingIdentity": "No se puede verificar la identidad: {errorDescription}",
+    "wcScopeRequestAccounts": "Ver tus cuentas y su balance",
+    "wcScopeSendQubic": "Pedirte que envíes Qubic desde tus cuentas",
+    "wcScopeSendAssets": "Pedirte que envíes Activos de Qubic desde tus cuentas",
+    "wcScopeSignTransaction": "Pedirte que firmes transacciones con tu semilla privada",
+    "wcScopeSign": "Pedirte que firmes mensajes con tu semilla privada",
+    "wcScopeForbiddenTransfer": "Transferir Qubic o Activos de Qubic sin tu consentimiento",
+    "wcUnknownDapp": "dApp desconocida",
+    "wcAppInfoHeader": "Esta aplicación puede",
+    "wcAppInfoHeaderPair": "Esta aplicación podrá",
+    "wcAppInfoHeaderPairForbidden": "Esta aplicación no podrá",
+    "wcErrorUserDisconnected": "El usuario se desconectó a la fuerza",
+    "wcErrorInvalidURL": "URL de conexión de WalletConnect inválida",
+    "wcErrorDeprecatedURL": "URL de conexión de WalletConnect obsoleta",
+    "wcErrorUnsupportedChains": "La solicitud de conexión contiene cadenas no compatibles",
+    "wcErrorUnsupportedMethods": "La solicitud de conexión contiene métodos no compatibles",
+    "wcErrorUnsupportedEvents": "La solicitud de conexión contiene eventos no compatibles",
+    "wcErrorUnsupportedAccounts": "La solicitud de conexión contiene cuentas no compatibles",
+    "wcErrorUnsupportedNamespaces": "La solicitud de conexión contiene espacios de nombres no compatibles",
+    "wcErrorUsedURL": "Ya se ha establecido una conexión mediante esta URL",
+    "wcErrorPairingTimeout": "La solicitud de conexión ha caducado.",
+    "wcErrorUnsupportedNetwork": "Red no compatible",
+    "wcErrorUnsupportedNetworkDescription": "Esta aplicación utiliza la red {networkName}. Actualmente, Qubic Wallet solo soporta aplicaciones en la Red Principal de Qubic",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcRevokePermissions": "Revocar permisos",
+    "wcDappsConnectedNone": "Sin conexiones activas",
+    "wcDappsConnectedNoneHint": "Una vez que te conectes a una dApp, podrás gestionarlas aquí",
+    "wcConnectionApproved": "Conexión WalletConnect aprobada",
+    "wcConnectionRejected": "Conexión WalletConnect rechazada",
+    "wcConnectionProposalTimeout": "La propuesta de sesión de WalletConnect expiró",
+    "wcPointCameraToQR": "Apunta la cámara a un código QR que contenga la información de conexión de WalletConnect",
+    "wcAddWcTitle": "Conectar vía WalletConnect",
+    "wcAddURL": "Conéctate a una dApp ingresando la URL de conexión de WalletConnect.",
+    "wcNoPermissions": "Esta aplicación no tiene permisos",
+    "wcOpenApp": "Abrir aplicación",
+    "wcExpiresInDays": "{count, plural, =1{La sesión expira en 1 día} other{La sesión expira en {count} días}}",
+    "wcExpiresInLessThanDay": "La sesión expira en menos de un día",
+    "pasteURLHere": "Pega la URL aquí",
+    "approvingConnection": "Aprobando conexión",
+    "pleaseWait": "Por favor espera",
+    "wcApproveSignTransferOf": "Firmar la transferencia de",
+    "wcApproveTransferOf": "Transferencia de",
+    "wcApproveSignOf": "Firmar el siguiente mensaje",
+    "wcApprovedSignedTransaction": "Transacción firmada y enviada exitosamente a la dApp",
+    "wcApprovedSignedMessage": "Mensaje firmado y enviado exitosamente a la dApp",
+    "wcDisconnectAll": "Desconectar todas las aplicaciones",
+    "wcDisconnectAllConfirm": "Desconectar las aplicaciones eliminará todo acceso a tu Wallet",
+    "wcDisconnect": "Desconectar",
+    "wcDisconnectConfirm": "Desconectar esta aplicación eliminará el acceso a tu Wallet",
+    "wcAddConnection": "Añadir conexión",
+    "signBase64GenericError": "Error al intentar firmar la cadena base64: {errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "Error al intentar firmar la cadena UTF-8: {errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "Error al intentar firmar la cadena ASCII: {errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "wcDomainScamTitle": "Riesgo de seguridad identificado",
+    "wcDomainScamDescription": "Este dominio ha sido marcado como inseguro por múltiples proveedores de seguridad. Sal de inmediato para proteger tus activos",
+    "wcDomainMismatchTitle": "Incompatibilidad de dominio",
+    "wcDomainMismatchDescription": "Este sitio web tiene un dominio que no coincide con el remitente de esta solicitud. Aprobarla podría provocar la pérdida de fondos",
+    "wcDomainUnkownTitle": "Dominio desconocido",
+    "wcDomainUnkownDescription": "Este dominio no puede ser verificado. Revisa la solicitud cuidadosamente antes de aprobarla",
+    "wcApproveTransaction": "Aprobar transacción",
+    "wcSignMessage": "Firmar mensaje",
+    "wcSignTransaction": "Firmar transacción",
+    "generalButtonApprove": "Aprobar",
+    "generalButtonReject": "Rechazar",
+    "generalButtonPaste": "Pegar",
+    "generalButtonConnect": "Conectar",
+    "generalErrorUnexpectedError": "Ha ocurrido un error inesperado",
+    "generalErrorConnectionTimeout": "La conexión ha expirado",
+    "generalErrorNoInternetConnection": "Sin conexión a internet",
+    "generalErrorRequestCancelled": "Solicitud cancelada",
+    "generalErrorCouldntParseResponse": "No se pudo analizar la respuesta",
+    "generalErrorServerError": "Error del servidor",
+    "generalStatusCode": "Código de estado",
+    "generalCode": "Código",
+    "accountSendSectionInvalidDestinationAddress": "Dirección de destino no válida",
+    "cmdErrorCreatingSignatureGeneric": "Error al generar la firma",
+    "cmdErrorCreatingSignatureDigestEmpty": "Error al generar la firma. El digest está vacío",
+    "cmdErrorCreatingSignatureSignedDataEmpty": "Error al generar la firma. Los datos firmados están vacíos",
+    "cmdErrorCreatingSignatureSignatureEmpty": "Error al generar la firma. La firma está vacía",
+    "cmdErrorCreatingSignature": "Error al generar la firma: {errorDescription}"
 }

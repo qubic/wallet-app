@@ -776,5 +776,111 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "wcScopeRequestAccounts": "Zeige deine Wallet-Konten und deren Saldo an",
+    "wcScopeSendQubic": "Frage, ob du Qubic von deinen Wallet-Konten senden möchtest",
+    "wcScopeSendAssets": "Frage, ob du Qubic-Assets von deinen Wallet-Konten senden möchtest",
+    "wcScopeSignTransaction": "Frage, ob du Transaktionen mit deinem privaten Seed signieren möchtest",
+    "wcScopeSign": "Frage, ob du Nachrichten mit deinem privaten Seed signieren möchtest",
+    "wcScopeForbiddenTransfer": "Übertrage Qubic oder Qubic-Assets ohne deine Zustimmung",
+    "wcUnknownDapp": "Unbekannte dApp",
+    "wcAppInfoHeader": "Diese App kann",
+    "wcAppInfoHeaderPair": "Diese App wird können",
+    "wcAppInfoHeaderPairForbidden": "Diese App wird nicht können",
+    "wcErrorUserDisconnected": "Du hast die Verbindung erzwungen getrennt",
+    "wcErrorInvalidURL": "Ungültige WalletConnect-Verbindungs-URL",
+    "wcErrorDeprecatedURL": "Veraltete WalletConnect-Verbindungs-URL",
+    "wcErrorUnsupportedChains": "Die Kopplungsanfrage enthält nicht unterstützte Chains",
+    "wcErrorUnsupportedMethods": "Die Kopplungsanfrage enthält nicht unterstützte Methoden",
+    "wcErrorUnsupportedEvents": "Die Kopplungsanfrage enthält nicht unterstützte Ereignisse",
+    "wcErrorUnsupportedAccounts": "Die Kopplungsanfrage enthält nicht unterstützte Konten",
+    "wcErrorUnsupportedNamespaces": "Die Kopplungsanfrage enthält nicht unterstützte Namensräume",
+    "wcErrorUsedURL": "Eine Verbindung wurde bereits über diese URL hergestellt",
+    "wcErrorPairingTimeout": "Kopplungsanfrage ist abgelaufen.",
+    "wcErrorUnsupportedNetwork": "Nicht unterstütztes Netzwerk",
+    "wcErrorUnsupportedNetworkDescription": "Diese App verwendet das Netzwerk {networkName}. Derzeit unterstützt Qubic Wallet nur Apps im Qubic-Hauptnetzwerk",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcRevokePermissions": "Berechtigungen widerrufen",
+    "wcDappsConnectedNone": "Keine aktiven Verbindungen",
+    "wcDappsConnectedNoneHint": "Sobald du dich mit einer dApp verbindest, kannst du sie hier verwalten",
+    "wcConnectionApproved": "WalletConnect-Verbindung genehmigt",
+    "wcConnectionRejected": "WalletConnect-Verbindung abgelehnt",
+    "wcConnectionProposalTimeout": "WalletConnect-Sitzungsvorschlag ist abgelaufen",
+    "wcPointCameraToQR": "Richte die Kamera auf einen QR-Code mit den WalletConnect-Verbindungsinformationen",
+    "wcAddWcTitle": "Über WalletConnect koppeln",
+    "wcAddURL": "Verbinde dich mit einer dApp, indem du die WalletConnect-Verbindungs-URL einfügst.",
+    "wcNoPermissions": "Diese App hat keine Berechtigungen",
+    "wcOpenApp": "App öffnen",
+    "wcExpiresInDays": "{count, plural, =1{Die Sitzung läuft in 1 Tag ab} other{Die Sitzung läuft in {count} Tagen ab}}",
+    "wcExpiresInLessThanDay": "Die Sitzung läuft in weniger als einem Tag ab",
+    "pasteURLHere": "Füge die URL hier ein",
+    "approvingConnection": "Verbindung wird genehmigt",
+    "pleaseWait": "Bitte warte",
+    "wcApproveSignTransferOf": "Signiere die Übertragung von",
+    "wcApproveTransferOf": "Übertragung von",
+    "wcApproveSignOf": "Signiere die folgende Nachricht",
+    "wcApprovedSignedTransaction": "Transaktion signiert und erfolgreich an dApp gesendet",
+    "wcApprovedSignedMessage": "Nachricht signiert und erfolgreich an dApp gesendet",
+    "wcDisconnectAll": "Alle Apps trennen",
+    "wcDisconnectAllConfirm": "Durch das Trennen der Apps wird der gesamte Zugriff auf deine Wallet entfernt",
+    "wcDisconnect": "Trennen",
+    "wcDisconnectConfirm": "Das Trennen dieser App entfernt den Zugriff auf deine Wallet",
+    "wcAddConnection": "Verbindung hinzufügen",
+    "signBase64GenericError": "Fehler beim Signieren der Base64-Zeichenkette: {errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "Fehler beim Signieren der UTF-8-Zeichenkette: {errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "Fehler beim Signieren der ASCII-Zeichenkette: {errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "wcDomainScamTitle": "Bekanntes Sicherheitsrisiko",
+    "wcDomainScamDescription": "Diese Domain wird von mehreren Sicherheitsanbietern als unsicher eingestuft. Verlasse sie sofort, um deine Vermögenswerte zu schützen",
+    "wcDomainMismatchTitle": "Domain stimmt nicht überein",
+    "wcDomainMismatchDescription": "Diese Website hat eine Domain, die nicht mit dem Absender dieser Anfrage übereinstimmt. Eine Genehmigung könnte zum Verlust von Geldern führen",
+    "wcDomainUnkownTitle": "Unbekannte Domain",
+    "wcDomainUnkownDescription": "Diese Domain kann nicht verifiziert werden. Überprüfe die Anfrage sorgfältig, bevor du sie genehmigst",
+    "wcApproveTransaction": "Transaktion genehmigen",
+    "wcSignMessage": "Nachricht signieren",
+    "wcSignTransaction": "Transaktion signieren",
+    "generalButtonApprove": "Genehmigen",
+    "generalButtonReject": "Ablehnen",
+    "generalButtonPaste": "Einfügen",
+    "generalButtonConnect": "Verbinden",
+    "generalErrorUnexpectedError": "Ein unerwarteter Fehler ist aufgetreten",
+    "generalErrorConnectionTimeout": "Zeitüberschreitung der Verbindung",
+    "generalErrorNoInternetConnection": "Keine Internetverbindung",
+    "generalErrorRequestCancelled": "Anfrage abgebrochen",
+    "generalErrorCouldntParseResponse": "Antwort konnte nicht analysiert werden",
+    "generalErrorServerError": "Serverfehler",
+    "generalStatusCode": "Statuscode",
+    "generalCode": "Code",
+    "accountSendSectionInvalidDestinationAddress": "Ungültige Zieladresse",
+    "cmdErrorCreatingSignatureGeneric": "Fehler beim Erstellen der Signatur",
+    "cmdErrorCreatingSignatureDigestEmpty": "Fehler beim Erstellen der Signatur. Digest ist leer",
+    "cmdErrorCreatingSignatureSignedDataEmpty": "Fehler beim Erstellen der Signatur. Signierte Daten sind leer",
+    "cmdErrorCreatingSignatureSignatureEmpty": "Fehler beim Erstellen der Signatur. Signatur ist leer",
+    "cmdErrorCreatingSignature": "Fehler beim Erstellen der Signatur: {errorDescription}"
 }
