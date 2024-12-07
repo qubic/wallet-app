@@ -95,8 +95,12 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
         ]);
         tickData = futures[0] as ExplorerTickDto;
         transactions = futures[1] as List<ExplorerTransactionDto>;
-        final computers = await qubicArchiveApi.getComputors(tickData!.epoch);
-        tickData?.tickLeaderId = computers.identities[tickData!.computorIndex];
+        if (tickData?.epoch != null && tickData?.computorIndex != null) {
+          final computers =
+              await qubicArchiveApi.getComputors(tickData!.epoch!);
+          tickData!.tickLeaderId =
+              computers.identities[tickData!.computorIndex!];
+        }
         isLoading = false;
         setState(() {});
       } catch (err) {

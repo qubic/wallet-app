@@ -9,8 +9,8 @@ class TickDto {
 
   factory TickDto.fromJson(Map<String, dynamic> data) {
     return TickDto(
-      data['tick'],
-      data['arbitrated'],
+      data['tickNumber'],
+      data['isEmpty'],
     );
   }
 }

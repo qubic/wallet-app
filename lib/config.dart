@@ -13,7 +13,6 @@ abstract class Config {
   static const URL_NetworkTransactions = "Wallet/Transactions";
   static const URL_Assets = "Wallet/Assets";
   static const URL_Transaction = "Public/SubmitTransaction";
-  static const URL_TickOverview = "Network/TickOverview";
   static const URL_ExplorerQuery = "Search/Query";
   static const URL_ExplorerTickInfo = "Network/Block";
   static const URL_ExplorerIdInfo = "Network/Id";
@@ -25,6 +24,7 @@ abstract class Config {
   static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
   static computors(int epoch) => "/v1/epochs/$epoch/computors";
   static transaction(String transaction) => "/v2/transactions/$transaction";
+  static networkTicks(int epoch) => "/v2/epochs/$epoch/ticks";
 
   static const statsDomain = "https://rpc.qubic.org";
   static const latestStatsUrl = "/v1/latest-stats";
@@ -53,20 +53,20 @@ abstract class Config {
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(
-          filename: "qubic-helper-win-x64-3_0_8.exe",
+          filename: "qubic-helper-win-x64-3_0_9.exe",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-win-x64-3_0_8.exe",
-          checksum: "25a673010749a2c1cbbf97d023b02b1b"),
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.9/qubic-helper-win-x64-3_0_9.exe",
+          checksum: "edbf36cd76ca8d1ff030e5600246cc0d"),
       linux64: QubicHelperConfigEntry(
-          filename: "qubic-helper-linux-x64-3_0_8",
+          filename: "qubic-helper-linux-x64-3_0_9",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-linux-x64-3_0_8",
-          checksum: "43a6f19eea3289ed53b45987305e06f0"),
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.9/qubic-helper-linux-x64-3_0_9",
+          checksum: "2f903d0f37361cb8c6beb13385fbc407"),
       macOs64: QubicHelperConfigEntry(
-          filename: "qubic-helper-mac-x64-3_0_8",
+          filename: "qubic-helper-mac-x64-3_0_9",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.8/qubic-helper-mac-x64-3_0_8",
-          checksum: "8166782f742251d486309f0007d96a59"));
+              "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.9/qubic-helper-mac-x64-3_0_9",
+          checksum: "20f729d82643f02df2e1f49dfad96951"));
 
   static const qubicJSAssetPath =
       "assets/qubic_js/qubic-helper-html-3_0_9.html";
