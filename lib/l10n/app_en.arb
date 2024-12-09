@@ -881,6 +881,13 @@
             }
         }
     },
+
+    "uriIsEmpty": "URI is empty",
+    "uriSchemeUnknown": "Unknown URI scheme",
+    "uriInvalidFormat": "Invalid URI format",
+    "uriUnknownAction": "Unknown URI action",
+    "uriInvalidWCPairUrl": "Invalid WC connection URL. Should start with wc:",
+
     "wcDomainScamTitle": "Known Security Risk",
     "wcDomainScamDescription": "This domain is flagged as unsafe by multiple security providers. Leave it immediately to protect your assets",
     "wcDomainMismatchTitle": "Domain Mismatch",
