@@ -3,17 +3,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/components/wallet_connect/components/domain_verification_card.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -163,6 +160,7 @@ class _PairState extends State<Pair> {
   }
 
   void handleProceed() async {
+    final l10n = l10nOf(context);
     try {
       setState(() {
         isLoading = true;
@@ -178,8 +176,14 @@ class _PairState extends State<Pair> {
     } catch (e) {
       setState(() {
         isLoading = false;
-        wcError = e.toString();
         debugPrint(e.toString());
+        wcError = (e is ReownSignError &&
+                e.code ==
+                    Errors.INTERNAL_ERRORS[Errors.NO_MATCHING_KEY]?["code"])
+            ? l10n.wcErrorProposalExpired
+            : (e is ReownSignError)
+                ? e.message
+                : e.toString();
       });
     }
   }
