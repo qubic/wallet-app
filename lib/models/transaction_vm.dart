@@ -1,20 +1,20 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
+import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum ComputedTransactionStatus {
   //** Transfer is broadcasted but pending */
   pending,
-  //** Transfer is confirmed */
-  confirmed,
   //** Transfer is successful (processed by computors) */
   success,
   //** Transfer has failed */
   failure,
-  //** Transfer is invalid (may be successful but invalidated) */
+  //** Transfer is invalid (ignored by network) */
   invalid,
 }
 
@@ -69,39 +69,36 @@ class TransactionVm {
   bool moneyFlow;
 
   TransactionVm(
-      this.id,
-      this.sourceId,
-      this.destId,
-      this.amount,
-      this.status,
+      {required this.id,
+      required this.sourceId,
+      required this.destId,
+      required this.amount,
+      required this.status,
       this.created,
       this.stored,
       this.staged,
       this.broadcasted,
       this.confirmed,
       this.statusUpdate,
-      this.targetTick,
-      this.isPending,
+      required this.targetTick,
+      required this.isPending,
       this.price,
       this.quantity,
-      this.moneyFlow);
+      required this.moneyFlow});
 
   ComputedTransactionStatus getStatus() {
     if (isPending) {
       return ComputedTransactionStatus.pending;
     }
-    if ((status == 'Confirmed') || (status == 'Staged')) {
-      return ComputedTransactionStatus.confirmed;
-    }
     if ((status == 'Success')) {
       if (moneyFlow == true) {
         return ComputedTransactionStatus.success;
       } else {
-        return ComputedTransactionStatus.invalid;
+        return ComputedTransactionStatus.failure;
       }
     }
-    if ((status == 'Failed')) {
-      return ComputedTransactionStatus.failure;
+    if ((status == 'Invalid')) {
+      return ComputedTransactionStatus.invalid;
     }
     return ComputedTransactionStatus.pending;
   }
@@ -112,7 +109,7 @@ class TransactionVm {
         id,
         sourceId,
         destId,
-        amount.toString(),
+        amount.asThousands(),
         status,
         created.toString(),
         stored.toString(),
@@ -157,21 +154,51 @@ class TransactionVm {
 
   factory TransactionVm.fromTransactionDto(TransactionDto original) {
     return TransactionVm(
-        original.id,
-        original.sourceId,
-        original.destId,
-        original.amount,
-        original.status,
-        original.created,
-        original.stored,
-        original.staged,
-        original.broadcasted,
-        original.confirmed,
-        original.statusUpdate,
-        original.targetTick,
-        original.isPending,
-        original.price,
-        original.quantity,
-        original.moneyFlow);
+        id: original.id,
+        sourceId: original.sourceId,
+        destId: original.destId,
+        amount: original.amount,
+        status: original.status,
+        created: original.created,
+        stored: original.stored,
+        staged: original.staged,
+        broadcasted: original.broadcasted,
+        confirmed: original.confirmed,
+        statusUpdate: original.statusUpdate,
+        targetTick: original.targetTick,
+        isPending: original.isPending,
+        price: original.price,
+        quantity: original.quantity,
+        moneyFlow: original.moneyFlow);
+  }
+}
+
+class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
+  @override
+  TransactionVm read(BinaryReader reader) {
+    return TransactionVm(
+        id: reader.readString(),
+        sourceId: reader.readString(),
+        destId: reader.readString(),
+        amount: reader.readInt(),
+        status: reader.readString(),
+        targetTick: reader.readInt(),
+        isPending: reader.readBool(),
+        moneyFlow: reader.readBool());
+  }
+
+  @override
+  int get typeId => 0;
+
+  @override
+  void write(BinaryWriter writer, TransactionVm obj) {
+    writer.writeString(obj.id);
+    writer.writeString(obj.sourceId);
+    writer.writeString(obj.destId);
+    writer.writeInt(obj.amount);
+    writer.writeString(obj.status);
+    writer.writeInt(obj.targetTick);
+    writer.writeBool(obj.isPending);
+    writer.writeBool(obj.moneyFlow);
   }
 }

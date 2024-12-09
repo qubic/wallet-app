@@ -16,6 +16,7 @@ import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
 import 'package:qubic_wallet/pages/auth/import_selector.dart';
 import 'package:qubic_wallet/pages/auth/sign_up.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -44,6 +45,7 @@ class _SignInState extends State<SignIn>
   final LocalAuthentication _auth = LocalAuthentication();
   final ApplicationStore _appStore = getIt<ApplicationStore>();
   final SettingsStore _settingsStore = getIt<SettingsStore>();
+  final HiveStorage _hiveStorage = getIt<HiveStorage>();
   final QubicHubStore _qubicHubStore = getIt<QubicHubStore>();
   final TimedController _timedController = getIt<TimedController>();
   final SecureStorage _secureStorage = getIt<SecureStorage>();
@@ -342,6 +344,7 @@ class _SignInState extends State<SignIn>
                       child: EraseWalletSheet(onAccept: () async {
                         await _secureStorage.deleteWallet();
                         await _settingsStore.loadSettings();
+                        await _hiveStorage.clear();
                         _appStore.checkWalletIsInitialized();
                         _appStore.signOut();
                         _timedController.stopFetchTimers();

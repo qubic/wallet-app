@@ -15,4 +15,5 @@ abstract class QxInfo {
 
   /// Input type for transferring an asset
   static const transferAssetInputType = 2;
+  static const mainAssetIssuer = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFXIB";
 }

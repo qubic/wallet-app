@@ -1,0 +1,4 @@
+class QutilInfo {
+  static const address =
+      "EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVWRF";
+}

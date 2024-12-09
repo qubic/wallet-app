@@ -106,6 +106,7 @@ class TimedController extends WidgetsBindingObserver {
       //Fetch the ticks
       int tick = (await _liveApi.getCurrentTick()).tick;
       appStore.currentTick = tick;
+      appStore.validatePendingTransactions(tick);
       _getNetworkBalancesAndAssets();
       lastFetch = DateTime.now();
     } on Exception catch (e) {
