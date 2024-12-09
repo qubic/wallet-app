@@ -177,7 +177,9 @@ class _PairState extends State<Pair> {
       setState(() {
         isLoading = false;
         debugPrint(e.toString());
-        wcError = (e is ReownSignError && e.code == 2)
+        wcError = (e is ReownSignError &&
+                e.code ==
+                    Errors.INTERNAL_ERRORS[Errors.NO_MATCHING_KEY]?["code"])
             ? l10n.wcErrorProposalExpired
             : (e is ReownSignError)
                 ? e.message
