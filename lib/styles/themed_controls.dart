@@ -5,10 +5,16 @@ import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 
 class ThemedControls {
-  static Widget card({required Widget child}) {
+  static Widget card({required Widget child, Color? borderColor}) {
     return Card(
         color: LightThemeColors.cardBackground,
         elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.0),
+          side: borderColor == null
+              ? BorderSide.none
+              : BorderSide(color: borderColor),
+        ),
         child: Column(children: [
           Padding(
               padding: const EdgeInsets.fromLTRB(
@@ -22,8 +28,9 @@ class ThemedControls {
 
   static Widget cardWithBg({required Widget child, required Color bgColor}) {
     return Card(
-        surfaceTintColor: bgColor,
+        color: bgColor,
         elevation: 0,
+        margin: EdgeInsets.zero,
         child: Column(children: [
           Padding(
               padding: const EdgeInsets.fromLTRB(
@@ -56,6 +63,17 @@ class ThemedControls {
         // ignore: avoid_returning_null_for_void
         return null; //keep this to make sure that no ripple effect is shown
       },
+      child: child,
+    );
+  }
+
+  static Widget secondaryButtonWithChild(
+      {required void Function()? onPressed,
+      required Widget child,
+      bool? enabled}) {
+    return FilledButton(
+      style: ButtonStyles.secondaryButton,
+      onPressed: onPressed,
       child: child,
     );
   }
@@ -307,12 +325,13 @@ class ThemedControls {
   static Widget primaryButtonSmall(
       {required void Function()? onPressed,
       required String text,
+      TextStyle? style,
       Widget? icon}) {
     return themedButton(
         onPressed: onPressed,
         label: text,
         icon: icon,
-        textStyle: TextStyles.primaryButtonTextSmall,
+        textStyle: style ?? TextStyles.primaryButtonTextSmall,
         buttonStyle: ButtonStyles.primaryButtonBig);
   }
 

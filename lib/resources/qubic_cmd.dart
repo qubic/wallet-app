@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
+import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_js.dart';
@@ -135,6 +134,30 @@ class QubicCmd {
         throw "File path is required";
       }
       return await qubicCmdUtils.importVaultFile(password, filePath);
+    }
+  }
+
+  Future<QubicSignResult> signBase64(String seed, String base64) async {
+    if (useJs) {
+      return await qubicJs.signBase64(seed, base64);
+    } else {
+      return await qubicCmdUtils.signBase64(seed, base64);
+    }
+  }
+
+  Future<QubicSignResult> signASCII(String seed, String asciiText) async {
+    if (useJs) {
+      return await qubicJs.signASCII(seed, asciiText);
+    } else {
+      return await qubicCmdUtils.signASCII(seed, asciiText);
+    }
+  }
+
+  Future<QubicSignResult> signUTF8(String seed, String utf8Text) async {
+    if (useJs) {
+      return await qubicJs.signUTF8(seed, utf8Text);
+    } else {
+      return await qubicCmdUtils.signUTF8(seed, utf8Text);
     }
   }
 }

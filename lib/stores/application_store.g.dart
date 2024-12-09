@@ -455,7 +455,7 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  void setAmounts(List<CurrentBalanceDto> amounts) {
+  Map<String, int> setAmounts(List<CurrentBalanceDto> amounts) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.setAmounts');
     try {
