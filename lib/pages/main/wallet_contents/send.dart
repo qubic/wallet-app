@@ -351,7 +351,7 @@ class _SendState extends State<Send> {
             children: <Widget>[
               ThemedControls.pageHeader(
                   headerText: l10n.accountSendTitle,
-                  subheaderText: "from \"${widget.item.name}\""),
+                  subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalSmall(),
               Text(l10n.accountSendLabelDestinationAddress,
                   style: TextStyles.labelTextNormal),
