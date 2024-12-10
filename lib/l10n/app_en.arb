@@ -196,7 +196,7 @@
     "explorerTickResultLabelTickLeader": "Tick Leader",
     "explorerTickResultLabelNoTransactionsFound": "No transactions in this tick",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}",
     "settingsTitle": "Settings",
     "settingsHeaderAccountsAndData": "Accounts and Data",
     "settingsLockWallet": "Lock Wallet",
@@ -408,9 +408,7 @@
     "transactionItemButtonViewDetails": "View Details",
     "transactionItemButtonResend": "Resend",
     "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
-    "transactionItemLabelCreatedDate": "Created Date",
-    "transactionItemLabelBroadcastedDate": "Broadcasted Date",
-    "transactionItemLabelConfirmedDate": "Confirmed Date",
+    "transactionItemLabelConfirmedDate": "Timestamp",
     "transactionItemLabelDetails": "Transfer Details",
     "sendItemLabelTargetTick": "Target Tick",
     "sendItemLabelTargetTickAutomatic": "Automatically: Current + {addingTicks}",
@@ -424,7 +422,7 @@
     "sendItemLabelTargetTickManual": "Manual Override",
     "sendItemLabelDetermineTargetTick": "Determine Target Tick",
     "sendItemDialogErrorGeneralTitle": "Error while generating transaction",
-    "sendItemDialogResendTitle": "Resend failed transaction?",
+    "sendItemDialogResendTitle": "Resend transaction?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -607,7 +605,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
+    "generalAllTransactionDetails": "Transaction ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nTimestamp: {confirmed}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
         "placeholders": {

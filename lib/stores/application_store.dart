@@ -10,6 +10,7 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
@@ -21,6 +22,7 @@ class ApplicationStore = _ApplicationStore with _$ApplicationStore;
 
 abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
+  late final HiveStorage _hiveStorage = getIt<HiveStorage>();
 
   /// If there are stored wallet settings in the device
   @observable
@@ -72,7 +74,12 @@ abstract class _ApplicationStore with Store {
   @observable
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
-
+  @observable
+  ObservableList<TransactionVm> ignoredTransactions =
+      ObservableList<TransactionVm>();
+  @observable
+  ObservableList<TransactionVm> pendingTransactions =
+      ObservableList<TransactionVm>();
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
 
@@ -89,8 +96,10 @@ abstract class _ApplicationStore with Store {
   @computed
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
-    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(0,
-        (sum, qubic) => sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
+    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(
+        0,
+        (sum, qubic) =>
+            sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
   }
 
   //The market info for $QUBIC
@@ -232,6 +241,7 @@ abstract class _ApplicationStore with Store {
   @action
   Future<bool> signUp(String password) async {
     await secureStorage.deleteWallet();
+    await _hiveStorage.clear();
     final result = await secureStorage.createWallet(password);
     isSignedIn = result;
     currentQubicIDs = ObservableList<QubicListVm>();
@@ -356,17 +366,71 @@ abstract class _ApplicationStore with Store {
 
   @action
   Future<void> updateTransactions(List<TransactionDto> transactions) async {
-    for (var i = 0; i < transactions.length; i++) {
-      var currentIndex = currentTransactions
-          .indexWhere((element) => element.id == transactions[i].id);
-      if (currentIndex == -1) {
-        currentTransactions
-            .add(TransactionVm.fromTransactionDto(transactions[i]));
+    _addOrUpdateCurrentTransactions(transactions);
+    _restoreIgnoredTransactions();
+    _restorePendingTransaction();
+  }
+
+  @action
+  initPendingAndIgonredTransactions() {
+    pendingTransactions.addAll(_hiveStorage.getPendingTransactions());
+    ignoredTransactions.addAll(_hiveStorage.getIgnoredTransactions());
+  }
+
+  void _addOrUpdateCurrentTransactions(List<TransactionDto> transactions) {
+    for (var transaction in transactions) {
+      var index = currentTransactions
+          .indexWhere((element) => element.id == transaction.id);
+      var transactionVm = TransactionVm.fromTransactionDto(transaction);
+      if (index == -1) {
+        currentTransactions.add(transactionVm);
       } else {
-        currentTransactions[currentIndex] =
-            TransactionVm.fromTransactionDto(transactions[i]);
+        currentTransactions[index] = transactionVm;
       }
     }
+  }
+
+  @action
+  void _restoreIgnoredTransactions() {
+    _addTransactionInOrder(ignoredTransactions);
+  }
+
+  @action
+  void removeIgnoredTransactions(String transactionId) {
+    _hiveStorage.removeIgnoredTransaction(transactionId);
+    ignoredTransactions.removeWhere((element) => element.id == transactionId);
+    currentTransactions.removeWhere((element) => element.id == transactionId);
+  }
+
+  @action
+  void _restorePendingTransaction() {
+    _addTransactionInOrder(pendingTransactions);
+  }
+
+  @action
+  addPendingTransaction(TransactionVm transaction) {
+    _hiveStorage.addPendingTransaction(transaction);
+    pendingTransactions.add(transaction);
+  }
+
+  @action
+  validatePendingTransactions(int currentTick) {
+    pendingTransactions.removeWhere((trx) {
+      if (currentTick > trx.targetTick) {
+        addIgnoredTransaction(trx);
+        _hiveStorage.removePendingTransaction(trx.id);
+        return true;
+      }
+      return false;
+    });
+  }
+
+  @action
+  addIgnoredTransaction(TransactionVm pendingTransaction) {
+    pendingTransaction.isPending = false;
+    pendingTransaction.status = "Invalid";
+    _hiveStorage.addIgnoredTransaction(pendingTransaction);
+    ignoredTransactions.add(pendingTransaction);
   }
 
   int getQubicIDsWithPublicId(String publicId) {
@@ -393,5 +457,21 @@ abstract class _ApplicationStore with Store {
         currentQubicIDs.any(
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
+  }
+
+  @action
+  void _addTransactionInOrder(List<TransactionVm> transactions) {
+    for (var trx in transactions) {
+      if (!currentTransactions.any((element) => element.id == trx.id)) {
+        int insertIndex = currentTransactions.indexWhere(
+          (element) => element.targetTick > trx.targetTick,
+        );
+        if (insertIndex == -1) {
+          currentTransactions.add(trx);
+        } else {
+          currentTransactions.insert(insertIndex, trx);
+        }
+      }
+    }
   }
 }
