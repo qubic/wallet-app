@@ -2,7 +2,7 @@
 
 Official self-custodial wallet app for the QUBIC network (https://qubic.org/).
 Source code is written in [Dart](https://dart.dev) using [Flutter](https://flutter.dev).
-Find more about QUBIC on (https://doc.qubic.world/). 
+Find more about QUBIC on (https://doc.qubic.world/).
 Find us on discord (https://discord.com/invite/2vDMR8m).
 
 ## Functionality
@@ -29,6 +29,11 @@ Find us on discord (https://discord.com/invite/2vDMR8m).
 - [x] Linux
 - [x] MacOS
 - [x] Web
+
+## Wallet connect integration and custom links
+
+- The application registers qubic-wallet:// custom scheme. To initialize a wallet connect session please link to
+  qubic-wallet://pairwc/wc:....
 
 # Security
 
