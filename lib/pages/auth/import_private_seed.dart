@@ -231,9 +231,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               });
             } catch (e) {
               if (e.toString().startsWith("Exception: CRITICAL:")) {
-                if (kDebugMode) {
-                  appLogger.w("CRITICAL");
-                }
+                appLogger.w("CRITICAL");
                 showAlertDialog(
                     context,
                     l10n.addAccountErrorTamperedWalletTitle,
