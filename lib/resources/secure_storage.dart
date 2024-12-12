@@ -3,6 +3,7 @@
 import 'package:dargon2_flutter/dargon2_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -161,7 +162,7 @@ class SecureStorage {
       await storage.write(
           key: SecureStorageKeys.criticalSettings, value: settings.toJSON());
     } catch (e) {
-      debugPrint(e.toString());
+      appLogger.e(e.toString());
       return false;
     }
     return true;
@@ -228,9 +229,8 @@ class SecureStorage {
     CriticalSettings settings = await getCriticalSettings();
     List<QubicListVm> list = [];
     for (int i = 0; i < settings.publicIds.length; i++) {
-      list.add(QubicListVm(
-          settings.publicIds[i], settings.names[i], null, null, null,
-          settings.isWatchOnly[i]));
+      list.add(QubicListVm(settings.publicIds[i], settings.names[i], null, null,
+          null, settings.isWatchOnly[i]));
     }
     return list;
   }
@@ -289,7 +289,7 @@ class SecureStorage {
       throw Exception("ID not found");
     }
     return QubicId(settings.privateSeeds[i], settings.publicIds[i],
-          settings.names[i], null);
+        settings.names[i], null);
   }
 
   //Removes a Qubic ID from the secure Storage (Based on its public key)

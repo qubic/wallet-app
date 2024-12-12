@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -57,7 +58,6 @@ class TimedController extends WidgetsBindingObserver {
       //Fetch network balances
       if (!_apiService.gettingNetworkBalances) {
         _apiService.getNetworkBalances(myIds).then((balances) {
-          debugPrint("Got balances for ${balances.length} IDs");
           appStore.setAmounts(balances);
         }, onError: (e) {
           appStore
@@ -90,7 +90,6 @@ class TimedController extends WidgetsBindingObserver {
   Future<void> _getMarketInfo() async {
     try {
       final marketInfo = await _statsApi.getMarketInfo();
-      debugPrint(marketInfo.toString());
       appStore.setMarketInfo(marketInfo);
       explorerStore.setNetworkOverview(marketInfo);
     } on AppError catch (e) {

@@ -12,6 +12,7 @@ import 'package:qubic_wallet/components/tick_indication_styled.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
@@ -59,7 +60,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
     _scrollController.addListener(() {
       if (_scrollController.offset > sliverExpanded) {
-        debugPrint("100%");
+        appLogger.d("100%");
       }
 
       setState(() {
