@@ -35,9 +35,9 @@ class CustomLogInterceptor extends Interceptor {
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    appLogger.e("❌ Error in request to: ${err.requestOptions.uri}");
+    appLogger.e("Error in request to: ${err.requestOptions.uri}");
     if (err.response?.data != null) {
-      appLogger.e("❌ Error Body: ${err.response?.data}");
+      appLogger.e("Error Body: ${err.response?.data}");
     }
     super.onError(err, handler);
   }
