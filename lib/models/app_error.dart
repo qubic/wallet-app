@@ -54,8 +54,8 @@ enum ErrorType {
 
 class ErrorHandler {
   static AppError handleError(Object? error) {
-    appLogger.d(error.toString());
-    appLogger.d("Error type:${error.runtimeType}");
+    appLogger.e(error.toString());
+    appLogger.e("Error type:${error.runtimeType}");
     switch (error) {
       case DioException dioError:
         switch (dioError.type) {
