@@ -1,59 +1,41 @@
-import 'dart:developer';
-
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 
 enum HiveBoxesNames {
-  pendingTransactions,
-  ignoredTransactions,
+  storedTransactions,
 }
 
 class HiveStorage {
   HiveStorage() {
     _init();
   }
-  late final Box<TransactionVm> pendingTransactions;
-  late final Box<TransactionVm> ignoredTransactions;
+  late final Box<TransactionVm> storedTransactions;
 
   Future<void> _init() async {
     await Hive.initFlutter();
     Hive.registerAdapter(TransactionVmAdapter());
-    openTransactionBoxes();
+    openTransactionsBox();
   }
 
-  Future<void> openTransactionBoxes() async {
-    pendingTransactions = await Hive.openBox<TransactionVm>(
-        HiveBoxesNames.pendingTransactions.name);
-    ignoredTransactions = await Hive.openBox<TransactionVm>(
-        HiveBoxesNames.ignoredTransactions.name);
+  Future<void> openTransactionsBox() async {
+    storedTransactions = await Hive.openBox<TransactionVm>(
+        HiveBoxesNames.storedTransactions.name);
   }
 
-  void addPendingTransaction(TransactionVm transactionVm) {
-    pendingTransactions.put(transactionVm.id, transactionVm);
+  void addStoredTransaction(TransactionVm transactionVm) {
+    storedTransactions.put(transactionVm.id, transactionVm);
   }
 
-  void removePendingTransaction(String transactionId) {
-    pendingTransactions.delete(transactionId);
+  void removeStoredTransaction(String transactionId) {
+    storedTransactions.delete(transactionId);
   }
 
-  List<TransactionVm> getPendingTransactions() {
-    return pendingTransactions.values.toList();
-  }
-
-  void addIgnoredTransaction(TransactionVm transactionVm) {
-    ignoredTransactions.put(transactionVm.id, transactionVm);
-  }
-
-  void removeIgnoredTransaction(String transactionId) {
-    ignoredTransactions.delete(transactionId);
-  }
-
-  List<TransactionVm> getIgnoredTransactions() {
-    return ignoredTransactions.values.toList();
+  List<TransactionVm> getStoredTransactions() {
+    return storedTransactions.values.toList();
   }
 
   Future<void> clear() async {
-    await ignoredTransactions.clear();
-    await pendingTransactions.clear();
+    await storedTransactions.clear();
   }
 }

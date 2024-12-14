@@ -171,7 +171,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         }
       }
     });
-    getIt<ApplicationStore>().initPendingAndIgonredTransactions();
+    getIt<ApplicationStore>().initStoredTransactions();
   }
 
   @override

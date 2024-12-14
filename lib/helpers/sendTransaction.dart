@@ -51,7 +51,7 @@ Future<bool> sendAssetTransferTransactionDialog(
         targetTick: destinationTick,
         isPending: true,
         moneyFlow: true);
-    getIt.get<ApplicationStore>().addPendingTransaction(pendingTransaction);
+    getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
     return true;
   } catch (e) {
     if (e.toString().startsWith("Exception: CRITICAL:")) {
@@ -103,7 +103,7 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
         targetTick: destinationTick,
         isPending: true,
         moneyFlow: value > 0);
-    getIt.get<ApplicationStore>().addPendingTransaction(pendingTransaction);
+    getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
   } catch (e) {
     showAlertDialog(
         context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
