@@ -272,31 +272,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     }
   }
 
-  String? validateWalletConnectURL(String? valueCandidate) {
-    final l10n = l10nOf(context);
-    const requiredLength = Config.wallectConnectUrlLength;
-    final requiredPatterns = ['wc:', 'expiryTimestamp=', 'symKey=', '@'];
-
-    if (valueCandidate == null || valueCandidate.trim().isEmpty) {
-      return l10n.wcErrorInvalidURL;
-    }
-
-    if (valueCandidate.length != requiredLength) {
-      return l10n.wcErrorInvalidURL;
-    }
-
-    if (!requiredPatterns
-        .every((pattern) => valueCandidate.contains(pattern))) {
-      return l10n.wcErrorInvalidURL;
-    }
-
-    if (valueCandidate.contains("@1")) {
-      return l10n.wcErrorDeprecatedURL;
-    }
-
-    return null;
-  }
-
   //Returns the child widget based on the platform
   //If the platform is desktop, it will return the desktop view
   //If the platform is mobile, and an app link is used it will return the desktop view
@@ -332,6 +307,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
       isLoading: isLoading,
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(canPop: !isLoading, child: getChildWidget());
