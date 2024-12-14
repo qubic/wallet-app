@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/models/app_link/app_link_verbs.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -35,9 +36,10 @@ class AppLinkController {
     //Trim out qubic-wallet scheme and host
     String connectionUrl = uri.toString().substring(remove.length);
 
-    if (!connectionUrl.startsWith("wc:")) {
-      throw Exception(connectionUrl); //l10n.uriInvalidWCPairUrl);
+    if (validateWalletConnectURL(connectionUrl, context) != null) {
+      throw Exception(l10n.uriInvalidWCPairUrl);
     }
+
     pushScreen(
       context,
       screen: AddWalletConnect(connectionUrl: connectionUrl),
