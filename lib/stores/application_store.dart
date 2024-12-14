@@ -10,6 +10,7 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
@@ -21,6 +22,7 @@ class ApplicationStore = _ApplicationStore with _$ApplicationStore;
 
 abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
+  late final HiveStorage _hiveStorage = getIt<HiveStorage>();
 
   /// If there are stored wallet settings in the device
   @observable
@@ -72,7 +74,9 @@ abstract class _ApplicationStore with Store {
   @observable
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
-
+  @observable
+  ObservableList<TransactionVm> storedTransactions =
+      ObservableList<TransactionVm>();
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
 
@@ -89,8 +93,10 @@ abstract class _ApplicationStore with Store {
   @computed
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
-    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(0,
-        (sum, qubic) => sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
+    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(
+        0,
+        (sum, qubic) =>
+            sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
   }
 
   //The market info for $QUBIC
@@ -232,6 +238,7 @@ abstract class _ApplicationStore with Store {
   @action
   Future<bool> signUp(String password) async {
     await secureStorage.deleteWallet();
+    await _hiveStorage.clear();
     final result = await secureStorage.createWallet(password);
     isSignedIn = result;
     currentQubicIDs = ObservableList<QubicListVm>();
@@ -356,23 +363,80 @@ abstract class _ApplicationStore with Store {
 
   @action
   Future<void> updateTransactions(List<TransactionDto> transactions) async {
-    for (var i = 0; i < transactions.length; i++) {
-      var currentIndex = currentTransactions
-          .indexWhere((element) => element.id == transactions[i].id);
-      if (currentIndex == -1) {
-        currentTransactions
-            .add(TransactionVm.fromTransactionDto(transactions[i]));
+    _addOrUpdateCurrentTransactions(transactions);
+    _addStoredTransactionsToCurrent();
+  }
+
+  @action
+  initStoredTransactions() {
+    storedTransactions.addAll(_hiveStorage.getStoredTransactions());
+  }
+
+  void _addOrUpdateCurrentTransactions(List<TransactionDto> transactions) {
+    for (var transaction in transactions) {
+      var index = currentTransactions
+          .indexWhere((element) => element.id == transaction.id);
+      var transactionVm = TransactionVm.fromTransactionDto(transaction);
+      if (index == -1) {
+        currentTransactions.add(transactionVm);
       } else {
-        currentTransactions[currentIndex] =
-            TransactionVm.fromTransactionDto(transactions[i]);
+        currentTransactions[index] = transactionVm;
       }
     }
+  }
+
+  @action
+  void _addStoredTransactionsToCurrent() {
+    // Add transactions that are not in currentTransactions in order
+    for (var trx in storedTransactions) {
+      if (!currentTransactions.any((element) => element.id == trx.id)) {
+        int insertIndex = currentTransactions.indexWhere(
+          (element) => element.targetTick > trx.targetTick,
+        );
+        if (insertIndex == -1) {
+          currentTransactions.add(trx);
+        } else {
+          currentTransactions.insert(insertIndex, trx);
+        }
+      }
+    }
+  }
+
+  @action
+  addStoredTransaction(TransactionVm transaction) {
+    _hiveStorage.addStoredTransaction(transaction);
+    storedTransactions.add(transaction);
+  }
+
+  /// If any pending transaction is older than the current tick, convert it
+  /// to invalid (ignored by network)
+  @action
+  void validatePendingTransactions(int currentTick) {
+    for (var trx in storedTransactions) {
+      if (currentTick > trx.targetTick) {
+        convertPendingToInvalid(trx);
+      }
+    }
+  }
+
+  @action
+  convertPendingToInvalid(TransactionVm transaction) {
+    transaction.isPending = false;
+    transaction.status = "Invalid";
+    _hiveStorage.addStoredTransaction(transaction);
   }
 
   int getQubicIDsWithPublicId(String publicId) {
     return currentQubicIDs
         .where((element) => element.publicId == publicId.replaceAll(",", "_"))
         .length;
+  }
+
+  @action
+  void removeStoredTransaction(String transactionId) {
+    _hiveStorage.removeStoredTransaction(transactionId);
+    storedTransactions.removeWhere((element) => element.id == transactionId);
+    currentTransactions.removeWhere((element) => element.id == transactionId);
   }
 
   @action

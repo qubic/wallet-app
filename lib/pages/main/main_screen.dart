@@ -9,11 +9,13 @@ import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/pages/main/tab_explorer/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
@@ -21,8 +23,6 @@ import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialTabIndex;
@@ -171,6 +171,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         }
       }
     });
+    getIt<ApplicationStore>().initStoredTransactions();
   }
 
   @override

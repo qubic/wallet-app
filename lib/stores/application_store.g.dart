@@ -176,6 +176,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
+  late final _$storedTransactionsAtom =
+      Atom(name: '_ApplicationStore.storedTransactions', context: context);
+
+  @override
+  ObservableList<TransactionVm> get storedTransactions {
+    _$storedTransactionsAtom.reportRead();
+    return super.storedTransactions;
+  }
+
+  @override
+  set storedTransactions(ObservableList<TransactionVm> value) {
+    _$storedTransactionsAtom.reportWrite(value, super.storedTransactions, () {
+      super.storedTransactions = value;
+    });
+  }
+
   late final _$transactionFilterAtom =
       Atom(name: '_ApplicationStore.transactionFilter', context: context);
 
@@ -466,6 +482,72 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  dynamic initStoredTransactions() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.initStoredTransactions');
+    try {
+      return super.initStoredTransactions();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void _addStoredTransactionsToCurrent() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore._restoreStoredTransactions');
+    try {
+      return super._addStoredTransactionsToCurrent();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addStoredTransaction(TransactionVm transaction) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.addStoredTransaction');
+    try {
+      return super.addStoredTransaction(transaction);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic validatePendingTransactions(int currentTick) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.validatePendingTransactions');
+    try {
+      return super.validatePendingTransactions(currentTick);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic convertPendingToInvalid(TransactionVm pendingTransaction) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.convertPendingToInvalid');
+    try {
+      return super.convertPendingToInvalid(pendingTransaction);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeStoredTransaction(String transactionId) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.removeStoredTransaction');
+    try {
+      return super.removeStoredTransaction(transactionId);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 hasStoredWalletSettings: ${hasStoredWalletSettings},
@@ -477,6 +559,7 @@ currentTabIndex: ${currentTabIndex},
 showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
+storedTransactions: ${storedTransactions},
 transactionFilter: ${transactionFilter},
 pendingRequests: ${pendingRequests},
 marketInfo: ${marketInfo},

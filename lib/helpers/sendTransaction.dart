@@ -3,9 +3,10 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
 void showTamperedWalletAlert(BuildContext context) {
@@ -39,7 +40,18 @@ Future<bool> sendAssetTransferTransactionDialog(
   try {
     transactionKey = await qubicCmd.createAssetTransferTransaction(seed,
         destinationId, assetName, issuer, numberOfAssets, destinationTick);
-    await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
+    final transactionId =
+        await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
+    final pendingTransaction = TransactionVm(
+        id: transactionId,
+        sourceId: sourceId,
+        destId: destinationId,
+        amount: QxInfo.transferAssetFee,
+        status: ComputedTransactionStatus.pending.name,
+        targetTick: destinationTick,
+        isPending: true,
+        moneyFlow: true);
+    getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
     return true;
   } catch (e) {
     if (e.toString().startsWith("Exception: CRITICAL:")) {
@@ -80,7 +92,18 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
 
   //We have the transaction, now let's call the API
   try {
-    await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
+    final transactionId =
+        await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
+    final pendingTransaction = TransactionVm(
+        id: transactionId,
+        sourceId: sourceId,
+        destId: destinationId,
+        amount: value,
+        status: ComputedTransactionStatus.pending.name,
+        targetTick: destinationTick,
+        isPending: true,
+        moneyFlow: value > 0);
+    getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
   } catch (e) {
     showAlertDialog(
         context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
