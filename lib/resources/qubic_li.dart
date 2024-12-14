@@ -15,6 +15,7 @@ import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/custom_proxy.dart';
 import 'package:qubic_wallet/resources/http_interceptors.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -117,17 +118,12 @@ class QubicLi {
       appStore.decreasePendingRequests();
       throw Exception('Failed to contact server.');
     }
-    if (kDebugMode) {
-      print(response);
-    }
+    appLogger.d(response);
     if (response.statusCode == 200) {
       late dynamic parsedJson;
       late AuthLoginDto loginDto;
       try {
-        if (kDebugMode) {
-          print(response.body);
-        }
-
+        appLogger.d(response.body);
         parsedJson = jsonDecode(response.body);
       } catch (e) {
         throw Exception('Failed to authenticate. Could not parse response');
