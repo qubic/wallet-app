@@ -219,6 +219,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       appLinkController.parseUriString(
           applicationStore.currentInboundUri!, context);
     });
+    getIt<ApplicationStore>().initStoredTransactions();
   }
 
   @override

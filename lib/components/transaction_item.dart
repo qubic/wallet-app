@@ -76,7 +76,7 @@ class TransactionItem extends StatelessWidget {
             showDetails(context);
           }
           if (menuItem == CardItem.delete) {
-            appStore.removeIgnoredTransactions(item.id);
+            appStore.removeStoredTransaction(item.id);
           }
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[

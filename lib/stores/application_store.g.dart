@@ -192,35 +192,19 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
-  late final _$ignoredTransactionsAtom =
-      Atom(name: '_ApplicationStore.ignoredTransactions', context: context);
+  late final _$storedTransactionsAtom =
+      Atom(name: '_ApplicationStore.storedTransactions', context: context);
 
   @override
-  ObservableList<TransactionVm> get ignoredTransactions {
-    _$ignoredTransactionsAtom.reportRead();
-    return super.ignoredTransactions;
+  ObservableList<TransactionVm> get storedTransactions {
+    _$storedTransactionsAtom.reportRead();
+    return super.storedTransactions;
   }
 
   @override
-  set ignoredTransactions(ObservableList<TransactionVm> value) {
-    _$ignoredTransactionsAtom.reportWrite(value, super.ignoredTransactions, () {
-      super.ignoredTransactions = value;
-    });
-  }
-
-  late final _$pendingTransactionsAtom =
-      Atom(name: '_ApplicationStore.pendingTransactions', context: context);
-
-  @override
-  ObservableList<TransactionVm> get pendingTransactions {
-    _$pendingTransactionsAtom.reportRead();
-    return super.pendingTransactions;
-  }
-
-  @override
-  set pendingTransactions(ObservableList<TransactionVm> value) {
-    _$pendingTransactionsAtom.reportWrite(value, super.pendingTransactions, () {
-      super.pendingTransactions = value;
+  set storedTransactions(ObservableList<TransactionVm> value) {
+    _$storedTransactionsAtom.reportWrite(value, super.storedTransactions, () {
+      super.storedTransactions = value;
     });
   }
 
@@ -525,55 +509,33 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  dynamic initPendingAndIgonredTransactions() {
+  dynamic initStoredTransactions() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.initPendingAndIgonredTransactions');
+        name: '_ApplicationStore.initStoredTransactions');
     try {
-      return super.initPendingAndIgonredTransactions();
+      return super.initStoredTransactions();
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void _restoreIgnoredTransactions() {
+  void _addStoredTransactionsToCurrent() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore._restoreIgnoredTransactions');
+        name: '_ApplicationStore._restoreStoredTransactions');
     try {
-      return super._restoreIgnoredTransactions();
+      return super._addStoredTransactionsToCurrent();
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void removeIgnoredTransactions(String transactionId) {
+  dynamic addStoredTransaction(TransactionVm transaction) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.removeIgnoredTransactions');
+        name: '_ApplicationStore.addStoredTransaction');
     try {
-      return super.removeIgnoredTransactions(transactionId);
-    } finally {
-      _$_ApplicationStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void _restorePendingTransaction() {
-    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore._restorePendingTransaction');
-    try {
-      return super._restorePendingTransaction();
-    } finally {
-      _$_ApplicationStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  dynamic addPendingTransaction(TransactionVm transaction) {
-    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.addPendingTransaction');
-    try {
-      return super.addPendingTransaction(transaction);
+      return super.addStoredTransaction(transaction);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
@@ -591,22 +553,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  dynamic addIgnoredTransaction(TransactionVm pendingTransaction) {
+  dynamic convertPendingToInvalid(TransactionVm pendingTransaction) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.addIgnoredTransaction');
+        name: '_ApplicationStore.convertPendingToInvalid');
     try {
-      return super.addIgnoredTransaction(pendingTransaction);
+      return super.convertPendingToInvalid(pendingTransaction);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void _addTransactionInOrder(List<TransactionVm> transactions) {
+  void removeStoredTransaction(String transactionId) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore._addTransactionInOrder');
+        name: '_ApplicationStore.removeStoredTransaction');
     try {
-      return super._addTransactionInOrder(transactions);
+      return super.removeStoredTransaction(transactionId);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
@@ -625,8 +587,7 @@ currentInboundUri: ${currentInboundUri},
 showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
-ignoredTransactions: ${ignoredTransactions},
-pendingTransactions: ${pendingTransactions},
+storedTransactions: ${storedTransactions},
 transactionFilter: ${transactionFilter},
 pendingRequests: ${pendingRequests},
 marketInfo: ${marketInfo},

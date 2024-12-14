@@ -83,10 +83,7 @@ abstract class _ApplicationStore with Store {
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
   @observable
-  ObservableList<TransactionVm> ignoredTransactions =
-      ObservableList<TransactionVm>();
-  @observable
-  ObservableList<TransactionVm> pendingTransactions =
+  ObservableList<TransactionVm> storedTransactions =
       ObservableList<TransactionVm>();
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
@@ -413,14 +410,12 @@ abstract class _ApplicationStore with Store {
   @action
   Future<void> updateTransactions(List<TransactionDto> transactions) async {
     _addOrUpdateCurrentTransactions(transactions);
-    _restoreIgnoredTransactions();
-    _restorePendingTransaction();
+    _addStoredTransactionsToCurrent();
   }
 
   @action
-  initPendingAndIgonredTransactions() {
-    pendingTransactions.addAll(_hiveStorage.getPendingTransactions());
-    ignoredTransactions.addAll(_hiveStorage.getIgnoredTransactions());
+  initStoredTransactions() {
+    storedTransactions.addAll(_hiveStorage.getStoredTransactions());
   }
 
   void _addOrUpdateCurrentTransactions(List<TransactionDto> transactions) {
@@ -437,52 +432,57 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
-  void _restoreIgnoredTransactions() {
-    _addTransactionInOrder(ignoredTransactions);
-  }
-
-  @action
-  void removeIgnoredTransactions(String transactionId) {
-    _hiveStorage.removeIgnoredTransaction(transactionId);
-    ignoredTransactions.removeWhere((element) => element.id == transactionId);
-    currentTransactions.removeWhere((element) => element.id == transactionId);
-  }
-
-  @action
-  void _restorePendingTransaction() {
-    _addTransactionInOrder(pendingTransactions);
-  }
-
-  @action
-  addPendingTransaction(TransactionVm transaction) {
-    _hiveStorage.addPendingTransaction(transaction);
-    pendingTransactions.add(transaction);
-  }
-
-  @action
-  validatePendingTransactions(int currentTick) {
-    pendingTransactions.removeWhere((trx) {
-      if (currentTick > trx.targetTick) {
-        addIgnoredTransaction(trx);
-        _hiveStorage.removePendingTransaction(trx.id);
-        return true;
+  void _addStoredTransactionsToCurrent() {
+    // Add transactions that are not in currentTransactions in order
+    for (var trx in storedTransactions) {
+      if (!currentTransactions.any((element) => element.id == trx.id)) {
+        int insertIndex = currentTransactions.indexWhere(
+          (element) => element.targetTick > trx.targetTick,
+        );
+        if (insertIndex == -1) {
+          currentTransactions.add(trx);
+        } else {
+          currentTransactions.insert(insertIndex, trx);
+        }
       }
-      return false;
-    });
+    }
   }
 
   @action
-  addIgnoredTransaction(TransactionVm pendingTransaction) {
-    pendingTransaction.isPending = false;
-    pendingTransaction.status = "Invalid";
-    _hiveStorage.addIgnoredTransaction(pendingTransaction);
-    ignoredTransactions.add(pendingTransaction);
+  addStoredTransaction(TransactionVm transaction) {
+    _hiveStorage.addStoredTransaction(transaction);
+    storedTransactions.add(transaction);
+  }
+
+  /// If any pending transaction is older than the current tick, convert it
+  /// to invalid (ignored by network)
+  @action
+  void validatePendingTransactions(int currentTick) {
+    for (var trx in storedTransactions) {
+      if (currentTick > trx.targetTick) {
+        convertPendingToInvalid(trx);
+      }
+    }
+  }
+
+  @action
+  convertPendingToInvalid(TransactionVm transaction) {
+    transaction.isPending = false;
+    transaction.status = "Invalid";
+    _hiveStorage.addStoredTransaction(transaction);
   }
 
   int getQubicIDsWithPublicId(String publicId) {
     return currentQubicIDs
         .where((element) => element.publicId == publicId.replaceAll(",", "_"))
         .length;
+  }
+
+  @action
+  void removeStoredTransaction(String transactionId) {
+    _hiveStorage.removeStoredTransaction(transactionId);
+    storedTransactions.removeWhere((element) => element.id == transactionId);
+    currentTransactions.removeWhere((element) => element.id == transactionId);
   }
 
   @action
@@ -503,21 +503,5 @@ abstract class _ApplicationStore with Store {
         currentQubicIDs.any(
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
-  }
-
-  @action
-  void _addTransactionInOrder(List<TransactionVm> transactions) {
-    for (var trx in transactions) {
-      if (!currentTransactions.any((element) => element.id == trx.id)) {
-        int insertIndex = currentTransactions.indexWhere(
-          (element) => element.targetTick > trx.targetTick,
-        );
-        if (insertIndex == -1) {
-          currentTransactions.add(trx);
-        } else {
-          currentTransactions.insert(insertIndex, trx);
-        }
-      }
-    }
   }
 }
