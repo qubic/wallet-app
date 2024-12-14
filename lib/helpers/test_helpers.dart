@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 
 void ignoreOverflowErrors(
   FlutterErrorDetails details, {
@@ -20,7 +21,7 @@ void ignoreOverflowErrors(
 
   // Ignore if is overflow error.
   if (ifIsOverflowError || isUnableToLoadAsset) {
-    debugPrint('Ignored Error');
+    appLogger.e('Ignored Error');
   } else {
     FlutterError.dumpErrorToConsole(details, forceReport: forceReport);
   }

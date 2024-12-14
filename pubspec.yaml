@@ -60,6 +60,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  logger: ^2.5.0
 
 dev_dependencies:
   flutter_test:

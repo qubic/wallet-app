@@ -10,6 +10,7 @@ import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
@@ -69,8 +70,8 @@ class QubicCmdUtils {
     final p = await Process.run(scriptPath, ['verifyIdentity', publicId], runInShell: true);
 
     if (p.exitCode != 0) {
-      debugPrint('Script execution failed with exit code ${p.exitCode}');
-      debugPrint(p.stderr);
+      appLogger.e('Script execution failed with exit code ${p.exitCode}');
+      appLogger.e(p.stderr);
       throw Exception(LocalizationManager.instance.appLocalization.cmdErrorVerifyingIdentityGeneric);
     }
 
@@ -190,8 +191,8 @@ class QubicCmdUtils {
         runInShell: true);
 
     if (p.exitCode != 0) {
-      debugPrint('Script execution failed with exit code ${p.exitCode}');
-      debugPrint(p.stderr);
+      appLogger.e('Script execution failed with exit code ${p.exitCode}');
+      appLogger.e(p.stderr);
       throw Exception(LocalizationManager.instance.appLocalization
           .cmdErrorGettingPublicIdFromSeed(p.stderr));
     }

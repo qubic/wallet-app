@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AppError {
@@ -32,8 +32,7 @@ class AppError {
   /// Here you can update it to handle server errors, according to the error model
   /// comes from back end.
   factory AppError.serverErrorParse(DioException error) {
-    log(error.response?.data?.toString() ?? "NULL",
-        name: "AppError.serverErrorParse");
+    appLogger.e(error.response?.data?.toString() ?? "NULL");
     final serverMessage = error.response?.data['message'] ??
         l10nWrapper.l10n!.generalErrorUnexpectedError;
     final code = error.response?.data['code'];
@@ -55,8 +54,8 @@ enum ErrorType {
 
 class ErrorHandler {
   static AppError handleError(Object? error) {
-    log(error.toString());
-    log(error.runtimeType.toString(), name: "Error type");
+    appLogger.e(error.toString());
+    appLogger.e("Error type:${error.runtimeType}");
     switch (error) {
       case DioException dioError:
         switch (dioError.type) {

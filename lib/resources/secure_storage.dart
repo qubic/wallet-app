@@ -3,6 +3,7 @@
 import 'package:dargon2_flutter/dargon2_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -162,7 +163,7 @@ class SecureStorage {
       await storage.write(
           key: SecureStorageKeys.criticalSettings, value: settings.toJSON());
     } catch (e) {
-      debugPrint(e.toString());
+      appLogger.e(e.toString());
       return false;
     }
     return true;

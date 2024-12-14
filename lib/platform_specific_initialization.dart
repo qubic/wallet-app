@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -22,11 +23,11 @@ class PlatformSpecificInitilization {
         await file.writeAsString('Fake');
       }
 
-      if (!kReleaseMode) {
+      if (kDebugMode) {
         await InAppWebViewController.setWebContentsDebuggingEnabled(true);
       }
     } catch (e) {
-      debugPrint('Error: $e');
+      appLogger.e(e);
     }
   }
 

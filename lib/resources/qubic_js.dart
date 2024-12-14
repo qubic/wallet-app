@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter/services.dart' show Uint8List;
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 
@@ -20,7 +21,7 @@ class QubicJs {
       "a3395f6a38afa4326bf73a52e04530fd"; //MD5 of the index.html file to prevent tampering in run time
   initialize() async {
     if (controller != null) {
-      debugPrint("QubicJS: Controller already set. No need to initialize");
+      appLogger.d("QubicJS: Controller already set. No need to initialize");
       return;
     }
     InAppWebView = HeadlessInAppWebView(
@@ -31,10 +32,10 @@ class QubicJs {
         controller = WVcontroller;
       },
       onConsoleMessage: (controller, consoleMessage) {
-        debugPrint(consoleMessage.toString());
+        appLogger.d(consoleMessage.toString());
       },
       onReceivedError: (controller, request, error) =>
-          {debugPrint(error.toString())},
+          {appLogger.e(error.toString())},
       onLoadStart: (controller, url) {},
       onLoadStop: (controller, url) async {
         isReady = true;
@@ -49,7 +50,7 @@ class QubicJs {
 
   reInitialize() async {
     if (controller != null) {
-      debugPrint("Reinitialize skipped: Controller is still valid");
+      appLogger.d("Reinitialize skipped: Controller is still valid");
       return;
     }
     disposeController();
