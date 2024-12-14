@@ -45,6 +45,14 @@ abstract class _ApplicationStore with Store {
   @observable
   int currentTabIndex = 0;
 
+  @observable
+  Uri? currentInboundUri;
+
+  @action
+  void setCurrentInboundUrl(Uri? uri) {
+    currentInboundUri = uri;
+  }
+
 // Add an action to update the tab index
   @action
   void setCurrentTabIndex(int index) {
@@ -89,8 +97,10 @@ abstract class _ApplicationStore with Store {
   @computed
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
-    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(0,
-        (sum, qubic) => sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
+    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(
+        0,
+        (sum, qubic) =>
+            sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
   }
 
   //The market info for $QUBIC

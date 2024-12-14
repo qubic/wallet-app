@@ -60,6 +60,8 @@ dependencies:
   blur: ^4.0.0
   http_interceptor: ^2.0.0
   flutter_svg: ^2.0.10+1
+  app_links: ^6.3.2
+  win32_registry: ^1.1.5
 
 dev_dependencies:
   flutter_test:

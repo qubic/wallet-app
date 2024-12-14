@@ -2,12 +2,17 @@ part of '../add_wallet_connect.dart';
 
 class _AddWalletConnectMobileView extends StatefulWidget {
   final Function(BarcodeCapture capture) onDetect;
+  final String? connectionUrl;
+
   final VoidCallback pasteAndProceed;
+  final Function(String?) proceedHandler;
   final bool isLoading;
   const _AddWalletConnectMobileView(
       {required this.onDetect,
       required this.pasteAndProceed,
-      required this.isLoading});
+      required this.isLoading,
+      required this.proceedHandler,
+      this.connectionUrl});
 
   @override
   State<_AddWalletConnectMobileView> createState() =>
@@ -22,6 +27,10 @@ class _AddWalletConnectMobileViewState
   @override
   void initState() {
     super.initState();
+    if (widget.connectionUrl != null) {
+      widget.proceedHandler(widget.connectionUrl);
+    }
+
     Future.delayed(const Duration(milliseconds: 600), () {
       setState(() {
         isCameraInitialized = true;

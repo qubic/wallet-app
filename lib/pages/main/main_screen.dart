@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:animated_snack_bar/animated_snack_bar.dart';
+import 'package:app_links/app_links.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
@@ -10,12 +11,15 @@ import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/pages/main/tab_explorer/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -24,8 +28,6 @@ import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialTabIndex;
@@ -52,6 +54,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
   final WalletConnectModalsController wcModalsController =
       getIt<WalletConnectModalsController>();
+
+  final AppLinkController appLinkController = AppLinkController();
 
   Timer? _autoLockTimer;
   Timer? _backgroundTimer;
@@ -200,6 +204,20 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             ..show(context);
         }
       }
+    });
+
+    if (applicationStore.currentInboundUri != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        //Need to call any extra navigation effects after the builder has finished
+        Future.delayed(const Duration(seconds: 1), () {
+          appLinkController.parseUriString(
+              applicationStore.currentInboundUri!, context);
+        });
+      });
+    }
+    getIt<AppLinks>().uriLinkStream.listen((uri) {
+      appLinkController.parseUriString(
+          applicationStore.currentInboundUri!, context);
     });
   }
 
