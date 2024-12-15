@@ -129,7 +129,6 @@ class TimedController extends WidgetsBindingObserver {
   Future<void> _getMarketInfo() async {
     try {
       final marketInfo = await _statsApi.getMarketInfo();
-      debugPrint(marketInfo.toString());
       appStore.setMarketInfo(marketInfo);
       explorerStore.setNetworkOverview(marketInfo);
     } on AppError catch (e) {

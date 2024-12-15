@@ -62,6 +62,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   app_links: ^6.3.2
   win32_registry: ^1.1.5
+  logger: ^2.5.0
 
 dev_dependencies:
   flutter_test:
