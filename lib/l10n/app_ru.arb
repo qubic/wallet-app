@@ -881,5 +881,11 @@
     "cmdErrorCreatingSignatureDigestEmpty": "Ошибка при попытке создать подпись. Хэш пуст",
     "cmdErrorCreatingSignatureSignedDataEmpty": "Ошибка при попытке создать подпись. Подписанные данные пусты",
     "cmdErrorCreatingSignatureSignatureEmpty": "Ошибка при попытке создать подпись. Подпись пуста",
-    "cmdErrorCreatingSignature": "Ошибка при попытке создать подпись: {errorDescription}"
+    "cmdErrorCreatingSignature": "Ошибка при попытке создать подпись: {errorDescription}",
+    "wcErrorProposalExpired": "Срок действия предложения сессии истек",
+    "uriIsEmpty": "URI пуст",
+    "uriSchemeUnknown": "Неизвестная схема URI",
+    "uriInvalidFormat": "Недопустимый формат URI",
+    "uriUnknownAction": "Неизвестное действие URI",
+    "uriInvalidWCPairUrl": "Недопустимый URL подключения WC. Должен начинаться с wc:"
 }

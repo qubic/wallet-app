@@ -886,5 +886,11 @@
     "cmdErrorCreatingSignatureDigestEmpty": "Erreur lors de la tentative de création de la signature. Le digest est vide",
     "cmdErrorCreatingSignatureSignedDataEmpty": "Erreur lors de la tentative de création de la signature. Les données signées sont vides",
     "cmdErrorCreatingSignatureSignatureEmpty": "Erreur lors de la tentative de création de la signature. La signature est vide",
-    "cmdErrorCreatingSignature": "Erreur lors de la tentative de création de la signature : {errorDescription}"
+    "cmdErrorCreatingSignature": "Erreur lors de la tentative de création de la signature : {errorDescription}",
+    "wcErrorProposalExpired": "La proposition de session a expiré",
+    "uriIsEmpty": "L'URI est vide",
+    "uriSchemeUnknown": "Schéma URI inconnu",
+    "uriInvalidFormat": "Format d'URI invalide",
+    "uriUnknownAction": "Action URI inconnue",
+    "uriInvalidWCPairUrl": "URL de connexion WC invalide. Devrait commencer par wc:"
 }

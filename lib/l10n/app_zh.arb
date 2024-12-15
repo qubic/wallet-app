@@ -881,5 +881,11 @@
     "cmdErrorCreatingSignatureDigestEmpty": "創建簽名時發生錯誤。摘要為空",
     "cmdErrorCreatingSignatureSignedDataEmpty": "創建簽名時發生錯誤。已簽署的數據為空",
     "cmdErrorCreatingSignatureSignatureEmpty": "創建簽名時發生錯誤。簽名為空",
-    "cmdErrorCreatingSignature": "創建簽名時發生錯誤：{errorDescription}"
+    "cmdErrorCreatingSignature": "創建簽名時發生錯誤：{errorDescription}",
+    "wcErrorProposalExpired": "會話提案已過期",
+    "uriIsEmpty": "URI 為空",
+    "uriSchemeUnknown": "未知的 URI 協議",
+    "uriInvalidFormat": "無效的 URI 格式",
+    "uriUnknownAction": "未知的 URI 操作",
+    "uriInvalidWCPairUrl": "無效的 WC 連接 URL。應以 wc: 開頭"
 }

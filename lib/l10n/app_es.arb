@@ -873,5 +873,11 @@
     "cmdErrorCreatingSignatureDigestEmpty": "Error al generar la firma. El digest está vacío",
     "cmdErrorCreatingSignatureSignedDataEmpty": "Error al generar la firma. Los datos firmados están vacíos",
     "cmdErrorCreatingSignatureSignatureEmpty": "Error al generar la firma. La firma está vacía",
-    "cmdErrorCreatingSignature": "Error al generar la firma: {errorDescription}"
+    "cmdErrorCreatingSignature": "Error al generar la firma: {errorDescription}",
+    "wcErrorProposalExpired": "La propuesta de sesión ha expirado",
+    "uriIsEmpty": "El URI está vacío",
+    "uriSchemeUnknown": "Esquema de URI desconocido",
+    "uriInvalidFormat": "Formato de URI inválido",
+    "uriUnknownAction": "Acción de URI desconocida",
+    "uriInvalidWCPairUrl": "URL de conexión WalletConnect inválido. Debe comenzar con wc:"
 }

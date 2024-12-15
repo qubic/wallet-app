@@ -881,5 +881,11 @@
     "cmdErrorCreatingSignatureDigestEmpty": "İmza oluşturulurken hata oluştu. Özet boş",
     "cmdErrorCreatingSignatureSignedDataEmpty": "İmza oluşturulurken hata oluştu. İmzalanmış veri boş",
     "cmdErrorCreatingSignatureSignatureEmpty": "İmza oluşturulurken hata oluştu. İmza boş",
-    "cmdErrorCreatingSignature": "İmza oluşturulurken hata oluştu: {errorDescription}"
+    "cmdErrorCreatingSignature": "İmza oluşturulurken hata oluştu: {errorDescription}",
+    "wcErrorProposalExpired": "Oturum teklifi süresi doldu",
+    "uriIsEmpty": "URI boş",
+    "uriSchemeUnknown": "Bilinmeyen URI şeması",
+    "uriInvalidFormat": "Geçersiz URI formatı",
+    "uriUnknownAction": "Bilinmeyen URI eylemi",
+    "uriInvalidWCPairUrl": "Geçersiz WC bağlantı URL'si. wc: ile başlamalıdır"
 }
