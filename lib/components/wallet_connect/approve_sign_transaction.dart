@@ -137,14 +137,14 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                       } else {
                         //Else, generation falied
                         setState(() {
-                          isLoading = true;
+                          isLoading = false;
                         });
                         if (mounted) {
-                          Navigator.of(context)
-                              .pop(ApproveSignTransactionResult(
-                                  //Return the error
-                                  transactionId: null,
+                          Navigator.of(context).pop(
+                              ApproveSignTransactionResult(
+                                  errorMessage: "Transaction generation failed",
                                   tick: null,
+                                  transactionId: null,
                                   signedTransaction: null));
                           getIt<GlobalSnackBar>()
                               .showError(l10nOf(context) //Show snackbar
