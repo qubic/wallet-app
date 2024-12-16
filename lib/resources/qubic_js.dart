@@ -125,11 +125,19 @@ class QubicJs {
     return data['transaction'];
   }
 
-  Future<String> createTransaction(
-      String seed, String destinationId, int value, int tick) async {
-    CallAsyncJavaScriptResult? result = await runFunction(
-        QubicJSFunctions.createTransaction,
-        [seed, destinationId, value.toString(), tick.toString()]);
+  Future<String> createTransaction(String seed, String destinationId, int value,
+      int tick, int? inputType, String? payload) async {
+    CallAsyncJavaScriptResult? result = (inputType != null && payload != null)
+        ? await runFunction(QubicJSFunctions.createTransactionWithPayload, [
+            seed,
+            destinationId,
+            value.toString(),
+            tick.toString(),
+            inputType.toString(),
+            payload
+          ])
+        : await runFunction(QubicJSFunctions.createTransaction,
+            [seed, destinationId, value.toString(), tick.toString()]);
 
     if (result == null) {
       throw Exception(LocalizationManager

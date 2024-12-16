@@ -5,6 +5,7 @@ import 'package:qubic_wallet/components/wallet_connect/amount_value_header.dart'
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
@@ -28,6 +29,8 @@ class ApproveSignTransaction extends StatefulWidget {
   final int amount;
   final String? toID;
   final int? tick;
+  final int? inputType;
+  final String? payload;
   const ApproveSignTransaction(
       {super.key,
       required this.pairingMetadata,
@@ -35,6 +38,8 @@ class ApproveSignTransaction extends StatefulWidget {
       required this.fromName,
       required this.amount,
       required this.tick,
+      required this.inputType,
+      required this.payload,
       required this.toID});
 
   @override
@@ -111,7 +116,9 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                           widget.fromID!,
                           widget.toID!,
                           widget.amount,
-                          targetTick);
+                          targetTick,
+                          widget.inputType,
+                          widget.payload);
                       if (result != null) {
                         setState(() {
                           isLoading = true;
@@ -253,7 +260,25 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                       style: TextStyles.lightGreyTextSmall,
                     ),
                     Text(widget.tick?.asThousands() ?? "-",
-                        style: TextStyles.textNormal)
+                        style: TextStyles.textNormal),
+                    if (widget.inputType != null && widget.inputType != 0) ...[
+                      ThemedControls.spacerVerticalSmall(),
+                      Text(
+                        l10n.generalLabelInputType,
+                        style: TextStyles.lightGreyTextSmall,
+                      ),
+                      Text(widget.inputType!.toString(),
+                          style: TextStyles.textNormal),
+                    ],
+                    if (widget.payload != null &&
+                        widget.payload!.isNotEmpty) ...[
+                      ThemedControls.spacerVerticalSmall(),
+                      Text(
+                        l10n.generalLabelPayload,
+                        style: TextStyles.lightGreyTextSmall,
+                      ),
+                      Text(widget.payload!, style: TextStyles.textNormal)
+                    ]
                   ]))
             ],
           ))

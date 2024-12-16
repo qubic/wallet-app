@@ -1,10 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 
 class RequestSignTransactionEvent extends RequestEvent {
@@ -12,6 +12,8 @@ class RequestSignTransactionEvent extends RequestEvent {
   final String toID; //To which publicID should the funds flow
   final int amount; //The amount of funds to send
   final int? tick; //The tick to be used for the transaction
+  final int? inputType;
+  final String? payload;
 
   late final String fromIDName; //The name of the fromID
   late final PairingMetadata?
@@ -48,18 +50,20 @@ class RequestSignTransactionEvent extends RequestEvent {
     return {fromID: fromID, toID: toID, amount: amount, tick: tick};
   }
 
-  RequestSignTransactionEvent({
-    required super.topic,
-    required super.requestId,
-    required this.fromID,
-    required this.toID,
-    required this.amount,
-    required this.tick,
-  });
+  RequestSignTransactionEvent(
+      {required super.topic,
+      required super.requestId,
+      required this.fromID,
+      required this.toID,
+      required this.amount,
+      required this.tick,
+      required this.inputType,
+      required this.payload});
 
   //Creates a RequestSendQubicEvent from a map validating data types
   factory RequestSignTransactionEvent.fromMap(
       Map<String, dynamic> map, String topic, int requestId) {
+    appLogger.e(map.toString());
     var validFromID = FormBuilderValidators.compose([
       FormBuilderValidators.required(errorText: "fromID is required"),
       CustomFormFieldValidators.isPublicIDNoContext(
@@ -104,8 +108,16 @@ class RequestSignTransactionEvent extends RequestEvent {
       toID: map["toID"],
       amount: int.parse(map["amount"]),
       tick: map["tick"] != null ? int.parse(map["tick"]) : null,
+      inputType:
+          map["inputType"] != null ? int.tryParse(map["inputType"]) : null,
+      payload: map["payload"],
     );
   }
 
   get isPublicIDNoContext => null;
+
+  @override
+  String toString() {
+    return 'RequestSignTransactionEvent(fromID: $fromID, toID: $toID, amount: $amount, tick: $tick, inputType: $inputType, payload: $payload, fromIDName: $fromIDName, pairingMetadata: $pairingMetadata)';
+  }
 }

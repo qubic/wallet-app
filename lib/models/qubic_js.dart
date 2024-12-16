@@ -5,6 +5,9 @@ abstract class QubicJSFunctions {
   // Signs a transaction to move Qubic
   static const createTransaction = "createTransaction";
 
+  // Signs a transaction with payload
+  static const createTransactionWithPayload = "createTransactionWithPayload";
+
   // Creates a public ID
   static const createPublicId = "createPublicId";
 

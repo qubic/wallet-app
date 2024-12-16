@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/wallet_connect/approve_sign_transaction.dart';
 import 'package:qubic_wallet/components/wallet_connect/approve_token_transfer.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
@@ -69,6 +70,7 @@ class WalletConnectModalsController {
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
 
+    appLogger.e(event.toString());
     try {
       var result = await Navigator.of(context)
           .push(MaterialPageRoute<ApproveSignTransactionResult?>(
@@ -79,6 +81,8 @@ class WalletConnectModalsController {
                     fromName: event.fromIDName,
                     amount: event.amount,
                     tick: event.tick,
+                    inputType: event.inputType,
+                    payload: event.payload,
                     toID: event.toID);
               },
               fullscreenDialog: true));

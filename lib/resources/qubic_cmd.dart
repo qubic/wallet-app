@@ -79,12 +79,14 @@ class QubicCmd {
   }
 
   Future<String> createTransaction(
-      String seed, String destinationId, int value, int tick) async {
+      String seed, String destinationId, int value, int tick,
+      {int? inputType, String? payload}) async {
     if (useJs) {
-      return await qubicJs.createTransaction(seed, destinationId, value, tick);
+      return await qubicJs.createTransaction(
+          seed, destinationId, value, tick, inputType, payload);
     } else {
       return await qubicCmdUtils.createTransaction(
-          seed, destinationId, value, tick);
+          seed, destinationId, value, tick, inputType, payload);
     }
   }
 
