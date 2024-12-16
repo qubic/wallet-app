@@ -12,6 +12,7 @@ import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_js.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
 
 /// A class that handles the secure storage of the wallet. The wallet is stored in the secure storage of the device
 /// The wallet password is encrypted using Argon2
@@ -125,8 +126,8 @@ class QubicJs {
     return data['transaction'];
   }
 
-  Future<String> createTransaction(String seed, String destinationId, int value,
-      int tick, int? inputType, String? payload) async {
+  Future<SignedTransaction> createTransaction(String seed, String destinationId,
+      int value, int tick, int? inputType, String? payload) async {
     CallAsyncJavaScriptResult? result = (inputType != null && payload != null)
         ? await runFunction(QubicJSFunctions.createTransactionWithPayload, [
             seed,
@@ -148,7 +149,7 @@ class QubicJs {
           .cmdErrorCreatingTransferTransaction(result.error ?? ""));
     }
     final Map<String, dynamic> data = json.decode(result.value);
-    return data['transaction'];
+    return SignedTransaction.fromJson(data);
   }
 
   Future<String> getPublicIdFromSeed(String seed) async {

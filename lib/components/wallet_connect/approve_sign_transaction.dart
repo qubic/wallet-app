@@ -11,6 +11,7 @@ import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -109,7 +110,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                       targetTick = latestTick + defaultTargetTickType.value;
                     }
                     //Generate the transaction
-                    String? result;
+                    SignedTransaction? result;
                     if (mounted) {
                       result = await getTransactionDialog(
                           context,
@@ -128,7 +129,8 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                               .pop(ApproveSignTransactionResult(
                                   //Return the success and tick
                                   tick: targetTick,
-                                  signedTransaction: result));
+                                  signedTransaction: result.transactionKey,
+                                  transactionId: result.tansactionId));
                           getIt<GlobalSnackBar>().show(
                               l10nOf(context).wcApprovedSignedTransaction);
                         }
@@ -141,6 +143,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                           Navigator.of(context)
                               .pop(ApproveSignTransactionResult(
                                   //Return the error
+                                  transactionId: null,
                                   tick: null,
                                   signedTransaction: null));
                           getIt<GlobalSnackBar>()

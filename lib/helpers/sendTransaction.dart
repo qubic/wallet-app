@@ -4,6 +4,7 @@ import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -57,7 +58,7 @@ Future<bool> sendAssetTransferTransactionDialog(
 }
 
 // Gets the transaction key to be submitted in the API for a transaction
-Future<String?> getTransactionDialog(
+Future<SignedTransaction?> getTransactionDialog(
     BuildContext context,
     String sourceId,
     String destinationId,
@@ -96,8 +97,9 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
   late String? transactionKey;
 
   if (context.mounted) {
-    transactionKey = await getTransactionDialog(
+    final signedTransaction = await getTransactionDialog(
         context, sourceId, destinationId, value, destinationTick, null, null);
+    transactionKey = signedTransaction?.transactionKey;
     if (transactionKey == null) {
       return false;
     }

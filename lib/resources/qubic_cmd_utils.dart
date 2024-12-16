@@ -19,6 +19,7 @@ import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
 // ignore: depend_on_referenced_packages
 import 'package:crypto/crypto.dart' as crypto;
+import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class QubicCmdUtilsResult {}
@@ -282,8 +283,8 @@ class QubicCmdUtils {
     return response.transaction!;
   }
 
-  Future<String> createTransaction(String seed, String destinationId, int value,
-      int tick, int? inputType, String? payload) async {
+  Future<SignedTransaction> createTransaction(String seed, String destinationId,
+      int value, int tick, int? inputType, String? payload) async {
     await validateFileStreamSignature();
     final p = (inputType != null && payload != null)
         ? await Process.run(
@@ -333,7 +334,9 @@ class QubicCmdUtils {
           .instance.appLocalization.cmdErrorCreatingTransferTransactionEmpty);
     }
 
-    return response.transaction!;
+    return SignedTransaction(
+        transactionKey: response.transaction!,
+        tansactionId: response.transactionId!);
   }
 
   Future<List<QubicImportVaultSeed>> importVaultFile(
