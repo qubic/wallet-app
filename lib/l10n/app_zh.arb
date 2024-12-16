@@ -188,7 +188,7 @@
     "explorerTickResultLabelTickLeader": "刻度验证者",
     "explorerTickResultLabelNoTransactionsFound": "此刻度中无交易",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 笔交易在此刻度} other{{count} 笔交易在此刻度}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{正在显示 1 of 1 笔交易在此刻度} other{正在显示 1 of {count} 笔交易在此刻度}}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{正在显示 1 of 1 笔交易在此刻度} other{正在显示 1 of {count} 笔交易在此刻度}}",
     "settingsTitle": "设置",
     "settingsHeaderAccountsAndData": "账户和数据",
     "settingsLockWallet": "锁定钱包",
@@ -775,5 +775,117 @@
             }
         }
     },
-    "accountExplorerLabelLatestTransactions": "最新交易"
+    "accountExplorerLabelLatestTransactions": "最新交易",
+    "wcScopeRequestAccounts": "查看您的錢包帳戶及其餘額",
+    "wcScopeSendQubic": "請求您從錢包帳戶發送 Qubic",
+    "wcScopeSendAssets": "請求您從錢包帳戶發送 Qubic 資產",
+    "wcScopeSignTransaction": "請求您使用您的私密種子簽署交易",
+    "wcScopeSign": "請求您使用您的私密種子簽署訊息",
+    "wcScopeForbiddenTransfer": "未經您的同意轉移 Qubic 或 Qubic 資產",
+    "wcUnknownDapp": "未知的 dApp",
+    "wcAppInfoHeader": "此應用程式能夠",
+    "wcAppInfoHeaderPair": "此應用程式將能夠",
+    "wcAppInfoHeaderPairForbidden": "此應用程式將無法",
+    "wcErrorUserDisconnected": "用戶強制斷開連接",
+    "wcErrorInvalidURL": "無效的 WalletConnect 連接 URL",
+    "wcErrorDeprecatedURL": "已棄用的 WalletConnect 連接 URL",
+    "wcErrorUnsupportedChains": "配對請求包含不受支持的鏈",
+    "wcErrorUnsupportedMethods": "配對請求包含不受支持的方法",
+    "wcErrorUnsupportedEvents": "配對請求包含不受支持的事件",
+    "wcErrorUnsupportedAccounts": "配對請求包含不受支持的帳戶",
+    "wcErrorUnsupportedNamespaces": "配對請求包含不受支持的命名空間",
+    "wcErrorUsedURL": "該 URL 已建立連接",
+    "wcErrorPairingTimeout": "配對請求超時",
+    "wcErrorUnsupportedNetwork": "不支持的網絡",
+    "wcErrorUnsupportedNetworkDescription": "此應用程式使用 {networkName} 網絡。目前，Qubic Wallet 僅支持 Qubic 主網絡上的應用程式",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcRevokePermissions": "撤銷權限",
+    "wcDappsConnectedNone": "無活動連接",
+    "wcDappsConnectedNoneHint": "當您連接任何 dApp 時，您將可以在此管理它們",
+    "wcConnectionApproved": "WalletConnect 連接已批准",
+    "wcConnectionRejected": "WalletConnect 連接已拒絕",
+    "wcConnectionProposalTimeout": "WalletConnect 會議提案超時",
+    "wcPointCameraToQR": "請將相機對準包含 WalletConnect 連接資訊的 QR 碼",
+    "wcAddWcTitle": "通過 WalletConnect 配對",
+    "wcAddURL": "通過粘貼 WalletConnect 連接 URL 來連接 dApp。",
+    "wcNoPermissions": "此應用程式無任何權限",
+    "wcOpenApp": "打開應用程式",
+    "wcExpiresInDays": "{count, plural, =1{會議在 1 天內過期} other{會議在 {count} 天內過期}}",
+    "wcExpiresInLessThanDay": "會議在不到一天內過期",
+    "pasteURLHere": "在此粘貼 URL",
+    "approvingConnection": "正在批准連接",
+    "pleaseWait": "請稍候",
+    "wcApproveSignTransferOf": "簽署轉帳",
+    "wcApproveTransferOf": "轉帳",
+    "wcApproveSignOf": "簽署以下訊息",
+    "wcApprovedSignedTransaction": "已簽署交易並成功發送至 dApp",
+    "wcApprovedSignedMessage": "已簽署訊息並成功發送至 dApp",
+    "wcDisconnectAll": "斷開所有應用程式",
+    "wcDisconnectAllConfirm": "斷開應用程式的連接將移除對您的錢包的所有訪問",
+    "wcDisconnect": "斷開連接",
+    "wcDisconnectConfirm": "斷開此應用程式的連接將移除對您的錢包的訪問",
+    "wcAddConnection": "添加連接",
+    "signBase64GenericError": "簽署 Base64 字串時發生錯誤：{errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "簽署 UTF-8 字串時發生錯誤：{errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "簽署 ASCII 字串時發生錯誤：{errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "wcDomainScamTitle": "已知安全風險",
+    "wcDomainScamDescription": "該域名已被多個安全提供商標記為不安全。為保護您的資產，請立即離開",
+    "wcDomainMismatchTitle": "域名不匹配",
+    "wcDomainMismatchDescription": "此網站的域名與請求發送者不匹配。批准後可能會導致資金損失",
+    "wcDomainUnkownTitle": "未知域名",
+    "wcDomainUnkownDescription": "無法驗證此域名。請在批准前仔細檢查請求",
+    "wcApproveTransaction": "批准交易",
+    "wcSignMessage": "簽署訊息",
+    "wcSignTransaction": "簽署交易",
+    "generalButtonApprove": "批准",
+    "generalButtonReject": "拒絕",
+    "generalButtonPaste": "粘貼",
+    "generalButtonConnect": "連接",
+    "generalErrorUnexpectedError": "發生了意外錯誤",
+    "generalErrorConnectionTimeout": "連接超時",
+    "generalErrorNoInternetConnection": "無網絡連接",
+    "generalErrorRequestCancelled": "請求已取消",
+    "generalErrorCouldntParseResponse": "無法解析響應",
+    "generalErrorServerError": "伺服器錯誤",
+    "generalStatusCode": "狀態碼",
+    "generalCode": "代碼",
+    "accountSendSectionInvalidDestinationAddress": "無效的目的地地址",
+    "cmdErrorCreatingSignatureGeneric": "創建簽名時發生錯誤",
+    "cmdErrorCreatingSignatureDigestEmpty": "創建簽名時發生錯誤。摘要為空",
+    "cmdErrorCreatingSignatureSignedDataEmpty": "創建簽名時發生錯誤。已簽署的數據為空",
+    "cmdErrorCreatingSignatureSignatureEmpty": "創建簽名時發生錯誤。簽名為空",
+    "cmdErrorCreatingSignature": "創建簽名時發生錯誤：{errorDescription}",
+    "wcErrorProposalExpired": "會話提案已過期",
+    "uriIsEmpty": "URI 為空",
+    "uriSchemeUnknown": "未知的 URI 協議",
+    "uriInvalidFormat": "無效的 URI 格式",
+    "uriUnknownAction": "未知的 URI 操作",
+    "uriInvalidWCPairUrl": "無效的 WC 連接 URL。應以 wc: 開頭"
 }

@@ -188,7 +188,7 @@
     "explorerTickResultLabelTickLeader": "Лидер тика",
     "explorerTickResultLabelNoTransactionsFound": "Нет транзакций в этом тике",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 транзакция в тике} other{{count} транзакций в тике}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Показать 1 из 1 транзакций в тике} other{Показать 1 из {count} транзакций в тике}}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Показать 1 из 1 транзакций в тике} other{Показать 1 из {count} транзакций в тике}}",
     "settingsTitle": "Настройки",
     "settingsHeaderAccountsAndData": "Аккаунты и данные",
     "settingsLockWallet": "Заблокировать кошелек",
@@ -775,5 +775,117 @@
         }
     },
     "joinCommunityLabelTiktok": "TikTok",
-    "accountExplorerLabelLatestTransactions": "Последние транзакции"
+    "accountExplorerLabelLatestTransactions": "Последние транзакции",
+    "wcScopeRequestAccounts": "Просмотр ваших кошельковых аккаунтов и их баланса",
+    "wcScopeSendQubic": "Запрос отправки Qubic с ваших кошельковых аккаунтов",
+    "wcScopeSendAssets": "Запрос отправки активов Qubic с ваших кошельковых аккаунтов",
+    "wcScopeSignTransaction": "Запрос подписания транзакций вашим приватным ключом",
+    "wcScopeSign": "Запрос подписания сообщений вашим приватным ключом",
+    "wcScopeForbiddenTransfer": "Передача Qubic или активов Qubic без вашего согласия",
+    "wcUnknownDapp": "Неизвестное dApp",
+    "wcAppInfoHeader": "Это приложение может",
+    "wcAppInfoHeaderPair": "Это приложение сможет",
+    "wcAppInfoHeaderPairForbidden": "Это приложение не сможет",
+    "wcErrorUserDisconnected": "Пользователь принудительно отключил соединение",
+    "wcErrorInvalidURL": "Неверный URL для подключения WalletConnect",
+    "wcErrorDeprecatedURL": "Устаревший URL для подключения WalletConnect",
+    "wcErrorUnsupportedChains": "Запрос соединения содержит неподдерживаемые сети",
+    "wcErrorUnsupportedMethods": "Запрос соединения содержит неподдерживаемые методы",
+    "wcErrorUnsupportedEvents": "Запрос соединения содержит неподдерживаемые события",
+    "wcErrorUnsupportedAccounts": "Запрос соединения содержит неподдерживаемые аккаунты",
+    "wcErrorUnsupportedNamespaces": "Запрос соединения содержит неподдерживаемые пространства имен",
+    "wcErrorUsedURL": "Соединение уже было установлено через этот URL",
+    "wcErrorPairingTimeout": "Время ожидания подключения истекло.",
+    "wcErrorUnsupportedNetwork": "Неподдерживаемая сеть",
+    "wcErrorUnsupportedNetworkDescription": "Это приложение использует сеть {networkName}. В настоящее время Qubic Wallet поддерживает только приложения в основной сети Qubic",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcRevokePermissions": "Отозвать разрешения",
+    "wcDappsConnectedNone": "Нет активных подключений",
+    "wcDappsConnectedNoneHint": "После подключения к dApp вы сможете управлять ими здесь",
+    "wcConnectionApproved": "Соединение WalletConnect одобрено",
+    "wcConnectionRejected": "Соединение WalletConnect отклонено",
+    "wcConnectionProposalTimeout": "Время ожидания предложения сессии WalletConnect истекло",
+    "wcPointCameraToQR": "Наведите камеру на QR-код с информацией о подключении WalletConnect",
+    "wcAddWcTitle": "Подключение через WalletConnect",
+    "wcAddURL": "Подключитесь к dApp, вставив URL подключения WalletConnect.",
+    "wcNoPermissions": "У этого приложения нет разрешений",
+    "wcOpenApp": "Открыть приложение",
+    "wcExpiresInDays": "{count, plural, =1{Сессия истекает через 1 день} other{Сессия истекает через {count} дней}}",
+    "wcExpiresInLessThanDay": "Сессия истекает менее чем через день",
+    "pasteURLHere": "Вставьте URL сюда",
+    "approvingConnection": "Подтверждение соединения",
+    "pleaseWait": "Пожалуйста, подождите",
+    "wcApproveSignTransferOf": "Подпишите передачу",
+    "wcApproveTransferOf": "Передача",
+    "wcApproveSignOf": "Подпишите следующее сообщение",
+    "wcApprovedSignedTransaction": "Транзакция подписана и успешно отправлена в dApp",
+    "wcApprovedSignedMessage": "Сообщение подписано и успешно отправлено в dApp",
+    "wcDisconnectAll": "Отключить все приложения",
+    "wcDisconnectAllConfirm": "Отключение приложений удалит весь доступ к вашему кошельку",
+    "wcDisconnect": "Отключить",
+    "wcDisconnectConfirm": "Отключение этого приложения удалит доступ к вашему кошельку",
+    "wcAddConnection": "Добавить соединение",
+    "signBase64GenericError": "Ошибка при попытке подписать строку Base64: {errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "Ошибка при попытке подписать строку UTF-8: {errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "Ошибка при попытке подписать строку ASCII: {errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "wcDomainScamTitle": "Известный риск безопасности",
+    "wcDomainScamDescription": "Этот домен отмечен как небезопасный несколькими провайдерами безопасности. Немедленно покиньте его, чтобы защитить свои активы",
+    "wcDomainMismatchTitle": "Несоответствие домена",
+    "wcDomainMismatchDescription": "Этот сайт имеет домен, который не соответствует отправителю этого запроса. Одобрение может привести к потере средств",
+    "wcDomainUnkownTitle": "Неизвестный домен",
+    "wcDomainUnkownDescription": "Этот домен не может быть проверен. Тщательно проверьте запрос перед одобрением",
+    "wcApproveTransaction": "Одобрить транзакцию",
+    "wcSignMessage": "Подписать сообщение",
+    "wcSignTransaction": "Подписать транзакцию",
+    "generalButtonApprove": "Одобрить",
+    "generalButtonReject": "Отклонить",
+    "generalButtonPaste": "Вставить",
+    "generalButtonConnect": "Подключиться",
+    "generalErrorUnexpectedError": "Произошла неожиданная ошибка",
+    "generalErrorConnectionTimeout": "Время ожидания подключения истекло",
+    "generalErrorNoInternetConnection": "Нет подключения к интернету",
+    "generalErrorRequestCancelled": "Запрос отменен",
+    "generalErrorCouldntParseResponse": "Не удалось разобрать ответ",
+    "generalErrorServerError": "Ошибка сервера",
+    "generalStatusCode": "Код статуса",
+    "generalCode": "Код",
+    "accountSendSectionInvalidDestinationAddress": "Неверный адрес назначения",
+    "cmdErrorCreatingSignatureGeneric": "Ошибка при попытке создать подпись",
+    "cmdErrorCreatingSignatureDigestEmpty": "Ошибка при попытке создать подпись. Хэш пуст",
+    "cmdErrorCreatingSignatureSignedDataEmpty": "Ошибка при попытке создать подпись. Подписанные данные пусты",
+    "cmdErrorCreatingSignatureSignatureEmpty": "Ошибка при попытке создать подпись. Подпись пуста",
+    "cmdErrorCreatingSignature": "Ошибка при попытке создать подпись: {errorDescription}",
+    "wcErrorProposalExpired": "Срок действия предложения сессии истек",
+    "uriIsEmpty": "URI пуст",
+    "uriSchemeUnknown": "Неизвестная схема URI",
+    "uriInvalidFormat": "Недопустимый формат URI",
+    "uriUnknownAction": "Неизвестное действие URI",
+    "uriInvalidWCPairUrl": "Недопустимый URL подключения WC. Должен начинаться с wc:"
 }

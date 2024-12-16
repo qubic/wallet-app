@@ -1,5 +1,7 @@
+import 'package:app_links/app_links.dart';
 import 'package:get_it/get_it.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -7,6 +9,7 @@ import 'package:qubic_wallet/resources/qubic_hub.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
@@ -41,8 +44,16 @@ void setupDI() {
 
   //Services
   getIt.registerSingleton<QubicHubService>(QubicHubService());
+
+  //WalletConnect
+  getIt.registerSingleton<WalletConnectService>(WalletConnectService());
+  getIt.registerSingleton<WalletConnectModalsController>(
+      WalletConnectModalsController());
+
   getIt.registerSingleton<TimedController>(TimedController());
   getIt.registerSingleton<BiometricService>(BiometricService());
 
   getIt.registerSingleton<QubicCmd>(QubicCmd());
+
+  getIt.registerSingleton<AppLinks>(AppLinks());
 }

@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:blur/blur.dart';
 import 'package:dargon2_flutter/dargon2_flutter.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -8,6 +11,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/helpers/win_registry_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -15,9 +19,11 @@ import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {
+  registerAppSchemeIfNeeded();
   DArgon2Flutter.init(); //Initialize DArgon 2
   WidgetsFlutterBinding.ensureInitialized();
   setupDI(); //Dependency injection
@@ -52,7 +58,17 @@ class WalletApp extends StatefulWidget {
 
 class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
   final QubicCmd qubicCmd = getIt<QubicCmd>();
+  final AppLinks appLinks = getIt<AppLinks>();
+
   bool _isInBackground = false;
+  StreamSubscription<Uri>? _linkSubscription;
+
+  Future<void> initDeepLinks() async {
+    // Handle links
+    _linkSubscription = appLinks.uriLinkStream.listen((uri) {
+      getIt<ApplicationStore>().setCurrentInboundUrl(uri);
+    });
+  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -71,11 +87,14 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    initDeepLinks();
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    _linkSubscription?.cancel();
+
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -120,7 +139,10 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 2,
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
-      ),
+      ).copyWith(
+          filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyles.primaryButtonBig,
+      )),
       builder: (context, child) {
         final localizations = AppLocalizations.of(context);
         if (localizations != null) {

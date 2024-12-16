@@ -641,11 +641,18 @@ class _SendState extends State<Send> {
       isLoading = false;
       getIt.get<PersistentTabController>().jumpToTab(1);
     });
+    if (mounted) {
+      Navigator.pop(context);
+    }
+    if (mounted) {
+      final l10n = l10nOf(context);
+      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
+          targetTick == null ? "" : targetTick.toString()));
+    }
 
-    Navigator.pop(context);
-
-    _globalSnackBar.show(l10n
-        .generalSnackBarMessageTransactionSubmitted(targetTick!.asThousands()));
+    setState(() {
+      isLoading = false;
+    });
   }
 
   TextEditingController destinationID = TextEditingController();

@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
+import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
@@ -17,6 +18,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed.
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_warning_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -155,43 +157,21 @@ class _AccountListItemState extends State<AccountListItem> {
 
   showRemoveDialog(BuildContext context) {
     final l10n = l10nOf(context);
-    late BuildContext dialogContext;
-
-    // set up the buttons
-    Widget cancelButton = ThemedControls.transparentButtonNormal(
-        onPressed: () {
-          Navigator.pop(dialogContext);
-        },
-        text: l10n.generalButtonCancel);
-
-    Widget continueButton = ThemedControls.primaryButtonNormal(
-      text: l10n.deleteAccountDialogButtonDelete,
-      onPressed: () async {
-        await _appStore.removeID(widget.item.publicId);
-        Navigator.pop(dialogContext);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(l10n.deleteAccountDialogTitle, style: TextStyles.alertHeader),
-      content: Text(
-          isItemWatchOnly()
-              ? l10n.deleteAccountDialogMessageWatchOnly
-              : l10n.deleteAccountDialogMessage,
-          style: TextStyles.alertText),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
+    WalletConnectService wallet3ConnectService = getIt<WalletConnectService>();
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        dialogContext = context;
-        return alert;
+        return ConfirmationDialog(
+          title: l10n.deleteAccountDialogTitle,
+          content: isItemWatchOnly()
+              ? l10n.deleteAccountDialogMessageWatchOnly
+              : l10n.deleteAccountDialogMessage,
+          continueText: l10n.deleteAccountDialogButtonDelete,
+          continueFunction: () async {
+            await _appStore.removeID(widget.item.publicId);
+            wallet3ConnectService.triggerAccountsChangedEvent();
+          },
+        );
       },
     );
   }

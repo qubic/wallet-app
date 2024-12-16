@@ -43,7 +43,7 @@ dependencies:
   sticky_headers: "^0.3.0"
   equatable: ^2.0.5
   settings_ui: ^2.0.2
-  package_info_plus: ^8.0.0
+  package_info_plus: ^8.1.0
   local_auth: ^2.3.0
   http: ^1.2.1
   universal_platform: ^1.0.0+1
@@ -55,9 +55,13 @@ dependencies:
   animated_snack_bar: ^0.4.0
   file_picker: ^8.0.6
   downloadsfolder: ^1.1.0
+  privacy_screen: ^0.0.6
+  reown_walletkit: ^1.0.1
   blur: ^4.0.0
   http_interceptor: ^2.0.0
   flutter_svg: ^2.0.10+1
+  app_links: ^6.3.2
+  win32_registry: ^1.1.5
   logger: ^2.5.0
 
 dev_dependencies:
@@ -69,6 +73,9 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.3.5
   change_app_package_name: ^1.2.0
+
+dependency_overrides:
+  web_socket_channel: ^3.0.0
 
 flutter_native_splash:
   color: "#0C131B"
