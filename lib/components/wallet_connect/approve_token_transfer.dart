@@ -91,15 +91,14 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                     setState(() {
                       isLoading = true;
                     });
-                    //Get current tick
                     try {
+                      //Get current tick
                       int latestTick = (await _liveApi.getCurrentTick()).tick;
                       int targetTick = latestTick + defaultTargetTickType.value;
 
                       //Send the transaction to backend
                       bool result = false;
                       if (mounted) {
-                        //TODO ERROR HANDLING
                         result = await sendTransactionDialog(
                             context,
                             widget.fromID!,
@@ -135,9 +134,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
 
                       if (mounted) {
                         Navigator.of(context).pop(ApproveTokenTransferResult(
-                            //Return the success and tick
-
-                            tick: null));
+                            errorMessage: e.toString(), tick: null));
                         getIt<GlobalSnackBar>()
                             .showError(l10nOf(context) //Show snackbar
                                 .sendItemDialogErrorGeneralTitle);

@@ -109,6 +109,7 @@ class _ApproveSignState extends State<ApproveSign> {
                         });
                         if (mounted) {
                           Navigator.of(context).pop(ApproveSignGenericResult(
+                              errorMessage: e.toString(),
                               //Return the success and tick
                               result: null));
                           getIt<GlobalSnackBar>().showError(e.toString());
