@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -56,15 +58,21 @@ Future<bool> sendAssetTransferTransactionDialog(
 }
 
 // Gets the transaction key to be submitted in the API for a transaction
-Future<String?> getTransactionDialog(BuildContext context, String sourceId,
-    String destinationId, int value, int destinationTick) async {
+Future<SignedTransaction?> getTransactionDialog(
+    BuildContext context,
+    String sourceId,
+    String destinationId,
+    int value,
+    int destinationTick,
+    int? inputType,
+    String? payload) async {
   final l10n = l10nOf(context);
   String seed = await getIt.get<ApplicationStore>().getSeedByPublicId(sourceId);
   QubicCmd qubicCmd = getIt.get<QubicCmd>();
   try {
-    //Get the signed transaction
     return await qubicCmd.createTransaction(
-        seed, destinationId, value, destinationTick);
+        seed, destinationId, value, destinationTick,
+        inputType: inputType, payload: payload);
   } catch (e) {
     if (e.toString().startsWith("Exception: CRITICAL:")) {
       if (context.mounted) {
@@ -89,8 +97,9 @@ Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
   late String? transactionKey;
 
   if (context.mounted) {
-    transactionKey = await getTransactionDialog(
-        context, sourceId, destinationId, value, destinationTick);
+    final signedTransaction = await getTransactionDialog(
+        context, sourceId, destinationId, value, destinationTick, null, null);
+    transactionKey = signedTransaction?.transactionKey;
     if (transactionKey == null) {
       return false;
     }

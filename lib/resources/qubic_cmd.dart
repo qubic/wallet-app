@@ -4,6 +4,7 @@ import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_js.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -78,13 +79,15 @@ class QubicCmd {
     }
   }
 
-  Future<String> createTransaction(
-      String seed, String destinationId, int value, int tick) async {
+  Future<SignedTransaction> createTransaction(
+      String seed, String destinationId, int value, int tick,
+      {int? inputType, String? payload}) async {
     if (useJs) {
-      return await qubicJs.createTransaction(seed, destinationId, value, tick);
+      return await qubicJs.createTransaction(
+          seed, destinationId, value, tick, inputType, payload);
     } else {
       return await qubicCmdUtils.createTransaction(
-          seed, destinationId, value, tick);
+          seed, destinationId, value, tick, inputType, payload);
     }
   }
 

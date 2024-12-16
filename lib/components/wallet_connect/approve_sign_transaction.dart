@@ -5,11 +5,13 @@ import 'package:qubic_wallet/components/wallet_connect/amount_value_header.dart'
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -28,6 +30,8 @@ class ApproveSignTransaction extends StatefulWidget {
   final int amount;
   final String? toID;
   final int? tick;
+  final int? inputType;
+  final String? payload;
   const ApproveSignTransaction(
       {super.key,
       required this.pairingMetadata,
@@ -35,6 +39,8 @@ class ApproveSignTransaction extends StatefulWidget {
       required this.fromName,
       required this.amount,
       required this.tick,
+      required this.inputType,
+      required this.payload,
       required this.toID});
 
   @override
@@ -104,14 +110,16 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                       targetTick = latestTick + defaultTargetTickType.value;
                     }
                     //Generate the transaction
-                    String? result;
+                    SignedTransaction? result;
                     if (mounted) {
                       result = await getTransactionDialog(
                           context,
                           widget.fromID!,
                           widget.toID!,
                           widget.amount,
-                          targetTick);
+                          targetTick,
+                          widget.inputType,
+                          widget.payload);
                       if (result != null) {
                         setState(() {
                           isLoading = true;
@@ -121,7 +129,8 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                               .pop(ApproveSignTransactionResult(
                                   //Return the success and tick
                                   tick: targetTick,
-                                  signedTransaction: result));
+                                  signedTransaction: result.transactionKey,
+                                  transactionId: result.tansactionId));
                           getIt<GlobalSnackBar>().show(
                               l10nOf(context).wcApprovedSignedTransaction);
                         }
@@ -135,6 +144,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                               ApproveSignTransactionResult(
                                   errorMessage: "Transaction generation failed",
                                   tick: null,
+                                  transactionId: null,
                                   signedTransaction: null));
                           getIt<GlobalSnackBar>()
                               .showError(l10nOf(context) //Show snackbar
@@ -253,7 +263,25 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                       style: TextStyles.lightGreyTextSmall,
                     ),
                     Text(widget.tick?.asThousands() ?? "-",
-                        style: TextStyles.textNormal)
+                        style: TextStyles.textNormal),
+                    if (widget.inputType != null && widget.inputType != 0) ...[
+                      ThemedControls.spacerVerticalSmall(),
+                      Text(
+                        l10n.generalLabelInputType,
+                        style: TextStyles.lightGreyTextSmall,
+                      ),
+                      Text(widget.inputType!.toString(),
+                          style: TextStyles.textNormal),
+                    ],
+                    if (widget.payload != null &&
+                        widget.payload!.isNotEmpty) ...[
+                      ThemedControls.spacerVerticalSmall(),
+                      Text(
+                        l10n.generalLabelPayload,
+                        style: TextStyles.lightGreyTextSmall,
+                      ),
+                      Text(widget.payload!, style: TextStyles.textNormal)
+                    ]
                   ]))
             ],
           ))
