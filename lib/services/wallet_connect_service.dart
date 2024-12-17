@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
@@ -250,13 +251,13 @@ class WalletConnectService {
     });
 
     web3Wallet!.onSessionPing.subscribe((args) {
-      print("Session ping: $args");
+      appLogger.d("Session ping: $args");
       Config.walletConnectChainId;
       WcMethods.wRequestAccounts;
     });
 
     web3Wallet!.onSessionRequest.subscribe((args) {
-      print("Session request: $args");
+      appLogger.d("Session request: $args");
     });
 
     web3Wallet!.core.relayClient.onRelayClientDisconnect.subscribe((args) {
