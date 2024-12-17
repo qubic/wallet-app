@@ -178,8 +178,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 PageTransitionAnimation.cupertino,
                           );
                         },
-                        icon: SvgPicture.asset(
-                            isMobile ? AppIcons.scan : AppIcons.walletConnect,
+                        icon: SvgPicture.asset(AppIcons.walletConnect,
                             color: LightThemeColors.primary),
                       ),
                       ThemedControls.spacerHorizontalSmall(),

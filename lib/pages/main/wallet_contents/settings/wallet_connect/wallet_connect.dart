@@ -278,8 +278,7 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
           centerTitle: true,
           actions: [
             IconButton(
-              icon: SvgPicture.asset(
-                  isMobile ? AppIcons.scan : AppIcons.walletConnect,
+              icon: SvgPicture.asset(AppIcons.walletConnect,
                   color: LightThemeColors.primary),
               onPressed: () async {
                 await pushScreen(
