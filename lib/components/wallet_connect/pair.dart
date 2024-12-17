@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/wallet_connect/components/domain_verification_card.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
@@ -168,7 +169,7 @@ class _PairState extends State<Pair> {
       ApproveResponse response = await wcService.web3Wallet!.approveSession(
           id: widget.pairingId, namespaces: widget.pairingNamespaces!);
 
-      debugPrint(response.toString());
+      appLogger.d(response.toString());
 
       if (mounted) {
         Navigator.of(context).pop(true);
@@ -176,7 +177,7 @@ class _PairState extends State<Pair> {
     } catch (e) {
       setState(() {
         isLoading = false;
-        debugPrint(e.toString());
+        appLogger.d(e.toString());
         wcError = (e is ReownSignError &&
                 e.code ==
                     Errors.INTERNAL_ERRORS[Errors.NO_MATCHING_KEY]?["code"])

@@ -10,6 +10,7 @@ import 'package:qubic_wallet/components/wallet_connect/pair.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
@@ -199,7 +200,7 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     urlController.dispose();
     pairingTimer?.cancel();
     existsTimer?.cancel();
-    debugPrint("Dispose!");
+    appLogger.d("Dispose!");
     super.dispose();
   }
 
