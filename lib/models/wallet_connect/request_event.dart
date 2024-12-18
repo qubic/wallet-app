@@ -2,5 +2,5 @@
 class RequestEvent {
   final String topic;
   final int requestId;
-  const RequestEvent({required this.topic, required this.requestId});
+  RequestEvent({required this.topic, required this.requestId});
 }

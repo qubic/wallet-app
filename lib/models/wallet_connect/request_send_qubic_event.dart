@@ -1,19 +1,16 @@
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
+import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
-import 'package:reown_walletkit/reown_walletkit.dart';
 
-class RequestSendQubicEvent extends RequestEvent {
+class RequestSendQubicEvent extends RequestEvent with PairingMetadataMixin {
   final String fromID; //From which publicID should the funds flow
   final String toID; //To which publicID should the funds flow
   final int amount; //The amount of funds to send
-  late final String fromIDName; //The name of the fromID
-  late final PairingMetadata?
-      pairingMetadata; //The pairing metadata to send the request
 
   //Validates the request to send qubic against the wallet context
   void validateOrThrow() {
@@ -30,10 +27,6 @@ class RequestSendQubicEvent extends RequestEvent {
       throw ArgumentError("fromID and toID are the same");
     }
     fromIDName = account.name;
-  }
-
-  void setPairingMetadata(PairingMetadata pairingMetadata) {
-    this.pairingMetadata = pairingMetadata;
   }
 
   //Gets only the data stored here (in a dynamic format)
