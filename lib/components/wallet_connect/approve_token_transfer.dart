@@ -5,11 +5,14 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/wallet_connect/amount_value_header.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
+import 'package:qubic_wallet/models/wallet_connect/approve_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -26,13 +29,21 @@ class ApproveTokenTransfer extends StatefulWidget {
   final String? fromName;
   final int amount;
   final String? toID;
-  const ApproveTokenTransfer(
-      {super.key,
-      required this.pairingMetadata,
-      required this.fromID,
-      required this.fromName,
-      required this.amount,
-      required this.toID});
+  final int? inputType;
+  final String? payload;
+
+  const ApproveTokenTransfer({
+    super.key,
+    required this.pairingMetadata,
+    required this.fromID,
+    required this.fromName,
+    required this.amount,
+    required this.toID,
+
+    /// Optional parameters for send transaction
+    this.inputType,
+    this.payload,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -97,29 +108,35 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                       int targetTick = latestTick + defaultTargetTickType.value;
 
                       //Send the transaction to backend
-                      bool result = false;
+                      SignedTransaction? result;
                       if (mounted) {
                         result = await sendTransactionDialog(
                             context,
                             widget.fromID!,
                             widget.toID!,
                             widget.amount,
-                            targetTick);
+                            targetTick,
+                            inputType: widget.inputType,
+                            payload: widget.payload);
 
-                        if (!result) {
+                        if (result == null) {
                           throw "Could not send transaction";
                         }
-
                         setState(() {
                           isLoading = true;
                         });
                         //If the transaction was successful
 
                         if (mounted) {
-                          Navigator.of(context).pop(ApproveTokenTransferResult(
-                              //Return the success and tick
+                          if (widget.inputType != null) {
+                            Navigator.of(context).pop(
+                                ApproveSendTransactionResult(
+                                    transactionId: result.tansactionId));
+                          } else {
+                            Navigator.of(context).pop(
+                                ApproveTokenTransferResult(tick: targetTick));
+                          }
 
-                              tick: targetTick));
                           getIt.get<PersistentTabController>().jumpToTab(1);
                           getIt<GlobalSnackBar>().show(
                               l10nOf(context) //Show snackbar
@@ -128,6 +145,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                         }
                       }
                     } catch (e) {
+                      appLogger.d(e.toString());
                       setState(() {
                         isLoading = false;
                       });
@@ -240,7 +258,25 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                             style: TextStyles.lightGreyTextSmall,
                           ),
                     ThemedControls.spacerVerticalMini(),
-                    Text(widget.toID ?? "-", style: TextStyles.textNormal)
+                    Text(widget.toID ?? "-", style: TextStyles.textNormal),
+                    if (widget.inputType != null) ...[
+                      ThemedControls.spacerVerticalSmall(),
+                      Text(
+                        l10n.generalLabelInputType,
+                        style: TextStyles.lightGreyTextSmall,
+                      ),
+                      Text(widget.inputType!.toString(),
+                          style: TextStyles.textNormal),
+                    ],
+                    if (widget.payload != null &&
+                        widget.payload!.isNotEmpty) ...[
+                      ThemedControls.spacerVerticalSmall(),
+                      Text(
+                        l10n.generalLabelPayload,
+                        style: TextStyles.lightGreyTextSmall,
+                      ),
+                      Text(widget.payload!, style: TextStyles.textNormal)
+                    ]
                   ]))
             ],
           ))

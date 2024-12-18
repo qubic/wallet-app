@@ -11,7 +11,6 @@ class RequestSendQubicEvent extends RequestEvent {
   final String fromID; //From which publicID should the funds flow
   final String toID; //To which publicID should the funds flow
   final int amount; //The amount of funds to send
-
   late final String fromIDName; //The name of the fromID
   late final PairingMetadata?
       pairingMetadata; //The pairing metadata to send the request

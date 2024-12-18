@@ -286,7 +286,7 @@ class QubicCmdUtils {
   Future<SignedTransaction> createTransaction(String seed, String destinationId,
       int value, int tick, int? inputType, String? payload) async {
     await validateFileStreamSignature();
-    final p = (inputType != null && payload != null)
+    final p = (inputType != null)
         ? await Process.run(
             await _getHelperFileFullPath(),
             [
@@ -296,7 +296,7 @@ class QubicCmdUtils {
               value.toString(),
               tick.toString(),
               inputType.toString(),
-              payload
+              payload ?? " "
             ],
             runInShell: true)
         : await Process.run(
