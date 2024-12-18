@@ -822,7 +822,7 @@
     "wcDisconnectAllConfirm": "Desconectar las aplicaciones eliminará todo acceso a tu Wallet",
     "wcDisconnect": "Desconectar",
     "wcDisconnectConfirm": "Desconectar esta aplicación eliminará el acceso a tu Wallet",
-    "wcAddConnection": "Añadir conexión",
+    "wcAddConnection": "Agregar Conexión",
     "signBase64GenericError": "Error al intentar firmar la cadena base64: {errorDescription}",
     "@signBase64GenericError": {
         "placeholders": {
