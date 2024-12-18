@@ -374,7 +374,7 @@ class WalletConnectService {
           late RequestSendTransactionEvent event;
 
           if (sendTransactionHandler == null) {
-            throw "sendQubicHandler is not set";
+            throw "sendTransactionHandler is not set";
           }
           try {
             event = RequestSendTransactionEvent.fromMap(
