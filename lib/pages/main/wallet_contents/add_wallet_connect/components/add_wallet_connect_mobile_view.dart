@@ -96,6 +96,25 @@ class _AddWalletConnectMobileViewState
                   ),
                 ),
               ),
+            // Text below the scan window
+            if (isCameraInitialized)
+              Positioned(
+                top: centerY +
+                    overlayHeight / 2 +
+                    24, // 24px spacing below scan window
+                left: (constraints.maxWidth - overlayWidth) / 2,
+                child: Material(
+                  color: Colors.transparent,
+                  child: SizedBox(
+                    width: overlayWidth,
+                    child: Text(
+                      l10n.wcAddConnectionScan,
+                      style: TextStyles.textNormal,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ),
             // Show loading indicator until the camera is initialized
             if (!isCameraInitialized)
               Container(
