@@ -6,6 +6,7 @@ import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
@@ -454,14 +455,30 @@ abstract class _ApplicationStore with Store {
     storedTransactions.add(transaction);
   }
 
-  /// If any pending transaction is older than the current tick, convert it
-  /// to invalid (ignored by network)
   @action
   void validatePendingTransactions(int currentTick) {
+    List<TransactionVm> toBeRemoved = [];
     for (var trx in storedTransactions) {
       if (currentTick > trx.targetTick) {
-        convertPendingToInvalid(trx);
+        /// If any pending transaction is older than the current tick, convert it
+        /// to invalid (ignored by network)
+        if (trx.isPending) {
+          convertPendingToInvalid(trx);
+        }
+
+        /// If the stored transaction is in currentTransactions and successful
+        /// then remove it from local storage
+        else if (currentTransactions
+                .firstWhereOrNull((e) => e.id == trx.id)
+                ?.status ==
+            "Success") {
+          toBeRemoved.add(trx);
+        }
       }
+    }
+    for (var trx in toBeRemoved) {
+      _hiveStorage.removeStoredTransaction(trx.id);
+      storedTransactions.removeWhere((element) => element.id == trx.id);
     }
   }
 
