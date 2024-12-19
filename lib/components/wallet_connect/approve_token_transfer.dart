@@ -134,7 +134,9 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                                     transactionId: result.tansactionId));
                           } else {
                             Navigator.of(context).pop(
-                                ApproveTokenTransferResult(tick: targetTick));
+                                ApproveTokenTransferResult(
+                                    tick: targetTick,
+                                    transactionId: result.tansactionId));
                           }
 
                           getIt.get<PersistentTabController>().jumpToTab(1);
@@ -152,7 +154,9 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
 
                       if (mounted) {
                         Navigator.of(context).pop(ApproveTokenTransferResult(
-                            errorMessage: e.toString(), tick: null));
+                            errorMessage: e.toString(),
+                            tick: null,
+                            transactionId: null));
                         getIt<GlobalSnackBar>()
                             .showError(l10nOf(context) //Show snackbar
                                 .sendItemDialogErrorGeneralTitle);
