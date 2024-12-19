@@ -23,10 +23,6 @@ class ApproveSignGenericResult {
         };
       }
     }
-    return {
-      'result': null,
-      'errorMessage': errorMessage,
-      'errorCode': errorCode
-    };
+    return {'errorMessage': errorMessage, 'errorCode': errorCode};
   }
 }

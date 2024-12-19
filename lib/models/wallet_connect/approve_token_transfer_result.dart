@@ -15,11 +15,6 @@ class ApproveTokenTransferResult {
     if (errorMessage == null && errorCode == null) {
       return {'tick': tick, 'transactionId': transactionId};
     }
-    return {
-      'tick': tick,
-      'transactionId': transactionId,
-      'errorMessage': errorMessage,
-      'errorCode': errorCode
-    };
+    return {'errorMessage': errorMessage, 'errorCode': errorCode};
   }
 }
