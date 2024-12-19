@@ -815,6 +815,7 @@
     "wcAddWcTitle": "WalletConnect ile Eşleştir",
     "wcAddURL": "WalletConnect bağlantı URL’sini yapıştırarak bir dApp'e bağlanın.",
     "wcNoPermissions": "Bu uygulamanın herhangi bir izni yok",
+    "wcAddConnectionScan": "WalletConnect'i destekleyen bir Web3 uygulamasını açın. Uygulamanın QR kodunu tarayın veya bağlantı linkini yapıştırın",
     "wcOpenApp": "Uygulamayı Aç",
     "wcExpiresInDays": "{count, plural, =1{Oturum 1 gün içinde sona eriyor} other{Oturum {count} gün içinde sona eriyor}}",
     "wcExpiresInLessThanDay": "Oturum bir günden daha kısa sürede sona eriyor",

@@ -814,6 +814,7 @@
     "wcPointCameraToQR": "請將相機對準包含 WalletConnect 連接資訊的 QR 碼",
     "wcAddWcTitle": "通過 WalletConnect 配對",
     "wcAddURL": "通過粘貼 WalletConnect 連接 URL 來連接 dApp。",
+    "wcAddConnectionScan": "打開支援 WalletConnect 的 Web3 應用程式。掃描應用程式的 QR 碼，或貼上其連接鏈接",
     "wcNoPermissions": "此應用程式無任何權限",
     "wcOpenApp": "打開應用程式",
     "wcExpiresInDays": "{count, plural, =1{會議在 1 天內過期} other{會議在 {count} 天內過期}}",
