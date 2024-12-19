@@ -45,9 +45,13 @@ class _AddWalletConnectMobileViewState
       builder: (context, constraints) {
         const overlayWidth = 280.0;
         const overlayHeight = 280.0;
+        final shiftingFromCenterToTop =
+            constraints.maxHeight > ResponsiveConstants.largeScreenHeight
+                ? constraints.maxHeight * 0.15
+                : constraints.maxHeight * 0.1;
 
-        // Calculate center vertically and horizontally
-        final centerY = constraints.maxHeight / 2;
+        // Calculate center vertically (with shifting to the top) and horizontally
+        final centerY = constraints.maxHeight / 2 - shiftingFromCenterToTop;
         final scanWindow = Rect.fromCenter(
           center: Offset(constraints.maxWidth / 2, centerY),
           width: overlayWidth,
@@ -82,7 +86,9 @@ class _AddWalletConnectMobileViewState
               ),
             // Transparent overlay for the scan window (centered vertically)
             if (isCameraInitialized)
-              Center(
+              Positioned(
+                top: centerY - overlayHeight / 2,
+                left: (constraints.maxWidth - overlayWidth) / 2,
                 child: Container(
                   width: overlayWidth,
                   height: overlayHeight,
