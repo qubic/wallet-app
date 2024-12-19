@@ -1,20 +1,20 @@
 // ignore_for_file: library_private_types_in_public_api
 
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
+
 part 'application_store.g.dart';
 
 // flutter pub run build_runner watch --delete-conflicting-outputs
@@ -82,9 +82,6 @@ abstract class _ApplicationStore with Store {
   ObservableList<QubicListVm> currentQubicIDs = ObservableList<QubicListVm>();
   @observable
   ObservableList<TransactionVm> currentTransactions =
-      ObservableList<TransactionVm>();
-  @observable
-  ObservableList<TransactionVm> storedTransactions =
       ObservableList<TransactionVm>();
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
@@ -414,11 +411,6 @@ abstract class _ApplicationStore with Store {
     _addStoredTransactionsToCurrent();
   }
 
-  @action
-  initStoredTransactions() {
-    storedTransactions.addAll(_hiveStorage.getStoredTransactions());
-  }
-
   void _addOrUpdateCurrentTransactions(List<TransactionDto> transactions) {
     for (var transaction in transactions) {
       var index = currentTransactions
@@ -435,7 +427,7 @@ abstract class _ApplicationStore with Store {
   @action
   void _addStoredTransactionsToCurrent() {
     // Add transactions that are not in currentTransactions in order
-    for (var trx in storedTransactions) {
+    for (var trx in _hiveStorage.storedTransactions.values) {
       if (!currentTransactions.any((element) => element.id == trx.id)) {
         int insertIndex = currentTransactions.indexWhere(
           (element) => element.targetTick > trx.targetTick,
@@ -452,13 +444,12 @@ abstract class _ApplicationStore with Store {
   @action
   addStoredTransaction(TransactionVm transaction) {
     _hiveStorage.addStoredTransaction(transaction);
-    storedTransactions.add(transaction);
   }
 
   @action
   void validatePendingTransactions(int currentTick) {
     List<TransactionVm> toBeRemoved = [];
-    for (var trx in storedTransactions) {
+    for (var trx in _hiveStorage.storedTransactions.values) {
       if (currentTick >= trx.targetTick + 5) {
         /// If any pending transaction is older than the current tick, convert it
         /// to invalid (ignored by network)
@@ -478,7 +469,6 @@ abstract class _ApplicationStore with Store {
     }
     for (var trx in toBeRemoved) {
       _hiveStorage.removeStoredTransaction(trx.id);
-      storedTransactions.removeWhere((element) => element.id == trx.id);
     }
   }
 
@@ -498,7 +488,6 @@ abstract class _ApplicationStore with Store {
   @action
   void removeStoredTransaction(String transactionId) {
     _hiveStorage.removeStoredTransaction(transactionId);
-    storedTransactions.removeWhere((element) => element.id == transactionId);
     currentTransactions.removeWhere((element) => element.id == transactionId);
   }
 

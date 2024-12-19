@@ -192,22 +192,6 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
-  late final _$storedTransactionsAtom =
-      Atom(name: '_ApplicationStore.storedTransactions', context: context);
-
-  @override
-  ObservableList<TransactionVm> get storedTransactions {
-    _$storedTransactionsAtom.reportRead();
-    return super.storedTransactions;
-  }
-
-  @override
-  set storedTransactions(ObservableList<TransactionVm> value) {
-    _$storedTransactionsAtom.reportWrite(value, super.storedTransactions, () {
-      super.storedTransactions = value;
-    });
-  }
-
   late final _$transactionFilterAtom =
       Atom(name: '_ApplicationStore.transactionFilter', context: context);
 
@@ -509,20 +493,9 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  dynamic initStoredTransactions() {
-    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.initStoredTransactions');
-    try {
-      return super.initStoredTransactions();
-    } finally {
-      _$_ApplicationStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void _addStoredTransactionsToCurrent() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore._restoreStoredTransactions');
+        name: '_ApplicationStore._addStoredTransactionsToCurrent');
     try {
       return super._addStoredTransactionsToCurrent();
     } finally {
@@ -542,7 +515,7 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  dynamic validatePendingTransactions(int currentTick) {
+  void validatePendingTransactions(int currentTick) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.validatePendingTransactions');
     try {
@@ -553,11 +526,11 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  dynamic convertPendingToInvalid(TransactionVm pendingTransaction) {
+  dynamic convertPendingToInvalid(TransactionVm transaction) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.convertPendingToInvalid');
     try {
-      return super.convertPendingToInvalid(pendingTransaction);
+      return super.convertPendingToInvalid(transaction);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
@@ -587,7 +560,6 @@ currentInboundUri: ${currentInboundUri},
 showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
-storedTransactions: ${storedTransactions},
 transactionFilter: ${transactionFilter},
 pendingRequests: ${pendingRequests},
 marketInfo: ${marketInfo},
