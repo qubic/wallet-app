@@ -459,7 +459,7 @@ abstract class _ApplicationStore with Store {
   void validatePendingTransactions(int currentTick) {
     List<TransactionVm> toBeRemoved = [];
     for (var trx in storedTransactions) {
-      if (currentTick > trx.targetTick) {
+      if (currentTick >= trx.targetTick + 5) {
         /// If any pending transaction is older than the current tick, convert it
         /// to invalid (ignored by network)
         if (trx.isPending) {
