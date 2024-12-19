@@ -286,20 +286,8 @@ class QubicCmdUtils {
   Future<SignedTransaction> createTransaction(String seed, String destinationId,
       int value, int tick, int? inputType, String? payload) async {
     await validateFileStreamSignature();
-    final p = (inputType != null)
+    final p = (inputType == null)
         ? await Process.run(
-            await _getHelperFileFullPath(),
-            [
-              QubicJSFunctions.createTransactionWithPayload,
-              seed,
-              destinationId,
-              value.toString(),
-              tick.toString(),
-              inputType.toString(),
-              payload ?? " "
-            ],
-            runInShell: true)
-        : await Process.run(
             await _getHelperFileFullPath(),
             [
               QubicJSFunctions.createTransaction,
@@ -308,7 +296,29 @@ class QubicCmdUtils {
               value.toString(),
               tick.toString()
             ],
-            runInShell: true);
+            runInShell: true)
+        : (payload == null)
+            ? await Process.run(
+                await _getHelperFileFullPath(),
+                [
+                  QubicJSFunctions.createTransactionWithPayload,
+                  seed,
+                  destinationId,
+                  value.toString(),
+                  tick.toString(),
+                  inputType.toString(),
+                ],
+                runInShell: true)
+            : await Process.run(await _getHelperFileFullPath(), [
+                QubicJSFunctions.createTransactionWithPayload,
+                seed,
+                destinationId,
+                value.toString(),
+                tick.toString(),
+                inputType.toString(),
+                payload
+              ]);
+
     late dynamic parsedJson;
     try {
       parsedJson = jsonDecode(p.stdout.toString());
