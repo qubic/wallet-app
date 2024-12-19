@@ -38,12 +38,11 @@ class RequestSignGenericEvent extends RequestEvent with PairingMetadataMixin {
   factory RequestSignGenericEvent.fromMap(
       Map<String, dynamic> map, String topic, int requestId) {
     var validFromID = FormBuilderValidators.compose([
-      FormBuilderValidators.required(errorText: "fromID is required"),
-      CustomFormFieldValidators.isPublicIDNoContext(
-          errorText: "fromID is not a valid publicID")
-    ])(map["fromID"]);
-    if ((map["fromID"] == null) || (validFromID != null)) {
-      throw ArgumentError(validFromID);
+      FormBuilderValidators.required(),
+      CustomFormFieldValidators.isPublicIDNoContext()
+    ])(map[wcRequestParamFrom]);
+    if ((map[wcRequestParamFrom] == null) || (validFromID != null)) {
+      throw ArgumentError(validFromID, wcRequestParamFrom);
     }
 
     var validMessage = FormBuilderValidators.compose([
@@ -56,7 +55,7 @@ class RequestSignGenericEvent extends RequestEvent with PairingMetadataMixin {
     return RequestSignGenericEvent(
       topic: topic.toString(),
       requestId: requestId,
-      fromID: map["fromID"],
+      fromID: map[wcRequestParamFrom],
       message: map["message"],
     );
   }
