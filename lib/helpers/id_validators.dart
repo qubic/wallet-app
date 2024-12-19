@@ -210,7 +210,8 @@ class CustomFormFieldValidators {
     };
   }
 
-  static FormFieldValidator<T> isPublicIDNoContext<T>({String? errorText}) {
+  static FormFieldValidator<T> isPublicIDNoContext<T>(
+      {String? errorText = "Not a valid public address"}) {
     HashSet validChars = HashSet();
     validChars.addAll({
       "A",
