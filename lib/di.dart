@@ -4,6 +4,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_hub.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -33,6 +34,7 @@ void setupDI() {
   getIt.registerSingleton<ExplorerStore>(ExplorerStore());
   getIt.registerSingleton<QubicHubStore>(QubicHubStore());
   getIt.registerSingleton<SecureStorage>(SecureStorage());
+  getIt.registerSingleton<HiveStorage>(HiveStorage());
 
 //Providers
   getIt.registerSingleton<GlobalSnackBar>(GlobalSnackBar());

@@ -397,9 +397,7 @@
     "transactionItemButtonViewDetails": "Ver Detalles",
     "transactionItemButtonResend": "Reenviar",
     "transactionItemLabelLeadToMoneyFlow": "Conduce a un Flujo de Dinero",
-    "transactionItemLabelCreatedDate": "Fecha de Creación",
-    "transactionItemLabelBroadcastedDate": "Fecha de Transmisión",
-    "transactionItemLabelConfirmedDate": "Fecha de Confirmación",
+    "transactionItemLabelConfirmedDate": "Fecha y hora",
     "transactionItemLabelDetails": "Detalles de la Transferencia",
     "sendItemLabelTargetTick": "Tick de Ejecución",
     "sendItemLabelTargetTickAutomatic": "Automáticamente: Actual + {addingTicks}",
@@ -413,7 +411,7 @@
     "sendItemLabelTargetTickManual": "Sobreescribir manualmente",
     "sendItemLabelDetermineTargetTick": "Determinar el Target de Ejecución",
     "sendItemDialogErrorGeneralTitle": "Error al generar la transacción",
-    "sendItemDialogResendTitle": "¿Deseas reenviar la transacción fallida?",
+    "sendItemDialogResendTitle": "¿Deseas reenviar la transacción?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (actual {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
