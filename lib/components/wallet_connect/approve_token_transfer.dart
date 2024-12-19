@@ -245,7 +245,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                       style: TextStyles.lightGreyTextSmall,
                     ),
                     ThemedControls.spacerVerticalMini(),
-                    Text(widget.fromID ?? "-", style: TextStyles.textNormal),
+                    Text(widget.fromID!, style: TextStyles.textNormal),
                     ThemedControls.spacerVerticalSmall(),
                     toIdName != null
                         ? Text(
@@ -258,7 +258,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                             style: TextStyles.lightGreyTextSmall,
                           ),
                     ThemedControls.spacerVerticalMini(),
-                    Text(widget.toID ?? "-", style: TextStyles.textNormal),
+                    Text(widget.toID!, style: TextStyles.textNormal),
                     if (widget.inputType != null) ...[
                       ThemedControls.spacerVerticalSmall(),
                       Text(
