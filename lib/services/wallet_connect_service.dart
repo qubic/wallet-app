@@ -5,10 +5,14 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
+import 'package:qubic_wallet/models/wallet_connect/approve_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_generic_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -28,6 +32,10 @@ class WalletConnectService {
   //A callback that is called when a request to send qubic is received
   Future<ApproveTokenTransferResult> Function(RequestSendQubicEvent event)?
       sendQubicHandler;
+
+  //A callback that is called when a request to send transaction is received
+  Future<ApproveSendTransactionResult> Function(
+      RequestSendTransactionEvent event)? sendTransactionHandler;
 
   //A callback that is called when a request to sign a generic message is received
   Future<ApproveSignGenericResult> Function(RequestSignGenericEvent event)?
@@ -334,19 +342,45 @@ class WalletConnectService {
             event =
                 RequestSendQubicEvent.fromMap(args, topic, sessionRequest.id);
             event.validateOrThrow();
-
-            if (web3Wallet!.getActiveSessions().containsKey(topic)) {
-              event.setPairingMetadata(
-                  web3Wallet!.getActiveSessions()[topic]!.peer.metadata);
-            } else {
-              throw "Session not found";
-            }
-
+            validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
                 response: JsonRpcResponse(
                     id: sessionRequest.id,
                     result: await sendQubicHandler!(event)));
+          } catch (e) {
+            if (e is JsonRpcError) {
+              rethrow;
+            }
+            throw JsonRpcError(code: -2, message: e.toString());
+          }
+        });
+
+    web3Wallet!.registerRequestHandler(
+        chainId: Config.walletConnectChainId,
+        method: WcMethods.wSendTransaction,
+        handler: (topic, args) async {
+          final sessionRequest = web3Wallet!.pendingRequests
+              .getAll()
+              .where((e) =>
+                  e.method == WcMethods.wSendTransaction && e.topic == topic)
+              .last;
+
+          late RequestSendTransactionEvent event;
+
+          if (sendTransactionHandler == null) {
+            throw "sendTransactionHandler is not set";
+          }
+          try {
+            event = RequestSendTransactionEvent.fromMap(
+                args, topic, sessionRequest.id);
+            event.validateOrThrow();
+            validateAndSetSession(topic, event);
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(
+                    id: sessionRequest.id,
+                    result: await sendTransactionHandler!(event)));
           } catch (e) {
             if (e is JsonRpcError) {
               rethrow;
@@ -374,13 +408,7 @@ class WalletConnectService {
             event =
                 RequestSignGenericEvent.fromMap(args, topic, sessionRequest.id);
             event.validateOrThrow();
-
-            if (web3Wallet!.getActiveSessions().containsKey(topic)) {
-              event.setPairingMetadata(
-                  web3Wallet!.getActiveSessions()[topic]!.peer.metadata);
-            } else {
-              throw "Session not found";
-            }
+            validateAndSetSession(topic, event);
             ApproveSignGenericResult result = await signGenericHandler!(event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
@@ -413,14 +441,7 @@ class WalletConnectService {
             event = RequestSignTransactionEvent.fromMap(
                 args, topic, sessionRequest.id);
             event.validateOrThrow();
-
-            if (web3Wallet!.getActiveSessions().containsKey(topic)) {
-              event.setPairingMetadata(
-                  web3Wallet!.getActiveSessions()[topic]!.peer.metadata);
-            } else {
-              throw "Session not found";
-            }
-
+            validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
                 response: JsonRpcResponse(
@@ -461,5 +482,20 @@ class WalletConnectService {
     } catch (e) {
       rethrow;
     }
+  }
+
+  void validateAndSetSession(String topic, RequestEvent event) {
+    if (event is! PairingMetadataMixin) {
+      throw "Event does not support pairing metadata";
+    }
+
+    final activeSessions = web3Wallet!.getActiveSessions();
+
+    if (!activeSessions.containsKey(topic)) {
+      throw "Session not found";
+    }
+
+    final sessionMetadata = activeSessions[topic]!.peer.metadata;
+    (event as PairingMetadataMixin).setPairingMetadata(sessionMetadata);
   }
 }
