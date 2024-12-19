@@ -6,6 +6,9 @@ abstract class WcMethods {
   /// Send qubic from an account to a destination address
   static const wSendQubic = "qubic_sendQubic";
 
+  /// Create and broadcast a new transaction either for Qus or SC
+  static const wSendTransaction = "qubic_sendTransaction";
+
   /// Send assets from an account to a destination address
   static const wSendAsset = "qubic_sendAsset";
 

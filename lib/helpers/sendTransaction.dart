@@ -90,30 +90,29 @@ Future<SignedTransaction?> getTransactionDialog(
 
 ///
 /// Sends a transaction of value QUBIC from the sourceId to the destinationId
-Future<bool> sendTransactionDialog(BuildContext context, String sourceId,
-    String destinationId, int value, int destinationTick) async {
+Future<SignedTransaction?> sendTransactionDialog(BuildContext context,
+    String sourceId, String destinationId, int value, int destinationTick,
+    {int? inputType, String? payload}) async {
   final l10n = l10nOf(context);
 
   late String? transactionKey;
-
-  if (context.mounted) {
-    final signedTransaction = await getTransactionDialog(
-        context, sourceId, destinationId, value, destinationTick, null, null);
-    transactionKey = signedTransaction?.transactionKey;
-    if (transactionKey == null) {
-      return false;
-    }
+  final signedTransaction = await getTransactionDialog(context, sourceId,
+      destinationId, value, destinationTick, inputType, payload);
+  transactionKey = signedTransaction?.transactionKey;
+  if (transactionKey == null) {
+    return null;
   }
 
   //We have the transaction, now let's call the API
   try {
-    await getIt.get<QubicLiveApi>().submitTransaction(transactionKey!);
+    await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
   } catch (e) {
+    appLogger.e(e);
     if (context.mounted) {
       showAlertDialog(
           context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     }
-    return false;
+    return null;
   }
-  return true;
+  return signedTransaction;
 }

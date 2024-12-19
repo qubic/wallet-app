@@ -128,28 +128,43 @@ class QubicJs {
 
   Future<SignedTransaction> createTransaction(String seed, String destinationId,
       int value, int tick, int? inputType, String? payload) async {
-    CallAsyncJavaScriptResult? result = (inputType != null && payload != null)
-        ? await runFunction(QubicJSFunctions.createTransactionWithPayload, [
-            seed,
-            destinationId,
-            value.toString(),
-            tick.toString(),
-            inputType.toString(),
-            payload
-          ])
-        : await runFunction(QubicJSFunctions.createTransaction,
-            [seed, destinationId, value.toString(), tick.toString()]);
+    try {
+      CallAsyncJavaScriptResult? result = (inputType == null)
+          ? await runFunction(QubicJSFunctions.createTransaction,
+              [seed, destinationId, value.toString(), tick.toString()])
+          : (payload == null)
+              ? await runFunction(
+                  QubicJSFunctions.createTransactionWithPayload, [
+                  seed,
+                  destinationId,
+                  value.toString(),
+                  tick.toString(),
+                  inputType.toString()
+                ])
+              : await runFunction(
+                  QubicJSFunctions.createTransactionWithPayload, [
+                  seed,
+                  destinationId,
+                  value.toString(),
+                  tick.toString(),
+                  inputType.toString(),
+                  payload
+                ]);
 
-    if (result == null) {
-      throw Exception(LocalizationManager
-          .instance.appLocalization.cmdErrorCreatingTransferTransactionGeneric);
+      if (result == null) {
+        throw Exception(LocalizationManager.instance.appLocalization
+            .cmdErrorCreatingTransferTransactionGeneric);
+      }
+      if (result.error != null) {
+        throw Exception(LocalizationManager.instance.appLocalization
+            .cmdErrorCreatingTransferTransaction(result.error ?? ""));
+      }
+      final Map<String, dynamic> data = json.decode(result.value);
+      return SignedTransaction.fromJson(data);
+    } catch (e) {
+      appLogger.e(e);
+      rethrow;
     }
-    if (result.error != null) {
-      throw Exception(LocalizationManager.instance.appLocalization
-          .cmdErrorCreatingTransferTransaction(result.error ?? ""));
-    }
-    final Map<String, dynamic> data = json.decode(result.value);
-    return SignedTransaction.fromJson(data);
   }
 
   Future<String> getPublicIdFromSeed(String seed) async {

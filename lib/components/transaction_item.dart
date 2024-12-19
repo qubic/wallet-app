@@ -1,3 +1,5 @@
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
@@ -8,27 +10,26 @@ import 'package:qubic_wallet/components/transaction_details.dart';
 import 'package:qubic_wallet/components/transaction_resend.dart';
 import 'package:qubic_wallet/components/transaction_status_item.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
-import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+
 import 'transaction_direction_item.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/helpers/target_tick.dart';
 
 enum CardItem {
   details,
@@ -78,13 +79,19 @@ class TransactionItem extends StatelessWidget {
                 int latestTick = (await _liveApi.getCurrentTick()).tick;
                 int targetTick = latestTick + defaultTargetTickType.value;
 
-                bool success = await sendTransactionDialog(context,
-                    item.sourceId, item.destId, item.amount, targetTick);
+                SignedTransaction? signedTransaction =
+                    await sendTransactionDialog(
+                  context,
+                  item.sourceId,
+                  item.destId,
+                  item.amount,
+                  targetTick,
+                );
 
-                if (success) {
+                if (signedTransaction != null) {
                   _globalSnackBar.show(
                       l10n.generalSnackBarMessageTransactionSubmitted(
-                          targetTick!.asThousands()));
+                          targetTick.asThousands()));
                 }
                 await _timedController.interruptFetchTimer();
 

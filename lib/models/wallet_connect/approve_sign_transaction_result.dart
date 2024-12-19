@@ -21,11 +21,6 @@ class ApproveSignTransactionResult {
         'transactionId': transactionId
       };
     }
-    return {
-      'signedTransaction': signedTransaction,
-      'tick': tick,
-      'errorMessage': errorMessage,
-      'errorCode': errorCode
-    };
+    return {'errorMessage': errorMessage, 'errorCode': errorCode};
   }
 }
