@@ -1,5 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
@@ -10,9 +12,9 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
+
 part 'application_store.g.dart';
 
 // flutter pub run build_runner watch --delete-conflicting-outputs
@@ -21,6 +23,7 @@ class ApplicationStore = _ApplicationStore with _$ApplicationStore;
 
 abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
+  late final HiveStorage _hiveStorage = getIt<HiveStorage>();
 
   /// If there are stored wallet settings in the device
   @observable
@@ -80,7 +83,6 @@ abstract class _ApplicationStore with Store {
   @observable
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
-
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
 
@@ -242,6 +244,7 @@ abstract class _ApplicationStore with Store {
   @action
   Future<bool> signUp(String password) async {
     await secureStorage.deleteWallet();
+    await _hiveStorage.clear();
     final result = await secureStorage.createWallet(password);
     isSignedIn = result;
     currentQubicIDs = ObservableList<QubicListVm>();
@@ -404,23 +407,88 @@ abstract class _ApplicationStore with Store {
 
   @action
   Future<void> updateTransactions(List<TransactionDto> transactions) async {
-    for (var i = 0; i < transactions.length; i++) {
-      var currentIndex = currentTransactions
-          .indexWhere((element) => element.id == transactions[i].id);
-      if (currentIndex == -1) {
-        currentTransactions
-            .add(TransactionVm.fromTransactionDto(transactions[i]));
+    _addOrUpdateCurrentTransactions(transactions);
+    _addStoredTransactionsToCurrent();
+  }
+
+  void _addOrUpdateCurrentTransactions(List<TransactionDto> transactions) {
+    for (var transaction in transactions) {
+      var index = currentTransactions
+          .indexWhere((element) => element.id == transaction.id);
+      var transactionVm = TransactionVm.fromTransactionDto(transaction);
+      if (index == -1) {
+        currentTransactions.add(transactionVm);
       } else {
-        currentTransactions[currentIndex] =
-            TransactionVm.fromTransactionDto(transactions[i]);
+        currentTransactions[index] = transactionVm;
       }
     }
+  }
+
+  @action
+  void _addStoredTransactionsToCurrent() {
+    // Add transactions that are not in currentTransactions in order
+    for (var trx in _hiveStorage.storedTransactions.values) {
+      if (!currentTransactions.any((element) => element.id == trx.id)) {
+        int insertIndex = currentTransactions.indexWhere(
+          (element) => element.targetTick > trx.targetTick,
+        );
+        if (insertIndex == -1) {
+          currentTransactions.add(trx);
+        } else {
+          currentTransactions.insert(insertIndex, trx);
+        }
+      }
+    }
+  }
+
+  @action
+  addStoredTransaction(TransactionVm transaction) {
+    _hiveStorage.addStoredTransaction(transaction);
+  }
+
+  @action
+  void validatePendingTransactions(int currentTick) {
+    List<TransactionVm> toBeRemoved = [];
+    for (var trx in _hiveStorage.storedTransactions.values) {
+      if (currentTick >= trx.targetTick + 5) {
+        /// If any pending transaction is older than the current tick, convert it
+        /// to invalid (ignored by network)
+        if (trx.isPending) {
+          convertPendingToInvalid(trx);
+        }
+
+        /// If the stored transaction is in currentTransactions and successful
+        /// then remove it from local storage
+        else if (currentTransactions
+                .firstWhereOrNull((e) => e.id == trx.id)
+                ?.status ==
+            "Success") {
+          toBeRemoved.add(trx);
+        }
+      }
+    }
+    for (var trx in toBeRemoved) {
+      _hiveStorage.removeStoredTransaction(trx.id);
+    }
+  }
+
+  @action
+  convertPendingToInvalid(TransactionVm transaction) {
+    transaction.isPending = false;
+    transaction.status = "Invalid";
+    _hiveStorage.addStoredTransaction(transaction);
   }
 
   int getQubicIDsWithPublicId(String publicId) {
     return currentQubicIDs
         .where((element) => element.publicId == publicId.replaceAll(",", "_"))
         .length;
+  }
+
+  @action
+  void removeStoredTransaction(String transactionId) {
+    _hiveStorage.removeStoredTransaction(transactionId);
+    currentTransactions.removeWhere((element) => element.id == transactionId);
   }
 
   @action

@@ -177,7 +177,6 @@ class _FilterTransactionsState extends State<FilterTransactions> {
     List<ComputedTransactionStatus?> statusOptions = [
       null,
       ComputedTransactionStatus.pending,
-      ComputedTransactionStatus.confirmed,
       ComputedTransactionStatus.success,
       ComputedTransactionStatus.failure,
       ComputedTransactionStatus.invalid,

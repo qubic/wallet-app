@@ -398,9 +398,7 @@
     "transactionItemButtonViewDetails": "Voir les Détails",
     "transactionItemButtonResend": "Renvoyer",
     "transactionItemLabelLeadToMoneyFlow": "Conduit à un Flux Monétaire",
-    "transactionItemLabelCreatedDate": "Date de Création",
-    "transactionItemLabelBroadcastedDate": "Date de Diffusion",
-    "transactionItemLabelConfirmedDate": "Date de Confirmation",
+    "transactionItemLabelConfirmedDate": "Horodatage",
     "transactionItemLabelDetails": "Détails du Transfert",
     "sendItemLabelTargetTick": "Tick Cible",
     "sendItemLabelTargetTickAutomatic": "Automatiquement: Actuel + {addingTicks}",
@@ -414,7 +412,7 @@
     "sendItemLabelTargetTickManual": "Remplacement Manuel",
     "sendItemLabelDetermineTargetTick": "Déterminer le Tick Cible",
     "sendItemDialogErrorGeneralTitle": "Erreur lors de la génération de la transaction",
-    "sendItemDialogResendTitle": "Renvoyer la transaction échouée?",
+    "sendItemDialogResendTitle": "Renvoyer la transaction?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (actuel {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -819,6 +817,7 @@
     "wcPointCameraToQR": "Veuillez pointer la caméra vers un code QR contenant les informations de connexion WalletConnect",
     "wcAddWcTitle": "Associer via WalletConnect",
     "wcAddURL": "Connectez-vous à une dApp en collant l'URL de connexion WalletConnect.",
+    "wcAddConnectionScan": "Ouvrez une application Web3 qui prend en charge WalletConnect. Scannez le code QR de l'application ou collez son lien de connexion",
     "wcNoPermissions": "Cette application n'a aucune permission",
     "wcOpenApp": "Ouvrir l'application",
     "wcExpiresInDays": "{count, plural, =1{La session expire dans 1 jour} other{La session expire dans {count} jours}}",

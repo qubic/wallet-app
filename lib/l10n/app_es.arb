@@ -397,9 +397,7 @@
     "transactionItemButtonViewDetails": "Ver Detalles",
     "transactionItemButtonResend": "Reenviar",
     "transactionItemLabelLeadToMoneyFlow": "Conduce a un Flujo de Dinero",
-    "transactionItemLabelCreatedDate": "Fecha de Creación",
-    "transactionItemLabelBroadcastedDate": "Fecha de Transmisión",
-    "transactionItemLabelConfirmedDate": "Fecha de Confirmación",
+    "transactionItemLabelConfirmedDate": "Fecha y hora",
     "transactionItemLabelDetails": "Detalles de la Transferencia",
     "sendItemLabelTargetTick": "Tick de Ejecución",
     "sendItemLabelTargetTickAutomatic": "Automáticamente: Actual + {addingTicks}",
@@ -413,7 +411,7 @@
     "sendItemLabelTargetTickManual": "Sobreescribir manualmente",
     "sendItemLabelDetermineTargetTick": "Determinar el Target de Ejecución",
     "sendItemDialogErrorGeneralTitle": "Error al generar la transacción",
-    "sendItemDialogResendTitle": "¿Deseas reenviar la transacción fallida?",
+    "sendItemDialogResendTitle": "¿Deseas reenviar la transacción?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (actual {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -806,6 +804,7 @@
     "wcPointCameraToQR": "Apunta la cámara a un código QR que contenga la información de conexión de WalletConnect",
     "wcAddWcTitle": "Conectar vía WalletConnect",
     "wcAddURL": "Conéctate a una dApp ingresando la URL de conexión de WalletConnect.",
+    "wcAddConnectionScan": "Abre una aplicación Web3 que sea compatible con WalletConnect. Escanea el código QR de la app o pega su enlace de conexión",
     "wcNoPermissions": "Esta aplicación no tiene permisos",
     "wcOpenApp": "Abrir aplicación",
     "wcExpiresInDays": "{count, plural, =1{La sesión expira en 1 día} other{La sesión expira en {count} días}}",
@@ -822,7 +821,7 @@
     "wcDisconnectAllConfirm": "Desconectar las aplicaciones eliminará todo acceso a tu Wallet",
     "wcDisconnect": "Desconectar",
     "wcDisconnectConfirm": "Desconectar esta aplicación eliminará el acceso a tu Wallet",
-    "wcAddConnection": "Añadir conexión",
+    "wcAddConnection": "Agregar Conexión",
     "signBase64GenericError": "Error al intentar firmar la cadena base64: {errorDescription}",
     "@signBase64GenericError": {
         "placeholders": {

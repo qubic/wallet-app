@@ -57,18 +57,18 @@ mixin _$ExplorerStore on _ExplorerStore, Store {
     });
   }
 
-  late final _$isTicksLoadingAtom =
-      Atom(name: '_ExplorerStore.isTicksLoading', context: context);
+  late final _$isLoadingAtom =
+      Atom(name: '_ExplorerStore.isLoading', context: context);
 
   @override
   bool get isLoading {
-    _$isTicksLoadingAtom.reportRead();
+    _$isLoadingAtom.reportRead();
     return super.isLoading;
   }
 
   @override
   set isLoading(bool value) {
-    _$isTicksLoadingAtom.reportWrite(value, super.isLoading, () {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
       super.isLoading = value;
     });
   }
@@ -137,7 +137,7 @@ mixin _$ExplorerStore on _ExplorerStore, Store {
 networkOverview: ${networkOverview},
 networkTicks: ${networkTicks},
 pageNumber: ${pageNumber},
-isTicksLoading: ${isLoading}
+isLoading: ${isLoading}
     ''';
   }
 }

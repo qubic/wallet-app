@@ -414,9 +414,7 @@
     "transactionItemButtonViewDetails": "View Details",
     "transactionItemButtonResend": "Resend",
     "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
-    "transactionItemLabelCreatedDate": "Created Date",
-    "transactionItemLabelBroadcastedDate": "Broadcasted Date",
-    "transactionItemLabelConfirmedDate": "Confirmed Date",
+    "transactionItemLabelConfirmedDate": "Timestamp",
     "transactionItemLabelDetails": "Transfer Details",
     "sendItemLabelTargetTick": "Target Tick",
     "sendItemLabelTargetTickAutomatic": "Automatically: Current + {addingTicks}",
@@ -430,7 +428,7 @@
     "sendItemLabelTargetTickManual": "Manual Override",
     "sendItemLabelDetermineTargetTick": "Determine Target Tick",
     "sendItemDialogErrorGeneralTitle": "Error while generating transaction",
-    "sendItemDialogResendTitle": "Resend failed transaction?",
+    "sendItemDialogResendTitle": "Resend transaction?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -613,7 +611,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
+    "generalAllTransactionDetails": "Transaction ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nTimestamp: {confirmed}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
         "placeholders": {
@@ -842,6 +840,7 @@
     "wcPointCameraToQR": "Please point the camera to a QR Code containing the WalletConnect connection info",
     "wcAddWcTitle": "Pair via WalletConnect",
     "wcAddURL": "Connect to a dapp by pasting WalletConnect connection URL.",
+    "wcAddConnectionScan": "Open a Web3 app that supports WalletConnect. Scan the app's QR code, or paste its connection link",
     "wcNoPermissions": "This app doesn't have any permissions",
     "wcOpenApp": "Open App",
     "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",

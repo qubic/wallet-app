@@ -493,6 +493,61 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  void _addStoredTransactionsToCurrent() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore._addStoredTransactionsToCurrent');
+    try {
+      return super._addStoredTransactionsToCurrent();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addStoredTransaction(TransactionVm transaction) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.addStoredTransaction');
+    try {
+      return super.addStoredTransaction(transaction);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void validatePendingTransactions(int currentTick) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.validatePendingTransactions');
+    try {
+      return super.validatePendingTransactions(currentTick);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic convertPendingToInvalid(TransactionVm transaction) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.convertPendingToInvalid');
+    try {
+      return super.convertPendingToInvalid(transaction);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeStoredTransaction(String transactionId) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.removeStoredTransaction');
+    try {
+      return super.removeStoredTransaction(transactionId);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 hasStoredWalletSettings: ${hasStoredWalletSettings},

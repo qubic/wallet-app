@@ -398,9 +398,7 @@
     "transactionItemButtonViewDetails": "查看详情",
     "transactionItemButtonResend": "重新发送",
     "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
-    "transactionItemLabelCreatedDate": "创建日期",
-    "transactionItemLabelBroadcastedDate": "广播日期",
-    "transactionItemLabelConfirmedDate": "确认日期",
+    "transactionItemLabelConfirmedDate": "时间戳",
     "transactionItemLabelDetails": "转账详情",
     "sendItemLabelTargetTick": "目标刻度",
     "sendItemLabelTargetTickAutomatic": "自动：当前刻度 + {addingTicks}",
@@ -414,7 +412,7 @@
     "sendItemLabelTargetTickManual": "手动调整",
     "sendItemLabelDetermineTargetTick": "确定目标刻度",
     "sendItemDialogErrorGeneralTitle": "生成交易时出现错误",
-    "sendItemDialogResendTitle": "重新发送失败的交易？",
+    "sendItemDialogResendTitle": "重新发送交易？",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (当前 {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -814,6 +812,7 @@
     "wcPointCameraToQR": "請將相機對準包含 WalletConnect 連接資訊的 QR 碼",
     "wcAddWcTitle": "通過 WalletConnect 配對",
     "wcAddURL": "通過粘貼 WalletConnect 連接 URL 來連接 dApp。",
+    "wcAddConnectionScan": "打開支援 WalletConnect 的 Web3 應用程式。掃描應用程式的 QR 碼，或貼上其連接鏈接",
     "wcNoPermissions": "此應用程式無任何權限",
     "wcOpenApp": "打開應用程式",
     "wcExpiresInDays": "{count, plural, =1{會議在 1 天內過期} other{會議在 {count} 天內過期}}",
