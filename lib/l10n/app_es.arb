@@ -806,6 +806,7 @@
     "wcPointCameraToQR": "Apunta la cámara a un código QR que contenga la información de conexión de WalletConnect",
     "wcAddWcTitle": "Conectar vía WalletConnect",
     "wcAddURL": "Conéctate a una dApp ingresando la URL de conexión de WalletConnect.",
+    "wcAddConnectionScan": "Abre una aplicación Web3 que sea compatible con WalletConnect. Escanea el código QR de la app o pega su enlace de conexión",
     "wcNoPermissions": "Esta aplicación no tiene permisos",
     "wcOpenApp": "Abrir aplicación",
     "wcExpiresInDays": "{count, plural, =1{La sesión expira en 1 día} other{La sesión expira en {count} días}}",

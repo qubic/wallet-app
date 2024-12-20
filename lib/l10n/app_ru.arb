@@ -814,6 +814,7 @@
     "wcPointCameraToQR": "Наведите камеру на QR-код с информацией о подключении WalletConnect",
     "wcAddWcTitle": "Подключение через WalletConnect",
     "wcAddURL": "Подключитесь к dApp, вставив URL подключения WalletConnect.",
+    "wcAddConnectionScan": "Откройте Web3-приложение, поддерживающее WalletConnect. Сканируйте QR-код приложения или вставьте его ссылку для подключения",
     "wcNoPermissions": "У этого приложения нет разрешений",
     "wcOpenApp": "Открыть приложение",
     "wcExpiresInDays": "{count, plural, =1{Сессия истекает через 1 день} other{Сессия истекает через {count} дней}}",

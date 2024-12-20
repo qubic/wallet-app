@@ -842,6 +842,7 @@
     "wcPointCameraToQR": "Please point the camera to a QR Code containing the WalletConnect connection info",
     "wcAddWcTitle": "Pair via WalletConnect",
     "wcAddURL": "Connect to a dapp by pasting WalletConnect connection URL.",
+    "wcAddConnectionScan": "Open a Web3 app that supports WalletConnect. Scan the app's QR code, or paste its connection link",
     "wcNoPermissions": "This app doesn't have any permissions",
     "wcOpenApp": "Open App",
     "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",
