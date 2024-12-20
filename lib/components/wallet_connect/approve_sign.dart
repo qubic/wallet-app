@@ -7,7 +7,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -95,7 +95,7 @@ class _ApproveSignState extends State<ApproveSign> {
                           isLoading = false;
                         });
                         if (mounted) {
-                          Navigator.of(context).pop(ApproveSignGenericResult(
+                          Navigator.of(context).pop(RequestSignMessageResult(
                               //Return the success and tick
                               result: signedMessage));
 
@@ -108,7 +108,7 @@ class _ApproveSignState extends State<ApproveSign> {
                           isLoading = false;
                         });
                         if (mounted) {
-                          Navigator.of(context).pop(ApproveSignGenericResult(
+                          Navigator.of(context).pop(RequestSignMessageResult(
                               errorMessage: e.toString(),
                               //Return the success and tick
                               result: null));

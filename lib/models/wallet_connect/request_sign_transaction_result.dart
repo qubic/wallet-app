@@ -1,11 +1,12 @@
 /// Results for approving a generic sign request
-class ApproveSignTransactionResult {
+class RequestSignTransactionResult {
   final String? signedTransaction;
   final String? transactionId;
+  final int? tick;
   final String? errorMessage;
   final int? errorCode;
-  final int? tick;
-  ApproveSignTransactionResult({
+
+  RequestSignTransactionResult({
     required this.signedTransaction,
     required this.transactionId,
     required this.tick,

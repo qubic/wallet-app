@@ -5,15 +5,15 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_send_transaction_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_event.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_sign_generic_event.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -30,19 +30,19 @@ class WalletConnectService {
 
   //------------------------------------ HANDLERS ------------------------------------
   //A callback that is called when a request to send qubic is received
-  Future<ApproveTokenTransferResult> Function(RequestSendQubicEvent event)?
+  Future<RequestSendQubicResult> Function(RequestSendQubicEvent event)?
       sendQubicHandler;
 
   //A callback that is called when a request to send transaction is received
-  Future<ApproveSendTransactionResult> Function(
+  Future<RequestSendTransactionResult> Function(
       RequestSendTransactionEvent event)? sendTransactionHandler;
 
   //A callback that is called when a request to sign a generic message is received
-  Future<ApproveSignGenericResult> Function(RequestSignGenericEvent event)?
+  Future<RequestSignMessageResult> Function(RequestSignMessageEvent event)?
       signGenericHandler;
 
   //A callback that is called when a request to sign a transaction is received
-  Future<ApproveSignTransactionResult> Function(
+  Future<RequestSignTransactionResult> Function(
       RequestSignTransactionEvent event)? signTransactionHandler;
 
   //------------------------------------ EVENTS ------------------------------------
@@ -76,7 +76,7 @@ class WalletConnectService {
 
   /// Sets the handler for the requestSendQubic event
   void setRequestSendQubicHandler(
-      {required ApproveTokenTransferResult Function(RequestSendQubicEvent event)
+      {required RequestSendQubicResult Function(RequestSendQubicEvent event)
           handler}) {}
 
   WalletConnectService();
@@ -413,17 +413,17 @@ class WalletConnectService {
               .where((e) => e.method == WcMethods.wSign && e.topic == topic)
               .last;
 
-          late RequestSignGenericEvent event;
+          late RequestSignMessageEvent event;
 
           if (signGenericHandler == null) {
             throw "signGenericHandler is not set";
           }
           try {
             event =
-                RequestSignGenericEvent.fromMap(args, topic, sessionRequest.id);
+                RequestSignMessageEvent.fromMap(args, topic, sessionRequest.id);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
-            ApproveSignGenericResult result = await signGenericHandler!(event);
+            RequestSignMessageResult result = await signGenericHandler!(event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
                 response:

@@ -12,9 +12,8 @@ import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
@@ -51,7 +50,6 @@ class ApproveSignTransaction extends StatefulWidget {
 class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
-  final QubicLi _apiService = getIt<QubicLi>();
   final _liveApi = getIt<QubicLiveApi>();
   bool hasAccepted = false;
   String? toIdName;
@@ -126,7 +124,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                         });
                         if (mounted) {
                           Navigator.of(context)
-                              .pop(ApproveSignTransactionResult(
+                              .pop(RequestSignTransactionResult(
                                   //Return the success and tick
                                   tick: targetTick,
                                   signedTransaction: result.transactionKey,
@@ -141,7 +139,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                         });
                         if (mounted) {
                           Navigator.of(context).pop(
-                              ApproveSignTransactionResult(
+                              RequestSignTransactionResult(
                                   errorMessage: "Transaction generation failed",
                                   tick: null,
                                   transactionId: null,

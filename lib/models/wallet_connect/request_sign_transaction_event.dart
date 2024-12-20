@@ -22,17 +22,18 @@ class RequestSignTransactionEvent extends RequestEvent
     var account =
         appStore.currentQubicIDs.firstWhereOrNull((e) => e.publicId == fromID);
     if (account == null) {
-      throw ArgumentError("fromID is unknown");
+      throw ArgumentError("Account not found in wallet", wcRequestParamFrom);
     }
     if ((account.amount == null) || (account.amount! < amount)) {
-      throw ArgumentError("insufficient funds in fromID");
+      throw ArgumentError("Insufficient funds", wcRequestParamFrom);
     }
     if (account.publicId == toID) {
-      throw ArgumentError("fromID and toID are the same");
+      throw ArgumentError(
+          "$wcRequestParamFrom and $wcRequestParamTo are the same");
     }
     if (tick != null) {
       if (appStore.currentTick > tick!) {
-        throw ArgumentError("Tick is already in the past");
+        throw ArgumentError("Value is already in the past", wcRequestParamTick);
       }
     }
     fromIDName = account.name;
@@ -57,6 +58,7 @@ class RequestSignTransactionEvent extends RequestEvent
   factory RequestSignTransactionEvent.fromMap(
       Map<String, dynamic> map, String topic, int requestId) {
     appLogger.e(map.toString());
+
     var validFromID = FormBuilderValidators.compose([
       FormBuilderValidators.required(),
       CustomFormFieldValidators.isPublicIDNoContext()
