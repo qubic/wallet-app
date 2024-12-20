@@ -47,8 +47,8 @@ class _AddWalletConnectMobileViewState
         const overlayHeight = 280.0;
         final shiftingFromCenterToTop =
             constraints.maxHeight > ResponsiveConstants.largeScreenHeight
-                ? constraints.maxHeight * 0.15
-                : constraints.maxHeight * 0.1;
+                ? constraints.maxHeight * 0.1
+                : constraints.maxHeight * .08;
 
         // Calculate center vertically (with shifting to the top) and horizontally
         final centerY = constraints.maxHeight / 2 - shiftingFromCenterToTop;
