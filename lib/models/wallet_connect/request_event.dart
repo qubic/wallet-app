@@ -2,5 +2,10 @@
 class RequestEvent {
   final String topic;
   final int requestId;
-  const RequestEvent({required this.topic, required this.requestId});
+  RequestEvent({required this.topic, required this.requestId});
 }
+
+const String wcRequestParamFrom = "from";
+const String wcRequestParamTo = "to";
+const String wcRequestParamAmount = "amount";
+const String wcRequestParamTick = "tick";
