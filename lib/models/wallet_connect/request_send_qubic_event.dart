@@ -18,13 +18,14 @@ class RequestSendQubicEvent extends RequestEvent with PairingMetadataMixin {
     var account =
         appStore.currentQubicIDs.firstWhereOrNull((e) => e.publicId == fromID);
     if (account == null) {
-      throw ArgumentError("fromID is unknown");
+      throw ArgumentError("Account not found in wallet", wcRequestParamFrom);
     }
     if ((account.amount == null) || (account.amount! < amount)) {
-      throw ArgumentError("insufficient funds in fromID");
+      throw ArgumentError("Insufficient funds", wcRequestParamFrom);
     }
     if (account.publicId == toID) {
-      throw ArgumentError("fromID and toID are the same");
+      throw ArgumentError(
+          "$wcRequestParamFrom and $wcRequestParamTo are the same");
     }
     fromIDName = account.name;
   }

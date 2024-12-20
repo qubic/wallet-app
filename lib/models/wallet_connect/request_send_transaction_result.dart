@@ -1,8 +1,9 @@
-class ApproveSendTransactionResult {
+class RequestSendTransactionResult {
   final String transactionId;
   final String? errorMessage;
   final int? errorCode;
-  ApproveSendTransactionResult({
+
+  RequestSendTransactionResult({
     required this.transactionId,
     this.errorCode,
     this.errorMessage,
