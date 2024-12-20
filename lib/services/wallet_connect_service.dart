@@ -299,7 +299,7 @@ class WalletConnectService {
         chainId: Config.walletConnectChainId,
         method: WcMethods.wRequestAccounts,
         handler: (topic, args) {
-          final seesionId = getLastSessionId(WcMethods.wRequestAccounts, topic);
+          final sessionId = getLastSessionId(WcMethods.wRequestAccounts, topic);
 
           List<dynamic> data = [];
           appStore.currentQubicIDs.forEach(((id) {
@@ -314,7 +314,7 @@ class WalletConnectService {
 
           return web3Wallet!.respondSessionRequest(
               topic: topic,
-              response: JsonRpcResponse(id: seesionId, result: data));
+              response: JsonRpcResponse(id: sessionId, result: data));
         });
 
     // // qubic_sendQubic uses the sendQubicHandler callback if the request is valid
@@ -401,8 +401,7 @@ class WalletConnectService {
             throw "signGenericHandler is not set";
           }
           try {
-            event =
-                RequestSignMessageEvent.fromMap(args, topic, sessionRequest.id);
+            event = RequestSignMessageEvent.fromMap(args, topic, sessionId);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             RequestSignMessageResult result = await signGenericHandler!(event);
