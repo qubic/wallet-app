@@ -299,11 +299,7 @@ class WalletConnectService {
         chainId: Config.walletConnectChainId,
         method: WcMethods.wRequestAccounts,
         handler: (topic, args) {
-          final sessionRequest = web3Wallet!.pendingRequests
-              .getAll()
-              .where((e) =>
-                  e.method == WcMethods.wRequestAccounts && e.topic == topic)
-              .last;
+          final seesionId = getLastSessionId(WcMethods.wRequestAccounts, topic);
 
           List<dynamic> data = [];
           appStore.currentQubicIDs.forEach(((id) {
@@ -318,7 +314,7 @@ class WalletConnectService {
 
           return web3Wallet!.respondSessionRequest(
               topic: topic,
-              response: JsonRpcResponse(id: sessionRequest.id, result: data));
+              response: JsonRpcResponse(id: seesionId, result: data));
         });
 
     // // qubic_sendQubic uses the sendQubicHandler callback if the request is valid
@@ -327,11 +323,7 @@ class WalletConnectService {
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSendQubic,
         handler: (topic, args) async {
-          final sessionRequest = web3Wallet!.pendingRequests
-              .getAll()
-              .where(
-                  (e) => e.method == WcMethods.wSendQubic && e.topic == topic)
-              .last;
+          final sessionId = getLastSessionId(WcMethods.wSendQubic, topic);
 
           late RequestSendQubicEvent event;
 
@@ -339,15 +331,13 @@ class WalletConnectService {
             throw "sendQubicHandler is not set";
           }
           try {
-            event =
-                RequestSendQubicEvent.fromMap(args, topic, sessionRequest.id);
+            event = RequestSendQubicEvent.fromMap(args, topic, sessionId);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
                 response: JsonRpcResponse(
-                    id: sessionRequest.id,
-                    result: await sendQubicHandler!(event)));
+                    id: sessionId, result: await sendQubicHandler!(event)));
           } catch (e) {
             JsonRpcError error;
 
@@ -359,7 +349,7 @@ class WalletConnectService {
 
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
-                response: JsonRpcResponse(id: sessionRequest.id, error: error));
+                response: JsonRpcResponse(id: sessionId, error: error));
           }
         });
 
@@ -367,11 +357,7 @@ class WalletConnectService {
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSendTransaction,
         handler: (topic, args) async {
-          final sessionRequest = web3Wallet!.pendingRequests
-              .getAll()
-              .where((e) =>
-                  e.method == WcMethods.wSendTransaction && e.topic == topic)
-              .last;
+          final sessionId = getLastSessionId(WcMethods.wSendTransaction, topic);
 
           late RequestSendTransactionEvent event;
 
@@ -379,14 +365,13 @@ class WalletConnectService {
             throw "sendTransactionHandler is not set";
           }
           try {
-            event = RequestSendTransactionEvent.fromMap(
-                args, topic, sessionRequest.id);
+            event = RequestSendTransactionEvent.fromMap(args, topic, sessionId);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
                 response: JsonRpcResponse(
-                    id: sessionRequest.id,
+                    id: sessionId,
                     result: await sendTransactionHandler!(event)));
           } catch (e) {
             JsonRpcError error;
@@ -399,7 +384,7 @@ class WalletConnectService {
 
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
-                response: JsonRpcResponse(id: sessionRequest.id, error: error));
+                response: JsonRpcResponse(id: sessionId, error: error));
           }
         });
 
@@ -408,10 +393,7 @@ class WalletConnectService {
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSign,
         handler: (topic, args) async {
-          final sessionRequest = web3Wallet!.pendingRequests
-              .getAll()
-              .where((e) => e.method == WcMethods.wSign && e.topic == topic)
-              .last;
+          final sessionId = getLastSessionId(WcMethods.wSign, topic);
 
           late RequestSignMessageEvent event;
 
@@ -426,8 +408,7 @@ class WalletConnectService {
             RequestSignMessageResult result = await signGenericHandler!(event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
-                response:
-                    JsonRpcResponse(id: sessionRequest.id, result: result));
+                response: JsonRpcResponse(id: sessionId, result: result));
           } catch (e) {
             JsonRpcError error;
 
@@ -439,7 +420,7 @@ class WalletConnectService {
 
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
-                response: JsonRpcResponse(id: sessionRequest.id, error: error));
+                response: JsonRpcResponse(id: sessionId, error: error));
           }
         });
 
@@ -448,25 +429,21 @@ class WalletConnectService {
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSignTransaction,
         handler: (topic, args) async {
-          final sessionRequest = web3Wallet!.pendingRequests
-              .getAll()
-              .where((e) =>
-                  e.method == WcMethods.wSignTransaction && e.topic == topic)
-              .last;
+          final sessionId = getLastSessionId(WcMethods.wSignTransaction, topic);
+
           late RequestSignTransactionEvent event;
 
           if (signTransactionHandler == null) {
             throw "signTransactionHandler is not set";
           }
           try {
-            event = RequestSignTransactionEvent.fromMap(
-                args, topic, sessionRequest.id);
+            event = RequestSignTransactionEvent.fromMap(args, topic, sessionId);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
                 response: JsonRpcResponse(
-                    id: sessionRequest.id,
+                    id: sessionId,
                     result: await signTransactionHandler!(event)));
           } catch (e) {
             JsonRpcError error;
@@ -479,7 +456,7 @@ class WalletConnectService {
 
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
-                response: JsonRpcResponse(id: sessionRequest.id, error: error));
+                response: JsonRpcResponse(id: sessionId, error: error));
           }
         });
 
@@ -525,5 +502,13 @@ class WalletConnectService {
 
     final sessionMetadata = activeSessions[topic]!.peer.metadata;
     (event as PairingMetadataMixin).setPairingMetadata(sessionMetadata);
+  }
+
+  int getLastSessionId(String method, String topic) {
+    return web3Wallet!.pendingRequests
+        .getAll()
+        .where((e) => e.method == method && e.topic == topic)
+        .last
+        .id;
   }
 }
