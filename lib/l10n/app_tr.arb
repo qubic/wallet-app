@@ -397,9 +397,7 @@
     "transactionItemButtonViewDetails": "Detayları Göster",
     "transactionItemButtonResend": "Yeniden Gönder",
     "transactionItemLabelLeadToMoneyFlow": "Para Akışını Yönlendir",
-    "transactionItemLabelCreatedDate": "Oluşturulma Tarihi",
-    "transactionItemLabelBroadcastedDate": "Yayınlanma Tarihi",
-    "transactionItemLabelConfirmedDate": "Onaylanma Tarihi",
+    "transactionItemLabelConfirmedDate": "Zaman damgası",
     "transactionItemLabelDetails": "Transfer Detayları",
     "sendItemLabelTargetTick": "Hedef Tick",
     "sendItemLabelTargetTickAutomatic": "Otomatik olarak: Mevcut + {addingTicks}",
@@ -413,7 +411,7 @@
     "sendItemLabelTargetTickManual": "Manuel Geçersiz Kılma",
     "sendItemLabelDetermineTargetTick": "Hedef Tick'i Belirle",
     "sendItemDialogErrorGeneralTitle": "Transfer oluşturulurken bir hata oluştu",
-    "sendItemDialogResendTitle": "Başarısız olan işlem yeniden gönderilsin mi?",
+    "sendItemDialogResendTitle": "Işlem yeniden gönderilsin mi?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {

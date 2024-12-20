@@ -23,12 +23,12 @@ class QubicLiveApi {
     }
   }
 
-  Future<void> submitTransaction(String transaction) async {
+  Future<String> submitTransaction(String transaction) async {
     try {
       _appStore.incrementPendingRequests();
-      await _dio.post('$_baseUrl${Config.submitTransaction}',
+      final response = await _dio.post('$_baseUrl${Config.submitTransaction}',
           data: {"encodedTransaction": transaction});
-      return;
+      return response.data["transactionId"];
     } catch (error) {
       throw ErrorHandler.handleError(error);
     } finally {

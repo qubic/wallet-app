@@ -8,6 +8,7 @@ import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/settings.dart';
+import 'package:qubic_wallet/models/transaction_vm.dart';
 
 class SecureStorageKeys {
   static const prepend = kReleaseMode
