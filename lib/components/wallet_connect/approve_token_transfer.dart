@@ -15,7 +15,6 @@ import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
