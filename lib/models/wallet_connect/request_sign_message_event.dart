@@ -7,7 +7,9 @@ import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
-class RequestSignGenericEvent extends RequestEvent with PairingMetadataMixin {
+const String wcRequestParamMessage = "message";
+
+class RequestSignMessageEvent extends RequestEvent with PairingMetadataMixin {
   final String fromID; //From which publicID should the funds flow
   final String message; //To which publicID should the funds flow
 
@@ -17,7 +19,7 @@ class RequestSignGenericEvent extends RequestEvent with PairingMetadataMixin {
     var account =
         appStore.currentQubicIDs.firstWhereOrNull((e) => e.publicId == fromID);
     if (account == null) {
-      throw ArgumentError("fromID is unknown");
+      throw ArgumentError("Account not found in wallet", wcRequestParamFrom);
     }
     fromIDName = account.name;
   }
@@ -27,7 +29,7 @@ class RequestSignGenericEvent extends RequestEvent with PairingMetadataMixin {
     return {fromID: fromID, message: message};
   }
 
-  RequestSignGenericEvent({
+  RequestSignMessageEvent({
     required super.topic,
     required super.requestId,
     required this.fromID,
@@ -35,7 +37,7 @@ class RequestSignGenericEvent extends RequestEvent with PairingMetadataMixin {
   });
 
   //Creates a RequestSendQubicEvent from a map validating data types
-  factory RequestSignGenericEvent.fromMap(
+  factory RequestSignMessageEvent.fromMap(
       Map<String, dynamic> map, String topic, int requestId) {
     var validFromID = FormBuilderValidators.compose([
       FormBuilderValidators.required(),
@@ -46,17 +48,17 @@ class RequestSignGenericEvent extends RequestEvent with PairingMetadataMixin {
     }
 
     var validMessage = FormBuilderValidators.compose([
-      FormBuilderValidators.required(errorText: "message is required"),
-    ])(map["message"]);
-    if ((map["message"] == null) || (validMessage != null)) {
-      throw ArgumentError(validMessage);
+      FormBuilderValidators.required(),
+    ])(map[wcRequestParamMessage]);
+    if ((map[wcRequestParamMessage] == null) || (validMessage != null)) {
+      throw ArgumentError(validMessage, wcRequestParamMessage);
     }
 
-    return RequestSignGenericEvent(
+    return RequestSignMessageEvent(
       topic: topic.toString(),
       requestId: requestId,
       fromID: map[wcRequestParamFrom],
-      message: map["message"],
+      message: map[wcRequestParamMessage],
     );
   }
 

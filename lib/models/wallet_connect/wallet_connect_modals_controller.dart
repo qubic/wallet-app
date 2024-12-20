@@ -1,15 +1,18 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/wallet_connect/approve_sign_transaction.dart';
 import 'package:qubic_wallet/components/wallet_connect/approve_token_transfer.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_send_transaction_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_sign_generic_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_sign_transaction_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/approve_token_transfer_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_event.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_sign_generic_event.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 
@@ -28,14 +31,14 @@ class WalletConnectModalsController {
   }
 
   //Handles sending Qubic
-  Future<ApproveTokenTransferResult> handleSendQubic(
+  Future<RequestSendQubicResult> handleSendQubic(
       RequestSendQubicEvent event, BuildContext context) async {
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
 
     try {
       var result = await Navigator.of(context)
-          .push(MaterialPageRoute<ApproveTokenTransferResult?>(
+          .push(MaterialPageRoute<RequestSendQubicResult?>(
               builder: (BuildContext context) {
                 return ApproveTokenTransfer(
                     pairingMetadata: event.pairingMetadata!,
@@ -47,8 +50,7 @@ class WalletConnectModalsController {
               fullscreenDialog: true));
       _wCDialogOpen = false;
       if (result == null) {
-        var err = Errors.getSdkError(Errors.USER_REJECTED);
-        throw JsonRpcError(code: err.code, message: err.message);
+        throw Errors.getSdkError(Errors.USER_REJECTED);
       } else {
         if ((result.errorCode == null) && (result.errorMessage == null)) {
           return result;
@@ -64,14 +66,14 @@ class WalletConnectModalsController {
     }
   }
 
-  Future<ApproveSendTransactionResult> handleSendTransaction(
+  Future<RequestSendTransactionResult> handleSendTransaction(
       RequestSendTransactionEvent event, BuildContext context) async {
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
 
     try {
       var result = await Navigator.of(context)
-          .push(MaterialPageRoute<ApproveSendTransactionResult>(
+          .push(MaterialPageRoute<RequestSendTransactionResult>(
               builder: (BuildContext context) {
                 return ApproveTokenTransfer(
                     pairingMetadata: event.pairingMetadata!,
@@ -85,8 +87,7 @@ class WalletConnectModalsController {
               fullscreenDialog: true));
       _wCDialogOpen = false;
       if (result == null) {
-        var err = Errors.getSdkError(Errors.USER_REJECTED);
-        throw JsonRpcError(code: err.code, message: err.message);
+        throw Errors.getSdkError(Errors.USER_REJECTED);
       } else {
         if ((result.errorCode == null) && (result.errorMessage == null)) {
           return result;
@@ -103,7 +104,7 @@ class WalletConnectModalsController {
   }
 
   //Handles sign transaction
-  Future<ApproveSignTransactionResult> handleSignTransaction(
+  Future<RequestSignTransactionResult> handleSignTransaction(
       RequestSignTransactionEvent event, BuildContext context) async {
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
@@ -111,7 +112,7 @@ class WalletConnectModalsController {
     appLogger.e(event.toString());
     try {
       var result = await Navigator.of(context)
-          .push(MaterialPageRoute<ApproveSignTransactionResult?>(
+          .push(MaterialPageRoute<RequestSignTransactionResult?>(
               builder: (BuildContext context) {
                 return ApproveSignTransaction(
                     pairingMetadata: event.pairingMetadata!,
@@ -126,8 +127,7 @@ class WalletConnectModalsController {
               fullscreenDialog: true));
       _wCDialogOpen = false;
       if (result == null) {
-        var err = Errors.getSdkError(Errors.USER_REJECTED);
-        throw JsonRpcError(code: err.code, message: err.message);
+        throw Errors.getSdkError(Errors.USER_REJECTED);
       } else {
         if ((result.errorCode == null) && (result.errorMessage == null)) {
           return result;
@@ -144,14 +144,14 @@ class WalletConnectModalsController {
   }
 
   //Handles sending Qubic
-  Future<ApproveSignGenericResult> handleSign(
-      RequestSignGenericEvent event, BuildContext context) async {
+  Future<RequestSignMessageResult> handleSign(
+      RequestSignMessageEvent event, BuildContext context) async {
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
 
     try {
       var result = await Navigator.of(context)
-          .push(MaterialPageRoute<ApproveSignGenericResult?>(
+          .push(MaterialPageRoute<RequestSignMessageResult?>(
               builder: (BuildContext context) {
                 return ApproveSign(
                   pairingMetadata: event.pairingMetadata!,
@@ -163,8 +163,7 @@ class WalletConnectModalsController {
               fullscreenDialog: true));
       _wCDialogOpen = false;
       if (result == null) {
-        var err = Errors.getSdkError(Errors.USER_REJECTED);
-        throw JsonRpcError(code: err.code, message: err.message);
+        throw Errors.getSdkError(Errors.USER_REJECTED);
       } else {
         if ((result.errorCode == null) && (result.errorMessage == null)) {
           return result;

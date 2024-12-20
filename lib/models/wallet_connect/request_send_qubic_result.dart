@@ -1,10 +1,11 @@
 /// Results for approving token transfer
-class ApproveTokenTransferResult {
+class RequestSendQubicResult {
   final int? tick;
   final String? transactionId;
   final String? errorMessage;
   final int? errorCode;
-  ApproveTokenTransferResult(
+
+  RequestSendQubicResult(
       {required this.tick,
       required this.transactionId,
       this.errorCode,
