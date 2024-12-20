@@ -349,10 +349,17 @@ class WalletConnectService {
                     id: sessionRequest.id,
                     result: await sendQubicHandler!(event)));
           } catch (e) {
+            JsonRpcError error;
+
             if (e is JsonRpcError) {
-              rethrow;
+              error = e;
+            } else {
+              error = JsonRpcError.serverError(e.toString());
             }
-            throw JsonRpcError(code: -2, message: e.toString());
+
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(id: sessionRequest.id, error: error));
           }
         });
 
@@ -382,10 +389,17 @@ class WalletConnectService {
                     id: sessionRequest.id,
                     result: await sendTransactionHandler!(event)));
           } catch (e) {
+            JsonRpcError error;
+
             if (e is JsonRpcError) {
-              rethrow;
+              error = e;
+            } else {
+              error = JsonRpcError.serverError(e.toString());
             }
-            throw JsonRpcError(code: -2, message: e.toString());
+
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(id: sessionRequest.id, error: error));
           }
         });
 
@@ -415,10 +429,17 @@ class WalletConnectService {
                 response:
                     JsonRpcResponse(id: sessionRequest.id, result: result));
           } catch (e) {
+            JsonRpcError error;
+
             if (e is JsonRpcError) {
-              rethrow;
+              error = e;
+            } else {
+              error = JsonRpcError.serverError(e.toString());
             }
-            throw JsonRpcError(code: -2, message: e.toString());
+
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(id: sessionRequest.id, error: error));
           }
         });
 
@@ -448,10 +469,17 @@ class WalletConnectService {
                     id: sessionRequest.id,
                     result: await signTransactionHandler!(event)));
           } catch (e) {
+            JsonRpcError error;
+
             if (e is JsonRpcError) {
-              rethrow;
+              error = e;
+            } else {
+              error = JsonRpcError.serverError(e.toString());
             }
-            throw JsonRpcError(code: -2, message: e.toString());
+
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(id: sessionRequest.id, error: error));
           }
         });
 

@@ -58,49 +58,46 @@ class RequestSignTransactionEvent extends RequestEvent
       Map<String, dynamic> map, String topic, int requestId) {
     appLogger.e(map.toString());
     var validFromID = FormBuilderValidators.compose([
-      FormBuilderValidators.required(errorText: "fromID is required"),
-      CustomFormFieldValidators.isPublicIDNoContext(
-          errorText: "fromID is not a valid publicID")
-    ])(map["fromID"]);
-    if ((map["fromID"] == null) || (validFromID != null)) {
-      throw ArgumentError(validFromID);
+      FormBuilderValidators.required(),
+      CustomFormFieldValidators.isPublicIDNoContext()
+    ])(map[wcRequestParamFrom]);
+    if ((map[wcRequestParamFrom] == null) || (validFromID != null)) {
+      throw ArgumentError(validFromID, wcRequestParamFrom);
     }
 
     var validToId = FormBuilderValidators.compose([
-      FormBuilderValidators.required(errorText: "toID is required"),
-      CustomFormFieldValidators.isPublicIDNoContext(
-          errorText: "toID is not a valid publicID")
-    ])(map["toID"]);
-    if ((map["toID"] == null) || (validToId != null)) {
-      throw ArgumentError(validToId);
+      FormBuilderValidators.required(),
+      CustomFormFieldValidators.isPublicIDNoContext()
+    ])(map[wcRequestParamTo]);
+    if ((map[wcRequestParamTo] == null) || (validToId != null)) {
+      throw ArgumentError(validToId, wcRequestParamTo);
     }
 
     var validAmount = FormBuilderValidators.compose([
-      FormBuilderValidators.required(errorText: "amount is required"),
-      FormBuilderValidators.positiveNumber(
-          errorText: "amount must be a positive number")
-    ])(map["amount"]);
+      FormBuilderValidators.required(),
+      FormBuilderValidators.positiveNumber()
+    ])(map[wcRequestParamAmount]);
 
-    if ((map["amount"] == null) || (validAmount != null)) {
-      throw ArgumentError(validAmount);
+    if ((map[wcRequestParamAmount] == null) || (validAmount != null)) {
+      throw ArgumentError(validAmount, wcRequestParamAmount);
     }
 
-    if (map["tick"] != null) {
-      var validTick = FormBuilderValidators.compose([
-        FormBuilderValidators.positiveNumber(
-            errorText: "tick must be a positive number")
-      ])(map["tick"]);
+    if (map[wcRequestParamTick] != null) {
+      var validTick = FormBuilderValidators.compose(
+          [FormBuilderValidators.positiveNumber()])(map[wcRequestParamTick]);
       if (validTick != null) {
-        throw ArgumentError(validTick);
+        throw ArgumentError(validTick, wcRequestParamTick);
       }
     }
     return RequestSignTransactionEvent(
       topic: topic.toString(),
       requestId: requestId,
-      fromID: map["fromID"],
-      toID: map["toID"],
-      amount: int.parse(map["amount"]),
-      tick: map["tick"] != null ? int.parse(map["tick"]) : null,
+      fromID: map[wcRequestParamFrom],
+      toID: map[wcRequestParamTo],
+      amount: int.parse(map[wcRequestParamAmount]),
+      tick: map[wcRequestParamTick] != null
+          ? int.parse(map[wcRequestParamTick])
+          : null,
       inputType:
           map["inputType"] != null ? int.tryParse(map["inputType"]) : null,
       payload: map["payload"],
