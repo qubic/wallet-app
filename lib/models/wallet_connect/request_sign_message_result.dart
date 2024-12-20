@@ -12,11 +12,7 @@ class RequestSignMessageResult {
   ///Important, always provide a toJson otherwise WC serilization will fail
   Map<String, dynamic> toJson() {
     if (errorMessage == null && errorCode == null) {
-      return {
-        'signedData': result!.signedData,
-        'digest': result!.digest,
-        'signature': result!.signature
-      };
+      return result!.toJson();
     }
     return {'errorMessage': errorMessage, 'errorCode': errorCode};
   }
