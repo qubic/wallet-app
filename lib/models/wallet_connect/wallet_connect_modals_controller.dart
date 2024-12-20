@@ -178,16 +178,4 @@ class WalletConnectModalsController {
       rethrow;
     }
   }
-
-  Object processResult(var result) {
-    if (result == null) {
-      throw Errors.getSdkError(Errors.USER_REJECTED);
-    } else if ((result.errorCode != null) || (result.errorMessage != null)) {
-      return JsonRpcError(
-          code: result.errorCode ?? -1,
-          message: result.errorMessage ?? "An error has occurred");
-    }
-
-    return true;
-  }
 }
