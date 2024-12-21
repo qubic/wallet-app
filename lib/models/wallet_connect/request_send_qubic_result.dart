@@ -1,21 +1,21 @@
+import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
+
 /// Results for approving token transfer
-class RequestSendQubicResult {
+class RequestSendQubicResult extends RequestResult {
   final int? tick;
   final String? transactionId;
-  final String? errorMessage;
-  final int? errorCode;
 
   RequestSendQubicResult(
       {required this.tick,
       required this.transactionId,
-      this.errorCode,
-      this.errorMessage});
+      super.errorCode,
+      super.errorMessage});
 
   ///Important, always provide a toJson otherwise WC serilization will fail
   Map<String, dynamic> toJson() {
-    if (errorMessage == null && errorCode == null) {
+    if (!hasError) {
       return {'tick': tick, 'transactionId': transactionId};
     }
-    return {'errorMessage': errorMessage, 'errorCode': errorCode};
+    return toErrorJson();
   }
 }

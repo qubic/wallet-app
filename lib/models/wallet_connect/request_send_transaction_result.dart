@@ -1,15 +1,18 @@
-class RequestSendTransactionResult {
+import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
+
+class RequestSendTransactionResult extends RequestResult {
   final String transactionId;
-  final String? errorMessage;
-  final int? errorCode;
 
   RequestSendTransactionResult({
     required this.transactionId,
-    this.errorCode,
-    this.errorMessage,
+    super.errorCode,
+    super.errorMessage,
   });
 
   Map<String, dynamic> toJson() {
-    return {'transactionId': transactionId};
+    if (!hasError) {
+      return {'transactionId': transactionId};
+    }
+    return toErrorJson();
   }
 }
