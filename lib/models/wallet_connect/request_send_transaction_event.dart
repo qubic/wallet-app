@@ -10,6 +10,7 @@ class RequestSendTransactionEvent extends RequestSendQubicEvent {
     required super.fromID,
     required super.toID,
     required super.amount,
+    required super.tick,
     this.inputType,
     this.payload,
   });
@@ -33,6 +34,7 @@ class RequestSendTransactionEvent extends RequestSendQubicEvent {
       fromID: baseEvent.fromID,
       toID: baseEvent.toID,
       amount: baseEvent.amount,
+      tick: baseEvent.tick,
       inputType:
           map["inputType"] != null ? int.tryParse(map["inputType"]) : null,
       payload: map["payload"],

@@ -11,7 +11,7 @@ class RequestSendQubicEvent extends RequestEvent with PairingMetadataMixin {
   final String fromID; //From which publicID should the funds flow
   final String toID; //To which publicID should the funds flow
   final int amount; //The amount of funds to send
-
+  final int? tick;
   //Validates the request to send qubic against the wallet context
   void validateOrThrow() {
     ApplicationStore appStore = getIt<ApplicationStore>();
@@ -41,6 +41,7 @@ class RequestSendQubicEvent extends RequestEvent with PairingMetadataMixin {
     required this.fromID,
     required this.toID,
     required this.amount,
+    required this.tick,
   });
 
   //Creates a RequestSendQubicEvent from a map validating data types
@@ -77,6 +78,7 @@ class RequestSendQubicEvent extends RequestEvent with PairingMetadataMixin {
       fromID: map[wcRequestParamFrom],
       toID: map[wcRequestParamTo],
       amount: int.parse(map[wcRequestParamAmount]),
+      tick: map[wcRequestParamTick],
     );
   }
 
