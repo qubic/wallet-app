@@ -30,9 +30,12 @@ enum WalletConnectMethod {
 }
 
 /// The result is one of the following:
-/// 1- Navigator.of(context).pop() => User rejected
-/// 2- Navigator.of(context).pop(RequestSignTransactionResult.success())
-/// 3- Navigator.of(context).pop(RequestSignTransactionResult.error())
+///
+/// 1. Navigator.of(context).pop() => User rejected
+/// 2. Navigator.of(context).pop(`RequestSignTransactionResult.success()`) => User approved with sucess
+/// 3. Navigator.of(context).pop(`RequestSignTransactionResult.error()`) => User approved with error
+///
+/// Note that `RequestSignTransactionResult` is an example of any RequestResult child class
 class ApproveSignTransaction extends StatefulWidget {
   final TransactionApprovalDataModel data;
   final WalletConnectMethod method;
