@@ -25,9 +25,9 @@ class TransactionApprovalDataModel extends ApprovalDataModel {
     required super.fromName,
     required this.toID,
     required this.amount,
-    required this.tick,
-    required this.inputType,
-    required this.payload,
+    this.tick,
+    this.inputType,
+    this.payload,
   });
 }
 

@@ -6,6 +6,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_event.dart';
@@ -36,8 +37,28 @@ class WalletConnectModalsController {
   //Handles sending Qubic
   Future<RequestSendQubicResult> handleSendQubic(
       RequestSendQubicEvent event, BuildContext context) async {
+    final navigator = Navigator.of(context);
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
+    var result =
+        await navigator.push(MaterialPageRoute<RequestSendQubicResult?>(
+            builder: (BuildContext context) {
+              return ApproveSignTransaction(
+                method: WalletConnectMethod.sendQubic,
+                data: TransactionApprovalDataModel(
+                  pairingMetadata: event.pairingMetadata,
+                  fromID: event.fromID,
+                  fromName: event.fromIDName,
+                  amount: event.amount,
+                  toID: event.toID,
+                ),
+              );
+            },
+            fullscreenDialog: true));
+    _wCDialogOpen = false;
+    return handleReturningResult(result);
+
+    /*
 
     try {
       var result = await Navigator.of(context)
@@ -67,6 +88,7 @@ class WalletConnectModalsController {
       _wCDialogOpen = false;
       rethrow;
     }
+    */
   }
 
   Future<RequestSendTransactionResult> handleSendTransaction(
@@ -134,8 +156,7 @@ class WalletConnectModalsController {
     return handleReturningResult(result);
   }
 
-  RequestSignTransactionResult handleReturningResult(
-      RequestSignTransactionResult? result) {
+  T handleReturningResult<T extends RequestResult>(T? result) {
     if (result == null) {
       throw JsonRpcError(
         code: Errors.SDK_ERRORS[Errors.USER_REJECTED]!['code'] as int,

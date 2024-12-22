@@ -11,6 +11,8 @@ import 'package:qubic_wallet/helpers/sendTransaction.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -67,11 +69,9 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
     }
   }
 
-  void returnError(String errorMessage) {
-    Navigator.of(context).pop(RequestSignTransactionResult.error(
-      errorMessage: errorMessage,
-    ));
-    _globalSnackBar.showError(errorMessage);
+  void returnError<T extends RequestResult>(T requestResult) {
+    Navigator.of(context).pop(requestResult);
+    _globalSnackBar.showError(requestResult.errorMessage ?? "General Error");
   }
 
   onApproveSignTransaction() async {
@@ -101,7 +101,37 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
           transactionId: result.tansactionId));
       _globalSnackBar.show(l10n.wcApprovedSignedTransaction);
     } else {
-      returnError(l10n.sendItemDialogErrorGeneralTitle);
+      returnError(RequestSignTransactionResult.error(
+          errorMessage: l10n.sendItemDialogErrorGeneralTitle));
+    }
+  }
+
+  onApproveSendQubic() async {
+    final navigator = Navigator.of(context);
+
+    final l10n = l10nOf(context);
+    bool authenticated = await reAuthDialog(context);
+    if (!authenticated) {
+      navigator.pop();
+      return;
+    }
+    final targetTick = await wCModalsController.getTargetTick(widget.data.tick);
+    SignedTransaction? result;
+    if (!mounted) return;
+    result = await sendTransactionDialog(
+      context,
+      widget.data.fromID!,
+      widget.data.toID,
+      widget.data.amount,
+      targetTick,
+    );
+    if (result != null) {
+      navigator.pop(RequestSendQubicResult.success(
+          tick: targetTick, transactionId: result.tansactionId));
+      _globalSnackBar.show(l10n.wcApprovedSignedTransaction);
+    } else {
+      returnError(RequestSendQubicResult.error(
+          errorMessage: l10n.sendItemDialogErrorGeneralTitle));
     }
   }
 
@@ -132,6 +162,9 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                         case WalletConnectMethod.signTransaction:
                           onApproveSignTransaction();
                           break;
+                        case WalletConnectMethod.sendQubic:
+                          onApproveSendQubic();
+                          break;
                         default:
                           break;
                       }
@@ -140,6 +173,11 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                         case WalletConnectMethod.signTransaction:
                           Navigator.of(context).pop(
                               RequestSignTransactionResult.error(
+                                  errorMessage: e.toString()));
+                          break;
+                        case WalletConnectMethod.sendQubic:
+                          Navigator.of(context).pop(
+                              RequestSendQubicResult.error(
                                   errorMessage: e.toString()));
                           break;
                         default:
@@ -158,7 +196,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                     child: CircularProgressIndicator(
                         strokeWidth: 2, color: LightThemeColors.grey90),
                   )
-                : Text(l10n.wcSignTransaction,
+                : Text(getTitleOfButton(),
                     textAlign: TextAlign.center,
                     style: TextStyles.primaryButtonText)),
       ),
@@ -175,6 +213,18 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                 Navigator.of(context).pop();
               })),
     ];
+  }
+
+  getTitleOfButton() {
+    final l10n = l10nOf(context);
+    switch (widget.method) {
+      case WalletConnectMethod.signTransaction:
+        return l10n.wcSignTransaction;
+      case WalletConnectMethod.sendQubic:
+        return l10n.wcApproveTransaction;
+      default:
+        return l10n.generalButtonApprove;
+    }
   }
 
   Widget getScrollView() {
@@ -228,10 +278,13 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    Center(
-                        child: Text("Sign the transfer of",
-                            style: TextStyles.sliverHeader)),
-                    ThemedControls.spacerVerticalNormal(),
+                    if (widget.method ==
+                        WalletConnectMethod.signTransaction) ...[
+                      Center(
+                          child: Text("Sign the transfer of",
+                              style: TextStyles.sliverHeader)),
+                      ThemedControls.spacerVerticalNormal(),
+                    ],
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       AmountValueHeader(
                           amount: widget.data.amount, suffix: "QUBIC"),

@@ -38,7 +38,7 @@ class RequestSignTransactionResult extends RequestResult {
   }
 
   factory RequestSignTransactionResult.error({
-    required String? errorMessage,
+    required String errorMessage,
     int? errorCode,
   }) {
     return RequestSignTransactionResult(
