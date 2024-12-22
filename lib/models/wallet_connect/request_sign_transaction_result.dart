@@ -7,9 +7,9 @@ class RequestSignTransactionResult extends RequestResult {
   final int? tick;
 
   RequestSignTransactionResult({
-    required this.signedTransaction,
-    required this.transactionId,
-    required this.tick,
+    this.signedTransaction,
+    this.transactionId,
+    this.tick,
     super.errorCode,
     super.errorMessage,
   });
@@ -23,5 +23,27 @@ class RequestSignTransactionResult extends RequestResult {
       };
     }
     return toErrorJson();
+  }
+
+  factory RequestSignTransactionResult.success({
+    required String? signedTransaction,
+    required String? transactionId,
+    required int? tick,
+  }) {
+    return RequestSignTransactionResult(
+      signedTransaction: signedTransaction,
+      transactionId: transactionId,
+      tick: tick,
+    );
+  }
+
+  factory RequestSignTransactionResult.error({
+    required String? errorMessage,
+    int? errorCode,
+  }) {
+    return RequestSignTransactionResult(
+      errorMessage: errorMessage,
+      errorCode: errorCode,
+    );
   }
 }

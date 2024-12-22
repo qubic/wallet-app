@@ -5,42 +5,40 @@ import 'package:qubic_wallet/components/wallet_connect/amount_value_header.dart'
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
-import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
+import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
-import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
+import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:reown_walletkit/reown_walletkit.dart';
 
+enum WalletConnectMethod {
+  signTransaction,
+  signMessage,
+  sendTransaction,
+  sendQubic
+}
+
+/// The result is one of the following:
+/// 1- Navigator.of(context).pop() => User rejected
+/// 2- Navigator.of(context).pop(RequestSignTransactionResult.success())
+/// 3- Navigator.of(context).pop(RequestSignTransactionResult.error())
 class ApproveSignTransaction extends StatefulWidget {
-  final PairingMetadata? pairingMetadata;
-  final String? fromID;
-  final String? fromName;
-  final int amount;
-  final String? toID;
-  final int? tick;
-  final int? inputType;
-  final String? payload;
-  const ApproveSignTransaction(
-      {super.key,
-      required this.pairingMetadata,
-      required this.fromID,
-      required this.fromName,
-      required this.amount,
-      required this.tick,
-      required this.inputType,
-      required this.payload,
-      required this.toID});
+  final TransactionApprovalDataModel data;
+  final WalletConnectMethod method;
+  const ApproveSignTransaction({
+    super.key,
+    required this.data,
+    required this.method,
+  });
 
   @override
   // ignore: library_private_types_in_public_api
@@ -50,7 +48,9 @@ class ApproveSignTransaction extends StatefulWidget {
 class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
-  final _liveApi = getIt<QubicLiveApi>();
+  final wCModalsController = WalletConnectModalsController();
+  final _globalSnackBar = getIt.get<GlobalSnackBar>();
+
   bool hasAccepted = false;
   String? toIdName;
   bool isLoading = false;
@@ -58,11 +58,50 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
   void initState() {
     super.initState();
 
-    var item = appStore.currentQubicIDs.where((e) => e.publicId == widget.toID);
+    var item =
+        appStore.currentQubicIDs.where((e) => e.publicId == widget.data.toID);
     if (item.isNotEmpty) {
       setState(() {
         toIdName = item.first.name;
       });
+    }
+  }
+
+  void returnError(String errorMessage) {
+    Navigator.of(context).pop(RequestSignTransactionResult.error(
+      errorMessage: errorMessage,
+    ));
+    _globalSnackBar.showError(errorMessage);
+  }
+
+  onApproveSignTransaction() async {
+    final navigator = Navigator.of(context);
+
+    final l10n = l10nOf(context);
+    bool authenticated = await reAuthDialog(context);
+    if (!authenticated) {
+      navigator.pop();
+      return;
+    }
+    final targetTick = await wCModalsController.getTargetTick(widget.data.tick);
+    SignedTransaction? result;
+    if (!mounted) return;
+    result = await getTransactionDialog(
+        context,
+        widget.data.fromID!,
+        widget.data.toID,
+        widget.data.amount,
+        targetTick,
+        widget.data.inputType,
+        widget.data.payload);
+    if (result != null) {
+      navigator.pop(RequestSignTransactionResult.success(
+          tick: targetTick,
+          signedTransaction: result.transactionKey,
+          transactionId: result.tansactionId));
+      _globalSnackBar.show(l10n.wcApprovedSignedTransaction);
+    } else {
+      returnError(l10n.sendItemDialogErrorGeneralTitle);
     }
   }
 
@@ -85,70 +124,31 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
             onPressed: isLoading
                 ? null
                 : () async {
-                    //Authenticate the user
-                    if (mounted) {
-                      bool authenticated = await reAuthDialog(context);
-                      if (!authenticated) {
-                        if (mounted) {
-                          //required to remove the warning
-                          Navigator.pop(context);
-                        }
-                        return;
+                    try {
+                      setState(() {
+                        isLoading = true;
+                      });
+                      switch (widget.method) {
+                        case WalletConnectMethod.signTransaction:
+                          onApproveSignTransaction();
+                          break;
+                        default:
+                          break;
                       }
-                    }
-                    setState(() {
-                      isLoading = true;
-                    });
-
-                    late int targetTick;
-                    if (widget.tick != null) {
-                      targetTick = widget.tick!;
-                    } else {
-                      int latestTick = (await _liveApi.getCurrentTick()).tick;
-                      targetTick = latestTick + defaultTargetTickType.value;
-                    }
-                    //Generate the transaction
-                    SignedTransaction? result;
-                    if (mounted) {
-                      result = await getTransactionDialog(
-                          context,
-                          widget.fromID!,
-                          widget.toID!,
-                          widget.amount,
-                          targetTick,
-                          widget.inputType,
-                          widget.payload);
-                      if (result != null) {
-                        setState(() {
-                          isLoading = true;
-                        });
-                        if (mounted) {
-                          Navigator.of(context)
-                              .pop(RequestSignTransactionResult(
-                                  //Return the success and tick
-                                  tick: targetTick,
-                                  signedTransaction: result.transactionKey,
-                                  transactionId: result.tansactionId));
-                          getIt<GlobalSnackBar>().show(
-                              l10nOf(context).wcApprovedSignedTransaction);
-                        }
-                      } else {
-                        //Else, generation falied
-                        setState(() {
-                          isLoading = false;
-                        });
-                        if (mounted) {
+                    } catch (e) {
+                      switch (widget.method) {
+                        case WalletConnectMethod.signTransaction:
                           Navigator.of(context).pop(
-                              RequestSignTransactionResult(
-                                  errorMessage: "Transaction generation failed",
-                                  tick: null,
-                                  transactionId: null,
-                                  signedTransaction: null));
-                          getIt<GlobalSnackBar>()
-                              .showError(l10nOf(context) //Show snackbar
-                                  .sendItemDialogErrorGeneralTitle);
-                        }
+                              RequestSignTransactionResult.error(
+                                  errorMessage: e.toString()));
+                          break;
+                        default:
+                          break;
                       }
+                    } finally {
+                      setState(() {
+                        isLoading = false;
+                      });
                     }
                   },
             child: isLoading
@@ -190,10 +190,11 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
               SizedBox(
                 height: 80,
                 width: 80,
-                child: widget.pairingMetadata != null &&
-                        widget.pairingMetadata!.icons.isNotEmpty
+                child: widget.data.pairingMetadata != null &&
+                        widget.data.pairingMetadata!.icons.isNotEmpty
                     ? FadeInImage(
-                        image: NetworkImage(widget.pairingMetadata!.icons[0]),
+                        image:
+                            NetworkImage(widget.data.pairingMetadata!.icons[0]),
                         placeholder: AssetImage(
                           'assets/images/dapp-default.png',
                         ),
@@ -206,19 +207,19 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
               //dAPP title
               ThemedControls.spacerVerticalBig(),
               Text(
-                  widget.pairingMetadata == null ||
-                          widget.pairingMetadata?.name == null ||
-                          widget.pairingMetadata!.name.isEmpty
+                  widget.data.pairingMetadata == null ||
+                          widget.data.pairingMetadata?.name == null ||
+                          widget.data.pairingMetadata!.name.isEmpty
                       ? l10n.wcUnknownDapp
-                      : widget.pairingMetadata!.name,
+                      : widget.data.pairingMetadata!.name,
                   style: TextStyles.walletConnectDappTitle),
               ThemedControls.spacerVerticalSmall(),
               Text(
-                  widget.pairingMetadata == null ||
-                          widget.pairingMetadata?.url == null ||
-                          widget.pairingMetadata!.url.isEmpty
+                  widget.data.pairingMetadata == null ||
+                          widget.data.pairingMetadata?.url == null ||
+                          widget.data.pairingMetadata!.url.isEmpty
                       ? l10n.wcUnknownDapp
-                      : widget.pairingMetadata!.url,
+                      : widget.data.pairingMetadata!.url,
                   style: TextStyles.walletConnectDappUrl),
 
               //--------- End of header
@@ -232,16 +233,18 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                             style: TextStyles.sliverHeader)),
                     ThemedControls.spacerVerticalNormal(),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      AmountValueHeader(amount: widget.amount, suffix: "QUBIC"),
+                      AmountValueHeader(
+                          amount: widget.data.amount, suffix: "QUBIC"),
                     ]),
                     ThemedControls.spacerVerticalBig(),
                     Text(
                       l10n.generalLabelToFromAccount(
-                          l10n.generalLabelFrom, widget.fromName ?? "-"),
+                          l10n.generalLabelFrom, widget.data.fromName ?? "-"),
                       style: TextStyles.lightGreyTextSmall,
                     ),
                     ThemedControls.spacerVerticalMini(),
-                    Text(widget.fromID ?? "-", style: TextStyles.textNormal),
+                    Text(widget.data.fromID ?? "-",
+                        style: TextStyles.textNormal),
                     ThemedControls.spacerVerticalSmall(),
                     toIdName != null
                         ? Text(
@@ -254,31 +257,32 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                             style: TextStyles.lightGreyTextSmall,
                           ),
                     ThemedControls.spacerVerticalMini(),
-                    Text(widget.toID ?? "-", style: TextStyles.textNormal),
+                    Text(widget.data.toID ?? "-", style: TextStyles.textNormal),
                     ThemedControls.spacerVerticalSmall(),
                     Text(
                       l10n.generalLabelTick,
                       style: TextStyles.lightGreyTextSmall,
                     ),
-                    Text(widget.tick?.asThousands() ?? "-",
+                    Text(widget.data.tick?.asThousands() ?? "-",
                         style: TextStyles.textNormal),
-                    if (widget.inputType != null && widget.inputType != 0) ...[
+                    if (widget.data.inputType != null &&
+                        widget.data.inputType != 0) ...[
                       ThemedControls.spacerVerticalSmall(),
                       Text(
                         l10n.generalLabelInputType,
                         style: TextStyles.lightGreyTextSmall,
                       ),
-                      Text(widget.inputType!.toString(),
+                      Text(widget.data.inputType!.toString(),
                           style: TextStyles.textNormal),
                     ],
-                    if (widget.payload != null &&
-                        widget.payload!.isNotEmpty) ...[
+                    if (widget.data.payload != null &&
+                        widget.data.payload!.isNotEmpty) ...[
                       ThemedControls.spacerVerticalSmall(),
                       Text(
                         l10n.generalLabelPayload,
                         style: TextStyles.lightGreyTextSmall,
                       ),
-                      Text(widget.payload!, style: TextStyles.textNormal)
+                      Text(widget.data.payload!, style: TextStyles.textNormal)
                     ]
                   ]))
             ],
