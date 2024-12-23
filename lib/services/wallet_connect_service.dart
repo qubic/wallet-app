@@ -5,10 +5,9 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_event.dart';
@@ -29,8 +28,8 @@ class WalletConnectService {
 
   //------------------------------------ HANDLERS ------------------------------------
   //A callback that is called when a request to send qubic is received
-  Future<RequestSendQubicResult> Function(RequestSendTransactionEvent event)?
-      sendQubicHandler;
+  Future<RequestSendTransactionResult> Function(
+      RequestSendTransactionEvent event)? sendQubicHandler;
 
   //A callback that is called when a request to send transaction is received
   Future<RequestSendTransactionResult> Function(
@@ -75,7 +74,7 @@ class WalletConnectService {
 
   /// Sets the handler for the requestSendQubic event
   void setRequestSendQubicHandler(
-      {required RequestSendQubicResult Function(
+      {required RequestSendTransactionResult Function(
               RequestSendTransactionEvent event)
           handler}) {}
 

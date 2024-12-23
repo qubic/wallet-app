@@ -13,7 +13,6 @@ import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
@@ -126,15 +125,10 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                         //If the transaction was successful
 
                         if (mounted) {
-                          if (widget.inputType != null) {
-                            Navigator.of(context).pop(
-                                RequestSendTransactionResult(
-                                    transactionId: result.tansactionId));
-                          } else {
-                            Navigator.of(context).pop(RequestSendQubicResult(
-                                tick: targetTick,
-                                transactionId: result.tansactionId));
-                          }
+                          Navigator.of(context).pop(
+                              RequestSendTransactionResult(
+                                  tick: targetTick,
+                                  transactionId: result.tansactionId));
 
                           getIt.get<PersistentTabController>().jumpToTab(1);
                           getIt<GlobalSnackBar>().show(
@@ -150,7 +144,7 @@ class _ApproveTokenTransferState extends State<ApproveTokenTransfer> {
                       });
 
                       if (mounted) {
-                        Navigator.of(context).pop(RequestSendQubicResult(
+                        Navigator.of(context).pop(RequestSendTransactionResult(
                             errorMessage: e.toString(),
                             tick: null,
                             transactionId: null));

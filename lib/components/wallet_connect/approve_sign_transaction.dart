@@ -12,7 +12,7 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -129,11 +129,11 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
       targetTick,
     );
     if (result != null) {
-      navigator.pop(RequestSendQubicResult.success(
+      navigator.pop(RequestSendTransactionResult.success(
           tick: targetTick, transactionId: result.tansactionId));
       _globalSnackBar.show(l10n.wcApprovedSignedTransaction);
     } else {
-      returnError(RequestSendQubicResult.error(
+      returnError(RequestSendTransactionResult.error(
           errorMessage: l10n.sendItemDialogErrorGeneralTitle));
     }
   }
@@ -180,7 +180,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                           break;
                         case WalletConnectMethod.sendQubic:
                           Navigator.of(context).pop(
-                              RequestSendQubicResult.error(
+                              RequestSendTransactionResult.error(
                                   errorMessage: e.toString()));
                           break;
                         default:
