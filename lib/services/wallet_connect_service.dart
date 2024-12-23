@@ -11,7 +11,6 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_resu
 import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
@@ -30,7 +29,7 @@ class WalletConnectService {
 
   //------------------------------------ HANDLERS ------------------------------------
   //A callback that is called when a request to send qubic is received
-  Future<RequestSendQubicResult> Function(RequestSendQubicEvent event)?
+  Future<RequestSendQubicResult> Function(RequestSendTransactionEvent event)?
       sendQubicHandler;
 
   //A callback that is called when a request to send transaction is received
@@ -76,7 +75,8 @@ class WalletConnectService {
 
   /// Sets the handler for the requestSendQubic event
   void setRequestSendQubicHandler(
-      {required RequestSendQubicResult Function(RequestSendQubicEvent event)
+      {required RequestSendQubicResult Function(
+              RequestSendTransactionEvent event)
           handler}) {}
 
   WalletConnectService();
@@ -325,13 +325,13 @@ class WalletConnectService {
         handler: (topic, args) async {
           final sessionId = getLastSessionId(WcMethods.wSendQubic, topic);
 
-          late RequestSendQubicEvent event;
+          late RequestSendTransactionEvent event;
 
           if (sendQubicHandler == null) {
             throw "sendQubicHandler is not set";
           }
           try {
-            event = RequestSendQubicEvent.fromMap(args, topic, sessionId);
+            event = RequestSendTransactionEvent.fromMap(args, topic, sessionId);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(

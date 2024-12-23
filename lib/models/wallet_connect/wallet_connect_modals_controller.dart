@@ -7,9 +7,8 @@ import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_event.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_event.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_qubic_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
@@ -36,7 +35,7 @@ class WalletConnectModalsController {
 
   //Handles sending Qubic
   Future<RequestSendQubicResult> handleSendQubic(
-      RequestSendQubicEvent event, BuildContext context) async {
+      RequestSendTransactionEvent event, BuildContext context) async {
     final navigator = Navigator.of(context);
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
