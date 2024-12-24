@@ -82,13 +82,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
 
   onApproveSignTransaction() async {
     final navigator = Navigator.of(context);
-
     final l10n = l10nOf(context);
-    bool authenticated = await reAuthDialog(context);
-    if (!authenticated) {
-      navigator.pop();
-      return;
-    }
     final targetTick = await wCModalsController.getTargetTick(widget.data.tick);
     SignedTransaction? result;
     if (!mounted) return;
@@ -112,15 +106,9 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
     }
   }
 
-  onApproveSendQubic() async {
+  onApproveSendTransaction() async {
     final navigator = Navigator.of(context);
-
     final l10n = l10nOf(context);
-    bool authenticated = await reAuthDialog(context);
-    if (!authenticated) {
-      navigator.pop();
-      return;
-    }
     final targetTick = await wCModalsController.getTargetTick(widget.data.tick);
     SignedTransaction? result;
     if (!mounted) return;
@@ -143,13 +131,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
 
   onApproveSignMessage() async {
     final navigator = Navigator.of(context);
-
     final l10n = l10nOf(context);
-    bool authenticated = await reAuthDialog(context);
-    if (!authenticated) {
-      navigator.pop();
-      return;
-    }
     final seed = await appStore.getSeedByPublicId(widget.data.fromID);
     final signedMessage = await qubicCmd.signUTF8(seed, widget.data.message!);
     navigator.pop(RequestSignMessageResult.success(result: signedMessage));
@@ -175,17 +157,23 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
             onPressed: isLoading
                 ? null
                 : () async {
+                    final navigator = Navigator.of(context);
                     try {
                       setState(() {
                         isLoading = true;
                       });
+                      bool authenticated = await reAuthDialog(context);
+                      if (!authenticated) {
+                        navigator.pop();
+                        return;
+                      }
                       switch (widget.method) {
                         case WalletConnectMethod.signTransaction:
                           onApproveSignTransaction();
                           break;
                         case WalletConnectMethod.sendQubic ||
                               WalletConnectMethod.sendTransaction:
-                          onApproveSendQubic();
+                          onApproveSendTransaction();
                         case WalletConnectMethod.signMessage:
                           onApproveSignMessage();
                           break;
@@ -195,19 +183,16 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                     } catch (e) {
                       switch (widget.method) {
                         case WalletConnectMethod.signTransaction:
-                          Navigator.of(context).pop(
-                              RequestSignTransactionResult.error(
-                                  errorMessage: e.toString()));
+                          navigator.pop(RequestSignTransactionResult.error(
+                              errorMessage: e.toString()));
                           break;
                         case WalletConnectMethod.sendQubic ||
                               WalletConnectMethod.sendTransaction:
-                          Navigator.of(context).pop(
-                              RequestSendTransactionResult.error(
-                                  errorMessage: e.toString()));
+                          navigator.pop(RequestSendTransactionResult.error(
+                              errorMessage: e.toString()));
                         case WalletConnectMethod.signMessage:
-                          Navigator.of(context).pop(
-                              RequestSignMessageResult.error(
-                                  errorMessage: e.toString()));
+                          navigator.pop(RequestSignMessageResult.error(
+                              errorMessage: e.toString()));
                           break;
                         default:
                           break;
