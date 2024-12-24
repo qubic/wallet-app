@@ -29,7 +29,7 @@ enum WalletConnectMethod {
   sendQubic
 }
 
-/// The result is one of the following:
+/// The return from this widget is one of the following:
 ///
 /// 1. Navigator.of(context).pop() => User rejected
 /// 2. Navigator.of(context).pop(`RequestSignTransactionResult.success()`) => User approved with sucess
@@ -178,7 +178,8 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                               RequestSignTransactionResult.error(
                                   errorMessage: e.toString()));
                           break;
-                        case WalletConnectMethod.sendQubic:
+                        case WalletConnectMethod.sendQubic ||
+                              WalletConnectMethod.sendTransaction:
                           Navigator.of(context).pop(
                               RequestSendTransactionResult.error(
                                   errorMessage: e.toString()));
@@ -223,7 +224,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
     switch (widget.method) {
       case WalletConnectMethod.signTransaction:
         return l10n.wcSignTransaction;
-      case WalletConnectMethod.sendQubic:
+      case WalletConnectMethod.sendQubic || WalletConnectMethod.sendTransaction:
         return l10n.wcApproveTransaction;
       default:
         return l10n.generalButtonApprove;

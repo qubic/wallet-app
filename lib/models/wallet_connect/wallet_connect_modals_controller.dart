@@ -31,63 +31,6 @@ class WalletConnectModalsController {
     }
   }
 
-  //Handles sending Qubic
-  Future<RequestSendTransactionResult> handleSendQubic(
-      RequestSendTransactionEvent event, BuildContext context) async {
-    final navigator = Navigator.of(context);
-    await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
-    _wCDialogOpen = true;
-    var result =
-        await navigator.push(MaterialPageRoute<RequestSendTransactionResult?>(
-            builder: (BuildContext context) {
-              return ApproveSignTransaction(
-                method: WalletConnectMethod.sendQubic,
-                data: TransactionApprovalDataModel(
-                  pairingMetadata: event.pairingMetadata,
-                  fromID: event.fromID,
-                  fromName: event.fromIDName,
-                  amount: event.amount,
-                  toID: event.toID,
-                ),
-              );
-            },
-            fullscreenDialog: true));
-    _wCDialogOpen = false;
-    return handleReturningResult(result);
-
-    /*
-
-    try {
-      var result = await Navigator.of(context)
-          .push(MaterialPageRoute<RequestSendQubicResult?>(
-              builder: (BuildContext context) {
-                return ApproveTokenTransfer(
-                    pairingMetadata: event.pairingMetadata!,
-                    fromID: event.fromID,
-                    fromName: event.fromIDName,
-                    amount: event.amount,
-                    toID: event.toID);
-              },
-              fullscreenDialog: true));
-      _wCDialogOpen = false;
-      if (result == null) {
-        throw Errors.getSdkError(Errors.USER_REJECTED);
-      } else {
-        if ((result.errorCode == null) && (result.errorMessage == null)) {
-          return result;
-        } else {
-          throw JsonRpcError(
-              code: result.errorCode ?? -1,
-              message: result.errorMessage ?? "An error has occurred");
-        }
-      }
-    } catch (e) {
-      _wCDialogOpen = false;
-      rethrow;
-    }
-    */
-  }
-
   Future<RequestSendTransactionResult> handleSendTransaction(
       RequestSendTransactionEvent event, BuildContext context) async {
     final navigator = Navigator.of(context);
