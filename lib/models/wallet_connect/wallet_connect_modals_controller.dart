@@ -31,6 +31,7 @@ class WalletConnectModalsController {
     }
   }
 
+  //Handles send transaction and send Qubic
   Future<RequestSendTransactionResult> handleSendTransaction(
       RequestSendTransactionEvent event, BuildContext context) async {
     final navigator = Navigator.of(context);
@@ -41,7 +42,7 @@ class WalletConnectModalsController {
             builder: (BuildContext context) {
               return ApproveSignTransaction(
                 method: WalletConnectMethod.sendQubic,
-                data: TransactionApprovalDataModel(
+                data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
                   fromID: event.fromID,
                   fromName: event.fromIDName,
@@ -69,7 +70,7 @@ class WalletConnectModalsController {
             builder: (BuildContext context) {
               return ApproveSignTransaction(
                 method: WalletConnectMethod.signTransaction,
-                data: TransactionApprovalDataModel(
+                data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
                   fromID: event.fromID,
                   fromName: event.fromIDName,
@@ -86,6 +87,8 @@ class WalletConnectModalsController {
     return handleReturningResult(result);
   }
 
+  /// Takes T a child class from RequestResult and returns it if it has no error or
+  /// throws a JsonRpcError if it has an error
   T handleReturningResult<T extends RequestResult>(T? result) {
     if (result == null) {
       throw JsonRpcError(
@@ -114,39 +117,59 @@ class WalletConnectModalsController {
     }
   }
 
-  //Handles sending Qubic
+  //Handles sign message
   Future<RequestSignMessageResult> handleSign(
       RequestSignMessageEvent event, BuildContext context) async {
+    final navigator = Navigator.of(context);
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
-
-    try {
-      var result = await Navigator.of(context)
-          .push(MaterialPageRoute<RequestSignMessageResult?>(
-              builder: (BuildContext context) {
-                return ApproveSign(
-                  pairingMetadata: event.pairingMetadata!,
+    var result =
+        await navigator.push(MaterialPageRoute<RequestSignMessageResult?>(
+            builder: (BuildContext context) {
+              return ApproveSignTransaction(
+                method: WalletConnectMethod.signMessage,
+                data: ApprovalDataModel(
+                  pairingMetadata: event.pairingMetadata,
                   fromID: event.fromID,
                   fromName: event.fromIDName,
                   message: event.message,
-                );
-              },
-              fullscreenDialog: true));
-      _wCDialogOpen = false;
-      if (result == null) {
-        throw Errors.getSdkError(Errors.USER_REJECTED);
-      } else {
-        if ((result.errorCode == null) && (result.errorMessage == null)) {
-          return result;
-        } else {
-          throw JsonRpcError(
-              code: result.errorCode ?? -1,
-              message: result.errorMessage ?? "An error has occurred");
-        }
-      }
-    } catch (e) {
-      _wCDialogOpen = false;
-      rethrow;
-    }
+                ),
+              );
+            },
+            fullscreenDialog: true));
+    _wCDialogOpen = false;
+    return handleReturningResult(result);
+
+    // await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
+    // _wCDialogOpen = true;
+
+    // try {
+    //   var result = await Navigator.of(context)
+    //       .push(MaterialPageRoute<RequestSignMessageResult?>(
+    //           builder: (BuildContext context) {
+    //             return ApproveSign(
+    //               pairingMetadata: event.pairingMetadata!,
+    //               fromID: event.fromID,
+    //               fromName: event.fromIDName,
+    //               message: event.message,
+    //             );
+    //           },
+    //           fullscreenDialog: true));
+    //   _wCDialogOpen = false;
+    //   if (result == null) {
+    //     throw Errors.getSdkError(Errors.USER_REJECTED);
+    //   } else {
+    //     if ((result.errorCode == null) && (result.errorMessage == null)) {
+    //       return result;
+    //     } else {
+    //       throw JsonRpcError(
+    //           code: result.errorCode ?? -1,
+    //           message: result.errorMessage ?? "An error has occurred");
+    //     }
+    //   }
+    // } catch (e) {
+    //   _wCDialogOpen = false;
+    //   rethrow;
+    // }
   }
 }

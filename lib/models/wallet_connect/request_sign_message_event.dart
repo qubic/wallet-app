@@ -24,11 +24,6 @@ class RequestSignMessageEvent extends RequestEvent with PairingMetadataMixin {
     fromIDName = account.name;
   }
 
-  //Gets only the data stored here (in a dynamic format)
-  dynamic getData() {
-    return {fromID: fromID, message: message};
-  }
-
   RequestSignMessageEvent({
     required super.topic,
     required super.requestId,

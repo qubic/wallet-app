@@ -13,8 +13,10 @@ import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
@@ -37,7 +39,7 @@ enum WalletConnectMethod {
 ///
 /// Note that `RequestSignTransactionResult` is an example of any RequestResult child class
 class ApproveSignTransaction extends StatefulWidget {
-  final TransactionApprovalDataModel data;
+  final ApprovalDataModel data;
   final WalletConnectMethod method;
   const ApproveSignTransaction({
     super.key,
@@ -55,6 +57,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
   final WalletConnectService wcService = getIt<WalletConnectService>();
   final wCModalsController = WalletConnectModalsController();
   final _globalSnackBar = getIt.get<GlobalSnackBar>();
+  final QubicCmd qubicCmd = getIt.get<QubicCmd>();
 
   bool hasAccepted = false;
   String? toIdName;
@@ -91,9 +94,9 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
     if (!mounted) return;
     result = await getTransactionDialog(
         context,
-        widget.data.fromID!,
-        widget.data.toID,
-        widget.data.amount,
+        widget.data.fromID,
+        widget.data.toID!,
+        widget.data.amount!,
         targetTick,
         widget.data.inputType,
         widget.data.payload);
@@ -123,9 +126,9 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
     if (!mounted) return;
     result = await sendTransactionDialog(
       context,
-      widget.data.fromID!,
-      widget.data.toID,
-      widget.data.amount,
+      widget.data.fromID,
+      widget.data.toID!,
+      widget.data.amount!,
       targetTick,
     );
     if (result != null) {
@@ -136,6 +139,21 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
       returnError(RequestSendTransactionResult.error(
           errorMessage: l10n.sendItemDialogErrorGeneralTitle));
     }
+  }
+
+  onApproveSignMessage() async {
+    final navigator = Navigator.of(context);
+
+    final l10n = l10nOf(context);
+    bool authenticated = await reAuthDialog(context);
+    if (!authenticated) {
+      navigator.pop();
+      return;
+    }
+    final seed = await appStore.getSeedByPublicId(widget.data.fromID);
+    final signedMessage = await qubicCmd.signUTF8(seed, widget.data.message!);
+    navigator.pop(RequestSignMessageResult.success(result: signedMessage));
+    _globalSnackBar.show(l10n.wcApprovedSignedMessage);
   }
 
   @override
@@ -165,8 +183,11 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                         case WalletConnectMethod.signTransaction:
                           onApproveSignTransaction();
                           break;
-                        case WalletConnectMethod.sendQubic:
+                        case WalletConnectMethod.sendQubic ||
+                              WalletConnectMethod.sendTransaction:
                           onApproveSendQubic();
+                        case WalletConnectMethod.signMessage:
+                          onApproveSignMessage();
                           break;
                         default:
                           break;
@@ -182,6 +203,10 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                               WalletConnectMethod.sendTransaction:
                           Navigator.of(context).pop(
                               RequestSendTransactionResult.error(
+                                  errorMessage: e.toString()));
+                        case WalletConnectMethod.signMessage:
+                          Navigator.of(context).pop(
+                              RequestSignMessageResult.error(
                                   errorMessage: e.toString()));
                           break;
                         default:
@@ -226,6 +251,8 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
         return l10n.wcSignTransaction;
       case WalletConnectMethod.sendQubic || WalletConnectMethod.sendTransaction:
         return l10n.wcApproveTransaction;
+      case WalletConnectMethod.signMessage:
+        return l10n.wcSignMessage;
       default:
         return l10n.generalButtonApprove;
     }
@@ -282,46 +309,65 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                    if (widget.method ==
-                        WalletConnectMethod.signTransaction) ...[
+                    if (widget.method == WalletConnectMethod.signTransaction ||
+                        widget.method == WalletConnectMethod.signMessage) ...[
                       Center(
-                          child: Text("Sign the transfer of",
+                          child: Text(
+                              widget.method ==
+                                      WalletConnectMethod.signTransaction
+                                  ? l10n.wcApproveSignTransferOf
+                                  : l10n.wcApproveSignOf,
                               style: TextStyles.sliverHeader)),
                       ThemedControls.spacerVerticalNormal(),
                     ],
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      AmountValueHeader(
-                          amount: widget.data.amount, suffix: "QUBIC"),
-                    ]),
-                    ThemedControls.spacerVerticalBig(),
+                    if (widget.data.message != null) ...[
+                      Center(
+                        child: Text(
+                            widget.data.message!.replaceAll(r'\n', '\n'),
+                            textAlign: TextAlign.center,
+                            style: TextStyles.textNormal),
+                      ),
+                      ThemedControls.spacerVerticalBig(),
+                    ],
+                    if (widget.data.amount != null) ...[
+                      Center(
+                          child: AmountValueHeader(
+                              amount: widget.data.amount!, suffix: "QUBIC")),
+                      ThemedControls.spacerVerticalBig(),
+                    ],
                     Text(
                       l10n.generalLabelToFromAccount(
                           l10n.generalLabelFrom, widget.data.fromName ?? "-"),
                       style: TextStyles.lightGreyTextSmall,
                     ),
                     ThemedControls.spacerVerticalMini(),
-                    Text(widget.data.fromID ?? "-",
-                        style: TextStyles.textNormal),
-                    ThemedControls.spacerVerticalSmall(),
-                    toIdName != null
-                        ? Text(
-                            l10n.generalLabelToFromAccount(
-                                l10n.generalLabelTo, toIdName!),
-                            style: TextStyles.lightGreyTextSmall,
-                          )
-                        : Text(
-                            l10n.generalLabelToFromAddress(l10n.generalLabelTo),
-                            style: TextStyles.lightGreyTextSmall,
-                          ),
-                    ThemedControls.spacerVerticalMini(),
-                    Text(widget.data.toID ?? "-", style: TextStyles.textNormal),
-                    ThemedControls.spacerVerticalSmall(),
-                    Text(
-                      l10n.generalLabelTick,
-                      style: TextStyles.lightGreyTextSmall,
-                    ),
-                    Text(widget.data.tick?.asThousands() ?? "-",
-                        style: TextStyles.textNormal),
+                    Text(widget.data.fromID, style: TextStyles.textNormal),
+                    if (widget.data.toID != null) ...[
+                      ThemedControls.spacerVerticalSmall(),
+                      toIdName != null
+                          ? Text(
+                              l10n.generalLabelToFromAccount(
+                                  l10n.generalLabelTo, toIdName!),
+                              style: TextStyles.lightGreyTextSmall,
+                            )
+                          : Text(
+                              l10n.generalLabelToFromAddress(
+                                  l10n.generalLabelTo),
+                              style: TextStyles.lightGreyTextSmall,
+                            ),
+                      ThemedControls.spacerVerticalMini(),
+                      Text(widget.data.toID ?? "-",
+                          style: TextStyles.textNormal),
+                    ],
+                    if (widget.data.tick != null) ...[
+                      ThemedControls.spacerVerticalSmall(),
+                      Text(
+                        l10n.generalLabelTick,
+                        style: TextStyles.lightGreyTextSmall,
+                      ),
+                      Text(widget.data.tick?.asThousands() ?? "-",
+                          style: TextStyles.textNormal),
+                    ],
                     if (widget.data.inputType != null &&
                         widget.data.inputType != 0) ...[
                       ThemedControls.spacerVerticalSmall(),
