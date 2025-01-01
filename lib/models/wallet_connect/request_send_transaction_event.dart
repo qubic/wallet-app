@@ -31,6 +31,11 @@ class RequestSendTransactionEvent extends RequestEvent
       throw ArgumentError(
           "$wcRequestParamFrom and $wcRequestParamTo are the same");
     }
+    if (tick != null) {
+      if (appStore.currentTick > tick!) {
+        throw ArgumentError("Value is already in the past", wcRequestParamTick);
+      }
+    }
     fromIDName = account.name;
   }
 
