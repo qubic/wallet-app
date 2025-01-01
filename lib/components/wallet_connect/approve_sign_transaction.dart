@@ -66,13 +66,10 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
   void initState() {
     super.initState();
 
-    var item =
-        appStore.currentQubicIDs.where((e) => e.publicId == widget.data.toID);
-    if (item.isNotEmpty) {
-      setState(() {
-        toIdName = item.first.name;
-      });
-    }
+    var item = appStore.findById(widget.data.toID);
+    setState(() {
+      toIdName = item?.name;
+    });
   }
 
   void returnError<T extends RequestResult>(T requestResult) {

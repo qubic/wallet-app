@@ -213,6 +213,11 @@ abstract class _ApplicationStore with Store {
     }
   }
 
+  QubicListVm? findById(String? publicId) {
+    return currentQubicIDs
+        .firstWhereOrNull((element) => element.publicId == publicId);
+  }
+
   /// Checks if the wallet is initialized (contains password stored in secure storage)
   /// updates hasStoredWalletSettings
   @action
