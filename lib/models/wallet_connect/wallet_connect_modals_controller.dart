@@ -5,11 +5,10 @@ import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_handle_transaction_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
@@ -29,7 +28,7 @@ class WalletConnectModalsController {
 
   //Handles send transaction and send Qubic
   Future<RequestSendTransactionResult> handleSendTransaction(
-      RequestSendTransactionEvent event, BuildContext context) async {
+      RequestHandleTransactionEvent event, BuildContext context) async {
     final navigator = Navigator.of(context);
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
@@ -57,7 +56,7 @@ class WalletConnectModalsController {
 
   //Handles sign transaction
   Future<RequestSignTransactionResult> handleSignTransaction(
-      RequestSignTransactionEvent event, BuildContext context) async {
+      RequestHandleTransactionEvent event, BuildContext context) async {
     final navigator = Navigator.of(context);
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
@@ -135,37 +134,5 @@ class WalletConnectModalsController {
             fullscreenDialog: true));
     _wCDialogOpen = false;
     return handleReturningResult(result);
-
-    // await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
-    // _wCDialogOpen = true;
-
-    // try {
-    //   var result = await Navigator.of(context)
-    //       .push(MaterialPageRoute<RequestSignMessageResult?>(
-    //           builder: (BuildContext context) {
-    //             return ApproveSign(
-    //               pairingMetadata: event.pairingMetadata!,
-    //               fromID: event.fromID,
-    //               fromName: event.fromIDName,
-    //               message: event.message,
-    //             );
-    //           },
-    //           fullscreenDialog: true));
-    //   _wCDialogOpen = false;
-    //   if (result == null) {
-    //     throw Errors.getSdkError(Errors.USER_REJECTED);
-    //   } else {
-    //     if ((result.errorCode == null) && (result.errorMessage == null)) {
-    //       return result;
-    //     } else {
-    //       throw JsonRpcError(
-    //           code: result.errorCode ?? -1,
-    //           message: result.errorMessage ?? "An error has occurred");
-    //     }
-    //   }
-    // } catch (e) {
-    //   _wCDialogOpen = false;
-    //   rethrow;
-    // }
   }
 }

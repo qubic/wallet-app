@@ -10,9 +10,8 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_resu
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_event.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_handle_transaction_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
@@ -29,19 +28,19 @@ class WalletConnectService {
   //------------------------------------ HANDLERS ------------------------------------
   //A callback that is called when a request to send qubic is received
   Future<RequestSendTransactionResult> Function(
-      RequestSendTransactionEvent event)? sendQubicHandler;
+      RequestHandleTransactionEvent event)? sendQubicHandler;
 
   //A callback that is called when a request to send transaction is received
   Future<RequestSendTransactionResult> Function(
-      RequestSendTransactionEvent event)? sendTransactionHandler;
+      RequestHandleTransactionEvent event)? sendTransactionHandler;
+
+  //A callback that is called when a request to sign a transaction is received
+  Future<RequestSignTransactionResult> Function(
+      RequestHandleTransactionEvent event)? signTransactionHandler;
 
   //A callback that is called when a request to sign a generic message is received
   Future<RequestSignMessageResult> Function(RequestSignMessageEvent event)?
       signGenericHandler;
-
-  //A callback that is called when a request to sign a transaction is received
-  Future<RequestSignTransactionResult> Function(
-      RequestSignTransactionEvent event)? signTransactionHandler;
 
   //------------------------------------ EVENTS ------------------------------------
   /// Event that is triggered when a session is connected
@@ -75,7 +74,7 @@ class WalletConnectService {
   /// Sets the handler for the requestSendQubic event
   void setRequestSendQubicHandler(
       {required RequestSendTransactionResult Function(
-              RequestSendTransactionEvent event)
+              RequestHandleTransactionEvent event)
           handler}) {}
 
   WalletConnectService();
@@ -324,13 +323,14 @@ class WalletConnectService {
         handler: (topic, args) async {
           final sessionId = getLastSessionId(WcMethods.wSendQubic, topic);
 
-          late RequestSendTransactionEvent event;
+          late RequestHandleTransactionEvent event;
 
           if (sendQubicHandler == null) {
             throw "sendQubicHandler is not set";
           }
           try {
-            event = RequestSendTransactionEvent.fromMap(args, topic, sessionId);
+            event =
+                RequestHandleTransactionEvent.fromMap(args, topic, sessionId);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
@@ -358,13 +358,14 @@ class WalletConnectService {
         handler: (topic, args) async {
           final sessionId = getLastSessionId(WcMethods.wSendTransaction, topic);
 
-          late RequestSendTransactionEvent event;
+          late RequestHandleTransactionEvent event;
 
           if (sendTransactionHandler == null) {
             throw "sendTransactionHandler is not set";
           }
           try {
-            event = RequestSendTransactionEvent.fromMap(args, topic, sessionId);
+            event =
+                RequestHandleTransactionEvent.fromMap(args, topic, sessionId);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
@@ -429,13 +430,14 @@ class WalletConnectService {
         handler: (topic, args) async {
           final sessionId = getLastSessionId(WcMethods.wSignTransaction, topic);
 
-          late RequestSignTransactionEvent event;
+          late RequestHandleTransactionEvent event;
 
           if (signTransactionHandler == null) {
             throw "signTransactionHandler is not set";
           }
           try {
-            event = RequestSignTransactionEvent.fromMap(args, topic, sessionId);
+            event =
+                RequestHandleTransactionEvent.fromMap(args, topic, sessionId);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(

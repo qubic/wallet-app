@@ -7,7 +7,9 @@ import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
-class RequestSignTransactionEvent extends RequestEvent
+/// A model to handle a WC transaction request method from `WcMethods`
+/// including `wSendQubic` , `wSendTransaction` and `wSignTransaction`
+class RequestHandleTransactionEvent extends RequestEvent
     with PairingMetadataMixin {
   final String fromID; //From which publicID should the funds flow
   final String toID; //To which publicID should the funds flow
@@ -39,7 +41,7 @@ class RequestSignTransactionEvent extends RequestEvent
     fromIDName = account.name;
   }
 
-  RequestSignTransactionEvent(
+  RequestHandleTransactionEvent(
       {required super.topic,
       required super.requestId,
       required this.fromID,
@@ -50,7 +52,7 @@ class RequestSignTransactionEvent extends RequestEvent
       required this.payload});
 
   //Creates a RequestSendQubicEvent from a map validating data types
-  factory RequestSignTransactionEvent.fromMap(
+  factory RequestHandleTransactionEvent.fromMap(
       Map<String, dynamic> map, String topic, int requestId) {
     appLogger.e(map.toString());
 
@@ -95,7 +97,7 @@ class RequestSignTransactionEvent extends RequestEvent
         throw ArgumentError(validInputType, wcRequestParamInputType);
       }
     }
-    return RequestSignTransactionEvent(
+    return RequestHandleTransactionEvent(
       topic: topic.toString(),
       requestId: requestId,
       fromID: map[wcRequestParamFrom],
