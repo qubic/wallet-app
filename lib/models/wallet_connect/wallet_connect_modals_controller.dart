@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/components/wallet_connect/approve_sign_transaction.dart';
+import 'package:qubic_wallet/components/wallet_connect/approve_wc_method_screen.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
@@ -35,7 +35,7 @@ class WalletConnectModalsController {
     var result =
         await navigator.push(MaterialPageRoute<RequestSendTransactionResult?>(
             builder: (BuildContext context) {
-              return ApproveSignTransaction(
+              return ApproveWcMethodScreen(
                 method: WalletConnectMethod.sendQubic,
                 data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
@@ -63,7 +63,7 @@ class WalletConnectModalsController {
     var result =
         await navigator.push(MaterialPageRoute<RequestSignTransactionResult?>(
             builder: (BuildContext context) {
-              return ApproveSignTransaction(
+              return ApproveWcMethodScreen(
                 method: WalletConnectMethod.signTransaction,
                 data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
@@ -121,7 +121,7 @@ class WalletConnectModalsController {
     var result =
         await navigator.push(MaterialPageRoute<RequestSignMessageResult?>(
             builder: (BuildContext context) {
-              return ApproveSignTransaction(
+              return ApproveWcMethodScreen(
                 method: WalletConnectMethod.signMessage,
                 data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
