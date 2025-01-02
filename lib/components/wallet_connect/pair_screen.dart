@@ -18,7 +18,7 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 
-class Pair extends StatefulWidget {
+class PairScreen extends StatefulWidget {
   final PairingMetadata? pairingMetadata;
   final List<String> pairingMethods;
   final List<String> pairingEvents;
@@ -26,7 +26,7 @@ class Pair extends StatefulWidget {
   final Map<String, Namespace>? pairingNamespaces;
   final DomainType domainType;
 
-  const Pair({
+  const PairScreen({
     super.key,
     required this.pairingId,
     required this.pairingMethods,
@@ -38,10 +38,10 @@ class Pair extends StatefulWidget {
 
   @override
   // ignore: library_private_types_in_public_api
-  _PairState createState() => _PairState();
+  _PairScreenState createState() => _PairScreenState();
 }
 
-class _PairState extends State<Pair> {
+class _PairScreenState extends State<PairScreen> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final WalletConnectService wcService = getIt<WalletConnectService>();
 
