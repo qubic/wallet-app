@@ -207,7 +207,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                     child: CircularProgressIndicator(
                         strokeWidth: 2, color: LightThemeColors.grey90),
                   )
-                : Text(getTitleOfButton(),
+                : Text(getApprovalButtonTitle(),
                     textAlign: TextAlign.center,
                     style: TextStyles.primaryButtonText)),
       ),
@@ -226,12 +226,14 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
     ];
   }
 
-  getTitleOfButton() {
+  String getApprovalButtonTitle() {
     final l10n = l10nOf(context);
     switch (widget.method) {
       case WalletConnectMethod.signTransaction:
         return l10n.wcSignTransaction;
-      case WalletConnectMethod.sendQubic || WalletConnectMethod.sendTransaction:
+      case WalletConnectMethod.sendQubic:
+        return l10n.wcApproveTransfer;
+      case WalletConnectMethod.sendTransaction:
         return l10n.wcApproveTransaction;
       case WalletConnectMethod.signMessage:
         return l10n.wcSignMessage;
