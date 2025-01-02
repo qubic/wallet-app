@@ -39,11 +39,6 @@ class RequestSignTransactionEvent extends RequestEvent
     fromIDName = account.name;
   }
 
-  //Gets only the data stored here (in a dynamic format)
-  dynamic getData() {
-    return {fromID: fromID, toID: toID, amount: amount, tick: tick};
-  }
-
   RequestSignTransactionEvent(
       {required super.topic,
       required super.requestId,
@@ -91,6 +86,15 @@ class RequestSignTransactionEvent extends RequestEvent
         throw ArgumentError(validTick, wcRequestParamTick);
       }
     }
+
+    if (map[wcRequestParamInputType] != null) {
+      var validInputType = FormBuilderValidators.compose([
+        FormBuilderValidators.positiveNumber()
+      ])(map[wcRequestParamInputType]);
+      if (validInputType != null) {
+        throw ArgumentError(validInputType, wcRequestParamInputType);
+      }
+    }
     return RequestSignTransactionEvent(
       topic: topic.toString(),
       requestId: requestId,
@@ -100,8 +104,9 @@ class RequestSignTransactionEvent extends RequestEvent
       tick: map[wcRequestParamTick] != null
           ? int.parse(map[wcRequestParamTick])
           : null,
-      inputType:
-          map["inputType"] != null ? int.tryParse(map["inputType"]) : null,
+      inputType: map[wcRequestParamInputType] != null
+          ? int.tryParse(map[wcRequestParamInputType])
+          : null,
       payload: map["payload"],
     );
   }

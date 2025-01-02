@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/wallet_connect/approve_sign_transaction.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
@@ -15,13 +14,10 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_resu
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 
-import '../../components/wallet_connect/approve_sign.dart';
-
 // Provides a unified place to handle WalletConnect modals
 class WalletConnectModalsController {
   bool _wCDialogOpen = false;
   final _liveApi = getIt.get<QubicLiveApi>();
-  final _globalSnackBar = getIt.get<GlobalSnackBar>();
 
   //If a WC modal is open, ignore the request
   _autoIgnoreRequestsWhenModalIsOpen(String topic, int requestId) async {

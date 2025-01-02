@@ -9,3 +9,4 @@ const String wcRequestParamFrom = "from";
 const String wcRequestParamTo = "to";
 const String wcRequestParamAmount = "amount";
 const String wcRequestParamTick = "tick";
+const String wcRequestParamInputType = "inputType";

@@ -350,8 +350,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                       Text(widget.data.tick?.asThousands() ?? "-",
                           style: TextStyles.textNormal),
                     ],
-                    if (widget.data.inputType != null &&
-                        widget.data.inputType != 0) ...[
+                    if (widget.data.inputType != null) ...[
                       ThemedControls.spacerVerticalSmall(),
                       Text(
                         l10n.generalLabelInputType,
@@ -360,8 +359,7 @@ class _ApproveSignTransactionState extends State<ApproveSignTransaction> {
                       Text(widget.data.inputType!.toString(),
                           style: TextStyles.textNormal),
                     ],
-                    if (widget.data.payload != null &&
-                        widget.data.payload!.isNotEmpty) ...[
+                    if (widget.data.payload != null) ...[
                       ThemedControls.spacerVerticalSmall(),
                       Text(
                         l10n.generalLabelPayload,
