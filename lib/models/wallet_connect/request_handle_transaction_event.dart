@@ -7,6 +7,9 @@ import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
+const String wcRequestParamInputType = "inputType";
+const String wcRequestParamPayload = "payload";
+
 /// A model to handle a WC transaction request method from `WcMethods`
 /// including `wSendQubic` , `wSendTransaction` and `wSignTransaction`
 class RequestHandleTransactionEvent extends RequestEvent
@@ -109,7 +112,7 @@ class RequestHandleTransactionEvent extends RequestEvent
       inputType: map[wcRequestParamInputType] != null
           ? int.tryParse(map[wcRequestParamInputType])
           : null,
-      payload: map["payload"],
+      payload: map[wcRequestParamPayload],
     );
   }
 
