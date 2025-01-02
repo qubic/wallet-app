@@ -47,9 +47,12 @@ class TransactionDetails extends StatelessWidget {
                       await Clipboard.setData(
                           ClipboardData(text: item.toReadableString(context)));
                     },
-                    child: Text(l10n.transactionItemButtonCopyToClipboard,
-                        textAlign: TextAlign.center,
-                        style: TextStyles.transparentButtonText))),
+                    child: Text(
+                      l10n.transactionItemButtonCopyToClipboard,
+                      textAlign: TextAlign.center,
+                      style:
+                          TextStyles.transparentButtonText.copyWith(height: 1),
+                    ))),
             ThemedControls.spacerHorizontalNormal(),
             Expanded(
               child: (appStore.currentTick >= item.targetTick)
