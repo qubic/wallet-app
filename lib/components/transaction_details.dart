@@ -168,7 +168,8 @@ class TransactionDetails extends StatelessWidget {
                               ),
                               IconButton(
                                 onPressed: () => Navigator.pop(context),
-                                icon: SvgPicture.asset(AppIcons.close),
+                                icon: SvgPicture.asset(AppIcons.close,
+                                    color: LightThemeColors.textLightGrey),
                               ),
                             ],
                           ),
