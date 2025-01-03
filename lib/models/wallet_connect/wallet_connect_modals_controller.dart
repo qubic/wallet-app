@@ -82,6 +82,30 @@ class WalletConnectModalsController {
     return handleReturningResult(result);
   }
 
+  //Handles sign message
+  Future<RequestSignMessageResult> handleSign(
+      RequestSignMessageEvent event, BuildContext context) async {
+    final navigator = Navigator.of(context);
+    await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
+    _wCDialogOpen = true;
+    var result =
+        await navigator.push(MaterialPageRoute<RequestSignMessageResult?>(
+            builder: (BuildContext context) {
+              return ApproveWcMethodScreen(
+                method: WalletConnectMethod.signMessage,
+                data: ApprovalDataModel(
+                  pairingMetadata: event.pairingMetadata,
+                  fromID: event.fromID,
+                  fromName: event.fromIDName,
+                  message: event.message,
+                ),
+              );
+            },
+            fullscreenDialog: true));
+    _wCDialogOpen = false;
+    return handleReturningResult(result);
+  }
+
   /// Takes T a child class from RequestResult and returns it if it has no error or
   /// throws a JsonRpcError if it has an error
   T handleReturningResult<T extends RequestResult>(T? result) {
@@ -110,29 +134,5 @@ class WalletConnectModalsController {
       int latestTick = (await _liveApi.getCurrentTick()).tick;
       return latestTick + defaultTargetTickType.value;
     }
-  }
-
-  //Handles sign message
-  Future<RequestSignMessageResult> handleSign(
-      RequestSignMessageEvent event, BuildContext context) async {
-    final navigator = Navigator.of(context);
-    await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
-    _wCDialogOpen = true;
-    var result =
-        await navigator.push(MaterialPageRoute<RequestSignMessageResult?>(
-            builder: (BuildContext context) {
-              return ApproveWcMethodScreen(
-                method: WalletConnectMethod.signMessage,
-                data: ApprovalDataModel(
-                  pairingMetadata: event.pairingMetadata,
-                  fromID: event.fromID,
-                  fromName: event.fromIDName,
-                  message: event.message,
-                ),
-              );
-            },
-            fullscreenDialog: true));
-    _wCDialogOpen = false;
-    return handleReturningResult(result);
   }
 }

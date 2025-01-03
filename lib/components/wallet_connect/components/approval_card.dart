@@ -52,7 +52,8 @@ class _ApprovalCardState extends State<_ApprovalCard> {
         if (widget.data.amount != null) ...[
           Center(
               child: AmountValueHeader(
-                  amount: widget.data.amount!, suffix: "QUBIC")),
+                  amount: widget.data.amount!,
+                  suffix: l10n.generalLabelCurrencyQubic)),
           ThemedControls.spacerVerticalBig(),
         ],
         Text(
