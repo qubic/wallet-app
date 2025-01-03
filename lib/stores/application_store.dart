@@ -213,7 +213,7 @@ abstract class _ApplicationStore with Store {
     }
   }
 
-  QubicListVm? findById(String? publicId) {
+  QubicListVm? findAccountById(String? publicId) {
     return currentQubicIDs
         .firstWhereOrNull((element) => element.publicId == publicId);
   }
