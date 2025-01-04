@@ -80,17 +80,14 @@ class TransactionDetails extends StatelessWidget {
   }
 
   //Gets the from and To labels
-  Widget getFromTo(BuildContext context, String prepend, String id) {
+  Widget getFromTo(BuildContext context, String prepend, String accountId) {
     final l10n = l10nOf(context);
 
     return Flex(direction: Axis.horizontal, children: [
       Expanded(
           child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         Observer(builder: (context) {
-          QubicListVm? source =
-              appStore.currentQubicIDs.firstWhereOrNull((element) {
-            return element.publicId == id;
-          });
+          QubicListVm? source = appStore.findAccountById(accountId);
           if (source != null) {
             return SizedBox(
                 width: double.infinity,
@@ -105,13 +102,13 @@ class TransactionDetails extends StatelessWidget {
                   textAlign: TextAlign.start,
                   style: TextStyles.lightGreyTextNormal));
         }),
-        Text(id,
+        Text(accountId,
             style: Theme.of(context)
                 .textTheme
                 .titleMedium!
                 .copyWith(fontFamily: ThemeFonts.secondary)),
       ])),
-      CopyButton(copiedText: id)
+      CopyButton(copiedText: accountId)
     ]);
   }
 
