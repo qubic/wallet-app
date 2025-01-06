@@ -466,10 +466,6 @@ class WalletConnectService {
         handler: (name, args) {});
 
     // -------------------------------------------------------- END OF METHODS ---------------------------------------------------------
-    web3Wallet!.registerAccount(
-        accountAddress:
-            "000000000000000000000000000000000000000000000000000000000000", //Hardcoded in order to use wallet_ methods
-        chainId: Config.walletConnectChainId);
 
     appStore.currentQubicIDs.forEach(((id) {
       if (id.watchOnly == false) {
