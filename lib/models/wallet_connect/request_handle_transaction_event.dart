@@ -1,7 +1,5 @@
-import 'package:collection/collection.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
@@ -56,8 +54,6 @@ class RequestHandleTransactionEvent extends RequestEvent
   //Creates a RequestSendQubicEvent from a map validating data types
   factory RequestHandleTransactionEvent.fromMap(
       Map<String, dynamic> map, String topic, int requestId) {
-    appLogger.e(map.toString());
-
     var validFromID = FormBuilderValidators.compose([
       FormBuilderValidators.required(),
       CustomFormFieldValidators.isPublicIDNoContext()

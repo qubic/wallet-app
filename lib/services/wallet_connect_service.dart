@@ -42,6 +42,10 @@ class WalletConnectService {
   Future<RequestSignMessageResult> Function(RequestSignMessageEvent event)?
       signGenericHandler;
 
+  //A callback that is called when a request to sign a generic message is received
+  Future<RequestSignMessageResult> Function(RequestSignMessageEvent event)?
+      sendAssetHandler;
+
   //------------------------------------ EVENTS ------------------------------------
   /// Event that is triggered when a session is connected
   StreamController<SessionConnect?> onSessionConnect =
@@ -463,7 +467,38 @@ class WalletConnectService {
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSendAsset,
-        handler: (name, args) {});
+        handler: (topic, args) async {
+          final sessionId = getLastSessionId(WcMethods.wSendAsset, topic);
+
+          late RequestHandleTransactionEvent event;
+
+          if (sendQubicHandler == null) {
+            throw "signTransactionHandler is not set";
+          }
+          try {
+            event =
+                RequestHandleTransactionEvent.fromMap(args, topic, sessionId);
+            event.validateOrThrow();
+            validateAndSetSession(topic, event);
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(
+                    id: sessionId,
+                    result: await signTransactionHandler!(event)));
+          } catch (e) {
+            JsonRpcError error;
+
+            if (e is JsonRpcError) {
+              error = e;
+            } else {
+              error = JsonRpcError.serverError(e.toString());
+            }
+
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(id: sessionId, error: error));
+          }
+        });
 
     // -------------------------------------------------------- END OF METHODS ---------------------------------------------------------
 
