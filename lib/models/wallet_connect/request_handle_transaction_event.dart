@@ -109,14 +109,11 @@ class RequestHandleTransactionEvent extends RequestEvent
       requestId: requestId,
       fromID: map[wcRequestParamFrom],
       toID: map[wcRequestParamTo],
-      amount: int.parse(map[wcRequestParamAmount]),
-      tick: map[wcRequestParamTick] != null
-          ? int.parse(map[wcRequestParamTick])
-          : null,
-      inputType: map[wcRequestParamInputType] != null
-          ? int.tryParse(map[wcRequestParamInputType])
-          : null,
+      amount: map[wcRequestParamAmount],
+      tick: map[wcRequestParamTick],
+      inputType: map[wcRequestParamInputType],
       payload: map[wcRequestParamPayload],
+      method: method,
     );
   }
 
