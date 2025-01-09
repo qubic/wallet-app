@@ -1,8 +1,7 @@
-import 'package:collection/collection.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
+import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -20,6 +19,7 @@ class RequestHandleTransactionEvent extends RequestEvent
   final int? tick; //The tick to be used for the transaction
   final int? inputType;
   final String? payload;
+  String? method;
 
   //Validates the request to send qubic against the wallet context
   void validateOrThrow() {
@@ -43,21 +43,22 @@ class RequestHandleTransactionEvent extends RequestEvent
     fromIDName = account.name;
   }
 
-  RequestHandleTransactionEvent(
-      {required super.topic,
-      required super.requestId,
-      required this.fromID,
-      required this.toID,
-      required this.amount,
-      required this.tick,
-      required this.inputType,
-      required this.payload});
+  RequestHandleTransactionEvent({
+    required super.topic,
+    required super.requestId,
+    required this.fromID,
+    required this.toID,
+    required this.amount,
+    required this.tick,
+    required this.inputType,
+    required this.payload,
+    this.method,
+  });
 
   //Creates a RequestSendQubicEvent from a map validating data types
   factory RequestHandleTransactionEvent.fromMap(
-      Map<String, dynamic> map, String topic, int requestId) {
-    appLogger.e(map.toString());
-
+      Map<String, dynamic> map, String topic, int requestId,
+      {String? method}) {
     var validFromID = FormBuilderValidators.compose([
       FormBuilderValidators.required(),
       CustomFormFieldValidators.isPublicIDNoContext()
@@ -76,7 +77,9 @@ class RequestHandleTransactionEvent extends RequestEvent
 
     var validAmount = FormBuilderValidators.compose([
       FormBuilderValidators.required(),
-      FormBuilderValidators.positiveNumber()
+      (method == WcMethods.wSendQubic)
+          ? FormBuilderValidators.positiveNumber()
+          : FormBuilderValidators.min(0)
     ])(map[wcRequestParamAmount]);
 
     if ((map[wcRequestParamAmount] == null) || (validAmount != null)) {
@@ -92,9 +95,8 @@ class RequestHandleTransactionEvent extends RequestEvent
     }
 
     if (map[wcRequestParamInputType] != null) {
-      var validInputType = FormBuilderValidators.compose([
-        FormBuilderValidators.positiveNumber()
-      ])(map[wcRequestParamInputType]);
+      var validInputType = FormBuilderValidators.compose(
+          [FormBuilderValidators.min(0)])(map[wcRequestParamInputType]);
       if (validInputType != null) {
         throw ArgumentError(validInputType, wcRequestParamInputType);
       }
@@ -104,14 +106,11 @@ class RequestHandleTransactionEvent extends RequestEvent
       requestId: requestId,
       fromID: map[wcRequestParamFrom],
       toID: map[wcRequestParamTo],
-      amount: int.parse(map[wcRequestParamAmount]),
-      tick: map[wcRequestParamTick] != null
-          ? int.parse(map[wcRequestParamTick])
-          : null,
-      inputType: map[wcRequestParamInputType] != null
-          ? int.tryParse(map[wcRequestParamInputType])
-          : null,
+      amount: map[wcRequestParamAmount],
+      tick: map[wcRequestParamTick],
+      inputType: map[wcRequestParamInputType],
       payload: map[wcRequestParamPayload],
+      method: method,
     );
   }
 
