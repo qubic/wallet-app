@@ -3,9 +3,9 @@ import 'dart:core';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
 
 class QubicSignResult {
-  late String signedData; //The private seed of the ID
-  late String digest; //The public ID
-  late String signature; //A descriptive name of the ID
+  late String signedData;
+  late String digest;
+  late String signature;
 
   factory QubicSignResult.fromJson(Map<String, dynamic> json) {
     var signedData = json['signedData'];
