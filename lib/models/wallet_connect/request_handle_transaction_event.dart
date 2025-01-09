@@ -6,9 +6,6 @@ import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
-const String wcRequestParamInputType = "inputType";
-const String wcRequestParamPayload = "payload";
-
 /// A model to handle a WC transaction request method from `WcMethods`
 /// including `wSendQubic` , `wSendTransaction` and `wSignTransaction`
 class RequestHandleTransactionEvent extends RequestEvent
@@ -26,18 +23,20 @@ class RequestHandleTransactionEvent extends RequestEvent
     ApplicationStore appStore = getIt<ApplicationStore>();
     var account = appStore.findAccountById(fromID);
     if (account == null) {
-      throw ArgumentError("Account not found in wallet", wcRequestParamFrom);
+      throw ArgumentError(
+          "Account not found in wallet", WcRequestParameters.from);
     }
     if ((account.amount == null) || (account.amount! < amount)) {
-      throw ArgumentError("Insufficient funds", wcRequestParamFrom);
+      throw ArgumentError("Insufficient funds", WcRequestParameters.from);
     }
     if (account.publicId == toID) {
       throw ArgumentError(
-          "$wcRequestParamFrom and $wcRequestParamTo are the same");
+          "${WcRequestParameters.from} and ${WcRequestParameters.to} are the same");
     }
     if (tick != null) {
       if (appStore.currentTick > tick!) {
-        throw ArgumentError("Value is already in the past", wcRequestParamTick);
+        throw ArgumentError(
+            "Value is already in the past", WcRequestParameters.tick);
       }
     }
     fromIDName = account.name;
@@ -60,7 +59,7 @@ class RequestHandleTransactionEvent extends RequestEvent
       {String? method}) {
     WcValidationUtils.validateField(
       map: map,
-      fieldName: wcRequestParamFrom,
+      fieldName: WcRequestParameters.from,
       validators: [
         FormBuilderValidators.required(),
         CustomFormFieldValidators.isPublicIDNoContext(),
@@ -69,7 +68,7 @@ class RequestHandleTransactionEvent extends RequestEvent
 
     WcValidationUtils.validateField(
       map: map,
-      fieldName: wcRequestParamTo,
+      fieldName: WcRequestParameters.to,
       validators: [
         FormBuilderValidators.required(),
         CustomFormFieldValidators.isPublicIDNoContext()
@@ -78,7 +77,7 @@ class RequestHandleTransactionEvent extends RequestEvent
 
     WcValidationUtils.validateField(
       map: map,
-      fieldName: wcRequestParamAmount,
+      fieldName: WcRequestParameters.amount,
       validators: [
         FormBuilderValidators.required(),
         (method == WcMethods.wSendQubic)
@@ -87,30 +86,26 @@ class RequestHandleTransactionEvent extends RequestEvent
       ],
     );
 
-    if (map[wcRequestParamTick] != null) {
-      WcValidationUtils.validateField(
-        map: map,
-        fieldName: wcRequestParamTick,
-        validators: [FormBuilderValidators.positiveNumber()],
-      );
-    }
+    WcValidationUtils.validateOptionalField(
+      map: map,
+      fieldName: WcRequestParameters.tick,
+      validators: [FormBuilderValidators.positiveNumber()],
+    );
 
-    if (map[wcRequestParamInputType] != null) {
-      WcValidationUtils.validateField(
-        map: map,
-        fieldName: wcRequestParamInputType,
-        validators: [FormBuilderValidators.min(0)],
-      );
-    }
+    WcValidationUtils.validateOptionalField(
+      map: map,
+      fieldName: WcRequestParameters.inputType,
+      validators: [FormBuilderValidators.min(0)],
+    );
     return RequestHandleTransactionEvent(
       topic: topic.toString(),
       requestId: requestId,
-      fromID: map[wcRequestParamFrom],
-      toID: map[wcRequestParamTo],
-      amount: map[wcRequestParamAmount],
-      tick: map[wcRequestParamTick],
-      inputType: map[wcRequestParamInputType],
-      payload: map[wcRequestParamPayload],
+      fromID: map[WcRequestParameters.from],
+      toID: map[WcRequestParameters.to],
+      amount: map[WcRequestParameters.amount],
+      tick: map[WcRequestParameters.tick],
+      inputType: map[WcRequestParameters.inputType],
+      payload: map[WcRequestParameters.payload],
       method: method,
     );
   }

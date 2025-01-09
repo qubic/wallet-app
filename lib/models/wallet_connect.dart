@@ -68,3 +68,14 @@ class WcValidationUtils {
     }
   }
 }
+
+class WcRequestParameters {
+  static const from = "from";
+  static const to = "to";
+  static const amount = "amount";
+  static const tick = "tick";
+  static const inputType = "inputType";
+  static const payload = "payload";
+  static const message = "message";
+  static const assetName = "assetName";
+}
