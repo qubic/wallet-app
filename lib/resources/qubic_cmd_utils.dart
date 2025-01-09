@@ -346,7 +346,7 @@ class QubicCmdUtils {
 
     return SignedTransaction(
         transactionKey: response.transaction!,
-        tansactionId: response.transactionId!);
+        transactionId: response.transactionId!);
   }
 
   Future<List<QubicImportVaultSeed>> importVaultFile(

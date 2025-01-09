@@ -333,8 +333,9 @@ class WalletConnectService {
             throw "sendQubicHandler is not set";
           }
           try {
-            event =
-                RequestHandleTransactionEvent.fromMap(args, topic, sessionId);
+            event = RequestHandleTransactionEvent.fromMap(
+                args, topic, sessionId,
+                method: WcMethods.wSendQubic);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
@@ -368,8 +369,9 @@ class WalletConnectService {
             throw "sendTransactionHandler is not set";
           }
           try {
-            event =
-                RequestHandleTransactionEvent.fromMap(args, topic, sessionId);
+            event = RequestHandleTransactionEvent.fromMap(
+                args, topic, sessionId,
+                method: WcMethods.wSendTransaction);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
@@ -440,8 +442,9 @@ class WalletConnectService {
             throw "signTransactionHandler is not set";
           }
           try {
-            event =
-                RequestHandleTransactionEvent.fromMap(args, topic, sessionId);
+            event = RequestHandleTransactionEvent.fromMap(
+                args, topic, sessionId,
+                method: WcMethods.wSignTransaction);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
