@@ -5,12 +5,14 @@ import 'package:qubic_wallet/stores/application_store.dart';
 
 import '../../di.dart';
 
-class RequestSendAssetsEvent extends RequestEvent with PairingMetadataMixin {
+const wcRequestParamAssetName = "assetName";
+
+class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
   final String from;
   final String to;
   final String assetName;
   final int amount;
-  RequestSendAssetsEvent({
+  RequestSendAssetEvent({
     required super.topic,
     required super.requestId,
     required this.from,
@@ -37,5 +39,17 @@ class RequestSendAssetsEvent extends RequestEvent with PairingMetadataMixin {
       throw ArgumentError("From and to are the same", wcRequestParamFrom);
     }
     fromIDName = account.name;
+  }
+
+  factory RequestSendAssetEvent.fromMap(
+      Map<String, dynamic> map, String topic, int requestId) {
+    return RequestSendAssetEvent(
+      topic: topic,
+      requestId: requestId,
+      from: map[wcRequestParamFrom],
+      to: map[wcRequestParamTo],
+      assetName: map[wcRequestParamAssetName],
+      amount: map[wcRequestParamAmount],
+    );
   }
 }

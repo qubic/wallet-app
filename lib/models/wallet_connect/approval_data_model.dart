@@ -6,6 +6,7 @@ class ApprovalDataModel {
   final int? tick;
   final int? inputType;
   final String? payload;
+  final String? assetName;
   final PairingMetadata? pairingMetadata;
   final String fromID;
   final String? fromName;
@@ -21,5 +22,6 @@ class ApprovalDataModel {
     this.inputType,
     this.payload,
     this.message,
+    this.assetName,
   });
 }

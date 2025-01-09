@@ -5,6 +5,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_assets_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
@@ -43,7 +44,7 @@ class WalletConnectService {
       signGenericHandler;
 
   //A callback that is called when a request to sign a generic message is received
-  Future<RequestSignMessageResult> Function(RequestSignMessageEvent event)?
+  Future<RequestSignTransactionResult> Function(RequestSendAssetEvent event)?
       sendAssetHandler;
 
   //------------------------------------ EVENTS ------------------------------------
@@ -473,21 +474,19 @@ class WalletConnectService {
         handler: (topic, args) async {
           final sessionId = getLastSessionId(WcMethods.wSendAsset, topic);
 
-          late RequestHandleTransactionEvent event;
+          late RequestSendAssetEvent event;
 
-          if (sendQubicHandler == null) {
-            throw "signTransactionHandler is not set";
+          if (sendAssetHandler == null) {
+            throw "sendAssetHandler is not set";
           }
           try {
-            event =
-                RequestHandleTransactionEvent.fromMap(args, topic, sessionId);
+            event = RequestSendAssetEvent.fromMap(args, topic, sessionId);
             event.validateOrThrow();
             validateAndSetSession(topic, event);
             return web3Wallet!.respondSessionRequest(
                 topic: topic,
                 response: JsonRpcResponse(
-                    id: sessionId,
-                    result: await signTransactionHandler!(event)));
+                    id: sessionId, result: await sendAssetHandler!(event)));
           } catch (e) {
             JsonRpcError error;
 

@@ -32,7 +32,8 @@ enum WalletConnectMethod {
   signTransaction,
   signMessage,
   sendTransaction,
-  sendQubic
+  sendQubic,
+  sendAsset
 }
 
 /// The return from this widget is one of the following:
