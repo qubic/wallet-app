@@ -16,17 +16,11 @@ class RequestSignMessageEvent extends RequestEvent with PairingMetadataMixin {
   //Validates the request to send qubic against the wallet context
   void validateOrThrow() {
     ApplicationStore appStore = getIt<ApplicationStore>();
-    var account =
-        appStore.currentQubicIDs.firstWhereOrNull((e) => e.publicId == fromID);
+    var account = appStore.findAccountById(fromID);
     if (account == null) {
       throw ArgumentError("Account not found in wallet", wcRequestParamFrom);
     }
     fromIDName = account.name;
-  }
-
-  //Gets only the data stored here (in a dynamic format)
-  dynamic getData() {
-    return {fromID: fromID, message: message};
   }
 
   RequestSignMessageEvent({

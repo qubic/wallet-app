@@ -39,15 +39,12 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
   }
 
   //Gets the labels for Source and Destination in transcations. Also copies to clipboard
-  Widget getFromTo(BuildContext context, String prepend, String id) {
+  Widget getFromTo(BuildContext context, String prepend, String accountId) {
     final l10n = l10nOf(context);
 
     return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       Observer(builder: (context) {
-        QubicListVm? source =
-            appStore.currentQubicIDs.firstWhereOrNull((element) {
-          return element.publicId == id;
-        });
+        QubicListVm? source = appStore.findAccountById(accountId);
         if (source != null) {
           return Row(children: [
             Expanded(
@@ -63,7 +60,7 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
               style: TextStyles.lightGreyTextSmallBold)
         ]);
       }),
-      Text(id, style: TextStyles.textSmall, textAlign: TextAlign.start),
+      Text(accountId, style: TextStyles.textSmall, textAlign: TextAlign.start),
     ]);
   }
 

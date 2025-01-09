@@ -894,6 +894,7 @@
     "wcDomainUnkownTitle": "Unknown Domain",
     "wcDomainUnkownDescription": "This domain cannot be verified. Check the request carefully before approving",
     "wcApproveTransaction": "Approve Transaction",
+    "wcApproveTransfer": "Approve Transfer",
     "wcSignMessage": "Sign Message",
     "wcSignTransaction": "Sign Transaction"
 }

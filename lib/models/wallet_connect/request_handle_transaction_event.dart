@@ -1,13 +1,17 @@
-import 'package:collection/collection.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
+import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
-class RequestSignTransactionEvent extends RequestEvent
+const String wcRequestParamInputType = "inputType";
+const String wcRequestParamPayload = "payload";
+
+/// A model to handle a WC transaction request method from `WcMethods`
+/// including `wSendQubic` , `wSendTransaction` and `wSignTransaction`
+class RequestHandleTransactionEvent extends RequestEvent
     with PairingMetadataMixin {
   final String fromID; //From which publicID should the funds flow
   final String toID; //To which publicID should the funds flow
@@ -15,12 +19,12 @@ class RequestSignTransactionEvent extends RequestEvent
   final int? tick; //The tick to be used for the transaction
   final int? inputType;
   final String? payload;
+  String? method;
 
   //Validates the request to send qubic against the wallet context
   void validateOrThrow() {
     ApplicationStore appStore = getIt<ApplicationStore>();
-    var account =
-        appStore.currentQubicIDs.firstWhereOrNull((e) => e.publicId == fromID);
+    var account = appStore.findAccountById(fromID);
     if (account == null) {
       throw ArgumentError("Account not found in wallet", wcRequestParamFrom);
     }
@@ -39,26 +43,22 @@ class RequestSignTransactionEvent extends RequestEvent
     fromIDName = account.name;
   }
 
-  //Gets only the data stored here (in a dynamic format)
-  dynamic getData() {
-    return {fromID: fromID, toID: toID, amount: amount, tick: tick};
-  }
-
-  RequestSignTransactionEvent(
-      {required super.topic,
-      required super.requestId,
-      required this.fromID,
-      required this.toID,
-      required this.amount,
-      required this.tick,
-      required this.inputType,
-      required this.payload});
+  RequestHandleTransactionEvent({
+    required super.topic,
+    required super.requestId,
+    required this.fromID,
+    required this.toID,
+    required this.amount,
+    required this.tick,
+    required this.inputType,
+    required this.payload,
+    this.method,
+  });
 
   //Creates a RequestSendQubicEvent from a map validating data types
-  factory RequestSignTransactionEvent.fromMap(
-      Map<String, dynamic> map, String topic, int requestId) {
-    appLogger.e(map.toString());
-
+  factory RequestHandleTransactionEvent.fromMap(
+      Map<String, dynamic> map, String topic, int requestId,
+      {String? method}) {
     var validFromID = FormBuilderValidators.compose([
       FormBuilderValidators.required(),
       CustomFormFieldValidators.isPublicIDNoContext()
@@ -77,7 +77,9 @@ class RequestSignTransactionEvent extends RequestEvent
 
     var validAmount = FormBuilderValidators.compose([
       FormBuilderValidators.required(),
-      FormBuilderValidators.positiveNumber()
+      (method == WcMethods.wSendQubic)
+          ? FormBuilderValidators.positiveNumber()
+          : FormBuilderValidators.min(0)
     ])(map[wcRequestParamAmount]);
 
     if ((map[wcRequestParamAmount] == null) || (validAmount != null)) {
@@ -91,18 +93,24 @@ class RequestSignTransactionEvent extends RequestEvent
         throw ArgumentError(validTick, wcRequestParamTick);
       }
     }
-    return RequestSignTransactionEvent(
+
+    if (map[wcRequestParamInputType] != null) {
+      var validInputType = FormBuilderValidators.compose(
+          [FormBuilderValidators.min(0)])(map[wcRequestParamInputType]);
+      if (validInputType != null) {
+        throw ArgumentError(validInputType, wcRequestParamInputType);
+      }
+    }
+    return RequestHandleTransactionEvent(
       topic: topic.toString(),
       requestId: requestId,
       fromID: map[wcRequestParamFrom],
       toID: map[wcRequestParamTo],
-      amount: int.parse(map[wcRequestParamAmount]),
-      tick: map[wcRequestParamTick] != null
-          ? int.parse(map[wcRequestParamTick])
-          : null,
-      inputType:
-          map["inputType"] != null ? int.tryParse(map["inputType"]) : null,
-      payload: map["payload"],
+      amount: map[wcRequestParamAmount],
+      tick: map[wcRequestParamTick],
+      inputType: map[wcRequestParamInputType],
+      payload: map[wcRequestParamPayload],
+      method: method,
     );
   }
 
