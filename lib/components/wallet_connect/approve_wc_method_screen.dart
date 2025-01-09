@@ -169,16 +169,16 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
       }
       switch (widget.method) {
         case WalletConnectMethod.signTransaction:
-          onApproveSignTransaction();
+          await onApproveSignTransaction();
           break;
         case WalletConnectMethod.sendQubic ||
               WalletConnectMethod.sendTransaction:
-          onApproveSendTransaction();
+          await onApproveSendTransaction();
         case WalletConnectMethod.signMessage:
-          onApproveSignMessage();
+          await onApproveSignMessage();
           break;
         case WalletConnectMethod.sendAsset:
-          onApproveSendAsset();
+          await onApproveSendAsset();
           break;
         default:
           break;
