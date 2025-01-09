@@ -11,7 +11,7 @@ class ApprovalDataModel {
   final String fromID;
   final String? fromName;
   final String? message;
-
+  final String? issuer;
   ApprovalDataModel({
     required this.pairingMetadata,
     required this.fromID,
@@ -23,5 +23,6 @@ class ApprovalDataModel {
     this.payload,
     this.message,
     this.assetName,
+    this.issuer,
   });
 }

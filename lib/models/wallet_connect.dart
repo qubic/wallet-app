@@ -78,4 +78,5 @@ class WcRequestParameters {
   static const payload = "payload";
   static const message = "message";
   static const assetName = "assetName";
+  static const issuer = "issuer";
 }

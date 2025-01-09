@@ -5,6 +5,7 @@ import 'package:qubic_wallet/components/wallet_connect/components/amount_value_h
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
@@ -135,15 +136,12 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     final navigator = Navigator.of(context);
     final l10n = l10nOf(context);
     final targetTick = await wCModalsController.getTargetTick(widget.data.tick);
-    final account = appStore.findAccountById(widget.data.fromID);
-    final asset = account!.assets.values
-        .firstWhere((element) => element.assetName == widget.data.assetName);
     final result = await sendAssetTransferTransactionDialog(
         context,
         widget.data.fromID,
         widget.data.toID!,
         widget.data.assetName!,
-        asset.issuerIdentity,
+        widget.data.issuer!,
         widget.data.amount!,
         targetTick);
     if (result != null) {

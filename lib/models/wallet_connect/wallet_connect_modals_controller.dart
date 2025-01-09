@@ -125,6 +125,7 @@ class WalletConnectModalsController {
                   amount: event.amount,
                   assetName: event.assetName,
                   toID: event.to,
+                  issuer: event.issuer,
                 ),
               );
             },
