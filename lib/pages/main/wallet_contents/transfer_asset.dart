@@ -679,7 +679,7 @@ class _TransferAssetState extends State<TransferAsset> {
       targetTick = latestTick + targetTickType.value;
     }
 
-    bool result = await sendAssetTransferTransactionDialog(
+    var result = await sendAssetTransferTransactionDialog(
         context,
         widget.item.publicId,
         destinationID.text,
@@ -688,7 +688,7 @@ class _TransferAssetState extends State<TransferAsset> {
         getAssetAmount(),
         targetTick!);
 
-    if (!result) {
+    if (result == null) {
       setState(() {
         isLoading = false;
       });

@@ -53,7 +53,8 @@ class _ApprovalCardState extends State<_ApprovalCard> {
           Center(
               child: AmountValueHeader(
                   amount: widget.data.amount!,
-                  suffix: l10n.generalLabelCurrencyQubic)),
+                  suffix:
+                      widget.data.assetName ?? l10n.generalLabelCurrencyQubic)),
           ThemedControls.spacerVerticalBig(),
         ],
         Text(
@@ -102,6 +103,16 @@ class _ApprovalCardState extends State<_ApprovalCard> {
             style: TextStyles.lightGreyTextSmall,
           ),
           Text(widget.data.payload!, style: TextStyles.textNormal)
+        ],
+        if (widget.method == WalletConnectMethod.sendAsset) ...[
+          ThemedControls.spacerVerticalSmall(),
+          Text(
+            l10n.sendAssetLabelTransactionCost,
+            style: TextStyles.lightGreyTextSmall,
+          ),
+          Text(
+              "${QxInfo.transferAssetFee.asThousands()} ${l10n.generalLabelCurrencyQubic}",
+              style: TextStyles.textNormal)
         ]
       ]),
     );

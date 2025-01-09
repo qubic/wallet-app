@@ -18,6 +18,7 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_resu
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -130,6 +131,33 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     _globalSnackBar.show(l10n.wcApprovedSignedMessage);
   }
 
+  onApproveSendAsset() async {
+    final navigator = Navigator.of(context);
+    final l10n = l10nOf(context);
+    final targetTick = await wCModalsController.getTargetTick(widget.data.tick);
+    final account = appStore.findAccountById(widget.data.fromID);
+    final asset = account!.assets.values
+        .firstWhere((element) => element.assetName == widget.data.assetName);
+    final result = await sendAssetTransferTransactionDialog(
+        context,
+        widget.data.fromID,
+        widget.data.toID!,
+        widget.data.assetName!,
+        asset.issuerIdentity,
+        widget.data.amount!,
+        targetTick);
+    if (result != null) {
+      navigator.pop(RequestSignTransactionResult.success(
+          signedTransaction: result.transactionKey,
+          tick: targetTick,
+          transactionId: result.transactionId));
+      _globalSnackBar.show(l10n.wcApprovedSignedTransaction);
+    } else {
+      returnError(RequestSignTransactionResult.error(
+          errorMessage: l10n.sendItemDialogErrorGeneralTitle));
+    }
+  }
+
   onApprovalTap() async {
     final navigator = Navigator.of(context);
     try {
@@ -151,6 +179,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         case WalletConnectMethod.signMessage:
           onApproveSignMessage();
           break;
+        case WalletConnectMethod.sendAsset:
+          onApproveSendAsset();
+          break;
         default:
           break;
       }
@@ -167,6 +198,10 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         case WalletConnectMethod.signMessage:
           navigator
               .pop(RequestSignMessageResult.error(errorMessage: e.toString()));
+          break;
+        case WalletConnectMethod.sendAsset:
+          navigator.pop(
+              RequestSignTransactionResult.error(errorMessage: e.toString()));
           break;
         default:
           break;

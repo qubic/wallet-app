@@ -32,9 +32,10 @@ class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
     if (asset.ownedAmount == null || asset.ownedAmount! < amount) {
       throw ArgumentError("Insufficient assets", wcRequestParamAmount);
     }
-    if (account.amount! < QxInfo.transferAssetFee) {
-      throw ArgumentError("Insufficient funds");
-    }
+    // TODO: Uncomment the following lines after finishing testing
+    // if (account.amount! < QxInfo.transferAssetFee) {
+    //   throw ArgumentError("Insufficient funds");
+    // }
     if (from == to) {
       throw ArgumentError("From and to are the same");
     }
