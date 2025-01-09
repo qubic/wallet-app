@@ -89,7 +89,7 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
       navigator.pop(RequestSignTransactionResult.success(
           tick: targetTick,
           signedTransaction: result.transactionKey,
-          transactionId: result.tansactionId));
+          transactionId: result.transactionId));
       _globalSnackBar.show(l10n.wcApprovedSignedTransaction);
     } else {
       returnError(RequestSignTransactionResult.error(
@@ -112,7 +112,7 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     );
     if (result != null) {
       navigator.pop(RequestSendTransactionResult.success(
-          tick: targetTick, transactionId: result.tansactionId));
+          tick: targetTick, transactionId: result.transactionId));
       _globalSnackBar.show(l10n.wcApprovedSignedTransaction);
     } else {
       returnError(RequestSendTransactionResult.error(

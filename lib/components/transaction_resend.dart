@@ -43,7 +43,7 @@ class TransactionResend extends StatelessWidget {
             child: Text(l10n.generalLabelToFromAddress(prepend),
                 style: TextStyles.labelText));
       }),
-      Text(id,
+      Text(accountId,
           style: Theme.of(context)
               .textTheme
               .titleSmall!

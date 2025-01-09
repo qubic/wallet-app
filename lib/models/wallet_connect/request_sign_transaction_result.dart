@@ -19,7 +19,8 @@ class RequestSignTransactionResult extends RequestResult {
     if (!hasError) {
       return {
         'signedTransaction': signedTransaction,
-        'transactionId': transactionId
+        'transactionId': transactionId,
+        'tick': tick
       };
     }
     return toErrorJson();
