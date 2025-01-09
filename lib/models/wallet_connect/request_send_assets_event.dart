@@ -30,13 +30,13 @@ class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
     final asset = account.assets.values
         .firstWhere((element) => element.assetName == assetName);
     if (asset.ownedAmount == null || asset.ownedAmount! < amount) {
-      throw ArgumentError("Insufficient assets", wcRequestParamFrom);
+      throw ArgumentError("Insufficient assets", wcRequestParamAmount);
     }
     if (account.amount! < QxInfo.transferAssetFee) {
-      throw ArgumentError("Insufficient funds", wcRequestParamFrom);
+      throw ArgumentError("Insufficient funds");
     }
     if (from == to) {
-      throw ArgumentError("From and to are the same", wcRequestParamFrom);
+      throw ArgumentError("From and to are the same");
     }
     fromIDName = account.name;
   }
