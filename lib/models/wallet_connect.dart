@@ -1,3 +1,5 @@
+import 'package:form_builder_validators/form_builder_validators.dart';
+
 /// WalletConnect Methods
 abstract class WcMethods {
   /// Get the client to request a list of all accounts in wallet
@@ -35,4 +37,34 @@ abstract class WcEvents {
 abstract class WcErrors {
   static const qwGeneralError = -1;
   static const qwUserUnavailable = -1;
+}
+
+typedef Validator = String? Function(dynamic value);
+
+class WcValidationUtils {
+  static void validateField({
+    required Map<String, dynamic> map,
+    required String fieldName,
+    required List<Validator> validators,
+  }) {
+    final composedValidator = FormBuilderValidators.compose(validators);
+    final error = composedValidator(map[fieldName]);
+    if (map[fieldName] == null || error != null) {
+      throw ArgumentError(error, fieldName);
+    }
+  }
+
+  static void validateOptionalField({
+    required Map<String, dynamic> map,
+    required String fieldName,
+    required List<Validator> validators,
+  }) {
+    if (map[fieldName] != null) {
+      final composedValidator = FormBuilderValidators.compose(validators);
+      final error = composedValidator(map[fieldName]);
+      if (error != null) {
+        throw ArgumentError(error, fieldName);
+      }
+    }
+  }
 }

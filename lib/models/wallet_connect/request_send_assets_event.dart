@@ -1,7 +1,9 @@
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
-import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/models/wallet_connect.dart';
 
 import '../../di.dart';
 
@@ -44,6 +46,38 @@ class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
 
   factory RequestSendAssetEvent.fromMap(
       Map<String, dynamic> map, String topic, int requestId) {
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: wcRequestParamFrom,
+      validators: [
+        FormBuilderValidators.required(),
+        CustomFormFieldValidators.isPublicIDNoContext(),
+      ],
+    );
+
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: wcRequestParamTo,
+      validators: [
+        FormBuilderValidators.required(),
+        CustomFormFieldValidators.isPublicIDNoContext(),
+      ],
+    );
+
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: wcRequestParamAssetName,
+      validators: [FormBuilderValidators.required()],
+    );
+
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: wcRequestParamAmount,
+      validators: [
+        FormBuilderValidators.required(),
+        FormBuilderValidators.positiveNumber(),
+      ],
+    );
     return RequestSendAssetEvent(
       topic: topic,
       requestId: requestId,

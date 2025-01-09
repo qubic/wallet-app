@@ -55,51 +55,52 @@ class RequestHandleTransactionEvent extends RequestEvent
     this.method,
   });
 
-  //Creates a RequestSendQubicEvent from a map validating data types
   factory RequestHandleTransactionEvent.fromMap(
       Map<String, dynamic> map, String topic, int requestId,
       {String? method}) {
-    var validFromID = FormBuilderValidators.compose([
-      FormBuilderValidators.required(),
-      CustomFormFieldValidators.isPublicIDNoContext()
-    ])(map[wcRequestParamFrom]);
-    if ((map[wcRequestParamFrom] == null) || (validFromID != null)) {
-      throw ArgumentError(validFromID, wcRequestParamFrom);
-    }
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: wcRequestParamFrom,
+      validators: [
+        FormBuilderValidators.required(),
+        CustomFormFieldValidators.isPublicIDNoContext(),
+      ],
+    );
 
-    var validToId = FormBuilderValidators.compose([
-      FormBuilderValidators.required(),
-      CustomFormFieldValidators.isPublicIDNoContext()
-    ])(map[wcRequestParamTo]);
-    if ((map[wcRequestParamTo] == null) || (validToId != null)) {
-      throw ArgumentError(validToId, wcRequestParamTo);
-    }
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: wcRequestParamTo,
+      validators: [
+        FormBuilderValidators.required(),
+        CustomFormFieldValidators.isPublicIDNoContext()
+      ],
+    );
 
-    var validAmount = FormBuilderValidators.compose([
-      FormBuilderValidators.required(),
-      (method == WcMethods.wSendQubic)
-          ? FormBuilderValidators.positiveNumber()
-          : FormBuilderValidators.min(0)
-    ])(map[wcRequestParamAmount]);
-
-    if ((map[wcRequestParamAmount] == null) || (validAmount != null)) {
-      throw ArgumentError(validAmount, wcRequestParamAmount);
-    }
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: wcRequestParamAmount,
+      validators: [
+        FormBuilderValidators.required(),
+        (method == WcMethods.wSendQubic)
+            ? FormBuilderValidators.positiveNumber()
+            : FormBuilderValidators.min(0)
+      ],
+    );
 
     if (map[wcRequestParamTick] != null) {
-      var validTick = FormBuilderValidators.compose(
-          [FormBuilderValidators.positiveNumber()])(map[wcRequestParamTick]);
-      if (validTick != null) {
-        throw ArgumentError(validTick, wcRequestParamTick);
-      }
+      WcValidationUtils.validateField(
+        map: map,
+        fieldName: wcRequestParamTick,
+        validators: [FormBuilderValidators.positiveNumber()],
+      );
     }
 
     if (map[wcRequestParamInputType] != null) {
-      var validInputType = FormBuilderValidators.compose(
-          [FormBuilderValidators.min(0)])(map[wcRequestParamInputType]);
-      if (validInputType != null) {
-        throw ArgumentError(validInputType, wcRequestParamInputType);
-      }
+      WcValidationUtils.validateField(
+        map: map,
+        fieldName: wcRequestParamInputType,
+        validators: [FormBuilderValidators.min(0)],
+      );
     }
     return RequestHandleTransactionEvent(
       topic: topic.toString(),
