@@ -115,6 +115,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     walletConnectService.signTransactionHandler = (event) async {
       return await wcModalsController.handleSignTransaction(event, context);
     };
+    walletConnectService.sendAssetHandler = (event) async {
+      return await wcModalsController.handleSendAssets(event, context);
+    };
   }
 
   @override

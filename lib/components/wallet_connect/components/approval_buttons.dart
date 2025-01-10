@@ -38,7 +38,7 @@ class _ApprovalButtons extends StatelessWidget {
             ),
             onPressed: isLoading ? null : onApprovalTap,
             child: isLoading
-                ? SizedBox(
+                ? const SizedBox(
                     height: 23,
                     width: 23,
                     child: CircularProgressIndicator(

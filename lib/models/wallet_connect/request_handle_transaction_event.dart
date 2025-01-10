@@ -6,9 +6,6 @@ import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
-const String wcRequestParamInputType = "inputType";
-const String wcRequestParamPayload = "payload";
-
 /// A model to handle a WC transaction request method from `WcMethods`
 /// including `wSendQubic` , `wSendTransaction` and `wSignTransaction`
 class RequestHandleTransactionEvent extends RequestEvent
@@ -26,18 +23,20 @@ class RequestHandleTransactionEvent extends RequestEvent
     ApplicationStore appStore = getIt<ApplicationStore>();
     var account = appStore.findAccountById(fromID);
     if (account == null) {
-      throw ArgumentError("Account not found in wallet", wcRequestParamFrom);
+      throw ArgumentError(
+          "Account not found in wallet", WcRequestParameters.from);
     }
     if ((account.amount == null) || (account.amount! < amount)) {
-      throw ArgumentError("Insufficient funds", wcRequestParamFrom);
+      throw ArgumentError("Insufficient funds", WcRequestParameters.from);
     }
     if (account.publicId == toID) {
       throw ArgumentError(
-          "$wcRequestParamFrom and $wcRequestParamTo are the same");
+          "${WcRequestParameters.from} and ${WcRequestParameters.to} are the same");
     }
     if (tick != null) {
       if (appStore.currentTick > tick!) {
-        throw ArgumentError("Value is already in the past", wcRequestParamTick);
+        throw ArgumentError(
+            "Value is already in the past", WcRequestParameters.tick);
       }
     }
     fromIDName = account.name;
@@ -55,61 +54,58 @@ class RequestHandleTransactionEvent extends RequestEvent
     this.method,
   });
 
-  //Creates a RequestSendQubicEvent from a map validating data types
   factory RequestHandleTransactionEvent.fromMap(
       Map<String, dynamic> map, String topic, int requestId,
       {String? method}) {
-    var validFromID = FormBuilderValidators.compose([
-      FormBuilderValidators.required(),
-      CustomFormFieldValidators.isPublicIDNoContext()
-    ])(map[wcRequestParamFrom]);
-    if ((map[wcRequestParamFrom] == null) || (validFromID != null)) {
-      throw ArgumentError(validFromID, wcRequestParamFrom);
-    }
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: WcRequestParameters.from,
+      validators: [
+        FormBuilderValidators.required(),
+        CustomFormFieldValidators.isPublicIDNoContext(),
+      ],
+    );
 
-    var validToId = FormBuilderValidators.compose([
-      FormBuilderValidators.required(),
-      CustomFormFieldValidators.isPublicIDNoContext()
-    ])(map[wcRequestParamTo]);
-    if ((map[wcRequestParamTo] == null) || (validToId != null)) {
-      throw ArgumentError(validToId, wcRequestParamTo);
-    }
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: WcRequestParameters.to,
+      validators: [
+        FormBuilderValidators.required(),
+        CustomFormFieldValidators.isPublicIDNoContext()
+      ],
+    );
 
-    var validAmount = FormBuilderValidators.compose([
-      FormBuilderValidators.required(),
-      (method == WcMethods.wSendQubic)
-          ? FormBuilderValidators.positiveNumber()
-          : FormBuilderValidators.min(0)
-    ])(map[wcRequestParamAmount]);
+    WcValidationUtils.validateField(
+      map: map,
+      fieldName: WcRequestParameters.amount,
+      validators: [
+        FormBuilderValidators.required(),
+        (method == WcMethods.wSendQubic)
+            ? FormBuilderValidators.positiveNumber()
+            : FormBuilderValidators.min(0)
+      ],
+    );
 
-    if ((map[wcRequestParamAmount] == null) || (validAmount != null)) {
-      throw ArgumentError(validAmount, wcRequestParamAmount);
-    }
+    WcValidationUtils.validateOptionalField(
+      map: map,
+      fieldName: WcRequestParameters.tick,
+      validators: [FormBuilderValidators.positiveNumber()],
+    );
 
-    if (map[wcRequestParamTick] != null) {
-      var validTick = FormBuilderValidators.compose(
-          [FormBuilderValidators.positiveNumber()])(map[wcRequestParamTick]);
-      if (validTick != null) {
-        throw ArgumentError(validTick, wcRequestParamTick);
-      }
-    }
-
-    if (map[wcRequestParamInputType] != null) {
-      var validInputType = FormBuilderValidators.compose(
-          [FormBuilderValidators.min(0)])(map[wcRequestParamInputType]);
-      if (validInputType != null) {
-        throw ArgumentError(validInputType, wcRequestParamInputType);
-      }
-    }
+    WcValidationUtils.validateOptionalField(
+      map: map,
+      fieldName: WcRequestParameters.inputType,
+      validators: [FormBuilderValidators.min(0)],
+    );
     return RequestHandleTransactionEvent(
       topic: topic.toString(),
       requestId: requestId,
-      fromID: map[wcRequestParamFrom],
-      toID: map[wcRequestParamTo],
-      amount: map[wcRequestParamAmount],
-      tick: map[wcRequestParamTick],
-      inputType: map[wcRequestParamInputType],
-      payload: map[wcRequestParamPayload],
+      fromID: map[WcRequestParameters.from],
+      toID: map[WcRequestParameters.to],
+      amount: map[WcRequestParameters.amount],
+      tick: map[WcRequestParameters.tick],
+      inputType: map[WcRequestParameters.inputType],
+      payload: map[WcRequestParameters.payload],
       method: method,
     );
   }

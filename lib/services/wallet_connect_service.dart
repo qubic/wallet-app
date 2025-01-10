@@ -5,6 +5,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_send_assets_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
@@ -41,6 +42,10 @@ class WalletConnectService {
   //A callback that is called when a request to sign a generic message is received
   Future<RequestSignMessageResult> Function(RequestSignMessageEvent event)?
       signGenericHandler;
+
+  //A callback that is called when a request to sign a generic message is received
+  Future<RequestSignTransactionResult> Function(RequestSendAssetEvent event)?
+      sendAssetHandler;
 
   //------------------------------------ EVENTS ------------------------------------
   /// Event that is triggered when a session is connected
@@ -466,7 +471,36 @@ class WalletConnectService {
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSendAsset,
-        handler: (name, args) {});
+        handler: (topic, args) async {
+          final sessionId = getLastSessionId(WcMethods.wSendAsset, topic);
+
+          late RequestSendAssetEvent event;
+
+          if (sendAssetHandler == null) {
+            throw "sendAssetHandler is not set";
+          }
+          try {
+            event = RequestSendAssetEvent.fromMap(args, topic, sessionId);
+            event.validateOrThrow();
+            validateAndSetSession(topic, event);
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(
+                    id: sessionId, result: await sendAssetHandler!(event)));
+          } catch (e) {
+            JsonRpcError error;
+
+            if (e is JsonRpcError) {
+              error = e;
+            } else {
+              error = JsonRpcError.serverError(e.toString());
+            }
+
+            return web3Wallet!.respondSessionRequest(
+                topic: topic,
+                response: JsonRpcResponse(id: sessionId, error: error));
+          }
+        });
 
     // -------------------------------------------------------- END OF METHODS ---------------------------------------------------------
 

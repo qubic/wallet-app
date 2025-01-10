@@ -26,7 +26,7 @@ void showTamperedWalletAlert(BuildContext context) {
 ///
 /// Sends a transaction of value QUBIC from the sourceId to the QX address
 /// Also involves moving around tokens from the sourceId to the destinationId
-Future<bool> sendAssetTransferTransactionDialog(
+Future<SignedTransaction?> sendAssetTransferTransactionDialog(
     BuildContext context,
     String sourceId,
     String destinationId,
@@ -53,19 +53,20 @@ Future<bool> sendAssetTransferTransactionDialog(
         isPending: true,
         moneyFlow: true);
     getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
-    return true;
+    return SignedTransaction(
+        transactionKey: transactionKey, transactionId: transactionId);
   } catch (e) {
     if (e.toString().startsWith("Exception: CRITICAL:")) {
       if (context.mounted) {
         showTamperedWalletAlert(context);
       }
-      return false;
+      return null;
     }
     if (context.mounted) {
       showAlertDialog(
           context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     }
-    return false;
+    return null;
   }
 }
 

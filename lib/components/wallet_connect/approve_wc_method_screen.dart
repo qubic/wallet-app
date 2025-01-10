@@ -5,6 +5,7 @@ import 'package:qubic_wallet/components/wallet_connect/components/amount_value_h
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
@@ -18,6 +19,7 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_resu
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -32,7 +34,8 @@ enum WalletConnectMethod {
   signTransaction,
   signMessage,
   sendTransaction,
-  sendQubic
+  sendQubic,
+  sendAsset
 }
 
 /// The return from this widget is one of the following:
@@ -129,6 +132,30 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     _globalSnackBar.show(l10n.wcApprovedSignedMessage);
   }
 
+  onApproveSendAsset() async {
+    final navigator = Navigator.of(context);
+    final l10n = l10nOf(context);
+    final targetTick = await wCModalsController.getTargetTick(widget.data.tick);
+    final result = await sendAssetTransferTransactionDialog(
+        context,
+        widget.data.fromID,
+        widget.data.toID!,
+        widget.data.assetName!,
+        widget.data.issuer!,
+        widget.data.amount!,
+        targetTick);
+    if (result != null) {
+      navigator.pop(RequestSignTransactionResult.success(
+          signedTransaction: result.transactionKey,
+          tick: targetTick,
+          transactionId: result.transactionId));
+      _globalSnackBar.show(l10n.wcApprovedSignedTransaction);
+    } else {
+      returnError(RequestSignTransactionResult.error(
+          errorMessage: l10n.sendItemDialogErrorGeneralTitle));
+    }
+  }
+
   onApprovalTap() async {
     final navigator = Navigator.of(context);
     try {
@@ -142,13 +169,16 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
       }
       switch (widget.method) {
         case WalletConnectMethod.signTransaction:
-          onApproveSignTransaction();
+          await onApproveSignTransaction();
           break;
         case WalletConnectMethod.sendQubic ||
               WalletConnectMethod.sendTransaction:
-          onApproveSendTransaction();
+          await onApproveSendTransaction();
         case WalletConnectMethod.signMessage:
-          onApproveSignMessage();
+          await onApproveSignMessage();
+          break;
+        case WalletConnectMethod.sendAsset:
+          await onApproveSendAsset();
           break;
         default:
           break;
@@ -166,6 +196,10 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         case WalletConnectMethod.signMessage:
           navigator
               .pop(RequestSignMessageResult.error(errorMessage: e.toString()));
+          break;
+        case WalletConnectMethod.sendAsset:
+          navigator.pop(
+              RequestSignTransactionResult.error(errorMessage: e.toString()));
           break;
         default:
           break;
