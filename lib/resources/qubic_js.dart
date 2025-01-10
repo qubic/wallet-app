@@ -139,7 +139,8 @@ class QubicJs {
                   destinationId,
                   value.toString(),
                   tick.toString(),
-                  inputType.toString()
+                  inputType.toString(),
+                  " "
                 ])
               : await runFunction(
                   QubicJSFunctions.createTransactionWithPayload, [

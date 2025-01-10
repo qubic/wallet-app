@@ -112,6 +112,8 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
       widget.data.toID!,
       widget.data.amount!,
       targetTick,
+      inputType: widget.data.inputType,
+      payload: widget.data.payload,
     );
     if (result != null) {
       navigator.pop(RequestSendTransactionResult.success(
