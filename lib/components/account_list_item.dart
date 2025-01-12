@@ -8,6 +8,7 @@ import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/currency_helpers.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -454,20 +455,32 @@ class _AccountListItemState extends State<AccountListItem> {
                                     sizeFactor: animation, child: child);
                                 //return ScaleTransition(scale: animation, child: child);
                               },
-                              child: AmountFormatted(
-                                key: ValueKey<String>(
-                                    "qubicAmount${widget.item.publicId}-${widget.item.amount}"),
-                                amount: widget.item.amount,
-                                isInHeader: false,
-                                labelOffset: -0,
-                                labelHorizOffset: -6,
-                                textStyle:
-                                    MediaQuery.of(context).size.width < 400
-                                        ? TextStyles.accountAmount
-                                            .copyWith(fontSize: 22)
-                                        : TextStyles.accountAmount,
-                                labelStyle: TextStyles.accountAmountLabel,
-                                currencyName: l10n.generalLabelCurrencyQubic,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AmountFormatted(
+                                    key: ValueKey<String>(
+                                        "qubicAmount${widget.item.publicId}-${widget.item.amount}"),
+                                    amount: widget.item.amount,
+                                    isInHeader: false,
+                                    labelOffset: -0,
+                                    labelHorizOffset: -6,
+                                    textStyle:
+                                        MediaQuery.of(context).size.width < 400
+                                            ? TextStyles.accountAmount
+                                                .copyWith(fontSize: 22)
+                                            : TextStyles.accountAmount,
+                                    labelStyle: TextStyles.accountAmountLabel,
+                                    currencyName:
+                                        l10n.generalLabelCurrencyQubic,
+                                  ),
+                                  Text(
+                                      CurrencyHelpers.formatToUsdCurrency(
+                                          (widget.item.amount ?? 0) *
+                                              (_appStore.marketInfo?.price ??
+                                                  0)),
+                                      style: TextStyles.sliverSmall),
+                                ],
                               )),
                           secondChild: Text(l10n.generalLabelHidden,
                               style: MediaQuery.of(context).size.width < 400
