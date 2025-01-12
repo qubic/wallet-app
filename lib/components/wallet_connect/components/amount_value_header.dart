@@ -3,6 +3,7 @@ import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/helpers/currency_helpers.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -40,18 +41,8 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
   }
 
   Widget getTotalUSD() {
-    // Create a NumberFormat object for USD currency with 2 decimal places
-
     num price = appStore.marketInfo!.price! * widget.amount;
-    int decimalDigits = price < 1 ? 10 : 2;
-    appLogger.d(appStore.marketInfo!.price! * widget.amount);
-
-    NumberFormat currencyFormat =
-        NumberFormat.currency(symbol: '\$', decimalDigits: decimalDigits);
-
-    // Format the double value as a USD amount
-    String formattedValue = currencyFormat.format(price);
-
+    String formattedValue = CurrencyHelpers.formatToUsdCurrency(price);
     return Text(formattedValue, style: TextStyles.sliverSmall);
   }
 
