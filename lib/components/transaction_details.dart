@@ -109,7 +109,13 @@ class TransactionDetails extends StatelessWidget {
                       textAlign: TextAlign.start,
                       style: TextStyles.lightGreyTextNormal));
             }),
-            Text(QubicSCID.fromContractId(accountId) ?? accountId,
+            if (QubicSCID.isSC(accountId))
+              Text(QubicSCID.fromContractId(accountId)!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontFamily: ThemeFonts.secondary)),
+            Text(accountId,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!

@@ -138,7 +138,9 @@ class TransactionItem extends StatelessWidget {
                   textAlign: TextAlign.start, style: TextStyles.secondaryText)
             ]);
           }),
-          TextWithMidEllipsis(QubicSCID.fromContractId(accountId) ?? accountId,
+          if (QubicSCID.isSC(accountId))
+            Text(QubicSCID.fromContractId(accountId)!),
+          TextWithMidEllipsis(accountId,
               style: TextStyles.textNormal, textAlign: TextAlign.start),
         ]);
   }

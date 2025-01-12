@@ -32,4 +32,6 @@ enum QubicSCID {
 
   /// Get SC name by contract ID
   static String? fromContractId(String id) => _byId[id]?.name;
+
+  static bool isSC(String id) => _byId[id] != null;
 }
