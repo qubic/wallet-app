@@ -138,8 +138,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
   @override
   void initState() {
     super.initState();
-    walletItem = appStore.currentQubicIDs.firstWhereOrNull(
-        (element) => element.publicId == widget.publicQubicId);
+    walletItem = appStore.findAccountById(widget.publicQubicId);
     transactionFilter = TransactionFilter(qubicId: widget.publicQubicId);
   }
 

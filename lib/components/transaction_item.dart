@@ -115,7 +115,7 @@ class TransactionItem extends StatelessWidget {
   }
 
   //Gets the labels for Source and Destination in transactions. Also copies to clipboard
-  Widget getFromTo(BuildContext context, String prepend, String id) {
+  Widget getFromTo(BuildContext context, String prepend, String accountId) {
     final l10n = l10nOf(context);
 
     return Column(
@@ -123,10 +123,7 @@ class TransactionItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Observer(builder: (context) {
-            QubicListVm? source =
-                appStore.currentQubicIDs.firstWhereOrNull((element) {
-              return element.publicId == id;
-            });
+            QubicListVm? source = appStore.findAccountById(accountId);
             if (source != null) {
               return Row(children: [
                 Expanded(
@@ -141,8 +138,8 @@ class TransactionItem extends StatelessWidget {
                   textAlign: TextAlign.start, style: TextStyles.secondaryText)
             ]);
           }),
-          TextWithMidEllipsis(QubicSCID.fromContractId(id) ?? id,
-              style: TextStyles.textNormal, textAlign: TextAlign.start)
+          TextWithMidEllipsis(QubicSCID.fromContractId(accountId) ?? accountId,
+              style: TextStyles.textNormal, textAlign: TextAlign.start),
         ]);
   }
 
