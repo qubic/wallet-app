@@ -125,24 +125,6 @@ class _AssetItemState extends State<AssetItem> {
                                       TextStyles.assetSecondaryTextLabelValue),
                             ]),
                         const SizedBox(height: ThemePaddings.miniPadding),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelContractName,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text(widget.asset.contractName,
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelContractIndex,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text("${widget.asset.contractIndex}",
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
                       ])),
               widget.account.watchOnly
                   ? ThemedControls.spacerVerticalNormal()

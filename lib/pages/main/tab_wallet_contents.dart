@@ -263,22 +263,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                         return Container();
                       }
                     }),
-                    Container(
-                        child: Padding(
-                            padding: const EdgeInsets.fromLTRB(
-                                ThemePaddings.normalPadding,
-                                ThemePaddings.smallPadding,
-                                ThemePaddings.normalPadding,
-                                ThemePaddings.miniPadding),
-                            child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  //Header text
-                                  Text(l10n.homeHeader,
-                                      style: TextStyles.sliverCardPreLabel),
-                                ])))
                   ])),
                   Observer(builder: (context) {
                     if (appStore.currentQubicIDs.isEmpty) {

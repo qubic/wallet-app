@@ -7,6 +7,7 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
@@ -353,8 +354,7 @@ class _AccountListItemState extends State<AccountListItem> {
 
     for (var key in widget.item.assets.keys) {
       var asset = widget.item.assets[key];
-      bool isToken = asset!.contractIndex == QubicSCID.qX.contractIndex &&
-          asset.contractName != "QX";
+      bool isToken = !QubicAssetDto.isSmartContractShare(asset!);
 
       int num = asset.ownedAmount ?? asset.possessedAmount ?? 0;
 

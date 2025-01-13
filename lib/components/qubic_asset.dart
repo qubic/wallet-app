@@ -44,8 +44,8 @@ class QubicAsset extends StatelessWidget {
     if (asset == null) {
       return Container();
     }
-    bool isToken = asset!.contractIndex == QubicSCID.qX.contractIndex &&
-        asset!.contractName != "QX";
+
+    bool isToken = !QubicAssetDto.isSmartContractShare(asset!);
 
     String text;
     int amount = asset!.ownedAmount ?? asset!.possessedAmount ?? 0;

@@ -190,10 +190,11 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                                 ? l10n.transfersLabelFor
                                 : l10n.transfersLabelForAccount(
                                     widget.item!.name)),
-                            subheaderText: widget.publicQubicId),
+                            subheaderText: null),
                         Builder(builder: (context) {
                           List<Widget> results = [];
-                          appStore.currentTransactions.reversed.forEach((tran) {
+                          for (var tran
+                              in appStore.currentTransactions.reversed) {
                             bool matchesItem = true;
                             if (transactionFilter != null) {
                               matchesItem = transactionFilter!.matchesVM(tran);
@@ -203,7 +204,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                               results.add(const SizedBox(
                                   height: ThemePaddings.normalPadding));
                             }
-                          });
+                          }
                           if (results.isEmpty) {
                             results.add(getEmptyTransactionsForSingleID(
                                 context: context,
