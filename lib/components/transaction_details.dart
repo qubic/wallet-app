@@ -14,6 +14,7 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
+import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
@@ -88,29 +89,38 @@ class TransactionDetails extends StatelessWidget {
 
     return Flex(direction: Axis.horizontal, children: [
       Expanded(
-          child: Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        Observer(builder: (context) {
-          QubicListVm? source = appStore.findAccountById(accountId);
-          if (source != null) {
-            return SizedBox(
-                width: double.infinity,
-                child: Text(
-                    l10n.generalLabelToFromAccount(prepend, source.name),
-                    textAlign: TextAlign.start,
-                    style: TextStyles.lightGreyTextNormal));
-          }
-          return SizedBox(
-              width: double.infinity,
-              child: Text(l10n.generalLabelToFromAddress(prepend),
-                  textAlign: TextAlign.start,
-                  style: TextStyles.lightGreyTextNormal));
-        }),
-        Text(accountId,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(fontFamily: ThemeFonts.secondary)),
-      ])),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+            Observer(builder: (context) {
+              QubicListVm? source = appStore.findAccountById(accountId);
+              if (source != null) {
+                return SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                        l10n.generalLabelToFromAccount(prepend, source.name),
+                        textAlign: TextAlign.start,
+                        style: TextStyles.lightGreyTextNormal));
+              }
+              return SizedBox(
+                  width: double.infinity,
+                  child: Text(l10n.generalLabelToFromAddress(prepend),
+                      textAlign: TextAlign.start,
+                      style: TextStyles.lightGreyTextNormal));
+            }),
+            if (QubicSCID.isSC(accountId))
+              Text(QubicSCID.fromContractId(accountId)!,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(fontFamily: ThemeFonts.secondary)),
+            Text(accountId,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontFamily: ThemeFonts.secondary)),
+          ])),
       CopyButton(copiedText: accountId)
     ]);
   }

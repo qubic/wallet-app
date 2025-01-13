@@ -5,7 +5,6 @@ import 'package:qubic_wallet/components/wallet_connect/components/amount_value_h
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
@@ -20,15 +19,16 @@ import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_control
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
+import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
+part 'components/approval_buttons.dart';
 part 'components/approval_card.dart';
 part 'components/approval_header.dart';
-part 'components/approval_buttons.dart';
 
 enum WalletConnectMethod {
   signTransaction,

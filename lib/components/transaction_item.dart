@@ -19,6 +19,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
+import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -117,26 +118,31 @@ class TransactionItem extends StatelessWidget {
   Widget getFromTo(BuildContext context, String prepend, String accountId) {
     final l10n = l10nOf(context);
 
-    return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-      Observer(builder: (context) {
-        QubicListVm? source = appStore.findAccountById(accountId);
-        if (source != null) {
-          return Row(children: [
-            Expanded(
-                child: Text(
-                    l10n.generalLabelToFromAccount(prepend, source.name),
-                    textAlign: TextAlign.start,
-                    style: TextStyles.secondaryText)),
-          ]);
-        }
-        return Row(children: [
-          Text(l10n.generalLabelToFromAddress(prepend),
-              textAlign: TextAlign.start, style: TextStyles.secondaryText)
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Observer(builder: (context) {
+            QubicListVm? source = appStore.findAccountById(accountId);
+            if (source != null) {
+              return Row(children: [
+                Expanded(
+                    child: Text(
+                        l10n.generalLabelToFromAccount(prepend, source.name),
+                        textAlign: TextAlign.start,
+                        style: TextStyles.secondaryText)),
+              ]);
+            }
+            return Row(children: [
+              Text(l10n.generalLabelToFromAddress(prepend),
+                  textAlign: TextAlign.start, style: TextStyles.secondaryText)
+            ]);
+          }),
+          if (QubicSCID.isSC(accountId))
+            Text(QubicSCID.fromContractId(accountId)!),
+          TextWithMidEllipsis(accountId,
+              style: TextStyles.textNormal, textAlign: TextAlign.start),
         ]);
-      }),
-      TextWithMidEllipsis(accountId,
-          style: TextStyles.textNormal, textAlign: TextAlign.start),
-    ]);
   }
 
   void showDetails(BuildContext context) {
