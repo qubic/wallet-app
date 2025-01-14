@@ -3,6 +3,7 @@ import 'package:qubic_wallet/components/wallet_connect/approve_wc_method_screen.
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
@@ -162,7 +163,7 @@ class WalletConnectModalsController {
       if (tick < latestTick) {
         getIt
             .get<GlobalSnackBar>()
-            .showError("Tick is greater than the latest tick");
+            .showError(l10nWrapper.l10n!.wcErrorTickExpired);
         throw const JsonRpcError(
             code: WcErrors.qwGeneralError,
             message: "Tick is greater than the latest tick");
