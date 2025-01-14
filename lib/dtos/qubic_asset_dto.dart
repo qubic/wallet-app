@@ -1,3 +1,4 @@
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 
 class QubicAssetWC {
@@ -71,9 +72,7 @@ class QubicAssetDto {
 
   ///If true the asset is a smart contract share else it's a QX Token
   static isSmartContractShare(QubicAssetDto asset) {
-    return asset.contractIndex != QubicSCID.qX.contractIndex ||
-        (asset.contractIndex == QubicSCID.qX.contractIndex &&
-            asset.contractName == "QX");
+    return asset.issuerIdentity == QxInfo.mainAssetIssuer;
   }
 
   clone() {
