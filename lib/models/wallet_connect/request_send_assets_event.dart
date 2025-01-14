@@ -32,21 +32,27 @@ class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
       throw ArgumentError(
           "Account not found in wallet", WcRequestParameters.from);
     }
+
+    if (from == to) {
+      throw ArgumentError("From and to are the same");
+    }
+
     final asset = account.assets.values.firstWhereOrNull((element) =>
         element.assetName == assetName && element.issuerIdentity == issuer);
     if (asset == null) {
       throw ArgumentError("Asset not found in this account $from",
           WcRequestParameters.assetName);
     }
-    if (asset.ownedAmount == null || asset.ownedAmount! < amount) {
+
+    final ownedAmount = asset.ownedAmount;
+    if (ownedAmount == null || ownedAmount < amount) {
       throw ArgumentError("Insufficient assets", WcRequestParameters.amount);
     }
+
     if (account.amount! < QxInfo.transferAssetFee) {
       throw ArgumentError("Insufficient funds");
     }
-    if (from == to) {
-      throw ArgumentError("From and to are the same");
-    }
+
     fromIDName = account.name;
   }
 
