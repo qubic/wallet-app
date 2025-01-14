@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/wallet_connect/approve_wc_method_screen.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
@@ -156,10 +157,18 @@ class WalletConnectModalsController {
   }
 
   Future<int> getTargetTick(int? tick) async {
+    int latestTick = (await _liveApi.getCurrentTick()).tick;
     if (tick != null) {
+      if (tick < latestTick) {
+        getIt
+            .get<GlobalSnackBar>()
+            .showError("Tick is greater than the latest tick");
+        throw const JsonRpcError(
+            code: WcErrors.qwGeneralError,
+            message: "Tick is greater than the latest tick");
+      }
       return tick;
     } else {
-      int latestTick = (await _liveApi.getCurrentTick()).tick;
       return latestTick + defaultTargetTickType.value;
     }
   }
