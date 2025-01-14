@@ -480,6 +480,8 @@ class _AccountListItemState extends State<AccountListItem> {
                                               (_appStore.marketInfo?.price ??
                                                   0)),
                                       style: TextStyles.sliverSmall),
+                                  if (widget.item.assets.isNotEmpty)
+                                    ThemedControls.spacerVerticalSmall(),
                                 ],
                               )),
                           secondChild: Text(l10n.generalLabelHidden,
