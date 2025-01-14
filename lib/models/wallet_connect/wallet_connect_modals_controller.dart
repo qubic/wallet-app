@@ -166,7 +166,7 @@ class WalletConnectModalsController {
             .showError(l10nWrapper.l10n!.wcErrorTickExpired);
         throw const JsonRpcError(
             code: WcErrors.qwGeneralError,
-            message: "Tick is greater than the latest tick");
+            message: "Tick value is already in the past");
       }
       return tick;
     } else {
