@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_verbs.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AppLinkController {
   final ApplicationStore _applicationStore = getIt<ApplicationStore>();
@@ -29,7 +30,7 @@ class AppLinkController {
   }
 
   //Handles a URL action to pair a wallet connect connection
-  void _handleWCPair(Uri uri, BuildContext context) {
+  void _handleWCPair(Uri uri, BuildContext context) async {
     final l10n = l10nOf(context);
 
     String remove = "${uri.scheme}://${uri.host}/";
@@ -40,12 +41,15 @@ class AppLinkController {
       throw Exception(l10n.uriInvalidWCPairUrl);
     }
 
-    pushScreen(
+    await pushScreen(
       context,
       screen: AddWalletConnect(connectionUrl: connectionUrl),
       withNavBar: false,
       pageTransitionAnimation: PageTransitionAnimation.cupertino,
     );
+    Future.delayed(const Duration(seconds: 1), () {
+      SystemNavigator.pop();
+    });
   }
 
   ///Parses the URI string and acts accordingly
