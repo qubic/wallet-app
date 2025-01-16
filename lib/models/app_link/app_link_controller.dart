@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_verbs.dart';
@@ -29,30 +30,33 @@ class AppLinkController {
     }
   }
 
-  //Handles a URL action to pair a wallet connect connection
+// Handles a URL action to pair a WalletConnect connection
   void _handleWCPair(Uri uri, BuildContext context) async {
     final l10n = l10nOf(context);
 
-    String remove = "${uri.scheme}://${uri.host}/";
-    //Trim out qubic-wallet scheme and host
-    String connectionUrl = uri.toString().substring(remove.length);
-
+    String connectionUrl;
+    // Check if the URL contains an encoded 'uri' query parameter, and decode it
+    if (uri.queryParameters.containsKey('uri')) {
+      connectionUrl = Uri.decodeComponent(uri.queryParameters['uri']!);
+    } else {
+      // Remove the qubic scheme and host part of the URL to extract the connection details
+      String remove = "${uri.scheme}://${uri.host}/";
+      connectionUrl = uri.toString().substring(remove.length);
+    }
     if (validateWalletConnectURL(connectionUrl, context) != null) {
       throw Exception(l10n.uriInvalidWCPairUrl);
     }
 
     await pushScreen(
       context,
-      screen: AddWalletConnect(connectionUrl: connectionUrl),
+      screen:
+          AddWalletConnect(connectionUrl: connectionUrl, isFromDeepLink: true),
       withNavBar: false,
       pageTransitionAnimation: PageTransitionAnimation.cupertino,
     );
-    Future.delayed(const Duration(seconds: 1), () {
-      SystemNavigator.pop();
-    });
   }
 
-  ///Parses the URI string and acts accordingly
+  /// Parses the URI string and acts accordingly
   void parseUriString(Uri uri, BuildContext context) {
     final l10n = l10nOf(context);
 
