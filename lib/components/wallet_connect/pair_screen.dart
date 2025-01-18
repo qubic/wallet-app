@@ -219,20 +219,24 @@ class _PairScreenState extends State<PairScreen> {
                 //dAPP title
                 ThemedControls.spacerVerticalBig(),
                 Text(
-                    widget.pairingMetadata == null ||
-                            widget.pairingMetadata?.name == null ||
-                            widget.pairingMetadata!.name.isEmpty
-                        ? l10n.wcUnknownDapp
-                        : widget.pairingMetadata!.name,
-                    style: TextStyles.walletConnectDappTitle),
+                  widget.pairingMetadata == null ||
+                          widget.pairingMetadata?.name == null ||
+                          widget.pairingMetadata!.name.isEmpty
+                      ? l10n.wcUnknownDapp
+                      : widget.pairingMetadata!.name,
+                  style: TextStyles.walletConnectDappTitle,
+                  textAlign: TextAlign.center,
+                ),
                 ThemedControls.spacerVerticalSmall(),
                 Text(
-                    widget.pairingMetadata == null ||
-                            widget.pairingMetadata?.url == null ||
-                            widget.pairingMetadata!.url.isEmpty
-                        ? l10n.wcUnknownDapp
-                        : widget.pairingMetadata!.url,
-                    style: TextStyles.walletConnectDappUrl),
+                  widget.pairingMetadata == null ||
+                          widget.pairingMetadata?.url == null ||
+                          widget.pairingMetadata!.url.isEmpty
+                      ? l10n.wcUnknownDapp
+                      : widget.pairingMetadata!.url,
+                  style: TextStyles.walletConnectDappUrl,
+                  textAlign: TextAlign.center,
+                ),
                 //--------- End of header
                 ThemedControls.spacerVerticalBig(),
                 getErrors(),
