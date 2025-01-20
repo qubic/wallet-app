@@ -15,7 +15,6 @@ import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
@@ -43,6 +42,8 @@ class TransactionItem extends StatelessWidget {
             color: LightThemeColors.primary.withAlpha(140)),
         // Callback that sets the selected popup menu item.
         onSelected: (CardItem menuItem) async {
+          // TODO open web explorer
+          /*
           if (menuItem == CardItem.explorer) {
             pushScreen(
               context,
@@ -55,7 +56,7 @@ class TransactionItem extends StatelessWidget {
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );
           }
-
+        */
           if (menuItem == CardItem.clipboardCopy) {
             copyToClipboard(item.toReadableString(context), context);
           }

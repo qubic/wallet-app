@@ -1,30 +1,26 @@
+import 'dart:convert';
+
 // ignore: depend_on_referenced_packages
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_interceptor/http/intercepted_http.dart';
-import 'dart:convert';
-
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/auth_login_dto.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
-import 'package:qubic_wallet/dtos/current_tick_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
-import 'package:qubic_wallet/dtos/network_overview_dto.dart';
+import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/custom_proxy.dart';
 import 'package:qubic_wallet/resources/http_interceptors.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/explorer_store.dart';
-import 'package:qubic_wallet/dtos/market_info_dto.dart';
 
 class QubicLi {
   ApplicationStore appStore = getIt<ApplicationStore>();
-  ExplorerStore explorerStore = getIt<ExplorerStore>();
   String? _authenticationToken;
   // ignore: unused_field
   String? _refreshToken;
