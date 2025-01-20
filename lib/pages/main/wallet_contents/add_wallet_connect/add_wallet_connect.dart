@@ -199,11 +199,11 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
   Future<void> redirectToDApp(SessionProposalEvent? args) async {
     final redirect = args?.params.proposer.metadata.redirect;
     final universal = redirect?.universal;
-    final native = redirect?.native;
+    final deepLink = redirect?.native;
     Future.delayed(const Duration(milliseconds: 600), () async {
-      if (native != null) {
+      if (deepLink != null) {
         try {
-          launchUrlString(native);
+          launchUrlString(deepLink);
         } catch (e) {
           appLogger.e(e);
           if (universal != null) {
