@@ -200,12 +200,21 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
     final redirect = args?.params.proposer.metadata.redirect;
     final universal = redirect?.universal;
     final native = redirect?.native;
-    if (native != null && await canLaunchUrlString(native) == true) {
-      launchUrlString(native);
-    } else if (universal != null &&
-        await canLaunchUrlString(universal) == true) {
-      launchUrlString(universal);
-    }
+    Future.delayed(const Duration(milliseconds: 600), () async {
+      if (native != null) {
+        try {
+          launchUrlString(native);
+        } catch (e) {
+          appLogger.e(e);
+          if (universal != null) {
+            launchUrlString(universal);
+          }
+        }
+      } else if (universal != null &&
+          await canLaunchUrlString(universal) == true) {
+        launchUrlString(universal);
+      }
+    });
   }
 
   @override
