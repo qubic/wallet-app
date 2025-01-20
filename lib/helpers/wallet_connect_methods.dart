@@ -76,12 +76,11 @@ String getUnsupportedNetworks(List<String> unsupportedNetworks) {
 
 String? validateWalletConnectURL(String? valueCandidate, BuildContext context) {
   final l10n = l10nOf(context);
-  const requiredLength = Config.wallectConnectUrlLength;
+
   const requiredPatterns = ['expiryTimestamp=', 'symKey=', '@'];
   const requiredStart = 'wc:';
 
   if (valueCandidate == null ||
-      valueCandidate.trim().length != requiredLength ||
       !valueCandidate.startsWith(requiredStart) ||
       !requiredPatterns.every((pattern) => valueCandidate.contains(pattern))) {
     return l10n.wcErrorInvalidURL;
