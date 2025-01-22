@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_verbs.dart';
@@ -61,9 +59,11 @@ class AppLinkController {
     final l10n = l10nOf(context);
 
     try {
-      validateUriOrThrow(uri, context);
-      if (uri.host == AppLinkVerbs.PairWalletConnect) {
+      if (uri.host == AppLinkVerbs.pairWalletConnect) {
+        validateUriOrThrow(uri, context);
         _handleWCPair(uri, context);
+      } else if (uri.host == AppLinkVerbs.openApp) {
+        // Just open the app
       } else {
         throw Exception(l10n.uriUnknownAction);
       }
