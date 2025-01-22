@@ -18,6 +18,7 @@ class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
   RequestSendAssetEvent({
     required super.topic,
     required super.requestId,
+    required super.redirectUrl,
     required this.from,
     required this.to,
     required this.issuer,
@@ -102,6 +103,7 @@ class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
     return RequestSendAssetEvent(
       topic: topic,
       requestId: requestId,
+      redirectUrl: map[WcRequestParameters.redirectUrl],
       from: map[WcRequestParameters.from],
       to: map[WcRequestParameters.to],
       assetName: map[WcRequestParameters.assetName],

@@ -45,6 +45,7 @@ class RequestHandleTransactionEvent extends RequestEvent
   RequestHandleTransactionEvent({
     required super.topic,
     required super.requestId,
+    required super.redirectUrl,
     required this.fromID,
     required this.toID,
     required this.amount,
@@ -100,6 +101,7 @@ class RequestHandleTransactionEvent extends RequestEvent
     return RequestHandleTransactionEvent(
       topic: topic.toString(),
       requestId: requestId,
+      redirectUrl: map[WcRequestParameters.redirectUrl],
       fromID: map[WcRequestParameters.from],
       toID: map[WcRequestParameters.to],
       amount: map[WcRequestParameters.amount],

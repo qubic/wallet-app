@@ -79,4 +79,5 @@ class WcRequestParameters {
   static const message = "message";
   static const assetName = "assetName";
   static const issuer = "issuer";
+  static const redirectUrl = "redirectUrl";
 }

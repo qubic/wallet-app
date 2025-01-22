@@ -26,6 +26,7 @@ import 'package:qubic_wallet/styles/responsive_constants.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 part 'components/add_wallet_connect_desktop_view.dart';
 part 'components/add_wallet_connect_mobile_view.dart';
@@ -34,7 +35,9 @@ enum DomainType { valid, unknown, scam, mismatch }
 
 class AddWalletConnect extends StatefulWidget {
   final String? connectionUrl;
-  const AddWalletConnect({super.key, this.connectionUrl});
+  final bool isFromDeepLink;
+  const AddWalletConnect(
+      {super.key, this.connectionUrl, this.isFromDeepLink = false});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -185,8 +188,32 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
               _globalSnackBar.show(l10n.wcConnectionProposalTimeout);
             }
           }
+          if (widget.isFromDeepLink) {
+            redirectToDApp(args!);
+          }
         }
       });
+    });
+  }
+
+  Future<void> redirectToDApp(SessionProposalEvent? args) async {
+    final redirect = args?.params.proposer.metadata.redirect;
+    final universal = redirect?.universal;
+    final deepLink = redirect?.native;
+    Future.delayed(const Duration(milliseconds: 600), () async {
+      if (deepLink != null) {
+        try {
+          launchUrlString(deepLink);
+        } catch (e) {
+          appLogger.e(e);
+          if (universal != null) {
+            launchUrlString(universal);
+          }
+        }
+      } else if (universal != null &&
+          await canLaunchUrlString(universal) == true) {
+        launchUrlString(universal);
+      }
     });
   }
 
