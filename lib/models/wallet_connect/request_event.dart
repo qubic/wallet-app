@@ -2,5 +2,9 @@
 class RequestEvent {
   final String topic;
   final int requestId;
-  RequestEvent({required this.topic, required this.requestId});
+  final String? redirectUrl;
+  RequestEvent(
+      {required this.topic,
+      required this.requestId,
+      required this.redirectUrl});
 }

@@ -24,6 +24,7 @@ class RequestSignMessageEvent extends RequestEvent with PairingMetadataMixin {
   RequestSignMessageEvent({
     required super.topic,
     required super.requestId,
+    required super.redirectUrl,
     required this.fromID,
     required this.message,
   });
@@ -49,6 +50,7 @@ class RequestSignMessageEvent extends RequestEvent with PairingMetadataMixin {
     return RequestSignMessageEvent(
       topic: topic.toString(),
       requestId: requestId,
+      redirectUrl: map[WcRequestParameters.redirectUrl],
       fromID: map[WcRequestParameters.from],
       message: map[WcRequestParameters.message],
     );

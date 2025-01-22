@@ -2,6 +2,7 @@ import 'package:reown_walletkit/reown_walletkit.dart';
 
 class ApprovalDataModel {
   final String? toID;
+  final String? redirectUrl;
   final int? amount;
   final int? tick;
   final int? inputType;
@@ -16,6 +17,7 @@ class ApprovalDataModel {
     required this.pairingMetadata,
     required this.fromID,
     required this.fromName,
+    required this.redirectUrl,
     this.toID,
     this.amount,
     this.tick,

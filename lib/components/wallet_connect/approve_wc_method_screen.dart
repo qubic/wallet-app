@@ -25,6 +25,7 @@ import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 part 'components/approval_buttons.dart';
 part 'components/approval_card.dart';
@@ -158,6 +159,18 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     }
   }
 
+  void redirectToDApp() {
+    if (widget.data.redirectUrl != null) {
+      Future.delayed(const Duration(milliseconds: 600), () {
+        try {
+          launchUrlString(widget.data.redirectUrl!);
+        } catch (e) {
+          _globalSnackBar.showError(e.toString());
+        }
+      });
+    }
+  }
+
   onApprovalTap() async {
     final navigator = Navigator.of(context);
     try {
@@ -210,6 +223,7 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
       setState(() {
         isLoading = false;
       });
+      redirectToDApp();
     }
   }
 
@@ -244,6 +258,7 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
                 isLoading: isLoading,
                 method: widget.method,
                 onApprovalTap: onApprovalTap,
+                redirectToDApp: redirectToDApp,
               ),
             ],
           ),
