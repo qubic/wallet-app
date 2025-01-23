@@ -115,27 +115,23 @@ getTransactionFiltersInfo(BuildContext context,
     required VoidCallback onTap}) {
   final l10n = l10nOf(context);
 
-  return Container(
-      color: LightThemeColors.background,
-      child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: ThemePaddings.smallPadding,
-          ),
-          child: Flex(
-              direction: MediaQuery.of(context).size.width < 400
-                  ? Axis.vertical
-                  : Axis.horizontal,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                    l10n.transfersLabelShowingTransactionsFound(
-                        numberOfResults),
-                    style: TextStyles.secondaryText),
-                numberOfFilters == 0
-                    ? Container()
-                    : clearFiltersButton(context,
-                        numberOfFilters: numberOfFilters, onTap: onTap)
-              ])));
+  return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: ThemePaddings.smallPadding,
+      ),
+      child: Flex(
+          direction: MediaQuery.of(context).size.width < 400
+              ? Axis.vertical
+              : Axis.horizontal,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(l10n.transfersLabelShowingTransactionsFound(numberOfResults),
+                style: TextStyles.secondaryText),
+            numberOfFilters == 0
+                ? Container()
+                : clearFiltersButton(context,
+                    numberOfFilters: numberOfFilters, onTap: onTap)
+          ]));
 }
 
 Widget clearFiltersButton(BuildContext context,
