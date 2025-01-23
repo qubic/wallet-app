@@ -24,6 +24,7 @@
     "generalButtonUseQRCode": "Use QR Code",
     "generalButtonCopyAddress": "Copy Address",
     "generalButtonPaste": "Paste",
+    "generalButtonClear": "Clear",
     "generalButtonConnect": "Connect",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
