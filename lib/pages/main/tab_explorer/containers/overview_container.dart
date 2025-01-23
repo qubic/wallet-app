@@ -20,11 +20,12 @@ class _OverviewContainer extends StatelessWidget {
               return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ThemedControls.pageHeader(
-                        headerText: l10n.explorerTitle,
-                        subheaderText:
-                            l10n.explorerLabelEpoch(getCurrentEpoch()),
-                        subheaderPill: false),
+                    if (explorerStore.networkOverview?.epoch != null)
+                      ThemedControls.pageHeader(
+                          headerText: l10n.explorerTitle,
+                          subheaderText: l10n.explorerLabelEpoch(
+                              explorerStore.networkOverview!.epoch!),
+                          subheaderPill: false),
                     ThemedControls.spacerVerticalNormal(),
                     Text(l10n.explorerHeaderOverview,
                         style: TextStyles.labelTextNormal),
