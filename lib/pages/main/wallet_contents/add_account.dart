@@ -580,7 +580,7 @@ class _AddAccountState extends State<AddAccount> {
                               : Image.asset(
                                   "assets/images/question-active-16.png")),
                       const Spacer(),
-                      ThemedControls.transaparentButton(
+                      ThemedControls.transparentButtonSmall(
                           onPressed: () async {
                             if (watchOnlyId?.isNotEmpty == true) {
                               publicId.clear();
