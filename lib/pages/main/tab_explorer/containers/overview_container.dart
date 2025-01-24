@@ -82,37 +82,32 @@ class _OverviewContainer extends StatelessWidget {
                     ]),
                     //Starts here
                     ThemedControls.spacerVerticalBig(),
-                    Container(
-                      color: Theme.of(context).colorScheme.background,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            0,
-                            ThemePaddings.smallPadding,
-                            0,
-                            ThemePaddings.smallPadding),
-                        child: width > 400
-                            ? Row(children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          0,
+                          ThemePaddings.smallPadding,
+                          0,
+                          ThemePaddings.smallPadding),
+                      child: width > 400
+                          ? Row(children: [
+                              ThemedControls.pageHeader(
+                                  headerText: l10n.explorerHeaderTicks,
+                                  subheaderText: l10n.explorerSubHeaderTicks),
+                              Expanded(child: Container()),
+                              _ExplorerTicksPagination(
+                                  explorerStore: explorerStore, width: width)
+                            ])
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 ThemedControls.pageHeader(
                                     headerText: l10n.explorerHeaderTicks,
                                     subheaderText: l10n.explorerSubHeaderTicks),
-                                Expanded(child: Container()),
                                 _ExplorerTicksPagination(
-                                    explorerStore: explorerStore, width: width)
-                              ])
-                            : Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  ThemedControls.pageHeader(
-                                      headerText: l10n.explorerHeaderTicks,
-                                      subheaderText:
-                                          l10n.explorerSubHeaderTicks),
-                                  _ExplorerTicksPagination(
-                                      explorerStore: explorerStore,
-                                      width: width),
-                                ],
-                              ),
-                      ),
+                                    explorerStore: explorerStore, width: width),
+                              ],
+                            ),
                     ),
                   ]);
             }
