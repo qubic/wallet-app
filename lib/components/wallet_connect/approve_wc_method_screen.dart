@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:qubic_wallet/components/wallet_connect/components/amount_value_header.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
@@ -21,6 +22,7 @@ import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -30,6 +32,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 part 'components/approval_buttons.dart';
 part 'components/approval_card.dart';
 part 'components/approval_header.dart';
+part 'components/smart_contract_warning_card.dart';
 
 enum WalletConnectMethod {
   signTransaction,
@@ -235,6 +238,13 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
           children: [
             _ApprovalHeader(data: widget.data),
             ThemedControls.spacerVerticalBig(),
+            if (widget.data.inputType != null &&
+                widget.data.inputType! > 0 &&
+                widget.data.toID != null &&
+                QubicSCID.isSC(widget.data.toID!)) ...[
+              _SmartContractWarningCard(),
+              ThemedControls.spacerVerticalBig(),
+            ],
             _ApprovalCard(data: widget.data, method: widget.method)
           ],
         ));
