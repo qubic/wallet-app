@@ -39,7 +39,9 @@ class WalletConnectModalsController {
         await navigator.push(MaterialPageRoute<RequestSendTransactionResult?>(
             builder: (BuildContext context) {
               return ApproveWcMethodScreen(
-                method: WalletConnectMethod.sendQubic,
+                method: (event.inputType == null || event.inputType == 0)
+                    ? WalletConnectMethod.sendQubic
+                    : WalletConnectMethod.sendTransaction,
                 data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
                   redirectUrl: event.redirectUrl,
