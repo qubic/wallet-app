@@ -22,6 +22,7 @@ import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'transaction_direction_item.dart';
 
@@ -42,21 +43,11 @@ class TransactionItem extends StatelessWidget {
             color: LightThemeColors.primary.withAlpha(140)),
         // Callback that sets the selected popup menu item.
         onSelected: (CardItem menuItem) async {
-          // TODO open web explorer
-          /*
           if (menuItem == CardItem.explorer) {
-            pushScreen(
-              context,
-              screen: ExplorerResultPage(
-                resultType: ExplorerResultType.transaction,
-                tick: item.targetTick,
-                focusedTransactionHash: item.id,
-              ),
-              withNavBar: false,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
+            launchUrlString("https://explorer.qubic.org/network/tx/${item.id}",
+                mode: LaunchMode.inAppWebView);
           }
-        */
+
           if (menuItem == CardItem.clipboardCopy) {
             copyToClipboard(item.toReadableString(context), context);
           }

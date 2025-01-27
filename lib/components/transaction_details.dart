@@ -18,6 +18,7 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'transaction_direction_item.dart';
 
@@ -56,20 +57,9 @@ class TransactionDetails extends StatelessWidget {
               child: (appStore.currentTick >= item.targetTick)
                   ? ThemedControls.primaryButtonBigWithChild(
                       onPressed: () {
-                        // TODO open web explorer
-                        /*
-                        pushScreen(
-                          context,
-                          screen: ExplorerResultPage(
-                              resultType: ExplorerResultType.tick,
-                              tick: item.targetTick,
-                              focusedTransactionHash: item.id),
-                          //TransactionsForId(publicQubicId: item.publicId),
-                          withNavBar: false, // OPTIONAL VALUE. True by default.
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                        */
+                        launchUrlString(
+                            "https://explorer.qubic.org/network/tx/${item.id}",
+                            mode: LaunchMode.inAppWebView);
                       },
                       child: Text(l10n.transactionItemButtonViewInExplorer,
                           textAlign: TextAlign.center,

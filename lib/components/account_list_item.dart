@@ -1,3 +1,4 @@
+import 'package:downloadsfolder/downloadsfolder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -26,6 +27,7 @@ import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 enum CardItem { delete, rename, reveal, viewTransactions, viewInExplorer }
 
@@ -203,18 +205,9 @@ class _AccountListItemState extends State<AccountListItem> {
               }
 
               if (menuItem == CardItem.viewInExplorer) {
-                // TODO open web explorer
-                /*
-                pushScreen(
-                  context,
-                  screen: ExplorerResultPage(
-                    resultType: ExplorerResultType.publicId,
-                    qubicId: widget.item.publicId,
-                  ),
-                  withNavBar: false,
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                );
-                */
+                launchUrlString(
+                    "https://explorer.qubic.org/network/address/${widget.item.publicId}",
+                    mode: LaunchMode.inAppWebView);
               }
 
               if (menuItem == CardItem.viewTransactions) {
