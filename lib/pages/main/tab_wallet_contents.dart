@@ -24,6 +24,7 @@ import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class TabWalletContents extends StatefulWidget {
   const TabWalletContents({super.key});

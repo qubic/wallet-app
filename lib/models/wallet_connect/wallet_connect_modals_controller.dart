@@ -39,9 +39,12 @@ class WalletConnectModalsController {
         await navigator.push(MaterialPageRoute<RequestSendTransactionResult?>(
             builder: (BuildContext context) {
               return ApproveWcMethodScreen(
-                method: WalletConnectMethod.sendQubic,
+                method: (event.inputType == null || event.inputType == 0)
+                    ? WalletConnectMethod.sendQubic
+                    : WalletConnectMethod.sendTransaction,
                 data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
+                  redirectUrl: event.redirectUrl,
                   fromID: event.fromID,
                   fromName: event.fromIDName,
                   amount: event.amount,
@@ -70,6 +73,7 @@ class WalletConnectModalsController {
                 method: WalletConnectMethod.signTransaction,
                 data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
+                  redirectUrl: event.redirectUrl,
                   fromID: event.fromID,
                   fromName: event.fromIDName,
                   amount: event.amount,
@@ -98,6 +102,7 @@ class WalletConnectModalsController {
                 method: WalletConnectMethod.signMessage,
                 data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
+                  redirectUrl: event.redirectUrl,
                   fromID: event.fromID,
                   fromName: event.fromIDName,
                   message: event.message,
@@ -122,6 +127,7 @@ class WalletConnectModalsController {
                 method: WalletConnectMethod.sendAsset,
                 data: ApprovalDataModel(
                   pairingMetadata: event.pairingMetadata,
+                  redirectUrl: event.redirectUrl,
                   fromID: event.from,
                   fromName: event.fromIDName,
                   amount: event.amount,

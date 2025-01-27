@@ -77,8 +77,7 @@ class TransactionItem extends StatelessWidget {
                 value: CardItem.details,
                 child: Text(l10n.transactionItemButtonViewDetails),
               ),
-              if (appStore.currentTick >= item.targetTick &&
-                  item.getStatus() != ComputedTransactionStatus.invalid)
+              if (item.status == 'Success')
                 PopupMenuItem<CardItem>(
                   value: CardItem.explorer,
                   child: Text(l10n.transactionItemButtonViewInExplorer),

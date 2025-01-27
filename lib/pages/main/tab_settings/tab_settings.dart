@@ -36,7 +36,7 @@ class _TabSettingsState extends State<TabSettings> {
   final TimedController timedController = getIt<TimedController>();
 
   String settingsUnlockLabel = "";
-  Widget settingsUnlockIcon = const Icon(Icons.fingerprint);
+  String settingsUnlockIconPath = AppIcons.fingerPrint;
   bool isFirstOpen = true;
 
   final defaultIconHeight = 20.0;
@@ -47,7 +47,7 @@ class _TabSettingsState extends State<TabSettings> {
       biometricService.getAvailableBiometric(context).then((result) {
         setState(() {
           settingsUnlockLabel = result['label'];
-          settingsUnlockIcon = result['icon'];
+          settingsUnlockIconPath = result['icon'];
         });
       });
       isFirstOpen = false;
@@ -80,10 +80,8 @@ class _TabSettingsState extends State<TabSettings> {
                         child: Column(
                           children: [
                             SettingsListTile(
-                              prefix: const Icon(
-                                Icons.lock,
-                                color: LightThemeColors.textColorSecondary,
-                              ),
+                              prefix: SvgPicture.asset(AppIcons.lock,
+                                  height: defaultIconHeight),
                               title: l10n.settingsLockWallet,
                               suffix: const SizedBox.shrink(),
                               onPressed: () {
@@ -98,8 +96,11 @@ class _TabSettingsState extends State<TabSettings> {
                               },
                             ),
                             SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.autoLock,
-                                  height: defaultIconHeight),
+                              prefix: SizedBox(
+                                width: 24,
+                                child: SvgPicture.asset(AppIcons.autoLock,
+                                    height: defaultIconHeight),
+                              ),
                               title: l10n.settingsLabelAutlock,
                               path: AutoLockSettings(),
                             ),
@@ -110,13 +111,20 @@ class _TabSettingsState extends State<TabSettings> {
                               path: const ExportWalletVault(),
                             ),
                             SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.changePassword,
-                                  height: defaultIconHeight),
+                              prefix: SizedBox(
+                                width: 24,
+                                child: SvgPicture.asset(AppIcons.changePassword,
+                                    height: defaultIconHeight),
+                              ),
                               title: l10n.settingsLabelChangePassword,
                               path: const ChangePassword(),
                             ),
                             SettingsListTile(
-                              prefix: settingsUnlockIcon,
+                              prefix: SvgPicture.asset(
+                                settingsUnlockIconPath,
+                                height: defaultIconHeight,
+                                color: LightThemeColors.textColorSecondary,
+                              ),
                               title: settingsUnlockLabel,
                               path: const ManageBiometrics(),
                             ),

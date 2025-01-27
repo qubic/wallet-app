@@ -54,7 +54,7 @@ class TransactionDetails extends StatelessWidget {
                     ))),
             ThemedControls.spacerHorizontalNormal(),
             Expanded(
-              child: (appStore.currentTick >= item.targetTick)
+              child: (item.status == "Success")
                   ? ThemedControls.primaryButtonBigWithChild(
                       onPressed: () {
                         launchUrlString(

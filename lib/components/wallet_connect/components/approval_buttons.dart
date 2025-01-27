@@ -4,10 +4,13 @@ class _ApprovalButtons extends StatelessWidget {
   final bool isLoading;
   final Function() onApprovalTap;
   final WalletConnectMethod method;
-  const _ApprovalButtons(
-      {required this.isLoading,
-      required this.onApprovalTap,
-      required this.method});
+  final VoidCallback redirectToDApp;
+  const _ApprovalButtons({
+    required this.isLoading,
+    required this.onApprovalTap,
+    required this.method,
+    required this.redirectToDApp,
+  });
 
   String getApprovalButtonTitle(AppLocalizations l10n) {
     switch (method) {
@@ -59,6 +62,7 @@ class _ApprovalButtons extends StatelessWidget {
                       style: TextStyles.destructiveButtonText)),
               onPressed: () {
                 Navigator.of(context).pop();
+                redirectToDApp.call();
               })),
     ]);
   }

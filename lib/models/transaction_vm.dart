@@ -97,6 +97,9 @@ class TransactionVm {
         return ComputedTransactionStatus.failure;
       }
     }
+    if ((status == 'Failed')) {
+      return ComputedTransactionStatus.failure;
+    }
     if ((status == 'Invalid')) {
       return ComputedTransactionStatus.invalid;
     }
