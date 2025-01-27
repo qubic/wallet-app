@@ -34,7 +34,7 @@ class SettingsListTile extends StatelessWidget {
           : onPressed,
       child: Row(
         children: [
-          prefix,
+          SizedBox(width: 24, child: prefix),
           const SizedBox(width: ThemePaddings.normalPadding),
           Expanded(
             child: Text(
