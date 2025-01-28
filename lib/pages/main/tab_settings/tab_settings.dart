@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qubic_wallet/components/beta_badge.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -129,17 +130,18 @@ class _TabSettingsState extends State<TabSettings> {
                               path: const ManageBiometrics(),
                             ),
                             SettingsListTile(
-                                prefix: Badge(
-                                  offset: const Offset(0, -14),
-                                  backgroundColor: LightThemeColors.warning10,
-                                  label: const Text("BETA",
-                                      style: TextStyle(fontSize: 10)),
-                                  alignment: Alignment.topLeft,
-                                  child: SvgPicture.asset(
-                                      AppIcons.walletConnect,
-                                      height: defaultIconHeight),
-                                ),
+                                prefix: SvgPicture.asset(AppIcons.walletConnect,
+                                    height: defaultIconHeight),
                                 title: l10n.settingsLabelWalletConnect,
+                                suffix: const Row(
+                                  children: [
+                                    BetaBadge(),
+                                    SizedBox(width: 8),
+                                    Icon(Icons.arrow_forward_ios_outlined,
+                                        size: 14,
+                                        color: LightThemeColors.textLightGrey)
+                                  ],
+                                ),
                                 path: const WalletConnectSettings()),
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.community,
