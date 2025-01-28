@@ -129,8 +129,16 @@ class _TabSettingsState extends State<TabSettings> {
                               path: const ManageBiometrics(),
                             ),
                             SettingsListTile(
-                                prefix: SvgPicture.asset(AppIcons.walletConnect,
-                                    height: defaultIconHeight),
+                                prefix: Badge(
+                                  offset: const Offset(0, -14),
+                                  backgroundColor: LightThemeColors.warning10,
+                                  label: const Text("BETA",
+                                      style: TextStyle(fontSize: 10)),
+                                  alignment: Alignment.topLeft,
+                                  child: SvgPicture.asset(
+                                      AppIcons.walletConnect,
+                                      height: defaultIconHeight),
+                                ),
                                 title: l10n.settingsLabelWalletConnect,
                                 path: const WalletConnectSettings()),
                             SettingsListTile(

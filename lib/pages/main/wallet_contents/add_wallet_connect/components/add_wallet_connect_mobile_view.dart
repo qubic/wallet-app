@@ -138,8 +138,14 @@ class _AddWalletConnectMobileViewState
               right: 0,
               child: AppBar(
                 backgroundColor: Colors.transparent,
-                title: Text(l10n.wcAddConnection,
-                    style: TextStyles.textExtraLargeBold),
+                title: Badge(
+                  offset: const Offset(-20, -10),
+                  backgroundColor: LightThemeColors.warning10,
+                  label: const Text("BETA", style: TextStyle(fontSize: 10)),
+                  alignment: Alignment.topLeft,
+                  child: Text(l10n.wcAddConnection,
+                      style: TextStyles.textExtraLargeBold),
+                ),
                 centerTitle: true,
               ),
             ),

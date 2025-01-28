@@ -124,6 +124,7 @@ class LightThemeColors {
   static const success40 = Color(0xFF47CD89);
   static const success90 = Color(0xFF11322D);
 
+  static const warning10 = Color(0xFFFABC3C);
   static const warning40 = Color(0xFFCDA747);
   static const warning90 = Color(0xFF322D11);
 }
