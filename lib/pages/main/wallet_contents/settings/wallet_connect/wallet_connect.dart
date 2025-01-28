@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/components/beta_badge.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/wallet_connect_methods.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
@@ -18,9 +18,9 @@ import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:reown_walletkit/reown_walletkit.dart';
 import 'package:reown_sign/reown_sign.dart';
+import 'package:reown_walletkit/reown_walletkit.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class WalletConnectSettings extends StatefulWidget {
   const WalletConnectSettings({super.key});
@@ -273,8 +273,15 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          title: Text(l10n.settingsLabelWalletConnect,
-              style: TextStyles.textExtraLargeBold),
+          title: Row(
+            children: [
+              const SizedBox(width: ThemePaddings.hugePadding),
+              Text(l10n.settingsLabelWalletConnect,
+                  style: TextStyles.textExtraLargeBold),
+              const SizedBox(width: ThemePaddings.smallPadding),
+              const BetaBadge(),
+            ],
+          ),
           centerTitle: true,
           actions: [
             IconButton(
