@@ -133,15 +133,7 @@ class _TabSettingsState extends State<TabSettings> {
                                 prefix: SvgPicture.asset(AppIcons.walletConnect,
                                     height: defaultIconHeight),
                                 title: l10n.settingsLabelWalletConnect,
-                                suffix: const Row(
-                                  children: [
-                                    BetaBadge(),
-                                    SizedBox(width: 8),
-                                    Icon(Icons.arrow_forward_ios_outlined,
-                                        size: 14,
-                                        color: LightThemeColors.textLightGrey)
-                                  ],
-                                ),
+                                afterText: const BetaBadge(),
                                 path: const WalletConnectSettings()),
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.community,
