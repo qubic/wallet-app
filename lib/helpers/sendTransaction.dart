@@ -38,21 +38,26 @@ Future<SignedTransaction?> sendAssetTransferTransactionDialog(
   String seed = await getIt.get<ApplicationStore>().getSeedByPublicId(sourceId);
   late String transactionKey;
   QubicCmd qubicCmd = getIt.get<QubicCmd>();
+  int amount = QxInfo.transferAssetFee;
   try {
     transactionKey = await qubicCmd.createAssetTransferTransaction(seed,
         destinationId, assetName, issuer, numberOfAssets, destinationTick);
     final transactionId =
         await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
-    final pendingTransaction = TransactionVm(
-        id: transactionId,
-        sourceId: sourceId,
-        destId: destinationId,
-        amount: QxInfo.transferAssetFee,
-        status: ComputedTransactionStatus.pending.name,
-        targetTick: destinationTick,
-        isPending: true,
-        moneyFlow: true);
-    getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
+
+    // only storing locally the transfers (amount > 0)
+    if (amount > 0) {
+      final pendingTransaction = TransactionVm(
+          id: transactionId,
+          sourceId: sourceId,
+          destId: destinationId,
+          amount: amount,
+          status: ComputedTransactionStatus.pending.name,
+          targetTick: destinationTick,
+          isPending: true,
+          moneyFlow: amount > 0);
+      getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
+    }
     return SignedTransaction(
         transactionKey: transactionKey, transactionId: transactionId);
   } catch (e) {
@@ -120,16 +125,20 @@ Future<SignedTransaction?> sendTransactionDialog(BuildContext context,
   try {
     final transactionId =
         await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
-    final pendingTransaction = TransactionVm(
-        id: transactionId,
-        sourceId: sourceId,
-        destId: destinationId,
-        amount: value,
-        status: ComputedTransactionStatus.pending.name,
-        targetTick: destinationTick,
-        isPending: true,
-        moneyFlow: value > 0);
-    getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
+
+    // only storing locally the transfers (amount > 0)
+    if (value > 0) {
+      final pendingTransaction = TransactionVm(
+          id: transactionId,
+          sourceId: sourceId,
+          destId: destinationId,
+          amount: value,
+          status: ComputedTransactionStatus.pending.name,
+          targetTick: destinationTick,
+          isPending: true,
+          moneyFlow: value > 0);
+      getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
+    }
   } catch (e) {
     if (context.mounted) {
       showAlertDialog(
