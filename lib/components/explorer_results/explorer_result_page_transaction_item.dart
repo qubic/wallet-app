@@ -4,16 +4,13 @@ import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
 import 'package:qubic_wallet/components/explorer_transaction_status_item.dart';
-import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
+import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -42,26 +39,34 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
   Widget getFromTo(BuildContext context, String prepend, String accountId) {
     final l10n = l10nOf(context);
 
-    return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-      Observer(builder: (context) {
-        QubicListVm? source = appStore.findAccountById(accountId);
-        if (source != null) {
-          return Row(children: [
-            Expanded(
-                child: Text(
-                    l10n.generalLabelToFromAccount(prepend, source.name),
-                    textAlign: TextAlign.start,
-                    style: TextStyles.lightGreyTextSmallBold)),
-          ]);
-        }
-        return Row(children: [
-          Text(l10n.generalLabelToFromAddress(prepend),
-              textAlign: TextAlign.start,
-              style: TextStyles.lightGreyTextSmallBold)
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Observer(builder: (context) {
+            QubicListVm? source = appStore.findAccountById(accountId);
+            if (source != null) {
+              return Row(children: [
+                Expanded(
+                    child: Text(
+                        l10n.generalLabelToFromAccount(prepend, source.name),
+                        textAlign: TextAlign.start,
+                        style: TextStyles.lightGreyTextSmallBold)),
+              ]);
+            }
+            return Row(children: [
+              Text(l10n.generalLabelToFromAddress(prepend),
+                  textAlign: TextAlign.start,
+                  style: TextStyles.lightGreyTextSmallBold)
+            ]);
+          }),
+          if (QubicSCID.isSC(accountId)) ...[
+            ThemedControls.spacerVerticalMini(),
+            Text(QubicSCID.fromContractId(accountId)!)
+          ],
+          Text(accountId,
+              style: TextStyles.textSmall, textAlign: TextAlign.start),
         ]);
-      }),
-      Text(accountId, style: TextStyles.textSmall, textAlign: TextAlign.start),
-    ]);
   }
 
   @override
