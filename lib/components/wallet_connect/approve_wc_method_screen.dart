@@ -231,6 +231,7 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
   }
 
   Widget getBody() {
+    final l10n = l10nOf(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -240,7 +241,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
             widget.data.inputType! > 0 &&
             widget.data.toID != null &&
             QubicSCID.isSC(widget.data.toID!)) ...[
-          _SmartContractWarningCard(),
+          _SmartContractWarningCard(
+              QubicSCID.fromContractId(widget.data.toID!) ??
+                  l10n.wcSmartContractUnknown),
           ThemedControls.spacerVerticalBig(),
         ],
         _ApprovalCard(data: widget.data, method: widget.method)
