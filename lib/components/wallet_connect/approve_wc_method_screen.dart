@@ -230,24 +230,22 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     }
   }
 
-  Widget getScrollView() {
-    return SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _ApprovalHeader(data: widget.data),
-            ThemedControls.spacerVerticalBig(),
-            if (widget.data.inputType != null &&
-                widget.data.inputType! > 0 &&
-                widget.data.toID != null &&
-                QubicSCID.isSC(widget.data.toID!)) ...[
-              _SmartContractWarningCard(),
-              ThemedControls.spacerVerticalBig(),
-            ],
-            _ApprovalCard(data: widget.data, method: widget.method)
-          ],
-        ));
+  Widget getBody() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        _ApprovalHeader(data: widget.data),
+        ThemedControls.spacerVerticalSmall(),
+        if (widget.data.inputType != null &&
+            widget.data.inputType! > 0 &&
+            widget.data.toID != null &&
+            QubicSCID.isSC(widget.data.toID!)) ...[
+          _SmartContractWarningCard(),
+          ThemedControls.spacerVerticalBig(),
+        ],
+        _ApprovalCard(data: widget.data, method: widget.method)
+      ],
+    );
   }
 
   @override
@@ -261,17 +259,30 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         body: SafeArea(
           minimum: ThemeEdgeInsets.pageInsets
               .copyWith(bottom: ThemePaddings.normalPadding),
-          child: Column(
-            children: [
-              Expanded(child: getScrollView()),
-              _ApprovalButtons(
-                isLoading: isLoading,
-                method: widget.method,
-                onApprovalTap: onApprovalTap,
-                redirectToDApp: redirectToDApp,
+          child: LayoutBuilder(builder:
+              (BuildContext context, BoxConstraints viewportConstraints) {
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: [
+                      Expanded(child: getBody()),
+                      ThemedControls.spacerVerticalNormal(),
+                      _ApprovalButtons(
+                        isLoading: isLoading,
+                        method: widget.method,
+                        onApprovalTap: onApprovalTap,
+                        redirectToDApp: redirectToDApp,
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ],
-          ),
+            );
+          }),
         ),
       ),
     );
