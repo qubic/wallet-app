@@ -868,7 +868,7 @@
             }
         }
     },
-    "wcSmartContractWarningDescription": "Make sure you trust this DApp. By approving the transaction, you might authorise to transfer your assets",
+    "wcSmartContractWarningDescription": "Make sure you trust this DApp. By approving the transaction, you might authorise to transfer Qubics and/or assets",
     "wcAddConnection": "Add Connection",
     "signBase64GenericError": "Error trying to sign base64 string: {errorDescription}",
     "@signBase64GenericError": {

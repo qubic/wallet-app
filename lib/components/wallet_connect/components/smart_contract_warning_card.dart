@@ -15,11 +15,12 @@ class _SmartContractWarningCard extends StatelessWidget {
           Row(children: [
             SvgPicture.asset(AppIcons.warning, height: 20),
             ThemedControls.spacerHorizontalSmall(),
-            Text(
+            Expanded(
+                child: Text(
               l10n.wcSmartContractWarningTitle(smartContractName),
               style: TextStyles.labelText
                   .copyWith(color: LightThemeColors.warning40),
-            )
+            ))
           ]),
           ThemedControls.spacerVerticalSmall(),
           Text(
