@@ -859,8 +859,16 @@
     "wcDisconnectAllConfirm": "Disconnecting the apps will remove all access to your wallet",
     "wcDisconnect": "Disconnect",
     "wcDisconnectConfirm": "Disconnecting this app will remove access to your wallet",
-    "wcSmartContractWarningTitle": "Smart Contract Transaction",
-    "wcSmartContractWarningDescription": "Make sure you trust this DApp. By approving this Smart Contract transaction, you might authorise the DApp to transfer your assets",
+    "wcSmartContractUnknown": "Unknown",
+    "wcSmartContractWarningTitle": "\"{smartContractName}\" Smart Contract Transaction",
+    "@wcSmartContractWarningTitle": {
+        "placeholders": {
+            "smartContractName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcSmartContractWarningDescription": "Make sure you trust this DApp. By approving the transaction, you might authorise to transfer Qubics and/or assets",
     "wcAddConnection": "Add Connection",
     "signBase64GenericError": "Error trying to sign base64 string: {errorDescription}",
     "@signBase64GenericError": {

@@ -1,7 +1,10 @@
 part of '../approve_wc_method_screen.dart';
 
 class _SmartContractWarningCard extends StatelessWidget {
-  const _SmartContractWarningCard();
+  final String smartContractName;
+
+  // Constructor that receives a string parameter
+  const _SmartContractWarningCard(this.smartContractName);
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +15,12 @@ class _SmartContractWarningCard extends StatelessWidget {
           Row(children: [
             SvgPicture.asset(AppIcons.warning, height: 20),
             ThemedControls.spacerHorizontalSmall(),
-            Text(
-              l10n.wcSmartContractWarningTitle,
+            Expanded(
+                child: Text(
+              l10n.wcSmartContractWarningTitle(smartContractName),
               style: TextStyles.labelText
                   .copyWith(color: LightThemeColors.warning40),
-            )
+            ))
           ]),
           ThemedControls.spacerVerticalSmall(),
           Text(
