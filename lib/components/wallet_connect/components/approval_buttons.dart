@@ -22,6 +22,8 @@ class _ApprovalButtons extends StatelessWidget {
         return l10n.wcApproveTransaction;
       case WalletConnectMethod.signMessage:
         return l10n.wcSignMessage;
+      case WalletConnectMethod.sendAsset:
+        return l10n.wcSendAssets;
       default:
         return l10n.generalButtonApprove;
     }
