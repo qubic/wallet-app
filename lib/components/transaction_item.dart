@@ -15,7 +15,6 @@ import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
@@ -23,6 +22,7 @@ import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import 'transaction_direction_item.dart';
 
@@ -44,16 +44,8 @@ class TransactionItem extends StatelessWidget {
         // Callback that sets the selected popup menu item.
         onSelected: (CardItem menuItem) async {
           if (menuItem == CardItem.explorer) {
-            pushScreen(
-              context,
-              screen: ExplorerResultPage(
-                resultType: ExplorerResultType.transaction,
-                tick: item.targetTick,
-                focusedTransactionHash: item.id,
-              ),
-              withNavBar: false,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
+            launchUrlString("https://explorer.qubic.org/network/tx/${item.id}",
+                mode: LaunchMode.inAppWebView);
           }
 
           if (menuItem == CardItem.clipboardCopy) {
