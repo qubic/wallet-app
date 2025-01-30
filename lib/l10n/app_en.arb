@@ -860,7 +860,7 @@
     "wcDisconnect": "Disconnect",
     "wcDisconnectConfirm": "Disconnecting this app will remove access to your wallet",
     "wcSmartContractUnknown": "Unknown",
-    "wcSmartContractWarningTitle": "{smartContractName} Smart Contract Transaction",
+    "wcSmartContractWarningTitle": "\"{smartContractName}\" Smart Contract Transaction",
     "@wcSmartContractWarningTitle": {
         "placeholders": {
             "smartContractName": {
