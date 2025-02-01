@@ -206,65 +206,74 @@ class _SendState extends State<Send> {
     final l10n = l10nOf(context);
 
     showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return SafeArea(
-              child: Container(
-            height: 400,
-            child: Center(
-                child: Padding(
-              padding: const EdgeInsets.all(0),
-              child: Flex(
-                direction: Axis.vertical,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                          ThemePaddings.bigPadding,
-                          ThemePaddings.normalPadding,
-                          ThemePaddings.bigPadding,
-                          0),
-                      child: ThemedControls.pageHeader(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.8,
+          minChildSize: 0.2,
+          maxChildSize: 1,
+          expand: false,
+          builder: (context, scrollController) {
+            return ListView.separated(
+              controller: scrollController,
+              itemCount: knownQubicIDs.length + 1, // Extra item for header
+              separatorBuilder: (context, index) {
+                if (index == 0) return const SizedBox.shrink();
+                return const Divider(
+                  indent: ThemePaddings.bigPadding,
+                  endIndent: ThemePaddings.bigPadding,
+                  color: LightThemeColors.primary,
+                );
+              },
+              itemBuilder: (BuildContext context, int index) {
+                if (index == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      ThemePaddings.bigPadding,
+                      ThemePaddings.miniPadding,
+                      ThemePaddings.bigPadding,
+                      0,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: LightThemeColors.navBorder,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(height: ThemePaddings.smallPadding),
+                        ThemedControls.pageHeader(
                           headerText:
                               l10n.sendItemLabelSelectSenderAddressLineOne,
-                          subheaderText:
-                              l10n.sendItemLabelSelectSenderAddressLineTwo)),
-                  Expanded(
-                    child: ListView.separated(
-                        itemCount: knownQubicIDs.length,
-                        separatorBuilder: (context, index) {
-                          return const Divider(
-                            indent: ThemePaddings.bigPadding,
-                            endIndent: ThemePaddings.bigPadding,
-                            color: LightThemeColors.primary,
-                          );
-                        },
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: ThemePaddings.bigPadding,
-                                    vertical: ThemePaddings.smallPadding),
-                                child: IdListItemSelect(
-                                    item: knownQubicIDs[index])),
-                            onTap: () {
-                              destinationID.text =
-                                  knownQubicIDs[index].publicId;
-
-                              Navigator.pop(context);
-                            },
-                          );
-                        }),
-                  )
-                ],
-              ),
-            )),
-          ));
-        });
+                          subheaderText: null,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                final item = knownQubicIDs[index - 1];
+                return InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: ThemePaddings.bigPadding),
+                    child: IdListItemSelect(item: item),
+                  ),
+                  onTap: () {
+                    destinationID.text = item.publicId;
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            );
+          },
+        );
+      },
+    );
   }
 
   List<Widget> getOverrideTick() {
