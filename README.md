@@ -33,11 +33,7 @@ Find us on discord (https://discord.com/invite/2vDMR8m).
 
 ## WalletConnect Integration and Custom Links 
 
-Qubic Wallet is WalletConnect compatible, allowing communication with dApps. For detailed information about WalletConnect integration, including supported methods, events, and error handling, please refer to the [WalletConnect Integration Details](walletconnect.md) document. 
-
-### Introduction
-
-Qubic Wallet supports the WalletConnect protocol, allowing dApps to securely interact with the wallet.
+Qubic Wallet is WalletConnect compatible, allowing communication with dApps. For detailed information about WalletConnect integration, including supported methods, events, error handling, and how to use deep-links for seamless mobile connections, see the [WalletConnect Integration Details](walletconnect.md) document.
 
 ### Why WalletConnect?
 
