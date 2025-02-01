@@ -254,6 +254,12 @@ Fires when the Qubic amount in one or more wallet accounts changes.
 
 | Code | Message        | Meaning                      |
 | :--- | :------------- | :--------------------------- |
+| -32001 |  User is unavailable | The request comes while the user have another existing one. |
+| -32002 | Tick expired | The tick the user sends became expired during the approval. |
+| -32602 | Invalid argument(s) | The dApp didn't send valid parameters. |
+| -32603 | Internal error | Unexpected internal error occurs. |
 | 5000 | User rejected | The user rejected the request. |
+
+
 ```
 
