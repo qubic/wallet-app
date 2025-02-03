@@ -308,9 +308,14 @@ class WalletConnectService {
           appStore.currentQubicIDs.forEach(((id) {
             if (id.watchOnly == false) {
               dynamic item = {};
+              final Map<String, dynamic> assets = {};
+              id.assets.forEach((key, value) {
+                assets[key] = value.toWalletConnectJson();
+              });
               item["address"] = id.publicId;
               item["name"] = id.name;
               item["amount"] = id.amount ?? -1;
+              item["assets"] = assets;
               data.add(item);
             }
           }));

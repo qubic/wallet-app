@@ -139,4 +139,12 @@ class QubicAssetDto {
     data['tick'] = tick;
     return data;
   }
+
+  Map<String, dynamic> toWalletConnectJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['assetName'] = assetName;
+    data['issuerIdentity'] = issuerIdentity;
+    data['ownedAmount'] = ownedAmount;
+    return data;
+  }
 }
