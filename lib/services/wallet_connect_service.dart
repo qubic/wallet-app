@@ -164,7 +164,7 @@ class WalletConnectService {
         .getActiveSessions()
         .forEach(((String session, SessionData sessionData) {
       if (sessionData.namespaces.entries.first.value.events
-          .contains(WcEvents.tokenAmountChanged)) {
+          .contains(WcEvents.assetAmountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
@@ -182,7 +182,7 @@ class WalletConnectService {
             topic: sessionData.topic,
             chainId: Config.walletConnectChainId,
             event: SessionEventParams(
-                name: WcEvents.tokenAmountChanged, data: data));
+                name: WcEvents.assetAmountChanged, data: data));
       }
     }));
   }
@@ -292,7 +292,7 @@ class WalletConnectService {
         chainId: Config.walletConnectChainId, event: WcEvents.amountChanged);
     web3Wallet!.registerEventEmitter(
         chainId: Config.walletConnectChainId,
-        event: WcEvents.tokenAmountChanged);
+        event: WcEvents.assetAmountChanged);
     web3Wallet!.registerEventEmitter(
         chainId: Config.walletConnectChainId, event: WcEvents.accountsChanged);
 

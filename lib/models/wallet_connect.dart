@@ -27,7 +27,7 @@ abstract class WcEvents {
   static const accountsChanged = "accountsChanged";
 
   /// The amount of tokens in an account has changed
-  static const tokenAmountChanged = "tokenAmountChanged";
+  static const assetAmountChanged = "assetAmountChanged";
 
   /// The amount of qubics in an account has changed
   static const amountChanged = "amountChanged";
