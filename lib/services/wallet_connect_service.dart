@@ -320,8 +320,23 @@ class WalletConnectService {
               response: JsonRpcResponse(id: sessionId, result: data));
         });
 
-    // // qubic_sendQubic uses the sendQubicHandler callback if the request is valid
-    // // otherwise returns a validation error
+    handleWcError(Object e, String topic, int sessionId) {
+      JsonRpcError error;
+      appLogger.e(e);
+      if (e is JsonRpcError) {
+        error = e;
+      } else if (e is ArgumentError) {
+        error = JsonRpcError.invalidParams(e.toString());
+      } else {
+        error = JsonRpcError(
+            code: WcErrors.qwUnexpectedError, message: e.toString());
+      }
+      return web3Wallet!.respondSessionRequest(
+          topic: topic, response: JsonRpcResponse(id: sessionId, error: error));
+    }
+
+    // qubic_sendQubic uses the sendQubicHandler callback if the request is valid
+    // otherwise returns a validation error
     web3Wallet!.registerRequestHandler(
         chainId: Config.walletConnectChainId,
         method: WcMethods.wSendQubic,
@@ -344,17 +359,7 @@ class WalletConnectService {
                 response: JsonRpcResponse(
                     id: sessionId, result: await sendQubicHandler!(event)));
           } catch (e) {
-            JsonRpcError error;
-
-            if (e is JsonRpcError) {
-              error = e;
-            } else {
-              error = JsonRpcError.serverError(e.toString());
-            }
-
-            return web3Wallet!.respondSessionRequest(
-                topic: topic,
-                response: JsonRpcResponse(id: sessionId, error: error));
+            return handleWcError(e, topic, sessionId);
           }
         });
 
@@ -381,17 +386,7 @@ class WalletConnectService {
                     id: sessionId,
                     result: await sendTransactionHandler!(event)));
           } catch (e) {
-            JsonRpcError error;
-
-            if (e is JsonRpcError) {
-              error = e;
-            } else {
-              error = JsonRpcError.serverError(e.toString());
-            }
-
-            return web3Wallet!.respondSessionRequest(
-                topic: topic,
-                response: JsonRpcResponse(id: sessionId, error: error));
+            return handleWcError(e, topic, sessionId);
           }
         });
 
@@ -416,17 +411,7 @@ class WalletConnectService {
                 topic: topic,
                 response: JsonRpcResponse(id: sessionId, result: result));
           } catch (e) {
-            JsonRpcError error;
-
-            if (e is JsonRpcError) {
-              error = e;
-            } else {
-              error = JsonRpcError.serverError(e.toString());
-            }
-
-            return web3Wallet!.respondSessionRequest(
-                topic: topic,
-                response: JsonRpcResponse(id: sessionId, error: error));
+            return handleWcError(e, topic, sessionId);
           }
         });
 
@@ -454,17 +439,7 @@ class WalletConnectService {
                     id: sessionId,
                     result: await signTransactionHandler!(event)));
           } catch (e) {
-            JsonRpcError error;
-
-            if (e is JsonRpcError) {
-              error = e;
-            } else {
-              error = JsonRpcError.serverError(e.toString());
-            }
-
-            return web3Wallet!.respondSessionRequest(
-                topic: topic,
-                response: JsonRpcResponse(id: sessionId, error: error));
+            return handleWcError(e, topic, sessionId);
           }
         });
 
@@ -488,17 +463,7 @@ class WalletConnectService {
                 response: JsonRpcResponse(
                     id: sessionId, result: await sendAssetHandler!(event)));
           } catch (e) {
-            JsonRpcError error;
-
-            if (e is JsonRpcError) {
-              error = e;
-            } else {
-              error = JsonRpcError.serverError(e.toString());
-            }
-
-            return web3Wallet!.respondSessionRequest(
-                topic: topic,
-                response: JsonRpcResponse(id: sessionId, error: error));
+            return handleWcError(e, topic, sessionId);
           }
         });
 

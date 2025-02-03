@@ -25,7 +25,7 @@ class WalletConnectModalsController {
   _autoIgnoreRequestsWhenModalIsOpen(String topic, int requestId) async {
     if (_wCDialogOpen) {
       throw const JsonRpcError(
-          code: WcErrors.qwUserUnavailable, message: "user unavailable ~");
+          code: WcErrors.qwUserUnavailable, message: "User is unavailable");
     }
   }
 
@@ -171,8 +171,8 @@ class WalletConnectModalsController {
             .get<GlobalSnackBar>()
             .showError(l10nWrapper.l10n!.wcErrorTickExpired);
         throw const JsonRpcError(
-            code: WcErrors.qwGeneralError,
-            message: "Tick value is already in the past");
+            code: WcErrors.qwTickBecameInPast,
+            message: "Tick value is Expired");
       }
       return tick;
     } else {

@@ -35,8 +35,9 @@ abstract class WcEvents {
 
 /// WalletConnect Errors
 abstract class WcErrors {
-  static const qwGeneralError = -1;
-  static const qwUserUnavailable = -1;
+  static const qwUserUnavailable = -32001;
+  static const qwTickBecameInPast = -32002;
+  static const qwUnexpectedError = -32603;
 }
 
 typedef Validator = String? Function(dynamic value);
