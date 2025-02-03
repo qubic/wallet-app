@@ -61,7 +61,7 @@ The dApp can optionally use deep links after sending a method request using `qub
 
 ### qubic_requestAccounts
 
-Requests all accounts in the wallet.
+Requests all accounts in the wallet. This method provides the dApp with information about the accounts, including balances and associated assets.
 
 **Method parameters:** *None*
 
@@ -70,8 +70,13 @@ On success, an array of `RequestAccountsResult` objects is received:
 | Property | Type   | Description                                 |
 | :------- | :----- | :------------------------------------------ |
 | address  | String | The public ID of the account.               |
-| name     | String | The name of the account in the wallet.      |
+| name    | String | The name of the account in the wallet.      |
 | amount   | Number | The number of Qubic in the wallet.          |
+| assets   | Object | An object containing the assets associated with this account. Keys are the asset names. |
+| assets[assetName] | Object | An object containing the asset details. |
+| assets[assetName].assetName | String | The name of the asset. |
+| assets[assetName].issuerIdentity | String | The public ID of the issuer of the asset. |
+| assets[assetName].ownedAmount | Number | The balance of the specified asset in the account.	|
 
 ### qubic_sendQubic
 
@@ -249,6 +254,28 @@ Fires when the Qubic amount in one or more wallet accounts changes.
 | `address`| String | The public ID of the account.         |
 | `name`  | String | The human-readable name of the wallet account.|
 | `amount`| Number | The number of Qubics in the account. |
+
+
+### assetAmountChanged
+
+Fires when the amount of a specific asset in one or more wallet accounts changes.
+
+**Payload:**
+
+```json
+[
+  {
+    "address": "ACDRUPXVDMRVDBVYHUEUTBNNIQOCRXLYSLEZZHHXYGQXITDFCEJB",
+    "name": "QH",
+    "amount": 17483927320
+  },
+  {
+    "address": "ACDRUPXVDMRVDBVYHUEUTBNNIQOCRXLYSLEZZHHXYGQXITDFCEJBBUUBGJGM",
+    "name": "QH2",
+    "amount": 0
+  }
+]
+```
 
 ## JSON-RPC errors
 
