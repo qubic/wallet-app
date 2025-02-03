@@ -72,11 +72,11 @@ On success, an array of `RequestAccountsResult` objects is received:
 | address  | String | The public ID of the account.               |
 | name    | String | The name of the account in the wallet.      |
 | amount   | Number | The number of Qubic in the wallet.          |
-| assets   | Object | An object containing the assets associated with this account. Keys are the asset names. |
-| assets[assetName] | Object | An object containing the asset details. |
-| assets[assetName].assetName | String | The name of the asset. |
-| assets[assetName].issuerIdentity | String | The public ID of the issuer of the asset. |
-| assets[assetName].ownedAmount | Number | The balance of the specified asset in the account.	|
+| assets   | Array | An array containing the assets associated with this account. Each element represents a single asset. |
+| assets[index] | Object | An object containing the details of a specific asset. |
+| assets[index].assetName | String | The name of the asset. |
+| assets[index].issuerIdentity | String | The public ID of the issuer of the asset. |
+| assets[index].ownedAmount | Number | The balance of the specified asset in the account.	|
 
 ### qubic_sendQubic
 
@@ -287,12 +287,11 @@ Fires when the amount of a specific asset in one or more wallet accounts changes
 | :------ | :----- | :------------------------------------------------------------ |
 | address| String | The public ID of the account.                                 |
 | name  | String | The human-readable name of the wallet account.                |
-| amount| Number | The number of Qubics in the account. (-1 if wallet does not have this information for the account)|
-| assets   | Object | An object containing the assets associated with this account. Keys are the asset names. |
-| assets[assetName] | Object | An object containing the assets that have changed for this account. |
-| assets[assetName].assetName | String | An object containing the asset details that have changed. |
-| assets[assetName].issuerIdentity | String | The public ID of the issuer of the asset. |
-| assets[assetName].ownedAmount | Number | The balance of the specified asset in the account.	|
+| assets   | Array | An array containing the assets that have changed for this account. Each element represents a single asset. |
+| assets[index] | Object | An object containing the details of a specific asset. |
+| assets[index].assetName | String | The name of the asset. |
+| assets[index].issuerIdentity | String | The public ID of the issuer of the asset. |
+| assets[index].ownedAmount | Number | The balance of the specified asset in the account.	|
 
 ## JSON-RPC errors
 
