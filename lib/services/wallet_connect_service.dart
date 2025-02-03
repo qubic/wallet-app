@@ -171,17 +171,16 @@ class WalletConnectService {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
-
-          final Map<String, dynamic> assets = {};
+          List<dynamic> assetsList = []; // Changed to a list
           id.value.forEach((element) {
-            assets[element.assetName] = element.toJson();
+            dynamic assetItem = element.toWalletConnectJson();
+            assetsList.add(assetItem);
           });
-
           item["address"] = id.key;
           item["name"] = appStore.currentQubicIDs
               .firstWhere((element) => element.publicId == id.key)
               .name;
-          item["assets"] = assets;
+          item["assets"] = assetsList; // Assign the list
           data.add(item);
         }
 
@@ -315,14 +314,15 @@ class WalletConnectService {
           appStore.currentQubicIDs.forEach(((id) {
             if (id.watchOnly == false) {
               dynamic item = {};
-              final Map<String, dynamic> assets = {};
+              List<dynamic> assetsList = []; // Changed to a list
               id.assets.forEach((key, value) {
-                assets[key] = value.toWalletConnectJson();
+                dynamic assetItem = value.toWalletConnectJson();
+                assetsList.add(assetItem);
               });
               item["address"] = id.publicId;
               item["name"] = id.name;
               item["amount"] = id.amount ?? -1;
-              item["assets"] = assets;
+              item["assets"] = assetsList; // Assign the list
               data.add(item);
             }
           }));
