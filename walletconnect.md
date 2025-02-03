@@ -267,18 +267,18 @@ Fires when the amount of a specific asset in one or more wallet accounts changes
   {
     "address": "RBMXEFMDFABRTBJIYIBOQZMAWKWCPMJIQVEQDKONOFPEFWLMXQECDGEBIRBM",
     "name": "Account 1",
-    "assets": {
-      "CFB-1": {
+    "assets": [
+      {
         "assetName": "CFB",
         "issuerIdentity": "CFBMEMZOIDEXQAUXYYSZIURADQLAPWPMNJXQSNVQZAHYVOPYUKKJBJUCTVJL",
         "ownedAmount": 1288696
       }
-    }
+    ]
   },
   {
     "address": "NVGZSPIDZNQNYCLWBVFGCJPZODZBMUVHNYJGLFETXCMCNBVFEDOCSCNGOSSK",
     "name": "Account 2",
-    "assets": {}
+    "assets": []
   }
 ]
 ```
