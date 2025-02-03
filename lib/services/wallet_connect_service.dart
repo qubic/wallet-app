@@ -140,6 +140,9 @@ class WalletConnectService {
           dynamic item = {};
           item["publicId"] = id.key;
           item["amount"] = id.value;
+          item["name"] = appStore.currentQubicIDs
+              .firstWhere((element) => element.publicId == id.key)
+              .name;
           data.add(item);
         }
 
@@ -154,7 +157,7 @@ class WalletConnectService {
 
 //Triggers an token amount change event for the wallet connect clients
 //@param changedIDs Map<String, List<QubicAssetDto>> (key = publicId) , List ,containes changed token amounts
-  void triggerTokenAmountChangedEvent(
+  void triggerAssetAmountChangedEvent(
       Map<String, List<QubicAssetDto>> changedIDs) {
     if (!shouldTriggerEvent()) {
       return;
