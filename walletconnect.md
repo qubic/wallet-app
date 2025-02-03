@@ -265,17 +265,34 @@ Fires when the amount of a specific asset in one or more wallet accounts changes
 ```json
 [
   {
-    "address": "ACDRUPXVDMRVDBVYHUEUTBNNIQOCRXLYSLEZZHHXYGQXITDFCEJB",
-    "name": "QH",
-    "amount": 17483927320
+    "address": "RBMXEFMDFABRTBJIYIBOQZMAWKWCPMJIQVEQDKONOFPEFWLMXQECDGEBIRBM",
+    "name": "Account 1",
+    "assets": {
+      "CFB-1": {
+        "assetName": "CFB",
+        "issuerIdentity": "CFBMEMZOIDEXQAUXYYSZIURADQLAPWPMNJXQSNVQZAHYVOPYUKKJBJUCTVJL",
+        "ownedAmount": 1288696
+      }
+    }
   },
   {
-    "address": "ACDRUPXVDMRVDBVYHUEUTBNNIQOCRXLYSLEZZHHXYGQXITDFCEJBBUUBGJGM",
-    "name": "QH2",
-    "amount": 0
+    "address": "NVGZSPIDZNQNYCLWBVFGCJPZODZBMUVHNYJGLFETXCMCNBVFEDOCSCNGOSSK",
+    "name": "Account 2",
+    "assets": {}
   }
 ]
 ```
+
+| Field   | Type   | Description                                                   |
+| :------ | :----- | :------------------------------------------------------------ |
+| address| String | The public ID of the account.                                 |
+| name  | String | The human-readable name of the wallet account.                |
+| amount| Number | The number of Qubics in the account. (-1 if wallet does not have this information for the account)|
+| assets   | Object | An object containing the assets associated with this account. Keys are the asset names. |
+| assets[assetName] | Object | An object containing the assets that have changed for this account. |
+| assets[assetName].assetName | String | An object containing the asset details that have changed. |
+| assets[assetName].issuerIdentity | String | The public ID of the issuer of the asset. |
+| assets[assetName].ownedAmount | Number | The balance of the specified asset in the account.	|
 
 ## JSON-RPC errors
 
