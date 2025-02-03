@@ -138,7 +138,7 @@ class WalletConnectService {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
-          item["publicId"] = id.key;
+          item["address"] = id.key;
           item["amount"] = id.value;
           item["name"] = appStore.currentQubicIDs
               .firstWhere((element) => element.publicId == id.key)
@@ -172,12 +172,16 @@ class WalletConnectService {
         for (var id in changedIDs.entries) {
           dynamic item = {};
 
-          List<dynamic> tokens = [];
-          tokens.addAll(
-              id.value.map((e) => QubicAssetWC.fromQubicAssetDto(e)).toList());
+          final Map<String, dynamic> assets = {};
+          id.value.forEach((element) {
+            assets[element.assetName] = element.toJson();
+          });
 
-          item["publicId"] = id.key;
-          item["tokens"] = tokens;
+          item["address"] = id.key;
+          item["name"] = appStore.currentQubicIDs
+              .firstWhere((element) => element.publicId == id.key)
+              .name;
+          item["assets"] = assets;
           data.add(item);
         }
 
@@ -204,7 +208,7 @@ class WalletConnectService {
         for (var id in appStore.currentQubicIDs) {
           if (id.watchOnly == false) {
             dynamic item = {};
-            item["publicId"] = id.publicId;
+            item["address"] = id.publicId;
             item["name"] = id.name;
             item["amount"] = id.amount ?? -1;
             data.add(item);
