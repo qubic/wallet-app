@@ -105,7 +105,7 @@ class TimedController extends WidgetsBindingObserver {
 
           if (changedIdsWithSeed.isNotEmpty) {
             _walletConnectService
-                .triggerTokenAmountChangedEvent(changedIdsWithSeed);
+                .triggerAssetAmountChangedEvent(changedIdsWithSeed);
           }
         }, onError: (e) {
           appStore

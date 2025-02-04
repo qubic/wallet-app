@@ -26,6 +26,14 @@ class QubicAssetWC {
         ownedAmount: source.ownedAmount,
         possessedAmount: source.possessedAmount);
   }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['assetName'] = assetName;
+    data['issuerIdentity'] = issuerIdentity;
+    data['ownedAmount'] = ownedAmount;
+    return data;
+  }
 }
 
 /// A Qubic asset.
@@ -137,6 +145,14 @@ class QubicAssetDto {
 
     data['ownedAmount'] = ownedAmount;
     data['tick'] = tick;
+    return data;
+  }
+
+  Map<String, dynamic> toWalletConnectJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['assetName'] = assetName;
+    data['issuerIdentity'] = issuerIdentity;
+    data['ownedAmount'] = ownedAmount;
     return data;
   }
 }

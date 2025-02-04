@@ -138,8 +138,11 @@ class WalletConnectService {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
-          item["publicId"] = id.key;
+          item["address"] = id.key;
           item["amount"] = id.value;
+          item["name"] = appStore.currentQubicIDs
+              .firstWhere((element) => element.publicId == id.key)
+              .name;
           data.add(item);
         }
 
@@ -154,7 +157,7 @@ class WalletConnectService {
 
 //Triggers an token amount change event for the wallet connect clients
 //@param changedIDs Map<String, List<QubicAssetDto>> (key = publicId) , List ,containes changed token amounts
-  void triggerTokenAmountChangedEvent(
+  void triggerAssetAmountChangedEvent(
       Map<String, List<QubicAssetDto>> changedIDs) {
     if (!shouldTriggerEvent()) {
       return;
@@ -164,17 +167,20 @@ class WalletConnectService {
         .getActiveSessions()
         .forEach(((String session, SessionData sessionData) {
       if (sessionData.namespaces.entries.first.value.events
-          .contains(WcEvents.tokenAmountChanged)) {
+          .contains(WcEvents.assetAmountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
-
-          List<dynamic> tokens = [];
-          tokens.addAll(
-              id.value.map((e) => QubicAssetWC.fromQubicAssetDto(e)).toList());
-
-          item["publicId"] = id.key;
-          item["tokens"] = tokens;
+          List<dynamic> assetsList = []; // Changed to a list
+          id.value.forEach((element) {
+            dynamic assetItem = element.toWalletConnectJson();
+            assetsList.add(assetItem);
+          });
+          item["address"] = id.key;
+          item["name"] = appStore.currentQubicIDs
+              .firstWhere((element) => element.publicId == id.key)
+              .name;
+          item["assets"] = assetsList; // Assign the list
           data.add(item);
         }
 
@@ -182,7 +188,7 @@ class WalletConnectService {
             topic: sessionData.topic,
             chainId: Config.walletConnectChainId,
             event: SessionEventParams(
-                name: WcEvents.tokenAmountChanged, data: data));
+                name: WcEvents.assetAmountChanged, data: data));
       }
     }));
   }
@@ -201,7 +207,7 @@ class WalletConnectService {
         for (var id in appStore.currentQubicIDs) {
           if (id.watchOnly == false) {
             dynamic item = {};
-            item["publicId"] = id.publicId;
+            item["address"] = id.publicId;
             item["name"] = id.name;
             item["amount"] = id.amount ?? -1;
             data.add(item);
@@ -292,7 +298,7 @@ class WalletConnectService {
         chainId: Config.walletConnectChainId, event: WcEvents.amountChanged);
     web3Wallet!.registerEventEmitter(
         chainId: Config.walletConnectChainId,
-        event: WcEvents.tokenAmountChanged);
+        event: WcEvents.assetAmountChanged);
     web3Wallet!.registerEventEmitter(
         chainId: Config.walletConnectChainId, event: WcEvents.accountsChanged);
 
@@ -308,9 +314,15 @@ class WalletConnectService {
           appStore.currentQubicIDs.forEach(((id) {
             if (id.watchOnly == false) {
               dynamic item = {};
+              List<dynamic> assetsList = []; // Changed to a list
+              id.assets.forEach((key, value) {
+                dynamic assetItem = value.toWalletConnectJson();
+                assetsList.add(assetItem);
+              });
               item["address"] = id.publicId;
               item["name"] = id.name;
               item["amount"] = id.amount ?? -1;
+              item["assets"] = assetsList; // Assign the list
               data.add(item);
             }
           }));
