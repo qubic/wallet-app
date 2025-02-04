@@ -3,26 +3,24 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
 import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/components/transaction_status_item.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
 import 'transaction_direction_item.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
 
 enum CardItem { explorer, clipboardCopy }
 
@@ -59,19 +57,9 @@ class TransactionDetails extends StatelessWidget {
               child: (item.status == "Success")
                   ? ThemedControls.primaryButtonBigWithChild(
                       onPressed: () {
-                        // Perform some action
-
-                        pushScreen(
-                          context,
-                          screen: ExplorerResultPage(
-                              resultType: ExplorerResultType.tick,
-                              tick: item.targetTick,
-                              focusedTransactionHash: item.id),
-                          //TransactionsForId(publicQubicId: item.publicId),
-                          withNavBar: false, // OPTIONAL VALUE. True by default.
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
+                        launchUrlString(
+                            "https://explorer.qubic.org/network/tx/${item.id}",
+                            mode: LaunchMode.inAppWebView);
                       },
                       child: Text(l10n.transactionItemButtonViewInExplorer,
                           textAlign: TextAlign.center,
