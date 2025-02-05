@@ -131,27 +131,86 @@ class _AddWalletConnectMobileViewState
                   child: CircularProgressIndicator(),
                 ),
               ),
-            // AppBar on top of everything
+
             Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: AppBar(
-                backgroundColor: Colors.transparent,
-                title: Row(
-                  children: [
-                    const SizedBox(width: ThemePaddings.hugePadding),
-                    Text(l10n.wcAddConnection,
-                        style: TextStyles.textExtraLargeBold),
-                    const SizedBox(width: ThemePaddings.smallPadding),
-                    const BetaBadge(),
-                  ],
+              top: MediaQuery.of(context).padding.top,
+              left: ThemePaddings.normalPadding,
+              right: ThemePaddings.normalPadding,
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  color: Colors.transparent,
+                  child: Row(
+                    children: [
+                      // Back arrow icon
+                      IconButton(
+                        icon: isIOS
+                            ? const Icon(Icons.arrow_back_ios)
+                            : const Icon(Icons.arrow_back),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                      Expanded(
+                        child: LayoutBuilder(
+                          builder: (context, constraints) {
+                            // Measure text width using TextPainter
+                            final textPainter = TextPainter(
+                              text: TextSpan(
+                                text: l10n.wcAddConnection,
+                                style: TextStyles.textExtraLargeBold,
+                              ),
+                              maxLines: 2,
+                              textDirection: TextDirection.ltr,
+                            )..layout(maxWidth: constraints.maxWidth);
+                            const betaBadgeWidth = 24.0;
+                            final totalRequiredWidth =
+                                ThemePaddings.hugePadding +
+                                    textPainter.width +
+                                    ThemePaddings.smallPadding +
+                                    betaBadgeWidth;
+                            return totalRequiredWidth <= constraints.maxWidth
+                                ? Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        l10n.wcAddConnection,
+                                        maxLines: 2,
+                                        style: TextStyles.textExtraLargeBold,
+                                      ),
+                                      const SizedBox(
+                                          width: ThemePaddings.smallPadding),
+                                      const BetaBadge(),
+                                    ],
+                                  )
+                                : Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          l10n.wcAddConnection,
+                                          maxLines: 2,
+                                          style: TextStyles.textExtraLargeBold,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                      ThemedControls.spacerHorizontalMini(),
+                                      const BetaBadge(),
+                                    ],
+                                  );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-                centerTitle: true,
               ),
             ),
+
             Positioned(
-              bottom: ThemePaddings.bottomPaddingMobile,
+              bottom:
+                  constraints.maxHeight > ResponsiveConstants.largeScreenHeight
+                      ? ThemePaddings.bottomPaddingMobile
+                      : ThemePaddings.bigPadding,
               left: ThemePaddings.normalPadding,
               right: ThemePaddings.normalPadding,
               child: SizedBox(

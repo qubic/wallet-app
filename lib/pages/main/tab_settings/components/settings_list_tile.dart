@@ -38,15 +38,22 @@ class SettingsListTile extends StatelessWidget {
         children: [
           SizedBox(width: 24, child: prefix),
           const SizedBox(width: ThemePaddings.normalPadding),
-          Text(
-            title,
-            style: TextStyles.labelText,
-          ),
+          if (afterText == null)
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyles.labelText,
+              ),
+            ),
           if (afterText != null) ...[
+            Text(
+              title,
+              style: TextStyles.labelText,
+            ),
             const SizedBox(width: ThemePaddings.smallPadding),
-            afterText!
+            afterText!,
+            const Spacer(),
           ],
-          const Spacer(),
           suffix == null
               ? const Icon(Icons.arrow_forward_ios_outlined,
                   size: 14, color: LightThemeColors.textLightGrey)
