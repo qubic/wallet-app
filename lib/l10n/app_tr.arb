@@ -886,5 +886,14 @@
     "uriSchemeUnknown": "Bilinmeyen URI şeması",
     "uriInvalidFormat": "Geçersiz URI formatı",
     "uriUnknownAction": "Bilinmeyen URI eylemi",
-    "uriInvalidWCPairUrl": "Geçersiz WC bağlantı URL'si. wc: ile başlamalıdır"
+    "uriInvalidWCPairUrl": "Geçersiz WC bağlantı URL'si. wc: ile başlamalıdır",
+    "generalButtonClear": "Temizle",
+    "generalLabelPayload": "Payload",
+    "generalLabelInputType": "Giriş Türü",
+    "wcErrorTickExpired": "Tick değeri zaten geçmişte",
+    "wcSmartContractUnknown": "Bilinmiyor",
+    "wcSmartContractWarningTitle": "\"{smartContractName}\" Akıllı Kontrat İşlemi",
+    "wcSmartContractWarningDescription": "Bu DApp'e güvendiğinizden emin olun. İşlemi onaylayarak Qubics ve/veya varlıkların transferine izin verebilirsiniz",
+    "wcApproveTransfer": "Transferi Onayla",
+    "wcSendAssets": "Varlıkları Gönder"
 }
