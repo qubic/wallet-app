@@ -214,6 +214,7 @@
     "settingsHeaderAbout": "About",
     "settingsLabelJoinCommunity": "Join Community",
     "settingsLabelWalletInfo": "Wallet Info",
+    "settingsLabelAddressBook": "Address Book",
     "settingsLabelWalletConnect": "Wallet Connect",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
