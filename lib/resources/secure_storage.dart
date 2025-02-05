@@ -8,7 +8,6 @@ import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/settings.dart';
-import 'package:qubic_wallet/models/transaction_vm.dart';
 
 class SecureStorageKeys {
   static const prepend = kReleaseMode
@@ -28,6 +27,7 @@ class SecureStorageKeys {
   static const publicIdsList = "${prepend}_PIDs"; // The public IDs
   static const namesList = "${prepend}_NAMEs"; // The names of the IDs
   static const settings = "${prepend}_SETTINGS"; // The settings of the wallet
+  static const hiveEncryptionKey = "${prepend}_HIVE_KEY";
 }
 
 class PassAndHash {
@@ -55,6 +55,32 @@ class SecureStorage {
   late String prepend;
   SecureStorage() {
     storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  }
+
+  Future<String?> getHiveEncryptionKey() async {
+    try {
+      final keyString =
+          await storage.read(key: SecureStorageKeys.hiveEncryptionKey);
+      return keyString;
+    } catch (e) {
+      appLogger.e("Error reading Hive key: ${e.toString()}");
+      return null;
+    }
+  }
+
+  Future<void> storeHiveEncryptionKey(String newKey) async {
+    try {
+      await storage.write(
+        key: SecureStorageKeys.hiveEncryptionKey,
+        value: newKey,
+      );
+    } catch (e) {
+      appLogger.e("Error generating Hive key: ${e.toString()}");
+    }
+  }
+
+  Future<void> deleteHiveEncryptionKey() async {
+    await storage.delete(key: SecureStorageKeys.hiveEncryptionKey);
   }
 
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
