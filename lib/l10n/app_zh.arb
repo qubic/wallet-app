@@ -252,7 +252,7 @@
     "transactionLabelStatusPending": "等待中",
     "transactionLabelStatusConfirmed": "确认",
     "transactionLabelStatusFailed": "失败",
-    "transactionLabelStatusInvalid": "失败 - 无效",
+    "transactionLabelStatusInvalid": "无效",
     "signInTitleOne": "欢迎来到",
     "siginInTitleTwo": "Qubic 钱包",
     "welcomeTitle": "欢迎回来！",
@@ -752,7 +752,7 @@
     "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。",
     "explorerLabelPrice": "价格",
     "explorerLabelMarketCap": "市值",
-    "settingsLabelWalletConnect": "钱包连接",
+    "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "无效的观察地址。请检查输入的地址。",
     "addAccountErrorVerifyIdentityError": "无法验证地址。",
     "addAccountWatchOnlyPageTitle": "添加观察账户",
@@ -805,7 +805,7 @@
     },
     "wcRevokePermissions": "撤銷權限",
     "wcDappsConnectedNone": "無活動連接",
-    "wcDappsConnectedNoneHint": "當您連接任何 dApp 時，您將可以在此管理它們",
+    "wcDappsConnectedNoneHint": "當您連接任何 dApp 時，您將可以在此管理它們.",
     "wcConnectionApproved": "WalletConnect 連接已批准",
     "wcConnectionRejected": "WalletConnect 連接已拒絕",
     "wcConnectionProposalTimeout": "WalletConnect 會議提案超時",
@@ -829,7 +829,7 @@
     "wcDisconnectAllConfirm": "斷開應用程式的連接將移除對您的錢包的所有訪問",
     "wcDisconnect": "斷開連接",
     "wcDisconnectConfirm": "斷開此應用程式的連接將移除對您的錢包的訪問",
-    "wcAddConnection": "添加連接",
+    "wcAddConnection": "新增連接",
     "signBase64GenericError": "簽署 Base64 字串時發生錯誤：{errorDescription}",
     "@signBase64GenericError": {
         "placeholders": {
@@ -886,5 +886,14 @@
     "uriSchemeUnknown": "未知的 URI 協議",
     "uriInvalidFormat": "無效的 URI 格式",
     "uriUnknownAction": "未知的 URI 操作",
-    "uriInvalidWCPairUrl": "無效的 WC 連接 URL。應以 wc: 開頭"
+    "uriInvalidWCPairUrl": "無效的 WC 連接 URL。應以 wc: 開頭",
+    "generalButtonClear": "清除",
+    "generalLabelPayload": "Payload",
+    "generalLabelInputType": "輸入類型",
+    "wcErrorTickExpired": "Tick 值已過期",
+    "wcSmartContractUnknown": "未知",
+    "wcSmartContractWarningTitle": "\"{smartContractName}\" 智能合約交易",
+    "wcSmartContractWarningDescription": "請確保您信任此 DApp。批准交易後，您可能會授權轉移 Qubics 和/或資產",
+    "wcApproveTransfer": "批准轉帳",
+    "wcSendAssets": "發送資產"
 }
