@@ -251,7 +251,7 @@
     "transactionLabelStatusPending": "Pendiente",
     "transactionLabelStatusConfirmed": "Confirmada",
     "transactionLabelStatusFailed": "Fallida",
-    "transactionLabelStatusInvalid": "Fallida - Inválido",
+    "transactionLabelStatusInvalid": "Inválida",
     "signInTitleOne": "Bienvenido a",
     "siginInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Bienvenido de vuelta!",
@@ -752,7 +752,7 @@
     "explorerLabelPrice": "Precio",
     "explorerLabelMarketCap": "Capitalización de mercado",
     "accountExplorerLabelLatestTransactions": "Últimas Transacciones",
-    "settingsLabelWalletConnect": "Wallet Connect",
+    "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Dirección de sólo lectura inválida. Por favor, verifica la dirección ingresada.",
     "addAccountErrorVerifyIdentityError": "No se puede verificar la dirección",
     "addAccountWatchOnlyPageTitle": "Agregar Cuenta de Sólo Lectura",
@@ -797,7 +797,7 @@
     },
     "wcRevokePermissions": "Revocar permisos",
     "wcDappsConnectedNone": "Sin conexiones activas",
-    "wcDappsConnectedNoneHint": "Una vez que te conectes a una dApp, podrás gestionarlas aquí",
+    "wcDappsConnectedNoneHint": "Una vez que te conectes a una dApp, podrás gestionarlas aquí.",
     "wcConnectionApproved": "Conexión WalletConnect aprobada",
     "wcConnectionRejected": "Conexión WalletConnect rechazada",
     "wcConnectionProposalTimeout": "La propuesta de sesión de WalletConnect expiró",
@@ -878,5 +878,21 @@
     "uriSchemeUnknown": "Esquema de URI desconocido",
     "uriInvalidFormat": "Formato de URI inválido",
     "uriUnknownAction": "Acción de URI desconocida",
-    "uriInvalidWCPairUrl": "URL de conexión WalletConnect inválido. Debe comenzar con wc:"
+    "uriInvalidWCPairUrl": "URL de conexión WalletConnect inválido. Debe comenzar con wc:",
+    "generalButtonClear": "Limpiar",
+    "generalLabelPayload": "Payload",
+    "generalLabelInputType": "Tipo de input",
+    "wcErrorTickExpired": "El valor de tick está en el pasado",
+    "wcSmartContractUnknown": "Desconocido",
+    "wcSmartContractWarningTitle": "Transacción de contrato inteligente \"{smartContractName}\"",
+    "@wcSmartContractWarningTitle": {
+        "placeholders": {
+            "smartContractName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcSmartContractWarningDescription": "Asegúrate que esta DApp es confiable. Al aprobar la transacción, podrías autorizar la transferencia de Qubics y/o otros activos",
+    "wcApproveTransfer": "Aprobar Transferencia",
+    "wcSendAssets": "Enviar Activos"
 }
