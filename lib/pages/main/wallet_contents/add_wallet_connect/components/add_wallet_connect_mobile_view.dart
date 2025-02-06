@@ -209,8 +209,10 @@ class _AddWalletConnectMobileViewState
             Positioned(
               bottom:
                   constraints.maxHeight > ResponsiveConstants.largeScreenHeight
-                      ? ThemePaddings.bottomPaddingMobile
-                      : ThemePaddings.bigPadding,
+                      ? MediaQuery.of(context).padding.bottom +
+                          ThemePaddings.smallPadding
+                      : MediaQuery.of(context).padding.bottom +
+                          ThemePaddings.bigPadding,
               left: ThemePaddings.normalPadding,
               right: ThemePaddings.normalPadding,
               child: SizedBox(
