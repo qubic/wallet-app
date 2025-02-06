@@ -7,12 +7,14 @@ class SettingsListTile extends StatelessWidget {
   final String title;
   final Widget prefix;
   final Widget? suffix;
+  final Widget? afterText;
   final Function()? onPressed;
   final Widget? path;
   const SettingsListTile(
       {super.key,
       required this.title,
       required this.prefix,
+      this.afterText,
       this.onPressed,
       this.path,
       this.suffix});
@@ -34,14 +36,24 @@ class SettingsListTile extends StatelessWidget {
           : onPressed,
       child: Row(
         children: [
-          prefix,
+          SizedBox(width: 24, child: prefix),
           const SizedBox(width: ThemePaddings.normalPadding),
-          Expanded(
-            child: Text(
+          if (afterText == null)
+            Expanded(
+              child: Text(
+                title,
+                style: TextStyles.labelText,
+              ),
+            ),
+          if (afterText != null) ...[
+            Text(
               title,
               style: TextStyles.labelText,
             ),
-          ),
+            const SizedBox(width: ThemePaddings.smallPadding),
+            afterText!,
+            const Spacer(),
+          ],
           suffix == null
               ? const Icon(Icons.arrow_forward_ios_outlined,
                   size: 14, color: LightThemeColors.textLightGrey)

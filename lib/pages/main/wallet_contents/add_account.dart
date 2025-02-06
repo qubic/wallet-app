@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
@@ -11,6 +12,7 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_warning_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -38,6 +40,8 @@ class _AddAccountState extends State<AddAccount> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
+  final WalletConnectService walletConnectService =
+      getIt<WalletConnectService>();
   final TextEditingController privateSeed = TextEditingController();
   final TextEditingController publicId = TextEditingController();
   final TextEditingController accountName = TextEditingController();
@@ -575,6 +579,22 @@ class _AddAccountState extends State<AddAccount> {
                                       "assets/images/question-active-16.png"))
                               : Image.asset(
                                   "assets/images/question-active-16.png")),
+                      const Spacer(),
+                      ThemedControls.transparentButtonSmall(
+                          onPressed: () async {
+                            if (watchOnlyId?.isNotEmpty == true) {
+                              publicId.clear();
+                            } else {
+                              final clipboardData =
+                                  await Clipboard.getData(Clipboard.kTextPlain);
+                              if (clipboardData != null) {
+                                publicId.text = clipboardData.text!;
+                              }
+                            }
+                          },
+                          text: watchOnlyId?.isNotEmpty == true
+                              ? l10n.generalButtonClear
+                              : l10n.generalButtonPaste),
                     ]),
                     ThemedControls.spacerVerticalSmall(),
                     // Qubic Address form
@@ -775,8 +795,12 @@ class _AddAccountState extends State<AddAccount> {
     setState(() {
       isLoading = false;
     });
-    if (!mounted) return;
-    Navigator.pop(context);
+
+    walletConnectService.triggerAccountsChangedEvent();
+
+    if (context.mounted) {
+      Navigator.pop(context);
+    }
   }
 
   @override

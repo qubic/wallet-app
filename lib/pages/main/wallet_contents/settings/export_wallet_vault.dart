@@ -11,6 +11,7 @@ import 'package:local_auth/local_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -86,7 +87,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
             try {
               directory = await getDownloadsDirectory();
             } catch (e) {
-              debugPrint("Error getting application documents directory: $e");
+              appLogger.e("Error getting application documents directory: $e");
             }
             String? outputFile = await FilePicker.platform.saveFile(
                 dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
@@ -98,7 +99,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
 
             if (outputFile == null) {
               // User canceled the picker
-              debugPrint("Did not select");
+              appLogger.w("User canceled the picker");
             }
             setState(() {
               selectedPath = outputFile!;

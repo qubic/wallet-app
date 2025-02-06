@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qubic_wallet/components/beta_badge.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -11,6 +12,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/wallet_connect.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
@@ -35,7 +37,7 @@ class _TabSettingsState extends State<TabSettings> {
   final TimedController timedController = getIt<TimedController>();
 
   String settingsUnlockLabel = "";
-  Widget settingsUnlockIcon = const Icon(Icons.fingerprint);
+  String settingsUnlockIconPath = AppIcons.fingerPrint;
   bool isFirstOpen = true;
 
   final defaultIconHeight = 20.0;
@@ -46,7 +48,7 @@ class _TabSettingsState extends State<TabSettings> {
       biometricService.getAvailableBiometric(context).then((result) {
         setState(() {
           settingsUnlockLabel = result['label'];
-          settingsUnlockIcon = result['icon'];
+          settingsUnlockIconPath = result['icon'];
         });
       });
       isFirstOpen = false;
@@ -79,10 +81,8 @@ class _TabSettingsState extends State<TabSettings> {
                         child: Column(
                           children: [
                             SettingsListTile(
-                              prefix: const Icon(
-                                Icons.lock,
-                                color: LightThemeColors.textColorSecondary,
-                              ),
+                              prefix: SvgPicture.asset(AppIcons.lock,
+                                  height: defaultIconHeight),
                               title: l10n.settingsLockWallet,
                               suffix: const SizedBox.shrink(),
                               onPressed: () {
@@ -97,8 +97,11 @@ class _TabSettingsState extends State<TabSettings> {
                               },
                             ),
                             SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.autoLock,
-                                  height: defaultIconHeight),
+                              prefix: SizedBox(
+                                width: 24,
+                                child: SvgPicture.asset(AppIcons.autoLock,
+                                    height: defaultIconHeight),
+                              ),
                               title: l10n.settingsLabelAutlock,
                               path: AutoLockSettings(),
                             ),
@@ -109,22 +112,29 @@ class _TabSettingsState extends State<TabSettings> {
                               path: const ExportWalletVault(),
                             ),
                             SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.changePassword,
-                                  height: defaultIconHeight),
+                              prefix: SizedBox(
+                                width: 24,
+                                child: SvgPicture.asset(AppIcons.changePassword,
+                                    height: defaultIconHeight),
+                              ),
                               title: l10n.settingsLabelChangePassword,
                               path: const ChangePassword(),
                             ),
                             SettingsListTile(
-                              prefix: settingsUnlockIcon,
+                              prefix: SvgPicture.asset(
+                                settingsUnlockIconPath,
+                                height: defaultIconHeight,
+                                color: LightThemeColors.textColorSecondary,
+                              ),
                               title: settingsUnlockLabel,
                               path: const ManageBiometrics(),
                             ),
-                            // SettingsListTile(
-                            //   prefix:
-                            //       SvgPicture.asset(AppIcons.walletConnect, height: defaultIconHeight),
-                            //   title: l10n.settingsLabelWalletConnect,
-                            //   onPressed: () {},
-                            // ),
+                            SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.walletConnect,
+                                    height: defaultIconHeight),
+                                title: l10n.settingsLabelWalletConnect,
+                                afterText: const BetaBadge(),
+                                path: const WalletConnectSettings()),
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.community,
                                   height: defaultIconHeight),

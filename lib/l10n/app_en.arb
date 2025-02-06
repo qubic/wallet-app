@@ -10,6 +10,8 @@
     "generalButtonRename": "Rename",
     "generalButtonSave": "Save",
     "generalButtonProceed": "Proceed",
+    "generalButtonApprove": "Approve",
+    "generalButtonReject": "Reject",
     "generalButtonBack": "Back",
     "generalButtonClose": "Close",
     "generalButtonTryAgain": "Try again",
@@ -21,11 +23,16 @@
     "generalButtonShowAll": "Show All",
     "generalButtonUseQRCode": "Use QR Code",
     "generalButtonCopyAddress": "Copy Address",
+    "generalButtonPaste": "Paste",
+    "generalButtonClear": "Clear",
+    "generalButtonConnect": "Connect",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
     "generalLabelCurrencyQubic": "QUBIC",
     "generalLabelCurrencyUSD": "USD",
     "generalLabelTick": "Tick",
+    "generalLabelPayload": "Payload",
+    "generalLabelInputType": "Input Type",
     "generalLabelInfo": "Info",
     "generalLabelDate": "Date",
     "generalLabelID": "ID",
@@ -122,6 +129,14 @@
     "generalErrorEmptyWalletPassword": "Please fill in your password",
     "generalErrorSetWalletPasswordEmpty": "Please fill in a password.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Please fill in the password again.",
+    "generalErrorUnexpectedError": "An unexpected error has occurred",
+    "generalErrorConnectionTimeout": "Connection timed out",
+    "generalErrorNoInternetConnection": "No internet connection",
+    "generalErrorRequestCancelled": "Request Cancelled",
+    "generalErrorCouldntParseResponse": "Could not parse response",
+    "generalErrorServerError": "Server error",
+    "generalStatusCode": "Status Code",
+    "generalCode": "Code",
     "appTabHome": "Home",
     "appTabTransfers": "Transfers",
     "appTabExplorer": "Explorer",
@@ -179,16 +194,16 @@
     "explorerSearchLabelNoResults": "No results found matching",
     "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
     "explorerTickResultLabelBlockStatus": "Tick Status",
-    "explorerTickResultLabelBlockStatusEmpty": "Empty",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Non Empty",
+    "explorerTickResultLabelBlockStatusEmpty": "Empty / Unexecuted",
+    "explorerTickResultLabelBlockStatusNonEmpty": "Non-empty / Executed",
     "explorerTickResultLabelBlockStatusUnknown": "Unknown",
     "explorerTickResultLabelDataStatus": "Data Status",
     "explorerTickResultLabelInfoCompleted": "Completed",
     "explorerTickResultLabelInfoNotValidated": "Not Validated",
-    "explorerTickResultLabelTickLeader": "Tick Leader - (Short Code / Index)",
+    "explorerTickResultLabelTickLeader": "Tick Leader",
     "explorerTickResultLabelNoTransactionsFound": "No transactions in this tick",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}",
     "settingsTitle": "Settings",
     "settingsHeaderAccountsAndData": "Accounts and Data",
     "settingsLockWallet": "Lock Wallet",
@@ -199,7 +214,7 @@
     "settingsHeaderAbout": "About",
     "settingsLabelJoinCommunity": "Join Community",
     "settingsLabelWalletInfo": "Wallet Info",
-    "settingsLabelWalletConnect": "Wallet Connect",
+    "settingsLabelWalletConnect": "WalletConnect",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "Iris",
@@ -253,7 +268,7 @@
     "transactionLabelStatusPending": "Pending",
     "transactionLabelStatusConfirmed": "Confirmed",
     "transactionLabelStatusFailed": "Failed",
-    "transactionLabelStatusInvalid": "Failed - invalid",
+    "transactionLabelStatusInvalid": "Invalid",
     "signInTitleOne": "Welcome to the",
     "siginInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Welcome back!",
@@ -271,6 +286,7 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Advanced Options",
+    "accountSendSectionInvalidDestinationAddress": "Invalid destination address",
     "assetsLabelOwned": "Owned",
     "assetsLabelPossessed": "Possessed",
     "assetsLabelContractName": "Contract Name",
@@ -399,9 +415,7 @@
     "transactionItemButtonViewDetails": "View Details",
     "transactionItemButtonResend": "Resend",
     "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
-    "transactionItemLabelCreatedDate": "Created Date",
-    "transactionItemLabelBroadcastedDate": "Broadcasted Date",
-    "transactionItemLabelConfirmedDate": "Confirmed Date",
+    "transactionItemLabelConfirmedDate": "Timestamp",
     "transactionItemLabelDetails": "Transfer Details",
     "sendItemLabelTargetTick": "Target Tick",
     "sendItemLabelTargetTickAutomatic": "Automatically: Current + {addingTicks}",
@@ -415,7 +429,7 @@
     "sendItemLabelTargetTickManual": "Manual Override",
     "sendItemLabelDetermineTargetTick": "Determine Target Tick",
     "sendItemDialogErrorGeneralTitle": "Error while generating transaction",
-    "sendItemDialogResendTitle": "Resend failed transaction?",
+    "sendItemDialogResendTitle": "Resend transaction?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -453,7 +467,6 @@
     "addAccountWatchOnlyHintQubicAddress": "Enter a Qubic Address",
     "addAccountCreateNewAccountModalBottomSheet": "Create New Account",
     "addAccountWatchOnlyAddressModalBottomSheet": "Watch Only Account",
-    "sendAssetLabelNumberOfShares": "Number of Shares",
     "sendAssetLabelTransactionCost": "Transaction Cost (fixed)",
     "sendAssetButtonTransfer": "Transfer",
     "sendAssetErrorTickIsInThePast": "Provided tick is in the past. Current tick is {currentTick}",
@@ -599,7 +612,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
+    "generalAllTransactionDetails": "Transaction ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nTimestamp: {confirmed}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
         "placeholders": {
@@ -733,6 +746,18 @@
     },
     "cmdErrorCreatingVaultFileGeneric": "Error trying to create vault file",
     "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Error trying to create vault file. Generated vault file is empty",
+    "cmdErrorCreatingSignatureGeneric": "Error trying to create signature",
+    "cmdErrorCreatingSignatureDigestEmpty": "Error trying to create signature. Digest is empty",
+    "cmdErrorCreatingSignatureSignedDataEmpty": "Error trying to create signature. Signed data is empty",
+    "cmdErrorCreatingSignatureSignatureEmpty": "Error trying to create signature. Signature is empty",
+    "cmdErrorCreatingSignature": "Error trying to create signature: {errorDescription}",
+    "@cmdErrorCreatingSignature": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
     "importVaultFileOrPasswordError": "Selected file is not a Qubic Vault file or password is incorrect",
     "importVaultFileGenericError": "Error while trying to import vault file",
     "importVaultFileSeedsNullError": "Vault file is malformed and does not contain account information",
@@ -776,5 +801,113 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "wcScopeRequestAccounts": "View your wallet accounts and their balance",
+    "wcScopeSendQubic": "Ask you to send Qubic from your wallet accounts",
+    "wcScopeSendAssets": "Ask you to send Qubic Assets from your wallet accounts",
+    "wcScopeSignTransaction": "Ask you to sign transactions with your private seed",
+    "wcScopeSign": "Ask you to sign messages with your private seed",
+    "wcScopeForbiddenTransfer": "Transfer Qubic or Qubic Assets without your consent",
+    "wcUnknownDapp": "Unknown dApp",
+    "wcAppInfoHeader": "This app is able to",
+    "wcAppInfoHeaderPair": "This app will be able to",
+    "wcAppInfoHeaderPairForbidden": "This app will not be able to",
+    "wcErrorUserDisconnected": "User forcefully disconnected",
+    "wcErrorInvalidURL": "Invalid WalletConnect connection URL",
+    "wcErrorDeprecatedURL": "Deprecated WalletConnect connection URL",
+    "wcErrorUnsupportedChains": "Pair request contains unsupported chains",
+    "wcErrorUnsupportedMethods": "Pair request contains unsupported methods",
+    "wcErrorUnsupportedEvents": "Pair request contains unsupported events",
+    "wcErrorUnsupportedAccounts": "Pair request contains unsupported accounts",
+    "wcErrorUnsupportedNamespaces": "Pair request contains unsupported namespaces",
+    "wcErrorUsedURL": "A connection has already been established via this URL",
+    "wcErrorPairingTimeout": "Pairing request timed out.",
+    "wcErrorProposalExpired": "The session proposal has expired",
+    "wcErrorTickExpired": "Tick value is already in the past",
+    "wcErrorUnsupportedNetwork": "Unsupported Network",
+    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Main Network",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcRevokePermissions": "Revoke permissions",
+    "wcDappsConnectedNone": "No Active Connections",
+    "wcDappsConnectedNoneHint": "Once you connect to any dapps, you will be able to manage them here.",
+    "wcConnectionApproved": "WalletConnect connection approved",
+    "wcConnectionRejected": "WalletConnect connection rejected",
+    "wcConnectionProposalTimeout": "WalletConnect session proposal timed out",
+    "wcPointCameraToQR": "Please point the camera to a QR Code containing the WalletConnect connection info",
+    "wcAddWcTitle": "Pair via WalletConnect",
+    "wcAddURL": "Connect to a dapp by pasting WalletConnect connection URL.",
+    "wcAddConnectionScan": "Open a Web3 app that supports WalletConnect. Scan the app's QR code, or paste its connection link",
+    "wcNoPermissions": "This app doesn't have any permissions",
+    "wcOpenApp": "Open App",
+    "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",
+    "wcExpiresInLessThanDay": "Session expires less than day",
+    "pasteURLHere": "Paste URL here",
+    "approvingConnection": "Approving connection",
+    "pleaseWait": "Please wait",
+    "wcApproveSignTransferOf": "Sign the transfer of",
+    "wcApproveTransferOf": "Transfer of",
+    "wcApproveSignOf": "Sign the following message",
+    "wcApprovedSignedTransaction": "Signed transaction and successfully sent to dApp",
+    "wcApprovedSignedMessage": "Signed message and successfully sent to dApp",
+    "wcDisconnectAll": "Disconnect All Apps",
+    "wcDisconnectAllConfirm": "Disconnecting the apps will remove all access to your wallet",
+    "wcDisconnect": "Disconnect",
+    "wcDisconnectConfirm": "Disconnecting this app will remove access to your wallet",
+    "wcSmartContractUnknown": "Unknown",
+    "wcSmartContractWarningTitle": "\"{smartContractName}\" Smart Contract Transaction",
+    "@wcSmartContractWarningTitle": {
+        "placeholders": {
+            "smartContractName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcSmartContractWarningDescription": "Make sure you trust this DApp. By approving the transaction, you might authorise to transfer Qubics and/or assets",
+    "wcAddConnection": "Add New Connection",
+    "signBase64GenericError": "Error trying to sign base64 string: {errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "Error trying to sign UTF-8 string: {errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "Error trying to sign ASCII string: {errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "uriIsEmpty": "URI is empty",
+    "uriSchemeUnknown": "Unknown URI scheme",
+    "uriInvalidFormat": "Invalid URI format",
+    "uriUnknownAction": "Unknown URI action",
+    "uriInvalidWCPairUrl": "Invalid WC connection URL. Should start with wc:",
+    "wcDomainScamTitle": "Known Security Risk",
+    "wcDomainScamDescription": "This domain is flagged as unsafe by multiple security providers. Leave it immediately to protect your assets",
+    "wcDomainMismatchTitle": "Domain Mismatch",
+    "wcDomainMismatchDescription": "This website has a domain that does not match the sender of this request. Approving may lead to loss of funds",
+    "wcDomainUnkownTitle": "Unknown Domain",
+    "wcDomainUnkownDescription": "This domain cannot be verified. Check the request carefully before approving",
+    "wcApproveTransaction": "Approve Transaction",
+    "wcApproveTransfer": "Approve Transfer",
+    "wcSendAssets": "Send Assets",
+    "wcSignMessage": "Sign Message",
+    "wcSignTransaction": "Sign Transaction"
 }

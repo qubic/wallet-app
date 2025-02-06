@@ -6,7 +6,10 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
+import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/models/app_error.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -37,6 +40,7 @@ class ExplorerResultPage extends StatefulWidget {
 class _ExplorerResultPageState extends State<ExplorerResultPage> {
   final ExplorerStore explorerStore = getIt<ExplorerStore>();
   final QubicLi qubicLi = getIt<QubicLi>();
+  final QubicArchiveApi qubicArchiveApi = getIt<QubicArchiveApi>();
 
   late int? tick;
   late String? qubicId;
@@ -45,15 +49,14 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
 
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
 
-  ExplorerTickInfoDto? tickInfo;
   ExplorerIdInfoDto? idInfo;
+  List<ExplorerTransactionDto>? transactions;
+  ExplorerTickDto? tickData;
 
   bool isLoading = true;
   String? error = "An error";
   @override
   void initState() {
-    super.initState();
-
     focusedTransactionHash = widget.focusedTransactionHash;
 
     tick = widget.tick;
@@ -61,6 +64,7 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
     resultType = widget.resultType;
     validateNonMissingQueryData();
     getInfo();
+    super.initState();
   }
 
   // Validates that query data is not missing for this widget
@@ -76,23 +80,37 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
   }
 
   //Gets info from the backend and stores it in the store
-  void getInfo() {
+  void getInfo() async {
     setState(() {
       isLoading = true;
       error = null;
     });
-    if (resultType == ExplorerResultType.tick) {
-      qubicLi.getExplorerTickInfo(tick!).then((value) {
+
+    if (resultType == ExplorerResultType.tick ||
+        resultType == ExplorerResultType.transaction) {
+      try {
+        final futures = await Future.wait([
+          qubicArchiveApi.getExplorerTick(tick!),
+          qubicArchiveApi.getExplorerTickTransactions(tick!),
+        ]);
+        tickData = futures[0] as ExplorerTickDto;
+        transactions = futures[1] as List<ExplorerTransactionDto>;
+        if (tickData?.epoch != null && tickData?.computorIndex != null) {
+          final computers =
+              await qubicArchiveApi.getComputors(tickData!.epoch!);
+          tickData!.tickLeaderId =
+              computers.identities[tickData!.computorIndex!];
+        }
+        isLoading = false;
+        setState(() {});
+      } catch (err) {
         setState(() {
-          tickInfo = value;
-          isLoading = false;
+          error = err is AppError ? err.message : err.toString();
         });
-      },
-          onError: (err) => setState(() {
-                error = err.toString().replaceAll("Exception: ", "");
-              }));
-    } else if (resultType == ExplorerResultType.publicId) {
-      //PUBLIC ID
+      }
+    }
+    // TODO Migrate this to get Id info and Id latest transactions
+    else if (resultType == ExplorerResultType.publicId) {
       qubicLi.getExplorerIdInfo(qubicId!).then((value) {
         setState(() {
           idInfo = value;
@@ -102,23 +120,7 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
           onError: (err) => setState(() {
                 error = err.toString().replaceAll("Exception: ", "");
               }));
-    } else if (resultType == ExplorerResultType.transaction) {
-      qubicLi.getExplorerTickInfo(tick!).then((value) {
-        explorerStore.setExplorerTickInfo(value);
-        setState(() {
-          tickInfo = value;
-          isLoading = false;
-        });
-      },
-          onError: (err) => setState(() {
-                error = err.toString().replaceAll("Exception: ", "");
-              }));
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   Widget getErrorView() {
@@ -126,15 +128,20 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
     return Center(
         child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
           const Icon(Icons.error_outline, size: 48),
           const SizedBox(height: ThemePaddings.normalPadding),
           Text(l10n.generalLabelError,
+              textAlign: TextAlign.center,
               style: Theme.of(context)
                   .textTheme
                   .displayMedium!
                   .copyWith(fontFamily: ThemeFonts.primary)),
-          Text(error ?? "-"),
+          Text(
+            error ?? "-",
+            textAlign: TextAlign.center,
+          ),
           FilledButton(
               child: Text(l10n.generalButtonTryAgain),
               onPressed: () {
@@ -176,20 +183,21 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
     return resultType == ExplorerResultType.tick ||
             resultType == ExplorerResultType.transaction
         ? ExplorerResultPageTick(
-            tickInfo: tickInfo!,
+            tickInfo: tickData!,
+            transactions: transactions,
             focusedTransactionId: focusedTransactionHash,
             onRequestViewChange: (type, tick, publicId) {
               if (type == RequestViewChangeType.tick) {
                 setState(() {
                   focusedTransactionHash = null;
-                  tickInfo = null;
+                  tickData = null;
                   this.tick = tick;
                   getInfo();
                 });
               } else if (type == RequestViewChangeType.publicId) {
                 setState(() {
                   focusedTransactionHash = null;
-                  tickInfo = null;
+                  tickData = null;
                   qubicId = publicId;
                   getInfo();
                 });

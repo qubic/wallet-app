@@ -27,14 +27,11 @@ class TransactionResend extends StatelessWidget {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   //Gets the labels for Source and Destination in transcations. Also copies to clipboard
-  Widget getFromTo(BuildContext context, String prepend, String id) {
+  Widget getFromTo(BuildContext context, String prepend, String accountId) {
     final l10n = l10nOf(context);
     return Column(mainAxisAlignment: MainAxisAlignment.end, children: [
       Observer(builder: (context) {
-        QubicListVm? source =
-            appStore.currentQubicIDs.firstWhereOrNull((element) {
-          return element.publicId == id;
-        });
+        QubicListVm? source = appStore.findAccountById(accountId);
         if (source != null) {
           return Container(
               width: double.infinity,
@@ -46,7 +43,7 @@ class TransactionResend extends StatelessWidget {
             child: Text(l10n.generalLabelToFromAddress(prepend),
                 style: TextStyles.labelText));
       }),
-      Text(id,
+      Text(accountId,
           style: Theme.of(context)
               .textTheme
               .titleSmall!
@@ -71,18 +68,16 @@ class TransactionResend extends StatelessWidget {
     return Container(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Flex(direction: Axis.horizontal, children: [
-            Text(
-                numberFormat.format(
-                  item.amount,
-                ),
-                style: TextStyles.accountAmount),
-            const SizedBox(width: 6, height: 6),
-            CurrencyLabel(
-                currencyName: l10n.generalLabelCurrencyQubic,
-                isInHeader: false,
-                style: TextStyles.accountAmountLabel)
-          ]),
+          AmountFormatted(
+              labelOffset: -0,
+              labelHorizOffset: -6,
+              textStyle: MediaQuery.of(context).size.width < 400
+                  ? TextStyles.accountAmount.copyWith(fontSize: 22)
+                  : TextStyles.accountAmount,
+              labelStyle: TextStyles.accountAmountLabel,
+              amount: item.amount,
+              isInHeader: false,
+              currencyName: l10n.generalLabelCurrencyQubic),
           const SizedBox(height: ThemePaddings.normalPadding),
           getFromTo(context, l10n.generalLabelFrom, item.sourceId),
           const SizedBox(height: ThemePaddings.normalPadding),

@@ -1,34 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/helpers/target_tick.dart';
 
 class Send extends StatefulWidget {
   final QubicListVm item;
-  const Send({super.key, required this.item});
+  final String? destId;
+  final int? amount;
+  const Send({super.key, required this.item, this.destId, this.amount});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -39,6 +43,8 @@ class _SendState extends State<Send> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi apiService = getIt<QubicLi>();
+  final _liveApi = getIt<QubicLiveApi>();
+  final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   String? transferError;
@@ -83,6 +89,8 @@ class _SendState extends State<Send> {
 
   @override
   void initState() {
+    destinationID = TextEditingController(text: widget.destId);
+    amount = TextEditingController(text: widget.amount?.toString() ?? "");
     knownQubicIDs = appStore.currentQubicIDs
         .where((account) => account.publicId != widget.item.publicId)
         .toList();
@@ -198,65 +206,74 @@ class _SendState extends State<Send> {
     final l10n = l10nOf(context);
 
     showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return SafeArea(
-              child: Container(
-            height: 400,
-            child: Center(
-                child: Padding(
-              padding: const EdgeInsets.all(0),
-              child: Flex(
-                direction: Axis.vertical,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                          ThemePaddings.bigPadding,
-                          ThemePaddings.normalPadding,
-                          ThemePaddings.bigPadding,
-                          0),
-                      child: ThemedControls.pageHeader(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.8,
+          minChildSize: 0.2,
+          maxChildSize: 1,
+          expand: false,
+          builder: (context, scrollController) {
+            return ListView.separated(
+              controller: scrollController,
+              itemCount: knownQubicIDs.length + 1, // Extra item for header
+              separatorBuilder: (context, index) {
+                if (index == 0) return const SizedBox.shrink();
+                return const Divider(
+                  indent: ThemePaddings.bigPadding,
+                  endIndent: ThemePaddings.bigPadding,
+                  color: LightThemeColors.primary,
+                );
+              },
+              itemBuilder: (BuildContext context, int index) {
+                if (index == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      ThemePaddings.bigPadding,
+                      ThemePaddings.miniPadding,
+                      ThemePaddings.bigPadding,
+                      0,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: LightThemeColors.navBorder,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(height: ThemePaddings.smallPadding),
+                        ThemedControls.pageHeader(
                           headerText:
                               l10n.sendItemLabelSelectSenderAddressLineOne,
-                          subheaderText:
-                              l10n.sendItemLabelSelectSenderAddressLineTwo)),
-                  Expanded(
-                    child: ListView.separated(
-                        itemCount: knownQubicIDs.length,
-                        separatorBuilder: (context, index) {
-                          return const Divider(
-                            indent: ThemePaddings.bigPadding,
-                            endIndent: ThemePaddings.bigPadding,
-                            color: LightThemeColors.primary,
-                          );
-                        },
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: ThemePaddings.bigPadding,
-                                    vertical: ThemePaddings.smallPadding),
-                                child: IdListItemSelect(
-                                    item: knownQubicIDs[index])),
-                            onTap: () {
-                              destinationID.text =
-                                  knownQubicIDs[index].publicId;
-
-                              Navigator.pop(context);
-                            },
-                          );
-                        }),
-                  )
-                ],
-              ),
-            )),
-          ));
-        });
+                          subheaderText: null,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                final item = knownQubicIDs[index - 1];
+                return InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: ThemePaddings.bigPadding),
+                    child: IdListItemSelect(item: item),
+                  ),
+                  onTap: () {
+                    destinationID.text = item.publicId;
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            );
+          },
+        );
+      },
+    );
   }
 
   List<Widget> getOverrideTick() {
@@ -346,7 +363,7 @@ class _SendState extends State<Send> {
             children: <Widget>[
               ThemedControls.pageHeader(
                   headerText: l10n.accountSendTitle,
-                  subheaderText: "from \"${widget.item.name}\""),
+                  subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalSmall(),
               Text(l10n.accountSendLabelDestinationAddress,
                   style: TextStyles.labelTextNormal),
@@ -370,6 +387,8 @@ class _SendState extends State<Send> {
                                     errorText: l10n.generalErrorRequiredField),
                                 CustomFormFieldValidators.isPublicID(
                                     context: context),
+                                verifyPublicId(l10n
+                                    .accountSendSectionInvalidDestinationAddress),
                               ]),
                               maxLines: 2,
                               style: TextStyles.inputBoxSmallStyle,
@@ -592,6 +611,14 @@ class _SendState extends State<Send> {
       return;
     }
 
+    if (await qubicCmd.verifyIdentity(destinationID.text) == false) {
+      setState(() {
+        validPublicId = false;
+      });
+      _formKey.currentState?.validate();
+      return;
+    }
+
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
       return;
@@ -607,13 +634,17 @@ class _SendState extends State<Send> {
       targetTick = int.tryParse(tickController.text);
     } else {
       // fetch latest tick
-      int latestTick = await apiService.getCurrentTick();
+      int latestTick = (await _liveApi.getCurrentTick()).tick;
       targetTick = latestTick + targetTickType.value;
     }
 
-    bool result = await sendTransactionDialog(context, widget.item.publicId,
-        destinationID.text, getQubicAmount(), targetTick!);
-    if (!result) {
+    SignedTransaction? result = await sendTransactionDialog(
+        context,
+        widget.item.publicId,
+        destinationID.text,
+        getQubicAmount(),
+        targetTick!);
+    if (result == null) {
       setState(() {
         isLoading = false;
       });
@@ -626,20 +657,33 @@ class _SendState extends State<Send> {
       isLoading = false;
       getIt.get<PersistentTabController>().jumpToTab(1);
     });
+    if (mounted) {
+      Navigator.pop(context);
+    }
+    if (mounted) {
+      final l10n = l10nOf(context);
+      _globalSnackBar.show(l10n
+          .generalSnackBarMessageTransactionSubmitted(targetTick.toString()));
+    }
 
-    Navigator.pop(context);
-
-    _globalSnackBar.show(l10n
-        .generalSnackBarMessageTransactionSubmitted(targetTick!.asThousands()));
+    setState(() {
+      isLoading = false;
+    });
   }
 
-  TextEditingController destinationID = TextEditingController();
-  TextEditingController amount = TextEditingController();
+  late final TextEditingController destinationID;
+  late final TextEditingController amount;
   TextEditingController tickController = TextEditingController();
 
   bool isLoading = false;
+  bool validPublicId = true;
+  FormFieldValidator verifyPublicId(String message) {
+    return (val) => !validPublicId ? message : null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    validPublicId = true;
     return PopScope(
         canPop: !isLoading,
         child: Scaffold(

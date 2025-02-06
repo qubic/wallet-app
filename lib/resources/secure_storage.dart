@@ -3,6 +3,7 @@
 import 'package:dargon2_flutter/dargon2_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -26,6 +27,7 @@ class SecureStorageKeys {
   static const publicIdsList = "${prepend}_PIDs"; // The public IDs
   static const namesList = "${prepend}_NAMEs"; // The names of the IDs
   static const settings = "${prepend}_SETTINGS"; // The settings of the wallet
+  static const hiveEncryptionKey = "${prepend}_HIVE_KEY";
 }
 
 class PassAndHash {
@@ -53,6 +55,32 @@ class SecureStorage {
   late String prepend;
   SecureStorage() {
     storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  }
+
+  Future<String?> getHiveEncryptionKey() async {
+    try {
+      final keyString =
+          await storage.read(key: SecureStorageKeys.hiveEncryptionKey);
+      return keyString;
+    } catch (e) {
+      appLogger.e("Error reading Hive key: ${e.toString()}");
+      return null;
+    }
+  }
+
+  Future<void> storeHiveEncryptionKey(String newKey) async {
+    try {
+      await storage.write(
+        key: SecureStorageKeys.hiveEncryptionKey,
+        value: newKey,
+      );
+    } catch (e) {
+      appLogger.e("Error generating Hive key: ${e.toString()}");
+    }
+  }
+
+  Future<void> deleteHiveEncryptionKey() async {
+    await storage.delete(key: SecureStorageKeys.hiveEncryptionKey);
   }
 
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
@@ -161,7 +189,7 @@ class SecureStorage {
       await storage.write(
           key: SecureStorageKeys.criticalSettings, value: settings.toJSON());
     } catch (e) {
-      debugPrint(e.toString());
+      appLogger.e(e.toString());
       return false;
     }
     return true;
@@ -228,9 +256,8 @@ class SecureStorage {
     CriticalSettings settings = await getCriticalSettings();
     List<QubicListVm> list = [];
     for (int i = 0; i < settings.publicIds.length; i++) {
-      list.add(QubicListVm(
-          settings.publicIds[i], settings.names[i], null, null, null,
-          settings.isWatchOnly[i]));
+      list.add(QubicListVm(settings.publicIds[i], settings.names[i], null, null,
+          null, settings.isWatchOnly[i]));
     }
     return list;
   }
@@ -289,7 +316,7 @@ class SecureStorage {
       throw Exception("ID not found");
     }
     return QubicId(settings.privateSeeds[i], settings.publicIds[i],
-          settings.names[i], null);
+        settings.names[i], null);
   }
 
   //Removes a Qubic ID from the secure Storage (Based on its public key)

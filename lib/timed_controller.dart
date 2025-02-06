@@ -3,8 +3,14 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/models/app_error.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
+import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/explorer_store.dart';
 
 class TimedController extends WidgetsBindingObserver {
   Timer? _fetchTimer;
@@ -14,7 +20,12 @@ class TimedController extends WidgetsBindingObserver {
   DateTime? lastFetch;
   DateTime? lastFetchSlow;
   final ApplicationStore appStore = getIt<ApplicationStore>();
+  final ExplorerStore explorerStore = getIt<ExplorerStore>();
   final QubicLi _apiService = getIt<QubicLi>();
+  final WalletConnectService _walletConnectService =
+      getIt<WalletConnectService>();
+  final _liveApi = getIt<QubicLiveApi>();
+  final QubicStatsApi _statsApi = getIt<QubicStatsApi>();
 
   stopFetchTimers() {
     if (_fetchTimer != null) {
@@ -50,44 +61,80 @@ class TimedController extends WidgetsBindingObserver {
       //Fetch network balances
       if (!_apiService.gettingNetworkBalances) {
         _apiService.getNetworkBalances(myIds).then((balances) {
-          debugPrint("Got balances for ${balances.length} IDs");
-          appStore.setAmounts(balances);
+          Map<String, int> changedIds = appStore.setAmounts(balances);
+          if (changedIds.isNotEmpty) {
+            Map<String, int> changedIdsWithSeed = {};
+
+            //Filter out only non WatchOnly accounts
+            for (var element in changedIds.entries) {
+              if (appStore.currentQubicIDs.any((currentQubicId) {
+                return currentQubicId.publicId == element.key &&
+                    currentQubicId.watchOnly == false;
+              })) {
+                changedIdsWithSeed[element.key] = element.value;
+              }
+            }
+            if (changedIdsWithSeed.isNotEmpty) {
+              _walletConnectService
+                  .triggerAmountChangedEvent(changedIdsWithSeed);
+            }
+          }
         }, onError: (e) {
           appStore
               .reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-          //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
         });
       }
 
       //Fetch network assets
       if (!_apiService.gettingNetworkAssets) {
-        _apiService
-            .getCurrentAssets(myIds)
-            .then((assets) => appStore.setAssets(assets));
+        _apiService.getCurrentAssets(myIds).then((assets) {
+          Map<String, List<QubicAssetDto>> changedIds =
+              appStore.setAssets(assets);
+
+          Map<String, List<QubicAssetDto>> changedIdsWithSeed = {};
+
+          //Filter out only non WatchOnly accounts
+          for (var element in changedIds.entries) {
+            if (appStore.currentQubicIDs.any((currentQubicId) {
+              return currentQubicId.publicId == element.key &&
+                  currentQubicId.watchOnly == false;
+            })) {
+              changedIdsWithSeed[element.key] = element.value;
+            }
+          }
+
+          if (changedIdsWithSeed.isNotEmpty) {
+            _walletConnectService
+                .triggerAssetAmountChangedEvent(changedIdsWithSeed);
+          }
+        }, onError: (e) {
+          appStore
+              .reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+        });
       }
 
       if (!_apiService.gettingNetworkTransactions) {
-        _apiService
-            .getTransactions(myIds)
-            .then((transactions) => appStore.updateTransactions(transactions));
+        _apiService.getTransactions(myIds).then((transactions) {
+          appStore.updateTransactions(transactions);
+          appStore.validatePendingTransactions(appStore.currentTick);
+        });
       }
     } on Exception catch (e) {
       appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
     }
   }
 
   /// Fetch the market info from the backend
   /// If the call fails, it shows a snackbar with the error message
-  /// If the call succeeds, it updates the store with the results
-  _getMarketInfo() async {
-    _apiService.getMarketInfo().then((marketInfo) {
-      debugPrint(
-          "Got market info: ${marketInfo.capitalization} ${marketInfo.price} ${marketInfo.currency} ${marketInfo.supply}");
+  /// If the call succeeds, it updates the appStore with the results
+  Future<void> _getMarketInfo() async {
+    try {
+      final marketInfo = await _statsApi.getMarketInfo();
       appStore.setMarketInfo(marketInfo);
-    }).onError((e, stackTrace) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-    });
+      explorerStore.setNetworkOverview(marketInfo);
+    } on AppError catch (e) {
+      appStore.reportGlobalError(e.message);
+    }
   }
 
   /// Called by the main timer
@@ -96,7 +143,7 @@ class TimedController extends WidgetsBindingObserver {
   fetchData() async {
     try {
       //Fetch the ticks
-      int tick = await _apiService.getCurrentTick();
+      int tick = (await _liveApi.getCurrentTick()).tick;
       appStore.currentTick = tick;
       _getNetworkBalancesAndAssets();
       lastFetch = DateTime.now();

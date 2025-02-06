@@ -13,12 +13,25 @@ abstract class Config {
   static const URL_NetworkTransactions = "Wallet/Transactions";
   static const URL_Assets = "Wallet/Assets";
   static const URL_Transaction = "Public/SubmitTransaction";
-  static const URL_TickOverview = "Network/TickOverview";
   static const URL_ExplorerQuery = "Search/Query";
   static const URL_ExplorerTickInfo = "Network/Block";
   static const URL_ExplorerIdInfo = "Network/Id";
 
   static const URL_MarketInfo = "Public/MarketInformation";
+
+  static const archiveDomain = "https://rpc.qubic.org";
+  static tickData(int tick) => "/v1/ticks/$tick/tick-data";
+  static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
+  static computors(int epoch) => "/v1/epochs/$epoch/computors";
+  static transaction(String transaction) => "/v2/transactions/$transaction";
+  static networkTicks(int epoch) => "/v2/epochs/$epoch/ticks";
+
+  static const statsDomain = "https://rpc.qubic.org";
+  static const latestStatsUrl = "/v1/latest-stats";
+
+  static const liveDomain = "https://rpc.qubic.org";
+  static const submitTransaction = "/v1/broadcast-transaction";
+  static const currentTick = "/v1/tick-info";
 
   static const authUser = "guest@qubic.li";
   static const authPass = "guest13@Qubic.li";
@@ -55,8 +68,29 @@ abstract class Config {
               "https://github.com/qubic/ts-library-wrapper/releases/download/3.0.9/qubic-helper-mac-x64-3_0_9",
           checksum: "20f729d82643f02df2e1f49dfad96951"));
 
+  static const qubicJSAssetPath =
+      "assets/qubic_js/qubic-helper-html-3_1_0.html";
+
   // This will only be read in Debug mode. In Release mode, proxy setup is ignored.
   static const bool useProxy = false; // Can be set to `true` to use a proxy
   static const String proxyIP = '192.168.1.1'; // Replace with actual proxy IP
   static const int proxyPort = 8888; // Replace with actual proxy port
+
+  //Configuration for Wallet Connect
+  static const walletConnectProjectId = "b2ace378845f0e4806ef23d2732f77a4";
+  static const walletConnectName = "Qubic Wallet";
+  static const walletConnectDescription = "The official wallet for Qubic chain";
+  static const walletConnectURL = "https://www.qubic.org";
+  static const walletConnectIcons = [
+    "https://wallet.qubic.org/assets/logos/qubic_wallet_dark.svg"
+  ];
+  static const walletConnectRedirectNative = "qubicwallet://";
+  static const walletConnectRedirectUniversal = "https://wallet.qubic.org";
+
+  static const walletConnectChainId = "qubic:main";
+  static const wallectConnectUrlLength = 187;
+  static const wallectConnectPairingTimeoutSeconds = 4;
+  static const walletConnectExistsTimeoutSeconds = 2;
+
+  static const CustomURLScheme = "qubic-wallet";
 }

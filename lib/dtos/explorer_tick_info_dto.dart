@@ -72,3 +72,51 @@ class ExplorerTickInfoDto {
         transactions);
   }
 }
+
+class ExplorerTickDto {
+  final int? computorIndex;
+  final int? epoch;
+  final int tickNumber;
+  final DateTime? timestamp;
+  final String? varStruct;
+  final String? timeLock;
+  final List<String>? transactionIds;
+  final List<String>? contractFees;
+  final String? signatureHex;
+  final bool completed;
+  String? tickLeaderId;
+
+  ExplorerTickDto({
+    this.computorIndex,
+    this.epoch,
+    required this.tickNumber,
+    this.timestamp,
+    this.varStruct,
+    this.timeLock,
+    this.transactionIds,
+    this.contractFees,
+    this.signatureHex,
+    this.tickLeaderId,
+    this.completed = true,
+  });
+
+  factory ExplorerTickDto.fromJson(Map<String, dynamic> json) =>
+      ExplorerTickDto(
+        computorIndex: json["computorIndex"],
+        epoch: json["epoch"],
+        tickNumber: json["tickNumber"],
+        timestamp: json["timestamp"] == null
+            ? null
+            : DateTime.fromMillisecondsSinceEpoch(
+                int.tryParse(json["timestamp"] ?? 0) ?? 0),
+        varStruct: json["varStruct"],
+        timeLock: json["timeLock"],
+        transactionIds: json["transactionIds"] == null
+            ? null
+            : List<String>.from(json["transactionIds"].map((x) => x)),
+        contractFees: json["contractFees"] == null
+            ? null
+            : List<String>.from(json["contractFees"].map((x) => x)),
+        signatureHex: json["signatureHex"],
+      );
+}

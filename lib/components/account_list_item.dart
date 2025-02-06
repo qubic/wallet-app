@@ -5,8 +5,11 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
+import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/currency_helpers.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -17,6 +20,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed.
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_warning_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -155,43 +159,21 @@ class _AccountListItemState extends State<AccountListItem> {
 
   showRemoveDialog(BuildContext context) {
     final l10n = l10nOf(context);
-    late BuildContext dialogContext;
-
-    // set up the buttons
-    Widget cancelButton = ThemedControls.transparentButtonNormal(
-        onPressed: () {
-          Navigator.pop(dialogContext);
-        },
-        text: l10n.generalButtonCancel);
-
-    Widget continueButton = ThemedControls.primaryButtonNormal(
-      text: l10n.deleteAccountDialogButtonDelete,
-      onPressed: () async {
-        await _appStore.removeID(widget.item.publicId);
-        Navigator.pop(dialogContext);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(l10n.deleteAccountDialogTitle, style: TextStyles.alertHeader),
-      content: Text(
-          isItemWatchOnly()
-              ? l10n.deleteAccountDialogMessageWatchOnly
-              : l10n.deleteAccountDialogMessage,
-          style: TextStyles.alertText),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
+    WalletConnectService wallet3ConnectService = getIt<WalletConnectService>();
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        dialogContext = context;
-        return alert;
+        return ConfirmationDialog(
+          title: l10n.deleteAccountDialogTitle,
+          content: isItemWatchOnly()
+              ? l10n.deleteAccountDialogMessageWatchOnly
+              : l10n.deleteAccountDialogMessage,
+          continueText: l10n.deleteAccountDialogButtonDelete,
+          continueFunction: () async {
+            await _appStore.removeID(widget.item.publicId);
+            wallet3ConnectService.triggerAccountsChangedEvent();
+          },
+        );
       },
     );
   }
@@ -373,8 +355,7 @@ class _AccountListItemState extends State<AccountListItem> {
 
     for (var key in widget.item.assets.keys) {
       var asset = widget.item.assets[key];
-      bool isToken = asset!.contractIndex == QubicSCID.qX.contractIndex &&
-          asset.contractName != "QX";
+      bool isToken = !QubicAssetDto.isSmartContractShare(asset!);
 
       int num = asset.ownedAmount ?? asset.possessedAmount ?? 0;
 
@@ -474,20 +455,34 @@ class _AccountListItemState extends State<AccountListItem> {
                                     sizeFactor: animation, child: child);
                                 //return ScaleTransition(scale: animation, child: child);
                               },
-                              child: AmountFormatted(
-                                key: ValueKey<String>(
-                                    "qubicAmount${widget.item.publicId}-${widget.item.amount}"),
-                                amount: widget.item.amount,
-                                isInHeader: false,
-                                labelOffset: -0,
-                                labelHorizOffset: -6,
-                                textStyle:
-                                    MediaQuery.of(context).size.width < 400
-                                        ? TextStyles.accountAmount
-                                            .copyWith(fontSize: 22)
-                                        : TextStyles.accountAmount,
-                                labelStyle: TextStyles.accountAmountLabel,
-                                currencyName: l10n.generalLabelCurrencyQubic,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AmountFormatted(
+                                    key: ValueKey<String>(
+                                        "qubicAmount${widget.item.publicId}-${widget.item.amount}"),
+                                    amount: widget.item.amount,
+                                    isInHeader: false,
+                                    labelOffset: -0,
+                                    labelHorizOffset: -6,
+                                    textStyle:
+                                        MediaQuery.of(context).size.width < 400
+                                            ? TextStyles.accountAmount
+                                                .copyWith(fontSize: 22)
+                                            : TextStyles.accountAmount,
+                                    labelStyle: TextStyles.accountAmountLabel,
+                                    currencyName:
+                                        l10n.generalLabelCurrencyQubic,
+                                  ),
+                                  Text(
+                                      CurrencyHelpers.formatToUsdCurrency(
+                                          (widget.item.amount ?? 0) *
+                                              (_appStore.marketInfo?.price ??
+                                                  0)),
+                                      style: TextStyles.sliverSmall),
+                                  if (widget.item.assets.isNotEmpty)
+                                    ThemedControls.spacerVerticalSmall(),
+                                ],
                               )),
                           secondChild: Text(l10n.generalLabelHidden,
                               style: MediaQuery.of(context).size.width < 400

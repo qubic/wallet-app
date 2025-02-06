@@ -1,4 +1,40 @@
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
+
+class QubicAssetWC {
+  final int contractIndex;
+  final String assetName;
+  final String issuerIdentity;
+  final String contractName;
+  final int? ownedAmount;
+  final int? possessedAmount;
+
+  QubicAssetWC(
+      {required this.contractIndex,
+      required this.assetName,
+      required this.issuerIdentity,
+      required this.contractName,
+      required this.ownedAmount,
+      required this.possessedAmount});
+
+  factory QubicAssetWC.fromQubicAssetDto(QubicAssetDto source) {
+    return QubicAssetWC(
+        contractIndex: source.contractIndex,
+        assetName: source.assetName,
+        issuerIdentity: source.issuerIdentity,
+        contractName: source.contractName,
+        ownedAmount: source.ownedAmount,
+        possessedAmount: source.possessedAmount);
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['assetName'] = assetName;
+    data['issuerIdentity'] = issuerIdentity;
+    data['ownedAmount'] = ownedAmount;
+    return data;
+  }
+}
 
 /// A Qubic asset.
 class QubicAssetDto {
@@ -44,9 +80,7 @@ class QubicAssetDto {
 
   ///If true the asset is a smart contract share else it's a QX Token
   static isSmartContractShare(QubicAssetDto asset) {
-    return asset.contractIndex != QubicSCID.qX.contractIndex ||
-        (asset.contractIndex == QubicSCID.qX.contractIndex &&
-            asset.contractName == "QX");
+    return asset.issuerIdentity == QxInfo.mainAssetIssuer;
   }
 
   clone() {
@@ -111,6 +145,14 @@ class QubicAssetDto {
 
     data['ownedAmount'] = ownedAmount;
     data['tick'] = tick;
+    return data;
+  }
+
+  Map<String, dynamic> toWalletConnectJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['assetName'] = assetName;
+    data['issuerIdentity'] = issuerIdentity;
+    data['ownedAmount'] = ownedAmount;
     return data;
   }
 }

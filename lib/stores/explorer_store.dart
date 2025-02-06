@@ -1,8 +1,13 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:mobx/mobx.dart';
-import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
+import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
+import 'package:qubic_wallet/models/pagination_request_model.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
+
 part 'explorer_store.g.dart';
 
 // flutter pub run build_runner watch --delete-conflicting-outputs
@@ -10,47 +15,60 @@ part 'explorer_store.g.dart';
 class ExplorerStore = _ExplorerStore with _$ExplorerStore;
 
 abstract class _ExplorerStore with Store {
-  @observable
-  NetworkOverviewDto? networkOverview;
+  final qubicArchive = getIt<QubicArchiveApi>();
+  final statsApi = getIt<QubicStatsApi>();
 
   @observable
-  ExplorerTickInfoDto? tickInfo;
+  MarketInfoDto? networkOverview;
 
-  @action
-  setExplorerTickInfo(ExplorerTickInfoDto newTickInfo) {
-    tickInfo = ExplorerTickInfoDto.clone(newTickInfo);
+  @observable
+  NetworkTicksDto? networkTicks;
+
+  @observable
+  int pageNumber = 1;
+
+  @observable
+  bool isLoading = true;
+
+  Future<void> getTicks() async {
+    if (networkOverview == null) {
+      return;
+    }
+    final respose = await qubicArchive.getNetworkTicks(
+        networkOverview!.epoch!,
+        PaginationRequestModel(
+            page: pageNumber, pageSize: 36, isDescending: true));
+    setTicks(respose);
+  }
+
+  Future<void> getOverview() async {
+    final respose = await statsApi.getMarketInfo();
+    setNetworkOverview(respose);
   }
 
   @action
-  clearExplorerTickInfo() {
-    tickInfo = null;
+  void setLoading(bool value) {
+    isLoading = value;
   }
 
   @action
-  void setNetworkOverview(NetworkOverviewDto newOverview) {
-    networkOverview = NetworkOverviewDto.clone(newOverview);
+  void setTicks(NetworkTicksDto newTicks) {
+    networkTicks = newTicks;
+  }
+
+  @action
+  setPageNumber(int newPageNumber) {
+    pageNumber = newPageNumber;
+    getTicks();
+  }
+
+  @action
+  void setNetworkOverview(MarketInfoDto newOverview) {
+    networkOverview = newOverview;
   }
 
   @action
   void clearNetworkOverview() {
     networkOverview = null;
-  }
-
-  @observable
-  int pendingRequests = 0;
-
-  @action
-  void incrementPendingRequests() {
-    pendingRequests++;
-  }
-
-  @action
-  void decreasePendingRequests() {
-    pendingRequests--;
-  }
-
-  @action
-  void resetPendingRequests() {
-    pendingRequests = 0;
   }
 }

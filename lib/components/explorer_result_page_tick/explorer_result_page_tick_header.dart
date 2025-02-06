@@ -10,13 +10,18 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class ExplorerResultPageTickHeader extends StatelessWidget {
-  final ExplorerTickInfoDto tickInfo;
+  final ExplorerTickDto tickInfo;
+  final bool isNotEmpty;
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
 
   final Function(int tick)? onTickChange;
 
-  ExplorerResultPageTickHeader(
-      {super.key, required this.tickInfo, this.onTickChange});
+  ExplorerResultPageTickHeader({
+    super.key,
+    required this.tickInfo,
+    this.onTickChange,
+    required this.isNotEmpty,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +63,18 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                             ? IconButton(
                                 color: Theme.of(context).colorScheme.secondary,
                                 onPressed: () {
-                                  onTickChange!(tickInfo.tick - 1);
+                                  onTickChange!(tickInfo.tickNumber - 1);
                                 },
                                 icon:
                                     const Icon(Icons.keyboard_arrow_left_sharp))
                             : Container(),
-                        Text(tickInfo.tick.asThousands(),
+                        Text(tickInfo.tickNumber.asThousands(),
                             style: TextStyles.textHugeBold),
                         onTickChange != null
                             ? IconButton(
                                 color: Theme.of(context).colorScheme.secondary,
                                 onPressed: () {
-                                  onTickChange!(tickInfo.tick + 1);
+                                  onTickChange!(tickInfo.tickNumber + 1);
                                 },
                                 icon: const Icon(
                                     Icons.keyboard_arrow_right_sharp))
@@ -96,62 +101,40 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                     children: [
                       Text(l10n.explorerTickResultLabelBlockStatus,
                           style: panelHeaderStyle),
-                      Row(children: [
+                      Text(
                         tickInfo.completed
-                            ? tickInfo.isNonEmpty
-                                ? const Icon(Icons.check,
-                                    color: LightThemeColors.successIncoming)
-                                : const Icon(Icons.error,
-                                    color: LightThemeColors.error)
-                            : const Icon(Icons.question_mark,
-                                color: Colors.grey),
-                        Text(
-                          " ${tickInfo.completed ? tickInfo.isNonEmpty ? l10n.explorerTickResultLabelBlockStatusNonEmpty : l10n.explorerTickResultLabelBlockStatusEmpty : l10n.explorerTickResultLabelBlockStatusUnknown}",
-                          style: panelHeaderValue,
-                        )
-                      ]),
-                    ],
-                  )),
-              Flexible(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(l10n.explorerTickResultLabelDataStatus,
-                          style: panelHeaderStyle),
-                      Row(children: [
-                        tickInfo.completed
-                            ? const Icon(Icons.check,
-                                color: LightThemeColors.successIncoming)
-                            : const Icon(Icons.hourglass_empty,
-                                color: LightThemeColors.error),
-                        Text(
-                          " ${tickInfo.completed ? l10n.explorerTickResultLabelInfoCompleted : l10n.explorerTickResultLabelInfoNotValidated}",
-                          style: tickInfo.completed
-                              ? panelHeaderValue
-                              : panelHeaderValue.copyWith(
-                                  color: LightThemeColors.error),
-                        )
-                      ]),
+                            ? isNotEmpty
+                                ? l10n
+                                    .explorerTickResultLabelBlockStatusNonEmpty
+                                : l10n.explorerTickResultLabelBlockStatusEmpty
+                            : l10n.explorerTickResultLabelBlockStatusUnknown,
+                        style: panelHeaderValue.copyWith(
+                          color: isNotEmpty
+                              ? LightThemeColors.successIncoming
+                              : LightThemeColors.error,
+                        ),
+                      )
                     ],
                   )),
             ]),
-            ThemedControls.spacerVerticalNormal(),
-            Text(
-              l10n.explorerTickResultLabelTickLeader,
-              style: panelHeaderStyle,
-            ),
-            Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
-              Expanded(
-                  child: Text(
-                "${tickInfo.tickLeaderId} - (${tickInfo.tickLeaderShortCode} / ${tickInfo.tickLeaderIndex})",
-                style: panelHeaderValue,
-              )),
-              ThemedControls.spacerHorizontalSmall(),
-              CopyButton(
-                copiedText: tickInfo.tickLeaderId,
-              )
-            ]),
+            if (tickInfo.tickLeaderId != null) ...[
+              ThemedControls.spacerVerticalNormal(),
+              Text(
+                l10n.explorerTickResultLabelTickLeader,
+                style: panelHeaderStyle,
+              ),
+              Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
+                Expanded(
+                    child: Text(
+                  "${tickInfo.tickLeaderId}",
+                  style: panelHeaderValue,
+                )),
+                ThemedControls.spacerHorizontalSmall(),
+                CopyButton(
+                  copiedText: tickInfo.tickLeaderId ?? "-",
+                )
+              ]),
+            ],
             ThemedControls.spacerVerticalBig(),
           ]))
     ]);

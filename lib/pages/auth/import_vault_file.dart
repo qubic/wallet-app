@@ -15,6 +15,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
@@ -167,12 +168,14 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
                 try {
                   directory = await getDownloadsDirectory();
                 } catch (e) {
-                  debugPrint(
+                  appLogger.e(
                       "Error getting application documents directory: $e");
                 }
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                     dialogTitle: l10n.importVaultFilePickerLabel,
-                    withData: isMobile,
+                    withData: isMobile ||
+                        isWindows ||
+                        isMacOS, //TODO Sally check this in MacOS
                     initialDirectory: directory?.path,
                     //allowedExtensions: ['qubic-vault'],
                     lockParentWindow: true);
@@ -348,11 +351,8 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
         await appStore.checkWalletIsInitialized();
         List<QubicId> ids = [];
         for (var importedSeed in importedSeeds!) {
-          ids.add(QubicId(
-              importedSeed.getSeed(),
-              importedSeed.getPublicId(),
-              importedSeed.getAlias()!,
-              0));
+          ids.add(QubicId(importedSeed.getSeed(), importedSeed.getPublicId(),
+              importedSeed.getAlias()!, 0));
         }
         await appStore.addManyIds(ids);
         await getIt<QubicLi>().authenticate();

@@ -70,8 +70,6 @@ Widget getEmptyTransactionsWidget(
 
 IconData getTransactionStatusIcon(ComputedTransactionStatus status) {
   switch (status) {
-    case ComputedTransactionStatus.confirmed:
-      return Icons.check_circle;
     case ComputedTransactionStatus.failure:
       return Icons.highlight_remove_outlined;
     case ComputedTransactionStatus.invalid:
@@ -85,8 +83,6 @@ IconData getTransactionStatusIcon(ComputedTransactionStatus status) {
 
 Color getTransactionStatusColor(ComputedTransactionStatus status) {
   switch (status) {
-    case ComputedTransactionStatus.confirmed:
-      return Colors.blue;
     case ComputedTransactionStatus.failure:
       return LightThemeColors.error;
     case ComputedTransactionStatus.invalid:
@@ -102,8 +98,6 @@ String getTransactionStatusText(
     ComputedTransactionStatus status, BuildContext context) {
   final l10n = l10nOf(context);
   switch (status) {
-    case ComputedTransactionStatus.confirmed:
-      return l10n.transactionLabelStatusConfirmed;
     case ComputedTransactionStatus.failure:
       return l10n.transactionLabelStatusFailed;
     case ComputedTransactionStatus.invalid:
@@ -113,4 +107,41 @@ String getTransactionStatusText(
     case ComputedTransactionStatus.pending:
       return l10n.transactionLabelStatusPending;
   }
+}
+
+getTransactionFiltersInfo(BuildContext context,
+    {required int numberOfFilters,
+    required int numberOfResults,
+    required VoidCallback onTap}) {
+  final l10n = l10nOf(context);
+
+  return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: ThemePaddings.smallPadding,
+      ),
+      child: Flex(
+          direction: MediaQuery.of(context).size.width < 400
+              ? Axis.vertical
+              : Axis.horizontal,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(l10n.transfersLabelShowingTransactionsFound(numberOfResults),
+                style: TextStyles.secondaryText),
+            numberOfFilters == 0
+                ? Container()
+                : clearFiltersButton(context,
+                    numberOfFilters: numberOfFilters, onTap: onTap)
+          ]));
+}
+
+Widget clearFiltersButton(BuildContext context,
+    {required VoidCallback? onTap, required int numberOfFilters}) {
+  final l10n = l10nOf(context);
+
+  return TextButton(
+      onPressed: onTap,
+      child: Text(l10n.filterTransfersClearFilters(numberOfFilters),
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: Theme.of(context).colorScheme.secondary,
+              fontFamily: ThemeFonts.secondary)));
 }

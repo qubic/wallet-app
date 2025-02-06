@@ -179,16 +179,16 @@
     "explorerSearchLabelNoResults": "Aucun résultat correspondant",
     "explorerSearchLabelResults": "{count, plural, =1{1 résultat trouvé} other{{count} résultats trouvés}}",
     "explorerTickResultLabelBlockStatus": "Statut du Tick",
-    "explorerTickResultLabelBlockStatusEmpty": "Vide",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Non Vide",
+    "explorerTickResultLabelBlockStatusEmpty": "Vide / Non exécuté",
+    "explorerTickResultLabelBlockStatusNonEmpty": "Non vide / Exécuté",
     "explorerTickResultLabelBlockStatusUnknown": "Inconnu",
     "explorerTickResultLabelDataStatus": "Statut des Données",
     "explorerTickResultLabelInfoCompleted": "Terminé",
     "explorerTickResultLabelInfoNotValidated": "Non Validé",
-    "explorerTickResultLabelTickLeader": "Leader du Tick - (Code Court / Index)",
+    "explorerTickResultLabelTickLeader": "Leader du Tick",
     "explorerTickResultLabelNoTransactionsFound": "Aucune transaction dans ce tick",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction dans le tick} other{{count} transactions dans le tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Affichage de 1 sur 1 transaction dans le tick} other{Affichage de 1 sur {count} transactions dans le tick}}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Affichage de 1 sur 1 transaction dans le tick} other{Affichage de 1 sur {count} transactions dans le tick}}",
     "settingsTitle": "Paramètres",
     "settingsHeaderAccountsAndData": "Comptes et Données",
     "settingsLockWallet": "Verrouiller le Portefeuille",
@@ -252,7 +252,7 @@
     "transactionLabelStatusPending": "En attente",
     "transactionLabelStatusConfirmed": "Confirmé",
     "transactionLabelStatusFailed": "Échoué",
-    "transactionLabelStatusInvalid": "Échoué - invalide",
+    "transactionLabelStatusInvalid": "Invalide",
     "signInTitleOne": "Bienvenue dans le",
     "siginInTitleTwo": "Portefeuille Qubic",
     "welcomeTitle": "Bon retour !",
@@ -398,9 +398,7 @@
     "transactionItemButtonViewDetails": "Voir les Détails",
     "transactionItemButtonResend": "Renvoyer",
     "transactionItemLabelLeadToMoneyFlow": "Conduit à un Flux Monétaire",
-    "transactionItemLabelCreatedDate": "Date de Création",
-    "transactionItemLabelBroadcastedDate": "Date de Diffusion",
-    "transactionItemLabelConfirmedDate": "Date de Confirmation",
+    "transactionItemLabelConfirmedDate": "Horodatage",
     "transactionItemLabelDetails": "Détails du Transfert",
     "sendItemLabelTargetTick": "Tick Cible",
     "sendItemLabelTargetTickAutomatic": "Automatiquement: Actuel + {addingTicks}",
@@ -414,7 +412,7 @@
     "sendItemLabelTargetTickManual": "Remplacement Manuel",
     "sendItemLabelDetermineTargetTick": "Déterminer le Tick Cible",
     "sendItemDialogErrorGeneralTitle": "Erreur lors de la génération de la transaction",
-    "sendItemDialogResendTitle": "Renvoyer la transaction échouée?",
+    "sendItemDialogResendTitle": "Renvoyer la transaction?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (actuel {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -444,7 +442,6 @@
     "addAccountHintAddressInvalidPrivateSeed": "Seed privée fournie invalide",
     "addAccountErrorTamperedWalletTitle": "PORTEFEUILLE MODIFIÉ DÉTECTÉ",
     "addAccountErrorTamperedWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP OU RISQUEZ UNE PERTE DE FONDS",
-    "sendAssetLabelNumberOfShares": "Nombre de Parts",
     "sendAssetLabelTransactionCost": "Coût de la Transaction (fixe)",
     "sendAssetButtonTransfer": "Transférer",
     "sendAssetErrorTickIsInThePast": "Le tick fourni est dans le passé. Le tick actuel est {currentTick}",
@@ -761,7 +758,7 @@
     "explorerLabelPrice": "Prix",
     "explorerLabelMarketCap": "Capitalisation boursière",
     "accountExplorerLabelLatestTransactions": "Dernières Transactions",
-    "settingsLabelWalletConnect": "Connexion au portefeuille",
+    "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Adresse en lecture seule invalide. Veuillez vérifier l'adresse saisie.",
     "addAccountErrorVerifyIdentityError": "Impossible de vérifier l'adresse.",
     "addAccountWatchOnlyPageTitle": "Ajouter un compte en lecture seule",
@@ -781,5 +778,127 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "wcScopeRequestAccounts": "Afficher vos comptes de portefeuille et leur solde",
+    "wcScopeSendQubic": "Vous demander d'envoyer des Qubic depuis vos comptes de portefeuille",
+    "wcScopeSendAssets": "Vous demander d'envoyer des actifs Qubic depuis vos comptes de portefeuille",
+    "wcScopeSignTransaction": "Vous demander de signer des transactions avec votre clé privée",
+    "wcScopeSign": "Vous demander de signer des messages avec votre clé privée",
+    "wcScopeForbiddenTransfer": "Transférer des Qubic ou des actifs Qubic sans votre consentement",
+    "wcUnknownDapp": "dApp inconnue",
+    "wcAppInfoHeader": "Cette application peut",
+    "wcAppInfoHeaderPair": "Cette application pourra",
+    "wcAppInfoHeaderPairForbidden": "Cette application ne pourra pas",
+    "wcErrorUserDisconnected": "L'utilisateur s'est déconnecté de force",
+    "wcErrorInvalidURL": "URL de connexion WalletConnect invalide",
+    "wcErrorDeprecatedURL": "URL de connexion WalletConnect obsolète",
+    "wcErrorUnsupportedChains": "La demande de couplage contient des chaînes non prises en charge",
+    "wcErrorUnsupportedMethods": "La demande de couplage contient des méthodes non prises en charge",
+    "wcErrorUnsupportedEvents": "La demande de couplage contient des événements non pris en charge",
+    "wcErrorUnsupportedAccounts": "La demande de couplage contient des comptes non pris en charge",
+    "wcErrorUnsupportedNamespaces": "La demande de couplage contient des espaces de noms non pris en charge",
+    "wcErrorUsedURL": "Une connexion a déjà été établie via cette URL",
+    "wcErrorPairingTimeout": "La demande de couplage a expiré.",
+    "wcErrorUnsupportedNetwork": "Réseau non pris en charge",
+    "wcErrorUnsupportedNetworkDescription": "Cette application utilise le réseau {networkName}. Actuellement, Qubic Wallet ne prend en charge que les applications sur le réseau principal Qubic",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcRevokePermissions": "Révoquer les permissions",
+    "wcDappsConnectedNone": "Aucune connexion active",
+    "wcDappsConnectedNoneHint": "Une fois connecté à une dApp, vous pourrez les gérer ici.",
+    "wcConnectionApproved": "Connexion WalletConnect approuvée",
+    "wcConnectionRejected": "Connexion WalletConnect rejetée",
+    "wcConnectionProposalTimeout": "La proposition de session WalletConnect a expiré",
+    "wcPointCameraToQR": "Veuillez pointer la caméra vers un code QR contenant les informations de connexion WalletConnect",
+    "wcAddWcTitle": "Associer via WalletConnect",
+    "wcAddURL": "Connectez-vous à une dApp en collant l'URL de connexion WalletConnect.",
+    "wcAddConnectionScan": "Ouvrez une application Web3 qui prend en charge WalletConnect. Scannez le code QR de l'application ou collez son lien de connexion",
+    "wcNoPermissions": "Cette application n'a aucune permission",
+    "wcOpenApp": "Ouvrir l'application",
+    "wcExpiresInDays": "{count, plural, =1{La session expire dans 1 jour} other{La session expire dans {count} jours}}",
+    "wcExpiresInLessThanDay": "La session expire dans moins d'un jour",
+    "pasteURLHere": "Collez l'URL ici",
+    "approvingConnection": "Approbation de la connexion",
+    "pleaseWait": "Veuillez patienter",
+    "wcApproveSignTransferOf": "Signer le transfert de",
+    "wcApproveTransferOf": "Transfert de",
+    "wcApproveSignOf": "Signer le message suivant",
+    "wcApprovedSignedTransaction": "Transaction signée et envoyée avec succès à la dApp",
+    "wcApprovedSignedMessage": "Message signé et envoyé avec succès à la dApp",
+    "wcDisconnectAll": "Déconnecter toutes les applications",
+    "wcDisconnectAllConfirm": "Déconnecter les applications supprimera tout accès à votre portefeuille",
+    "wcDisconnect": "Déconnecter",
+    "wcDisconnectConfirm": "Déconnecter cette application supprimera l'accès à votre portefeuille",
+    "wcAddConnection": "Ajouter une connexion",
+    "signBase64GenericError": "Erreur lors de la tentative de signature de la chaîne base64 : {errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "Erreur lors de la tentative de signature de la chaîne UTF-8 : {errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "Erreur lors de la tentative de signature de la chaîne ASCII : {errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "wcDomainScamTitle": "Risque de sécurité connu",
+    "wcDomainScamDescription": "Ce domaine est signalé comme non sécurisé par plusieurs fournisseurs de sécurité. Quittez-le immédiatement pour protéger vos actifs",
+    "wcDomainMismatchTitle": "Incompatibilité de domaine",
+    "wcDomainMismatchDescription": "Ce site Web a un domaine qui ne correspond pas à l'expéditeur de cette demande. L'approbation pourrait entraîner une perte de fonds",
+    "wcDomainUnkownTitle": "Domaine inconnu",
+    "wcDomainUnkownDescription": "Ce domaine ne peut pas être vérifié. Vérifiez attentivement la demande avant de l'approuver",
+    "wcApproveTransaction": "Approuver la transaction",
+    "wcSignMessage": "Signer le message",
+    "wcSignTransaction": "Signer la transaction",
+    "generalButtonApprove": "Approuver",
+    "generalButtonReject": "Rejeter",
+    "generalButtonPaste": "Coller",
+    "generalButtonConnect": "Connecter",
+    "generalErrorUnexpectedError": "Une erreur inattendue s'est produite",
+    "generalErrorConnectionTimeout": "Le délai de connexion a expiré",
+    "generalErrorNoInternetConnection": "Pas de connexion Internet",
+    "generalErrorRequestCancelled": "Demande annulée",
+    "generalErrorCouldntParseResponse": "Impossible d'analyser la réponse",
+    "generalErrorServerError": "Erreur du serveur",
+    "generalStatusCode": "Code d'état",
+    "generalCode": "Code",
+    "accountSendSectionInvalidDestinationAddress": "Adresse de destination invalide",
+    "cmdErrorCreatingSignatureGeneric": "Erreur lors de la tentative de création de la signature",
+    "cmdErrorCreatingSignatureDigestEmpty": "Erreur lors de la tentative de création de la signature. Le digest est vide",
+    "cmdErrorCreatingSignatureSignedDataEmpty": "Erreur lors de la tentative de création de la signature. Les données signées sont vides",
+    "cmdErrorCreatingSignatureSignatureEmpty": "Erreur lors de la tentative de création de la signature. La signature est vide",
+    "cmdErrorCreatingSignature": "Erreur lors de la tentative de création de la signature : {errorDescription}",
+    "wcErrorProposalExpired": "La proposition de session a expiré",
+    "uriIsEmpty": "L'URI est vide",
+    "uriSchemeUnknown": "Schéma URI inconnu",
+    "uriInvalidFormat": "Format d'URI invalide",
+    "uriUnknownAction": "Action URI inconnue",
+    "uriInvalidWCPairUrl": "URL de connexion WC invalide. Devrait commencer par wc:",
+    "generalButtonClear": "Effacer",
+    "generalLabelPayload": "Payload",
+    "generalLabelInputType": "Type d'entrée",
+    "wcErrorTickExpired": "La valeur du tick est déjà dépassée",
+    "wcSmartContractUnknown": "Inconnu",
+    "wcSmartContractWarningTitle": "Transaction de contrat intelligent \"{smartContractName}\"",
+    "wcSmartContractWarningDescription": "Assurez-vous de faire confiance à cette DApp. En approuvant la transaction, vous pourriez autoriser le transfert de Qubics et/ou d'actifs",
+    "wcApproveTransfer": "Approuver le transfert",
+    "wcSendAssets": "Envoyer des actifs"
 }

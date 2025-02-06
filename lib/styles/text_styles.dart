@@ -35,6 +35,7 @@ class TextStyles {
     fontSize: ThemeFontSizes.large,
     fontWeight: FontWeight.w500,
     color: LightThemeColors.primary,
+    height: 0.11,
   );
 
   static TextStyle transparentButtonPrimary = const TextStyle(
@@ -92,6 +93,11 @@ class TextStyles {
   static TextStyle lightGreyTextSmallBold = const TextStyle(
       fontSize: ThemeFontSizes.small,
       fontWeight: FontWeight.bold,
+      color: LightThemeColors.textLightGrey);
+
+  static TextStyle lightGreyTextNormal = const TextStyle(
+      fontSize: ThemeFontSizes.normal,
+      fontWeight: FontWeight.normal,
       color: LightThemeColors.textLightGrey);
 
   static TextStyle labelText = const TextStyle(
@@ -321,5 +327,36 @@ class TextStyles {
     fontWeight: FontWeight.w500,
     height: 0.11,
     letterSpacing: ThemeFontSizes.letterSpacing,
+  );
+
+  static TextStyle walletConnectDappTitle = const TextStyle(
+    color: LightThemeColors.textTitle,
+    fontSize: ThemeFontSizes.huge,
+    fontWeight: FontWeight.w500,
+    letterSpacing: -0.02,
+  );
+
+  static TextStyle walletConnectDappUrl = const TextStyle(
+    color: LightThemeColors.walletConnectURLColor,
+    fontSize: ThemeFontSizes.large,
+    letterSpacing: -0.02,
+  );
+
+  static TextStyle walletConnectDapPermissionHeader = const TextStyle(
+      color: LightThemeColors.textColorSecondary,
+      fontSize: ThemeFontSizes.small,
+      fontWeight: FontWeight.w400,
+      letterSpacing: -0.02);
+
+  static TextStyle walletConnectDapPermission = const TextStyle(
+      fontSize: ThemeFontSizes.normal,
+      fontWeight: FontWeight.w400,
+      color: LightThemeColors.primary,
+      letterSpacing: -0.02);
+
+  static TextStyle walletConnect = const TextStyle(
+    fontSize: ThemeFontSizes.huge,
+    fontWeight: FontWeight.bold,
+    color: LightThemeColors.primary,
   );
 }

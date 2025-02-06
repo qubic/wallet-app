@@ -9,7 +9,7 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 enum CardItem { delete, rename }
 
 class ExplorerTransactionStatusItem extends StatelessWidget {
-  final ExplorerTransactionInfoDto item;
+  final ExplorerTransactionDto item;
 
   ExplorerTransactionStatusItem({super.key, required this.item});
 

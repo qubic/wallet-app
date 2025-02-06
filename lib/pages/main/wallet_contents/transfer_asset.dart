@@ -1,34 +1,34 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/helpers/target_tick.dart';
 
 class TransferAsset extends StatefulWidget {
   final QubicListVm item;
@@ -44,6 +44,8 @@ class _TransferAssetState extends State<TransferAsset> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicLi apiService = getIt<QubicLi>();
+  final _liveApi = getIt<QubicLiveApi>();
+  final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalKey<_TransferAssetState> widgetKey = GlobalKey();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
@@ -344,6 +346,7 @@ class _TransferAssetState extends State<TransferAsset> {
         FormBuilderValidators.required(
             errorText: l10n.generalErrorRequiredField),
         CustomFormFieldValidators.isPublicID(context: context),
+        verifyPublicId(l10n.accountSendSectionInvalidDestinationAddress),
       ]),
       maxLines: 2,
       style: TextStyles.inputBoxSmallStyle,
@@ -649,6 +652,14 @@ class _TransferAssetState extends State<TransferAsset> {
       return;
     }
 
+    if (await qubicCmd.verifyIdentity(destinationID.text) == false) {
+      setState(() {
+        validPublicId = false;
+      });
+      _formKey.currentState?.validate();
+      return;
+    }
+
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
       return;
@@ -664,11 +675,11 @@ class _TransferAssetState extends State<TransferAsset> {
       targetTick = int.tryParse(tickController.text);
     } else {
       // fetch latest tick
-      int latestTick = await apiService.getCurrentTick();
+      int latestTick = (await _liveApi.getCurrentTick()).tick;
       targetTick = latestTick + targetTickType.value;
     }
 
-    bool result = await sendAssetTransferTransactionDialog(
+    var result = await sendAssetTransferTransactionDialog(
         context,
         widget.item.publicId,
         destinationID.text,
@@ -677,7 +688,7 @@ class _TransferAssetState extends State<TransferAsset> {
         getAssetAmount(),
         targetTick!);
 
-    if (!result) {
+    if (result == null) {
       setState(() {
         isLoading = false;
       });
@@ -703,8 +714,14 @@ class _TransferAssetState extends State<TransferAsset> {
   TextEditingController tickController = TextEditingController();
 
   bool isLoading = false;
+  bool validPublicId = true;
+  FormFieldValidator verifyPublicId(String message) {
+    return (val) => !validPublicId ? message : null;
+  }
+
   @override
   Widget build(BuildContext context) {
+    validPublicId = true;
     return PopScope(
         canPop: !isLoading,
         child: Scaffold(

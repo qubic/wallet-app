@@ -1,5 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
+// ignore: depend_on_referenced_packages
+import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
@@ -10,9 +12,9 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
+
 part 'application_store.g.dart';
 
 // flutter pub run build_runner watch --delete-conflicting-outputs
@@ -21,6 +23,7 @@ class ApplicationStore = _ApplicationStore with _$ApplicationStore;
 
 abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
+  late final HiveStorage _hiveStorage = getIt<HiveStorage>();
 
   /// If there are stored wallet settings in the device
   @observable
@@ -44,6 +47,14 @@ abstract class _ApplicationStore with Store {
 
   @observable
   int currentTabIndex = 0;
+
+  @observable
+  Uri? currentInboundUri;
+
+  @action
+  void setCurrentInboundUrl(Uri? uri) {
+    currentInboundUri = uri;
+  }
 
 // Add an action to update the tab index
   @action
@@ -72,7 +83,6 @@ abstract class _ApplicationStore with Store {
   @observable
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
-
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
 
@@ -89,8 +99,10 @@ abstract class _ApplicationStore with Store {
   @computed
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
-    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(0,
-        (sum, qubic) => sum + (qubic.amount ?? 0) * marketInfo!.priceAsDouble);
+    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(
+        0,
+        (sum, qubic) =>
+            sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
   }
 
   //The market info for $QUBIC
@@ -169,7 +181,7 @@ abstract class _ApplicationStore with Store {
 
   @action
   setMarketInfo(MarketInfoDto newInfo) {
-    marketInfo = newInfo.clone();
+    marketInfo = newInfo;
   }
 
   /// Gets the stored seed by a public Id
@@ -199,6 +211,11 @@ abstract class _ApplicationStore with Store {
     } catch (e) {
       isSignedIn = false;
     }
+  }
+
+  QubicListVm? findAccountById(String? publicId) {
+    return currentQubicIDs
+        .firstWhereOrNull((element) => element.publicId == publicId);
   }
 
   /// Checks if the wallet is initialized (contains password stored in secure storage)
@@ -232,6 +249,7 @@ abstract class _ApplicationStore with Store {
   @action
   Future<bool> signUp(String password) async {
     await secureStorage.deleteWallet();
+    await _hiveStorage.clear();
     final result = await secureStorage.createWallet(password);
     isSignedIn = result;
     currentQubicIDs = ObservableList<QubicListVm>();
@@ -316,7 +334,10 @@ abstract class _ApplicationStore with Store {
   @action
 
   /// Sets the $QUBIC amount for an account
-  void setAmounts(List<CurrentBalanceDto> amounts) {
+  /// Returns the  IDs whose amounts have changed <PublicID, newAmount>
+  Map<String, int> setAmounts(List<CurrentBalanceDto> amounts) {
+    Map<String, int> changedIds = {};
+
     for (var i = 0; i < currentQubicIDs.length; i++) {
       List<CurrentBalanceDto> amountsForID = amounts
           .where((e) => e.publicId == currentQubicIDs[i].publicId)
@@ -324,7 +345,14 @@ abstract class _ApplicationStore with Store {
       for (var j = 0; j < amountsForID.length; j++) {
         if (currentQubicIDs[i].publicId == amountsForID[j].publicId) {
           var item = QubicListVm.clone(currentQubicIDs[i]);
+
+          //Add the ID that has changed to the list
+          if ((item.amount != amountsForID[j].amount) &&
+              (changedIds.containsKey(item.publicId) == false)) {
+            changedIds[item.publicId] = amountsForID[j].amount;
+          }
           item.amount = amountsForID[j].amount;
+
           currentQubicIDs[i] = item;
         }
       }
@@ -333,16 +361,42 @@ abstract class _ApplicationStore with Store {
       newList.addAll(currentQubicIDs);
       currentQubicIDs = newList;
     }
+    return changedIds;
   }
 
   /// Sets the Assets for an account
-  void setAssets(List<QubicAssetDto> assetsForAllIDs) {
+  /// Returns the list of IDs whose assets have changed
+  /// as <PublicID, [QubicAssetDto]>
+  Map<String, List<QubicAssetDto>> setAssets(
+      List<QubicAssetDto> assetsForAllIDs) {
+    Map<String, List<QubicAssetDto>> changedIds = {};
+
     for (var i = 0; i < currentQubicIDs.length; i++) {
       List<QubicAssetDto> assetsForID = assetsForAllIDs
           .where((e) => e.publicId == currentQubicIDs[i].publicId)
           .toList();
       for (var j = 0; j < assetsForID.length; j++) {
         if (assetsForID[j].publicId == currentQubicIDs[i].publicId) {
+          // Detect changes start
+          var assetInfo = currentQubicIDs[i]
+              .assets
+              .values
+              .where((el) =>
+                  el.assetName == assetsForID[j].assetName &&
+                  el.contractIndex == assetsForID[j].contractIndex &&
+                  el.issuerIdentity == assetsForID[j].issuerIdentity)
+              .firstOrNull;
+          if (assetInfo != null) {
+            if (assetInfo.ownedAmount != assetsForID[j].ownedAmount) {
+              if (changedIds.containsKey(currentQubicIDs[i].publicId) ==
+                  false) {
+                changedIds[currentQubicIDs[i].publicId] = [];
+              }
+              changedIds[currentQubicIDs[i].publicId]!.add(assetsForID[j]);
+            }
+          }
+          //Detect changes end
+
           var item = QubicListVm.clone(currentQubicIDs[i]);
           item.setAssets(assetsForID);
           currentQubicIDs[i] = item;
@@ -352,27 +406,94 @@ abstract class _ApplicationStore with Store {
     ObservableList<QubicListVm> newList = ObservableList<QubicListVm>();
     newList.addAll(currentQubicIDs);
     currentQubicIDs = newList;
+
+    return changedIds;
   }
 
   @action
   Future<void> updateTransactions(List<TransactionDto> transactions) async {
-    for (var i = 0; i < transactions.length; i++) {
-      var currentIndex = currentTransactions
-          .indexWhere((element) => element.id == transactions[i].id);
-      if (currentIndex == -1) {
-        currentTransactions
-            .add(TransactionVm.fromTransactionDto(transactions[i]));
+    _addOrUpdateCurrentTransactions(transactions);
+    _addStoredTransactionsToCurrent();
+  }
+
+  void _addOrUpdateCurrentTransactions(List<TransactionDto> transactions) {
+    for (var transaction in transactions) {
+      var index = currentTransactions
+          .indexWhere((element) => element.id == transaction.id);
+      var transactionVm = TransactionVm.fromTransactionDto(transaction);
+      if (index == -1) {
+        currentTransactions.add(transactionVm);
       } else {
-        currentTransactions[currentIndex] =
-            TransactionVm.fromTransactionDto(transactions[i]);
+        currentTransactions[index] = transactionVm;
       }
     }
+  }
+
+  @action
+  void _addStoredTransactionsToCurrent() {
+    // Add transactions that are not in currentTransactions in order
+    for (var trx in _hiveStorage.storedTransactions.values) {
+      if (!currentTransactions.any((element) => element.id == trx.id)) {
+        int insertIndex = currentTransactions.indexWhere(
+          (element) => element.targetTick > trx.targetTick,
+        );
+        if (insertIndex == -1) {
+          currentTransactions.add(trx);
+        } else {
+          currentTransactions.insert(insertIndex, trx);
+        }
+      }
+    }
+  }
+
+  @action
+  addStoredTransaction(TransactionVm transaction) {
+    _hiveStorage.addStoredTransaction(transaction);
+  }
+
+  @action
+  void validatePendingTransactions(int currentTick) {
+    List<TransactionVm> toBeRemoved = [];
+    for (var trx in _hiveStorage.storedTransactions.values) {
+      if (currentTick >= trx.targetTick + 5) {
+        /// If any pending transaction is older than the current tick, convert it
+        /// to invalid (ignored by network)
+        if (trx.isPending) {
+          convertPendingToInvalid(trx);
+        }
+
+        /// If the stored transaction is in currentTransactions and successful
+        /// then remove it from local storage
+        else if (currentTransactions
+                .firstWhereOrNull((e) => e.id == trx.id)
+                ?.status ==
+            "Success") {
+          toBeRemoved.add(trx);
+        }
+      }
+    }
+    for (var trx in toBeRemoved) {
+      _hiveStorage.removeStoredTransaction(trx.id);
+    }
+  }
+
+  @action
+  convertPendingToInvalid(TransactionVm transaction) {
+    transaction.isPending = false;
+    transaction.status = "Invalid";
+    _hiveStorage.addStoredTransaction(transaction);
   }
 
   int getQubicIDsWithPublicId(String publicId) {
     return currentQubicIDs
         .where((element) => element.publicId == publicId.replaceAll(",", "_"))
         .length;
+  }
+
+  @action
+  void removeStoredTransaction(String transactionId) {
+    _hiveStorage.removeStoredTransaction(transactionId);
+    currentTransactions.removeWhere((element) => element.id == transactionId);
   }
 
   @action

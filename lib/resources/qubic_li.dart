@@ -15,6 +15,7 @@ import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/custom_proxy.dart';
 import 'package:qubic_wallet/resources/http_interceptors.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -117,17 +118,12 @@ class QubicLi {
       appStore.decreasePendingRequests();
       throw Exception('Failed to contact server.');
     }
-    if (kDebugMode) {
-      print(response);
-    }
+    appLogger.d(response);
     if (response.statusCode == 200) {
       late dynamic parsedJson;
       late AuthLoginDto loginDto;
       try {
-        if (kDebugMode) {
-          print(response.body);
-        }
-
+        appLogger.d(response.body);
         parsedJson = jsonDecode(response.body);
       } catch (e) {
         throw Exception('Failed to authenticate. Could not parse response');
@@ -147,131 +143,6 @@ class QubicLi {
       throw Exception(
           'Failed to authenticate. Got status response ${response.statusCode}');
     }
-  }
-
-  /// Submits a transcation (with amount transfer) to the Qubic network
-  Future<String> submitTransaction(String transaction) async {
-    appStore.incrementPendingRequests();
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({
-        'Authorization': 'bearer ${_authenticationToken!}',
-        'Content-Type': 'application/json'
-      });
-      response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_Transaction),
-          body: json.encode({'SignedTransaction': transaction}),
-          headers: headers);
-      appStore.decreasePendingRequests();
-    } catch (e) {
-      appStore.decreasePendingRequests();
-      throw Exception('Failed to contact server for submitting transaction.');
-    }
-    if (kDebugMode) {
-      print(response.body);
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception(
-          'Failed to submit transaction. Could not parse response.');
-    }
-    return parsedJson['id'];
-  }
-
-  /// Gets current tick form the Qubic network
-  Future<int> getCurrentTick() async {
-    try {
-      _assertAuthorized();
-    } catch (e) {
-      rethrow;
-    }
-    appStore.incrementPendingRequests();
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
-      response = await client.get(
-          Uri.https(Config.walletDomain, Config.URL_Tick),
-          headers: headers);
-
-      appStore.decreasePendingRequests();
-    } catch (e) {
-      appStore.decreasePendingRequests();
-      throw Exception('Failed to contact server for fetching ticks.');
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late CurrentTickDto tickDto;
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception('Failed to fetch ticks. Could not parse response');
-    }
-    try {
-      tickDto = CurrentTickDto.fromJson(parsedJson);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch ticks. Server response is missing required info');
-    }
-
-    return tickDto.tick;
-  }
-
-  // Gets the Qubic network overview for use in explorer
-  Future<NetworkOverviewDto> getNetworkOverview() async {
-    try {
-      _assertAuthorized();
-    } catch (e) {
-      rethrow;
-    }
-    appStore.incrementPendingRequests();
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({
-        'Authorization': 'bearer ${_authenticationToken!}',
-        'Content-Type': 'application/json'
-      });
-      response = await client.get(
-          Uri.https(Config.walletDomain, Config.URL_TickOverview),
-          headers: headers);
-      appStore.decreasePendingRequests();
-    } catch (e) {
-      appStore.decreasePendingRequests();
-      throw Exception('Failed to contact server for fetching tick overview.');
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late NetworkOverviewDto networkOverviewDto;
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch tick overview. Could not parse response');
-    }
-    try {
-      networkOverviewDto = NetworkOverviewDto.fromJson(parsedJson);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch tick overview. Server response is missing required info');
-    }
-    return networkOverviewDto;
   }
 
   ///Gets the transactions from the network
@@ -400,7 +271,6 @@ class QubicLi {
     } catch (e) {
       rethrow;
     }
-    explorerStore.incrementPendingRequests();
     late http.Response response;
     try {
       var headers = QubicLi.getHeaders();
@@ -409,9 +279,7 @@ class QubicLi {
           Uri.https(Config.walletDomain, Config.URL_ExplorerQuery,
               {'searchTerm': query}),
           headers: headers);
-      explorerStore.decreasePendingRequests();
     } catch (e) {
-      explorerStore.decreasePendingRequests();
       throw Exception('Failed to contact server for explorer query.');
     }
     try {
@@ -446,7 +314,6 @@ class QubicLi {
     } catch (e) {
       rethrow;
     }
-    explorerStore.incrementPendingRequests();
     late http.Response response;
     try {
       var headers = QubicLi.getHeaders();
@@ -455,9 +322,7 @@ class QubicLi {
           Uri.https(Config.walletDomain, Config.URL_ExplorerTickInfo,
               {'tick': tick.toString()}),
           headers: headers);
-      explorerStore.decreasePendingRequests();
     } catch (e) {
-      explorerStore.decreasePendingRequests();
       throw Exception('Failed to contact server for explorer tick info.');
     }
     if (response.statusCode == 500) {
@@ -492,7 +357,6 @@ class QubicLi {
     } catch (e) {
       rethrow;
     }
-    explorerStore.incrementPendingRequests();
     late http.Response response;
     try {
       var headers = QubicLi.getHeaders();
@@ -501,9 +365,7 @@ class QubicLi {
           Uri.https(
               Config.walletDomain, "${Config.URL_ExplorerIdInfo}/$publicId"),
           headers: headers);
-      explorerStore.decreasePendingRequests();
     } catch (e) {
-      explorerStore.decreasePendingRequests();
       throw Exception('Failed to contact server for explorer id info.');
     }
     try {
