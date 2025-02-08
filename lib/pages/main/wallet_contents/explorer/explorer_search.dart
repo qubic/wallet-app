@@ -6,6 +6,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
@@ -179,10 +180,7 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
     }
     final term = _formKey.currentState!.fields["searchTerm"]!.value as String;
     if (checkKeyword(term) == null) {
-      setState(() {
-        foundResults = false;
-        lastSearchTerm = term;
-      });
+      setNotFoundError(term);
       return;
     } else {
       setState(() {
@@ -209,7 +207,11 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
                   focusedTransactionHash: term,
                   tick: transaction.transaction.tickNumber));
         } catch (e) {
-          appStore.reportGlobalError(e.toString());
+          if (e is AppError && e.statusCode == 404) {
+            setNotFoundError(term);
+          } else {
+            appStore.reportGlobalError(e.toString());
+          }
         } finally {
           setState(() {
             isLoading = false;
@@ -217,6 +219,13 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
         }
       }
     }
+  }
+
+  void setNotFoundError(String usedTerm) {
+    setState(() {
+      foundResults = false;
+      lastSearchTerm = usedTerm;
+    });
   }
 
   bool isLoading = false;
