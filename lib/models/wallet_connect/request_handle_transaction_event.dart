@@ -98,6 +98,12 @@ class RequestHandleTransactionEvent extends RequestEvent
       fieldName: WcRequestParameters.inputType,
       validators: [FormBuilderValidators.min(0)],
     );
+
+    WcValidationUtils.validateOptionalField(
+      map: map,
+      fieldName: WcRequestParameters.payload,
+      validators: [FormBuilderValidators.minLength(1)],
+    );
     return RequestHandleTransactionEvent(
       topic: topic.toString(),
       requestId: requestId,
