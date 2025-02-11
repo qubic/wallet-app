@@ -9,6 +9,8 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/stores/address_book_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -28,6 +30,7 @@ class _AddToAddressBookScreenState extends State<AddToAddressBookScreen> {
   bool isLoading = false;
   final formKey = GlobalKey<FormState>();
   final _globalSnackBar = getIt<GlobalSnackBar>();
+  final AddressBookStore addressBookStore = getIt<AddressBookStore>();
 
   @override
   void initState() {
@@ -49,6 +52,8 @@ class _AddToAddressBookScreenState extends State<AddToAddressBookScreen> {
 
   void submit() {
     if (formKey.currentState!.validate()) {
+      addressBookStore.addAddressBook(QubicListVm(publicIdController.text,
+          accountNameController.text, null, null, null, false));
       Navigator.pop(context);
     }
   }
@@ -101,7 +106,8 @@ class _AddToAddressBookScreenState extends State<AddToAddressBookScreen> {
                                       errorText:
                                           l10n.generalErrorRequiredField),
                                   CustomFormFieldValidators.isNameAvailable(
-                                      currentQubicIDs: ObservableList.of([]),
+                                      currentQubicIDs:
+                                          addressBookStore.addressBook,
                                       context: context)
                                 ]),
                                 readOnly: isLoading,

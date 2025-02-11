@@ -12,6 +12,7 @@ import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
+import 'package:qubic_wallet/stores/address_book_store.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
@@ -33,6 +34,7 @@ void setupDI() {
   getIt.registerSingleton<SettingsStore>(SettingsStore());
   getIt.registerSingleton<ExplorerStore>(ExplorerStore());
   getIt.registerSingleton<QubicHubStore>(QubicHubStore());
+  getIt.registerSingleton<AddressBookStore>(AddressBookStore());
   getIt.registerSingleton<SecureStorage>(SecureStorage());
   getIt.registerSingleton<HiveStorage>(HiveStorage());
 
