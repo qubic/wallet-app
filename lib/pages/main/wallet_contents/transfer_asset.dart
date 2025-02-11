@@ -23,6 +23,7 @@ import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
+import 'package:qubic_wallet/stores/address_book_store.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -51,6 +52,7 @@ class _TransferAssetState extends State<TransferAsset> {
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   String? transferError;
   TargetTickTypeEnum targetTickType = defaultTargetTickType;
+  final AddressBookStore addressBookStore = getIt<AddressBookStore>();
 
   final NumberFormat formatter = NumberFormat.decimalPatternDigits(
     locale: 'en_us',
@@ -84,6 +86,8 @@ class _TransferAssetState extends State<TransferAsset> {
     knownQubicIDs = appStore.currentQubicIDs
         .where((account) => account.publicId != widget.item.publicId)
         .toList();
+
+    knownQubicIDs.addAll(addressBookStore.addressBook);
 
     super.initState();
   }
