@@ -7,7 +7,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/components/erase_wallet_data_button.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/components/settings_list_tile.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/settings/address_book.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/address_book/address_book_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/auto_lock_settings.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
@@ -137,7 +137,7 @@ class _TabSettingsState extends State<TabSettings> {
                                   color: LightThemeColors.textColorSecondary,
                                 ),
                                 title: l10n.settingsLabelAddressBook,
-                                path: const AddressBook()),
+                                path: const AddressBookScreen()),
                             SettingsListTile(
                                 prefix: SvgPicture.asset(AppIcons.walletConnect,
                                     height: defaultIconHeight),

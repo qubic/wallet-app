@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/address_book/add_to_address_book_screen.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
-class AddressBook extends StatelessWidget {
-  const AddressBook({super.key});
+class AddressBookScreen extends StatelessWidget {
+  const AddressBookScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,10 @@ class AddressBook extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.add, color: LightThemeColors.primary),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const AddToAddressBookScreen()));
+            },
           ),
         ],
       ),
