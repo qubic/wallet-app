@@ -153,6 +153,10 @@ class _AddToAddressBookScreenState extends State<AddToAddressBookScreen> {
                                       errorText:
                                           l10n.generalErrorRequiredField),
                                   CustomFormFieldValidators.isPublicID(
+                                      context: context),
+                                  CustomFormFieldValidators.isPublicIdAvailable(
+                                      currentQubicIDs:
+                                          addressBookStore.addressBook,
                                       context: context)
                                 ]),
                                 readOnly: isLoading,
