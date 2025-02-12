@@ -25,9 +25,8 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text(
-          l10n.settingsLabelAddressBook,
-        ),
+        title: Text(l10n.settingsLabelAddressBook,
+            style: TextStyles.textExtraLargeBold),
         centerTitle: true,
         actions: [
           IconButton(
