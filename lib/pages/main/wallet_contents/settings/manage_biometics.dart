@@ -156,7 +156,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
     var theme = SettingsThemeData(
       settingsSectionBackground: LightThemeColors.cardBackground,
       //Theme.of(context).cardTheme.color,
-      settingsListBackground: LightThemeColors.background,
+      settingsListBackground: Colors.transparent,
       dividerColor: Colors.transparent,
       titleTextColor: Theme.of(context).colorScheme.onBackground,
     );

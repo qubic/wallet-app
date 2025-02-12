@@ -269,7 +269,7 @@
     "transactionLabelStatusPending": "Pending",
     "transactionLabelStatusConfirmed": "Confirmed",
     "transactionLabelStatusFailed": "Failed",
-    "transactionLabelStatusInvalid": "Failed - invalid",
+    "transactionLabelStatusInvalid": "Invalid",
     "signInTitleOne": "Welcome to the",
     "siginInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Welcome back!",
@@ -836,7 +836,7 @@
     },
     "wcRevokePermissions": "Revoke permissions",
     "wcDappsConnectedNone": "No Active Connections",
-    "wcDappsConnectedNoneHint": "Once you connect to any dapps, you will be able to manage them here",
+    "wcDappsConnectedNoneHint": "Once you connect to any dapps, you will be able to manage them here.",
     "wcConnectionApproved": "WalletConnect connection approved",
     "wcConnectionRejected": "WalletConnect connection rejected",
     "wcConnectionProposalTimeout": "WalletConnect session proposal timed out",
@@ -870,7 +870,7 @@
         }
     },
     "wcSmartContractWarningDescription": "Make sure you trust this DApp. By approving the transaction, you might authorise to transfer Qubics and/or assets",
-    "wcAddConnection": "Add Connection",
+    "wcAddConnection": "Add New Connection",
     "signBase64GenericError": "Error trying to sign base64 string: {errorDescription}",
     "@signBase64GenericError": {
         "placeholders": {
