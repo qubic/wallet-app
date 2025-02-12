@@ -95,5 +95,5 @@ abstract class Config {
   static const CustomURLScheme = "qubic-wallet";
 
   static const averageTickDurationInSeconds = 2.0;
-  static const secondsToFlagTrxAsInvalid = 5;
+  static const secondsToFlagTrxAsInvalid = 20;
 }
