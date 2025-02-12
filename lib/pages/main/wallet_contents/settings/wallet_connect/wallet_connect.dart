@@ -274,6 +274,7 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(width: ThemePaddings.hugePadding),
               Text(l10n.settingsLabelWalletConnect,
