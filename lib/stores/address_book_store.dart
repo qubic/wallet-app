@@ -1,5 +1,7 @@
 import 'package:mobx/mobx.dart';
+import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 
 part 'address_book_store.g.dart';
 
@@ -11,12 +13,20 @@ abstract class _AddressBookStore with Store {
   ObservableList<QubicListVm> addressBook = ObservableList<QubicListVm>();
 
   @action
+  void loadAddressBook() {
+    addressBook =
+        ObservableList.of(getIt<HiveStorage>().getAddressBookEntries());
+  }
+
+  @action
   void addAddressBook(QubicListVm qubicId) {
     addressBook.add(qubicId);
+    getIt<HiveStorage>().addAddressBookEntry(qubicId);
   }
 
   @action
   void removeAddressBook(QubicListVm qubicId) {
     addressBook.remove(qubicId);
+    getIt<HiveStorage>().removeAddressBookEntry(qubicId.publicId);
   }
 }

@@ -34,7 +34,7 @@ void setupDI() {
   getIt.registerSingleton<SettingsStore>(SettingsStore());
   getIt.registerSingleton<ExplorerStore>(ExplorerStore());
   getIt.registerSingleton<QubicHubStore>(QubicHubStore());
-  getIt.registerSingleton<AddressBookStore>(AddressBookStore());
+  getIt.registerLazySingleton<AddressBookStore>(() => AddressBookStore());
   getIt.registerSingleton<SecureStorage>(SecureStorage());
   getIt.registerSingleton<HiveStorage>(HiveStorage());
 
