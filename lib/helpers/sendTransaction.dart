@@ -50,7 +50,7 @@ Future<SignedTransaction?> sendAssetTransferTransactionDialog(
       final pendingTransaction = TransactionVm(
           id: transactionId,
           sourceId: sourceId,
-          destId: destinationId,
+          destId: QxInfo.address,
           amount: amount,
           status: ComputedTransactionStatus.pending.name,
           targetTick: destinationTick,

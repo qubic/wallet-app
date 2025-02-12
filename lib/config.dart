@@ -93,4 +93,7 @@ abstract class Config {
   static const walletConnectExistsTimeoutSeconds = 2;
 
   static const CustomURLScheme = "qubic-wallet";
+
+  static const averageTickDurationInSeconds = 2.0;
+  static const secondsToFlagTrxAsInvalid = 20;
 }
