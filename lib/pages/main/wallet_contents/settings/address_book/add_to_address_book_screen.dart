@@ -77,26 +77,18 @@ class _AddToAddressBookScreenState extends State<AddToAddressBookScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        ThemedControls.pageHeader(headerText: "Add Account"),
+                        ThemedControls.pageHeader(
+                            headerText: l10n.addressBookAddTitle),
                         ThemedControls.spacerVerticalSmall(),
                         Form(
                           key: formKey,
                           child: Column(
                             children: [
-                              const Text(
-                                  "Add a public Qubic address to your address book. You can see this address in the suggestions when you are sending transactions."),
+                              Text(l10n.addressBookAddDescription),
                               ThemedControls.spacerVerticalHuge(),
                               Row(children: [
-                                Text(l10n.addAccountLabelAccountName,
+                                Text(l10n.addressBookAddLabelName,
                                     style: TextStyles.labelTextNormal),
-                                ThemedControls.spacerHorizontalSmall(),
-                                Tooltip(
-                                    triggerMode: TooltipTriggerMode.tap,
-                                    showDuration: const Duration(seconds: 5),
-                                    message: l10n.addAccountTooltipAccountName,
-                                    child: ThemedControls.invertedColors(
-                                        child: Image.asset(
-                                            "assets/images/question-active-16.png"))),
                               ]),
                               ThemedControls.spacerVerticalSmall(),
                               TextFormField(
@@ -114,8 +106,8 @@ class _AddToAddressBookScreenState extends State<AddToAddressBookScreen> {
                                 style: TextStyles.inputBoxSmallStyle,
                                 decoration: ThemeInputDecorations.normalInputbox
                                     .copyWith(
-                                        hintText:
-                                            l10n.addAccountHintAccountName),
+                                        hintText: l10n
+                                            .addressBookAddLabelDescription),
                                 autocorrect: false,
                                 autofillHints: null,
                               ),
