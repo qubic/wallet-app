@@ -247,17 +247,20 @@ class _AddAccountState extends State<AddAccount> {
         isPrivateSeedReadOnly: true,
         hasPrivateSeedRandomButton: false,
         hasQrCodeButton: false,
-        hasPrivateSeedTip: true);
+        hasPrivateSeedTip: true,
+        hasPrivateSeedPasteButton: false);
   }
 
   Widget getImportAccountView() {
     final l10n = l10nOf(context);
     return getScrollView(
-        title: l10n.importWalletLabelFromPrivateSeed,
-        isPrivateSeedReadOnly: false,
-        hasPrivateSeedRandomButton: false,
-        hasQrCodeButton: true,
-        hasPrivateSeedTip: false);
+      title: l10n.importWalletLabelFromPrivateSeed,
+      isPrivateSeedReadOnly: false,
+      hasPrivateSeedRandomButton: false,
+      hasQrCodeButton: true,
+      hasPrivateSeedTip: false,
+      hasPrivateSeedPasteButton: true,
+    );
   }
 
   Widget getScrollView(
@@ -265,6 +268,7 @@ class _AddAccountState extends State<AddAccount> {
       required bool isPrivateSeedReadOnly,
       required bool hasPrivateSeedRandomButton,
       required bool hasQrCodeButton,
+      required bool hasPrivateSeedPasteButton,
       required bool hasPrivateSeedTip}) {
     final l10n = l10nOf(context);
     return SingleChildScrollView(
@@ -330,7 +334,23 @@ class _AddAccountState extends State<AddAccount> {
                                         "assets/images/question-active-16.png"))
                                 : Image.asset(
                                     "assets/images/question-active-16.png")),
-                        Expanded(child: Container()),
+                        const Spacer(),
+                        if (hasPrivateSeedPasteButton)
+                          ThemedControls.transparentButtonSmall(
+                              onPressed: () async {
+                                if (privateSeed.text.isNotEmpty == true) {
+                                  privateSeed.clear();
+                                } else {
+                                  final clipboardData = await Clipboard.getData(
+                                      Clipboard.kTextPlain);
+                                  if (clipboardData != null) {
+                                    privateSeed.text = clipboardData.text!;
+                                  }
+                                }
+                              },
+                              text: privateSeed.text.isNotEmpty == true
+                                  ? l10n.generalButtonClear
+                                  : l10n.generalButtonPaste),
                         if (hasPrivateSeedRandomButton)
                           ThemedControls.transparentButtonSmall(
                               onPressed: () {
