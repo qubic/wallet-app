@@ -3,6 +3,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
@@ -455,21 +456,17 @@ abstract class _ApplicationStore with Store {
   void validatePendingTransactions(int currentTick) {
     List<TransactionVm> toBeRemoved = [];
     for (var trx in _hiveStorage.storedTransactions.values) {
-      if (currentTick >= trx.targetTick + 5) {
-        /// If any pending transaction is older than the current tick, convert it
-        /// to invalid (ignored by network)
-        if (trx.isPending) {
-          convertPendingToInvalid(trx);
-        }
-
-        /// If the stored transaction is in currentTransactions and successful
-        /// then remove it from local storage
-        else if (currentTransactions
-                .firstWhereOrNull((e) => e.id == trx.id)
-                ?.status ==
-            "Success") {
-          toBeRemoved.add(trx);
-        }
+      if (currentTransactions.firstWhereOrNull((e) => e.id == trx.id)?.status ==
+          "Success") {
+        // if already returned by the backend, then we delete the local copy
+        toBeRemoved.add(trx);
+      } else if (currentTick >=
+          trx.targetTick +
+              (Config.secondsToFlagTrxAsInvalid /
+                      Config.averageTickDurationInSeconds)
+                  .ceil()) {
+        // wait until 'secondsToFlagTrxAsInvalid' seconds to flag it (coud be temporarily) as invalid
+        convertPendingToInvalid(trx);
       }
     }
     for (var trx in toBeRemoved) {
