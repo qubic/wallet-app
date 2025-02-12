@@ -40,6 +40,11 @@ class _AddressBookScreenState extends State<AddressBookScreen> {
       ),
       body: Observer(
         builder: (context) {
+          if (addressBookStore.addressBook.isEmpty) {
+            return const Center(
+              child: Text("Address book is empty"),
+            );
+          }
           return ListView.separated(
             padding: ThemeEdgeInsets.pageInsets.copyWith(
                 bottom: MediaQuery.of(context).padding.bottom +
