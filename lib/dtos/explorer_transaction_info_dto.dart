@@ -73,13 +73,11 @@ class ExplorerTransactionDto {
   final Transaction transaction;
   final String? timestamp;
   final bool moneyFlew;
-  final bool executed;
 
   ExplorerTransactionDto({
     required this.transaction,
     required this.timestamp,
     required this.moneyFlew,
-    this.executed = true,
   });
 
   factory ExplorerTransactionDto.fromJson(Map<String, dynamic> json) =>
@@ -90,15 +88,8 @@ class ExplorerTransactionDto {
       );
 
   ComputedTransactionStatus getStatus() {
-    if (!executed) {
-      return ComputedTransactionStatus.failure;
-    }
-    if (executed &&
-        (int.tryParse(transaction.amount ?? "0") == 0 || moneyFlew)) {
+    if (int.tryParse(transaction.amount ?? "0") == 0 || moneyFlew) {
       return ComputedTransactionStatus.success;
-    }
-    if (executed && !moneyFlew) {
-      return ComputedTransactionStatus.invalid;
     }
     return ComputedTransactionStatus.failure;
   }
