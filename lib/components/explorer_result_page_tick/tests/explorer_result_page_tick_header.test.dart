@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
+//import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
-import 'package:flutter_test/flutter_test.dart';
-import 'package:qubic_wallet/components/explorer_result_page_tick/explorer_result_page_tick_header.dart';
-import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
+//import 'package:flutter_test/flutter_test.dart';
+//import 'package:qubic_wallet/components/explorer_result_page_tick/explorer_result_page_tick_header.dart';
+//import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 
 //TODO Add this test after complete migration
 void main() {
-  final DateTime now = DateTime.now();
+  //final DateTime now = DateTime.now();
 
   // group('ExplorerResultPageTickHeader', () {
   //   testWidgets('should display tick info', (WidgetTester tester) async {

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:qubic_wallet/helpers/custom_proxy_http_override.dart';
 
 /// Allows you to set and enable a proxy for your app

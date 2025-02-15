@@ -177,8 +177,6 @@ class _AddAccountState extends State<AddAccount> {
   }
 
   void showWatchOnlyQRScanner() {
-    final l10n = l10nOf(context);
-
     showModalBottomSheet<void>(
         context: context,
         useSafeArea: true,

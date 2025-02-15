@@ -10,7 +10,6 @@ import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class AddBiometricsPassword extends StatefulWidget {

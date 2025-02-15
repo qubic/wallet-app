@@ -17,7 +17,6 @@ class _AddWalletConnectDesktopView extends StatefulWidget {
 
 class _AddWalletConnectDesktopViewState
     extends State<_AddWalletConnectDesktopView> {
-  final _globalSnackBar = getIt<GlobalSnackBar>();
   late final TextEditingController
       urlController; //= TextEditingController(text: widget.connectionUrl),
   bool canConnect = false;

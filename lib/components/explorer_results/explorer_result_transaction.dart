@@ -51,7 +51,7 @@ class ExplorerResultTransaction extends StatelessWidget {
     return ThemedControls.card(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(children: [
-        GradientForeground(child: const Icon(Icons.compare_arrows)),
+        const GradientForeground(child: Icon(Icons.compare_arrows)),
         Text(" ${l10n.generalLabelTransaction}", style: TextStyles.labelText),
       ]),
       ThemedControls.spacerVerticalNormal(),

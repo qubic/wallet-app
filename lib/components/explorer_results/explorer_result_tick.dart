@@ -102,7 +102,7 @@ class ExplorerResultTick extends StatelessWidget {
     return ThemedControls.card(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(children: [
-        GradientForeground(child: const Icon(Icons.grid_view)),
+        const GradientForeground(child: Icon(Icons.grid_view)),
         Text(" ${l10n.generalLabelTick}", style: TextStyles.labelText),
       ]),
       const SizedBox(height: ThemePaddings.normalPadding),
