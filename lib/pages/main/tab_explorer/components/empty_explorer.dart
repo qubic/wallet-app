@@ -17,8 +17,8 @@ class _EmptyExplorer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          GradientForeground(
-              child: const Icon(
+          const GradientForeground(
+              child: Icon(
             Icons.account_tree,
             size: 100,
           )),
@@ -42,6 +42,5 @@ class _EmptyExplorer extends StatelessWidget {
         ],
       ),
     ));
-    ;
   }
 }

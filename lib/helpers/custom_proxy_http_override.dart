@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 
 /// This class overrides the global proxy settings.
 class CustomProxyHttpOverride extends HttpOverrides {

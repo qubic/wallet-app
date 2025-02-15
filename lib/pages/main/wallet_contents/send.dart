@@ -604,8 +604,6 @@ class _SendState extends State<Send> {
   }
 
   void transferNowHandler() async {
-    final l10n = l10nOf(context);
-
     _formKey.currentState?.validate();
     if (!_formKey.currentState!.isValid) {
       return;
