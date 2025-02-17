@@ -1,5 +1,4 @@
 // ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';

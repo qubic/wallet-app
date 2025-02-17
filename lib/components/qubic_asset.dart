@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
 class QubicAsset extends StatelessWidget {

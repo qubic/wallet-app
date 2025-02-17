@@ -1,5 +1,4 @@
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 
 class QubicAssetWC {
   final int contractIndex;

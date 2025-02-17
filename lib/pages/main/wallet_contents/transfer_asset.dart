@@ -705,7 +705,7 @@ class _TransferAssetState extends State<TransferAsset> {
     Navigator.pop(context);
 
     _globalSnackBar.show(l10n
-        .generalSnackBarMessageTransactionSubmitted(targetTick!.asThousands()));
+        .generalSnackBarMessageTransactionSubmitted(targetTick.asThousands()));
   }
 
   TextEditingController destinationID = TextEditingController();

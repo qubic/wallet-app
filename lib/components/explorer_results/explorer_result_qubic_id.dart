@@ -49,7 +49,7 @@ class ExplorerResultQubicId extends StatelessWidget {
     return ThemedControls.card(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Row(children: [
-        GradientForeground(child: const Icon(Icons.computer_outlined)),
+        const GradientForeground(child: Icon(Icons.computer_outlined)),
         Text(
             walletAccountName != null
                 ? l10n
