@@ -1,4 +1,5 @@
 import 'dart:core';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 
@@ -101,5 +102,25 @@ class QubicListVm {
         original.amountTick,
         Map<String, QubicAssetDto>.from(original.getClonedAssets()),
         original.watchOnly);
+  }
+}
+
+class QubicListVmAdapter extends TypeAdapter<QubicListVm> {
+  @override
+  QubicListVm read(BinaryReader reader) {
+    return QubicListVm(reader.readString(), reader.readString(), null, null,
+        null, reader.readBool());
+  }
+
+  @override
+  int get typeId => 1;
+
+  @override
+  void write(BinaryWriter writer, QubicListVm obj) {
+    writer.writeString(obj.publicId);
+    writer.writeString(obj.name);
+    writer.write(null);
+    writer.write(null);
+    writer.writeBool(false);
   }
 }

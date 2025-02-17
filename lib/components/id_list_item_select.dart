@@ -39,6 +39,8 @@ class IdListItemSelect extends StatelessWidget {
                     color: LightThemeColors.color4,
                   )
                 : const SizedBox.shrink(),
+            if (item.amount == null)
+              const Icon(Icons.bookmark_add, color: LightThemeColors.color4),
           ]),
           AmountFormatted(
             key: ValueKey<String>("qubicAmount${item.publicId}-${item.amount}"),

@@ -214,7 +214,8 @@
     "settingsHeaderAbout": "About",
     "settingsLabelJoinCommunity": "Join Community",
     "settingsLabelWalletInfo": "Wallet Info",
-    "settingsLabelWalletConnect": "WalletConnect",
+    "settingsLabelAddressBook": "Address Book",
+    "settingsLabelWalletConnect": "Wallet Connect",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "Iris",
@@ -909,5 +910,9 @@
     "wcApproveTransfer": "Approve Transfer",
     "wcSendAssets": "Send Assets",
     "wcSignMessage": "Sign Message",
-    "wcSignTransaction": "Sign Transaction"
+    "wcSignTransaction": "Sign Transaction",
+    "addressBookAddTitle": "Add Address",
+    "addressBookAddDescription": "Add a Qubic address to your Address Book so you can easily use it later when sending Qubics or assets.",
+    "addressBookAddLabelName": "Label",
+    "addressBookAddLabelDescription": "Choose a label"
 }
