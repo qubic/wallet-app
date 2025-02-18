@@ -17,11 +17,11 @@ class AppError {
   String toString() {
     String errorMessage = message;
 
-    if (statusCode != null) {
-      errorMessage += ', ${l10nWrapper.l10n!.generalStatusCode}: $statusCode';
-    }
     if (code != null) {
       errorMessage += ', ${l10nWrapper.l10n!.generalCode}: $code';
+    }
+    if (statusCode != null) {
+      errorMessage += ' (${l10nWrapper.l10n!.generalStatusCode}: $statusCode)';
     }
 
     return errorMessage;
@@ -33,28 +33,14 @@ class AppError {
   /// comes from back end.
   factory AppError.serverErrorParse(DioException error) {
     appLogger.e(error.response?.data?.toString() ?? "NULL");
-
-    final responseData = error.response?.data;
-    String serverMessage;
-    int? code;
-
-    if (responseData is Map<String, dynamic>) {
-      serverMessage = responseData['message'] ??
-          l10nWrapper.l10n!.generalErrorUnexpectedError;
-      code = responseData['code'];
-    } else if (responseData is String) {
-      serverMessage = responseData;
-    } else {
-      // Handling unexpected response formats (null, int, etc.)
-      serverMessage = l10nWrapper.l10n!.generalErrorUnexpectedError;
-    }
-
+    final serverMessage = error.response?.data['message'] ??
+        l10nWrapper.l10n!.generalErrorUnexpectedError;
+    final code = error.response?.data['code'];
     return AppError(
-      "${l10nWrapper.l10n!.generalErrorServerError}: $serverMessage",
-      ErrorType.server,
-      statusCode: error.response?.statusCode,
-      code: code,
-    );
+        "${l10nWrapper.l10n!.generalErrorServerError}: $serverMessage",
+        ErrorType.server,
+        statusCode: error.response?.statusCode,
+        code: code);
   }
 }
 
