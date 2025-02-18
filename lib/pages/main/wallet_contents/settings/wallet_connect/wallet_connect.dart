@@ -18,7 +18,6 @@ import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:reown_sign/reown_sign.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -35,13 +34,27 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
       getIt<WalletConnectService>();
 
   Map<String, SessionData> sessions = {};
+  StreamSubscription? _sessionDisconnectSubscription;
 
   @override
   void initState() {
     super.initState();
-    if (mounted) {
-      setActiveSessions();
-    }
+    setActiveSessions();
+
+    _sessionDisconnectSubscription =
+        walletConnectService.onSessionDisconnect.stream.listen((event) {
+      if (mounted) {
+        setState(() {
+          sessions.remove(event?.topic);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sessionDisconnectSubscription?.cancel();
+    super.dispose();
   }
 
   setActiveSessions() {
