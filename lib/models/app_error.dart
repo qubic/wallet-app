@@ -17,11 +17,11 @@ class AppError {
   String toString() {
     String errorMessage = message;
 
-    if (statusCode != null) {
-      errorMessage += ', ${l10nWrapper.l10n!.generalStatusCode}: $statusCode';
-    }
     if (code != null) {
       errorMessage += ', ${l10nWrapper.l10n!.generalCode}: $code';
+    }
+    if (statusCode != null) {
+      errorMessage += ' (${l10nWrapper.l10n!.generalStatusCode}: $statusCode)';
     }
 
     return errorMessage;
