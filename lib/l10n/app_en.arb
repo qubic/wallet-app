@@ -140,6 +140,7 @@
     "appTabHome": "Home",
     "appTabTransfers": "Transfers",
     "appTabExplorer": "Explorer",
+    "appTabExplore": "Explore",
     "appTabSettings": "Settings",
     "homeLabelTotalBalance": "Total Balance",
     "homeHeader": "Accounts in Wallet",
