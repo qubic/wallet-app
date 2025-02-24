@@ -19,6 +19,7 @@ import 'package:qubic_wallet/pages/main/tab_explorer/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/tab_dapps.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -266,6 +267,21 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
                 child: Image.asset("assets/images/tab-transfers.png")),
             inactiveIcon: Image.asset("assets/images/tab-transfers.png"),
             title: (l10n.appTabTransfers),
+            textStyle: TextStyles.menuActive,
+            activeForegroundColor: LightThemeColors.menuActive,
+            inactiveForegroundColor: LightThemeColors.menuInactive,
+          )),
+      //TODO Change name and icon
+      PersistentTabConfig(
+          screen: Container(
+              color: LightThemeColors.background,
+              child: const SafeArea(child: TabDApps())),
+          item: ItemConfig(
+            icon: ChangeForeground(
+                color: LightThemeColors.buttonBackground,
+                child: Image.asset("assets/images/search-32.png")),
+            inactiveIcon: Image.asset("assets/images/search-32.png"),
+            title: (l10n.appTabExplore),
             textStyle: TextStyles.menuActive,
             activeForegroundColor: LightThemeColors.menuActive,
             inactiveForegroundColor: LightThemeColors.menuInactive,
