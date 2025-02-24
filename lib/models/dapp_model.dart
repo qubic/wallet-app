@@ -16,7 +16,7 @@ class DAppModel {
 final featureApp = DAppModel(
   name: "Qubic",
   icon: "assets/images/qx.jpg",
-  url: "https://qx.qubic.org",
+  url: "https://dev.qx.qubic.org/",
   description:
       "QX is a decentralized exchange running as a smart contract on the Qubic network",
 );

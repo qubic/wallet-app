@@ -6,6 +6,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class WebviewScreen extends StatefulWidget {
   final String initialUrl;
@@ -13,7 +14,7 @@ class WebviewScreen extends StatefulWidget {
   const WebviewScreen({super.key, required this.initialUrl});
 
   @override
-  _WebviewScreenState createState() => _WebviewScreenState();
+  State<WebviewScreen> createState() => _WebviewScreenState();
 }
 
 class _WebviewScreenState extends State<WebviewScreen> {
@@ -28,13 +29,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
     super.initState();
     currentUrl = widget.initialUrl;
     urlController.text = _cleanUrl(currentUrl);
-  }
-
-  String formatUrl(String input) {
-    if (!input.startsWith("http")) {
-      return "https://$input";
-    }
-    return input;
   }
 
   String _cleanUrl(String url) {
@@ -139,7 +133,13 @@ class _WebviewScreenState extends State<WebviewScreen> {
               ],
             ),
           ),
-          if (progress < 1.0) LinearProgressIndicator(value: progress),
+          if (progress < 1.0)
+            LinearProgressIndicator(
+              value: progress,
+              borderRadius: BorderRadius.circular(12),
+              backgroundColor: LightThemeColors.navBg,
+              color: LightThemeColors.primary50,
+            ),
           Expanded(
             child: Stack(
               children: [
