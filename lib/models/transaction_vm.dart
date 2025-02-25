@@ -68,6 +68,8 @@ class TransactionVm {
   @observable
   bool moneyFlow;
 
+  int? type;
+
   TransactionVm(
       {required this.id,
       required this.sourceId,
@@ -84,6 +86,7 @@ class TransactionVm {
       required this.isPending,
       this.price,
       this.quantity,
+      this.type,
       required this.moneyFlow});
 
   ComputedTransactionStatus getStatus() {
@@ -148,6 +151,7 @@ class TransactionVm {
     price = update.price;
     quantity = update.quantity;
     moneyFlow = update.moneyFlow;
+    type = update.type;
   }
 
   @override
@@ -157,22 +161,24 @@ class TransactionVm {
 
   factory TransactionVm.fromTransactionDto(TransactionDto original) {
     return TransactionVm(
-        id: original.id,
-        sourceId: original.sourceId,
-        destId: original.destId,
-        amount: original.amount,
-        status: original.status,
-        created: original.created,
-        stored: original.stored,
-        staged: original.staged,
-        broadcasted: original.broadcasted,
-        confirmed: original.confirmed,
-        statusUpdate: original.statusUpdate,
-        targetTick: original.targetTick,
-        isPending: original.isPending,
-        price: original.price,
-        quantity: original.quantity,
-        moneyFlow: original.moneyFlow);
+      id: original.id,
+      sourceId: original.sourceId,
+      destId: original.destId,
+      amount: original.amount,
+      status: original.status,
+      created: original.created,
+      stored: original.stored,
+      staged: original.staged,
+      broadcasted: original.broadcasted,
+      confirmed: original.confirmed,
+      statusUpdate: original.statusUpdate,
+      targetTick: original.targetTick,
+      isPending: original.isPending,
+      price: original.price,
+      quantity: original.quantity,
+      moneyFlow: original.moneyFlow,
+      type: original.type,
+    );
   }
 }
 
@@ -180,14 +186,15 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
   @override
   TransactionVm read(BinaryReader reader) {
     return TransactionVm(
-        id: reader.readString(),
-        sourceId: reader.readString(),
-        destId: reader.readString(),
-        amount: reader.readInt(),
-        status: reader.readString(),
-        targetTick: reader.readInt(),
-        isPending: reader.readBool(),
-        moneyFlow: reader.readBool());
+      id: reader.readString(),
+      sourceId: reader.readString(),
+      destId: reader.readString(),
+      amount: reader.readInt(),
+      status: reader.readString(),
+      targetTick: reader.readInt(),
+      isPending: reader.readBool(),
+      moneyFlow: reader.readBool(),
+    );
   }
 
   @override

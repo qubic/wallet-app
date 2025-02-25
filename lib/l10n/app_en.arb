@@ -399,6 +399,7 @@
     "transactionItemLabelIncludedByTickLeader": "Included by Tick Leader",
     "transactionItemLabelNotIncludedByTickLeader": "Not included by Tick Leader",
     "transactionItemLabelTransactionId": "Transaction ID",
+    "transactionItemLabelTransactionType": "Transaction Type",
     "transactionItemLabelTransactionDigest": "Transaction Digest",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
