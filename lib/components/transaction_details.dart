@@ -219,7 +219,7 @@ class TransactionDetails extends StatelessWidget {
                               context,
                               l10n.transactionItemLabelTransactionType,
                               TransactionUIHelpers.getTransactionType(
-                                  item.type ?? 0)),
+                                  item.type ?? 0, item.destId)),
                           ThemedControls.spacerVerticalSmall(),
                           getFromTo(
                               context, l10n.generalLabelFrom, item.sourceId),

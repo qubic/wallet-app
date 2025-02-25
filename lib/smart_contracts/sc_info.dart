@@ -19,6 +19,11 @@ enum QubicSCID {
   qVault(10, 'QVault',
       'KAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXIUO');
 
+  //TODO Complete this map
+  static final Map<String, Map<int, String>> procedureNames = {
+    qEarn.contractId: {1: 'Lock', 2: 'Unlock'},
+  };
+
   const QubicSCID(this.contractIndex, this.name, this.contractId);
 
   final int contractIndex;
@@ -34,4 +39,11 @@ enum QubicSCID {
   static String? fromContractId(String id) => _byId[id]?.name;
 
   static bool isSC(String id) => _byId[id] != null;
+
+  static String? getProcedureName(String contractId, int type) {
+    if (procedureNames[contractId]?[type] == null) {
+      return null;
+    }
+    return "$type ${procedureNames[contractId]![type]}";
+  }
 }
