@@ -10,6 +10,7 @@ import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -118,7 +119,7 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
                 Text(l10n.transactionItemLabelTransactionType,
                     style: itemHeaderType(context)),
                 Text(
-                    "${transaction.data.inputType} ${transaction.data.inputType == 0 ? "Standard" : "SC"}"),
+                    QxInfo.getTransactionType(transaction.data.inputType ?? 0)),
               ])),
           CopyButton(copiedText: transaction.data.inputType.toString()),
         ]),
