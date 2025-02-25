@@ -378,10 +378,7 @@
     "accountExplorerLabelTotalOutgoing": "Общее кол-во выводов",
     "accountExplorerLabelReportedBy": "Подтверждена",
     "accountExplorerLabelNoResultsFound": "Нет транзакций для этого ID в эту эпоху",
-    "transactionItemLabelIncludedByTickLeader": "Включительно с лидером тика",
-    "transactionItemLabelNotIncludedByTickLeader": "Не включено в лидера тика",
     "transactionItemLabelTransactionId": "ID транзакции",
-    "transactionItemLabelTransactionDigest": "Дайджест транзакции",
     "generalLabelTickAndValue": "Тик {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -390,8 +387,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Включено в сеть Qubic",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Не включено в сеть Qubic",
     "transactionItemButtonViewInExplorer": "Посмотреть в обозревателе",
     "transactionItemButtonCopyToClipboard": "Скопировать в буфер",
     "transactionItemButtonViewDetails": "Детали",

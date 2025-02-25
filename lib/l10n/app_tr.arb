@@ -378,10 +378,7 @@
     "accountExplorerLabelTotalIncoming": "Toplam Gelen",
     "accountExplorerLabelTotalOutgoing": "Toplam Giden",
     "accountExplorerLabelReportedBy": "Bildiren",
-    "transactionItemLabelIncludedByTickLeader": "Tick Lideri Tarafından Dahil Edilen",
-    "transactionItemLabelNotIncludedByTickLeader": "Tick Lideri Tarafından Dagil Edilmeyen",
     "transactionItemLabelTransactionId": "Transfer ID'si",
-    "transactionItemLabelTransactionDigest": "İşlem Özeti",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -390,8 +387,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Qubic Ağı Tarafından Dahil Edildi ",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Qubic Ağı Tarafından Dahil Edilmedi",
     "transactionItemButtonViewInExplorer": "Gezginde Görüntüle",
     "transactionItemButtonCopyToClipboard": "Panoya Kopyala",
     "transactionItemButtonViewDetails": "Detayları Göster",
