@@ -121,11 +121,12 @@ class _TabTransfersState extends State<TabTransfers> {
                                         ThemePaddings.normalPadding,
                                         ThemePaddings.smallPadding,
                                         ThemePaddings.miniPadding),
-                                    child: getEmptyTransactions(
-                                        context: context,
-                                        hasFiltered: false,
-                                        numberOfFilters: null,
-                                        onTap: () {})))
+                                    child: TransactionUIHelpers
+                                        .getEmptyTransactions(
+                                            context: context,
+                                            hasFiltered: false,
+                                            numberOfFilters: null,
+                                            onTap: () {})))
                           ]));
                         }
                         List<TransactionVm> filteredResults = [];
@@ -146,22 +147,25 @@ class _TabTransfersState extends State<TabTransfers> {
                                         ThemePaddings.normalPadding,
                                         ThemePaddings.smallPadding,
                                         ThemePaddings.miniPadding),
-                                    child: getEmptyTransactions(
-                                        context: context,
-                                        hasFiltered: true,
-                                        numberOfFilters: appStore
-                                            .transactionFilter
-                                            ?.totalActiveFilters,
-                                        onTap: () {
-                                          appStore.clearTransactionFilters();
-                                        })))
+                                    child: TransactionUIHelpers
+                                        .getEmptyTransactions(
+                                            context: context,
+                                            hasFiltered: true,
+                                            numberOfFilters: appStore
+                                                .transactionFilter
+                                                ?.totalActiveFilters,
+                                            onTap: () {
+                                              appStore
+                                                  .clearTransactionFilters();
+                                            })))
                           ]));
                         }
                         return SliverList(
                           delegate:
                               SliverChildBuilderDelegate((context, index) {
                             if (index == 0) {
-                              return getTransactionFiltersInfo(
+                              return TransactionUIHelpers
+                                  .getTransactionFiltersInfo(
                                 context,
                                 numberOfResults: filteredResults.length,
                                 numberOfFilters: appStore.transactionFilter

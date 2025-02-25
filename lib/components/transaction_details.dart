@@ -218,7 +218,8 @@ class TransactionDetails extends StatelessWidget {
                           getCopyableDetails(
                               context,
                               l10n.transactionItemLabelTransactionType,
-                              getTransactionType(item.type ?? 0)),
+                              TransactionUIHelpers.getTransactionType(
+                                  item.type ?? 0)),
                           ThemedControls.spacerVerticalSmall(),
                           getFromTo(
                               context, l10n.generalLabelFrom, item.sourceId),

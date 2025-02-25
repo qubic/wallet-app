@@ -119,7 +119,8 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
                   children: [
                 Text(l10n.transactionItemLabelTransactionType,
                     style: itemHeaderType(context)),
-                Text(getTransactionType(transaction.data.inputType ?? 0)),
+                Text(TransactionUIHelpers.getTransactionType(
+                    transaction.data.inputType ?? 0)),
               ])),
           CopyButton(copiedText: transaction.data.inputType.toString()),
         ]),
