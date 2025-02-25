@@ -109,6 +109,10 @@ String getTransactionStatusText(
   }
 }
 
+String getTransactionType(int type) {
+  return "$type ${type == 0 ? "Standard" : "SC"}";
+}
+
 getTransactionFiltersInfo(BuildContext context,
     {required int numberOfFilters,
     required int numberOfResults,

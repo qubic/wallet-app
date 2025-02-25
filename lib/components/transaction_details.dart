@@ -11,6 +11,7 @@ import 'package:qubic_wallet/components/transaction_status_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
@@ -217,7 +218,7 @@ class TransactionDetails extends StatelessWidget {
                           getCopyableDetails(
                               context,
                               l10n.transactionItemLabelTransactionType,
-                              QxInfo.getTransactionType(item.type ?? 0)),
+                              getTransactionType(item.type ?? 0)),
                           ThemedControls.spacerVerticalSmall(),
                           getFromTo(
                               context, l10n.generalLabelFrom, item.sourceId),

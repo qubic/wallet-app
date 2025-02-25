@@ -8,6 +8,7 @@ import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
@@ -118,8 +119,7 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
                   children: [
                 Text(l10n.transactionItemLabelTransactionType,
                     style: itemHeaderType(context)),
-                Text(
-                    QxInfo.getTransactionType(transaction.data.inputType ?? 0)),
+                Text(getTransactionType(transaction.data.inputType ?? 0)),
               ])),
           CopyButton(copiedText: transaction.data.inputType.toString()),
         ]),
