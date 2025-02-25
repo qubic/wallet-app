@@ -113,6 +113,19 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
         ThemedControls.spacerVerticalSmall(),
         Flex(direction: Axis.horizontal, children: [
           Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                Text(l10n.transactionItemLabelTransactionType,
+                    style: itemHeaderType(context)),
+                Text(
+                    "${transaction.transaction.inputType} ${transaction.transaction.inputType == 0 ? "Standard" : "SC"}"),
+              ])),
+          CopyButton(copiedText: transaction.transaction.inputType.toString()),
+        ]),
+        ThemedControls.spacerVerticalSmall(),
+        Flex(direction: Axis.horizontal, children: [
+          Expanded(
               child: getFromTo(context, l10n.generalLabelFrom,
                   transaction.transaction.sourceId.toString())),
           CopyButton(copiedText: transaction.transaction.sourceId.toString()),
