@@ -70,25 +70,25 @@ class ExplorerTransactionInfoDto {
 
 /// Holds transaction information for an explorer query used in Qubic Archive
 class ExplorerTransactionDto {
-  final Transaction transaction;
+  final Transaction data;
   final String? timestamp;
   final bool moneyFlew;
 
   ExplorerTransactionDto({
-    required this.transaction,
+    required this.data,
     required this.timestamp,
     required this.moneyFlew,
   });
 
   factory ExplorerTransactionDto.fromJson(Map<String, dynamic> json) =>
       ExplorerTransactionDto(
-        transaction: Transaction.fromJson(json["transaction"]),
+        data: Transaction.fromJson(json["transaction"]),
         timestamp: json["timestamp"],
         moneyFlew: json["moneyFlew"],
       );
 
   ComputedTransactionStatus getStatus() {
-    if (int.tryParse(transaction.amount ?? "0") == 0 || moneyFlew) {
+    if (int.tryParse(data.amount ?? "0") == 0 || moneyFlew) {
       return ComputedTransactionStatus.success;
     }
     return ComputedTransactionStatus.failure;

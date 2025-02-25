@@ -80,8 +80,8 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
             child: FittedBox(
                 fit: BoxFit.cover,
                 child: QubicAmount(
-                    amount: int.tryParse(transaction
-                        .transaction.amount!))) // transaction.amount)),
+                    amount: int.tryParse(
+                        transaction.data.amount!))) // transaction.amount)),
             ),
         Flex(direction: Axis.horizontal, children: [
           showTick
@@ -89,12 +89,11 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
                   flex: 1,
                   child: CopyableText(
                       copiedText:
-                          transaction.transaction.tickNumber?.toString() ?? "-",
+                          transaction.data.tickNumber?.toString() ?? "-",
                       child: Text(
-                          l10n.generalLabelTickAndValue(transaction
-                                  .transaction.tickNumber
-                                  ?.asThousands() ??
-                              "-"),
+                          l10n.generalLabelTickAndValue(
+                              transaction.data.tickNumber?.asThousands() ??
+                                  "-"),
                           textAlign: TextAlign.right)))
               : Container()
         ]),
@@ -106,9 +105,9 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
                   children: [
                 Text(l10n.transactionItemLabelTransactionId,
                     style: itemHeaderType(context)),
-                Text(transaction.transaction.txId.toString()),
+                Text(transaction.data.txId.toString()),
               ])),
-          CopyButton(copiedText: transaction.transaction.txId.toString()),
+          CopyButton(copiedText: transaction.data.txId.toString()),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Flex(direction: Axis.horizontal, children: [
@@ -119,23 +118,23 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
                 Text(l10n.transactionItemLabelTransactionType,
                     style: itemHeaderType(context)),
                 Text(
-                    "${transaction.transaction.inputType} ${transaction.transaction.inputType == 0 ? "Standard" : "SC"}"),
+                    "${transaction.data.inputType} ${transaction.data.inputType == 0 ? "Standard" : "SC"}"),
               ])),
-          CopyButton(copiedText: transaction.transaction.inputType.toString()),
+          CopyButton(copiedText: transaction.data.inputType.toString()),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Flex(direction: Axis.horizontal, children: [
           Expanded(
               child: getFromTo(context, l10n.generalLabelFrom,
-                  transaction.transaction.sourceId.toString())),
-          CopyButton(copiedText: transaction.transaction.sourceId.toString()),
+                  transaction.data.sourceId.toString())),
+          CopyButton(copiedText: transaction.data.sourceId.toString()),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Flex(direction: Axis.horizontal, children: [
           Expanded(
               child: getFromTo(context, l10n.generalLabelTo,
-                  transaction.transaction.destId.toString())),
-          CopyButton(copiedText: transaction.transaction.destId.toString()),
+                  transaction.data.destId.toString())),
+          CopyButton(copiedText: transaction.data.destId.toString()),
         ]),
       ]),
     );
