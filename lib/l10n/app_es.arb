@@ -378,10 +378,7 @@
     "accountExplorerLabelTotalOutgoing": "Total Saliente",
     "accountExplorerLabelReportedBy": "Reportado por",
     "accountExplorerLabelNoResultsFound": "No se encontraron transacciones para esta dirección en esta época.",
-    "transactionItemLabelIncludedByTickLeader": "Incluído por el Tick Líder",
-    "transactionItemLabelNotIncludedByTickLeader": "No incluído por el Tick Líder",
     "transactionItemLabelTransactionId": "ID de la Transacción",
-    "transactionItemLabelTransactionDigest": "Síntesis de la Transacción",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -390,8 +387,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Incluído en la red Qubic",
-    "transactionItemLabelNotIncludedByQubicNetwork": "No incluído en la red Qubic",
     "transactionItemButtonViewInExplorer": "Ver en el Explorador",
     "transactionItemButtonCopyToClipboard": "Copiar al Portapapeles",
     "transactionItemButtonViewDetails": "Ver Detalles",
