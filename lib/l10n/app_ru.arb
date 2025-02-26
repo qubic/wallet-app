@@ -379,6 +379,7 @@
     "accountExplorerLabelReportedBy": "Подтверждена",
     "accountExplorerLabelNoResultsFound": "Нет транзакций для этого ID в эту эпоху",
     "transactionItemLabelTransactionId": "ID транзакции",
+    "transactionItemLabelTransactionType": "Тип",
     "generalLabelTickAndValue": "Тик {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {

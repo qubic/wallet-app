@@ -23,7 +23,7 @@ class ExplorerResultPageQubicId extends StatelessWidget {
         final transaction = idInfo.latestTransfers![index];
         return ExplorerResultPageTransactionItem(
             transaction: ExplorerTransactionDto(
-                transaction: Transaction(
+                data: Transaction(
                     sourceId: transaction.sourceId,
                     destId: transaction.destId,
                     amount: transaction.amount.toString(),

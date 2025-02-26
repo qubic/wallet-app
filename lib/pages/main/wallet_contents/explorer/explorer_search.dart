@@ -205,7 +205,7 @@ class _ExplorerSearchState extends State<ExplorerSearch> {
               screen: ExplorerResultPage(
                   resultType: ExplorerResultType.transaction,
                   focusedTransactionHash: term,
-                  tick: transaction.transaction.tickNumber));
+                  tick: transaction.data.tickNumber));
         } catch (e) {
           if (e is AppError && e.statusCode == 404) {
             setNotFoundError(term);

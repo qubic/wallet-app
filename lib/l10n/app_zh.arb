@@ -380,6 +380,7 @@
     "accountExplorerLabelReportedBy": "报告来自",
     "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
     "transactionItemLabelTransactionId": "交易 ID",
+    "transactionItemLabelTransactionType": "类型",
     "generalLabelTickAndValue": "刻度 {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {

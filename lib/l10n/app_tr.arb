@@ -379,6 +379,7 @@
     "accountExplorerLabelTotalOutgoing": "Toplam Giden",
     "accountExplorerLabelReportedBy": "Bildiren",
     "transactionItemLabelTransactionId": "Transfer ID'si",
+    "transactionItemLabelTransactionType": "Tür",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {

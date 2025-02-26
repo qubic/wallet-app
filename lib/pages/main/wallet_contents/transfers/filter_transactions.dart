@@ -3,7 +3,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
@@ -12,7 +13,6 @@ import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 class FilterTransactions extends StatefulWidget {
   final TransactionFilter? initialFilter;
@@ -70,10 +70,11 @@ class _FilterTransactionsState extends State<FilterTransactions> {
         Text(l10n.filterTransfersLabelAnyStatus, style: TextStyles.textNormal),
       );
     } else {
-      out.add(Icon(getTransactionStatusIcon(e),
-          color: getTransactionStatusColor(e)));
+      out.add(Icon(TransactionStatusHelpers.getTransactionStatusIcon(e),
+          color: TransactionStatusHelpers.getTransactionStatusColor(e)));
       out.add(const Text(" "));
-      out.add(Text(getTransactionStatusText(e, context),
+      out.add(Text(
+          TransactionStatusHelpers.getTransactionStatusText(e, context),
           style: TextStyles.textNormal));
     }
     return out;
