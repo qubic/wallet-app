@@ -98,7 +98,10 @@ class _ApprovalCardState extends State<_ApprovalCard> {
             l10n.generalLabelInputType,
             style: TextStyles.lightGreyTextSmall,
           ),
-          Text(widget.data.inputType!.toString(), style: TextStyles.textNormal),
+          Text(
+              TransactionUIHelpers.getTransactionType(
+                  widget.data.inputType ?? 0, widget.data.toID!),
+              style: TextStyles.textNormal),
         ],
         if (widget.data.payload != null) ...[
           ThemedControls.spacerVerticalSmall(),
