@@ -110,8 +110,8 @@ class TransactionDetails extends StatelessWidget {
                       textAlign: TextAlign.start,
                       style: TextStyles.lightGreyTextNormal));
             }),
-            if (QubicSCID.isSC(accountId))
-              Text(QubicSCID.fromContractId(accountId)!,
+            if (QubicSCStore.isSC(accountId))
+              Text(QubicSCStore.fromContractId(accountId)!,
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!

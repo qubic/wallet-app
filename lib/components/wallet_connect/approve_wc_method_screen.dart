@@ -240,9 +240,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         if (widget.data.inputType != null &&
             widget.data.inputType! > 0 &&
             widget.data.toID != null &&
-            QubicSCID.isSC(widget.data.toID!)) ...[
+            QubicSCStore.isSC(widget.data.toID!)) ...[
           _SmartContractWarningCard(
-              QubicSCID.fromContractId(widget.data.toID!) ??
+              QubicSCStore.fromContractId(widget.data.toID!) ??
                   l10n.wcSmartContractUnknown),
           ThemedControls.spacerVerticalBig(),
         ],

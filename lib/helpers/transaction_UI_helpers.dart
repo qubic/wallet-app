@@ -70,7 +70,7 @@ class TransactionUIHelpers {
   }
 
   static String getTransactionType(int type, String contractId) {
-    return QubicSCID.getProcedureName(contractId, type) ??
+    return QubicSCStore.getProcedureName(contractId, type) ??
         "$type ${type == 0 ? "Standard" : "SC"}";
   }
 

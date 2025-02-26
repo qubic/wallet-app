@@ -62,9 +62,9 @@ class ExplorerResultPageTransactionItem extends StatelessWidget {
                   style: TextStyles.lightGreyTextSmallBold)
             ]);
           }),
-          if (QubicSCID.isSC(accountId)) ...[
+          if (QubicSCStore.isSC(accountId)) ...[
             ThemedControls.spacerVerticalMini(),
-            Text(QubicSCID.fromContractId(accountId)!)
+            Text(QubicSCStore.fromContractId(accountId)!)
           ],
           Text(accountId,
               style: TextStyles.textSmall, textAlign: TextAlign.start),
