@@ -397,8 +397,7 @@
     "accountExplorerLabelReportedBy": "Reported by",
     "accountExplorerLabelNoResultsFound": "No transactions for this ID in this epoch",
     "transactionItemLabelTransactionId": "Transaction ID",
-    "transactionItemLabelTransactionType": "Transaction Type",
-    "transactionItemLabelTransactionDigest": "Transaction Digest",
+    "transactionItemLabelTransactionType": "Type",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {

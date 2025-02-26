@@ -379,6 +379,7 @@
     "accountExplorerLabelReportedBy": "Reportado por",
     "accountExplorerLabelNoResultsFound": "No se encontraron transacciones para esta dirección en esta época.",
     "transactionItemLabelTransactionId": "ID de la Transacción",
+    "transactionItemLabelTransactionType": "Tipo",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {

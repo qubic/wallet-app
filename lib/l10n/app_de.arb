@@ -380,6 +380,7 @@
     "accountExplorerLabelReportedBy": "Gemeldet von",
     "accountExplorerLabelNoResultsFound": "Keine Transaktionen für diese ID in dieser Epoche.",
     "transactionItemLabelTransactionId": "Transaktions-ID",
+    "transactionItemLabelTransactionType": "Typ",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
