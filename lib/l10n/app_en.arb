@@ -396,8 +396,6 @@
     "accountExplorerLabelTotalOutgoing": "Total Outgoing",
     "accountExplorerLabelReportedBy": "Reported by",
     "accountExplorerLabelNoResultsFound": "No transactions for this ID in this epoch",
-    "transactionItemLabelIncludedByTickLeader": "Included by Tick Leader",
-    "transactionItemLabelNotIncludedByTickLeader": "Not included by Tick Leader",
     "transactionItemLabelTransactionId": "Transaction ID",
     "transactionItemLabelTransactionType": "Transaction Type",
     "transactionItemLabelTransactionDigest": "Transaction Digest",
@@ -409,8 +407,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Included by Qubic Network",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Not included by Qubic Network",
     "transactionItemButtonViewInExplorer": "View in Explorer",
     "transactionItemButtonCopyToClipboard": "Copy to Clipboard",
     "transactionItemButtonViewDetails": "View Details",

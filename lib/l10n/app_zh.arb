@@ -379,10 +379,7 @@
     "accountExplorerLabelTotalOutgoing": "总转出",
     "accountExplorerLabelReportedBy": "报告来自",
     "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
-    "transactionItemLabelIncludedByTickLeader": "由刻度验证者包含的交易",
-    "transactionItemLabelNotIncludedByTickLeader": "不由刻度验证者包含的交易",
     "transactionItemLabelTransactionId": "交易 ID",
-    "transactionItemLabelTransactionDigest": "交易摘要",
     "generalLabelTickAndValue": "刻度 {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -391,8 +388,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "由 Qubic 网络包含的交易",
-    "transactionItemLabelNotIncludedByQubicNetwork": "不由 Qubic 网络包含的交易",
     "transactionItemButtonViewInExplorer": "在浏览器中查看",
     "transactionItemButtonCopyToClipboard": "复制到剪贴板",
     "transactionItemButtonViewDetails": "查看详情",
