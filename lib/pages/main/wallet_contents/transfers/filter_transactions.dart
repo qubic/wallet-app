@@ -180,6 +180,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
       ComputedTransactionStatus.pending,
       ComputedTransactionStatus.success,
       ComputedTransactionStatus.failure,
+      ComputedTransactionStatus.executed,
       ComputedTransactionStatus.invalid,
     ];
 

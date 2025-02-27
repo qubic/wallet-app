@@ -5,17 +5,20 @@ import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum ComputedTransactionStatus {
-  //** Transfer is broadcasted but pending */
+  //** Transaction is broadcasted but pending */
   pending,
   //** Transfer is successful (processed by computors) */
   success,
   //** Transfer has failed */
   failure,
-  //** Transfer is invalid (ignored by network) */
+  //** Transaction is invalid (ignored by network) */
   invalid,
+  // amount is 0 or SC was executed, can not determine success or failure
+  executed
 }
 
 @observable
@@ -90,23 +93,8 @@ class TransactionVm {
       required this.moneyFlow});
 
   ComputedTransactionStatus getStatus() {
-    if (isPending) {
-      return ComputedTransactionStatus.pending;
-    }
-    if ((status == 'Success')) {
-      if (moneyFlow == true) {
-        return ComputedTransactionStatus.success;
-      } else {
-        return ComputedTransactionStatus.failure;
-      }
-    }
-    if ((status == 'Failed')) {
-      return ComputedTransactionStatus.failure;
-    }
-    if ((status == 'Invalid')) {
-      return ComputedTransactionStatus.invalid;
-    }
-    return ComputedTransactionStatus.pending;
+    return TransactionStatusHelpers.getTransactionStatus(
+        isPending, type!, amount, moneyFlow, status.compareTo('Invalid') == 0);
   }
 
   String toReadableString(BuildContext context) {

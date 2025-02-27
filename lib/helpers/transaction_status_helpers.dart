@@ -14,6 +14,8 @@ class TransactionStatusHelpers {
         return Icons.check_circle;
       case ComputedTransactionStatus.pending:
         return Icons.access_time_filled;
+      case ComputedTransactionStatus.executed:
+        return Icons.check_circle_outlined;
     }
   }
 
@@ -27,6 +29,8 @@ class TransactionStatusHelpers {
         return LightThemeColors.successIncoming;
       case ComputedTransactionStatus.pending:
         return LightThemeColors.pending;
+      case ComputedTransactionStatus.executed:
+        return LightThemeColors.successIncoming;
     }
   }
 
@@ -42,6 +46,29 @@ class TransactionStatusHelpers {
         return l10n.transactionLabelStatusSuccessful;
       case ComputedTransactionStatus.pending:
         return l10n.transactionLabelStatusPending;
+      case ComputedTransactionStatus.executed:
+        return "Executed";
     }
+  }
+
+  static ComputedTransactionStatus getTransactionStatus(bool isPending,
+      int inputType, int amount, bool moneyFlew, bool isInvalid) {
+    ComputedTransactionStatus result;
+
+    if (isPending) {
+      result = ComputedTransactionStatus.pending;
+    } else if (isInvalid) {
+      result = ComputedTransactionStatus.invalid;
+    } else {
+      if (inputType == 0 && amount > 0) {
+        // it's a "simple" transfer so we can say if worked or not
+        result = moneyFlew
+            ? ComputedTransactionStatus.success
+            : ComputedTransactionStatus.failure;
+      } else {
+        result = ComputedTransactionStatus.executed;
+      }
+    }
+    return result;
   }
 }

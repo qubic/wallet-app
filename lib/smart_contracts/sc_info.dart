@@ -12,7 +12,7 @@ class QubicSCModel {
   });
 
   String? getProcedureName(int type) {
-    return procedures[type] != null ? "$type ${procedures[type]}" : null;
+    return procedures[type];
   }
 }
 

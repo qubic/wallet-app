@@ -1,4 +1,6 @@
 // Holds transaction information for an explorer query
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 
 //TODO Remove this after complete explorer
@@ -13,18 +15,11 @@ class ExplorerTransactionInfoDto {
   int type;
   String digest;
   bool moneyFlew;
+  bool isPending;
 
   ComputedTransactionStatus getStatus() {
-    if (!executed) {
-      return ComputedTransactionStatus.failure;
-    }
-    if (executed && (amount == 0 || moneyFlew)) {
-      return ComputedTransactionStatus.success;
-    }
-    if (executed && !moneyFlew) {
-      return ComputedTransactionStatus.failure;
-    }
-    return ComputedTransactionStatus.invalid;
+    return TransactionStatusHelpers.getTransactionStatus(
+        isPending, type, amount, moneyFlew, executed == false);
   }
 
   ExplorerTransactionInfoDto(
@@ -37,7 +32,8 @@ class ExplorerTransactionInfoDto {
       this.amount,
       this.type,
       this.digest,
-      this.moneyFlew);
+      this.moneyFlew,
+      this.isPending);
 
   factory ExplorerTransactionInfoDto.fromJson(Map<String, dynamic> data) {
     return ExplorerTransactionInfoDto(
@@ -50,7 +46,8 @@ class ExplorerTransactionInfoDto {
         data['amount'],
         data['type'],
         data['digest'],
-        data['moneyFlew']);
+        data['moneyFlew'],
+        data['isPending']);
   }
 
   factory ExplorerTransactionInfoDto.clone(ExplorerTransactionInfoDto source) {
@@ -64,7 +61,8 @@ class ExplorerTransactionInfoDto {
         source.amount,
         source.type,
         source.digest,
-        source.moneyFlew);
+        source.moneyFlew,
+        source.isPending);
   }
 }
 
@@ -88,10 +86,9 @@ class ExplorerTransactionDto {
       );
 
   ComputedTransactionStatus getStatus() {
-    if (int.tryParse(data.amount ?? "0") == 0 || moneyFlew) {
-      return ComputedTransactionStatus.success;
-    }
-    return ComputedTransactionStatus.failure;
+    // archive only returns transactions that were added to the blockchain, meaning is not pending and it's not invalid
+    return TransactionStatusHelpers.getTransactionStatus(false, data.inputType!,
+        int.tryParse(data.amount ?? "0")!, moneyFlew, false);
   }
 }
 
