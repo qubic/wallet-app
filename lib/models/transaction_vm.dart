@@ -5,8 +5,12 @@ import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+
+import '../extensions/asThousands.dart';
+import '../helpers/transaction_status_helpers.dart';
 
 enum ComputedTransactionStatus {
   //** Transaction is broadcasted but pending */
@@ -104,19 +108,10 @@ class TransactionVm {
         sourceId,
         destId,
         amount.asThousands(),
-        status,
-        created.toString(),
-        stored.toString(),
-        staged.toString(),
-        broadcasted.toString(),
+        TransactionUIHelpers.getTransactionType(type ?? 0, destId!),
+        TransactionStatusHelpers.getTransactionStatusText(getStatus(), context),
         confirmed.toString(),
-        statusUpdate.toString(),
-        targetTick.toString(),
-        isPending ? l10n.generalLabelYes : l10n.generalLabelNo,
-        price.toString(),
-        quantity.toString(),
-        moneyFlow ? l10n.generalLabelYes : l10n.generalLabelNo);
-    //return "ID: $id \nSource: $sourceId \nDestination: $destId \nAmount: $amount \nStatus: $status \nCreated: $created \nStored: $stored \nStaged: $staged \nBroadcasted: $broadcasted \nConfirmed: $confirmed \nStatusUpdate: $statusUpdate \nTarget Tick: $targetTick \nIs Pending: $isPending \nPrice: $price \nQuantity: $quantity \nMoney Flow: $moneyFlow \n";
+        targetTick.toString().asThousands());
   }
 
   updateContentsFromTransactionDto(TransactionDto update) {
