@@ -250,7 +250,7 @@
     "transactionLabelDirectionInWallet": "Dans le portefeuille",
     "transactionLabelStatusSuccessful": "Réussie",
     "transactionLabelStatusPending": "En attente",
-    "transactionLabelStatusConfirmed": "Confirmé",
+    "transactionLabelStatusExecuted": "Exécuté",
     "transactionLabelStatusFailed": "Échoué",
     "transactionLabelStatusInvalid": "Invalide",
     "signInTitleOne": "Bienvenue dans le",

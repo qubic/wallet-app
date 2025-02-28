@@ -47,7 +47,7 @@ class TransactionStatusHelpers {
       case ComputedTransactionStatus.pending:
         return l10n.transactionLabelStatusPending;
       case ComputedTransactionStatus.executed:
-        return "Executed";
+        return l10n.transactionLabelStatusExecuted;
     }
   }
 

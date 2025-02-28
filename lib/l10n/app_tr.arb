@@ -250,7 +250,7 @@
     "transactionLabelDirectionInWallet": "Cüzdandaki",
     "transactionLabelStatusSuccessful": "Başarılı",
     "transactionLabelStatusPending": "Onay Bekliyor",
-    "transactionLabelStatusConfirmed": "Onaylandı",
+    "transactionLabelStatusExecuted": "Gerçekleştirildi",
     "transactionLabelStatusFailed": "Başarısız",
     "transactionLabelStatusInvalid": "Geçersiz",
     "signInTitleOne": "Qubic Cüzdanına",

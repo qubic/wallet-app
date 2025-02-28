@@ -266,7 +266,7 @@
     "transactionLabelDirectionInWallet": "In-wallet",
     "transactionLabelStatusSuccessful": "Successful",
     "transactionLabelStatusPending": "Pending",
-    "transactionLabelStatusConfirmed": "Confirmed",
+    "transactionLabelStatusExecuted": "Executed",
     "transactionLabelStatusFailed": "Failed",
     "transactionLabelStatusInvalid": "Invalid",
     "signInTitleOne": "Welcome to the",

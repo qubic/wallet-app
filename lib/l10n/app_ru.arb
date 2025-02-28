@@ -250,7 +250,7 @@
     "transactionLabelDirectionInWallet": "В кошельке",
     "transactionLabelStatusSuccessful": "Удачно",
     "transactionLabelStatusPending": "В ожидании",
-    "transactionLabelStatusConfirmed": "Подтверждено",
+    "transactionLabelStatusExecuted": "Выполнено",
     "transactionLabelStatusFailed": "Неудачно",
     "transactionLabelStatusInvalid": "Ошибка",
     "signInTitleOne": "Добро пожаловать в",

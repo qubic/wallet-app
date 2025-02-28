@@ -250,7 +250,7 @@
     "transactionLabelDirectionInWallet": "钱包内",
     "transactionLabelStatusSuccessful": "成功",
     "transactionLabelStatusPending": "等待中",
-    "transactionLabelStatusConfirmed": "确认",
+    "transactionLabelStatusExecuted": "已执行",
     "transactionLabelStatusFailed": "失败",
     "transactionLabelStatusInvalid": "无效",
     "signInTitleOne": "欢迎来到",

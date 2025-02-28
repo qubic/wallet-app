@@ -249,7 +249,7 @@
     "transactionLabelDirectionInWallet": "Entre cuentas del Wallet",
     "transactionLabelStatusSuccessful": "Ejecutada",
     "transactionLabelStatusPending": "Pendiente",
-    "transactionLabelStatusConfirmed": "Confirmada",
+    "transactionLabelStatusExecuted": "Ejecutada",
     "transactionLabelStatusFailed": "Fallida",
     "transactionLabelStatusInvalid": "Inválida",
     "signInTitleOne": "Bienvenido a",
