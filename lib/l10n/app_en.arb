@@ -608,7 +608,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "Transaction ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nTimestamp: {confirmed}\nTick: {targetTick}",
+    "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nType: {type}\nStatus: {status}\nTimestamp: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
         "placeholders": {
@@ -624,40 +624,16 @@
             "amount": {
                 "type": "String"
             },
+            "type": {
+                "type": "String"
+            },
             "status": {
                 "type": "String"
             },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
+            "timestamp": {
                 "type": "String"
             },
             "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
                 "type": "String"
             }
         }

@@ -582,60 +582,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\n发送方: {sourceId}\n接收方: {destId}\n数量: {amount}\n类型: {type}\nStatus: {status}\n时间戳: {timestamp}\n刻度: {targetTick}",
     "welcomeButtonImportExistingWallet": "导入已有钱包",
     "importWalletTitle": "导入钱包",
     "importWalletSubHeader": "选择您想要导入钱包的方式",

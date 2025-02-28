@@ -5,17 +5,21 @@ import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum ComputedTransactionStatus {
-  //** Transfer is broadcasted but pending */
+  //** Transaction is broadcasted but pending */
   pending,
   //** Transfer is successful (processed by computors) */
   success,
   //** Transfer has failed */
   failure,
-  //** Transfer is invalid (ignored by network) */
+  //** Transaction is invalid (ignored by network) */
   invalid,
+  // amount is 0 or SC was executed, can not determine success or failure
+  executed
 }
 
 @observable
@@ -90,23 +94,8 @@ class TransactionVm {
       required this.moneyFlow});
 
   ComputedTransactionStatus getStatus() {
-    if (isPending) {
-      return ComputedTransactionStatus.pending;
-    }
-    if ((status == 'Success')) {
-      if (moneyFlow == true) {
-        return ComputedTransactionStatus.success;
-      } else {
-        return ComputedTransactionStatus.failure;
-      }
-    }
-    if ((status == 'Failed')) {
-      return ComputedTransactionStatus.failure;
-    }
-    if ((status == 'Invalid')) {
-      return ComputedTransactionStatus.invalid;
-    }
-    return ComputedTransactionStatus.pending;
+    return TransactionStatusHelpers.getTransactionStatus(
+        isPending, type!, amount, moneyFlow, status == "Invalid");
   }
 
   String toReadableString(BuildContext context) {
@@ -116,19 +105,10 @@ class TransactionVm {
         sourceId,
         destId,
         amount.asThousands(),
-        status,
-        created.toString(),
-        stored.toString(),
-        staged.toString(),
-        broadcasted.toString(),
+        TransactionUIHelpers.getTransactionType(type ?? 0, destId!),
+        TransactionStatusHelpers.getTransactionStatusText(getStatus(), context),
         confirmed.toString(),
-        statusUpdate.toString(),
-        targetTick.toString(),
-        isPending ? l10n.generalLabelYes : l10n.generalLabelNo,
-        price.toString(),
-        quantity.toString(),
-        moneyFlow ? l10n.generalLabelYes : l10n.generalLabelNo);
-    //return "ID: $id \nSource: $sourceId \nDestination: $destId \nAmount: $amount \nStatus: $status \nCreated: $created \nStored: $stored \nStaged: $staged \nBroadcasted: $broadcasted \nConfirmed: $confirmed \nStatusUpdate: $statusUpdate \nTarget Tick: $targetTick \nIs Pending: $isPending \nPrice: $price \nQuantity: $quantity \nMoney Flow: $moneyFlow \n";
+        targetTick.toString().asThousands());
   }
 
   updateContentsFromTransactionDto(TransactionDto update) {

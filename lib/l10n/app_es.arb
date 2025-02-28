@@ -580,60 +580,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nOrigen: {sourceId}\nDestino: {destId}\nMonto: {amount}\nStatus: {status}\nCreado: {created}\nAlmacenado: {stored}\nPreparado: {staged}\nTransmitido: {broadcasted}\nConfirmado: {confirmed}\nStatus actualizado: {statusUpdate}\nTick de Ejecución: {targetTick}\n¿Está pendiente?: {isPending}\nPrecio: {price} \nCantidad: {quantity}\nFlujo de dinero: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nOrigen: {sourceId}\nDestino: {destId}\nnMonto: {amount}\nTipo: {type}\nStatus: {status}\nFecha: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Importar un Wallet Existente",
     "importWalletTitle": "Importar Wallet",
     "importWalletSubHeader": "Selecciona como quieres importar tu Wallet",

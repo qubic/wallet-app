@@ -581,60 +581,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nDurum: {status}\nOluşturuldu: {created}\nSaklanan: {stored}\nSahnelenen: {staged}\nYayınlanan: {broadcasted}\nOnaylanan: {confirmed}\nDurum Tarihi: {statusUpdate}\nHedef Tick: {targetTick}\nBekliyor: {isPending}\nFiyat: {price} \nMiktar: {quantity}\nPara Akışı: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nTyp: {type}\nDurum: {status}\nTimestamp: {timestamp}\nHedef Tick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Mevcut Bir Cüzdanı İçe Aktar",
     "importWalletTitle": "Cüzdanı İçe Aktar",
     "importWalletSubHeader": "Mevcut cüzdanı nasıl içeri aktarmak istediğini seç",
