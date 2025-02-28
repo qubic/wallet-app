@@ -16,7 +16,6 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
-import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -112,15 +111,8 @@ class TransactionDetails extends StatelessWidget {
             }),
             if (QubicSCStore.isSC(accountId))
               Text(QubicSCStore.fromContractId(accountId)!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(fontFamily: ThemeFonts.secondary)),
-            Text(accountId,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontFamily: ThemeFonts.secondary)),
+                  style: TextStyles.textNormal),
+            Text(accountId, style: TextStyles.textNormal),
           ])),
       CopyButton(copiedText: accountId)
     ]);
