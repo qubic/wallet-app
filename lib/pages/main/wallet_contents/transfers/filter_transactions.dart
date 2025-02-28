@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
+import 'package:qubic_wallet/components/mid_text_with_ellipsis.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
@@ -338,8 +339,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                                 child: Text("${item.name} - ",
                                     style: TextStyles.textNormal)),
                             Expanded(
-                                child: Text(item.publicId,
-                                    overflow: TextOverflow.ellipsis,
+                                child: TextWithMidEllipsis(item.publicId,
                                     style: TextStyles.secondaryTextSmall)),
                           ],
                         ));
