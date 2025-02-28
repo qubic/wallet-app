@@ -47,7 +47,7 @@ class ExplorerTransactionInfoDto {
         data['type'],
         data['digest'],
         data['moneyFlew'],
-        data['isPending']);
+        data.containsKey('isPending') ? data['isPending'] : false);
   }
 
   factory ExplorerTransactionInfoDto.clone(ExplorerTransactionInfoDto source) {
