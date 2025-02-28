@@ -9,9 +9,6 @@ import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
-import '../extensions/asThousands.dart';
-import '../helpers/transaction_status_helpers.dart';
-
 enum ComputedTransactionStatus {
   //** Transaction is broadcasted but pending */
   pending,
@@ -98,7 +95,7 @@ class TransactionVm {
 
   ComputedTransactionStatus getStatus() {
     return TransactionStatusHelpers.getTransactionStatus(
-        isPending, type!, amount, moneyFlow, status.compareTo('Invalid') == 0);
+        isPending, type!, amount, moneyFlow, status == "Invalid");
   }
 
   String toReadableString(BuildContext context) {
