@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -95,7 +96,7 @@ class TransactionVm {
 
   ComputedTransactionStatus getStatus() {
     return TransactionStatusHelpers.getTransactionStatus(
-        isPending, type!, amount, moneyFlow, status == "Invalid");
+        isPending, type, amount, moneyFlow, status == "Invalid");
   }
 
   String toReadableString(BuildContext context) {
@@ -174,6 +175,7 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
       targetTick: reader.readInt(),
       isPending: reader.readBool(),
       moneyFlow: reader.readBool(),
+      type: reader.readInt(),
     );
   }
 
@@ -190,5 +192,6 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
     writer.writeInt(obj.targetTick);
     writer.writeBool(obj.isPending);
     writer.writeBool(obj.moneyFlow);
+    writer.writeInt(obj.type ?? 0);
   }
 }

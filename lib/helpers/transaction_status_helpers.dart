@@ -52,7 +52,7 @@ class TransactionStatusHelpers {
   }
 
   static ComputedTransactionStatus getTransactionStatus(bool isPending,
-      int inputType, int amount, bool moneyFlew, bool isInvalid) {
+      int? inputType, int amount, bool moneyFlew, bool isInvalid) {
     ComputedTransactionStatus result;
 
     if (isPending) {
