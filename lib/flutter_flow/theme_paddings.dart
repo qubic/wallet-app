@@ -4,6 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 abstract class ThemePaddings {
   /// 4px
+  static const minimunPadding = 1.0;
+
+  /// 4px
   static const miniPadding = 4.0;
 
   /// 8px
