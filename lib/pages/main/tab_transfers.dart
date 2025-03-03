@@ -181,7 +181,7 @@ class _TabTransfersState extends State<TabTransfers> {
                                 child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: ThemePaddings.smallPadding,
-                                        vertical: ThemePaddings.minimunPadding),
+                                        vertical: ThemePaddings.minimumPadding),
                                     child: TransactionItem(
                                       item: filteredResults[index - 1],
                                     )));

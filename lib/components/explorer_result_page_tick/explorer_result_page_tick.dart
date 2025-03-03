@@ -35,7 +35,7 @@ class ExplorerResultPageTick extends StatelessWidget {
                 focusedTransactionId! == transaction.data.txId
             ? Padding(
                 padding:
-                    const EdgeInsets.only(bottom: ThemePaddings.minimunPadding),
+                    const EdgeInsets.only(bottom: ThemePaddings.minimumPadding),
                 child: ExplorerResultPageTransactionItem(
                   transaction: transaction,
                   isFocused: focusedTransactionId == null
