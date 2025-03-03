@@ -797,7 +797,7 @@
     "wcErrorProposalExpired": "The session proposal has expired",
     "wcErrorTickExpired": "Tick value is already in the past",
     "wcErrorUnsupportedNetwork": "Unsupported Network",
-    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Main Network",
+    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
