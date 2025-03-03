@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 abstract class ThemePaddings {
-  /// 4px
+  /// 1px
   static const minimunPadding = 1.0;
 
   /// 4px
