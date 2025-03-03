@@ -738,7 +738,7 @@
     "wcErrorUsedURL": "Eine Verbindung wurde bereits über diese URL hergestellt",
     "wcErrorPairingTimeout": "Kopplungsanfrage ist abgelaufen.",
     "wcErrorUnsupportedNetwork": "Nicht unterstütztes Netzwerk",
-    "wcErrorUnsupportedNetworkDescription": "Diese App verwendet das Netzwerk {networkName}. Derzeit unterstützt Qubic Wallet nur Apps im Qubic-Hauptnetzwerk",
+    "wcErrorUnsupportedNetworkDescription": "Diese App verwendet das Netzwerk {networkName}. Derzeit unterstützt Qubic Wallet nur Apps im Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
