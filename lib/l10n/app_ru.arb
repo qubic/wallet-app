@@ -738,7 +738,7 @@
     "wcErrorUsedURL": "Соединение уже было установлено через этот URL",
     "wcErrorPairingTimeout": "Время ожидания подключения истекло.",
     "wcErrorUnsupportedNetwork": "Неподдерживаемая сеть",
-    "wcErrorUnsupportedNetworkDescription": "Это приложение использует сеть {networkName}. В настоящее время Qubic Wallet поддерживает только приложения в основной сети Qubic",
+    "wcErrorUnsupportedNetworkDescription": "Это приложение использует сеть {networkName}. В настоящее время Qubic Wallet поддерживает только приложения в Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {

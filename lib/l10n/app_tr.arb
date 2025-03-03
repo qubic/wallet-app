@@ -738,7 +738,7 @@
     "wcErrorUsedURL": "Bu URL ile zaten bir bağlantı kurulmuş",
     "wcErrorPairingTimeout": "Eşleştirme isteği zaman aşımına uğradı.",
     "wcErrorUnsupportedNetwork": "Desteklenmeyen ağ",
-    "wcErrorUnsupportedNetworkDescription": "Bu uygulama {networkName} ağını kullanıyor. Şu anda, Qubic Wallet sadece Qubic Ana Ağı üzerindeki uygulamaları destekliyor",
+    "wcErrorUnsupportedNetworkDescription": "Bu uygulama {networkName} ağını kullanıyor. Şu anda Qubic Wallet yalnızca Qubic Mainnet'taki uygulamaları desteklemektedir",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {

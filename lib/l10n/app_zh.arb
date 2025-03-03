@@ -738,7 +738,7 @@
     "wcErrorUsedURL": "該 URL 已建立連接",
     "wcErrorPairingTimeout": "配對請求超時",
     "wcErrorUnsupportedNetwork": "不支持的網絡",
-    "wcErrorUnsupportedNetworkDescription": "此應用程式使用 {networkName} 網絡。目前，Qubic Wallet 僅支持 Qubic 主網絡上的應用程式",
+    "wcErrorUnsupportedNetworkDescription": "此應用程式使用 {networkName} 網絡。目前，Qubic錢包僅支援Qubic Mainnet上的應用程式",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {

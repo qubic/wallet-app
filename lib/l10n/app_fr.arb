@@ -743,7 +743,7 @@
     "wcErrorUsedURL": "Une connexion a déjà été établie via cette URL",
     "wcErrorPairingTimeout": "La demande de couplage a expiré.",
     "wcErrorUnsupportedNetwork": "Réseau non pris en charge",
-    "wcErrorUnsupportedNetworkDescription": "Cette application utilise le réseau {networkName}. Actuellement, Qubic Wallet ne prend en charge que les applications sur le réseau principal Qubic",
+    "wcErrorUnsupportedNetworkDescription": "Cette application utilise le réseau {networkName}. Actuellement, Qubic Wallet ne prend en charge que les applications sur Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {

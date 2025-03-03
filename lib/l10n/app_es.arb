@@ -730,7 +730,7 @@
     "wcErrorUsedURL": "Ya se ha establecido una conexión mediante esta URL",
     "wcErrorPairingTimeout": "La solicitud de conexión ha caducado.",
     "wcErrorUnsupportedNetwork": "Red no compatible",
-    "wcErrorUnsupportedNetworkDescription": "Esta aplicación utiliza la red {networkName}. Actualmente, Qubic Wallet solo soporta aplicaciones en la Red Principal de Qubic",
+    "wcErrorUnsupportedNetworkDescription": "Esta aplicación utiliza la red {networkName}. Actualmente, Qubic Wallet solo soporta aplicaciones en Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
