@@ -184,6 +184,11 @@ class TextStyles {
     fontWeight: FontWeight.bold,
     color: LightThemeColors.primary,
   );
+  static TextStyle accountNameNormal = const TextStyle(
+    fontSize: ThemeFontSizes.large,
+    fontWeight: FontWeight.bold,
+    color: LightThemeColors.primary,
+  );
   static TextStyle accountAmount = const TextStyle(
     fontSize: ThemeFontSizes.huge,
     fontWeight: FontWeight.bold,
