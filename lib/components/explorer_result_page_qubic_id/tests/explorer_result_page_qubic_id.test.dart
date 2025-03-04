@@ -24,8 +24,8 @@ void main() {
         ],
         'test-id',
         [
-          ExplorerTransactionInfoDto(
-              "id", true, 1, true, "source", "dest", 100, 0, "digest", true)
+          ExplorerTransactionInfoDto("id", true, 1, true, "source", "dest", 100,
+              0, "digest", true, false)
         ]);
 
     final twoTransactions = ExplorerIdInfoDto(
@@ -39,10 +39,10 @@ void main() {
         ],
         'test-id',
         [
-          ExplorerTransactionInfoDto(
-              "id", true, 1, true, "source", "dest", 100, 0, "digest", true),
-          ExplorerTransactionInfoDto(
-              "id", true, 1, true, "source", "dest", 100, 0, "digest", true)
+          ExplorerTransactionInfoDto("id", true, 1, true, "source", "dest", 100,
+              0, "digest", true, false),
+          ExplorerTransactionInfoDto("id", true, 1, true, "source", "dest", 100,
+              0, "digest", true, false)
         ]);
 
     testWidgets('should display the correct number of transactions',

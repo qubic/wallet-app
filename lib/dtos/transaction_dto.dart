@@ -15,24 +15,27 @@ class TransactionDto {
   int? price; //IPO Bids
   int? quantity; //IPO Bids
   bool moneyFlow;
+  int? type;
 
   TransactionDto(
-      this.id,
-      this.sourceId,
-      this.destId,
-      this.amount,
-      this.status,
-      this.created,
-      this.stored,
-      this.staged,
-      this.broadcasted,
-      this.confirmed,
-      this.statusUpdate,
-      this.targetTick,
-      this.isPending,
-      this.price,
-      this.quantity,
-      this.moneyFlow);
+    this.id,
+    this.sourceId,
+    this.destId,
+    this.amount,
+    this.status,
+    this.created,
+    this.stored,
+    this.staged,
+    this.broadcasted,
+    this.confirmed,
+    this.statusUpdate,
+    this.targetTick,
+    this.isPending,
+    this.price,
+    this.quantity,
+    this.moneyFlow,
+    this.type,
+  );
 
   factory TransactionDto.fromJson(Map<String, dynamic> data) {
     return TransactionDto(
@@ -58,6 +61,7 @@ class TransactionDto {
       data['price'],
       data['quantity'],
       data['moneyFlow'],
+      data['type'],
     );
   }
 }

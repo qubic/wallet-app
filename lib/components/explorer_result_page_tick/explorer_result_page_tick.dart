@@ -32,15 +32,15 @@ class ExplorerResultPageTick extends StatelessWidget {
       itemBuilder: (context, index) {
         final transaction = transactions![index];
         return focusedTransactionId == null ||
-                focusedTransactionId! == transaction.transaction.txId
+                focusedTransactionId! == transaction.data.txId
             ? Padding(
                 padding:
-                    const EdgeInsets.only(bottom: ThemePaddings.normalPadding),
+                    const EdgeInsets.only(bottom: ThemePaddings.minimumPadding),
                 child: ExplorerResultPageTransactionItem(
                   transaction: transaction,
                   isFocused: focusedTransactionId == null
                       ? false
-                      : focusedTransactionId! == transaction.transaction.txId,
+                      : focusedTransactionId! == transaction.data.txId,
                   dataStatus: tickInfo.completed,
                 ),
               )

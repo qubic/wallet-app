@@ -9,6 +9,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/sendTransaction.dart';
+import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
@@ -240,9 +241,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         if (widget.data.inputType != null &&
             widget.data.inputType! > 0 &&
             widget.data.toID != null &&
-            QubicSCID.isSC(widget.data.toID!)) ...[
+            QubicSCStore.isSC(widget.data.toID!)) ...[
           _SmartContractWarningCard(
-              QubicSCID.fromContractId(widget.data.toID!) ??
+              QubicSCStore.fromContractId(widget.data.toID!) ??
                   l10n.wcSmartContractUnknown),
           ThemedControls.spacerVerticalBig(),
         ],

@@ -250,7 +250,7 @@
     "transactionLabelDirectionInWallet": "Im Wallet",
     "transactionLabelStatusSuccessful": "Erfolgreich",
     "transactionLabelStatusPending": "Ausstehend",
-    "transactionLabelStatusConfirmed": "Bestätigt",
+    "transactionLabelStatusExecuted": "Ausgeführt",
     "transactionLabelStatusFailed": "Fehlgeschlagen",
     "transactionLabelStatusInvalid": "Ungültig",
     "signInTitleOne": "Willkommen bei",
@@ -379,10 +379,8 @@
     "accountExplorerLabelTotalOutgoing": "Ausgang gesamt",
     "accountExplorerLabelReportedBy": "Gemeldet von",
     "accountExplorerLabelNoResultsFound": "Keine Transaktionen für diese ID in dieser Epoche.",
-    "transactionItemLabelIncludedByTickLeader": "Enthalten vom Tick-Leader",
-    "transactionItemLabelNotIncludedByTickLeader": "Nicht enthalten vom Tick-Leader",
     "transactionItemLabelTransactionId": "Transaktions-ID",
-    "transactionItemLabelTransactionDigest": "Transaktionsübersicht",
+    "transactionItemLabelTransactionType": "Typ",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -391,8 +389,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Im Qubic Netzwerk enthalten",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Nicht im Qubic Netzwerk enthalten",
     "transactionItemButtonViewInExplorer": "Im Explorer anzeigen",
     "transactionItemButtonCopyToClipboard": "In die Zwischenablage kopieren",
     "transactionItemButtonViewDetails": "Details anzeigen",
@@ -586,60 +582,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nQuelle: {sourceId}\nZiel: {destId}\nBetrag: {amount}\nStatus: {status}\nErstellt: {created}\nGespeichert: {stored}\nStaging: {staged}\nGesendet: {broadcasted}\nBestätigt: {confirmed}\nStatus-Update: {statusUpdate}\nZiel-Tick: {targetTick}\nIst ausstehend: {isPending}\nPreis: {price} \nMenge: {quantity}\nGeldfluss: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "Dies enthält die Zeichenfolge, die in der Zwischenablage kopiert wird und alle Transaktionsdetails enthält.",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nQuelle: {sourceId}\nZiel: {destId}\nBetrag: {amount}\nTyp: {type}\nStatus: {status}\nZeitstempel: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Vorhandene Wallet importieren",
     "importWalletTitle": "Wallet importieren",
     "importWalletSubHeader": "Wählen Sie, wie Sie Ihre vorhandene Wallet importieren möchten",
@@ -795,7 +738,7 @@
     "wcErrorUsedURL": "Eine Verbindung wurde bereits über diese URL hergestellt",
     "wcErrorPairingTimeout": "Kopplungsanfrage ist abgelaufen.",
     "wcErrorUnsupportedNetwork": "Nicht unterstütztes Netzwerk",
-    "wcErrorUnsupportedNetworkDescription": "Diese App verwendet das Netzwerk {networkName}. Derzeit unterstützt Qubic Wallet nur Apps im Qubic-Hauptnetzwerk",
+    "wcErrorUnsupportedNetworkDescription": "Diese App verwendet das Netzwerk {networkName}. Derzeit unterstützt Qubic Wallet nur Apps im Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {

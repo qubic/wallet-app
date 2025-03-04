@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
+import 'package:qubic_wallet/components/mid_text_with_ellipsis.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -44,15 +45,13 @@ class IdListItemSelect extends StatelessWidget {
             key: ValueKey<String>("qubicAmount${item.publicId}-${item.amount}"),
             amount: item.amount,
             isInHeader: false,
-            labelOffset: -0,
-            textStyle: MediaQuery.of(context).size.width < 400
-                ? TextStyles.accountAmount.copyWith(fontSize: 22)
-                : TextStyles.accountAmount,
+            labelOffset: 0,
+            labelHorizOffset: -6,
+            textStyle: TextStyles.accountAmountLabel,
             labelStyle: TextStyles.accountAmountLabel,
             currencyName: l10n.generalLabelCurrencyQubic,
           ),
-          Text(item.publicId, // "MYSSHMYSSHMYSSHMYSSH.MYSSHMYSSH....",
-              style: TextStyles.accountPublicId),
+          TextWithMidEllipsis(item.publicId, style: TextStyles.accountPublicId),
         ]));
   }
 }

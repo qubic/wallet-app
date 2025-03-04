@@ -76,9 +76,9 @@ class _ApprovalCardState extends State<_ApprovalCard> {
                   l10n.generalLabelToFromAddress(l10n.generalLabelTo),
                   style: TextStyles.lightGreyTextSmall,
                 ),
-          if (QubicSCID.isSC(widget.data.toID!)) ...[
+          if (QubicSCStore.isSC(widget.data.toID!)) ...[
             ThemedControls.spacerVerticalMini(),
-            Text(QubicSCID.fromContractId(widget.data.toID!)!)
+            Text(QubicSCStore.fromContractId(widget.data.toID!)!)
           ],
           ThemedControls.spacerVerticalMini(),
           Text(widget.data.toID ?? "-", style: TextStyles.textNormal),
@@ -98,7 +98,10 @@ class _ApprovalCardState extends State<_ApprovalCard> {
             l10n.generalLabelInputType,
             style: TextStyles.lightGreyTextSmall,
           ),
-          Text(widget.data.inputType!.toString(), style: TextStyles.textNormal),
+          Text(
+              TransactionUIHelpers.getTransactionType(
+                  widget.data.inputType ?? 0, widget.data.toID!),
+              style: TextStyles.textNormal),
         ],
         if (widget.data.payload != null) ...[
           ThemedControls.spacerVerticalSmall(),

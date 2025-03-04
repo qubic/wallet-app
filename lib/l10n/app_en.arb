@@ -266,7 +266,7 @@
     "transactionLabelDirectionInWallet": "In-wallet",
     "transactionLabelStatusSuccessful": "Successful",
     "transactionLabelStatusPending": "Pending",
-    "transactionLabelStatusConfirmed": "Confirmed",
+    "transactionLabelStatusExecuted": "Executed",
     "transactionLabelStatusFailed": "Failed",
     "transactionLabelStatusInvalid": "Invalid",
     "signInTitleOne": "Welcome to the",
@@ -396,10 +396,8 @@
     "accountExplorerLabelTotalOutgoing": "Total Outgoing",
     "accountExplorerLabelReportedBy": "Reported by",
     "accountExplorerLabelNoResultsFound": "No transactions for this ID in this epoch",
-    "transactionItemLabelIncludedByTickLeader": "Included by Tick Leader",
-    "transactionItemLabelNotIncludedByTickLeader": "Not included by Tick Leader",
     "transactionItemLabelTransactionId": "Transaction ID",
-    "transactionItemLabelTransactionDigest": "Transaction Digest",
+    "transactionItemLabelTransactionType": "Type",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -408,8 +406,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Included by Qubic Network",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Not included by Qubic Network",
     "transactionItemButtonViewInExplorer": "View in Explorer",
     "transactionItemButtonCopyToClipboard": "Copy to Clipboard",
     "transactionItemButtonViewDetails": "View Details",
@@ -612,7 +608,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "Transaction ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nTimestamp: {confirmed}\nTick: {targetTick}",
+    "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nType: {type}\nStatus: {status}\nTimestamp: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
         "placeholders": {
@@ -628,40 +624,16 @@
             "amount": {
                 "type": "String"
             },
+            "type": {
+                "type": "String"
+            },
             "status": {
                 "type": "String"
             },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
+            "timestamp": {
                 "type": "String"
             },
             "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
                 "type": "String"
             }
         }
@@ -825,7 +797,7 @@
     "wcErrorProposalExpired": "The session proposal has expired",
     "wcErrorTickExpired": "Tick value is already in the past",
     "wcErrorUnsupportedNetwork": "Unsupported Network",
-    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Main Network",
+    "wcErrorUnsupportedNetworkDescription": "This app uses {networkName} network. Currently, Qubic Wallet only supports apps on Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {

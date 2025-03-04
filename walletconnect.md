@@ -6,12 +6,27 @@
 | :-------- | :------------------------------------------------------------------------------------------------------ |
 | dApp      | A (web3) application that needs access to the Qubic Wallet.                                             |
 | Session   | A connection between a dApp and the Qubic Wallet.                                                      |
+| Chain ID | Identifier of the blockchain network. For Qubic wallet, it's `qubic:mainnet`. |
 | Method    | Functionality exposed by the Qubic Wallet that can be invoked by the dApp.                             |
 | Event     | Information that the Qubic Wallet can push to a dApp without the dApp initiating a request.             |
 
 ## Session Establishment
 
-A dApp initiates a connection to the WalletConnect servers, generating a connection URL. This URL contains information about the dApp and the required `methods` and `events` for the connection. The URL is then passed to the wallet (via QR code scanning or copy-paste). The wallet prompts the user to accept or reject the connection.
+When a dApp initiates a WalletConnect connection, it specifies required namespaces, including the Qubic Mainnet chain ID, along with details about the dApp and the necessary methods and events. This information is encoded within the generated URL. The URL is then shared with the Qubic Wallet (via QR code or copy-paste), prompting the user to either accept or reject the connection.
+
+**Example:**
+
+```json
+{
+  "requiredNamespaces": {
+    "qubic": {
+      "chains": ["qubic:mainnet"],
+      "methods": ["qubic_requestAccounts", "qubic_sendQubic", "qubic_signTransaction", "qubic_sendTransaction", "qubic_sign", "qubic_sendAsset"],
+      "events": ["accountsChanged", "amountChanged", "assetAmountChanged"]
+    }
+  }
+}
+```
 
 If the connection is rejected, the dApp receives the following response:
 `{ code: 5000, message: 'User rejected.' }`
