@@ -56,7 +56,11 @@ class QubicSCStore {
       name: 'QUtil',
       contractId:
           'EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVWRF',
-      procedures: {1: 'Send to Many', 2: 'Burn Qubic'},
+      procedures: {
+        1: 'Send to Many',
+        2: 'Burn Qubic',
+        3: 'Send to Many Benchmark'
+      },
     ),
     QubicSCModel(
       contractIndex: 6,
