@@ -137,7 +137,7 @@ class TransactionVm {
 
   @override
   String toString() {
-    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount, Status: $status,Created: $created,Stored: $stored,Staged: $staged,Broadcasted: $broadcasted,Confirmed: $confirmed,StatusUpdate: $statusUpdate,TargetTick: $targetTick,isPending: $isPending,Price: $price, Quantity: $quantity, Moneyflow: $moneyFlow";
+    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount, Status: $status,Created: $created,Stored: $stored,Staged: $staged,Broadcasted: $broadcasted,Confirmed: $confirmed,StatusUpdate: $statusUpdate,TargetTick: $targetTick,isPending: $isPending,Price: $price, Quantity: $quantity, Moneyflow: $moneyFlow Type: $type";
   }
 
   factory TransactionVm.fromTransactionDto(TransactionDto original) {
@@ -175,7 +175,7 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
       targetTick: reader.readInt(),
       isPending: reader.readBool(),
       moneyFlow: reader.readBool(),
-      type: reader.readInt(),
+      type: reader.availableBytes > 0 ? reader.read() : null,
     );
   }
 
@@ -192,6 +192,6 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
     writer.writeInt(obj.targetTick);
     writer.writeBool(obj.isPending);
     writer.writeBool(obj.moneyFlow);
-    writer.writeInt(obj.type ?? 0);
+    writer.write(obj.type ?? 0);
   }
 }
