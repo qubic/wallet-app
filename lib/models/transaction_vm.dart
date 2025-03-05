@@ -175,6 +175,7 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
       targetTick: reader.readInt(),
       isPending: reader.readBool(),
       moneyFlow: reader.readBool(),
+      type: reader.availableBytes > 0 ? reader.read() : null,
     );
   }
 
@@ -191,5 +192,6 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
     writer.writeInt(obj.targetTick);
     writer.writeBool(obj.isPending);
     writer.writeBool(obj.moneyFlow);
+    writer.write(obj.type ?? 0);
   }
 }
