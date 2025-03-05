@@ -205,23 +205,26 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                             }
                           }
                           if (results.isEmpty) {
-                            results.add(getEmptyTransactionsForSingleID(
-                                context: context,
-                                hasFiltered:
-                                    transactionFilter?.status != null ||
+                            results.add(TransactionUIHelpers
+                                .getEmptyTransactionsForSingleID(
+                                    context: context,
+                                    hasFiltered: transactionFilter?.status !=
+                                            null ||
                                         transactionFilter?.direction != null,
-                                numberOfFilters:
-                                    transactionFilter!.totalActiveFilters - 1,
-                                onTap: () {
-                                  setState(() {
-                                    transactionFilter = TransactionFilter(
-                                        qubicId: widget.publicQubicId);
-                                  });
-                                }));
+                                    numberOfFilters:
+                                        transactionFilter!.totalActiveFilters -
+                                            1,
+                                    onTap: () {
+                                      setState(() {
+                                        transactionFilter = TransactionFilter(
+                                            qubicId: widget.publicQubicId);
+                                      });
+                                    }));
                           } else {
                             results.insert(
                                 0,
-                                getTransactionFiltersInfo(context,
+                                TransactionUIHelpers.getTransactionFiltersInfo(
+                                    context,
                                     numberOfFilters:
                                         transactionFilter!.totalActiveFilters -
                                             1,
