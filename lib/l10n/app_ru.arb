@@ -250,7 +250,7 @@
     "transactionLabelDirectionInWallet": "В кошельке",
     "transactionLabelStatusSuccessful": "Удачно",
     "transactionLabelStatusPending": "В ожидании",
-    "transactionLabelStatusConfirmed": "Подтверждено",
+    "transactionLabelStatusExecuted": "Выполнено",
     "transactionLabelStatusFailed": "Неудачно",
     "transactionLabelStatusInvalid": "Ошибка",
     "signInTitleOne": "Добро пожаловать в",
@@ -378,10 +378,8 @@
     "accountExplorerLabelTotalOutgoing": "Общее кол-во выводов",
     "accountExplorerLabelReportedBy": "Подтверждена",
     "accountExplorerLabelNoResultsFound": "Нет транзакций для этого ID в эту эпоху",
-    "transactionItemLabelIncludedByTickLeader": "Включительно с лидером тика",
-    "transactionItemLabelNotIncludedByTickLeader": "Не включено в лидера тика",
     "transactionItemLabelTransactionId": "ID транзакции",
-    "transactionItemLabelTransactionDigest": "Дайджест транзакции",
+    "transactionItemLabelTransactionType": "Тип",
     "generalLabelTickAndValue": "Тик {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -390,8 +388,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Включено в сеть Qubic",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Не включено в сеть Qubic",
     "transactionItemButtonViewInExplorer": "Посмотреть в обозревателе",
     "transactionItemButtonCopyToClipboard": "Скопировать в буфер",
     "transactionItemButtonViewDetails": "Детали",
@@ -585,60 +581,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nОтправитель: {sourceId}\nПолучатель: {destId}\nКол-во: {amount}\nСтатус: {status}\nСоздано: {created}\nЗаписано: {stored}\nПоставлено: {staged}\nПередано: {broadcasted}\nПодтверждено: {confirmed}\nСтатус Обновлен: {statusUpdate}\nТик: {targetTick}\nВ процессе: {isPending}\nЦена: {price} \nКол-во: {quantity}\nДвижение: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nИсточник: {sourceId}\nПолучатель: {destId}\nТик: {amount}\nТип: {type}\nСтатус: {status}\nМетка времени: {timestamp}\nТик: {targetTick}",
     "welcomeButtonImportExistingWallet": "Импортировать существующий кошелек",
     "importWalletTitle": "Импортировать кошелек",
     "importWalletSubHeader": "Выберете каким образом вы хотите импортировать существующий кошелек",
@@ -795,7 +738,7 @@
     "wcErrorUsedURL": "Соединение уже было установлено через этот URL",
     "wcErrorPairingTimeout": "Время ожидания подключения истекло.",
     "wcErrorUnsupportedNetwork": "Неподдерживаемая сеть",
-    "wcErrorUnsupportedNetworkDescription": "Это приложение использует сеть {networkName}. В настоящее время Qubic Wallet поддерживает только приложения в основной сети Qubic",
+    "wcErrorUnsupportedNetworkDescription": "Это приложение использует сеть {networkName}. В настоящее время Qubic Wallet поддерживает только приложения в Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {

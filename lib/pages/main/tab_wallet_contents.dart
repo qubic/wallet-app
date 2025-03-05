@@ -315,8 +315,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                               child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: ThemePaddings.smallPadding,
-                                      vertical:
-                                          ThemePaddings.normalPadding / 2),
+                                      vertical: ThemePaddings.minimumPadding),
                                   child: AccountListItem(
                                       item: appStore.currentQubicIDs[index])));
                         }, childCount: appStore.currentQubicIDs.length),

@@ -5,17 +5,22 @@ import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum ComputedTransactionStatus {
-  //** Transfer is broadcasted but pending */
+  //** Transaction is broadcasted but pending */
   pending,
   //** Transfer is successful (processed by computors) */
   success,
   //** Transfer has failed */
   failure,
-  //** Transfer is invalid (ignored by network) */
+  //** Transaction is invalid (ignored by network) */
   invalid,
+  // amount is 0 or SC was executed, can not determine success or failure
+  executed
 }
 
 @observable
@@ -68,6 +73,8 @@ class TransactionVm {
   @observable
   bool moneyFlow;
 
+  int? type;
+
   TransactionVm(
       {required this.id,
       required this.sourceId,
@@ -84,26 +91,12 @@ class TransactionVm {
       required this.isPending,
       this.price,
       this.quantity,
+      this.type,
       required this.moneyFlow});
 
   ComputedTransactionStatus getStatus() {
-    if (isPending) {
-      return ComputedTransactionStatus.pending;
-    }
-    if ((status == 'Success')) {
-      if (moneyFlow == true) {
-        return ComputedTransactionStatus.success;
-      } else {
-        return ComputedTransactionStatus.failure;
-      }
-    }
-    if ((status == 'Failed')) {
-      return ComputedTransactionStatus.failure;
-    }
-    if ((status == 'Invalid')) {
-      return ComputedTransactionStatus.invalid;
-    }
-    return ComputedTransactionStatus.pending;
+    return TransactionStatusHelpers.getTransactionStatus(
+        isPending, type, amount, moneyFlow, status == "Invalid");
   }
 
   String toReadableString(BuildContext context) {
@@ -113,19 +106,10 @@ class TransactionVm {
         sourceId,
         destId,
         amount.asThousands(),
-        status,
-        created.toString(),
-        stored.toString(),
-        staged.toString(),
-        broadcasted.toString(),
+        TransactionUIHelpers.getTransactionType(type ?? 0, destId!),
+        TransactionStatusHelpers.getTransactionStatusText(getStatus(), context),
         confirmed.toString(),
-        statusUpdate.toString(),
-        targetTick.toString(),
-        isPending ? l10n.generalLabelYes : l10n.generalLabelNo,
-        price.toString(),
-        quantity.toString(),
-        moneyFlow ? l10n.generalLabelYes : l10n.generalLabelNo);
-    //return "ID: $id \nSource: $sourceId \nDestination: $destId \nAmount: $amount \nStatus: $status \nCreated: $created \nStored: $stored \nStaged: $staged \nBroadcasted: $broadcasted \nConfirmed: $confirmed \nStatusUpdate: $statusUpdate \nTarget Tick: $targetTick \nIs Pending: $isPending \nPrice: $price \nQuantity: $quantity \nMoney Flow: $moneyFlow \n";
+        targetTick.toString().asThousands());
   }
 
   updateContentsFromTransactionDto(TransactionDto update) {
@@ -148,31 +132,34 @@ class TransactionVm {
     price = update.price;
     quantity = update.quantity;
     moneyFlow = update.moneyFlow;
+    type = update.type;
   }
 
   @override
   String toString() {
-    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount, Status: $status,Created: $created,Stored: $stored,Staged: $staged,Broadcasted: $broadcasted,Confirmed: $confirmed,StatusUpdate: $statusUpdate,TargetTick: $targetTick,isPending: $isPending,Price: $price, Quantity: $quantity, Moneyflow: $moneyFlow";
+    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount, Status: $status,Created: $created,Stored: $stored,Staged: $staged,Broadcasted: $broadcasted,Confirmed: $confirmed,StatusUpdate: $statusUpdate,TargetTick: $targetTick,isPending: $isPending,Price: $price, Quantity: $quantity, Moneyflow: $moneyFlow Type: $type";
   }
 
   factory TransactionVm.fromTransactionDto(TransactionDto original) {
     return TransactionVm(
-        id: original.id,
-        sourceId: original.sourceId,
-        destId: original.destId,
-        amount: original.amount,
-        status: original.status,
-        created: original.created,
-        stored: original.stored,
-        staged: original.staged,
-        broadcasted: original.broadcasted,
-        confirmed: original.confirmed,
-        statusUpdate: original.statusUpdate,
-        targetTick: original.targetTick,
-        isPending: original.isPending,
-        price: original.price,
-        quantity: original.quantity,
-        moneyFlow: original.moneyFlow);
+      id: original.id,
+      sourceId: original.sourceId,
+      destId: original.destId,
+      amount: original.amount,
+      status: original.status,
+      created: original.created,
+      stored: original.stored,
+      staged: original.staged,
+      broadcasted: original.broadcasted,
+      confirmed: original.confirmed,
+      statusUpdate: original.statusUpdate,
+      targetTick: original.targetTick,
+      isPending: original.isPending,
+      price: original.price,
+      quantity: original.quantity,
+      moneyFlow: original.moneyFlow,
+      type: original.type,
+    );
   }
 }
 
@@ -180,14 +167,16 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
   @override
   TransactionVm read(BinaryReader reader) {
     return TransactionVm(
-        id: reader.readString(),
-        sourceId: reader.readString(),
-        destId: reader.readString(),
-        amount: reader.readInt(),
-        status: reader.readString(),
-        targetTick: reader.readInt(),
-        isPending: reader.readBool(),
-        moneyFlow: reader.readBool());
+      id: reader.readString(),
+      sourceId: reader.readString(),
+      destId: reader.readString(),
+      amount: reader.readInt(),
+      status: reader.readString(),
+      targetTick: reader.readInt(),
+      isPending: reader.readBool(),
+      moneyFlow: reader.readBool(),
+      type: reader.availableBytes > 0 ? reader.read() : null,
+    );
   }
 
   @override
@@ -203,5 +192,6 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
     writer.writeInt(obj.targetTick);
     writer.writeBool(obj.isPending);
     writer.writeBool(obj.moneyFlow);
+    writer.write(obj.type ?? 0);
   }
 }

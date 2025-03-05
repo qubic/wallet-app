@@ -250,7 +250,7 @@
     "transactionLabelDirectionInWallet": "钱包内",
     "transactionLabelStatusSuccessful": "成功",
     "transactionLabelStatusPending": "等待中",
-    "transactionLabelStatusConfirmed": "确认",
+    "transactionLabelStatusExecuted": "已执行",
     "transactionLabelStatusFailed": "失败",
     "transactionLabelStatusInvalid": "无效",
     "signInTitleOne": "欢迎来到",
@@ -379,10 +379,8 @@
     "accountExplorerLabelTotalOutgoing": "总转出",
     "accountExplorerLabelReportedBy": "报告来自",
     "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
-    "transactionItemLabelIncludedByTickLeader": "由刻度验证者包含的交易",
-    "transactionItemLabelNotIncludedByTickLeader": "不由刻度验证者包含的交易",
     "transactionItemLabelTransactionId": "交易 ID",
-    "transactionItemLabelTransactionDigest": "交易摘要",
+    "transactionItemLabelTransactionType": "类型",
     "generalLabelTickAndValue": "刻度 {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -391,8 +389,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "由 Qubic 网络包含的交易",
-    "transactionItemLabelNotIncludedByQubicNetwork": "不由 Qubic 网络包含的交易",
     "transactionItemButtonViewInExplorer": "在浏览器中查看",
     "transactionItemButtonCopyToClipboard": "复制到剪贴板",
     "transactionItemButtonViewDetails": "查看详情",
@@ -586,60 +582,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\n发送方: {sourceId}\n接收方: {destId}\n数量: {amount}\n类型: {type}\nStatus: {status}\n时间戳: {timestamp}\n刻度: {targetTick}",
     "welcomeButtonImportExistingWallet": "导入已有钱包",
     "importWalletTitle": "导入钱包",
     "importWalletSubHeader": "选择您想要导入钱包的方式",
@@ -795,7 +738,7 @@
     "wcErrorUsedURL": "該 URL 已建立連接",
     "wcErrorPairingTimeout": "配對請求超時",
     "wcErrorUnsupportedNetwork": "不支持的網絡",
-    "wcErrorUnsupportedNetworkDescription": "此應用程式使用 {networkName} 網絡。目前，Qubic Wallet 僅支持 Qubic 主網絡上的應用程式",
+    "wcErrorUnsupportedNetworkDescription": "此應用程式使用 {networkName} 網絡。目前，Qubic錢包僅支援Qubic Mainnet上的應用程式",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
