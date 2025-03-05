@@ -96,10 +96,18 @@ and run the .apk file on your device.
 
 - Run : `flutter build windows` to build the windows version. Run it in your windows
 - Please note that running the windows version requires the VC++ Redistributables which can be found here(https://www.microsoft.com/en-gb/download/details.aspx?id=48145)
+  
+## MacOS
+
+```bash
+flutter build macos
+```
 
 # Contribution - Bug reports
 
-Feel free to contribute to the project. Just create an MR. Feel free to post any found bugs in Issues page. We cannot support you in any case. You are welcome to provide updates, bugfixes or other code changes by pull requests.
+Your contribution to the project will be very appreciated. Feel free to contribute by:
+- Adding new issues in the "Issues" page to report found bugs or to request new features/improvements.
+- Providing updates, bugfixes or other code changes by pull requests.
 
 # License
 
