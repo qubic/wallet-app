@@ -1,7 +1,7 @@
 class QubicAssetTransfer {
-  final String? assetName;
-  final String? assetIssuer;
-  final String? numberOfUnits;
+  final String assetName;
+  final String assetIssuer;
+  final String numberOfUnits;
   QubicAssetTransfer(
       {required this.assetName,
       required this.assetIssuer,
