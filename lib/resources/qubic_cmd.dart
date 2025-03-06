@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
@@ -121,6 +122,14 @@ class QubicCmd {
       return await qubicJs.createVaultFile(password, seeds);
     } else {
       return await qubicCmdUtils.createVaultFile(password, seeds);
+    }
+  }
+
+  Future<QubicAssetTransfer> parseAssetInput(String input) async {
+    if (useJs) {
+      return await qubicJs.parseAssetInput(input);
+    } else {
+      return await qubicCmdUtils.parseAssetInput(input);
     }
   }
 
