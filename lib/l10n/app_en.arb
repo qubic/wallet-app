@@ -883,5 +883,6 @@
     "wcApproveTransfer": "Approve Transfer",
     "wcSendAssets": "Send Assets",
     "wcSignMessage": "Sign Message",
-    "wcSignTransaction": "Sign Transaction"
+    "wcSignTransaction": "Sign Transaction",
+    "assetButtonIssuerIdentity": "Issuer Identity"
 }

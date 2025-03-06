@@ -340,7 +340,7 @@ class _AccountListItemState extends State<AccountListItem> {
             onPressed: () {
               pushScreen(
                 context,
-                screen: Assets(PublicId: widget.item.publicId),
+                screen: Assets(publicId: widget.item.publicId),
                 withNavBar: false, // OPTIONAL VALUE. True by default.
                 pageTransitionAnimation: PageTransitionAnimation.cupertino,
               );
