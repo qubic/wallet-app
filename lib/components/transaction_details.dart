@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
-import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/components/transaction_status_item.dart';
+import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -180,7 +180,7 @@ class TransactionDetails extends StatelessWidget {
                               child: FittedBox(
                                 child: CopyableText(
                                   copiedText: item.amount.toString(),
-                                  child: QubicAmount(amount: item.amount),
+                                  child: UnitAmount(amount: item.amount),
                                 ),
                               )),
                         ],

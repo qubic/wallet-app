@@ -5,7 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/mid_text_with_ellipsis.dart';
-import 'package:qubic_wallet/components/qubic_amount.dart';
+import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/components/transaction_details.dart';
 import 'package:qubic_wallet/components/transaction_status_item.dart';
 import 'package:qubic_wallet/di.dart';
@@ -187,7 +187,7 @@ class TransactionItem extends StatelessWidget {
                 child: Container(
                     constraints: const BoxConstraints(maxWidth: 500),
                     width: double.infinity,
-                    child: FittedBox(child: QubicAmount(amount: item.amount)))),
+                    child: FittedBox(child: UnitAmount(amount: item.amount)))),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
