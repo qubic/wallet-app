@@ -838,5 +838,6 @@
     "wcSmartContractWarningTitle": "Транзакция смарт-контракта \"{smartContractName}\"",
     "wcSmartContractWarningDescription": "Убедитесь, что вы доверяете этому DApp. Одобряя транзакцию, вы можете разрешить перевод Qubics и/или активов",
     "wcApproveTransfer": "Одобрить перевод",
-    "wcSendAssets": "Отправить активы"
+    "wcSendAssets": "Отправить активы",
+    "assetButtonIssuerIdentity": "Идентификатор владельца"
 }
