@@ -36,12 +36,27 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
 
   Map<String, SessionData> sessions = {};
 
+  StreamSubscription? _sessionDisconnectSubscription;
+
   @override
   void initState() {
     super.initState();
-    if (mounted) {
-      setActiveSessions();
-    }
+    setActiveSessions();
+
+    _sessionDisconnectSubscription =
+        walletConnectService.onSessionDisconnect.stream.listen((event) {
+      if (mounted) {
+        setState(() {
+          sessions.remove(event?.topic);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sessionDisconnectSubscription?.cancel();
+    super.dispose();
   }
 
   setActiveSessions() {

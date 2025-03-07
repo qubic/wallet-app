@@ -11,13 +11,13 @@ import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-// ignore: depend_on_referenced_packages
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -109,17 +109,10 @@ class TransactionDetails extends StatelessWidget {
                       textAlign: TextAlign.start,
                       style: TextStyles.lightGreyTextNormal));
             }),
-            if (QubicSCID.isSC(accountId))
-              Text(QubicSCID.fromContractId(accountId)!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(fontFamily: ThemeFonts.secondary)),
-            Text(accountId,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontFamily: ThemeFonts.secondary)),
+            if (QubicSCStore.isSC(accountId))
+              Text(QubicSCStore.fromContractId(accountId)!,
+                  style: TextStyles.textNormal),
+            Text(accountId, style: TextStyles.textNormal),
           ])),
       CopyButton(copiedText: accountId)
     ]);
@@ -213,6 +206,12 @@ class TransactionDetails extends StatelessWidget {
                             child: Column(children: [
                           getCopyableDetails(context,
                               l10n.transactionItemLabelTransactionId, item.id),
+                          ThemedControls.spacerVerticalSmall(),
+                          getCopyableDetails(
+                              context,
+                              l10n.transactionItemLabelTransactionType,
+                              TransactionUIHelpers.getTransactionType(
+                                  item.type ?? 0, item.destId)),
                           ThemedControls.spacerVerticalSmall(),
                           getFromTo(
                               context, l10n.generalLabelFrom, item.sourceId),

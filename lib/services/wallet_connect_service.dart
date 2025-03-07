@@ -64,10 +64,6 @@ class WalletConnectService {
   StreamController<SessionExpire?> onSessionExpire =
       StreamController<SessionExpire?>.broadcast();
 
-  /// Event that is triggered when a session is disconnected
-  StreamController<SessionDelete?> onSessionDelete =
-      StreamController<SessionDelete?>.broadcast();
-
   /// Event that is triggered when a session proposal event is expired
   StreamController<SessionProposalEvent?> onProposalExpire =
       StreamController<SessionProposalEvent?>.broadcast();

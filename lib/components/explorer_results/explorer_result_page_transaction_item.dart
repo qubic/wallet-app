@@ -9,10 +9,12 @@ import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -43,11 +45,10 @@ class _ExplorerResultPageTransactionItemState
 
   Future<QubicAssetTransfer> parseAssetTransferPayload() async {
     return await getIt<QubicCmd>()
-        .parseAssetTransferPayload(widget.transaction.transaction.inputHex!);
+        .parseAssetTransferPayload(widget.transaction.data.inputHex!);
   }
 
-  bool get isQx =>
-      widget.transaction.transaction.destId == QubicSCID.qX.contractId;
+  bool get isQx => widget.transaction.data.destId == QxInfo.address;
 
   @override
   void initState() {
@@ -92,9 +93,9 @@ class _ExplorerResultPageTransactionItemState
                   style: TextStyles.lightGreyTextSmallBold)
             ]);
           }),
-          if (QubicSCID.isSC(accountId)) ...[
+          if (QubicSCStore.isSC(accountId)) ...[
             ThemedControls.spacerVerticalMini(),
-            Text(QubicSCID.fromContractId(accountId)!)
+            Text(QubicSCStore.fromContractId(accountId)!)
           ],
           Text(accountId,
               style: TextStyles.textSmall, textAlign: TextAlign.start),
@@ -118,7 +119,7 @@ class _ExplorerResultPageTransactionItemState
                           : l10n.generalLabelCurrencyQubic,
                       amount: int.tryParse(isQx
                           ? assetTransfer!.numberOfUnits
-                          : widget.transaction.transaction
+                          : widget.transaction.data
                               .amount!))) // transaction.amount)),
               ),
         Row(children: [
@@ -126,12 +127,11 @@ class _ExplorerResultPageTransactionItemState
               ? Expanded(
                   flex: 1,
                   child: CopyableText(
-                      copiedText: widget.transaction.transaction.tickNumber
-                              ?.toString() ??
-                          "-",
+                      copiedText:
+                          widget.transaction.data.tickNumber?.toString() ?? "-",
                       child: Text(
                           l10n.generalLabelTickAndValue(widget
-                                  .transaction.transaction.tickNumber
+                                  .transaction.data.tickNumber
                                   ?.asThousands() ??
                               "-"),
                           textAlign: TextAlign.right)))
@@ -145,26 +145,23 @@ class _ExplorerResultPageTransactionItemState
                   children: [
                 Text(l10n.transactionItemLabelTransactionId,
                     style: itemHeaderType(context)),
-                Text(widget.transaction.transaction.txId.toString()),
+                Text(widget.transaction.data.txId.toString()),
               ])),
-          CopyButton(
-              copiedText: widget.transaction.transaction.txId.toString()),
+          CopyButton(copiedText: widget.transaction.data.txId.toString()),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Row(children: [
           Expanded(
               child: getFromTo(context, l10n.generalLabelFrom,
-                  widget.transaction.transaction.sourceId.toString())),
-          CopyButton(
-              copiedText: widget.transaction.transaction.sourceId.toString()),
+                  widget.transaction.data.sourceId.toString())),
+          CopyButton(copiedText: widget.transaction.data.sourceId.toString()),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Row(children: [
           Expanded(
               child: getFromTo(context, l10n.generalLabelTo,
-                  widget.transaction.transaction.destId.toString())),
-          CopyButton(
-              copiedText: widget.transaction.transaction.destId.toString()),
+                  widget.transaction.data.destId.toString())),
+          CopyButton(copiedText: widget.transaction.data.destId.toString()),
         ]),
         if (isQx && assetTransfer != null) ...[
           ThemedControls.spacerVerticalSmall(),
@@ -172,8 +169,7 @@ class _ExplorerResultPageTransactionItemState
             Expanded(
                 child: getFromTo(
                     context, "Destination", assetTransfer!.assetIssuer)),
-            CopyButton(
-                copiedText: widget.transaction.transaction.destId.toString()),
+            CopyButton(copiedText: widget.transaction.data.destId.toString()),
           ]),
           ThemedControls.spacerVerticalSmall(),
           Row(children: [
@@ -183,12 +179,11 @@ class _ExplorerResultPageTransactionItemState
                 children: [
                   Text("Fee", style: itemHeaderType(context)),
                   Text(
-                      "${widget.transaction.transaction.amount!.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
+                      "${widget.transaction.data.amount!.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
                 ],
               ),
             ),
-            CopyButton(
-                copiedText: widget.transaction.transaction.destId.toString()),
+            CopyButton(copiedText: widget.transaction.data.destId.toString()),
           ]),
         ]
       ]),
