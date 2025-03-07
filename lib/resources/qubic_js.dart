@@ -169,10 +169,10 @@ class QubicJs {
     }
   }
 
-  Future<QubicAssetTransfer> parseAssetInput(String data) async {
+  Future<QubicAssetTransfer> parseAssetTransferPayload(String data) async {
     try {
       CallAsyncJavaScriptResult? result =
-          await runFunction(QubicJSFunctions.parseAssetInput, [data]);
+          await runFunction(QubicJSFunctions.parseAssetTransferPayload, [data]);
       final decodedResult = json.decode(result?.value);
       appLogger.e(decodedResult);
       final asset = QubicAssetTransfer.fromJson(decodedResult);

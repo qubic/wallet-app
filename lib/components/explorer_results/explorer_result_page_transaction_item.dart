@@ -41,9 +41,9 @@ class _ExplorerResultPageTransactionItemState
   final ApplicationStore appStore = getIt<ApplicationStore>();
   QubicAssetTransfer? assetTransfer;
 
-  Future<QubicAssetTransfer> parseAssetInput() async {
+  Future<QubicAssetTransfer> parseAssetTransferPayload() async {
     return await getIt<QubicCmd>()
-        .parseAssetInput(widget.transaction.transaction.inputHex!);
+        .parseAssetTransferPayload(widget.transaction.transaction.inputHex!);
   }
 
   bool get isQx =>
@@ -53,7 +53,7 @@ class _ExplorerResultPageTransactionItemState
   void initState() {
     super.initState();
     if (isQx) {
-      parseAssetInput().then((value) {
+      parseAssetTransferPayload().then((value) {
         setState(() {
           assetTransfer = value;
         });

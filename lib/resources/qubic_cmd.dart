@@ -125,11 +125,11 @@ class QubicCmd {
     }
   }
 
-  Future<QubicAssetTransfer> parseAssetInput(String input) async {
+  Future<QubicAssetTransfer> parseAssetTransferPayload(String input) async {
     if (useJs) {
-      return await qubicJs.parseAssetInput(input);
+      return await qubicJs.parseAssetTransferPayload(input);
     } else {
-      return await qubicCmdUtils.parseAssetInput(input);
+      return await qubicCmdUtils.parseAssetTransferPayload(input);
     }
   }
 

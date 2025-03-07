@@ -234,12 +234,12 @@ class QubicCmdUtils {
     return response.publicId!;
   }
 
-  Future<QubicAssetTransfer> parseAssetInput(String data) async {
+  Future<QubicAssetTransfer> parseAssetTransferPayload(String data) async {
     try {
       final result = await Process.run(
           await _getHelperFileFullPath(),
           [
-            QubicJSFunctions.parseAssetInput,
+            QubicJSFunctions.parseAssetTransferPayload,
             data,
           ],
           runInShell: true);
