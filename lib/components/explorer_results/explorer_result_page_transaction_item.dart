@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
@@ -9,7 +8,6 @@ import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -26,7 +24,7 @@ class ExplorerResultPageTransactionItem extends StatefulWidget {
   final bool isFocused;
   final bool showTick;
   final bool? dataStatus;
-  ExplorerResultPageTransactionItem(
+  const ExplorerResultPageTransactionItem(
       {super.key,
       required this.transaction,
       this.isFocused = false,
@@ -48,13 +46,14 @@ class _ExplorerResultPageTransactionItemState
         .parseAssetTransferPayload(widget.transaction.transaction.inputHex!);
   }
 
-  bool get isQx =>
-      widget.transaction.transaction.destId == QubicSCID.qX.contractId;
+  bool get isQxTransferShares =>
+      widget.transaction.data.destId == QxInfo.address &&
+      widget.transaction.data.inputType == 2;
 
   @override
   void initState() {
     super.initState();
-    if (isQx) {
+    if (isQxTransferShares) {
       parseAssetTransferPayload().then((value) {
         setState(() {
           assetTransfer = value;
@@ -109,16 +108,17 @@ class _ExplorerResultPageTransactionItemState
     return ThemedControls.card(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         ExplorerTransactionStatusItem(item: widget.transaction),
-        if (!isQx || (isQx && assetTransfer != null))
+        if (!isQxTransferShares ||
+            (isQxTransferShares && assetTransfer != null))
           SizedBox(
               width: double.infinity,
               child: FittedBox(
                   fit: BoxFit.cover,
                   child: UnitAmount(
-                      type: isQx
+                      type: isQxTransferShares
                           ? assetTransfer!.assetName
                           : l10n.generalLabelCurrencyQubic,
-                      amount: int.tryParse(isQx
+                      amount: int.tryParse(isQxTransferShares
                           ? assetTransfer!.numberOfUnits
                           : widget.transaction.transaction
                               .amount!))) // transaction.amount)),
@@ -168,7 +168,7 @@ class _ExplorerResultPageTransactionItemState
           CopyButton(
               copiedText: widget.transaction.transaction.destId.toString()),
         ]),
-        if (isQx && assetTransfer != null) ...[
+        if (isQxTransferShares && assetTransfer != null) ...[
           ThemedControls.spacerVerticalSmall(),
           Row(children: [
             Expanded(
