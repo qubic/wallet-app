@@ -75,24 +75,28 @@ class TransactionVm {
 
   int? type;
 
-  TransactionVm(
-      {required this.id,
-      required this.sourceId,
-      required this.destId,
-      required this.amount,
-      required this.status,
-      this.created,
-      this.stored,
-      this.staged,
-      this.broadcasted,
-      this.confirmed,
-      this.statusUpdate,
-      required this.targetTick,
-      required this.isPending,
-      this.price,
-      this.quantity,
-      this.type,
-      required this.moneyFlow});
+  String? data;
+
+  TransactionVm({
+    required this.id,
+    required this.sourceId,
+    required this.destId,
+    required this.amount,
+    required this.status,
+    this.created,
+    this.stored,
+    this.staged,
+    this.broadcasted,
+    this.confirmed,
+    this.statusUpdate,
+    required this.targetTick,
+    required this.isPending,
+    this.price,
+    this.quantity,
+    this.type,
+    required this.moneyFlow,
+    this.data,
+  });
 
   ComputedTransactionStatus getStatus() {
     return TransactionStatusHelpers.getTransactionStatus(
@@ -159,6 +163,7 @@ class TransactionVm {
       quantity: original.quantity,
       moneyFlow: original.moneyFlow,
       type: original.type,
+      data: original.data,
     );
   }
 }
