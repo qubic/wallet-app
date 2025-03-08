@@ -7,14 +7,9 @@ abstract class Config {
   static const walletDomain = "api.qubic.li";
 
   static const URL_Login = "Auth/Login";
-  static const URL_Tick = "Public/CurrentTick";
-  static const URL_Balance = "Wallet/CurrentBalance";
   static const URL_NetworkBalances = "Wallet/NetworkBalances";
   static const URL_NetworkTransactions = "Wallet/Transactions";
   static const URL_Assets = "Wallet/Assets";
-  static const URL_Transaction = "Public/SubmitTransaction";
-  static const URL_ExplorerQuery = "Search/Query";
-  static const URL_ExplorerTickInfo = "Network/Block";
   static const URL_ExplorerIdInfo = "Network/Id";
 
   static const URL_MarketInfo = "Public/MarketInformation";
