@@ -837,5 +837,6 @@
     },
     "wcSmartContractWarningDescription": "Asegúrate que esta DApp es confiable. Al aprobar la transacción, podrías autorizar la transferencia de Qubics y/o otros activos",
     "wcApproveTransfer": "Aprobar Transferencia",
-    "wcSendAssets": "Enviar Activos"
+    "wcSendAssets": "Enviar Activos",
+    "assetButtonIssuerIdentity": "Identidad del emisor"
 }

@@ -14,8 +14,8 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class Assets extends StatefulWidget {
-  final String PublicId;
-  const Assets({super.key, required this.PublicId});
+  final String publicId;
+  const Assets({super.key, required this.publicId});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -35,7 +35,7 @@ class _AssetsState extends State<Assets> {
     super.initState();
     reactionDispose = autorun((_) {
       accountItem = appStore.currentQubicIDs
-          .firstWhere((element) => element.publicId == widget.PublicId);
+          .firstWhere((element) => element.publicId == widget.publicId);
     });
   }
 
