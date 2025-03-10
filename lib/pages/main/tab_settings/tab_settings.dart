@@ -7,6 +7,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/components/erase_wallet_data_button.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/components/settings_list_tile.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/address_book/address_book_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/auto_lock_settings.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
@@ -14,6 +15,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/wallet_connect.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
+import 'package:qubic_wallet/stores/address_book_store.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -45,6 +47,8 @@ class _TabSettingsState extends State<TabSettings> {
   @override
   void didChangeDependencies() {
     if (isFirstOpen) {
+      getIt<AddressBookStore>().loadAddressBook();
+
       biometricService.getAvailableBiometric(context).then((result) {
         setState(() {
           settingsUnlockLabel = result['label'];
@@ -129,6 +133,14 @@ class _TabSettingsState extends State<TabSettings> {
                               title: settingsUnlockLabel,
                               path: const ManageBiometrics(),
                             ),
+                            SettingsListTile(
+                                prefix: Icon(
+                                  Icons.bookmark_add,
+                                  size: defaultIconHeight,
+                                  color: LightThemeColors.textColorSecondary,
+                                ),
+                                title: l10n.settingsLabelAddressBook,
+                                path: const AddressBookScreen()),
                             SettingsListTile(
                                 prefix: SvgPicture.asset(AppIcons.walletConnect,
                                     height: defaultIconHeight),
