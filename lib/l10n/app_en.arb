@@ -140,6 +140,7 @@
     "appTabHome": "Home",
     "appTabTransfers": "Transfers",
     "appTabExplorer": "Explorer",
+    "appTabExplore": "Explore",
     "appTabSettings": "Settings",
     "homeLabelTotalBalance": "Total Balance",
     "homeHeader": "Accounts in Wallet",
@@ -881,5 +882,8 @@
     "wcApproveTransfer": "Approve Transfer",
     "wcSendAssets": "Send Assets",
     "wcSignMessage": "Sign Message",
-    "wcSignTransaction": "Sign Transaction"
+    "wcSignTransaction": "Sign Transaction",
+    "dAppOpenButton": "Open",
+    "dAppFeaturedApp": "Featured App",
+    "dAppPopularApps": "Popular dApps"
 }
