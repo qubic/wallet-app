@@ -21,7 +21,6 @@ class WebviewScreen extends StatefulWidget {
 
 class _WebviewScreenState extends State<WebviewScreen> {
   InAppWebViewController? webViewController;
-  String currentUrl = "";
   final ValueNotifier<double> progress = ValueNotifier(0);
 
   final TextEditingController urlController = TextEditingController();
@@ -29,8 +28,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
   @override
   void initState() {
     super.initState();
-    currentUrl = widget.initialUrl;
-    urlController.text = _cleanUrl(currentUrl);
+    urlController.text = _cleanUrl(widget.initialUrl);
   }
 
   String _cleanUrl(String url) {
@@ -39,6 +37,12 @@ class _WebviewScreenState extends State<WebviewScreen> {
       return parsedUri.host + parsedUri.path.replaceAll(RegExp(r'\/$'), '');
     }
     return url;
+  }
+
+  void _updateUrl(String? url) {
+    if (url != null) {
+      urlController.text = _cleanUrl(url);
+    }
   }
 
   Future<NavigationActionPolicy> _handleDeepLinkNavigation(
@@ -64,7 +68,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
   @override
   void dispose() {
     urlController.dispose();
-    webViewController?.dispose();
     super.dispose();
   }
 
@@ -194,18 +197,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
                   onWebViewCreated: (controller) {
                     webViewController = controller;
                   },
-                  onLoadStart: (controller, url) {
-                    setState(() {
-                      currentUrl = url.toString();
-                      urlController.text = _cleanUrl(currentUrl);
-                    });
-                  },
-                  onLoadStop: (controller, url) {
-                    setState(() {
-                      currentUrl = url.toString();
-                      urlController.text = _cleanUrl(currentUrl);
-                    });
-                  },
+                  onLoadStart: (controller, url) => _updateUrl(url.toString()),
+                  onLoadStop: (controller, url) => _updateUrl(url.toString()),
                   onProgressChanged: (controller, p) {
                     progress.value = p / 100;
                   },
