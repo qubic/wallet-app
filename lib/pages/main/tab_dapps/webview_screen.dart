@@ -2,11 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
-import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WebviewScreen extends StatefulWidget {
   final String initialUrl;
@@ -23,7 +25,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
   double progress = 0;
 
   final TextEditingController urlController = TextEditingController();
-
+  final AppLinkController appLinkController = AppLinkController();
   @override
   void initState() {
     super.initState();
@@ -101,7 +103,9 @@ class _WebviewScreenState extends State<WebviewScreen> {
                               borderRadius: BorderRadius.circular(12),
                               borderSide:
                                   const BorderSide(color: Colors.transparent))),
+                      onChanged: (value) => appLogger.e("value $value"),
                       onSubmitted: (input) {
+                        appLogger.e("input $input");
                         final urlRegex = RegExp(
                             r'^(https?:\/\/)?(www\.)?([a-zA-Z0-9-_]+(\.[a-zA-Z]{2,})+)(\/.*)?$');
 
@@ -144,6 +148,32 @@ class _WebviewScreenState extends State<WebviewScreen> {
             child: Stack(
               children: [
                 InAppWebView(
+                  shouldOverrideUrlLoading:
+                      (controller, navigationAction) async {
+                    try {
+                      final deeplink = navigationAction.request.url;
+                      if (deeplink == null) return NavigationActionPolicy.ALLOW;
+
+                      final currentUrl = await controller.getUrl();
+                      if (currentUrl == deeplink) {
+                        return NavigationActionPolicy.ALLOW;
+                      }
+                      final deeplinkStr = deeplink.toString();
+                      // Handle Qubic URLs
+                      if (deeplinkStr.startsWith(Config.CustomURLScheme)) {
+                        appLinkController.parseUriString(deeplink, context);
+                        return NavigationActionPolicy.CANCEL;
+                      }
+                      await launchUrl(deeplink);
+                      return NavigationActionPolicy.CANCEL;
+                    } catch (e) {
+                      appLogger.e("Error in URL handling: $e");
+                      return NavigationActionPolicy.ALLOW;
+                    }
+                  },
+                  initialSettings: InAppWebViewSettings(
+                    useShouldOverrideUrlLoading: true,
+                  ),
                   initialUrlRequest:
                       URLRequest(url: WebUri.uri(Uri.parse(widget.initialUrl))),
                   gestureRecognizers: {
