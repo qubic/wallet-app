@@ -32,7 +32,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
   String _cleanUrl(String url) {
     Uri? parsedUri = Uri.tryParse(url);
     if (parsedUri != null) {
-      return parsedUri.host + parsedUri.path.replaceAll(RegExp(r'\/$'), '');
+      String host =
+          parsedUri.host.replaceFirst(RegExp(r'^www\.'), ''); // Remove 'www.'
+      String path = parsedUri.path
+          .replaceAll(RegExp(r'\/$'), ''); // Remove trailing slash
+      return host + path;
     }
     return url;
   }
