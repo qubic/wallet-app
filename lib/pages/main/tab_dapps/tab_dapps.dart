@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/dapp_model.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
@@ -103,6 +104,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.transparent),
       body: _isImagesLoaded
@@ -114,7 +116,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                   fadeAnimation: _fadeAnimation,
                 ),
                 const SizedBox(height: 16),
-                const Text("Popular dApps", style: TextStyles.pageTitle),
+                Text(l10n.dAppPopularApps, style: TextStyles.pageTitle),
                 PopularDAppsWidget(
                   slideAnimation: _popularSlideAnimation,
                   fadeAnimation: _popularFadeAnimation,
@@ -138,6 +140,7 @@ class FeaturedAppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -177,7 +180,7 @@ class FeaturedAppWidget extends StatelessWidget {
                     horizontal: ThemePaddings.normalPadding),
                 child: Column(
                   children: [
-                    Text("Featured App", style: TextStyles.labelText),
+                    Text(l10n.dAppFeaturedApp, style: TextStyles.labelText),
                     ThemedControls.spacerVerticalMini(),
                     Text(
                       featureApp.description,

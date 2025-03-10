@@ -882,5 +882,8 @@
     "wcApproveTransfer": "Approve Transfer",
     "wcSendAssets": "Send Assets",
     "wcSignMessage": "Sign Message",
-    "wcSignTransaction": "Sign Transaction"
+    "wcSignTransaction": "Sign Transaction",
+    "dAppOpenButton": "Open",
+    "dAppFeaturedApp": "Featured App",
+    "dAppPopularApps": "Popular dApps"
 }
