@@ -22,7 +22,7 @@ class WebviewScreen extends StatefulWidget {
 class _WebviewScreenState extends State<WebviewScreen> {
   InAppWebViewController? webViewController;
   String currentUrl = "";
-  double progress = 0;
+  final ValueNotifier<double> progress = ValueNotifier(0);
 
   final TextEditingController urlController = TextEditingController();
   final AppLinkController appLinkController = AppLinkController();
@@ -163,13 +163,18 @@ class _WebviewScreenState extends State<WebviewScreen> {
               ],
             ),
           ),
-          if (progress < 1.0)
-            LinearProgressIndicator(
-              value: progress,
-              borderRadius: BorderRadius.circular(12),
-              backgroundColor: LightThemeColors.navBg,
-              color: LightThemeColors.primary50,
-            ),
+          ValueListenableBuilder(
+              valueListenable: progress,
+              builder: (context, value, child) {
+                return (progress.value < 1.0)
+                    ? LinearProgressIndicator(
+                        value: value,
+                        borderRadius: BorderRadius.circular(12),
+                        backgroundColor: LightThemeColors.navBg,
+                        color: LightThemeColors.primary50,
+                      )
+                    : const SizedBox.shrink();
+              }),
           Expanded(
             child: Stack(
               children: [
@@ -202,9 +207,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                     });
                   },
                   onProgressChanged: (controller, p) {
-                    setState(() {
-                      progress = p / 100;
-                    });
+                    progress.value = p / 100;
                   },
                 ),
               ],
