@@ -48,14 +48,16 @@ Future<SignedTransaction?> sendAssetTransferTransactionDialog(
     // only storing locally the transfers (amount > 0)
     if (amount > 0) {
       final pendingTransaction = TransactionVm(
-          id: transactionId,
-          sourceId: sourceId,
-          destId: QxInfo.address,
-          amount: amount,
-          status: ComputedTransactionStatus.pending.name,
-          targetTick: destinationTick,
-          isPending: true,
-          moneyFlow: amount > 0);
+        id: transactionId,
+        sourceId: sourceId,
+        destId: QxInfo.address,
+        amount: amount,
+        status: ComputedTransactionStatus.pending.name,
+        targetTick: destinationTick,
+        isPending: true,
+        moneyFlow: amount > 0,
+        type: QxInfo.transferAssetInputType,
+      );
       getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
     }
     return SignedTransaction(
@@ -129,14 +131,16 @@ Future<SignedTransaction?> sendTransactionDialog(BuildContext context,
     // only storing locally the transfers (amount > 0)
     if (value > 0) {
       final pendingTransaction = TransactionVm(
-          id: transactionId,
-          sourceId: sourceId,
-          destId: destinationId,
-          amount: value,
-          status: ComputedTransactionStatus.pending.name,
-          targetTick: destinationTick,
-          isPending: true,
-          moneyFlow: value > 0);
+        id: transactionId,
+        sourceId: sourceId,
+        destId: destinationId,
+        amount: value,
+        status: ComputedTransactionStatus.pending.name,
+        targetTick: destinationTick,
+        isPending: true,
+        moneyFlow: value > 0,
+        type: inputType,
+      );
       getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
     }
   } catch (e) {

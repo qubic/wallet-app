@@ -250,7 +250,7 @@
     "transactionLabelDirectionInWallet": "Cüzdandaki",
     "transactionLabelStatusSuccessful": "Başarılı",
     "transactionLabelStatusPending": "Onay Bekliyor",
-    "transactionLabelStatusConfirmed": "Onaylandı",
+    "transactionLabelStatusExecuted": "Gerçekleştirildi",
     "transactionLabelStatusFailed": "Başarısız",
     "transactionLabelStatusInvalid": "Geçersiz",
     "signInTitleOne": "Qubic Cüzdanına",
@@ -378,10 +378,8 @@
     "accountExplorerLabelTotalIncoming": "Toplam Gelen",
     "accountExplorerLabelTotalOutgoing": "Toplam Giden",
     "accountExplorerLabelReportedBy": "Bildiren",
-    "transactionItemLabelIncludedByTickLeader": "Tick Lideri Tarafından Dahil Edilen",
-    "transactionItemLabelNotIncludedByTickLeader": "Tick Lideri Tarafından Dagil Edilmeyen",
     "transactionItemLabelTransactionId": "Transfer ID'si",
-    "transactionItemLabelTransactionDigest": "İşlem Özeti",
+    "transactionItemLabelTransactionType": "Tür",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -390,8 +388,6 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Qubic Ağı Tarafından Dahil Edildi ",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Qubic Ağı Tarafından Dahil Edilmedi",
     "transactionItemButtonViewInExplorer": "Gezginde Görüntüle",
     "transactionItemButtonCopyToClipboard": "Panoya Kopyala",
     "transactionItemButtonViewDetails": "Detayları Göster",
@@ -585,60 +581,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nDurum: {status}\nOluşturuldu: {created}\nSaklanan: {stored}\nSahnelenen: {staged}\nYayınlanan: {broadcasted}\nOnaylanan: {confirmed}\nDurum Tarihi: {statusUpdate}\nHedef Tick: {targetTick}\nBekliyor: {isPending}\nFiyat: {price} \nMiktar: {quantity}\nPara Akışı: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nTyp: {type}\nDurum: {status}\nTimestamp: {timestamp}\nHedef Tick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Mevcut Bir Cüzdanı İçe Aktar",
     "importWalletTitle": "Cüzdanı İçe Aktar",
     "importWalletSubHeader": "Mevcut cüzdanı nasıl içeri aktarmak istediğini seç",
@@ -795,7 +738,7 @@
     "wcErrorUsedURL": "Bu URL ile zaten bir bağlantı kurulmuş",
     "wcErrorPairingTimeout": "Eşleştirme isteği zaman aşımına uğradı.",
     "wcErrorUnsupportedNetwork": "Desteklenmeyen ağ",
-    "wcErrorUnsupportedNetworkDescription": "Bu uygulama {networkName} ağını kullanıyor. Şu anda, Qubic Wallet sadece Qubic Ana Ağı üzerindeki uygulamaları destekliyor",
+    "wcErrorUnsupportedNetworkDescription": "Bu uygulama {networkName} ağını kullanıyor. Şu anda Qubic Wallet yalnızca Qubic Mainnet'taki uygulamaları desteklemektedir",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
