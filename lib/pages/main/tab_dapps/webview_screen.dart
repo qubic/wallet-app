@@ -34,12 +34,38 @@ class _WebviewScreenState extends State<WebviewScreen> {
   }
 
   String _cleanUrl(String url) {
-    url = url.replaceFirst(
-        RegExp(r'^https?://'), ''); // Remove https:// or http://
-    if (url.endsWith('/')) {
-      url = url.substring(0, url.length - 1); // Remove trailing slash
+    Uri? parsedUri = Uri.tryParse(url);
+    if (parsedUri != null) {
+      return parsedUri.host + parsedUri.path.replaceAll(RegExp(r'\/$'), '');
     }
     return url;
+  }
+
+  Future<NavigationActionPolicy> _handleDeepLinkNavigation(
+      InAppWebViewController controller,
+      NavigationAction navigationAction) async {
+    final url = await controller.getUrl();
+    final deepLink = navigationAction.request.url;
+
+    if (deepLink != null &&
+        url != navigationAction.request.url &&
+        (deepLink.scheme != 'https' && deepLink.scheme != 'http')) {
+      if (deepLink.toString().startsWith(Config.CustomURLScheme)) {
+        appLinkController.parseUriString(deepLink, context);
+      } else {
+        launchUrl(deepLink, mode: LaunchMode.externalNonBrowserApplication);
+      }
+      return NavigationActionPolicy.CANCEL;
+    }
+
+    return NavigationActionPolicy.ALLOW;
+  }
+
+  @override
+  void dispose() {
+    urlController.dispose();
+    webViewController?.dispose();
+    super.dispose();
   }
 
   @override
@@ -148,31 +174,10 @@ class _WebviewScreenState extends State<WebviewScreen> {
             child: Stack(
               children: [
                 InAppWebView(
-                  shouldOverrideUrlLoading:
-                      (controller, navigationAction) async {
-                    try {
-                      final deeplink = navigationAction.request.url;
-                      if (deeplink == null) return NavigationActionPolicy.ALLOW;
-
-                      final currentUrl = await controller.getUrl();
-                      if (currentUrl == deeplink) {
-                        return NavigationActionPolicy.ALLOW;
-                      }
-                      final deeplinkStr = deeplink.toString();
-                      // Handle Qubic URLs
-                      if (deeplinkStr.startsWith(Config.CustomURLScheme)) {
-                        appLinkController.parseUriString(deeplink, context);
-                        return NavigationActionPolicy.CANCEL;
-                      }
-                      await launchUrl(deeplink);
-                      return NavigationActionPolicy.CANCEL;
-                    } catch (e) {
-                      appLogger.e("Error in URL handling: $e");
-                      return NavigationActionPolicy.ALLOW;
-                    }
-                  },
+                  shouldOverrideUrlLoading: _handleDeepLinkNavigation,
                   initialSettings: InAppWebViewSettings(
                     useShouldOverrideUrlLoading: true,
+                    safeBrowsingEnabled: true,
                   ),
                   initialUrlRequest:
                       URLRequest(url: WebUri.uri(Uri.parse(widget.initialUrl))),
