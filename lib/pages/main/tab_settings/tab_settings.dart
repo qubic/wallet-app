@@ -147,7 +147,7 @@ class _TabSettingsState extends State<TabSettings> {
                               title: l10n.settingsLabelPrivacyPolicy,
                               onPressed: () {
                                 launchUrlString(
-                                    "https://qubic.org/Privacy-policy",
+                                    "https://qubic.org/privacy-policy",
                                     mode: LaunchMode.externalApplication);
                               },
                               suffix: SvgPicture.asset(AppIcons.externalLink,
