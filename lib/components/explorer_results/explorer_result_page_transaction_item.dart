@@ -167,8 +167,8 @@ class _ExplorerResultPageTransactionItemState
           ThemedControls.spacerVerticalSmall(),
           Row(children: [
             Expanded(
-                child: getFromTo(
-                    context, "Destination", assetTransfer!.assetIssuer)),
+                child: getFromTo(context, l10n.generalLabelDestination,
+                    assetTransfer!.assetIssuer)),
             CopyButton(copiedText: widget.transaction.data.destId.toString()),
           ]),
           ThemedControls.spacerVerticalSmall(),
@@ -177,7 +177,7 @@ class _ExplorerResultPageTransactionItemState
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Fee", style: itemHeaderType(context)),
+                  Text(l10n.generalLabelFee, style: itemHeaderType(context)),
                   Text(
                       "${widget.transaction.data.amount!.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
                 ],

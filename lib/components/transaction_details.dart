@@ -244,10 +244,10 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               context, l10n.generalLabelTo, widget.item.destId),
                           ThemedControls.spacerVerticalSmall(),
                           if (isQxTransferShares) ...[
-                            getCopyableDetails(
-                                context, "Destination", widget.item.id),
+                            getCopyableDetails(context,
+                                l10n.generalLabelDestination, widget.item.id),
                             ThemedControls.spacerVerticalSmall(),
-                            getCopyableDetails(context, "Fee",
+                            getCopyableDetails(context, l10n.generalLabelFee,
                                 "${widget.item.amount.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
                             ThemedControls.spacerVerticalSmall(),
                           ],
