@@ -660,8 +660,8 @@ class _SendState extends State<Send> {
     }
     if (mounted) {
       final l10n = l10nOf(context);
-      _globalSnackBar.show(l10n
-          .generalSnackBarMessageTransactionSubmitted(targetTick.toString()));
+      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
+          targetTick.toString().asThousands()));
     }
 
     setState(() {
