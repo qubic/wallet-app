@@ -15,8 +15,11 @@ import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -40,12 +43,26 @@ class TransactionDetails extends StatefulWidget {
 class _TransactionDetailsState extends State<TransactionDetails> {
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
   bool get isQxTransferShares => widget.assetTransfer != null;
-
+  List<QubicSendManyTransfer> sendManyTransfers = [];
   final ApplicationStore appStore = getIt<ApplicationStore>();
+  Future<List<QubicSendManyTransfer>> parseTransferSendManyPayload() async {
+    return await getIt<QubicCmd>()
+        .parseTransferSendManyPayload(widget.item.inputHex!);
+  }
+
+  bool get isQutilSendToMany =>
+      QutilInfo.isSendToManyTransfer(widget.item.destId, widget.item.type);
 
   @override
   void initState() {
     super.initState();
+    if (isQutilSendToMany) {
+      parseTransferSendManyPayload().then((value) {
+        setState(() {
+          sendManyTransfers = value;
+        });
+      });
+    }
   }
 
   Widget getButtonBar(BuildContext context) {
@@ -225,40 +242,76 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                           child: Scrollbar(
                         thumbVisibility: true,
                         child: SingleChildScrollView(
-                            child: Column(children: [
-                          getCopyableDetails(
-                              context,
-                              l10n.transactionItemLabelTransactionId,
-                              widget.item.id),
-                          ThemedControls.spacerVerticalSmall(),
-                          getCopyableDetails(
-                              context,
-                              l10n.transactionItemLabelTransactionType,
-                              TransactionUIHelpers.getTransactionType(
-                                  widget.item.type ?? 0, widget.item.destId)),
-                          ThemedControls.spacerVerticalSmall(),
-                          getFromTo(context, l10n.generalLabelFrom,
-                              widget.item.sourceId),
-                          ThemedControls.spacerVerticalSmall(),
-                          getFromTo(
-                              context, l10n.generalLabelTo, widget.item.destId),
-                          ThemedControls.spacerVerticalSmall(),
-                          if (isQxTransferShares) ...[
-                            getCopyableDetails(context,
-                                l10n.generalLabelDestination, widget.item.id),
-                            ThemedControls.spacerVerticalSmall(),
-                            getCopyableDetails(context, l10n.generalLabelFee,
-                                "${widget.item.amount.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
-                            ThemedControls.spacerVerticalSmall(),
-                          ],
-                          getCopyableDetails(
-                              context,
-                              l10n.transactionItemLabelConfirmedDate,
-                              widget.item.confirmed != null
-                                  ? formatter
-                                      .format(widget.item.confirmed!.toLocal())
-                                  : l10n.generalLabelNotAvailable)
-                        ])),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              getCopyableDetails(
+                                  context,
+                                  l10n.transactionItemLabelTransactionId,
+                                  widget.item.id),
+                              ThemedControls.spacerVerticalSmall(),
+                              getCopyableDetails(
+                                  context,
+                                  l10n.transactionItemLabelTransactionType,
+                                  TransactionUIHelpers.getTransactionType(
+                                      widget.item.type ?? 0,
+                                      widget.item.destId)),
+                              ThemedControls.spacerVerticalSmall(),
+                              getFromTo(context, l10n.generalLabelFrom,
+                                  widget.item.sourceId),
+                              ThemedControls.spacerVerticalSmall(),
+                              getFromTo(context, l10n.generalLabelTo,
+                                  widget.item.destId),
+                              ThemedControls.spacerVerticalSmall(),
+                              if (isQxTransferShares) ...[
+                                getCopyableDetails(
+                                    context,
+                                    l10n.generalLabelDestination,
+                                    widget.item.id),
+                                ThemedControls.spacerVerticalSmall(),
+                                getCopyableDetails(
+                                    context,
+                                    l10n.generalLabelFee,
+                                    "${widget.item.amount.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
+                                ThemedControls.spacerVerticalSmall(),
+                              ],
+                              getCopyableDetails(
+                                  context,
+                                  l10n.transactionItemLabelConfirmedDate,
+                                  widget.item.confirmed != null
+                                      ? formatter.format(
+                                          widget.item.confirmed!.toLocal())
+                                      : l10n.generalLabelNotAvailable),
+                              if (isQutilSendToMany &&
+                                  sendManyTransfers.isNotEmpty) ...[
+                                ThemedControls.spacerVerticalSmall(),
+                                Text("Multiple Receivers",
+                                    style: TextStyles.lightGreyTextNormal),
+                                ThemedControls.spacerVerticalMini(),
+                                Column(
+                                  children: sendManyTransfers
+                                      .map((e) => Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(e.destId,
+                                                  style: TextStyles.textSmall),
+                                              Align(
+                                                alignment:
+                                                    Alignment.centerRight,
+                                                child: Text(
+                                                  "${e.amount.asThousands()} ${l10n.generalLabelCurrencyQubic}",
+                                                  style: TextStyles.textSmall,
+                                                ),
+                                              ),
+                                              ThemedControls
+                                                  .spacerVerticalSmall(),
+                                            ],
+                                          ))
+                                      .toList(),
+                                )
+                              ]
+                            ])),
                       )),
                       getButtonBar(context),
                     ]))));
