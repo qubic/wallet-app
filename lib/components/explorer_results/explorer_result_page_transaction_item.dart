@@ -69,7 +69,6 @@ class _ExplorerResultPageTransactionItemState
         });
       });
     }
-    print(isQutilSendToMany);
     if (isQutilSendToMany) {
       parseTransferSendManyPayload().then((value) {
         setState(() {
