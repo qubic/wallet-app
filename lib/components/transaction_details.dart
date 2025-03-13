@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -13,15 +11,12 @@ import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
-import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -34,8 +29,9 @@ enum CardItem { explorer, clipboardCopy }
 
 class TransactionDetails extends StatefulWidget {
   final TransactionVm item;
+  final QubicAssetTransfer? assetTransfer;
 
-  const TransactionDetails({super.key, required this.item});
+  const TransactionDetails({super.key, required this.item, this.assetTransfer});
 
   @override
   State<TransactionDetails> createState() => _TransactionDetailsState();
@@ -43,26 +39,13 @@ class TransactionDetails extends StatefulWidget {
 
 class _TransactionDetailsState extends State<TransactionDetails> {
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
-  QubicAssetTransfer? assetTransfer;
-  bool get isQxTransferShares =>
-      QxInfo.isQxTransferShares(widget.item.destId, widget.item.type);
-  Future<QubicAssetTransfer> parseAssetTransferPayload() async {
-    return await getIt<QubicCmd>()
-        .parseAssetTransferPayload(widget.item.inputHex!);
-  }
+  bool get isQxTransferShares => widget.assetTransfer != null;
 
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   @override
   void initState() {
     super.initState();
-    if (isQxTransferShares) {
-      parseAssetTransferPayload().then((value) {
-        setState(() {
-          assetTransfer = value;
-        });
-      });
-    }
   }
 
   Widget getButtonBar(BuildContext context) {
@@ -204,26 +187,24 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                           ),
                           ThemedControls.spacerVerticalNormal(),
                           TransactionStatusItem(item: widget.item),
-                          if (!isQxTransferShares ||
-                              (isQxTransferShares && assetTransfer != null))
-                            SizedBox(
-                                width: double.infinity,
-                                child: FittedBox(
-                                  child: CopyableText(
-                                    copiedText: isQxTransferShares
-                                        ? assetTransfer!.numberOfUnits
-                                            .toString()
-                                        : widget.item.amount.toString(),
-                                    child: UnitAmount(
-                                        type: isQxTransferShares
-                                            ? assetTransfer!.assetName
-                                            : l10n.generalLabelCurrencyQubic,
-                                        amount: isQxTransferShares
-                                            ? int.tryParse(
-                                                assetTransfer!.numberOfUnits)
-                                            : widget.item.amount),
-                                  ),
-                                )),
+                          SizedBox(
+                              width: double.infinity,
+                              child: FittedBox(
+                                child: CopyableText(
+                                  copiedText: isQxTransferShares
+                                      ? widget.assetTransfer!.numberOfUnits
+                                          .toString()
+                                      : widget.item.amount.toString(),
+                                  child: UnitAmount(
+                                      type: isQxTransferShares
+                                          ? widget.assetTransfer!.assetName
+                                          : l10n.generalLabelCurrencyQubic,
+                                      amount: isQxTransferShares
+                                          ? int.tryParse(widget
+                                              .assetTransfer!.numberOfUnits)
+                                          : widget.item.amount),
+                                ),
+                              )),
                         ],
                       ),
                       Row(
