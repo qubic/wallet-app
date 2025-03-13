@@ -34,8 +34,9 @@ enum CardItem { explorer, clipboardCopy }
 
 class TransactionDetails extends StatefulWidget {
   final TransactionVm item;
+  final QubicAssetTransfer? assetTransfer;
 
-  const TransactionDetails({super.key, required this.item});
+  const TransactionDetails({super.key, required this.item, this.assetTransfer});
 
   @override
   State<TransactionDetails> createState() => _TransactionDetailsState();
@@ -43,25 +44,13 @@ class TransactionDetails extends StatefulWidget {
 
 class _TransactionDetailsState extends State<TransactionDetails> {
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
-  QubicAssetTransfer? assetTransfer;
-  bool get isQxTransferShares =>
-      widget.item.destId == QxInfo.address && widget.item.type == 2;
-  Future<QubicAssetTransfer> parseAssetTransferPayload() async {
-    return await getIt<QubicCmd>().parseAssetTransferPayload(widget.item.data!);
-  }
+  bool get isQxTransferShares => widget.assetTransfer != null;
 
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   @override
   void initState() {
     super.initState();
-    if (isQxTransferShares) {
-      parseAssetTransferPayload().then((value) {
-        setState(() {
-          assetTransfer = value;
-        });
-      });
-    }
   }
 
   Widget getButtonBar(BuildContext context) {
@@ -203,23 +192,24 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                           ),
                           ThemedControls.spacerVerticalNormal(),
                           TransactionStatusItem(item: widget.item),
-                          if (!isQxTransferShares ||
-                              (isQxTransferShares && assetTransfer != null))
-                            SizedBox(
-                                width: double.infinity,
-                                child: FittedBox(
-                                  child: CopyableText(
-                                    copiedText: widget.item.amount.toString(),
-                                    child: UnitAmount(
-                                        type: isQxTransferShares
-                                            ? assetTransfer!.assetName
-                                            : l10n.generalLabelCurrencyQubic,
-                                        amount: isQxTransferShares
-                                            ? int.tryParse(
-                                                assetTransfer!.numberOfUnits)
-                                            : widget.item.amount),
-                                  ),
-                                )),
+                          SizedBox(
+                              width: double.infinity,
+                              child: FittedBox(
+                                child: CopyableText(
+                                  copiedText: isQxTransferShares
+                                      ? widget.assetTransfer!.numberOfUnits
+                                          .toString()
+                                      : widget.item.amount.toString(),
+                                  child: UnitAmount(
+                                      type: isQxTransferShares
+                                          ? widget.assetTransfer!.assetName
+                                          : l10n.generalLabelCurrencyQubic,
+                                      amount: isQxTransferShares
+                                          ? int.tryParse(widget
+                                              .assetTransfer!.numberOfUnits)
+                                          : widget.item.amount),
+                                ),
+                              )),
                         ],
                       ),
                       Row(
@@ -259,10 +249,10 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               context, l10n.generalLabelTo, widget.item.destId),
                           ThemedControls.spacerVerticalSmall(),
                           if (isQxTransferShares) ...[
-                            getCopyableDetails(
-                                context, "Destination", widget.item.id),
+                            getCopyableDetails(context,
+                                l10n.generalLabelDestination, widget.item.id),
                             ThemedControls.spacerVerticalSmall(),
-                            getCopyableDetails(context, "Fee",
+                            getCopyableDetails(context, l10n.generalLabelFee,
                                 "${widget.item.amount.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
                             ThemedControls.spacerVerticalSmall(),
                           ],

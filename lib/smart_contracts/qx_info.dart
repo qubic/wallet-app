@@ -18,4 +18,7 @@ abstract class QxInfo {
 
   static const mainAssetIssuer =
       "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFXIB";
+
+  static bool isQxTransferShares(String? destId, int? inputType) =>
+      destId == address && inputType == transferAssetInputType;
 }

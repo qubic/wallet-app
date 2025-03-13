@@ -5,7 +5,6 @@ import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -75,7 +74,7 @@ class TransactionVm {
 
   int? type;
 
-  String? data;
+  String? inputHex;
 
   TransactionVm({
     required this.id,
@@ -95,7 +94,7 @@ class TransactionVm {
     this.quantity,
     this.type,
     required this.moneyFlow,
-    this.data,
+    this.inputHex,
   });
 
   ComputedTransactionStatus getStatus() {
@@ -163,7 +162,7 @@ class TransactionVm {
       quantity: original.quantity,
       moneyFlow: original.moneyFlow,
       type: original.type,
-      data: original.data,
+      inputHex: original.inputHex,
     );
   }
 }

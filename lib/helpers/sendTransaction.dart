@@ -57,7 +57,7 @@ Future<SignedTransaction?> sendAssetTransferTransactionDialog(
           isPending: true,
           moneyFlow: amount > 0,
           type: QxInfo.transferAssetInputType,
-          data: null);
+          inputHex: null);
       getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
     }
     return SignedTransaction(
@@ -140,7 +140,7 @@ Future<SignedTransaction?> sendTransactionDialog(BuildContext context,
         isPending: true,
         moneyFlow: value > 0,
         type: inputType,
-        data: payload,
+        inputHex: payload,
       );
       getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
     }
