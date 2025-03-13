@@ -15,6 +15,7 @@ import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_js.dart';
+import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
@@ -246,6 +247,28 @@ class QubicCmdUtils {
       final decodedResult = json.decode(result.stdout);
       final asset = QubicAssetTransfer.fromJson(decodedResult);
       return asset;
+    } catch (e) {
+      appLogger.e('Error parsing asset transfer: $e');
+      rethrow;
+    }
+  }
+
+  Future<List<QubicSendManyTransfer>> parseTransferSendManyPayload(
+      String data) async {
+    try {
+      final result = await Process.run(
+          await _getHelperFileFullPath(),
+          [
+            QubicJSFunctions.parseTransferSendManyPayload,
+            data,
+          ],
+          runInShell: true);
+      final Map<String, dynamic> decodedResult = json.decode(result.stdout);
+      List<QubicSendManyTransfer> transfers = decodedResult.entries
+          .where((entry) => entry.value is Map<String, dynamic>)
+          .map((entry) => QubicSendManyTransfer.fromJson(entry.value))
+          .toList();
+      return transfers;
     } catch (e) {
       appLogger.e('Error parsing asset transfer: $e');
       rethrow;
