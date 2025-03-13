@@ -46,9 +46,8 @@ class _ExplorerResultPageTransactionItemState
         .parseAssetTransferPayload(widget.transaction.transaction.inputHex!);
   }
 
-  bool get isQxTransferShares =>
-      widget.transaction.data.destId == QxInfo.address &&
-      widget.transaction.data.inputType == 2;
+  bool get isQxTransferShares => QxInfo.isQxTransferShares(
+      widget.transaction.data.destId, widget.transaction.data.inputType);
 
   @override
   void initState() {

@@ -45,7 +45,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
   QubicAssetTransfer? assetTransfer;
   bool get isQxTransferShares =>
-      widget.item.destId == QxInfo.address && widget.item.type == 2;
+      QxInfo.isQxTransferShares(widget.item.destId, widget.item.type);
   Future<QubicAssetTransfer> parseAssetTransferPayload() async {
     return await getIt<QubicCmd>()
         .parseAssetTransferPayload(widget.item.inputHex!);
