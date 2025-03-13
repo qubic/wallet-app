@@ -5,7 +5,6 @@ import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -75,24 +74,28 @@ class TransactionVm {
 
   int? type;
 
-  TransactionVm(
-      {required this.id,
-      required this.sourceId,
-      required this.destId,
-      required this.amount,
-      required this.status,
-      this.created,
-      this.stored,
-      this.staged,
-      this.broadcasted,
-      this.confirmed,
-      this.statusUpdate,
-      required this.targetTick,
-      required this.isPending,
-      this.price,
-      this.quantity,
-      this.type,
-      required this.moneyFlow});
+  String? inputHex;
+
+  TransactionVm({
+    required this.id,
+    required this.sourceId,
+    required this.destId,
+    required this.amount,
+    required this.status,
+    this.created,
+    this.stored,
+    this.staged,
+    this.broadcasted,
+    this.confirmed,
+    this.statusUpdate,
+    required this.targetTick,
+    required this.isPending,
+    this.price,
+    this.quantity,
+    this.type,
+    required this.moneyFlow,
+    this.inputHex,
+  });
 
   ComputedTransactionStatus getStatus() {
     return TransactionStatusHelpers.getTransactionStatus(
@@ -159,6 +162,7 @@ class TransactionVm {
       quantity: original.quantity,
       moneyFlow: original.moneyFlow,
       type: original.type,
+      inputHex: original.inputHex,
     );
   }
 }

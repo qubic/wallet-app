@@ -49,6 +49,8 @@
     "generalLabelUnknown": "Unknown",
     "generalLabelFrom": "From",
     "generalLabelTo": "To",
+    "generalLabelFee": "Fee",
+    "generalLabelDestination": "Destination",
     "generalLabeQubicAddress": "Qubic Address",
     "generalLabeQubicAddressAndPublicID": "Qubic Address (Public ID)",
     "generalLabelQubicAddressWithAccountName": "Qubic Address {accountName}",

@@ -3,14 +3,10 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
-class QubicAmount extends StatelessWidget {
+class UnitAmount extends StatelessWidget {
   final int? amount;
-  const QubicAmount({super.key, required this.amount});
-
-  Widget getText(BuildContext context, String text, bool opaque) {
-    return Text(text,
-        style: opaque ? TextStyles.qubicAmount : TextStyles.qubicAmountLight);
-  }
+  final String? type;
+  const UnitAmount({super.key, required this.amount, this.type});
 
   List<Widget> padAndFormatWithCommas(int number) {
     // Convert the number to a string
@@ -78,14 +74,14 @@ class QubicAmount extends StatelessWidget {
       List<Widget> numbers = [];
 
       numbers.add(Text(amount.toString(), style: TextStyles.qubicAmount));
-      numbers.add(Text(" ${l10n.generalLabelCurrencyQubic}",
+      numbers.add(Text(" ${type ?? l10n.generalLabelCurrencyQubic}",
           style: TextStyles.qubicAmount));
       return Row(
           mainAxisAlignment: MainAxisAlignment.center, children: numbers);
     }
 
     List<Widget> numbers = padAndFormatWithCommas(amount!.floor());
-    numbers.add(Text(" ${l10n.generalLabelCurrencyQubic}",
+    numbers.add(Text(" ${type ?? l10n.generalLabelCurrencyQubic}",
         style: TextStyles.qubicAmountLabel));
     return Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,

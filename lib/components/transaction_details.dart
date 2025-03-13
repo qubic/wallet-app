@@ -6,13 +6,14 @@ import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
-import 'package:qubic_wallet/components/qubic_amount.dart';
 import 'package:qubic_wallet/components/transaction_status_item.dart';
+import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
@@ -26,14 +27,26 @@ import 'transaction_direction_item.dart';
 
 enum CardItem { explorer, clipboardCopy }
 
-class TransactionDetails extends StatelessWidget {
+class TransactionDetails extends StatefulWidget {
   final TransactionVm item;
+  final QubicAssetTransfer? assetTransfer;
 
+  const TransactionDetails({super.key, required this.item, this.assetTransfer});
+
+  @override
+  State<TransactionDetails> createState() => _TransactionDetailsState();
+}
+
+class _TransactionDetailsState extends State<TransactionDetails> {
   final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
-
-  TransactionDetails({super.key, required this.item});
+  bool get isQxTransferShares => widget.assetTransfer != null;
 
   final ApplicationStore appStore = getIt<ApplicationStore>();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Widget getButtonBar(BuildContext context) {
     final l10n = l10nOf(context);
@@ -45,8 +58,8 @@ class TransactionDetails extends StatelessWidget {
             Expanded(
                 child: ThemedControls.transparentButtonBigWithChild(
                     onPressed: () async {
-                      await Clipboard.setData(
-                          ClipboardData(text: item.toReadableString(context)));
+                      await Clipboard.setData(ClipboardData(
+                          text: widget.item.toReadableString(context)));
                     },
                     child: Text(
                       l10n.transactionItemButtonCopyToClipboard,
@@ -56,17 +69,16 @@ class TransactionDetails extends StatelessWidget {
                     ))),
             ThemedControls.spacerHorizontalNormal(),
             Expanded(
-              child: (item.status == "Success")
+              child: (widget.item.status == "Success")
                   ? ThemedControls.primaryButtonBigWithChild(
                       onPressed: () {
                         // Perform some action
-
                         pushScreen(
                           context,
                           screen: ExplorerResultPage(
                               resultType: ExplorerResultType.tick,
-                              tick: item.targetTick,
-                              focusedTransactionHash: item.id),
+                              tick: widget.item.targetTick,
+                              focusedTransactionHash: widget.item.id),
                           //TransactionsForId(publicQubicId: item.publicId),
                           withNavBar: false, // OPTIONAL VALUE. True by default.
                           pageTransitionAnimation:
@@ -174,13 +186,23 @@ class TransactionDetails extends StatelessWidget {
                             ],
                           ),
                           ThemedControls.spacerVerticalNormal(),
-                          TransactionStatusItem(item: item),
+                          TransactionStatusItem(item: widget.item),
                           SizedBox(
                               width: double.infinity,
                               child: FittedBox(
                                 child: CopyableText(
-                                  copiedText: item.amount.toString(),
-                                  child: QubicAmount(amount: item.amount),
+                                  copiedText: isQxTransferShares
+                                      ? widget.assetTransfer!.numberOfUnits
+                                          .toString()
+                                      : widget.item.amount.toString(),
+                                  child: UnitAmount(
+                                      type: isQxTransferShares
+                                          ? widget.assetTransfer!.assetName
+                                          : l10n.generalLabelCurrencyQubic,
+                                      amount: isQxTransferShares
+                                          ? int.tryParse(widget
+                                              .assetTransfer!.numberOfUnits)
+                                          : widget.item.amount),
                                 ),
                               )),
                         ],
@@ -189,12 +211,12 @@ class TransactionDetails extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            TransactionDirectionItem(item: item),
+                            TransactionDirectionItem(item: widget.item),
                             CopyableText(
-                                copiedText: item.targetTick.toString(),
+                                copiedText: widget.item.targetTick.toString(),
                                 child: Text(
                                     l10n.generalLabelTickAndValue(
-                                        item.targetTick.asThousands()),
+                                        widget.item.targetTick.asThousands()),
                                     textAlign: TextAlign.end,
                                     style: TextStyles.assetSecondaryTextLabel))
                           ]),
@@ -204,25 +226,37 @@ class TransactionDetails extends StatelessWidget {
                         thumbVisibility: true,
                         child: SingleChildScrollView(
                             child: Column(children: [
-                          getCopyableDetails(context,
-                              l10n.transactionItemLabelTransactionId, item.id),
+                          getCopyableDetails(
+                              context,
+                              l10n.transactionItemLabelTransactionId,
+                              widget.item.id),
                           ThemedControls.spacerVerticalSmall(),
                           getCopyableDetails(
                               context,
                               l10n.transactionItemLabelTransactionType,
                               TransactionUIHelpers.getTransactionType(
-                                  item.type ?? 0, item.destId)),
+                                  widget.item.type ?? 0, widget.item.destId)),
+                          ThemedControls.spacerVerticalSmall(),
+                          getFromTo(context, l10n.generalLabelFrom,
+                              widget.item.sourceId),
                           ThemedControls.spacerVerticalSmall(),
                           getFromTo(
-                              context, l10n.generalLabelFrom, item.sourceId),
+                              context, l10n.generalLabelTo, widget.item.destId),
                           ThemedControls.spacerVerticalSmall(),
-                          getFromTo(context, l10n.generalLabelTo, item.destId),
-                          ThemedControls.spacerVerticalSmall(),
+                          if (isQxTransferShares) ...[
+                            getCopyableDetails(context,
+                                l10n.generalLabelDestination, widget.item.id),
+                            ThemedControls.spacerVerticalSmall(),
+                            getCopyableDetails(context, l10n.generalLabelFee,
+                                "${widget.item.amount.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
+                            ThemedControls.spacerVerticalSmall(),
+                          ],
                           getCopyableDetails(
                               context,
                               l10n.transactionItemLabelConfirmedDate,
-                              item.confirmed != null
-                                  ? formatter.format(item.confirmed!.toLocal())
+                              widget.item.confirmed != null
+                                  ? formatter
+                                      .format(widget.item.confirmed!.toLocal())
                                   : l10n.generalLabelNotAvailable)
                         ])),
                       )),
