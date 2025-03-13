@@ -60,7 +60,6 @@ class _TransactionDetailsState extends State<TransactionDetails> {
       parseAssetTransferPayload().then((value) {
         setState(() {
           assetTransfer = value;
-          appLogger.e("message");
         });
       });
     }
@@ -211,7 +210,10 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                                 width: double.infinity,
                                 child: FittedBox(
                                   child: CopyableText(
-                                    copiedText: widget.item.amount.toString(),
+                                    copiedText: isQxTransferShares
+                                        ? assetTransfer!.numberOfUnits
+                                            .toString()
+                                        : widget.item.amount.toString(),
                                     child: UnitAmount(
                                         type: isQxTransferShares
                                             ? assetTransfer!.assetName
