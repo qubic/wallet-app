@@ -11,6 +11,9 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
+
+enum CardItem { issuerIdentity }
 
 class AssetItem extends StatefulWidget {
   final QubicListVm account;
@@ -92,6 +95,7 @@ class _AssetItemState extends State<AssetItem> {
                           Expanded(
                               child: Text(widget.asset.assetName,
                                   style: TextStyles.accountName)),
+                          getCardMenu(context)
                         ]),
                         Text(
                             l10n.assetsLabelTick(
@@ -130,5 +134,37 @@ class _AssetItemState extends State<AssetItem> {
                   ? ThemedControls.spacerVerticalNormal()
                   : getAssetButtonBar(widget.asset),
             ])));
+  }
+
+  //Gets the dropdown menu
+  Widget getCardMenu(BuildContext context) {
+    if (QubicAssetDto.isSmartContractShare(widget.asset) == true) {
+      return Container();
+    }
+
+    final l10n = l10nOf(context);
+    return PopupMenuButton<CardItem>(
+        tooltip: "",
+        icon: Icon(Icons.more_horiz,
+            color: LightThemeColors.primary.withAlpha(140)),
+        // Callback that sets the selected popup menu item.
+        onSelected: (CardItem menuItem) async {
+          if (menuItem == CardItem.issuerIdentity) {
+            pushScreen(
+              context,
+              screen: ExplorerResultPage(
+                  resultType: ExplorerResultType.publicId,
+                  qubicId: widget.asset.issuerIdentity),
+              withNavBar: false,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
+          }
+        },
+        itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
+              PopupMenuItem<CardItem>(
+                value: CardItem.issuerIdentity,
+                child: Text(l10n.assetButtonIssuerIdentity),
+              )
+            ]);
   }
 }
