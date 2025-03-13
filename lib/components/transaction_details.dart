@@ -47,7 +47,8 @@ class _TransactionDetailsState extends State<TransactionDetails> {
   bool get isQxTransferShares =>
       widget.item.destId == QxInfo.address && widget.item.type == 2;
   Future<QubicAssetTransfer> parseAssetTransferPayload() async {
-    return await getIt<QubicCmd>().parseAssetTransferPayload(widget.item.data!);
+    return await getIt<QubicCmd>()
+        .parseAssetTransferPayload(widget.item.inputHex!);
   }
 
   final ApplicationStore appStore = getIt<ApplicationStore>();
@@ -59,6 +60,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
       parseAssetTransferPayload().then((value) {
         setState(() {
           assetTransfer = value;
+          appLogger.e("message");
         });
       });
     }
