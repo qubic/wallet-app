@@ -11,8 +11,10 @@ import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
-import 'package:qubic_wallet/smart_contracts/qx_info.dart';
+import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -40,6 +42,7 @@ class _ExplorerResultPageTransactionItemState
     extends State<ExplorerResultPageTransactionItem> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   QubicAssetTransfer? assetTransfer;
+  List<QubicSendManyTransfer> sendManyTransfers = [];
 
   Future<QubicAssetTransfer> parseAssetTransferPayload() async {
     return await getIt<QubicCmd>()
@@ -47,6 +50,13 @@ class _ExplorerResultPageTransactionItemState
   }
 
   bool get isQxTransferShares => QxInfo.isQxTransferShares(
+      widget.transaction.data.destId, widget.transaction.data.inputType);
+  Future<List<QubicSendManyTransfer>> parseTransferSendManyPayload() async {
+    return await getIt<QubicCmd>()
+        .parseTransferSendManyPayload(widget.transaction.data.inputHex!);
+  }
+
+  bool get isQutilSendToMany => QutilInfo.isSendToManyTransfer(
       widget.transaction.data.destId, widget.transaction.data.inputType);
 
   @override
@@ -56,6 +66,14 @@ class _ExplorerResultPageTransactionItemState
       parseAssetTransferPayload().then((value) {
         setState(() {
           assetTransfer = value;
+        });
+      });
+    }
+    print(isQutilSendToMany);
+    if (isQutilSendToMany) {
+      parseTransferSendManyPayload().then((value) {
+        setState(() {
+          sendManyTransfers = value;
         });
       });
     }
@@ -185,6 +203,29 @@ class _ExplorerResultPageTransactionItemState
             ),
             CopyButton(copiedText: widget.transaction.data.destId.toString()),
           ]),
+        ],
+        if (isQutilSendToMany && sendManyTransfers.isNotEmpty) ...[
+          ThemedControls.spacerVerticalSmall(),
+          Text("Multiple Receivers", style: itemHeaderType(context)),
+          ThemedControls.spacerVerticalMini(),
+          Column(
+            children: sendManyTransfers
+                .map((e) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(e.destId, style: TextStyles.textSmall),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            "${e.amount.asThousands()} ${l10n.generalLabelCurrencyQubic}",
+                            style: TextStyles.textSmall,
+                          ),
+                        ),
+                        ThemedControls.spacerVerticalSmall(),
+                      ],
+                    ))
+                .toList(),
+          )
         ]
       ]),
     );
