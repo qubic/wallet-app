@@ -8,6 +8,7 @@ import 'package:flutter/services.dart' show Uint8List;
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
+import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
@@ -165,6 +166,29 @@ class QubicJs {
       return SignedTransaction.fromJson(data);
     } catch (e) {
       appLogger.e(e);
+      rethrow;
+    }
+  }
+
+  Future<List<QubicSendManyTransfer>> parseTransferSendManyPayload(
+      String input) async {
+    try {
+      CallAsyncJavaScriptResult? result = await runFunction(
+          QubicJSFunctions.parseTransferSendManyPayload, [input]);
+
+      if (result?.value == null) {
+        throw Exception("Received null response from JS function");
+      }
+
+      final Map<String, dynamic> decodedResult = json.decode(result!.value);
+      // Exclude the last item (assuming it's 'status: ok') and filter only valid transfers
+      List<QubicSendManyTransfer> transfers = decodedResult.entries
+          .where((entry) => entry.value is Map<String, dynamic>)
+          .map((entry) => QubicSendManyTransfer.fromJson(entry.value))
+          .toList();
+      return transfers;
+    } catch (e) {
+      appLogger.e('Error parsing transfers: $e');
       rethrow;
     }
   }
