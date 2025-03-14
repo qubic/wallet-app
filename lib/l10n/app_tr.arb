@@ -839,5 +839,8 @@
     "wcSmartContractWarningDescription": "Bu DApp'e güvendiğinizden emin olun. İşlemi onaylayarak Qubics ve/veya varlıkların transferine izin verebilirsiniz",
     "wcApproveTransfer": "Transferi Onayla",
     "wcSendAssets": "Varlıkları Gönder",
-    "assetButtonIssuerIdentity": "Veren Kimliği"
+    "assetButtonIssuerIdentity": "Veren Kimliği",
+    "generalLabelMultipleReceivers" :"Birden fazla alıcı",
+    "generalLabelFee":"Ücret",
+    "generalLabelDestination": "Hedef"
 }
