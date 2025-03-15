@@ -86,7 +86,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                     ))),
             ThemedControls.spacerHorizontalNormal(),
             Expanded(
-              child: (widget.item.status == "Success")
+              child: (widget.item.status == TransactionVmStatus.success)
                   ? ThemedControls.primaryButtonBigWithChild(
                       onPressed: () {
                         // Perform some action
