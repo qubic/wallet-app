@@ -78,8 +78,6 @@ class _ExplorerResultPageTransactionItemState
     }
   }
 
-  final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
-
   TextStyle itemHeaderType(context) {
     return TextStyles.lightGreyTextSmallBold;
   }
