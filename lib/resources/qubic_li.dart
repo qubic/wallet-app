@@ -104,7 +104,7 @@ class QubicLi {
         'Content-Type': 'application/json',
       });
       response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_Login),
+          Uri.https(Config.qubicLiDomain, Config.URL_Login),
           body: json.encode({
             'userName': Config.authUser,
             'password': Config.authPass,
@@ -159,7 +159,7 @@ class QubicLi {
       });
 
       final response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_NetworkTransactions),
+          Uri.https(Config.qubicLiDomain, Config.URL_NetworkTransactions),
           body: json.encode(publicIds),
           headers: headers);
       _assert200Response(response.statusCode);
@@ -210,7 +210,7 @@ class QubicLi {
         'Content-Type': 'application/json'
       });
       response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_NetworkBalances),
+          Uri.https(Config.qubicLiDomain, Config.URL_NetworkBalances),
           body: json.encode(publicIds),
           headers: headers);
 
@@ -261,7 +261,7 @@ class QubicLi {
       headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
       response = await client.get(
           Uri.https(
-              Config.walletDomain, "${Config.URL_ExplorerIdInfo}/$publicId"),
+              Config.qubicLiDomain, "${Config.URL_ExplorerIdInfo}/$publicId"),
           headers: headers);
     } catch (e) {
       throw Exception('Failed to contact server for explorer id info.');
@@ -308,7 +308,7 @@ class QubicLi {
         'Content-Type': 'application/json'
       });
       response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_Assets),
+          Uri.https(Config.qubicLiDomain, Config.URL_Assets),
           body: json.encode(publicIds),
           headers: headers);
 
@@ -354,7 +354,7 @@ class QubicLi {
       var headers = QubicLi.getHeaders();
       headers.addAll({'Content-Type': 'application/json'});
       response = await http
-          .get(Uri.https(Config.walletDomain, Config.URL_MarketInfo),
+          .get(Uri.https(Config.qubicLiDomain, Config.URL_MarketInfo),
               headers: headers)
           .catchError((e) {
         appStore.decreasePendingRequests();

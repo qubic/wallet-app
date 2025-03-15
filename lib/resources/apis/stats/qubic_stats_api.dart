@@ -6,7 +6,7 @@ import 'package:qubic_wallet/services/dio_client.dart';
 
 class QubicStatsApi {
   final Dio _dio = DioClient.getDio(baseUrl: _baseUrl);
-  static const String _baseUrl = Config.archiveDomain;
+  static const String _baseUrl = Config.qubicMainnetRpcDomain;
 
   Future<MarketInfoDto> getMarketInfo() async {
     try {

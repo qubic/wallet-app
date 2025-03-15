@@ -4,7 +4,8 @@ import 'package:qubic_wallet/models/qubic_helper_config.dart';
 
 abstract class Config {
   /// General backend via qubic.li
-  static const walletDomain = "api.qubic.li";
+  static const qubicLiDomain = "api.qubic.li";
+  static const qubicMainnetRpcDomain = "https://rpc.qubic.org";
 
   static const URL_Login = "Auth/Login";
   static const URL_NetworkBalances = "Wallet/NetworkBalances";
@@ -14,17 +15,14 @@ abstract class Config {
 
   static const URL_MarketInfo = "Public/MarketInformation";
 
-  static const archiveDomain = "https://rpc.qubic.org";
   static tickData(int tick) => "/v1/ticks/$tick/tick-data";
   static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
   static computors(int epoch) => "/v1/epochs/$epoch/computors";
   static transaction(String transaction) => "/v2/transactions/$transaction";
   static networkTicks(int epoch) => "/v2/epochs/$epoch/ticks";
 
-  static const statsDomain = "https://rpc.qubic.org";
   static const latestStatsUrl = "/v1/latest-stats";
 
-  static const liveDomain = "https://rpc.qubic.org";
   static const submitTransaction = "/v1/broadcast-transaction";
   static const currentTick = "/v1/tick-info";
 

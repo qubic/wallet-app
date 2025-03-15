@@ -10,7 +10,7 @@ import 'package:qubic_wallet/services/dio_client.dart';
 
 class QubicArchiveApi {
   final Dio _dio = DioClient.getDio(baseUrl: _baseUrl);
-  static const String _baseUrl = Config.archiveDomain;
+  static const String _baseUrl = Config.qubicMainnetRpcDomain;
   Future<ExplorerTickDto?> getExplorerTick(int tick) async {
     try {
       final response = await _dio.get('$_baseUrl${Config.tickData(tick)}');

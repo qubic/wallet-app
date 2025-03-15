@@ -8,7 +8,7 @@ import 'package:qubic_wallet/stores/application_store.dart';
 
 class QubicLiveApi {
   final Dio _dio = DioClient.getDio(baseUrl: _baseUrl);
-  static const String _baseUrl = Config.liveDomain;
+  static const String _baseUrl = Config.qubicMainnetRpcDomain;
   final ApplicationStore _appStore = getIt.get<ApplicationStore>();
 
   Future<CurrentTickDto> getCurrentTick() async {
