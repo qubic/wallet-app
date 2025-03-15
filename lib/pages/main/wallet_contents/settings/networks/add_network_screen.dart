@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -46,6 +47,9 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                     FormBuilderTextField(
                         name: "networkName",
                         controller: networkNameController,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                        ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
                           hintText: "Eg: Qubic Mainnet",
@@ -79,6 +83,10 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                     FormBuilderTextField(
                         name: "rpcUrl",
                         controller: rpcUrlController,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.startsWith('https://'),
+                        ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
                           hintText: "Eg: https://rpc.qubic.org",
@@ -112,6 +120,10 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                     FormBuilderTextField(
                         name: "liUrl",
                         controller: liUrlController,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.startsWith('https://'),
+                        ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
                           hintText: "Eg: https://api.qubic.li",
@@ -135,7 +147,12 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                   ThemedControls.spacerHorizontalNormal(),
                   Expanded(
                       child: ThemedControls.primaryButtonBigWithChild(
-                          onPressed: () {},
+                          onPressed: () {
+                            if (addNetworkFormKey.currentState!.validate()) {
+                              addNetworkFormKey.currentState!.save();
+                              Navigator.pop(context);
+                            }
+                          },
                           child: Padding(
                               padding: const EdgeInsets.all(
                                   ThemePaddings.smallPadding),
