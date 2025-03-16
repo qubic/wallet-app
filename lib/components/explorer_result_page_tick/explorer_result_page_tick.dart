@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/explorer_result_page_tick/explorer_result_page_tick_header.dart';
 import 'package:qubic_wallet/components/explorer_results/explorer_result_page_transaction_item.dart';
 import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
@@ -19,7 +18,6 @@ class ExplorerResultPageTick extends StatelessWidget {
       required this.transactions,
       this.onRequestViewChange,
       this.focusedTransactionId});
-  final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
   final ExplorerTickDto tickInfo;
   final String? focusedTransactionId;
   final List<ExplorerTransactionDto>? transactions;

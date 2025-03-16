@@ -11,8 +11,6 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/auth_login_dto.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
-import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
-import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
@@ -249,93 +247,6 @@ class QubicLi {
           'Failed to fetch current balances. Server response is missing required info');
     }
     return balances;
-  }
-
-  /// Gets current tick form the Qubic network
-  Future<List<ExplorerQueryDto>> getExplorerQuery(String query) async {
-    try {
-      _assertAuthorized();
-    } catch (e) {
-      rethrow;
-    }
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
-      response = await client.get(
-          Uri.https(Config.walletDomain, Config.URL_ExplorerQuery,
-              {'searchTerm': query}),
-          headers: headers);
-    } catch (e) {
-      throw Exception('Failed to contact server for explorer query.');
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late List<ExplorerQueryDto> resultDto = [];
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch explorer query. Could not parse response');
-    }
-    try {
-      resultDto = parsedJson
-          .map((e) => ExplorerQueryDto.fromJson(e))
-          .toList()
-          .cast<ExplorerQueryDto>();
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch explorer query. Server response is missing required info');
-    }
-
-    return resultDto;
-  }
-
-  Future<ExplorerTickInfoDto> getExplorerTickInfo(int tick) async {
-    try {
-      _assertAuthorized();
-    } catch (e) {
-      rethrow;
-    }
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
-      response = await client.get(
-          Uri.https(Config.walletDomain, Config.URL_ExplorerTickInfo,
-              {'tick': tick.toString()}),
-          headers: headers);
-    } catch (e) {
-      throw Exception('Failed to contact server for explorer tick info.');
-    }
-    if (response.statusCode == 500) {
-      throw Exception('Tick info not available yet.');
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late ExplorerTickInfoDto resultDto;
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch explorer tick info. Could not parse response');
-    }
-    try {
-      resultDto = ExplorerTickInfoDto.fromJson(parsedJson);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch explorer tick info. Server response is missing required info');
-    }
-
-    return resultDto;
   }
 
   Future<ExplorerIdInfoDto> getExplorerIdInfo(String publicId) async {

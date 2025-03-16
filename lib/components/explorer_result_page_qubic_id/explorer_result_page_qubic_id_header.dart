@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
@@ -10,7 +9,6 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class ExplorerResultPageQubicIdHeader extends StatelessWidget {
   final ExplorerIdInfoDto idInfo;
-  final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
   ExplorerResultPageQubicIdHeader({super.key, required this.idInfo});
 
   Widget incPanel(String title, String contents, BuildContext context) {

@@ -5,7 +5,6 @@ import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -21,6 +20,11 @@ enum ComputedTransactionStatus {
   invalid,
   // amount is 0 or SC was executed, can not determine success or failure
   executed
+}
+
+class TransactionVmStatus {
+  static const String invalid = "Invalid";
+  static const String success = "Success";
 }
 
 @observable
@@ -75,28 +79,32 @@ class TransactionVm {
 
   int? type;
 
-  TransactionVm(
-      {required this.id,
-      required this.sourceId,
-      required this.destId,
-      required this.amount,
-      required this.status,
-      this.created,
-      this.stored,
-      this.staged,
-      this.broadcasted,
-      this.confirmed,
-      this.statusUpdate,
-      required this.targetTick,
-      required this.isPending,
-      this.price,
-      this.quantity,
-      this.type,
-      required this.moneyFlow});
+  String? inputHex;
+
+  TransactionVm({
+    required this.id,
+    required this.sourceId,
+    required this.destId,
+    required this.amount,
+    required this.status,
+    this.created,
+    this.stored,
+    this.staged,
+    this.broadcasted,
+    this.confirmed,
+    this.statusUpdate,
+    required this.targetTick,
+    required this.isPending,
+    this.price,
+    this.quantity,
+    this.type,
+    required this.moneyFlow,
+    this.inputHex,
+  });
 
   ComputedTransactionStatus getStatus() {
-    return TransactionStatusHelpers.getTransactionStatus(
-        isPending, type, amount, moneyFlow, status == "Invalid");
+    return TransactionStatusHelpers.getTransactionStatus(isPending, type,
+        amount, moneyFlow, status == TransactionVmStatus.invalid);
   }
 
   String toReadableString(BuildContext context) {
@@ -159,6 +167,7 @@ class TransactionVm {
       quantity: original.quantity,
       moneyFlow: original.moneyFlow,
       type: original.type,
+      inputHex: original.inputHex,
     );
   }
 }

@@ -7,14 +7,9 @@ abstract class Config {
   static const walletDomain = "api.qubic.li";
 
   static const URL_Login = "Auth/Login";
-  static const URL_Tick = "Public/CurrentTick";
-  static const URL_Balance = "Wallet/CurrentBalance";
   static const URL_NetworkBalances = "Wallet/NetworkBalances";
   static const URL_NetworkTransactions = "Wallet/Transactions";
   static const URL_Assets = "Wallet/Assets";
-  static const URL_Transaction = "Public/SubmitTransaction";
-  static const URL_ExplorerQuery = "Search/Query";
-  static const URL_ExplorerTickInfo = "Network/Block";
   static const URL_ExplorerIdInfo = "Network/Id";
 
   static const URL_MarketInfo = "Public/MarketInformation";
@@ -69,7 +64,7 @@ abstract class Config {
           checksum: "20f729d82643f02df2e1f49dfad96951"));
 
   static const qubicJSAssetPath =
-      "assets/qubic_js/qubic-helper-html-3_1_0.html";
+      "assets/qubic_js/qubic-helper-html-3_1_1.html";
 
   // This will only be read in Debug mode. In Release mode, proxy setup is ignored.
   static const bool useProxy = false; // Can be set to `true` to use a proxy

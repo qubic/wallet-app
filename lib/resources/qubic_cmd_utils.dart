@@ -1,23 +1,24 @@
-import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
-
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
+// ignore: depend_on_referenced_packages
+import 'package:crypto/crypto.dart' as crypto;
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 // ignore: depend_on_referenced_packages
 import 'package:path/path.dart' as path;
-
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_js.dart';
+import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
-// ignore: depend_on_referenced_packages
-import 'package:crypto/crypto.dart' as crypto;
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -232,6 +233,46 @@ class QubicCmdUtils {
     }
 
     return response.publicId!;
+  }
+
+  Future<QubicAssetTransfer> parseAssetTransferPayload(String data) async {
+    try {
+      final result = await Process.run(
+          await _getHelperFileFullPath(),
+          [
+            QubicJSFunctions.parseAssetTransferPayload,
+            data,
+          ],
+          runInShell: true);
+      final decodedResult = json.decode(result.stdout);
+      final asset = QubicAssetTransfer.fromJson(decodedResult);
+      return asset;
+    } catch (e) {
+      appLogger.e('Error parsing asset transfer: $e');
+      rethrow;
+    }
+  }
+
+  Future<List<QubicSendManyTransfer>> parseTransferSendManyPayload(
+      String data) async {
+    try {
+      final result = await Process.run(
+          await _getHelperFileFullPath(),
+          [
+            QubicJSFunctions.parseTransferSendManyPayload,
+            data,
+          ],
+          runInShell: true);
+      final Map<String, dynamic> decodedResult = json.decode(result.stdout);
+      List<QubicSendManyTransfer> transfers = decodedResult.entries
+          .where((entry) => entry.value is Map<String, dynamic>)
+          .map((entry) => QubicSendManyTransfer.fromJson(entry.value))
+          .toList();
+      return transfers;
+    } catch (e) {
+      appLogger.e('Error parsing asset transfer: $e');
+      rethrow;
+    }
   }
 
   Future<String> createAssetTransferTransaction(
