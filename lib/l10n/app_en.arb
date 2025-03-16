@@ -887,7 +887,7 @@
     "wcSignTransaction": "Sign Transaction",
     "dAppOpenButton": "Open",
     "dAppFeaturedApp": "Featured App",
-    "dAppPopularApps": "Popular dApps"
+    "dAppPopularApps": "Popular dApps",
     "assetButtonIssuerIdentity": "Issuer Identity",
     "generalLabelMultipleReceivers" :"Multiple Receivers"
 }
