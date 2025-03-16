@@ -47,8 +47,6 @@ class _ExplorerResultPageState extends State<ExplorerResultPage> {
   late ExplorerResultType resultType;
   late String? focusedTransactionHash;
 
-  final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
-
   ExplorerIdInfoDto? idInfo;
   List<ExplorerTransactionDto>? transactions;
   ExplorerTickDto? tickData;

@@ -111,7 +111,7 @@ class _TransactionItemState extends State<TransactionItem> {
                 value: CardItem.details,
                 child: Text(l10n.transactionItemButtonViewDetails),
               ),
-              if (widget.item.status == 'Success')
+              if (widget.item.status == TransactionVmStatus.success)
                 PopupMenuItem<CardItem>(
                   value: CardItem.explorer,
                   child: Text(l10n.transactionItemButtonViewInExplorer),
