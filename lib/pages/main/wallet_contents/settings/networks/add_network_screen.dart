@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/network_model.dart';
+import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -21,6 +24,25 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
   final TextEditingController networkNameController = TextEditingController();
   final TextEditingController rpcUrlController = TextEditingController();
   final TextEditingController liUrlController = TextEditingController();
+  final networkStore = getIt<NetworkStore>();
+
+  @override
+  void dispose() {
+    networkNameController.dispose();
+    rpcUrlController.dispose();
+    liUrlController.dispose();
+    super.dispose();
+  }
+
+  onSubmitted() {
+    if (addNetworkFormKey.currentState!.validate()) {
+      final network = NetworkModel(networkNameController.text,
+          rpcUrlController.text, liUrlController.text);
+      networkStore.addNetwork(network);
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
@@ -85,7 +107,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         controller: rpcUrlController,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
-                          FormBuilderValidators.startsWith('https://'),
+                          FormBuilderValidators.url(),
                         ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
@@ -122,7 +144,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         controller: liUrlController,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
-                          FormBuilderValidators.startsWith('https://'),
+                          FormBuilderValidators.url(),
                         ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
@@ -147,12 +169,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                   ThemedControls.spacerHorizontalNormal(),
                   Expanded(
                       child: ThemedControls.primaryButtonBigWithChild(
-                          onPressed: () {
-                            if (addNetworkFormKey.currentState!.validate()) {
-                              addNetworkFormKey.currentState!.save();
-                              Navigator.pop(context);
-                            }
-                          },
+                          onPressed: onSubmitted,
                           child: Padding(
                               padding: const EdgeInsets.all(
                                   ThemePaddings.smallPadding),

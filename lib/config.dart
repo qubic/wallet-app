@@ -4,7 +4,7 @@ import 'package:qubic_wallet/models/qubic_helper_config.dart';
 
 abstract class Config {
   /// General backend via qubic.li
-  static const qubicLiDomain = "api.qubic.li";
+  static const qubicLiDomain = "https://api.qubic.li";
   static const qubicMainnetRpcDomain = "https://rpc.qubic.org";
 
   static const URL_Login = "Auth/Login";
