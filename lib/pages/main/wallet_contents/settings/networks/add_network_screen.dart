@@ -24,6 +24,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
   final TextEditingController networkNameController = TextEditingController();
   final TextEditingController rpcUrlController = TextEditingController();
   final TextEditingController liUrlController = TextEditingController();
+  final TextEditingController explorerController = TextEditingController();
   final networkStore = getIt<NetworkStore>();
   final prefixHttpsWidget = const Padding(
     padding: EdgeInsets.only(left: 12, right: 2),
@@ -46,9 +47,11 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
   onSubmitted() {
     if (addNetworkFormKey.currentState!.validate()) {
       final network = NetworkModel(
-          networkNameController.text,
-          'https://${rpcUrlController.text}',
-          'https://${liUrlController.text}');
+        name: networkNameController.text,
+        rpcUrl: 'https://${rpcUrlController.text}',
+        liUrl: 'https://${liUrlController.text}',
+        explorerUrl: 'https://${explorerController.text}',
+      );
       networkStore.addNetwork(network);
       Navigator.pop(context);
     }
@@ -163,6 +166,45 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
                           hintText: "api.qubic.li",
+                          prefixIcon: prefixHttpsWidget,
+                          prefixIconConstraints:
+                              const BoxConstraints(minWidth: 0, minHeight: 0),
+                        )),
+                    Row(
+                      children: [
+                        Text(
+                          "Qubic Explorer URL",
+                          style: TextStyles.labelTextNormal,
+                        ),
+                        const Spacer(),
+                        ThemedControls.transparentButtonSmall(
+                            onPressed: () async {
+                              if (explorerController.text.isNotEmpty == true) {
+                                explorerController.clear();
+                              } else {
+                                final clipboardData = await Clipboard.getData(
+                                    Clipboard.kTextPlain);
+                                if (clipboardData != null) {
+                                  explorerController.text = clipboardData.text!;
+                                }
+                              }
+                              setState(() {});
+                            },
+                            text: explorerController.text.isNotEmpty == true
+                                ? l10n.generalButtonClear
+                                : l10n.generalButtonPaste),
+                      ],
+                    ),
+                    FormBuilderTextField(
+                        name: "explorerUrl",
+                        controller: explorerController,
+                        validator: FormBuilderValidators.compose([
+                          FormBuilderValidators.required(),
+                          FormBuilderValidators.url(),
+                        ]),
+                        decoration:
+                            ThemeInputDecorations.normalInputbox.copyWith(
+                          hintText: "explorer.qubic.org",
                           prefixIcon: prefixHttpsWidget,
                           prefixIconConstraints:
                               const BoxConstraints(minWidth: 0, minHeight: 0),

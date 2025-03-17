@@ -2,26 +2,30 @@ class NetworkModel {
   final String name;
   final String rpcUrl;
   final String liUrl;
+  final String explorerUrl;
 
-  const NetworkModel(
-    this.name,
-    this.rpcUrl,
-    this.liUrl,
-  );
+  const NetworkModel({
+    required this.name,
+    required this.rpcUrl,
+    required this.liUrl,
+    required this.explorerUrl,
+  });
 
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'name': name,
       'rpcUrl': rpcUrl,
       'liUrl': liUrl,
+      'explorerUrl': explorerUrl,
     };
   }
 
   factory NetworkModel.fromJson(Map<String, dynamic> json) {
     return NetworkModel(
-      json['name'] as String,
-      json['rpcUrl'] as String,
-      json['liUrl'] as String,
+      name: json['name'],
+      rpcUrl: json['rpcUrl'],
+      liUrl: json['liUrl'],
+      explorerUrl: json['explorerUrl'],
     );
   }
 

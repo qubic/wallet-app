@@ -15,17 +15,16 @@ class NetworkStore = _NetworkStore with _$NetworkStore;
 abstract class _NetworkStore with Store {
   List<NetworkModel> defaultNetworks = const [
     NetworkModel(
-      "Qubic Mainnet",
-      Config.qubicMainnetRpcDomain,
-      Config.qubicLiDomain,
-      //"https://api.qubic.li",
-    ),
+        name: "Qubic Mainnet",
+        rpcUrl: Config.qubicMainnetRpcDomain,
+        liUrl: Config.qubicLiDomain,
+        explorerUrl: Config.URL_WebExplorer),
     //TODO Replace with Testnet domains
     NetworkModel(
-      "Qubic Testnet",
-      "https://rpc.testnet.qubic.org",
-      "https://api.testnet.qubic.li",
-    ),
+        name: "Qubic Testnet",
+        rpcUrl: "https://rpc.testnet.qubic.org",
+        liUrl: "https://api.testnet.qubic.li",
+        explorerUrl: "https://explorer.testnet.qubic.org"),
   ];
 
   @observable
