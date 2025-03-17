@@ -25,6 +25,15 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
   final TextEditingController rpcUrlController = TextEditingController();
   final TextEditingController liUrlController = TextEditingController();
   final networkStore = getIt<NetworkStore>();
+  final prefixHttpsWidget = const Padding(
+    padding: EdgeInsets.only(left: 12, right: 2),
+    child: Text(
+      "https://",
+      style: TextStyle(
+          color: LightThemeColors.inputFieldHint,
+          fontSize: ThemeFontSizes.label),
+    ),
+  );
 
   @override
   void dispose() {
@@ -36,8 +45,10 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
 
   onSubmitted() {
     if (addNetworkFormKey.currentState!.validate()) {
-      final network = NetworkModel(networkNameController.text,
-          rpcUrlController.text, liUrlController.text);
+      final network = NetworkModel(
+          networkNameController.text,
+          'https://${rpcUrlController.text}',
+          'https://${liUrlController.text}');
       networkStore.addNetwork(network);
       Navigator.pop(context);
     }
@@ -103,16 +114,19 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                       ],
                     ),
                     FormBuilderTextField(
-                        name: "rpcUrl",
-                        controller: rpcUrlController,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.url(),
-                        ]),
-                        decoration:
-                            ThemeInputDecorations.normalInputbox.copyWith(
-                          hintText: "Eg: https://rpc.qubic.org",
-                        )),
+                      name: "rpcUrl",
+                      controller: rpcUrlController,
+                      validator: FormBuilderValidators.compose([
+                        FormBuilderValidators.required(),
+                        FormBuilderValidators.url(),
+                      ]),
+                      decoration: ThemeInputDecorations.normalInputbox.copyWith(
+                        hintText: "rpc.qubic.org",
+                        prefixIcon: prefixHttpsWidget,
+                        prefixIconConstraints:
+                            const BoxConstraints(minWidth: 0, minHeight: 0),
+                      ),
+                    ),
                     ThemedControls.spacerVerticalNormal(),
                     Row(
                       children: [
@@ -148,7 +162,10 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
-                          hintText: "Eg: https://api.qubic.li",
+                          hintText: "api.qubic.li",
+                          prefixIcon: prefixHttpsWidget,
+                          prefixIconConstraints:
+                              const BoxConstraints(minWidth: 0, minHeight: 0),
                         )),
                   ],
                 ),
