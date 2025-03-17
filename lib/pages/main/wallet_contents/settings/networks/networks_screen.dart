@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/network_model.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/networks/add_network_screen.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
@@ -25,6 +27,24 @@ class NetworksScreen extends StatelessWidget {
 
   onDelete(NetworkModel network) {
     networkStore.removeNetwork(network);
+  }
+
+  showRemoveDialog(BuildContext context, NetworkModel network) {
+    final l10n = l10nOf(context);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ConfirmationDialog(
+          title: "Delete ${network.name}?",
+          content:
+              "Are you sure you want to delete your custom network ${network.name}?",
+          continueText: l10n.generalButtonDelete,
+          continueFunction: () {
+            onDelete(network);
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -98,7 +118,8 @@ class NetworksScreen extends StatelessWidget {
                                             BorderRadius.circular(12)),
                                     backgroundColor: LightThemeColors
                                         .dangerBackgroundButton),
-                                onPressed: () => onDelete(network),
+                                onPressed: () =>
+                                    showRemoveDialog(context, network),
                                 child: SvgPicture.asset(AppIcons.close)),
                           ),
                         ]
