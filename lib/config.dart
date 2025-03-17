@@ -3,9 +3,11 @@
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 
 abstract class Config {
-  /// General backend via qubic.li
+  // qubic.li backend related config
   static const qubicLiDomain = "https://api.qubic.li";
-  static const qubicMainnetRpcDomain = "https://rpc.qubic.org";
+
+  static const qubicLiAuthUsername = "guest@qubic.li";
+  static const qubicLiAuthPassword = "guest13@Qubic.li";
 
   static const URL_Login = "Auth/Login";
   static const URL_NetworkBalances = "Wallet/NetworkBalances";
@@ -14,6 +16,9 @@ abstract class Config {
   static const URL_ExplorerIdInfo = "Network/Id";
 
   static const URL_MarketInfo = "Public/MarketInformation";
+
+  // Qubic RPC backend related config
+  static const qubicMainnetRpcDomain = "https://rpc.qubic.org";
 
   static tickData(int tick) => "/v1/ticks/$tick/tick-data";
   static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
@@ -25,9 +30,6 @@ abstract class Config {
 
   static const submitTransaction = "/v1/broadcast-transaction";
   static const currentTick = "/v1/tick-info";
-
-  static const authUser = "guest@qubic.li";
-  static const authPass = "guest13@Qubic.li";
 
   static const fetchEverySeconds = 60;
   static const fetchEverySecondsSlow = 60 * 5;
@@ -69,7 +71,7 @@ abstract class Config {
   static const String proxyIP = '192.168.1.1'; // Replace with actual proxy IP
   static const int proxyPort = 8888; // Replace with actual proxy port
 
-  //Configuration for Wallet Connect
+  // Configuration for Wallet Connect
   static const walletConnectProjectId = "b2ace378845f0e4806ef23d2732f77a4";
   static const walletConnectName = "Qubic Wallet";
   static const walletConnectDescription = "The official wallet for Qubic chain";

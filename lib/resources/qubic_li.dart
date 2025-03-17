@@ -111,14 +111,14 @@ class QubicLi {
       headers.addAll({
         'Content-Type': 'application/json',
       });
-      response = await client.post(
-          Uri.parse('$qubicLiDomain/${Config.URL_Login}'),
-          body: json.encode({
-            'userName': Config.authUser,
-            'password': Config.authPass,
-            'twoFactorCode': ""
-          }),
-          headers: headers);
+      response =
+          await client.post(Uri.parse('$qubicLiDomain/${Config.URL_Login}'),
+              body: json.encode({
+                'userName': Config.qubicLiAuthUsername,
+                'password': Config.qubicLiAuthPassword,
+                'twoFactorCode': ""
+              }),
+              headers: headers);
       appStore.decreasePendingRequests();
     } catch (e) {
       appLogger.e(e);
