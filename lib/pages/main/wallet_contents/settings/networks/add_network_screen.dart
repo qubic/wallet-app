@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -26,10 +27,11 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
   final TextEditingController liUrlController = TextEditingController();
   final TextEditingController explorerController = TextEditingController();
   final networkStore = getIt<NetworkStore>();
+  static const httpsScheme = "https://";
   final prefixHttpsWidget = const Padding(
     padding: EdgeInsets.only(left: 12, right: 2),
     child: Text(
-      "https://",
+      httpsScheme,
       style: TextStyle(
           color: LightThemeColors.inputFieldHint,
           fontSize: ThemeFontSizes.label),
@@ -48,13 +50,20 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
     if (addNetworkFormKey.currentState!.validate()) {
       final network = NetworkModel(
         name: networkNameController.text,
-        rpcUrl: 'https://${rpcUrlController.text}',
-        liUrl: 'https://${liUrlController.text}',
-        explorerUrl: 'https://${explorerController.text}',
+        rpcUrl: '$httpsScheme${rpcUrlController.text}',
+        liUrl: '$httpsScheme${liUrlController.text}',
+        explorerUrl: '$httpsScheme${explorerController.text}',
       );
       networkStore.addNetwork(network);
       Navigator.pop(context);
     }
+  }
+
+  String removeHttpsScheme(String url) {
+    if (url.startsWith(httpsScheme)) {
+      return url.replaceFirst(httpsScheme, "");
+    }
+    return url;
   }
 
   @override
@@ -62,7 +71,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
     final l10n = l10nOf(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Custom Network", style: TextStyles.textExtraLargeBold),
+        title: Text(l10n.addNetworkTitle, style: TextStyles.textExtraLargeBold),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
@@ -76,25 +85,24 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                   padding: ThemeEdgeInsets.pageInsets,
                   children: [
                     Text(
-                      "Network Name",
+                      l10n.addNetworkLabelNetworkName,
                       style: TextStyles.labelTextNormal,
                     ),
                     ThemedControls.spacerVerticalSmall(),
-                    FormBuilderTextField(
-                        name: "networkName",
+                    TextFormField(
                         controller: networkNameController,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                         ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
-                          hintText: "Eg: Qubic Mainnet",
+                          hintText: l10n.addNetworkTextFieldHintNetworkName,
                         )),
                     ThemedControls.spacerVerticalNormal(),
                     Row(
                       children: [
                         Text(
-                          "RPC URL",
+                          l10n.addNetworkLabelRPCURL,
                           style: TextStyles.labelTextNormal,
                         ),
                         const Spacer(),
@@ -116,15 +124,15 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                                 : l10n.generalButtonPaste),
                       ],
                     ),
-                    FormBuilderTextField(
-                      name: "rpcUrl",
+                    TextFormField(
                       controller: rpcUrlController,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(),
                         FormBuilderValidators.url(),
                       ]),
                       decoration: ThemeInputDecorations.normalInputbox.copyWith(
-                        hintText: "rpc.qubic.org",
+                        hintText:
+                            removeHttpsScheme(Config.qubicMainnetRpcDomain),
                         prefixIcon: prefixHttpsWidget,
                         prefixIconConstraints:
                             const BoxConstraints(minWidth: 0, minHeight: 0),
@@ -134,7 +142,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                     Row(
                       children: [
                         Text(
-                          "Qubic Li URL",
+                          l10n.addNetworkLabelQubicLiURL,
                           style: TextStyles.labelTextNormal,
                         ),
                         const Spacer(),
@@ -156,8 +164,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                                 : l10n.generalButtonPaste),
                       ],
                     ),
-                    FormBuilderTextField(
-                        name: "liUrl",
+                    TextFormField(
                         controller: liUrlController,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
@@ -165,7 +172,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
-                          hintText: "api.qubic.li",
+                          hintText: removeHttpsScheme(Config.qubicLiDomain),
                           prefixIcon: prefixHttpsWidget,
                           prefixIconConstraints:
                               const BoxConstraints(minWidth: 0, minHeight: 0),
@@ -173,7 +180,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                     Row(
                       children: [
                         Text(
-                          "Qubic Explorer URL",
+                          l10n.addNetworkLabelQubicExplorerURL,
                           style: TextStyles.labelTextNormal,
                         ),
                         const Spacer(),
@@ -195,8 +202,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                                 : l10n.generalButtonPaste),
                       ],
                     ),
-                    FormBuilderTextField(
-                        name: "explorerUrl",
+                    TextFormField(
                         controller: explorerController,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
@@ -204,7 +210,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(
-                          hintText: "explorer.qubic.org",
+                          hintText: removeHttpsScheme(Config.URL_WebExplorer),
                           prefixIcon: prefixHttpsWidget,
                           prefixIconConstraints:
                               const BoxConstraints(minWidth: 0, minHeight: 0),

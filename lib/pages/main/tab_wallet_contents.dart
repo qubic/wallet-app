@@ -207,7 +207,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: ThemePaddings.smallPadding),
                                 child: Text(
-                                    "You are currently in ${networkStore.selectedNetwork.name}",
+                                    l10n.networksWarningBannerCurrentNetwork(
+                                        networkStore.selectedNetwork.name),
                                     textAlign: TextAlign.center,
                                     style: TextStyles.alertText.copyWith(
                                         color: LightThemeColors.primary)),

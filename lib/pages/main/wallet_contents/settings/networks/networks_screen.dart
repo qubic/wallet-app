@@ -35,9 +35,10 @@ class NetworksScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return ConfirmationDialog(
-          title: "Delete ${network.name}?",
+          title:
+              l10n.networksConfirmationDialogTitleDeleteNetwork(network.name),
           content:
-              "Are you sure you want to delete your custom network ${network.name}?",
+              l10n.networksConfirmationDialogContentDeleteNetwork(network.name),
           continueText: l10n.generalButtonDelete,
           continueFunction: () {
             onDelete(network);
@@ -49,9 +50,10 @@ class NetworksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text("Networks", style: TextStyles.textExtraLargeBold),
+        title: Text(l10n.networksTitle, style: TextStyles.textExtraLargeBold),
         centerTitle: true,
         backgroundColor: Colors.transparent,
         actions: [
@@ -83,7 +85,7 @@ class NetworksScreen extends StatelessWidget {
                       const Spacer(),
                       if (isSelected)
                         Text(
-                          "Default",
+                          l10n.networksLabelDefault,
                           style: TextStyles.secondaryText
                               .copyWith(color: LightThemeColors.primary40),
                         )
@@ -101,7 +103,7 @@ class NetworksScreen extends StatelessWidget {
                           child: ThemedControls.secondaryButtonWithChild(
                             onPressed: () => onSetDefault(network),
                             child: Text(
-                              "Set as Default",
+                              l10n.networksButtonSetAsDefault,
                               style: TextStyles.primaryButtonText
                                   .copyWith(color: LightThemeColors.primary40),
                             ),
