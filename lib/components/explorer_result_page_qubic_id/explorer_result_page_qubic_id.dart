@@ -15,7 +15,6 @@ class ExplorerResultPageQubicId extends StatelessWidget {
   });
   final ExplorerIdInfoDto idInfo;
 
-  final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
   Widget listTransactions() {
     return SliverList.builder(
       itemCount: idInfo.latestTransfers?.length,

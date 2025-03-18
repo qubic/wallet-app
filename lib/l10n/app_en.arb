@@ -885,6 +885,7 @@
     "wcSignMessage": "Sign Message",
     "wcSignTransaction": "Sign Transaction",
     "assetButtonIssuerIdentity": "Issuer Identity",
+    "generalLabelMultipleReceivers": "Multiple Receivers",
     "networksTitle": "Networks",
     "networksButtonAddNetwork": "Add Network",
     "networksConfirmationDialogTitleDeleteNetwork": "Delete {networkName}?",

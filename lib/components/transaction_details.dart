@@ -11,6 +11,7 @@ import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/date_formatter.dart';
 import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
@@ -41,7 +42,6 @@ class TransactionDetails extends StatefulWidget {
 }
 
 class _TransactionDetailsState extends State<TransactionDetails> {
-  final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
   bool get isQxTransferShares => widget.assetTransfer != null;
   List<QubicSendManyTransfer> sendManyTransfers = [];
   final ApplicationStore appStore = getIt<ApplicationStore>();
@@ -86,7 +86,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                     ))),
             ThemedControls.spacerHorizontalNormal(),
             Expanded(
-              child: (widget.item.status == "Success")
+              child: (widget.item.status == TransactionVmStatus.success)
                   ? ThemedControls.primaryButtonBigWithChild(
                       onPressed: () {
                         // Perform some action
@@ -279,13 +279,13 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                                   context,
                                   l10n.transactionItemLabelConfirmedDate,
                                   widget.item.confirmed != null
-                                      ? formatter.format(
+                                      ? DateFormatter.formatShortWithTime(
                                           widget.item.confirmed!.toLocal())
                                       : l10n.generalLabelNotAvailable),
                               if (isQutilSendToMany &&
                                   sendManyTransfers.isNotEmpty) ...[
                                 ThemedControls.spacerVerticalSmall(),
-                                Text("Multiple Receivers",
+                                Text(l10n.generalLabelMultipleReceivers,
                                     style: TextStyles.lightGreyTextNormal),
                                 ThemedControls.spacerVerticalMini(),
                                 Column(

@@ -5,6 +5,7 @@ import 'package:qubic_wallet/components/gradient_foreground.dart';
 import 'package:qubic_wallet/dtos/explorer_query_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/date_formatter.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -42,8 +43,6 @@ class ExplorerResultTick extends StatelessWidget {
       DateTime date = DateTime.utc(dateParts[2], dateParts[1], dateParts[0],
           timeParts[0], timeParts[1], timeParts[1]);
 
-      final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
-
       return Column(children: [
         Flex(
             direction: Axis.horizontal,
@@ -59,7 +58,10 @@ class ExplorerResultTick extends StatelessWidget {
             children: [
               Expanded(
                   flex: 2, child: getInfoLabel(context, l10n.generalLabelDate)),
-              Expanded(flex: 10, child: Text(formatter.format(date.toLocal())))
+              Expanded(
+                  flex: 10,
+                  child:
+                      Text(DateFormatter.formatShortWithTime(date.toLocal())))
             ])
       ]);
     } catch (e) {

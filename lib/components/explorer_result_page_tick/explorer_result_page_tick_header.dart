@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/date_formatter.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -12,7 +12,6 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 class ExplorerResultPageTickHeader extends StatelessWidget {
   final ExplorerTickDto tickInfo;
   final bool isNotEmpty;
-  final DateFormat formatter = DateFormat('dd MMM yyyy \'at\' HH:mm:ss');
 
   final Function(int tick)? onTickChange;
 
@@ -81,7 +80,9 @@ class ExplorerResultPageTickHeader extends StatelessWidget {
                             : Container()
                       ])),
               tickInfo.timestamp != null
-                  ? Text(formatter.format(tickInfo.timestamp!.toLocal()),
+                  ? Text(
+                      DateFormatter.formatShortWithTime(
+                          tickInfo.timestamp!.toLocal()),
                       style: TextStyles.secondaryTextNormal)
                   : Container(),
             ])),

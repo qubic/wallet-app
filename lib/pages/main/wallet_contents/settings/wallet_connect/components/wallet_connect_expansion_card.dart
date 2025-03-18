@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -56,7 +57,7 @@ class _WallectConnectExpansionCardState
                 child: ThemedControls.secondaryButtonWithChild(
               onPressed: widget.onOpen,
               child: Text(
-                "Open App",
+                l10nOf(context).wcOpenApp,
                 style: TextStyles.primaryButtonText
                     .copyWith(color: LightThemeColors.primary40),
               ),

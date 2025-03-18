@@ -22,6 +22,11 @@ enum ComputedTransactionStatus {
   executed
 }
 
+class TransactionVmStatus {
+  static const String invalid = "Invalid";
+  static const String success = "Success";
+}
+
 @observable
 class TransactionVm {
   @observable
@@ -98,8 +103,8 @@ class TransactionVm {
   });
 
   ComputedTransactionStatus getStatus() {
-    return TransactionStatusHelpers.getTransactionStatus(
-        isPending, type, amount, moneyFlow, status == "Invalid");
+    return TransactionStatusHelpers.getTransactionStatus(isPending, type,
+        amount, moneyFlow, status == TransactionVmStatus.invalid);
   }
 
   String toReadableString(BuildContext context) {
