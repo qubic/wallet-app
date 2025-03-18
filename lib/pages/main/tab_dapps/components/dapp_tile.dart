@@ -6,7 +6,6 @@ import 'package:qubic_wallet/models/dapp_model.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class DAppTile extends StatelessWidget {
@@ -18,56 +17,54 @@ class DAppTile extends StatelessWidget {
     super.key,
   });
 
+  onTap(BuildContext context) {
+    if (openFullScreen) {
+      launchUrlString(dApp.url, mode: LaunchMode.inAppBrowserView);
+      return;
+    }
+    pushScreen(
+      context,
+      screen: WebviewScreen(initialUrl: dApp.url),
+      pageTransitionAnimation: PageTransitionAnimation.slideUp,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: ThemePaddings.smallPadding),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8),
-            child: Image.network(dApp.icon, height: 40),
-          ),
-          const SizedBox(width: 15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  dApp.name,
-                  style: TextStyles.labelText,
-                ),
-                ThemedControls.spacerVerticalMini(),
-                Text(
-                  dApp.description,
-                  style: TextStyles.smallInfoText,
-                ),
-              ],
+    return GestureDetector(
+      onTap: () => onTap(context),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: ThemePaddings.smallPadding),
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.network(dApp.icon, height: 40),
             ),
-          ),
-          ThemedControls.transparentButtonSmall(
-            onPressed: () {
-              if (openFullScreen) {
-                launchUrlString(dApp.url, mode: LaunchMode.inAppBrowserView);
-                return;
-              }
-              pushScreen(
-                context,
-                screen: WebviewScreen(initialUrl: dApp.url),
-                pageTransitionAnimation: PageTransitionAnimation.slideUp,
-              );
-            },
-            text: l10n.dAppOpenButton,
-          ),
-          GestureDetector(
-            onTap: () {
-              Share.share(dApp.url);
-            },
-            child: ThemedControls.invertedColors(
-                child: Image.asset("assets/images/Group 2389.png")),
-          ),
-        ],
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    dApp.name,
+                    style: TextStyles.labelText,
+                  ),
+                  ThemedControls.spacerVerticalMini(),
+                  Text(
+                    dApp.description,
+                    style: TextStyles.smallInfoText,
+                  ),
+                ],
+              ),
+            ),
+            ThemedControls.transparentButtonSmall(
+              onPressed: () => onTap(context),
+              text: l10n.dAppOpenButton,
+            ),
+          ],
+        ),
       ),
     );
   }
