@@ -71,7 +71,7 @@ class _TransactionItemState extends State<TransactionItem> {
         // Callback that sets the selected popup menu item.
         onSelected: (CardItem menuItem) async {
           if (menuItem == CardItem.explorer) {
-            viewTransactionInExplorer(widget.item.id);
+            viewTransactionInExplorer(context, widget.item.id);
           }
 
           if (menuItem == CardItem.clipboardCopy) {

@@ -83,7 +83,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   }
 
   Future<void> _preloadImages() async {
-    await precacheImage(AssetImage(featureApp.icon), context);
+    await precacheImage(AssetImage(featuredApp.icon), context);
 
     if (mounted) {
       setState(() {
@@ -150,7 +150,7 @@ class FeaturedAppWidget extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => WebviewScreen(initialUrl: featureApp.url),
+            builder: (context) => WebviewScreen(initialUrl: featuredApp.url),
           ),
         );
       },
@@ -176,7 +176,7 @@ class FeaturedAppWidget extends StatelessWidget {
                 blendMode: BlendMode.dstIn,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(featureApp.icon),
+                  child: Image.asset(featuredApp.icon),
                 ),
               ),
               Padding(
@@ -187,7 +187,7 @@ class FeaturedAppWidget extends StatelessWidget {
                     Text(l10n.dAppFeaturedApp, style: TextStyles.labelText),
                     ThemedControls.spacerVerticalMini(),
                     Text(
-                      featureApp.description,
+                      featuredApp.description,
                       style: TextStyles.secondaryTextSmall,
                       textAlign: TextAlign.center,
                     ),
@@ -218,14 +218,7 @@ class ExplorerAppWidget extends StatelessWidget {
         child: SlideTransition(
             position: slideAnimation,
             child: FadeTransition(
-                opacity: fadeAnimation,
-                child: DAppTile(
-                    dApp: DAppModel(
-                        name: "Qubic Explorer",
-                        icon:
-                            "https://media.licdn.com/dms/image/v2/D560BAQFpyufUFSY-zg/company-logo_200_200/company-logo_200_200/0/1730965355499/qubicnetwork_logo?e=1749081600&v=beta&t=F9UXA_X3wNiQypJnc-kwjPvVw0EqeUr0q7oDibeukkk",
-                        url: "https://explorer.qubic.org/",
-                        description: "This is for the Qubic Explorer")))));
+                opacity: fadeAnimation, child: DAppTile(dApp: explorerApp))));
   }
 }
 

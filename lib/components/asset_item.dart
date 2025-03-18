@@ -150,7 +150,7 @@ class _AssetItemState extends State<AssetItem> {
         // Callback that sets the selected popup menu item.
         onSelected: (CardItem menuItem) async {
           if (menuItem == CardItem.issuerIdentity) {
-            viewAddressInExplorer(widget.asset.issuerIdentity);
+            viewAddressInExplorer(context, widget.asset.issuerIdentity);
           }
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[

@@ -33,6 +33,7 @@ class DAppTile extends StatelessWidget {
                   dApp.name,
                   style: TextStyles.labelText,
                 ),
+                ThemedControls.spacerVerticalMini(),
                 Text(
                   dApp.description,
                   style: TextStyles.smallInfoText,
@@ -47,7 +48,7 @@ class DAppTile extends StatelessWidget {
               }));
             },
             text: l10n.dAppOpenButton,
-          ),
+          )
         ],
       ),
     );

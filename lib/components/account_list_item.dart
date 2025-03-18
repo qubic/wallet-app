@@ -204,7 +204,7 @@ class _AccountListItemState extends State<AccountListItem> {
               }
 
               if (menuItem == CardItem.viewInExplorer) {
-                viewAddressInExplorer(widget.item.publicId);
+                viewAddressInExplorer(context, widget.item.publicId);
               }
 
               if (menuItem == CardItem.viewTransactions) {

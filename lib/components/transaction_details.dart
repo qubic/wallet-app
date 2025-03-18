@@ -77,8 +77,8 @@ class _TransactionDetailsState extends State<TransactionDetails> {
               child: TransactionActionHelpers.canViewInExplorer(widget.item)
                   ? ThemedControls.primaryButtonBigWithChild(
                       onPressed: () {
-                        viewTransactionInExplorer(widget.item.id);
                         Navigator.pop(context);
+                        viewTransactionInExplorer(context, widget.item.id);
                       },
                       child: Text(l10n.transactionItemButtonViewInExplorer,
                           textAlign: TextAlign.center,
