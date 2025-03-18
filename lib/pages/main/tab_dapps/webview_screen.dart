@@ -23,10 +23,20 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
   final TextEditingController urlController = TextEditingController();
   final AppLinkController appLinkController = AppLinkController();
+  final ValueNotifier<bool> canGoBack = ValueNotifier(false);
+  final ValueNotifier<bool> canGoForward = ValueNotifier(false);
+
   @override
   void initState() {
     super.initState();
     urlController.text = _cleanUrl(widget.initialUrl);
+  }
+
+  Future<void> _checkNavigationState() async {
+    if (webViewController != null) {
+      canGoBack.value = await webViewController!.canGoBack();
+      canGoForward.value = await webViewController!.canGoForward();
+    }
   }
 
   String _cleanUrl(String url) {
@@ -80,8 +90,11 @@ class _WebviewScreenState extends State<WebviewScreen> {
         children: [
           SizedBox(height: statusBarHeight),
           WebviewAddressBar(
-              urlController: urlController,
-              webViewController: webViewController),
+            urlController: urlController,
+            webViewController: webViewController,
+            canGoBack: canGoBack,
+            canGoForward: canGoForward,
+          ),
           ValueListenableBuilder(
               valueListenable: progress,
               builder: (context, value, child) {
@@ -117,6 +130,9 @@ class _WebviewScreenState extends State<WebviewScreen> {
                   onLoadStop: (controller, url) => _updateUrl(url.toString()),
                   onProgressChanged: (controller, p) {
                     progress.value = p / 100;
+                    if (p == 100) {
+                      _checkNavigationState();
+                    }
                   },
                 ),
               ],

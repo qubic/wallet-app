@@ -9,10 +9,14 @@ class WebviewAddressBar extends StatelessWidget {
     super.key,
     required this.urlController,
     required this.webViewController,
+    required this.canGoBack,
+    required this.canGoForward,
   });
 
   final TextEditingController urlController;
   final InAppWebViewController? webViewController;
+  final ValueNotifier<bool> canGoBack;
+  final ValueNotifier<bool> canGoForward;
 
   void _handleUrlSubmission(String input) {
     final isValidUrl = RegExp(
@@ -25,6 +29,12 @@ class WebviewAddressBar extends StatelessWidget {
 
     webViewController?.loadUrl(
         urlRequest: URLRequest(url: WebUri.uri(Uri.parse(url))));
+  }
+
+  Color _getButtonColor(bool value) {
+    return value
+        ? LightThemeColors.menuInactive
+        : LightThemeColors.menuInactive.withValues(alpha: 0.3);
   }
 
   @override
@@ -51,26 +61,36 @@ class WebviewAddressBar extends StatelessWidget {
                   prefixIcon: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.arrow_back_ios,
-                            size: 15, color: LightThemeColors.menuInactive),
-                        padding: EdgeInsets.zero,
-                        onPressed: () async {
-                          if (await webViewController?.canGoBack() ?? false) {
-                            webViewController?.goBack();
-                          }
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.arrow_forward_ios,
-                            size: 15, color: LightThemeColors.menuInactive),
-                        onPressed: () async {
-                          if (await webViewController?.canGoForward() ??
-                              false) {
-                            webViewController?.goForward();
-                          }
-                        },
-                      ),
+                      ValueListenableBuilder<bool>(
+                          valueListenable: canGoBack,
+                          builder: (context, value, child) {
+                            return IconButton(
+                              icon: Icon(Icons.arrow_back_ios,
+                                  size: 15, color: _getButtonColor(value)),
+                              padding: EdgeInsets.zero,
+                              onPressed: value
+                                  ? () async {
+                                      webViewController?.goBack();
+                                    }
+                                  : null,
+                            );
+                          }),
+                      ValueListenableBuilder<bool>(
+                          valueListenable: canGoForward,
+                          builder: (context, value, child) {
+                            return IconButton(
+                              icon: Icon(
+                                Icons.arrow_forward_ios,
+                                size: 15,
+                                color: _getButtonColor(value),
+                              ),
+                              onPressed: value
+                                  ? () async {
+                                      webViewController?.goForward();
+                                    }
+                                  : null,
+                            );
+                          }),
                     ],
                   ),
                   enabledBorder: OutlineInputBorder(
