@@ -218,7 +218,8 @@ class ExplorerAppWidget extends StatelessWidget {
         child: SlideTransition(
             position: slideAnimation,
             child: FadeTransition(
-                opacity: fadeAnimation, child: DAppTile(dApp: explorerApp))));
+                opacity: fadeAnimation,
+                child: DAppTile(dApp: explorerApp, openFullScreen: true))));
   }
 }
 

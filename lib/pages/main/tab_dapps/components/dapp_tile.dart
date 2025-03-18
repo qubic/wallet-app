@@ -5,11 +5,14 @@ import 'package:qubic_wallet/models/dapp_model.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class DAppTile extends StatelessWidget {
   final DAppModel dApp;
+  final bool openFullScreen;
   const DAppTile({
     required this.dApp,
+    this.openFullScreen = false,
     super.key,
   });
 
@@ -43,9 +46,16 @@ class DAppTile extends StatelessWidget {
           ),
           ThemedControls.transparentButtonSmall(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return WebviewScreen(initialUrl: dApp.url);
-              }));
+              if (openFullScreen) {
+                launchUrlString(dApp.url, mode: LaunchMode.inAppBrowserView);
+                return;
+              }
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) {
+                  return WebviewScreen(initialUrl: dApp.url);
+                }),
+              );
             },
             text: l10n.dAppOpenButton,
           )
