@@ -124,7 +124,6 @@
     "generalErrorSetWalletPasswordRepeatEmpty": "Lütfen parolanızı tekrar giriniz.",
     "appTabHome": "Ana Menü",
     "appTabTransfers": "Hesap Hareketleri",
-    "appTabExplorer": "Keşif Aracı",
     "appTabSettings": "Ayarlar",
     "homeLabelTotalBalance": "Toplam Bakiye",
     "homeHeader": "Cüzdandaki Hesaplar",

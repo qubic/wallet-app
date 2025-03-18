@@ -24,7 +24,7 @@ class DAppTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
             child: Image.network(dApp.icon, height: 40),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 15),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

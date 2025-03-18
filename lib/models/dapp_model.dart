@@ -23,12 +23,6 @@ final featureApp = DAppModel(
 
 //TODO Adjust as needed
 final List<DAppModel> dAppsList = [
-  // DAppModel(
-  //   name: "Qubic",
-  //   icon: "https://www.google.com/s2/favicons?domain=qubic.com",
-  //   url: "https://qx.qubic.org",
-  //   description: "Qubic network",
-  // ),
   DAppModel(
     name: "Qx",
     icon:

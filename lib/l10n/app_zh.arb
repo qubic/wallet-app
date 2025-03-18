@@ -124,7 +124,6 @@
     "generalErrorSetWalletPasswordRepeatEmpty": "请再次填写密码。",
     "appTabHome": "首页",
     "appTabTransfers": "转账",
-    "appTabExplorer": "浏览器",
     "appTabSettings": "设置",
     "homeLabelTotalBalance": "总余额",
     "homeHeader": "钱包中的账户",

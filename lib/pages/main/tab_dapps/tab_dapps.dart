@@ -106,12 +106,16 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.transparent),
       body: _isImagesLoaded
           ? ListView(
               padding: ThemeEdgeInsets.pageInsets,
               children: [
                 FeaturedAppWidget(
+                  slideAnimation: _featuredSlideAnimation,
+                  fadeAnimation: _fadeAnimation,
+                ),
+                const SizedBox(height: 16),
+                ExplorerAppWidget(
                   slideAnimation: _featuredSlideAnimation,
                   fadeAnimation: _fadeAnimation,
                 ),
@@ -195,6 +199,33 @@ class FeaturedAppWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class ExplorerAppWidget extends StatelessWidget {
+  final Animation<Offset> slideAnimation;
+  final Animation<double> fadeAnimation;
+
+  const ExplorerAppWidget({
+    required this.slideAnimation,
+    required this.fadeAnimation,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemedControls.card(
+        child: SlideTransition(
+            position: slideAnimation,
+            child: FadeTransition(
+                opacity: fadeAnimation,
+                child: DAppTile(
+                    dApp: DAppModel(
+                        name: "Qubic Explorer",
+                        icon:
+                            "https://media.licdn.com/dms/image/v2/D560BAQFpyufUFSY-zg/company-logo_200_200/company-logo_200_200/0/1730965355499/qubicnetwork_logo?e=1749081600&v=beta&t=F9UXA_X3wNiQypJnc-kwjPvVw0EqeUr0q7oDibeukkk",
+                        url: "https://explorer.qubic.org/",
+                        description: "This is for the Qubic Explorer")))));
   }
 }
 

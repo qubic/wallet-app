@@ -124,7 +124,6 @@
     "generalErrorSetWalletPasswordRepeatEmpty": "Bitte geben Sie das Passwort erneut ein.",
     "appTabHome": "Startseite",
     "appTabTransfers": "Übertragungen",
-    "appTabExplorer": "Explorer",
     "appTabSettings": "Einstellungen",
     "homeLabelTotalBalance": "Gesamtguthaben",
     "homeHeader": "Konten im Wallet",

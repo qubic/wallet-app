@@ -15,7 +15,6 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
-import 'package:qubic_wallet/pages/main/tab_explorer/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
@@ -271,7 +270,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             activeForegroundColor: LightThemeColors.menuActive,
             inactiveForegroundColor: LightThemeColors.menuInactive,
           )),
-      //TODO Change name and icon
       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,
@@ -279,23 +277,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,
-                child: Image.asset("assets/images/search-32.png")),
-            inactiveIcon: Image.asset("assets/images/search-32.png"),
-            title: (l10n.appTabExplore),
-            textStyle: TextStyles.menuActive,
-            activeForegroundColor: LightThemeColors.menuActive,
-            inactiveForegroundColor: LightThemeColors.menuInactive,
-          )),
-      PersistentTabConfig(
-          screen: Container(
-              color: LightThemeColors.background,
-              child: const SafeArea(child: TabExplorer())),
-          item: ItemConfig(
-            icon: ChangeForeground(
-                color: LightThemeColors.buttonBackground,
                 child: Image.asset("assets/images/tab-explorer.png")),
             inactiveIcon: Image.asset("assets/images/tab-explorer.png"),
-            title: (l10n.appTabExplorer),
+            title: (l10n.appTabExplore),
             textStyle: TextStyles.menuActive,
             activeForegroundColor: LightThemeColors.menuActive,
             inactiveForegroundColor: LightThemeColors.menuInactive,
