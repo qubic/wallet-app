@@ -6,6 +6,7 @@ import 'package:qubic_wallet/models/dapp_model.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class DAppTile extends StatelessWidget {
@@ -58,7 +59,14 @@ class DAppTile extends StatelessWidget {
               );
             },
             text: l10n.dAppOpenButton,
-          )
+          ),
+          GestureDetector(
+            onTap: () {
+              Share.share(dApp.url);
+            },
+            child: ThemedControls.invertedColors(
+                child: Image.asset("assets/images/Group 2389.png")),
+          ),
         ],
       ),
     );
