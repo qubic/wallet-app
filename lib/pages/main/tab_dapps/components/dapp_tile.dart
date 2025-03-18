@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/dapp_model.dart';
@@ -50,11 +51,10 @@ class DAppTile extends StatelessWidget {
                 launchUrlString(dApp.url, mode: LaunchMode.inAppBrowserView);
                 return;
               }
-              Navigator.push(
+              pushScreen(
                 context,
-                MaterialPageRoute(builder: (context) {
-                  return WebviewScreen(initialUrl: dApp.url);
-                }),
+                screen: WebviewScreen(initialUrl: dApp.url),
+                pageTransitionAnimation: PageTransitionAnimation.slideUp,
               );
             },
             text: l10n.dAppOpenButton,
