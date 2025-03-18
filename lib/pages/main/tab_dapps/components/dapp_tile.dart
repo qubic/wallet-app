@@ -26,6 +26,7 @@ class DAppTile extends StatelessWidget {
       context,
       screen: WebviewScreen(initialUrl: dApp.url),
       pageTransitionAnimation: PageTransitionAnimation.slideUp,
+      withNavBar: true,
     );
   }
 
