@@ -888,7 +888,6 @@
     "dAppFeaturedApp": "Featured App",
     "dAppPopularApps": "Popular dApps",
     "assetButtonIssuerIdentity": "Issuer Identity",
-    "generalLabelMultipleReceivers": "Multiple Receivers",
     "networksTitle": "Networks",
     "networksButtonAddNetwork": "Add Network",
     "networksConfirmationDialogTitleDeleteNetwork": "Delete {networkName}?",
@@ -922,7 +921,7 @@
                 "type": "String"
             }
         }
-    }
+    },
     "generalLabelMultipleReceivers": "Multiple Receivers",
     "webviewAddressBarLabelRefresh": "Refresh",
     "webviewAddressBarLabelShareURL": "Share URL",
