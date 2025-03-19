@@ -259,20 +259,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,
-              child: const SafeArea(child: TabTransfers())),
-          item: ItemConfig(
-            icon: ChangeForeground(
-                color: LightThemeColors.buttonBackground,
-                child: Image.asset("assets/images/tab-transfers.png")),
-            inactiveIcon: Image.asset("assets/images/tab-transfers.png"),
-            title: (l10n.appTabTransfers),
-            textStyle: TextStyles.menuActive,
-            activeForegroundColor: LightThemeColors.menuActive,
-            inactiveForegroundColor: LightThemeColors.menuInactive,
-          )),
-      PersistentTabConfig(
-          screen: Container(
-              color: LightThemeColors.background,
               child: const SafeArea(child: TabExplorer())),
           item: ItemConfig(
             icon: ChangeForeground(
