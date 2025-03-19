@@ -93,13 +93,13 @@ class _AssetItemState extends State<AssetItem> {
                       children: [
                         Row(children: [
                           Expanded(
-                              child: Text(widget.asset.assetName,
+                              child: Text(widget.asset.issuedAsset.name,
                                   style: TextStyles.accountName)),
                           getCardMenu(context)
                         ]),
                         Text(
                             l10n.assetsLabelTick(
-                                widget.asset.tick.asThousands()),
+                                widget.asset.info.tick.asThousands()),
                             style: TextStyles.assetSecondaryTextLabel),
                         const SizedBox(height: ThemePaddings.normalPadding),
                         Row(
@@ -107,24 +107,7 @@ class _AssetItemState extends State<AssetItem> {
                             children: [
                               Text(l10n.assetsLabelOwned,
                                   style: TextStyles.assetSecondaryTextLabel),
-                              Text(
-                                  widget.asset.ownedAmount == null
-                                      ? "-"
-                                      : formatter
-                                          .format(widget.asset.ownedAmount),
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelPossessed,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text(
-                                  widget.asset.possessedAmount == null
-                                      ? "-"
-                                      : formatter
-                                          .format(widget.asset.possessedAmount),
+                              Text(formatter.format(widget.asset.numberOfUnits),
                                   style:
                                       TextStyles.assetSecondaryTextLabelValue),
                             ]),
@@ -138,7 +121,7 @@ class _AssetItemState extends State<AssetItem> {
 
   //Gets the dropdown menu
   Widget getCardMenu(BuildContext context) {
-    if (QubicAssetDto.isSmartContractShare(widget.asset) == true) {
+    if (widget.asset.isSmartContractShare) {
       return Container();
     }
 
@@ -154,7 +137,7 @@ class _AssetItemState extends State<AssetItem> {
               context,
               screen: ExplorerResultPage(
                   resultType: ExplorerResultType.publicId,
-                  qubicId: widget.asset.issuerIdentity),
+                  qubicId: widget.asset.issuedAsset.issuerIdentity),
               withNavBar: false,
               pageTransitionAnimation: PageTransitionAnimation.cupertino,
             );

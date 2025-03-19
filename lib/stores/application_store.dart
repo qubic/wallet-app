@@ -116,24 +116,23 @@ abstract class _ApplicationStore with Store {
     List<QubicAssetDto> tokens = [];
     currentQubicIDs.where((qubic) => !qubic.watchOnly).forEach((id) {
       id.assets.forEach((key, asset) {
-        QubicAssetDto temp = asset.clone();
-        temp.ownedAmount ??= 0;
+        QubicAssetDto temp = asset;
 
-        if (QubicAssetDto.isSmartContractShare(asset)) {
-          int index = shares
-              .indexWhere((element) => element.assetName == asset.assetName);
+        if (asset.isSmartContractShare) {
+          int index = shares.indexWhere(
+              (element) => element.issuedAsset.name == asset.issuedAsset.name);
           if (index != -1) {
-            shares[index].ownedAmount =
-                shares[index].ownedAmount! + temp.ownedAmount!;
+            shares[index].numberOfUnits =
+                shares[index].numberOfUnits + temp.numberOfUnits;
           } else {
             shares.add(temp);
           }
         } else {
-          int index = tokens
-              .indexWhere((element) => element.assetName == asset.assetName);
+          int index = tokens.indexWhere(
+              (element) => element.issuedAsset.name == asset.issuedAsset.name);
           if (index != -1) {
-            tokens[index].ownedAmount =
-                tokens[index].ownedAmount! + (asset.ownedAmount ?? 0);
+            tokens[index].numberOfUnits =
+                tokens[index].numberOfUnits + temp.numberOfUnits;
           } else {
             tokens.add(temp);
           }
@@ -308,7 +307,7 @@ abstract class _ApplicationStore with Store {
       CurrentBalanceDto? balance = balances
           .firstWhereOrNull((e) => e.publicId == currentQubicIDs[i].publicId);
       List<QubicAssetDto> newAssets = assets
-          .where((e) => e.publicId == currentQubicIDs[i].publicId)
+          .where((e) => e.ownerIdentity == currentQubicIDs[i].publicId)
           .toList();
 
       if ((newAssets.isNotEmpty) || (balance != null)) {
@@ -374,21 +373,23 @@ abstract class _ApplicationStore with Store {
 
     for (var i = 0; i < currentQubicIDs.length; i++) {
       List<QubicAssetDto> assetsForID = assetsForAllIDs
-          .where((e) => e.publicId == currentQubicIDs[i].publicId)
+          .where((e) => e.ownerIdentity == currentQubicIDs[i].publicId)
           .toList();
       for (var j = 0; j < assetsForID.length; j++) {
-        if (assetsForID[j].publicId == currentQubicIDs[i].publicId) {
+        if (assetsForID[j].ownerIdentity == currentQubicIDs[i].publicId) {
           // Detect changes start
           var assetInfo = currentQubicIDs[i]
               .assets
               .values
               .where((el) =>
-                  el.assetName == assetsForID[j].assetName &&
-                  el.contractIndex == assetsForID[j].contractIndex &&
-                  el.issuerIdentity == assetsForID[j].issuerIdentity)
+                  el.issuedAsset.name == assetsForID[j].issuedAsset.name &&
+                  el.managingContractIndex ==
+                      assetsForID[j].managingContractIndex &&
+                  el.issuedAsset.issuerIdentity ==
+                      assetsForID[j].issuedAsset.issuerIdentity)
               .firstOrNull;
           if (assetInfo != null) {
-            if (assetInfo.ownedAmount != assetsForID[j].ownedAmount) {
+            if (assetInfo.numberOfUnits != assetsForID[j].numberOfUnits) {
               if (changedIds.containsKey(currentQubicIDs[i].publicId) ==
                   false) {
                 changedIds[currentQubicIDs[i].publicId] = [];

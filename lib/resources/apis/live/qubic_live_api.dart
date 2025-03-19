@@ -77,37 +77,21 @@ class QubicLiveApi {
   }
 
   Future<List<QubicAssetDto>> getCurrentAssets(List<String> publicIds) async {
-    late List<QubicAssetDto> assets = <QubicAssetDto>[];
-
-    for (var address in publicIds) {
-      try {
-        _appStore.incrementPendingRequests();
-        //final response =
-        await _dio.get(
-            '${_networkStore.selectedNetwork.rpcUrl}${Config.addressAssetsBalance(address)}');
-
-        // to iterate in the response.data["ownedAssets"]["data"] that is the array of assets
-        /*
-        assets.add(QubicAssetDto(
-            assetName: response.data["ownedAssets"]["data"]["issuedAsset"]
-                ["name"],
-            issuerIdentity: response.data["ownedAssets"]["data"]["issuedAsset"]
-                ["issuerIdentity"],
-            publicId: response.data["ownedAssets"]["data"]["ownerIdentity"],
-            contractIndex: response.data["ownedAssets"]["data"]
-                ["managingContractIndex"],
-            ownedAmount: int.parse(
-                response.data["ownedAssets"]["data"]["numberOfUnits"]),
-            contractName: null,
-            tick: response.data["ownedAssets"]["info"]["tick"],
-            reportingNodes: [],
-            possessedAmount: null));*/
-      } catch (error) {
-        throw ErrorHandler.handleError(error);
-      } finally {
-        _appStore.decreasePendingRequests();
-      }
+    try {
+      final response = await Future.wait([
+        for (var address in publicIds)
+          _dio.get(
+              '${_networkStore.selectedNetwork.rpcUrl}${Config.addressAssetsBalance(address)}')
+      ]);
+      return response
+          .where((e) => e.data["ownedAssets"].isNotEmpty)
+          .expand((e) => (e.data["ownedAssets"] as List)
+              .map((asset) => QubicAssetDto.fromJson(asset)))
+          .toList();
+    } catch (e) {
+      throw ErrorHandler.handleError(e);
+    } finally {
+      _appStore.decreasePendingRequests();
     }
-    return assets;
   }
 }
