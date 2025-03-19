@@ -247,7 +247,7 @@
     "transactionLabelDirectionIncoming": "Gelen",
     "transactionLabelDirectionOutgoing": "Giden",
     "transactionLabelDirectionInWallet": "Cüzdandaki",
-    "transactionLabelStatusSuccessful": "Başarılı",
+    "transactionLabelStatusSuccessful": "Başarıyla tamamlandı",
     "transactionLabelStatusPending": "Onay Bekliyor",
     "transactionLabelStatusExecuted": "Gerçekleştirildi",
     "transactionLabelStatusFailed": "Başarısız",
