@@ -58,11 +58,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
   Future<NavigationActionPolicy> _handleDeepLinkNavigation(
       InAppWebViewController controller,
       NavigationAction navigationAction) async {
-    final url = await controller.getUrl();
     final deepLink = navigationAction.request.url;
-
     if (deepLink != null &&
-        url != navigationAction.request.url &&
         (deepLink.scheme != 'https' && deepLink.scheme != 'http')) {
       if (deepLink.toString().startsWith(Config.CustomURLScheme)) {
         appLinkController.parseUriString(deepLink, context);
