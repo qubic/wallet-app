@@ -197,67 +197,6 @@ class QubicLi {
     }
   }
 
-  /// Gets the balances from the network - Wallet/NetworkBalances
-  /// @param publicIds - List of public IDs to get balances for
-  /// @return List of balances
-  ///
-  Future<List<CurrentBalanceDto>> getNetworkBalances(
-      List<String> publicIds) async {
-    try {
-      _assertAuthorized();
-    } catch (e) {
-      rethrow;
-    }
-    _gettingNetworkBalances = true;
-
-    appStore.incrementPendingRequests();
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({
-        'Authorization': 'bearer ${_authenticationToken!}',
-        'Content-Type': 'application/json'
-      });
-      response = await client.post(
-          Uri.parse('$qubicLiDomain/${Config.URL_NetworkBalances}'),
-          body: json.encode(publicIds),
-          headers: headers);
-
-      appStore.decreasePendingRequests();
-      _gettingNetworkBalances = false;
-    } catch (e) {
-      appStore.decreasePendingRequests();
-      _gettingNetworkBalances = false;
-      throw Exception(
-          'Failed to contact server for fetching current balances.');
-    }
-
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late var balances = <CurrentBalanceDto>[];
-
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch current balances. Could not parse response');
-    }
-    try {
-      balances = parsedJson
-          .map((e) => CurrentBalanceDto.fromJson(e))
-          .toList()
-          .cast<CurrentBalanceDto>();
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch current balances. Server response is missing required info');
-    }
-    return balances;
-  }
-
   Future<ExplorerIdInfoDto> getExplorerIdInfo(String publicId) async {
     try {
       _assertAuthorized();

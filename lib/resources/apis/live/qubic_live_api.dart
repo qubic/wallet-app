@@ -1,9 +1,6 @@
-import 'dart:math';
-
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_tick_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -55,25 +52,20 @@ class QubicLiveApi {
 
   Future<List<CurrentBalanceDto>> getQubicBalances(
       List<String> publicIds) async {
-    late var balances = <CurrentBalanceDto>[];
-
-    for (var address in publicIds) {
-      try {
-        _appStore.incrementPendingRequests();
-        final response = await _dio.get(
-            '${_networkStore.selectedNetwork.rpcUrl}${Config.addressQubicBalance(address)}');
-        balances.add(CurrentBalanceDto(
-            publicId: response.data["balance"]["id"],
-            amount: int.parse(response.data["balance"]["balance"]),
-            tick: response.data["balance"]["validForTick"]));
-      } catch (error) {
-        throw ErrorHandler.handleError(error);
-      } finally {
-        _appStore.decreasePendingRequests();
-      }
+    try {
+      _appStore.incrementPendingRequests();
+      final response = await Future.wait([
+        for (var address in publicIds)
+          _dio.get(
+              '${_networkStore.selectedNetwork.rpcUrl}${Config.addressQubicBalance(address)}')
+      ]);
+      return List<CurrentBalanceDto>.from(
+          response.map((e) => CurrentBalanceDto.fromJson(e.data["balance"])));
+    } catch (e) {
+      throw ErrorHandler.handleError(e);
+    } finally {
+      _appStore.decreasePendingRequests();
     }
-
-    return balances;
   }
 
   Future<List<QubicAssetDto>> getCurrentAssets(List<String> publicIds) async {
