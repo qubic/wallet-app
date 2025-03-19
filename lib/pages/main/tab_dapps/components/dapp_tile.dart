@@ -60,10 +60,14 @@ class DAppTile extends StatelessWidget {
                 ],
               ),
             ),
-            ThemedControls.transparentButtonSmall(
+            ThemedControls.secondaryButtonWithChild(
               onPressed: () => onTap(context),
-              text: l10n.dAppOpenButton,
-            ),
+              child: Text(
+                l10n.dAppOpenButton,
+                style: TextStyles.primaryButtonTextSmall
+                    .copyWith(color: LightThemeColors.primary40),
+              ),
+            )
           ],
         ),
       ),
