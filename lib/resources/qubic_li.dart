@@ -152,51 +152,6 @@ class QubicLi {
     }
   }
 
-  ///Gets the transactions from the network
-  ///@param publicIds - List of public IDs to get transactions for
-  ///@return List of transactions
-  Future<List<TransactionDto>> getTransactions(List<String> publicIds) async {
-    _assertAuthorized();
-    appStore.incrementPendingRequests();
-    _gettingNetworkTransactions = true;
-
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({
-        'Authorization': 'bearer ${_authenticationToken!}',
-        'Content-Type': 'application/json'
-      });
-
-      final response = await client.post(
-          Uri.parse('$qubicLiDomain/${Config.URL_NetworkTransactions}'),
-          body: json.encode(publicIds),
-          headers: headers);
-      _assert200Response(response.statusCode);
-      final parsedJson = jsonDecode(response.body);
-
-      final transactions =
-          (parsedJson as List).map((e) => TransactionDto.fromJson(e)).toList();
-
-      transactions.sort((a, b) => a.targetTick.compareTo(b.targetTick));
-      return transactions;
-    } catch (e) {
-      String errorMessage = 'Failed to fetch current transactions';
-
-      if (e is FormatException) {
-        errorMessage += '. Could not parse response';
-      } else if (e is TypeError) {
-        errorMessage += '. Server response is missing required info';
-      } else if (e is SocketException || e is ClientException) {
-        errorMessage += '. Failed to contact server';
-      }
-
-      throw Exception(errorMessage);
-    } finally {
-      _gettingNetworkTransactions = false;
-      appStore.decreasePendingRequests();
-    }
-  }
-
   Future<ExplorerIdInfoDto> getExplorerIdInfo(String publicId) async {
     try {
       _assertAuthorized();
