@@ -256,7 +256,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             activeForegroundColor: LightThemeColors.menuActive,
             inactiveForegroundColor: LightThemeColors.menuInactive,
           )),
-      PersistentTabConfig(
+/*       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,
               child: const SafeArea(child: TabTransfers())),
@@ -269,7 +269,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             textStyle: TextStyles.menuActive,
             activeForegroundColor: LightThemeColors.menuActive,
             inactiveForegroundColor: LightThemeColors.menuInactive,
-          )),
+          )), */
       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,

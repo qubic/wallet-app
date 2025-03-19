@@ -6,10 +6,20 @@ import 'package:qubic_wallet/dtos/network_overview_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/pagination_request_model.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
+import 'package:qubic_wallet/stores/network_store.dart';
 
 class QubicArchiveApi {
-  final Dio _dio = DioClient.getDio(baseUrl: _baseUrl);
-  static const String _baseUrl = Config.archiveDomain;
+  Dio _dio;
+  final NetworkStore _networkStore;
+
+  QubicArchiveApi(this._networkStore)
+      : _dio = DioClient.getDio(baseUrl: _networkStore.rpcUrl);
+
+  String get _baseUrl => _networkStore.rpcUrl;
+
+  void updateDio() {
+    _dio = DioClient.getDio(baseUrl: _networkStore.selectedNetwork.rpcUrl);
+  }
 
   Future<List<ExplorerTransactionDto>> getExplorerTickTransactions(
       int tick) async {

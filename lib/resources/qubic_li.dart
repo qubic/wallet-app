@@ -18,8 +18,10 @@ import 'package:qubic_wallet/helpers/custom_proxy.dart';
 import 'package:qubic_wallet/resources/http_interceptors.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
+import 'package:qubic_wallet/stores/network_store.dart';
 
 class QubicLi {
+  final NetworkStore networkStore = getIt<NetworkStore>();
   ApplicationStore appStore = getIt<ApplicationStore>();
   ExplorerStore explorerStore = getIt<ExplorerStore>();
   String? _authenticationToken;
@@ -39,10 +41,16 @@ class QubicLi {
     interceptors: [LoggingInterceptor()],
   );
 
+  late String qubicLiDomain = networkStore.selectedNetwork.liUrl;
+
   void resetGetters() {
     _gettingNetworkBalances = false;
     _gettingNetworkAssets = false;
     _gettingNetworkTransactions = false;
+  }
+
+  updateDomain() {
+    qubicLiDomain = networkStore.selectedNetwork.liUrl;
   }
 
   QubicLi() {
@@ -102,16 +110,17 @@ class QubicLi {
       headers.addAll({
         'Content-Type': 'application/json',
       });
-      response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_Login),
-          body: json.encode({
-            'userName': Config.authUser,
-            'password': Config.authPass,
-            'twoFactorCode': ""
-          }),
-          headers: headers);
+      response =
+          await client.post(Uri.parse('$qubicLiDomain/${Config.URL_Login}'),
+              body: json.encode({
+                'userName': Config.qubicLiAuthUsername,
+                'password': Config.qubicLiAuthPassword,
+                'twoFactorCode': ""
+              }),
+              headers: headers);
       appStore.decreasePendingRequests();
     } catch (e) {
+      appLogger.e(e);
       appStore.decreasePendingRequests();
       throw Exception('Failed to contact server.');
     }
@@ -158,7 +167,7 @@ class QubicLi {
       });
 
       final response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_NetworkTransactions),
+          Uri.parse('$qubicLiDomain/${Config.URL_NetworkTransactions}'),
           body: json.encode(publicIds),
           headers: headers);
       _assert200Response(response.statusCode);
@@ -209,7 +218,7 @@ class QubicLi {
         'Content-Type': 'application/json'
       });
       response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_NetworkBalances),
+          Uri.parse('$qubicLiDomain/${Config.URL_NetworkBalances}'),
           body: json.encode(publicIds),
           headers: headers);
 
@@ -267,7 +276,7 @@ class QubicLi {
         'Content-Type': 'application/json'
       });
       response = await client.post(
-          Uri.https(Config.walletDomain, Config.URL_Assets),
+          Uri.parse('$qubicLiDomain/${Config.URL_Assets}'),
           body: json.encode(publicIds),
           headers: headers);
 
@@ -313,7 +322,7 @@ class QubicLi {
       var headers = QubicLi.getHeaders();
       headers.addAll({'Content-Type': 'application/json'});
       response = await http
-          .get(Uri.https(Config.walletDomain, Config.URL_MarketInfo),
+          .get(Uri.parse('$qubicLiDomain/${Config.URL_MarketInfo}'),
               headers: headers)
           .catchError((e) {
         appStore.decreasePendingRequests();

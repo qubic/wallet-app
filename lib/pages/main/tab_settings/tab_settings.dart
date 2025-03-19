@@ -12,6 +12,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/networks/networks_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/wallet_connect.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -135,6 +136,12 @@ class _TabSettingsState extends State<TabSettings> {
                                 title: l10n.settingsLabelWalletConnect,
                                 afterText: const BetaBadge(),
                                 path: const WalletConnectSettings()),
+                            SettingsListTile(
+                              prefix: SvgPicture.asset(AppIcons.netowrk,
+                                  height: defaultIconHeight),
+                              title: "Networks",
+                              path: NetworksScreen(),
+                            ),
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.community,
                                   height: defaultIconHeight),

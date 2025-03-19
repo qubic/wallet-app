@@ -4,7 +4,7 @@ class QubicAssetWC {
   final int contractIndex;
   final String assetName;
   final String issuerIdentity;
-  final String contractName;
+  final String? contractName;
   final int? ownedAmount;
   final int? possessedAmount;
 
@@ -50,7 +50,7 @@ class QubicAssetDto {
   final String issuerIdentity;
 
   /// The name of the contract.
-  final String contractName;
+  String? contractName;
 
   /// The amount of shares owned by the asset.
   int? ownedAmount;
@@ -59,7 +59,7 @@ class QubicAssetDto {
   int? possessedAmount;
 
   // The nodes reporting the asset owning
-  final List<String> reportingNodes;
+  List<String> reportingNodes;
 
   /// The reported tick for the asset
   final int tick;

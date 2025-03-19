@@ -14,6 +14,7 @@ import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/explorer_store.dart';
+import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 
@@ -25,8 +26,11 @@ final GetIt getIt = GetIt.instance;
 
 /// Setups Dependency injection
 void setupDI() {
-  getIt.registerSingleton<QubicArchiveApi>(QubicArchiveApi());
-  getIt.registerSingleton<QubicStatsApi>(QubicStatsApi());
+  getIt.registerSingleton<NetworkStore>(NetworkStore());
+
+  getIt.registerSingleton<QubicArchiveApi>(
+      QubicArchiveApi(getIt<NetworkStore>()));
+  getIt.registerSingleton<QubicStatsApi>(QubicStatsApi(getIt<NetworkStore>()));
 
   //Stores
   getIt.registerSingleton<ApplicationStore>(ApplicationStore());
@@ -42,7 +46,7 @@ void setupDI() {
   getIt.registerSingleton<QubicLi>(QubicLi());
   getIt.registerSingleton<QubicHub>(QubicHub());
 
-  getIt.registerSingleton<QubicLiveApi>(QubicLiveApi());
+  getIt.registerSingleton<QubicLiveApi>(QubicLiveApi(getIt<NetworkStore>()));
 
   //Services
   getIt.registerSingleton<QubicHubService>(QubicHubService());

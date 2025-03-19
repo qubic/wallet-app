@@ -3,8 +3,11 @@
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 
 abstract class Config {
-  /// General backend via qubic.li
-  static const walletDomain = "api.qubic.li";
+  // qubic.li backend related config
+  static const qubicLiDomain = "https://api.qubic.li";
+
+  static const qubicLiAuthUsername = "guest@qubic.li";
+  static const qubicLiAuthPassword = "guest13@Qubic.li";
 
   static const URL_Login = "Auth/Login";
   static const URL_NetworkBalances = "Wallet/NetworkBalances";
@@ -13,22 +16,25 @@ abstract class Config {
 
   static const URL_MarketInfo = "Public/MarketInformation";
 
-  static const archiveDomain = "https://rpc.qubic.org";
+  // Qubic RPC backend related config
+  static const qubicMainnetRpcDomain = "https://rpc.qubic.org";
+
   static tickData(int tick) => "/v1/ticks/$tick/tick-data";
   static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
   static computors(int epoch) => "/v1/epochs/$epoch/computors";
   static transaction(String transaction) => "/v2/transactions/$transaction";
   static networkTicks(int epoch) => "/v2/epochs/$epoch/ticks";
 
-  static const statsDomain = "https://rpc.qubic.org";
   static const latestStatsUrl = "/v1/latest-stats";
 
-  static const liveDomain = "https://rpc.qubic.org";
   static const submitTransaction = "/v1/broadcast-transaction";
   static const currentTick = "/v1/tick-info";
 
-  static const authUser = "guest@qubic.li";
-  static const authPass = "guest13@Qubic.li";
+  static addressQubicBalance(String address) => "/v1/balances/$address";
+  static addressAssetsBalance(String address) => "/v1/assets/$address/owned";
+  static addressTransfers(
+          String address, int startTick, int endTick, int page, int pageSize) =>
+      "/v2/identities/$address/transfers?startTick=$startTick&endTick=$endTick&page=$page&pageSize=$pageSize&desc=true"; // temporary hardcoded to the first 250 items
 
   static const fetchEverySeconds = 60;
   static const fetchEverySecondsSlow = 60 * 5;
@@ -70,7 +76,7 @@ abstract class Config {
   static const String proxyIP = '192.168.1.1'; // Replace with actual proxy IP
   static const int proxyPort = 8888; // Replace with actual proxy port
 
-  //Configuration for Wallet Connect
+  // Configuration for Wallet Connect
   static const walletConnectProjectId = "b2ace378845f0e4806ef23d2732f77a4";
   static const walletConnectName = "Qubic Wallet";
   static const walletConnectDescription = "The official wallet for Qubic chain";
