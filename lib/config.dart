@@ -31,6 +31,12 @@ abstract class Config {
   static const submitTransaction = "/v1/broadcast-transaction";
   static const currentTick = "/v1/tick-info";
 
+  static addressQubicBalance(String address) => "/v1/balances/$address";
+  static addressAssetsBalance(String address) => "/v1/assets/$address/owned";
+  static addressTransfers(
+          String address, int startTick, int endTick, int page, int pageSize) =>
+      "/v2/identities/$address/transfers?startTick=$startTick&endTick=$endTick&page=$page&pageSize=$pageSize&desc=true"; // temporary hardcoded to the first 250 items
+
   static const fetchEverySeconds = 60;
   static const fetchEverySecondsSlow = 60 * 5;
   static const inactiveSecondsLimit = 120;
