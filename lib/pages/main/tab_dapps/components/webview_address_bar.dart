@@ -34,10 +34,10 @@ class WebviewAddressBar extends StatelessWidget {
         urlRequest: URLRequest(url: WebUri.uri(Uri.parse(url))));
   }
 
-  Color _getButtonColor(bool value) {
-    return value
-        ? LightThemeColors.menuInactive
-        : LightThemeColors.menuInactive.withValues(alpha: 0.3);
+  Color _getButtonColor(bool isActive) {
+    return isActive
+        ? LightThemeColors.menuActive
+        : LightThemeColors.menuInactive;
   }
 
   void _shareCurrentUrl(BuildContext context) async {
@@ -81,7 +81,11 @@ class WebviewAddressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
     return Padding(
-      padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+      padding: const EdgeInsets.fromLTRB(
+          ThemePaddings.normalPadding,
+          ThemePaddings.smallPadding,
+          ThemePaddings.minimumPadding,
+          ThemePaddings.mediumPadding),
       child: Row(
         children: [
           Expanded(
