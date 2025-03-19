@@ -16,7 +16,7 @@ class DAppModel {
 final featuredApp = DAppModel(
   name: "Qubic",
   icon: "assets/images/qx.jpg",
-  url: "https://dev.qx.qubic.org/",
+  url: "https://qx.qubic.org/",
   description:
       "QX is a decentralized exchange running as a smart contract on the Qubic network",
 );
@@ -34,7 +34,7 @@ final List<DAppModel> dAppsList = [
     name: "Qx",
     icon:
         "https://media.licdn.com/dms/image/v2/D560BAQFpyufUFSY-zg/company-logo_200_200/company-logo_200_200/0/1730965355499/qubicnetwork_logo?e=1749081600&v=beta&t=F9UXA_X3wNiQypJnc-kwjPvVw0EqeUr0q7oDibeukkk",
-    url: "https://dev.qx.qubic.org",
+    url: "https://qx.qubic.org",
     description: "1st Qubic decentralised exchange.",
   ),
   DAppModel(
