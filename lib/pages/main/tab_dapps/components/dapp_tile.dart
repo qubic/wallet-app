@@ -34,6 +34,7 @@ class DAppTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () => onTap(context),
       child: Padding(
         padding: const EdgeInsets.only(bottom: ThemePaddings.smallPadding),
