@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:share_plus/share_plus.dart';
 
 class WebviewAddressBar extends StatelessWidget {
   const WebviewAddressBar({
@@ -37,8 +40,46 @@ class WebviewAddressBar extends StatelessWidget {
         : LightThemeColors.menuInactive.withValues(alpha: 0.3);
   }
 
+  void _shareCurrentUrl(BuildContext context) async {
+    if (webViewController != null) {
+      final url = await webViewController!.getUrl();
+      if (url != null) {
+        await Share.share(url.toString());
+      }
+    }
+  }
+
+  void _copyUrlToClipboard(BuildContext context) async {
+    if (webViewController != null) {
+      final url = await webViewController!.getUrl();
+      if (url != null) {
+        await Clipboard.setData(ClipboardData(text: url.toString()));
+      }
+    }
+  }
+
+  PopupMenuItem<String> _getMenuItem({
+    required String value,
+    required String label,
+    required IconData icon,
+    required VoidCallback onTap,
+  }) {
+    return PopupMenuItem<String>(
+      value: value,
+      onTap: onTap,
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: LightThemeColors.menuInactive),
+          const SizedBox(width: 8),
+          Text(label, style: TextStyles.inputBoxSmallStyle),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return Padding(
       padding: const EdgeInsets.all(ThemePaddings.normalPadding),
       child: Row(
@@ -52,12 +93,42 @@ class WebviewAddressBar extends StatelessWidget {
               style: TextStyles.inputBoxSmallStyle
                   .copyWith(fontSize: ThemeFontSizes.small),
               decoration: ThemeInputDecorations.normalInputbox.copyWith(
-                  suffixIcon: IconButton(
-                      onPressed: () {
-                        webViewController?.reload();
-                      },
-                      icon: const Icon(Icons.refresh,
-                          size: 15, color: LightThemeColors.menuInactive)),
+                  suffixIcon: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      PopupMenuButton<String>(
+                        icon: const Icon(
+                          Icons.more_vert,
+                          size: 15,
+                          color: LightThemeColors.menuInactive,
+                        ),
+                        offset: const Offset(0, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        itemBuilder: (context) => [
+                          _getMenuItem(
+                            value: 'refresh',
+                            label: l10n.webviewAddressBarLabelRefresh,
+                            onTap: () => webViewController?.reload(),
+                            icon: Icons.refresh,
+                          ),
+                          _getMenuItem(
+                            value: 'share',
+                            label: l10n.webviewAddressBarLabelShareURL,
+                            onTap: () => _shareCurrentUrl(context),
+                            icon: Icons.share,
+                          ),
+                          _getMenuItem(
+                            value: 'copy',
+                            label: l10n.webviewAddressBarLabelCopyURL,
+                            onTap: () => _copyUrlToClipboard(context),
+                            icon: Icons.content_copy,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                   prefixIcon: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [

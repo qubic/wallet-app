@@ -888,5 +888,8 @@
     "dAppFeaturedApp": "Featured App",
     "dAppPopularApps": "Popular dApps",
     "assetButtonIssuerIdentity": "Issuer Identity",
-    "generalLabelMultipleReceivers" :"Multiple Receivers"
+    "generalLabelMultipleReceivers": "Multiple Receivers",
+    "webviewAddressBarLabelRefresh": "Refresh",
+    "webviewAddressBarLabelShareURL": "Share URL",
+    "webviewAddressBarLabelCopyURL": "Copy URL"
 }
