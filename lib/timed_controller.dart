@@ -60,7 +60,8 @@ class TimedController extends WidgetsBindingObserver {
 
       //Fetch network balances
       if (!_apiService.gettingNetworkBalances) {
-        _apiService.getNetworkBalances(myIds).then((balances) {
+        _liveApi.getQubicBalances(myIds).then((balances) {
+          //_apiService.getNetworkBalances(myIds).then((balances) {
           Map<String, int> changedIds = appStore.setAmounts(balances);
           if (changedIds.isNotEmpty) {
             Map<String, int> changedIdsWithSeed = {};
@@ -87,7 +88,8 @@ class TimedController extends WidgetsBindingObserver {
 
       //Fetch network assets
       if (!_apiService.gettingNetworkAssets) {
-        _apiService.getCurrentAssets(myIds).then((assets) {
+        _liveApi.getCurrentAssets(myIds).then((assets) {
+          //_apiService.getCurrentAssets(myIds).then((assets) {
           Map<String, List<QubicAssetDto>> changedIds =
               appStore.setAssets(assets);
 
