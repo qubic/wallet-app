@@ -457,8 +457,7 @@ abstract class _ApplicationStore with Store {
   void validatePendingTransactions(int currentTick) {
     List<TransactionVm> toBeRemoved = [];
     for (var trx in _hiveStorage.storedTransactions.values) {
-      if (currentTransactions.firstWhereOrNull((e) => e.id == trx.id)?.status ==
-          TransactionVmStatus.success) {
+      if (currentTransactions.firstWhereOrNull((e) => e.id == trx.id) != null) {
         // if already returned by the backend, then we delete the local copy
         toBeRemoved.add(trx);
       } else if (currentTick >=
@@ -478,7 +477,6 @@ abstract class _ApplicationStore with Store {
   @action
   convertPendingToInvalid(TransactionVm transaction) {
     transaction.isPending = false;
-    transaction.status = TransactionVmStatus.invalid;
     _hiveStorage.addStoredTransaction(transaction);
   }
 

@@ -223,7 +223,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                             sourceId: item.transaction.sourceId!,
                             destId: item.transaction.destId!,
                             amount: int.tryParse(item.transaction.amount!) ?? 0,
-                            status: "Success",
+                            //status: "Success",
                             targetTick: item.transaction.tickNumber!,
                             isPending: false,
                             moneyFlow: item.moneyFlew));

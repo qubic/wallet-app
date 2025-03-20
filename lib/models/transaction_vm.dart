@@ -42,9 +42,6 @@ class TransactionVm {
   int amount;
 
   @observable
-  String status;
-
-  @observable
   DateTime? created;
 
   @observable
@@ -86,7 +83,6 @@ class TransactionVm {
     required this.sourceId,
     required this.destId,
     required this.amount,
-    required this.status,
     this.created,
     this.stored,
     this.staged,
@@ -103,8 +99,12 @@ class TransactionVm {
   });
 
   ComputedTransactionStatus getStatus() {
-    return TransactionStatusHelpers.getTransactionStatus(isPending, type,
-        amount, moneyFlow, status == TransactionVmStatus.invalid);
+    return TransactionStatusHelpers.getTransactionStatus(
+        isPending,
+        type,
+        amount,
+        moneyFlow,
+        confirmed != null && isPending == false); // TODO IMPORTANT
   }
 
   String toReadableString(BuildContext context) {
@@ -128,7 +128,6 @@ class TransactionVm {
     sourceId = update.sourceId;
     destId = update.destId;
     amount = update.amount;
-    status = update.status;
     created = update.created;
     stored = update.stored;
     staged = update.staged;
@@ -145,7 +144,7 @@ class TransactionVm {
 
   @override
   String toString() {
-    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount, Status: $status,Created: $created,Stored: $stored,Staged: $staged,Broadcasted: $broadcasted,Confirmed: $confirmed,StatusUpdate: $statusUpdate,TargetTick: $targetTick,isPending: $isPending,Price: $price, Quantity: $quantity, Moneyflow: $moneyFlow Type: $type";
+    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount,Created: $created,Stored: $stored,Staged: $staged,Broadcasted: $broadcasted,Confirmed: $confirmed,StatusUpdate: $statusUpdate,TargetTick: $targetTick,isPending: $isPending,Price: $price, Quantity: $quantity, Moneyflow: $moneyFlow Type: $type";
   }
 
   factory TransactionVm.fromTransactionDto(TransactionDto original) {
@@ -154,7 +153,6 @@ class TransactionVm {
       sourceId: original.sourceId,
       destId: original.destId,
       amount: original.amount,
-      status: original.status,
       created: original.created,
       stored: original.stored,
       staged: original.staged,
@@ -180,7 +178,6 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
       sourceId: reader.readString(),
       destId: reader.readString(),
       amount: reader.readInt(),
-      status: reader.readString(),
       targetTick: reader.readInt(),
       isPending: reader.readBool(),
       moneyFlow: reader.readBool(),
@@ -197,7 +194,6 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
     writer.writeString(obj.sourceId);
     writer.writeString(obj.destId);
     writer.writeInt(obj.amount);
-    writer.writeString(obj.status);
     writer.writeInt(obj.targetTick);
     writer.writeBool(obj.isPending);
     writer.writeBool(obj.moneyFlow);
