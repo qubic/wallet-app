@@ -242,6 +242,7 @@ class _SignInState extends State<SignIn>
 
       if (didAuthenticate) {
         await _appStore.biometricSignIn();
+        context.goNamed("mainScreen");
       }
       setState(() {
         isLoading = false;

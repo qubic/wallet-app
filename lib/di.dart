@@ -47,7 +47,7 @@ void setupDI() {
   getIt.registerSingleton<QubicLiveApi>(QubicLiveApi(getIt<NetworkStore>()));
 
   //Services
-  getIt.registerSingleton<QubicHubService>(QubicHubService());
+  //getIt.registerSingleton<QubicHubService>(QubicHubService());
 
   //WalletConnect
   getIt.registerSingleton<WalletConnectService>(WalletConnectService());
