@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -124,6 +122,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                   },
                   onWebViewCreated: (controller) {
                     webViewController = controller;
+                    setState(() {});
                   },
                   onLoadStart: (controller, url) {
                     _updateUrl(url.toString());
@@ -136,9 +135,6 @@ class _WebviewScreenState extends State<WebviewScreen> {
                   },
                   onProgressChanged: (controller, p) {
                     progress.value = p / 100;
-                    if (p == 100) {
-                      _checkNavigationState();
-                    }
                   },
                 ),
               ],
