@@ -40,20 +40,17 @@ class WebviewAddressBar extends StatelessWidget {
         : LightThemeColors.menuInactive;
   }
 
+  void _reloadPage(BuildContext context) async {
+    if (webViewController != null) {
+      webViewController?.reload();
+    }
+  }
+
   void _shareCurrentUrl(BuildContext context) async {
     if (webViewController != null) {
       final url = await webViewController!.getUrl();
       if (url != null) {
         await Share.share(url.toString());
-      }
-    }
-  }
-
-  void _copyUrlToClipboard(BuildContext context) async {
-    if (webViewController != null) {
-      final url = await webViewController!.getUrl();
-      if (url != null) {
-        await Clipboard.setData(ClipboardData(text: url.toString()));
       }
     }
   }
@@ -114,7 +111,7 @@ class WebviewAddressBar extends StatelessWidget {
                           _getMenuItem(
                             value: 'refresh',
                             label: l10n.webviewAddressBarLabelRefresh,
-                            onTap: () => webViewController?.reload(),
+                            onTap: () => _reloadPage(context),
                             icon: Icons.refresh,
                           ),
                           _getMenuItem(
@@ -122,12 +119,6 @@ class WebviewAddressBar extends StatelessWidget {
                             label: l10n.webviewAddressBarLabelShareURL,
                             onTap: () => _shareCurrentUrl(context),
                             icon: Icons.share,
-                          ),
-                          _getMenuItem(
-                            value: 'copy',
-                            label: l10n.webviewAddressBarLabelCopyURL,
-                            onTap: () => _copyUrlToClipboard(context),
-                            icon: Icons.content_copy,
                           ),
                         ],
                       ),

@@ -890,6 +890,5 @@
     "assetButtonIssuerIdentity": "Issuer Identity",
     "generalLabelMultipleReceivers": "Multiple Receivers",
     "webviewAddressBarLabelRefresh": "Refresh",
-    "webviewAddressBarLabelShareURL": "Share URL",
-    "webviewAddressBarLabelCopyURL": "Copy URL"
+    "webviewAddressBarLabelShareURL": "Share URL"
 }

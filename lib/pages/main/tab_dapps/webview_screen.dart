@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -123,8 +125,15 @@ class _WebviewScreenState extends State<WebviewScreen> {
                   onWebViewCreated: (controller) {
                     webViewController = controller;
                   },
-                  onLoadStart: (controller, url) => _updateUrl(url.toString()),
-                  onLoadStop: (controller, url) => _updateUrl(url.toString()),
+                  onLoadStart: (controller, url) {
+                    _updateUrl(url.toString());
+                  },
+                  onLoadStop: (controller, url) {
+                    _updateUrl(url.toString());
+                  },
+                  onUpdateVisitedHistory: (controller, url, isReload) {
+                    _checkNavigationState();
+                  },
                   onProgressChanged: (controller, p) {
                     progress.value = p / 100;
                     if (p == 100) {
