@@ -5,7 +5,6 @@ import 'package:qubic_wallet/models/network_model.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 
 part 'network_store.g.dart';
 
@@ -43,7 +42,6 @@ abstract class _NetworkStore with Store {
     getIt<QubicArchiveApi>().updateDio();
     getIt<QubicLiveApi>().updateDio();
     getIt<QubicStatsApi>().updateDio();
-    getIt<QubicLi>().updateDomain();
   }
 
   @action

@@ -21,7 +21,6 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -43,7 +42,6 @@ class TransferAsset extends StatefulWidget {
 class _TransferAssetState extends State<TransferAsset> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  final QubicLi apiService = getIt<QubicLi>();
   final _liveApi = getIt<QubicLiveApi>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();

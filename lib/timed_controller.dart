@@ -6,7 +6,6 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -21,7 +20,6 @@ class TimedController extends WidgetsBindingObserver {
   DateTime? lastFetchSlow;
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final ExplorerStore explorerStore = getIt<ExplorerStore>();
-  final QubicLi _apiService = getIt<QubicLi>();
   final WalletConnectService _walletConnectService =
       getIt<WalletConnectService>();
   final _liveApi = getIt<QubicLiveApi>();
@@ -59,7 +57,8 @@ class TimedController extends WidgetsBindingObserver {
           appStore.currentQubicIDs.map((e) => e.publicId).toList();
 
       //Fetch network balances
-      if (!_apiService.gettingNetworkBalances) {
+      //if (!_apiService.gettingNetworkBalances) { // TODO IMPORTANT!!!
+      if (true) {
         _liveApi.getQubicBalances(myIds).then((balances) {
           //_apiService.getNetworkBalances(myIds).then((balances) {
           Map<String, int> changedIds = appStore.setAmounts(balances);
@@ -87,7 +86,8 @@ class TimedController extends WidgetsBindingObserver {
       }
 
       //Fetch network assets
-      if (!_apiService.gettingNetworkAssets) {
+      //if (!_apiService.gettingNetworkAssets) { // TODO IMPORTANT!!
+      if (true) {
         _liveApi.getCurrentAssets(myIds).then((assets) {
           //_apiService.getCurrentAssets(myIds).then((assets) {
           Map<String, List<QubicAssetDto>> changedIds =
@@ -169,7 +169,6 @@ class TimedController extends WidgetsBindingObserver {
   /// If the timer is already running, it stops it and starts it again
   interruptFetchTimer() async {
     _fetchTimer?.cancel();
-    _apiService.resetGetters();
 
     setupFetchTimer(true);
     if ((lastFetchSlow == null) ||

@@ -7,7 +7,6 @@ import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/qubic_hub.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -43,8 +42,7 @@ void setupDI() {
 //Providers
   getIt.registerSingleton<GlobalSnackBar>(GlobalSnackBar());
 
-  getIt.registerSingleton<QubicLi>(QubicLi());
-  getIt.registerSingleton<QubicHub>(QubicHub());
+  //getIt.registerSingleton<QubicHub>(QubicHub());
 
   getIt.registerSingleton<QubicLiveApi>(QubicLiveApi(getIt<NetworkStore>()));
 
