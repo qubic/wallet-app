@@ -127,3 +127,95 @@ class Transaction {
         txId: json["txId"],
       );
 }
+
+////
+class TransactionResponse {
+  final Pagination pagination;
+  final List<TransactionGroup> transactions;
+
+  TransactionResponse({
+    required this.pagination,
+    required this.transactions,
+  });
+
+  factory TransactionResponse.fromJson(Map<String, dynamic> json) =>
+      TransactionResponse(
+        pagination: Pagination.fromJson(json["pagination"]),
+        transactions: List<TransactionGroup>.from(
+            json["transactions"].map((x) => TransactionGroup.fromJson(x))),
+      );
+}
+
+class Pagination {
+  final int totalRecords;
+  final int currentPage;
+  final int totalPages;
+  final int pageSize;
+  final int nextPage;
+  final int previousPage;
+
+  Pagination({
+    required this.totalRecords,
+    required this.currentPage,
+    required this.totalPages,
+    required this.pageSize,
+    required this.nextPage,
+    required this.previousPage,
+  });
+
+  factory Pagination.fromJson(Map<String, dynamic> json) => Pagination(
+        totalRecords: json["totalRecords"],
+        currentPage: json["currentPage"],
+        totalPages: json["totalPages"],
+        pageSize: json["pageSize"],
+        nextPage: json["nextPage"],
+        previousPage: json["previousPage"],
+      );
+}
+
+class TransactionGroup {
+  final int tickNumber;
+  final String identity;
+  final List<TransferDto> transactions;
+
+  TransactionGroup({
+    required this.tickNumber,
+    required this.identity,
+    required this.transactions,
+  });
+
+  factory TransactionGroup.fromJson(Map<String, dynamic> json) =>
+      TransactionGroup(
+        tickNumber: json["tickNumber"],
+        identity: json["identity"],
+        transactions: List<TransferDto>.from(
+            json["transactions"].map((x) => TransferDto.fromJson(x))),
+      );
+}
+
+class TransferDto {
+  final Transaction transaction;
+  final String? timestamp;
+  final bool moneyFlew;
+
+  TransferDto({
+    required this.transaction,
+    required this.timestamp,
+    required this.moneyFlew,
+  });
+
+  factory TransferDto.fromJson(Map<String, dynamic> json) => TransferDto(
+        transaction: Transaction.fromJson(json["transaction"]),
+        timestamp: json["timestamp"],
+        moneyFlew: json["moneyFlew"],
+      );
+
+  ComputedTransactionStatus getStatus() {
+    return TransactionStatusHelpers.getTransactionStatus(
+        false,
+        transaction.inputType!,
+        int.tryParse(transaction.amount ?? "0")!,
+        moneyFlew,
+        false);
+  }
+}

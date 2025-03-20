@@ -64,6 +64,31 @@ class QubicArchiveApi {
     }
   }
 
+  Future<List<TransferDto>> getAddressTransfers(
+      String publicId, PaginationRequestModel pagination) async {
+    try {
+      final response = await _dio.get(
+        '$_baseUrl${Config.addressTransfers(publicId)}',
+        queryParameters: {
+          ...pagination.toJson(),
+          "startTick": 1,
+          "endTick": 999999999,
+        },
+      );
+
+      TransactionResponse transactionResponse =
+          TransactionResponse.fromJson(response.data);
+      List<TransferDto> allTransfers = [];
+      for (var group in transactionResponse.transactions) {
+        allTransfers.addAll(group.transactions);
+      }
+
+      return allTransfers;
+    } catch (error) {
+      throw ErrorHandler.handleError(error);
+    }
+  }
+
   Future<NetworkTicksDto> getNetworkTicks(
       int epoch, PaginationRequestModel pagination) async {
     try {

@@ -1,19 +1,12 @@
 import 'dart:convert';
-// ignore: depend_on_referenced_packages
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:http/http.dart';
 import 'package:http_interceptor/http/intercepted_http.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/auth_login_dto.dart';
-import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
-import 'package:qubic_wallet/dtos/market_info_dto.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
-import 'package:qubic_wallet/dtos/transaction_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/custom_proxy.dart';
 import 'package:qubic_wallet/resources/http_interceptors.dart';
