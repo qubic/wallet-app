@@ -93,7 +93,7 @@ class _TransferAssetState extends State<TransferAsset> {
 
     return CurrencyInputFormatter(
         trailingSymbol:
-            "${widget.asset.assetName} ${QubicAssetDto.isSmartContractShare(widget.asset) ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
+            "${widget.asset.issuedAsset.name} ${widget.asset.isSmartContractShare ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
         useSymbolPadding: true,
         maxTextLength: 3,
         thousandSeparator: ThousandSeparator.Comma,
@@ -387,30 +387,24 @@ class _TransferAssetState extends State<TransferAsset> {
         ThemedControls.transparentButtonSmall(
             text: l10n.accountSendButtonMax,
             onPressed: () {
-              if (widget.asset.ownedAmount == null) {
-                return;
-              }
-              if (widget.asset.ownedAmount! > 0) {
+              if (widget.asset.numberOfUnits > 0) {
                 numberOfSharesCtrl.value = getInputFormatter(context)
                     .formatEditUpdate(
                         const TextEditingValue(text: ''),
                         TextEditingValue(
-                            text: (widget.asset.ownedAmount).toString()));
+                            text: (widget.asset.numberOfUnits).toString()));
               }
             }),
-        (widget.asset.ownedAmount != null && widget.asset.ownedAmount! > 1)
+        (widget.asset.numberOfUnits > 1)
             ? ThemedControls.transparentButtonSmall(
                 text: l10n.accountSendButtonMaxMinusOne,
                 onPressed: () {
-                  if (widget.asset.ownedAmount == null) {
-                    return;
-                  }
-                  if (widget.asset.ownedAmount! > 1) {
+                  if (widget.asset.numberOfUnits > 1) {
                     numberOfSharesCtrl.value = getInputFormatter(context)
                         .formatEditUpdate(
                             const TextEditingValue(text: ''),
                             TextEditingValue(
-                                text: (widget.asset.ownedAmount! - 1)
+                                text: (widget.asset.numberOfUnits - 1)
                                     .toString()));
                   }
                 })
@@ -438,8 +432,7 @@ class _TransferAssetState extends State<TransferAsset> {
             errorText: l10n.generalErrorRequiredField),
         CustomFormFieldValidators.isLessThanParsedAsset(
           context: context,
-          lessThan:
-              widget.asset.ownedAmount != null ? widget.asset.ownedAmount! : 0,
+          lessThan: widget.asset.numberOfUnits,
         ),
       ]),
       inputFormatters: [getInputFormatter(context)],
@@ -456,11 +449,13 @@ class _TransferAssetState extends State<TransferAsset> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              QubicAssetDto.isSmartContractShare(widget.asset)
-                  ? l10n.transferAssetLabelOwnedShares(widget.asset.assetName,
-                      formatter.format(widget.asset.ownedAmount))
-                  : l10n.transferAssetLabelOwnedTokens(widget.asset.assetName,
-                      formatter.format(widget.asset.ownedAmount)),
+              widget.asset.isSmartContractShare
+                  ? l10n.transferAssetLabelOwnedShares(
+                      widget.asset.issuedAsset.name,
+                      formatter.format(widget.asset.numberOfUnits))
+                  : l10n.transferAssetLabelOwnedTokens(
+                      widget.asset.issuedAsset.name,
+                      formatter.format(widget.asset.numberOfUnits)),
               style: TextStyles.secondaryText),
         ]);
   }
@@ -513,11 +508,11 @@ class _TransferAssetState extends State<TransferAsset> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: (QubicAssetDto.isSmartContractShare(widget.asset)
-                      ? l10n
-                          .transferAssetHeaderForShares(widget.asset.assetName)
+                  headerText: (widget.asset.isSmartContractShare
+                      ? l10n.transferAssetHeaderForShares(
+                          widget.asset.issuedAsset.name)
                       : l10n.transferAssetHeaderForTokens(
-                          widget.asset.assetName)),
+                          widget.asset.issuedAsset.name)),
                   subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalSmall(),
               Text(l10n.accountSendLabelDestinationAddress,
@@ -683,8 +678,8 @@ class _TransferAssetState extends State<TransferAsset> {
         context,
         widget.item.publicId,
         destinationID.text,
-        widget.asset.assetName,
-        widget.asset.issuerIdentity,
+        widget.asset.issuedAsset.name,
+        widget.asset.issuedAsset.issuerIdentity,
         getAssetAmount(),
         targetTick!);
 

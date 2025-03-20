@@ -114,16 +114,6 @@ class TimedController extends WidgetsBindingObserver {
               .reportGlobalError(e.toString().replaceAll("Exception: ", ""));
         });
       }
-
-      if (!_apiService.gettingNetworkTransactions) {
-        _apiService.getTransactions(myIds).then((transactions) {
-          appStore.updateTransactions(transactions);
-          appStore.validatePendingTransactions(appStore.currentTick);
-        }, onError: (e) {
-          appStore
-              .reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-        });
-      }
     } on Exception catch (e) {
       appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
     }

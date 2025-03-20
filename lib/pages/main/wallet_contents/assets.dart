@@ -46,15 +46,14 @@ class _AssetsState extends State<Assets> {
   }
 
   Widget getAssetLine(QubicAssetDto asset) {
-    return Text(asset.assetName);
+    return Text(asset.issuedAsset.name);
   }
 
   Widget getQXAssets() {
     final l10n = l10nOf(context);
 
     List<QubicAssetDto> qxAssets = accountItem.assets.values
-        .where(
-            (element) => QubicAssetDto.isSmartContractShare(element) == false)
+        .where((element) => !element.isSmartContractShare)
         .toList();
     if (qxAssets.isEmpty) {
       return Container();
@@ -72,7 +71,7 @@ class _AssetsState extends State<Assets> {
     final l10n = l10nOf(context);
 
     List<QubicAssetDto> scAssets = accountItem.assets.values
-        .where((element) => QubicAssetDto.isSmartContractShare(element))
+        .where((element) => element.isSmartContractShare)
         .toList();
     if (scAssets.isEmpty) {
       return Container();

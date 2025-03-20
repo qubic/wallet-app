@@ -39,14 +39,15 @@ class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
     }
 
     final asset = account.assets.values.firstWhereOrNull((element) =>
-        element.assetName == assetName && element.issuerIdentity == issuer);
+        element.issuedAsset.name == assetName &&
+        element.issuedAsset.issuerIdentity == issuer);
     if (asset == null) {
       throw ArgumentError("Asset not found in this account $from",
           WcRequestParameters.assetName);
     }
 
-    final ownedAmount = asset.ownedAmount;
-    if (ownedAmount == null || ownedAmount < amount) {
+    final ownedAmount = asset.numberOfUnits;
+    if (ownedAmount < amount) {
       throw ArgumentError("Insufficient assets", WcRequestParameters.amount);
     }
 

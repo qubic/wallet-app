@@ -346,9 +346,9 @@ class _AccountListItemState extends State<AccountListItem> {
 
     for (var key in widget.item.assets.keys) {
       var asset = widget.item.assets[key];
-      bool isToken = !QubicAssetDto.isSmartContractShare(asset!);
+      bool isToken = !asset!.isSmartContractShare;
 
-      int num = asset.ownedAmount ?? asset.possessedAmount ?? 0;
+      int num = asset.numberOfUnits;
 
       String text;
 
@@ -369,7 +369,7 @@ class _AccountListItemState extends State<AccountListItem> {
               ? AmountFormatted(
                   key: ValueKey<String>(
                       "qubicAsset${widget.item.publicId}-${key}-${widget.item.assets[key]}"),
-                  amount: widget.item.assets[key]!.ownedAmount,
+                  amount: widget.item.assets[key]!.numberOfUnits,
                   isInHeader: false,
                   labelOffset: -0,
                   labelHorizOffset: -6,
@@ -377,7 +377,8 @@ class _AccountListItemState extends State<AccountListItem> {
                       ? TextStyles.accountAmount.copyWith(fontSize: 16)
                       : TextStyles.accountAmount,
                   labelStyle: TextStyles.accountAmountLabel,
-                  currencyName: '${widget.item.assets[key]!.assetName} $text',
+                  currencyName:
+                      '${widget.item.assets[key]!.issuedAsset.name} $text',
                 )
               : Container()));
     }
