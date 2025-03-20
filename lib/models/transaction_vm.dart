@@ -114,7 +114,7 @@ class TransactionVm {
         sourceId,
         destId,
         amount.asThousands(),
-        TransactionUIHelpers.getTransactionType(type ?? 0, destId!),
+        TransactionUIHelpers.getTransactionType(type ?? 0, destId),
         TransactionStatusHelpers.getTransactionStatusText(getStatus(), context),
         confirmed.toString(),
         targetTick.toString().asThousands());
