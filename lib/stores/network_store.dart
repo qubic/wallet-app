@@ -19,7 +19,7 @@ abstract class _NetworkStore with Store {
         explorerUrl: Config.URL_WebExplorer),
     NetworkModel(
         name: "Qubic Testnet",
-        rpcUrl: "https://testnet.rpc.qubic.org",
+        rpcUrl: "https://testnet-rpc.qubic.org",
         explorerUrl: "https://testnet.explorer.qubic.org"),
   ];
 
