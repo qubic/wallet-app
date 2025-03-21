@@ -93,7 +93,6 @@ class NetworksScreen extends StatelessWidget {
                   ),
                   ThemedControls.spacerVerticalSmall(),
                   Text(network.rpcUrl, style: TextStyles.secondaryText),
-                  Text(network.liUrl, style: TextStyles.secondaryText),
                   Text(network.explorerUrl, style: TextStyles.secondaryText),
                   ThemedControls.spacerVerticalSmall(),
                   if (!isSelected)

@@ -16,12 +16,10 @@ abstract class _NetworkStore with Store {
     NetworkModel(
         name: Config.networkQubicMainnet,
         rpcUrl: Config.qubicMainnetRpcDomain,
-        liUrl: Config.qubicLiDomain,
         explorerUrl: Config.URL_WebExplorer),
     NetworkModel(
         name: "Qubic Testnet",
         rpcUrl: "https://testnet.rpc.qubic.org",
-        liUrl: "https://api.testnet.qubic.li",
         explorerUrl: "https://testnet.explorer.qubic.org"),
   ];
 
@@ -32,7 +30,6 @@ abstract class _NetworkStore with Store {
   NetworkModel get selectedNetwork => networks.first;
 
   String get rpcUrl => selectedNetwork.rpcUrl;
-  String get liUrl => selectedNetwork.liUrl;
   String get explorerUrl => selectedNetwork.explorerUrl;
 
   @action
