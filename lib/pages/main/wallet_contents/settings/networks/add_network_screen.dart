@@ -24,7 +24,6 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
   final addNetworkFormKey = GlobalKey<FormBuilderState>();
   final TextEditingController networkNameController = TextEditingController();
   final TextEditingController rpcUrlController = TextEditingController();
-  final TextEditingController liUrlController = TextEditingController();
   final TextEditingController explorerController = TextEditingController();
   final networkStore = getIt<NetworkStore>();
   static const httpsScheme = "https://";
@@ -42,7 +41,6 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
   void dispose() {
     networkNameController.dispose();
     rpcUrlController.dispose();
-    liUrlController.dispose();
     super.dispose();
   }
 
@@ -51,7 +49,6 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
       final network = NetworkModel(
         name: networkNameController.text,
         rpcUrl: '$httpsScheme${rpcUrlController.text}',
-        liUrl: '$httpsScheme${liUrlController.text}',
         explorerUrl: '$httpsScheme${explorerController.text}',
       );
       networkStore.addNetwork(network);
@@ -139,44 +136,6 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                       ),
                     ),
                     ThemedControls.spacerVerticalNormal(),
-                    Row(
-                      children: [
-                        Text(
-                          l10n.addNetworkLabelQubicLiURL,
-                          style: TextStyles.labelTextNormal,
-                        ),
-                        const Spacer(),
-                        ThemedControls.transparentButtonSmall(
-                            onPressed: () async {
-                              if (liUrlController.text.isNotEmpty == true) {
-                                liUrlController.clear();
-                              } else {
-                                final clipboardData = await Clipboard.getData(
-                                    Clipboard.kTextPlain);
-                                if (clipboardData != null) {
-                                  liUrlController.text = clipboardData.text!;
-                                }
-                              }
-                              setState(() {});
-                            },
-                            text: liUrlController.text.isNotEmpty == true
-                                ? l10n.generalButtonClear
-                                : l10n.generalButtonPaste),
-                      ],
-                    ),
-                    TextFormField(
-                        controller: liUrlController,
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(),
-                          FormBuilderValidators.url(),
-                        ]),
-                        decoration:
-                            ThemeInputDecorations.normalInputbox.copyWith(
-                          hintText: removeHttpsScheme(Config.qubicLiDomain),
-                          prefixIcon: prefixHttpsWidget,
-                          prefixIconConstraints:
-                              const BoxConstraints(minWidth: 0, minHeight: 0),
-                        )),
                     Row(
                       children: [
                         Text(

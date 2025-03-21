@@ -1,4 +1,5 @@
 import 'package:qubic_wallet/config.dart';
+import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 
 class DAppModel {
   String name;
@@ -27,7 +28,7 @@ final explorerApp = DAppModel(
     name: "Qubic Explorer",
     icon:
         "https://media.licdn.com/dms/image/v2/D560BAQFpyufUFSY-zg/company-logo_200_200/company-logo_200_200/0/1730965355499/qubicnetwork_logo?e=1749081600&v=beta&t=F9UXA_X3wNiQypJnc-kwjPvVw0EqeUr0q7oDibeukkk",
-    url: Config.URL_WebExplorer,
+    url: getExplorerBaseUrl(),
     description: "Access easily to all the blockchain data.");
 
 //TODO Adjust as needed

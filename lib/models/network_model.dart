@@ -1,13 +1,11 @@
 class NetworkModel {
   final String name;
   final String rpcUrl;
-  final String liUrl;
   final String explorerUrl;
 
   const NetworkModel({
     required this.name,
     required this.rpcUrl,
-    required this.liUrl,
     required this.explorerUrl,
   });
 
@@ -15,7 +13,6 @@ class NetworkModel {
     return <String, dynamic>{
       'name': name,
       'rpcUrl': rpcUrl,
-      'liUrl': liUrl,
       'explorerUrl': explorerUrl,
     };
   }
@@ -24,17 +21,16 @@ class NetworkModel {
     return NetworkModel(
       name: json['name'],
       rpcUrl: json['rpcUrl'],
-      liUrl: json['liUrl'],
       explorerUrl: json['explorerUrl'],
     );
   }
 
   @override
   String toString() =>
-      'NetworkModel(name: $name, rpcUrl: $rpcUrl, liUrl: $liUrl)';
+      'NetworkModel(name: $name, rpcUrl: $rpcUrl, explorerUrl: $explorerUrl)';
 
   @override
-  int get hashCode => name.hashCode ^ rpcUrl.hashCode ^ liUrl.hashCode;
+  int get hashCode => name.hashCode ^ rpcUrl.hashCode ^ explorerUrl.hashCode;
 
   @override
   bool operator ==(Object other) {
@@ -42,6 +38,6 @@ class NetworkModel {
     return other is NetworkModel &&
         other.name == name &&
         other.rpcUrl == rpcUrl &&
-        other.liUrl == liUrl;
+        other.explorerUrl == explorerUrl;
   }
 }

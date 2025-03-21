@@ -3,19 +3,6 @@
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 
 abstract class Config {
-  // qubic.li backend related config
-  static const qubicLiDomain = "https://api.qubic.li";
-
-  static const qubicLiAuthUsername = "guest@qubic.li";
-  static const qubicLiAuthPassword = "guest13@Qubic.li";
-
-  static const URL_Login = "Auth/Login";
-  static const URL_NetworkBalances = "Wallet/NetworkBalances";
-  static const URL_NetworkTransactions = "Wallet/Transactions";
-  static const URL_Assets = "Wallet/Assets";
-
-  static const URL_MarketInfo = "Public/MarketInformation";
-
   // Qubic RPC backend related config
   static const qubicMainnetRpcDomain = "https://rpc.qubic.org";
 
@@ -48,6 +35,8 @@ abstract class Config {
   static const URL_VersionInfo = "/versionInfo.php";
 
   static const URL_WebExplorer = "https://explorer.qubic.org";
+
+  static const networkQubicMainnet = "Qubic Mainnet";
 
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
