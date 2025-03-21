@@ -36,8 +36,8 @@ class _TransactionsForIdState extends State<TransactionsForId> {
   final TimedController _timedController = getIt<TimedController>();
   final QubicArchiveApi qubicArchiveApi = getIt<QubicArchiveApi>();
   final int pageSize = 20;
-  late final PagingController<int, TransferDto> _pagingController =
-      PagingController<int, TransferDto>(
+  late final PagingController<int, TransactionDetail> _pagingController =
+      PagingController<int, TransactionDetail>(
     fetchPage: (pageKey) async {
       final data = await qubicArchiveApi.getAddressTransfers(
           widget.publicQubicId,
@@ -211,7 +211,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                       : l10n.transfersLabelForAccount(widget.item!.name)),
                   subheaderText: null),
               Expanded(
-                child: CustomPagedListView<int, TransferDto>(
+                child: CustomPagedListView<int, TransactionDetail>(
                   pagingController: _pagingController,
                   separatorBuilder: (context, index) => const SizedBox(
                     height: ThemePaddings.normalPadding,
@@ -219,12 +219,12 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                   itemBuilder: (context, item, index) {
                     return TransactionItem(
                         item: TransactionVm(
-                            id: item.transaction.txId!,
-                            sourceId: item.transaction.sourceId!,
-                            destId: item.transaction.destId!,
-                            amount: int.tryParse(item.transaction.amount!) ?? 0,
+                            id: item.transaction.txId,
+                            sourceId: item.transaction.sourceId,
+                            destId: item.transaction.destId,
+                            amount: int.tryParse(item.transaction.amount) ?? 0,
                             //status: "Success",
-                            targetTick: item.transaction.tickNumber!,
+                            targetTick: item.transaction.tickNumber,
                             isPending: false,
                             moneyFlow: item.moneyFlew));
                   },

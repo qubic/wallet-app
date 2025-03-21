@@ -21,18 +21,6 @@ class QubicArchiveApi {
     _dio = DioClient.getDio(baseUrl: _networkStore.selectedNetwork.rpcUrl);
   }
 
-  Future<List<ExplorerTransactionDto>> getExplorerTickTransactions(
-      int tick) async {
-    try {
-      final response =
-          await _dio.get('$_baseUrl${Config.tickTransactions(tick)}');
-      return List<ExplorerTransactionDto>.from(response.data["transactions"]
-          .map((e) => ExplorerTransactionDto.fromJson(e)));
-    } catch (error) {
-      throw ErrorHandler.handleError(error);
-    }
-  }
-
   Future<ComputorsDto> getComputors(int epoch) async {
     try {
       final response = await _dio.get('$_baseUrl${Config.computors(epoch)}');
@@ -42,17 +30,7 @@ class QubicArchiveApi {
     }
   }
 
-  Future<ExplorerTransactionDto> getTransaction(String transaction) async {
-    try {
-      final response =
-          await _dio.get('$_baseUrl${Config.transaction(transaction)}');
-      return ExplorerTransactionDto.fromJson(response.data);
-    } catch (error) {
-      throw ErrorHandler.handleError(error);
-    }
-  }
-
-  Future<List<TransferDto>> getAddressTransfers(
+  Future<List<TransactionDetail>> getAddressTransfers(
       String publicId, PaginationRequestModel pagination) async {
     try {
       final response = await _dio.get(
@@ -64,9 +42,9 @@ class QubicArchiveApi {
         },
       );
 
-      TransactionResponse transactionResponse =
-          TransactionResponse.fromJson(response.data);
-      List<TransferDto> allTransfers = [];
+      TransactionsDto transactionResponse =
+          TransactionsDto.fromJson(response.data);
+      List<TransactionDetail> allTransfers = [];
       for (var group in transactionResponse.transactions) {
         allTransfers.addAll(group.transactions);
       }
