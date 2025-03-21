@@ -108,7 +108,7 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
       targetTick: reader.readInt(),
       isPending: reader.readBool(),
       moneyFlow: reader.readBool(),
-      type: reader.availableBytes > 0 ? reader.read() : null,
+      type: reader.availableBytes > 0 ? reader.readInt() : null,
     );
   }
 
