@@ -49,7 +49,7 @@ class Pagination {
 class TransactionGroup {
   final int tickNumber;
   final String identity;
-  final List<TransactionDetail> transactions;
+  final List<TransactionDto> transactions;
 
   TransactionGroup({
     required this.tickNumber,
@@ -62,25 +62,25 @@ class TransactionGroup {
       tickNumber: json['tickNumber'],
       identity: json['identity'],
       transactions: (json['transactions'] as List)
-          .map((e) => TransactionDetail.fromJson(e))
+          .map((e) => TransactionDto.fromJson(e))
           .toList(),
     );
   }
 }
 
-class TransactionDetail {
+class TransactionDto {
   final Transaction transaction;
   final String timestamp;
   final bool moneyFlew;
 
-  TransactionDetail({
+  TransactionDto({
     required this.transaction,
     required this.timestamp,
     required this.moneyFlew,
   });
 
-  factory TransactionDetail.fromJson(Map<String, dynamic> json) {
-    return TransactionDetail(
+  factory TransactionDto.fromJson(Map<String, dynamic> json) {
+    return TransactionDto(
       transaction: Transaction.fromJson(json['transaction']),
       timestamp: json['timestamp'],
       moneyFlew: json['moneyFlew'],

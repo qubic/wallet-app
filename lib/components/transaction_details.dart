@@ -256,9 +256,9 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               getCopyableDetails(
                                   context,
                                   l10n.transactionItemLabelConfirmedDate,
-                                  widget.item.confirmed != null
+                                  widget.item.timestamp != null
                                       ? DateFormatter.formatShortWithTime(
-                                          widget.item.confirmed!.toLocal())
+                                          widget.item.timestamp!.toLocal())
                                       : l10n.generalLabelNotAvailable),
                               if (isQutilSendToMany &&
                                   sendManyTransfers.isNotEmpty) ...[

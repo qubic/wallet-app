@@ -2,8 +2,7 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:mobx/mobx.dart';
-import 'package:qubic_wallet/dtos/transaction_dto.dart';
+import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
@@ -27,84 +26,36 @@ class TransactionVmStatus {
   static const String success = "Success";
 }
 
-@observable
 class TransactionVm {
-  @observable
-  late String id; //The transaction Id
-
-  @observable
-  String sourceId;
-
-  @observable
-  String destId;
-
-  @observable
-  int amount;
-
-  @observable
-  DateTime? created;
-
-  @observable
-  DateTime? stored;
-
-  @observable
-  DateTime? staged;
-
-  @observable
-  DateTime? broadcasted;
-
-  @observable
-  DateTime? confirmed;
-
-  @observable
-  DateTime? statusUpdate;
-
-  @observable
-  int targetTick;
-
-  @observable
+  final String id;
+  final String sourceId;
+  final String destId;
+  final int amount;
+  final int targetTick;
   bool isPending;
-
-  @observable
-  int? price; //IPO Bids
-
-  @observable
-  int? quantity; //IPO Bids
-
-  @observable
-  bool moneyFlow;
-
-  int? type;
-
-  String? inputHex;
+  final bool moneyFlow;
+  final DateTime? timestamp;
+  final int? type;
+  final String? inputHex;
 
   TransactionVm({
     required this.id,
     required this.sourceId,
     required this.destId,
     required this.amount,
-    this.created,
-    this.stored,
-    this.staged,
-    this.broadcasted,
-    this.confirmed,
-    this.statusUpdate,
     required this.targetTick,
     required this.isPending,
-    this.price,
-    this.quantity,
-    this.type,
     required this.moneyFlow,
+    this.timestamp,
+    this.type,
     this.inputHex,
   });
 
+  bool get isInvalid => timestamp != null && isPending == false;
+
   ComputedTransactionStatus getStatus() {
     return TransactionStatusHelpers.getTransactionStatus(
-        isPending,
-        type,
-        amount,
-        moneyFlow,
-        confirmed != null && isPending == false); // TODO IMPORTANT
+        isPending, type, amount, moneyFlow, isInvalid);
   }
 
   String toReadableString(BuildContext context) {
@@ -116,56 +67,32 @@ class TransactionVm {
         amount.asThousands(),
         TransactionUIHelpers.getTransactionType(type ?? 0, destId),
         TransactionStatusHelpers.getTransactionStatusText(getStatus(), context),
-        confirmed.toString(),
+        timestamp.toString(),
         targetTick.toString().asThousands());
-  }
-
-  updateContentsFromTransactionDto(TransactionDto update) {
-    //Will copy all values from a transaction DTO (does not update id)
-    if (update.id != id) {
-      throw Exception("Cannot update a transaction with a different ID");
-    }
-    sourceId = update.sourceId;
-    destId = update.destId;
-    amount = update.amount;
-    created = update.created;
-    stored = update.stored;
-    staged = update.staged;
-    broadcasted = update.broadcasted;
-    confirmed = update.confirmed;
-    statusUpdate = update.statusUpdate;
-    targetTick = update.targetTick;
-    isPending = update.isPending;
-    price = update.price;
-    quantity = update.quantity;
-    moneyFlow = update.moneyFlow;
-    type = update.type;
   }
 
   @override
   String toString() {
-    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount,Created: $created,Stored: $stored,Staged: $staged,Broadcasted: $broadcasted,Confirmed: $confirmed,StatusUpdate: $statusUpdate,TargetTick: $targetTick,isPending: $isPending,Price: $price, Quantity: $quantity, Moneyflow: $moneyFlow Type: $type";
+    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount, Moneyflow: $moneyFlow Type: $type, Timestamp: $timestamp";
   }
 
   factory TransactionVm.fromTransactionDto(TransactionDto original) {
+    int? millisecondsSinceEpoch = int.tryParse(original.timestamp);
+    DateTime? dateTime = millisecondsSinceEpoch == null
+        ? null
+        : DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+
     return TransactionVm(
-      id: original.id,
-      sourceId: original.sourceId,
-      destId: original.destId,
-      amount: original.amount,
-      created: original.created,
-      stored: original.stored,
-      staged: original.staged,
-      broadcasted: original.broadcasted,
-      confirmed: original.confirmed,
-      statusUpdate: original.statusUpdate,
-      targetTick: original.targetTick,
-      isPending: original.isPending,
-      price: original.price,
-      quantity: original.quantity,
-      moneyFlow: original.moneyFlow,
-      type: original.type,
-      inputHex: original.inputHex,
+      id: original.transaction.txId,
+      sourceId: original.transaction.sourceId,
+      destId: original.transaction.destId,
+      amount: int.parse(original.transaction.amount),
+      targetTick: original.transaction.tickNumber,
+      isPending: false,
+      moneyFlow: original.moneyFlew,
+      type: original.transaction.inputType,
+      inputHex: original.transaction.inputHex,
+      timestamp: dateTime,
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/computors_dto.dart';
-import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
+import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/pagination_request_model.dart';
@@ -30,7 +30,7 @@ class QubicArchiveApi {
     }
   }
 
-  Future<List<TransactionDetail>> getAddressTransfers(
+  Future<List<TransactionDto>> getAddressTransfers(
       String publicId, PaginationRequestModel pagination) async {
     try {
       final response = await _dio.get(
@@ -44,7 +44,7 @@ class QubicArchiveApi {
 
       TransactionsDto transactionResponse =
           TransactionsDto.fromJson(response.data);
-      List<TransactionDetail> allTransfers = [];
+      List<TransactionDto> allTransfers = [];
       for (var group in transactionResponse.transactions) {
         allTransfers.addAll(group.transactions);
       }
