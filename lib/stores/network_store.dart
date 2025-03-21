@@ -33,6 +33,7 @@ abstract class _NetworkStore with Store {
 
   String get rpcUrl => selectedNetwork.rpcUrl;
   String get liUrl => selectedNetwork.liUrl;
+  String get explorerUrl => selectedNetwork.explorerUrl;
 
   @action
   void setSelectedNetwork(NetworkModel network) {
