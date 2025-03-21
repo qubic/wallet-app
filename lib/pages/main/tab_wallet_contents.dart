@@ -195,8 +195,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                         ),
                         ThemedControls.spacerHorizontalSmall(),
                       ],
-                      bottom: networkStore.selectedNetwork.rpcUrl ==
-                              Config.qubicMainnetRpcDomain
+                      bottom: networkStore.selectedNetwork.name ==
+                              Config.networkQubicMainnet
                           ? null
                           : PreferredSize(
                               preferredSize:

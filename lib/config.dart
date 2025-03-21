@@ -49,6 +49,8 @@ abstract class Config {
 
   static const URL_WebExplorer = "https://explorer.qubic.org";
 
+  static const networkQubicMainnet = "Qubic Mainnet";
+
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(
