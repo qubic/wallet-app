@@ -124,7 +124,6 @@
     "generalErrorSetWalletPasswordRepeatEmpty": "Пожалуйста, введите пароль еще раз.",
     "appTabHome": "Главная",
     "appTabTransfers": "Транзакции",
-    "appTabExplorer": "Обозреватель",
     "appTabSettings": "Настройки",
     "homeLabelTotalBalance": "Общий балланс",
     "homeHeader": "Аккаунты в кошельке",

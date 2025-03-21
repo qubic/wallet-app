@@ -124,7 +124,6 @@
     "generalErrorSetWalletPasswordRepeatEmpty": "Veuillez remplir à nouveau le mot de passe.",
     "appTabHome": "Accueil",
     "appTabTransfers": "Transferts",
-    "appTabExplorer": "Explorateur",
     "appTabSettings": "Paramètres",
     "homeLabelTotalBalance": "Solde Total",
     "homeHeader": "Comptes dans le Portefeuille",

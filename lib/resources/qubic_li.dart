@@ -10,7 +10,6 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/auth_login_dto.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
-import 'package:qubic_wallet/dtos/explorer_id_info_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/transaction_dto.dart';
@@ -247,46 +246,6 @@ class QubicLi {
           'Failed to fetch current balances. Server response is missing required info');
     }
     return balances;
-  }
-
-  Future<ExplorerIdInfoDto> getExplorerIdInfo(String publicId) async {
-    try {
-      _assertAuthorized();
-    } catch (e) {
-      rethrow;
-    }
-    late http.Response response;
-    try {
-      var headers = QubicLi.getHeaders();
-      headers.addAll({'Authorization': 'bearer ${_authenticationToken!}'});
-      response = await client.get(
-          Uri.https(
-              Config.walletDomain, "${Config.URL_ExplorerIdInfo}/$publicId"),
-          headers: headers);
-    } catch (e) {
-      throw Exception('Failed to contact server for explorer id info.');
-    }
-    try {
-      _assert200Response(response.statusCode);
-    } catch (e) {
-      rethrow;
-    }
-    late dynamic parsedJson;
-    late ExplorerIdInfoDto resultDto;
-    try {
-      parsedJson = jsonDecode(response.body);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch explorer id info. Could not parse response');
-    }
-    try {
-      resultDto = ExplorerIdInfoDto.fromJson(parsedJson);
-    } catch (e) {
-      throw Exception(
-          'Failed to fetch explorer id info. Server response is missing required info');
-    }
-
-    return resultDto;
   }
 
   /// Gets the assets from the network

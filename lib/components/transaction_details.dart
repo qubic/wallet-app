@@ -12,13 +12,14 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/date_formatter.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
+import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
@@ -73,34 +74,11 @@ class _TransactionDetailsState extends State<TransactionDetails> {
         child: Row(
           children: [
             Expanded(
-                child: ThemedControls.transparentButtonBigWithChild(
-                    onPressed: () async {
-                      await Clipboard.setData(ClipboardData(
-                          text: widget.item.toReadableString(context)));
-                    },
-                    child: Text(
-                      l10n.transactionItemButtonCopyToClipboard,
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyles.transparentButtonText.copyWith(height: 1),
-                    ))),
-            ThemedControls.spacerHorizontalNormal(),
-            Expanded(
-              child: (widget.item.status == TransactionVmStatus.success)
+              child: TransactionActionHelpers.canViewInExplorer(widget.item)
                   ? ThemedControls.primaryButtonBigWithChild(
                       onPressed: () {
-                        // Perform some action
-                        pushScreen(
-                          context,
-                          screen: ExplorerResultPage(
-                              resultType: ExplorerResultType.tick,
-                              tick: widget.item.targetTick,
-                              focusedTransactionHash: widget.item.id),
-                          //TransactionsForId(publicQubicId: item.publicId),
-                          withNavBar: false, // OPTIONAL VALUE. True by default.
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
+                        Navigator.pop(context);
+                        viewTransactionInExplorer(context, widget.item.id);
                       },
                       child: Text(l10n.transactionItemButtonViewInExplorer,
                           textAlign: TextAlign.center,
