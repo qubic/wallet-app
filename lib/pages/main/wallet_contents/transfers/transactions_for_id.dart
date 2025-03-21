@@ -6,7 +6,7 @@ import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/custom_paged_list_view.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
+import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -36,8 +36,8 @@ class _TransactionsForIdState extends State<TransactionsForId> {
   final TimedController _timedController = getIt<TimedController>();
   final QubicArchiveApi qubicArchiveApi = getIt<QubicArchiveApi>();
   final int pageSize = 20;
-  late final PagingController<int, TransactionDetail> _pagingController =
-      PagingController<int, TransactionDetail>(
+  late final PagingController<int, TransactionDto> _pagingController =
+      PagingController<int, TransactionDto>(
     fetchPage: (pageKey) async {
       final data = await qubicArchiveApi.getAddressTransfers(
           widget.publicQubicId,
@@ -211,7 +211,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                       : l10n.transfersLabelForAccount(widget.item!.name)),
                   subheaderText: null),
               Expanded(
-                child: CustomPagedListView<int, TransactionDetail>(
+                child: CustomPagedListView<int, TransactionDto>(
                   pagingController: _pagingController,
                   separatorBuilder: (context, index) => const SizedBox(
                     height: ThemePaddings.normalPadding,
