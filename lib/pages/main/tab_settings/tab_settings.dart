@@ -139,7 +139,7 @@ class _TabSettingsState extends State<TabSettings> {
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.netowrk,
                                   height: defaultIconHeight),
-                              title: "Networks",
+                              title: l10n.networksTitle,
                               path: NetworksScreen(),
                             ),
                             SettingsListTile(
