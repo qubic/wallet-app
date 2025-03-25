@@ -270,8 +270,6 @@
     "accountSendButtonMax": "Максимум",
     "accountSendButtonMaxMinusOne": "Максимум - 1",
     "accountSendSectionAdvanceOptionsTitle": "Дополнительные настройки",
-    "assetsLabelOwned": "Мои средства",
-    "assetsLabelPossessed": "Частичное владение",
     "assetsLabelContractName": "Имя контракта",
     "assetsLabelContractIndex": "Индекс контракта",
     "assetsLabelTick": "Действительно для тика {tick}",

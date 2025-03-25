@@ -270,8 +270,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "高级选项",
-    "assetsLabelOwned": "拥有",
-    "assetsLabelPossessed": "持有",
     "assetsLabelContractName": "合约名称",
     "assetsLabelContractIndex": "合约索引",
     "assetsLabelTick": "有效至刻度 {tick}",

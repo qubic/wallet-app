@@ -270,8 +270,6 @@
     "accountSendButtonMax": "Maksimum",
     "accountSendButtonMaxMinusOne": "Maksimum - 1",
     "accountSendSectionAdvanceOptionsTitle": "Gelişmiş Seçenekler",
-    "assetsLabelOwned": "Sahip Olunan",
-    "assetsLabelPossessed": "Sahip Olunan",
     "assetsLabelContractName": "Kontrakt Adı",
     "assetsLabelContractIndex": "Kontrakt İndeksi",
     "assetsLabelTick": "Valid for tick {tick}",

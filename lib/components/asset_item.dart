@@ -84,51 +84,25 @@ class _AssetItemState extends State<AssetItem> {
             child: Column(children: [
               Padding(
                   padding: const EdgeInsets.fromLTRB(
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      0),
+                    ThemePaddings.normalPadding,
+                    ThemePaddings.mediumPadding,
+                    ThemePaddings.normalPadding,
+                    0,
+                  ),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Row(children: [
                           Expanded(
-                              child: Text(widget.asset.assetName,
+                              child: Text(
+                                  '${formatter.format(widget.asset.ownedAmount)} ${widget.asset.assetName}',
                                   style: TextStyles.accountName)),
                           getCardMenu(context)
                         ]),
                         Text(
                             l10n.assetsLabelTick(
                                 widget.asset.tick.asThousands()),
-                            style: TextStyles.assetSecondaryTextLabel),
-                        const SizedBox(height: ThemePaddings.normalPadding),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelOwned,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text(
-                                  widget.asset.ownedAmount == null
-                                      ? "-"
-                                      : formatter
-                                          .format(widget.asset.ownedAmount),
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelPossessed,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text(
-                                  widget.asset.possessedAmount == null
-                                      ? "-"
-                                      : formatter
-                                          .format(widget.asset.possessedAmount),
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
-                        const SizedBox(height: ThemePaddings.miniPadding),
+                            style: TextStyles.assetSecondaryTextLabel)
                       ])),
               widget.account.watchOnly
                   ? ThemedControls.spacerVerticalNormal()
