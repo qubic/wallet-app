@@ -84,34 +84,25 @@ class _AssetItemState extends State<AssetItem> {
             child: Column(children: [
               Padding(
                   padding: const EdgeInsets.fromLTRB(
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      0),
+                    ThemePaddings.normalPadding,
+                    ThemePaddings.mediumPadding,
+                    ThemePaddings.normalPadding,
+                    0,
+                  ),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Row(children: [
                           Expanded(
-                              child: Text(widget.asset.issuedAsset.name,
+                              child: Text(
+                                  '${formatter.format(widget.asset.numberOfUnits)} ${widget.asset.issuedAsset.name}',
                                   style: TextStyles.accountName)),
                           getCardMenu(context)
                         ]),
                         Text(
                             l10n.assetsLabelTick(
                                 widget.asset.info.tick.asThousands()),
-                            style: TextStyles.assetSecondaryTextLabel),
-                        const SizedBox(height: ThemePaddings.normalPadding),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelOwned,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text(formatter.format(widget.asset.numberOfUnits),
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
-                        const SizedBox(height: ThemePaddings.miniPadding),
+                            style: TextStyles.assetSecondaryTextLabel)
                       ])),
               widget.account.watchOnly
                   ? ThemedControls.spacerVerticalNormal()
