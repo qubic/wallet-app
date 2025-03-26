@@ -651,7 +651,8 @@ class _SendState extends State<Send> {
     //Clear the state
     setState(() {
       isLoading = false;
-      getIt.get<PersistentTabController>().jumpToTab(1);
+      // TODO can be replaced later to jump to a screen where the list of pending trx is displayed
+      //getIt.get<PersistentTabController>().jumpToTab(1);
     });
     if (mounted) {
       Navigator.pop(context);
