@@ -171,25 +171,28 @@ class _TransactionsForIdState extends State<TransactionsForId> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
-            icon: const ImageIcon(AssetImage('assets/images/filter_trx.png'),
-                color: LightThemeColors.primary),
-            onPressed: () async {
-              final selectedFilter = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      FilterTransactions(initialFilter: transactionFilter),
-                ),
-              );
-              if (selectedFilter != null) {
-                setState(() {
-                  transactionFilter = selectedFilter;
-                  _pagingController
-                      .refresh(); // Refresh the data when filter changes
-                });
-              }
-            },
+          Visibility(
+            visible: false, // Change to true to show
+            child: IconButton(
+              icon: const ImageIcon(AssetImage('assets/images/filter_trx.png'),
+                  color: LightThemeColors.primary),
+              onPressed: () async {
+                final selectedFilter = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        FilterTransactions(initialFilter: transactionFilter),
+                  ),
+                );
+                if (selectedFilter != null) {
+                  setState(() {
+                    transactionFilter = selectedFilter;
+                    _pagingController
+                        .refresh(); // Refresh the data when filter changes
+                  });
+                }
+              },
+            ),
           ),
           ThemedControls.spacerHorizontalSmall(),
         ],
