@@ -14,6 +14,7 @@ import 'package:qubic_wallet/models/pagination_request_model.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transactions.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -171,25 +172,28 @@ class _TransactionsForIdState extends State<TransactionsForId> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
-          IconButton(
-            icon: const ImageIcon(AssetImage('assets/images/filter_trx.png'),
-                color: LightThemeColors.primary),
-            onPressed: () async {
-              final selectedFilter = await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      FilterTransactions(initialFilter: transactionFilter),
-                ),
-              );
-              if (selectedFilter != null) {
-                setState(() {
-                  transactionFilter = selectedFilter;
-                  _pagingController
-                      .refresh(); // Refresh the data when filter changes
-                });
-              }
-            },
+          Visibility(
+            visible: false, // Change to true to show
+            child: IconButton(
+              icon: const ImageIcon(AssetImage('assets/images/filter_trx.png'),
+                  color: LightThemeColors.primary),
+              onPressed: () async {
+                final selectedFilter = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        FilterTransactions(initialFilter: transactionFilter),
+                  ),
+                );
+                if (selectedFilter != null) {
+                  setState(() {
+                    transactionFilter = selectedFilter;
+                    _pagingController
+                        .refresh(); // Refresh the data when filter changes
+                  });
+                }
+              },
+            ),
           ),
           ThemedControls.spacerHorizontalSmall(),
         ],
@@ -218,15 +222,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                   ),
                   itemBuilder: (context, item, index) {
                     return TransactionItem(
-                        item: TransactionVm(
-                            id: item.transaction.txId,
-                            sourceId: item.transaction.sourceId,
-                            destId: item.transaction.destId,
-                            amount: int.tryParse(item.transaction.amount) ?? 0,
-                            //status: "Success",
-                            targetTick: item.transaction.tickNumber,
-                            isPending: false,
-                            moneyFlow: item.moneyFlew));
+                        item: TransactionVm.fromTransactionDto(item));
                   },
                   firstPageProgressIndicatorBuilder: (context) =>
                       const Center(child: CircularProgressIndicator()),

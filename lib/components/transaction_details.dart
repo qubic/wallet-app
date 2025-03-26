@@ -255,7 +255,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                                   l10n.transactionItemLabelConfirmedDate,
                                   widget.item.timestamp != null
                                       ? DateFormatter.formatShortWithTime(
-                                          widget.item.timestamp!.toLocal())
+                                          widget.item.timestamp!)
                                       : l10n.generalLabelNotAvailable),
                               if (isQutilSendToMany &&
                                   sendManyTransfers.isNotEmpty) ...[

@@ -51,7 +51,7 @@ class TransactionVm {
     this.inputHex,
   });
 
-  bool get isInvalid => timestamp != null && isPending == false;
+  bool get isInvalid => timestamp == null && isPending == false;
 
   ComputedTransactionStatus getStatus() {
     return TransactionStatusHelpers.getTransactionStatus(
