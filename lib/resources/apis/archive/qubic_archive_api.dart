@@ -18,7 +18,7 @@ class QubicArchiveApi {
   String get _baseUrl => _networkStore.rpcUrl;
 
   void updateDio() {
-    _dio = DioClient.getDio(baseUrl: _networkStore.selectedNetwork.rpcUrl);
+    _dio = DioClient.getDio(baseUrl: _networkStore.currentNetwork.rpcUrl);
   }
 
   Future<ComputorsDto> getComputors(int epoch) async {

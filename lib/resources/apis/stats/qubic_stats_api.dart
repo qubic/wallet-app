@@ -10,17 +10,17 @@ class QubicStatsApi {
   final NetworkStore _networkStore;
 
   QubicStatsApi(this._networkStore) {
-    _dio = DioClient.getDio(baseUrl: _networkStore.selectedNetwork.rpcUrl);
+    _dio = DioClient.getDio(baseUrl: _networkStore.currentNetwork.rpcUrl);
   }
 
   void updateDio() {
-    _dio = DioClient.getDio(baseUrl: _networkStore.selectedNetwork.rpcUrl);
+    _dio = DioClient.getDio(baseUrl: _networkStore.currentNetwork.rpcUrl);
   }
 
   Future<MarketInfoDto> getMarketInfo() async {
     try {
       final response = await _dio.get(
-          '${_networkStore.selectedNetwork.rpcUrl}${Config.latestStatsUrl}');
+          '${_networkStore.currentNetwork.rpcUrl}${Config.latestStatsUrl}');
       return MarketInfoDto.fromJson(response.data["data"]);
     } catch (error) {
       throw ErrorHandler.handleError(error);

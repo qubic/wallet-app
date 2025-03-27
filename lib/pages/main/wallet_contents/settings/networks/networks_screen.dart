@@ -21,7 +21,7 @@ class NetworksScreen extends StatelessWidget {
   final timerController = getIt<TimedController>();
 
   onSetDefault(NetworkModel network) {
-    networkStore.setSelectedNetwork(network);
+    networkStore.setCurrentNetwork(network);
     timerController.interruptFetchTimer();
   }
 
@@ -73,7 +73,7 @@ class NetworksScreen extends StatelessWidget {
             itemCount: networkStore.networks.length,
             itemBuilder: (context, index) {
               final network = networkStore.networks[index];
-              bool isSelected = networkStore.selectedNetwork == network;
+              bool isSelected = networkStore.currentNetwork == network;
               bool isDefault = networkStore.defaultNetworks.contains(network);
               return ThemedControls.card(
                   child: Column(

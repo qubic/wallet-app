@@ -195,7 +195,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                         ),
                         ThemedControls.spacerHorizontalSmall(),
                       ],
-                      bottom: networkStore.selectedNetwork.name ==
+                      bottom: networkStore.currentNetwork.name ==
                               Config.networkQubicMainnet
                           ? null
                           : PreferredSize(
@@ -208,7 +208,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                     vertical: ThemePaddings.smallPadding),
                                 child: Text(
                                     l10n.networksWarningBannerCurrentNetwork(
-                                        networkStore.selectedNetwork.name),
+                                        networkStore.currentNetwork.name),
                                     textAlign: TextAlign.center,
                                     style: TextStyles.alertText.copyWith(
                                         color: LightThemeColors.primary)),

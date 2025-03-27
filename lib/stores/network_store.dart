@@ -28,25 +28,43 @@ abstract class _NetworkStore with Store {
   late ObservableList<NetworkModel> networks = defaultNetworks.asObservable();
 
   @computed
-  NetworkModel get selectedNetwork => networks.first;
+  NetworkModel get currentNetwork => networks.first;
 
-  String get rpcUrl => selectedNetwork.rpcUrl;
-  String get explorerUrl => selectedNetwork.explorerUrl;
+  String get rpcUrl => currentNetwork.rpcUrl;
+  String get explorerUrl => currentNetwork.explorerUrl;
+
+  initNetowrks() {
+    initStoredNetworks();
+    initCurrentNetwork();
+  }
 
   @action
-  void getStoredNetworks() {
+  void initStoredNetworks() {
     final List<NetworkModel> storedNetworks =
         getIt<HiveStorage>().getStoredNetworks();
     networks.addAll(storedNetworks);
   }
 
   @action
-  void setSelectedNetwork(NetworkModel network) {
+  initCurrentNetwork() {
+    final String? savedNetworkName =
+        getIt<HiveStorage>().getCurrentNetworkName();
+    if (savedNetworkName != null) {
+      final networkToSelect = networks.firstWhere(
+          (network) => network.name == savedNetworkName,
+          orElse: () => defaultNetworks.first);
+      setCurrentNetwork(networkToSelect);
+    }
+  }
+
+  @action
+  void setCurrentNetwork(NetworkModel network) {
     networks.remove(network);
     networks.insert(0, network);
     getIt<QubicArchiveApi>().updateDio();
     getIt<QubicLiveApi>().updateDio();
     getIt<QubicStatsApi>().updateDio();
+    getIt<HiveStorage>().saveCurrentNetworkName(network.name);
   }
 
   @action

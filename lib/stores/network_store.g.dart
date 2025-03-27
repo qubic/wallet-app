@@ -9,12 +9,12 @@ part of 'network_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$NetworkStore on _NetworkStore, Store {
-  Computed<NetworkModel>? _$selectedNetworkComputed;
+  Computed<NetworkModel>? _$currentNetworkComputed;
 
   @override
-  NetworkModel get selectedNetwork => (_$selectedNetworkComputed ??=
-          Computed<NetworkModel>(() => super.selectedNetwork,
-              name: '_NetworkStore.selectedNetwork'))
+  NetworkModel get currentNetwork => (_$currentNetworkComputed ??=
+          Computed<NetworkModel>(() => super.currentNetwork,
+              name: '_NetworkStore.currentNetwork'))
       .value;
 
   late final _$networksAtom =
@@ -41,11 +41,22 @@ mixin _$NetworkStore on _NetworkStore, Store {
       ActionController(name: '_NetworkStore', context: context);
 
   @override
-  void setSelectedNetwork(NetworkModel network) {
+  void initStoredNetworks() {
     final _$actionInfo = _$_NetworkStoreActionController.startAction(
-        name: '_NetworkStore.setSelectedNetwork');
+        name: '_NetworkStore.getStoredNetworks');
     try {
-      return super.setSelectedNetwork(network);
+      return super.initStoredNetworks();
+    } finally {
+      _$_NetworkStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setCurrentNetwork(NetworkModel network) {
+    final _$actionInfo = _$_NetworkStoreActionController.startAction(
+        name: '_NetworkStore.setCurrentNetwork');
+    try {
+      return super.setCurrentNetwork(network);
     } finally {
       _$_NetworkStoreActionController.endAction(_$actionInfo);
     }
@@ -77,7 +88,7 @@ mixin _$NetworkStore on _NetworkStore, Store {
   String toString() {
     return '''
 networks: ${networks},
-selectedNetwork: ${selectedNetwork}
+currentNetwork: ${currentNetwork}
     ''';
   }
 }

@@ -15,18 +15,18 @@ class QubicLiveApi {
   final ApplicationStore _appStore = getIt.get<ApplicationStore>();
 
   QubicLiveApi(this._networkStore) {
-    _dio = DioClient.getDio(baseUrl: _networkStore.selectedNetwork.rpcUrl);
+    _dio = DioClient.getDio(baseUrl: _networkStore.currentNetwork.rpcUrl);
   }
 
   void updateDio() {
-    _dio = DioClient.getDio(baseUrl: _networkStore.selectedNetwork.rpcUrl);
+    _dio = DioClient.getDio(baseUrl: _networkStore.currentNetwork.rpcUrl);
   }
 
   Future<CurrentTickDto> getCurrentTick() async {
     try {
       _appStore.incrementPendingRequests();
       final response = await _dio
-          .get('${_networkStore.selectedNetwork.rpcUrl}${Config.currentTick}');
+          .get('${_networkStore.currentNetwork.rpcUrl}${Config.currentTick}');
       return CurrentTickDto.fromJson(response.data["tickInfo"]);
     } catch (error) {
       throw ErrorHandler.handleError(error);
@@ -39,7 +39,7 @@ class QubicLiveApi {
     try {
       _appStore.incrementPendingRequests();
       final response = await _dio.post(
-        '${_networkStore.selectedNetwork.rpcUrl}${Config.submitTransaction}',
+        '${_networkStore.currentNetwork.rpcUrl}${Config.submitTransaction}',
         data: {"encodedTransaction": transaction},
       );
       return response.data["transactionId"];
@@ -57,7 +57,7 @@ class QubicLiveApi {
       final response = await Future.wait([
         for (var address in publicIds)
           _dio.get(
-              '${_networkStore.selectedNetwork.rpcUrl}${Config.addressQubicBalance(address)}')
+              '${_networkStore.currentNetwork.rpcUrl}${Config.addressQubicBalance(address)}')
       ]);
       return List<CurrentBalanceDto>.from(
           response.map((e) => CurrentBalanceDto.fromJson(e.data["balance"])));
@@ -73,7 +73,7 @@ class QubicLiveApi {
       final response = await Future.wait([
         for (var address in publicIds)
           _dio.get(
-              '${_networkStore.selectedNetwork.rpcUrl}${Config.addressAssetsBalance(address)}')
+              '${_networkStore.currentNetwork.rpcUrl}${Config.addressAssetsBalance(address)}')
       ]);
       return response
           .where((e) => e.data["ownedAssets"].isNotEmpty)

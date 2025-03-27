@@ -9,6 +9,7 @@ import 'package:qubic_wallet/resources/secure_storage.dart';
 enum HiveBoxesNames {
   storedTransactions,
   storedNetworks,
+  currentNetworkName,
 }
 
 class HiveStorage {
@@ -19,7 +20,9 @@ class HiveStorage {
   final _secureStorage = getIt<SecureStorage>();
   late final Box<TransactionVm> storedTransactions;
   late final Box<NetworkModel> storedNetworks;
+  late final Box<String> _currentNetworkBox;
   late final HiveAesCipher _encryptionCipher;
+  final currentNetworkKey = "current_network";
 
   Future<void> _init() async {
     await Hive.initFlutter();
@@ -81,6 +84,20 @@ class HiveStorage {
 
   removeStoredNetwork(String networkName) {
     storedNetworks.delete(networkName);
+  }
+
+  Future<void> openCurrentNetworkBox() async {
+    _currentNetworkBox = await Hive.openBox<String>(
+        HiveBoxesNames.currentNetworkName.name,
+        encryptionCipher: _encryptionCipher);
+  }
+
+  void saveCurrentNetworkName(String networkName) {
+    _currentNetworkBox.put(currentNetworkKey, networkName);
+  }
+
+  String? getCurrentNetworkName() {
+    return _currentNetworkBox.get(currentNetworkKey);
   }
 
   Future<void> clear() async {

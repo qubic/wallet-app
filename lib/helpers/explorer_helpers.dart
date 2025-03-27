@@ -13,7 +13,7 @@ void viewTransactionInExplorer(BuildContext context, String trxId) {
 
 String getExplorerBaseUrl() {
   final NetworkStore networkStore = getIt<NetworkStore>();
-  final String explorerUrl = networkStore.selectedNetwork.explorerUrl;
+  final String explorerUrl = networkStore.currentNetwork.explorerUrl;
   return explorerUrl;
 }
 

@@ -317,6 +317,15 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
         .run(() => super.setBalancesAndAssets(balances, assets));
   }
 
+  late final _$updateTransactionsAsyncAction =
+      AsyncAction('_ApplicationStore.updateTransactions', context: context);
+
+  @override
+  Future<void> updateTransactions(List<TransactionDto> transactions) {
+    return _$updateTransactionsAsyncAction
+        .run(() => super.updateTransactions(transactions));
+  }
+
   late final _$removeIDAsyncAction =
       AsyncAction('_ApplicationStore.removeID', context: context);
 
