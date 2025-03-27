@@ -758,7 +758,7 @@
     "wcOpenApp": "App öffnen",
     "wcExpiresInDays": "{count, plural, =1{Die Sitzung läuft in 1 Tag ab} other{Die Sitzung läuft in {count} Tagen ab}}",
     "wcExpiresInLessThanDay": "Die Sitzung läuft in weniger als einem Tag ab",
-    "pasteURLHere": "Füge die URL hier ein",
+    "pasteURLHere": "Füge die URL ein",
     "approvingConnection": "Verbindung wird genehmigt",
     "pleaseWait": "Bitte warte",
     "wcApproveSignTransferOf": "Signiere die Übertragung von",

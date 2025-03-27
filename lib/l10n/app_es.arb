@@ -750,7 +750,7 @@
     "wcOpenApp": "Abrir aplicación",
     "wcExpiresInDays": "{count, plural, =1{La sesión expira en 1 día} other{La sesión expira en {count} días}}",
     "wcExpiresInLessThanDay": "La sesión expira en menos de un día",
-    "pasteURLHere": "Pega la URL aquí",
+    "pasteURLHere": "Pega la URL",
     "approvingConnection": "Aprobando conexión",
     "pleaseWait": "Por favor espera",
     "wcApproveSignTransferOf": "Firmar la transferencia de",

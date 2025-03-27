@@ -758,7 +758,7 @@
     "wcOpenApp": "打開應用程式",
     "wcExpiresInDays": "{count, plural, =1{會議在 1 天內過期} other{會議在 {count} 天內過期}}",
     "wcExpiresInLessThanDay": "會議在不到一天內過期",
-    "pasteURLHere": "在此粘貼 URL",
+    "pasteURLHere": "粘貼 URL",
     "approvingConnection": "正在批准連接",
     "pleaseWait": "請稍候",
     "wcApproveSignTransferOf": "簽署轉帳",

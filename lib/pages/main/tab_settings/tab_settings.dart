@@ -137,7 +137,7 @@ class _TabSettingsState extends State<TabSettings> {
                                 afterText: const BetaBadge(),
                                 path: const WalletConnectSettings()),
                             SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.netowrk,
+                              prefix: SvgPicture.asset(AppIcons.network,
                                   height: defaultIconHeight),
                               title: l10n.networksTitle,
                               path: NetworksScreen(),
