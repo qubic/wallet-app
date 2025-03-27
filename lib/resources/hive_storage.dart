@@ -31,6 +31,7 @@ class HiveStorage {
     await _loadEncryptionKey();
     await openTransactionsBox();
     await openNetworksBox();
+    await openCurrentNetworkBox();
   }
 
   /// Loads or generates a new encryption key and stores it securely.
@@ -62,6 +63,12 @@ class HiveStorage {
     );
   }
 
+  Future<void> openCurrentNetworkBox() async {
+    _currentNetworkBox = await Hive.openBox<String>(
+        HiveBoxesNames.currentNetworkName.name,
+        encryptionCipher: _encryptionCipher);
+  }
+
   void addStoredTransaction(TransactionVm transactionVm) {
     storedTransactions.put(transactionVm.id, transactionVm);
   }
@@ -84,12 +91,6 @@ class HiveStorage {
 
   removeStoredNetwork(String networkName) {
     storedNetworks.delete(networkName);
-  }
-
-  Future<void> openCurrentNetworkBox() async {
-    _currentNetworkBox = await Hive.openBox<String>(
-        HiveBoxesNames.currentNetworkName.name,
-        encryptionCipher: _encryptionCipher);
   }
 
   void saveCurrentNetworkName(String networkName) {
