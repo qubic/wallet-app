@@ -23,6 +23,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -126,6 +127,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     _setupWalletConnect();
+    getIt<NetworkStore>().getStoredNetworks();
 
     _timedController.restartFetchTimersIfNeeded();
     _controller = PersistentTabController(initialIndex: widget.initialTabIndex);

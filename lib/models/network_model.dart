@@ -1,3 +1,5 @@
+import 'package:hive_flutter/adapters.dart';
+
 class NetworkModel {
   final String name;
   final String rpcUrl;
@@ -40,4 +42,25 @@ class NetworkModel {
         other.rpcUrl == rpcUrl &&
         other.explorerUrl == explorerUrl;
   }
+}
+
+class NetworkAdapter extends TypeAdapter<NetworkModel> {
+  @override
+  NetworkModel read(BinaryReader reader) {
+    return NetworkModel(
+      name: reader.readString(),
+      rpcUrl: reader.readString(),
+      explorerUrl: reader.readString(),
+    );
+  }
+
+  @override
+  void write(BinaryWriter writer, NetworkModel obj) {
+    writer.writeString(obj.name);
+    writer.writeString(obj.rpcUrl);
+    writer.writeString(obj.explorerUrl);
+  }
+
+  @override
+  int get typeId => 3;
 }

@@ -5,6 +5,7 @@ import 'package:qubic_wallet/models/network_model.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 
 part 'network_store.g.dart';
 
@@ -33,6 +34,13 @@ abstract class _NetworkStore with Store {
   String get explorerUrl => selectedNetwork.explorerUrl;
 
   @action
+  void getStoredNetworks() {
+    final List<NetworkModel> storedNetworks =
+        getIt<HiveStorage>().getStoredNetworks();
+    networks.addAll(storedNetworks);
+  }
+
+  @action
   void setSelectedNetwork(NetworkModel network) {
     networks.remove(network);
     networks.insert(0, network);
@@ -44,10 +52,12 @@ abstract class _NetworkStore with Store {
   @action
   void addNetwork(NetworkModel network) {
     networks.add(network);
+    getIt<HiveStorage>().addStoredNetwork(network);
   }
 
   @action
   void removeNetwork(NetworkModel network) {
     networks.remove(network);
+    getIt<HiveStorage>().removeStoredNetwork(network.name);
   }
 }
