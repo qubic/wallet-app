@@ -760,7 +760,7 @@
     "wcOpenApp": "Uygulamayı Aç",
     "wcExpiresInDays": "{count, plural, =1{Oturum 1 gün içinde sona eriyor} other{Oturum {count} gün içinde sona eriyor}}",
     "wcExpiresInLessThanDay": "Oturum bir günden daha kısa sürede sona eriyor",
-    "pasteURLHere": "URL'yi buraya yapıştır",
+    "pasteURLHere": "URL'yi Yapıştır",
     "approvingConnection": "Bağlantı onaylanıyor",
     "pleaseWait": "Lütfen bekleyin",
     "wcApproveSignTransferOf": "Transferi imzala",

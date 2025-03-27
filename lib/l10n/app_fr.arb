@@ -765,7 +765,7 @@
     "wcOpenApp": "Ouvrir l'application",
     "wcExpiresInDays": "{count, plural, =1{La session expire dans 1 jour} other{La session expire dans {count} jours}}",
     "wcExpiresInLessThanDay": "La session expire dans moins d'un jour",
-    "pasteURLHere": "Collez l'URL ici",
+    "pasteURLHere": "Collez l'URL",
     "approvingConnection": "Approbation de la connexion",
     "pleaseWait": "Veuillez patienter",
     "wcApproveSignTransferOf": "Signer le transfert de",
