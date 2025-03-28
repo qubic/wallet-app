@@ -1,5 +1,6 @@
-import 'package:qubic_wallet/config.dart';
-import 'package:qubic_wallet/helpers/explorer_helpers.dart';
+import 'package:mobx/mobx.dart';
+import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/stores/network_store.dart';
 
 class DAppModel {
   String name;
@@ -13,6 +14,20 @@ class DAppModel {
     required this.url,
     required this.description,
   });
+
+  DAppModel copyWith({
+    String? name,
+    String? icon,
+    String? url,
+    String? description,
+  }) {
+    return DAppModel(
+      name: name ?? this.name,
+      icon: icon ?? this.icon,
+      url: url ?? this.url,
+      description: description ?? this.description,
+    );
+  }
 }
 
 //TODO Adjust as needed
@@ -24,12 +39,12 @@ final featuredApp = DAppModel(
       "QX is a decentralized exchange running as a smart contract on the Qubic network",
 );
 
-final explorerApp = DAppModel(
+final Observable<DAppModel> explorerApp = Observable(DAppModel(
     name: "Qubic Explorer",
     icon:
         "https://media.licdn.com/dms/image/v2/D560BAQFpyufUFSY-zg/company-logo_200_200/company-logo_200_200/0/1730965355499/qubicnetwork_logo?e=1749081600&v=beta&t=F9UXA_X3wNiQypJnc-kwjPvVw0EqeUr0q7oDibeukkk",
-    url: getExplorerBaseUrl(),
-    description: "Access easily to all the blockchain data.");
+    url: getIt<NetworkStore>().explorerUrl,
+    description: "Access easily to all the blockchain data."));
 
 //TODO Adjust as needed
 final List<DAppModel> dAppsList = [

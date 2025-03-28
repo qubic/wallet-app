@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/dapp_model.dart';
@@ -218,7 +219,10 @@ class ExplorerAppWidget extends StatelessWidget {
         child: SlideTransition(
             position: slideAnimation,
             child: FadeTransition(
-                opacity: fadeAnimation, child: DAppTile(dApp: explorerApp))));
+                opacity: fadeAnimation,
+                child: Observer(builder: (context) {
+                  return DAppTile(dApp: explorerApp.value);
+                }))));
   }
 }
 

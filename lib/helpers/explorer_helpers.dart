@@ -11,13 +11,7 @@ void viewTransactionInExplorer(BuildContext context, String trxId) {
   viewExplorerURL(context, "network/tx/$trxId");
 }
 
-String getExplorerBaseUrl() {
-  final NetworkStore networkStore = getIt<NetworkStore>();
-  final String explorerUrl = networkStore.currentNetwork.explorerUrl;
-  return explorerUrl;
-}
-
 void viewExplorerURL(BuildContext context, String pathToData) {
-  final String explorerUrl = getExplorerBaseUrl();
+  final String explorerUrl = getIt<NetworkStore>().explorerUrl;
   launchUrlString("$explorerUrl/$pathToData", mode: LaunchMode.inAppWebView);
 }
