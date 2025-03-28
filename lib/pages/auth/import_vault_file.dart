@@ -24,7 +24,6 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -168,8 +167,8 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
                 try {
                   directory = await getDownloadsDirectory();
                 } catch (e) {
-                  appLogger.e(
-                      "Error getting application documents directory: $e");
+                  appLogger
+                      .e("Error getting application documents directory: $e");
                 }
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                     dialogTitle: l10n.importVaultFilePickerLabel,
@@ -355,7 +354,6 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
               importedSeed.getAlias()!, 0));
         }
         await appStore.addManyIds(ids);
-        await getIt<QubicLi>().authenticate();
       } catch (e) {
         if (context.mounted) {
           showAlertDialog(

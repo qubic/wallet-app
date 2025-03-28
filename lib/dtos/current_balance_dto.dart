@@ -1,40 +1,70 @@
-/// A data transfer object representing the current balance of a wallet.
-/// Holds results from Qubic GetNetworkBalances
 class CurrentBalanceDto {
-  /// The public ID of the wallet.
-  final String publicId;
+  final String id;
+  final int balance;
+  final int validForTick;
+  final int latestIncomingTransferTick;
+  final int latestOutgoingTransferTick;
+  final String incomingAmount;
+  final String outgoingAmount;
+  final int numberOfIncomingTransfers;
+  final int numberOfOutgoingTransfers;
 
-  /// The current balance amount in the wallet.
-  final int amount;
-
-  /// The tick of the wallet.
-  final int tick;
-
-  /// Creates a new instance of [CurrentBalanceDto].
-  /// [publicId] is the public ID of the wallet.
-  /// [amount] is the current balance amount in the wallet.
-  /// [tick] is the tick of the wallet.
   CurrentBalanceDto({
-    required this.publicId,
-    required this.amount,
-    required this.tick,
+    required this.id,
+    required this.balance,
+    required this.validForTick,
+    required this.latestIncomingTransferTick,
+    required this.latestOutgoingTransferTick,
+    required this.incomingAmount,
+    required this.outgoingAmount,
+    required this.numberOfIncomingTransfers,
+    required this.numberOfOutgoingTransfers,
   });
 
-  /// Creates a new instance of [CurrentBalanceDto] from a JSON map.
-  factory CurrentBalanceDto.fromJson(Map<String, dynamic> json) {
+  factory CurrentBalanceDto.fromJson(Map<String, dynamic> map) {
     return CurrentBalanceDto(
-      publicId: json['publicId'],
-      amount: json['amount'],
-      tick: json['tick'],
+      id: map['id'],
+      balance: int.tryParse(map['balance']) ?? 0,
+      validForTick: map['validForTick'],
+      latestIncomingTransferTick: map['latestIncomingTransferTick'],
+      latestOutgoingTransferTick: map['latestOutgoingTransferTick'],
+      incomingAmount: map['incomingAmount'],
+      outgoingAmount: map['outgoingAmount'],
+      numberOfIncomingTransfers: map['numberOfIncomingTransfers'],
+      numberOfOutgoingTransfers: map['numberOfOutgoingTransfers'],
     );
   }
 
-  /// Converts this instance of [CurrentBalanceDto] to a JSON map.
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['publicId'] = publicId;
-    data['amount'] = amount;
-    data['tick'] = tick;
-    return data;
+  @override
+  String toString() {
+    return 'CurrentBalanceDto(id: $id, balance: $balance, validForTick: $validForTick, latestIncomingTransferTick: $latestIncomingTransferTick, latestOutgoingTransferTick: $latestOutgoingTransferTick, incomingAmount: $incomingAmount, outgoingAmount: $outgoingAmount, numberOfIncomingTransfers: $numberOfIncomingTransfers, numberOfOutgoingTransfers: $numberOfOutgoingTransfers)';
+  }
+
+  @override
+  bool operator ==(covariant CurrentBalanceDto other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.balance == balance &&
+        other.validForTick == validForTick &&
+        other.latestIncomingTransferTick == latestIncomingTransferTick &&
+        other.latestOutgoingTransferTick == latestOutgoingTransferTick &&
+        other.incomingAmount == incomingAmount &&
+        other.outgoingAmount == outgoingAmount &&
+        other.numberOfIncomingTransfers == numberOfIncomingTransfers &&
+        other.numberOfOutgoingTransfers == numberOfOutgoingTransfers;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        balance.hashCode ^
+        validForTick.hashCode ^
+        latestIncomingTransferTick.hashCode ^
+        latestOutgoingTransferTick.hashCode ^
+        incomingAmount.hashCode ^
+        outgoingAmount.hashCode ^
+        numberOfIncomingTransfers.hashCode ^
+        numberOfOutgoingTransfers.hashCode;
   }
 }

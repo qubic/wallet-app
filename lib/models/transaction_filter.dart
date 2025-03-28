@@ -71,31 +71,31 @@ class TransactionFilter {
         return false;
       }
     }
-    if ((broadcastedFrom != null) && (filtered.broadcasted != null)) {
-      if (filtered.broadcasted!.isBefore(broadcastedFrom!)) {
-        return false;
-      }
-    }
-    if ((broadcastedTo != null) && (filtered.broadcasted != null)) {
-      if (filtered.broadcasted!.isAfter(broadcastedFrom!)) {
-        return false;
-      }
-    }
-    if ((broadcastedFrom != null) && (filtered.broadcasted != null)) {
-      if (filtered.broadcasted!.isBefore(broadcastedFrom!)) {
-        return false;
-      }
-    }
-    if ((confirmedFrom != null) && (filtered.confirmed != null)) {
-      if (filtered.broadcasted!.isAfter(confirmedFrom!)) {
-        return false;
-      }
-    }
-    if ((confirmedTo != null) && (filtered.confirmed != null)) {
-      if (filtered.broadcasted!.isAfter(confirmedTo!)) {
-        return false;
-      }
-    }
+    // if ((broadcastedFrom != null) && (filtered.broadcasted != null)) {
+    //   if (filtered.broadcasted!.isBefore(broadcastedFrom!)) {
+    //     return false;
+    //   }
+    // }
+    // if ((broadcastedTo != null) && (filtered.broadcasted != null)) {
+    //   if (filtered.broadcasted!.isAfter(broadcastedFrom!)) {
+    //     return false;
+    //   }
+    // }
+    // if ((broadcastedFrom != null) && (filtered.broadcasted != null)) {
+    //   if (filtered.broadcasted!.isBefore(broadcastedFrom!)) {
+    //     return false;
+    //   }
+    // }
+    // if ((confirmedFrom != null) && (filtered.confirmed != null)) {
+    //   if (filtered.broadcasted!.isAfter(confirmedFrom!)) {
+    //     return false;
+    //   }
+    // }
+    // if ((confirmedTo != null) && (filtered.confirmed != null)) {
+    //   if (filtered.broadcasted!.isAfter(confirmedTo!)) {
+    //     return false;
+    //   }
+    // }
     if (qubicId != null) {
       if (direction == TransactionDirection.incoming) {
         if (filtered.destId != qubicId) {
