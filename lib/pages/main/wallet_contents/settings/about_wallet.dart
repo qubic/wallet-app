@@ -28,16 +28,16 @@ class _AboutWalletState extends State<AboutWallet> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final SecureStorage secureStorage = getIt<SecureStorage>();
   final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
-  final QubicHubService qubicService = getIt<QubicHubService>();
+  //final QubicHubService qubicService = getIt<QubicHubService>();
   final GlobalSnackBar snackBar = getIt<GlobalSnackBar>();
   bool isLoading = false;
   @override
   void initState() {
-    super.initState();
+    /* super.initState();
     setState(() {
       isLoading = true;
     });
-    qubicService.loadUpdateInfo().then((value) {
+    //qubicService.loadUpdateInfo().then((value) {
       setState(() {
         isLoading = false;
       });
@@ -46,7 +46,7 @@ class _AboutWalletState extends State<AboutWallet> {
         isLoading = false;
       });
       appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-    });
+    }); */
   }
 
   @override

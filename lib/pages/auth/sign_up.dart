@@ -7,7 +7,6 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -346,7 +345,6 @@ class _ReceiveState extends State<SignUp> {
     if (await appStore.signUp(currentPassword)) {
       try {
         await appStore.checkWalletIsInitialized();
-        await getIt<QubicLi>().authenticate();
       } catch (e) {
         showAlertDialog(
             context, l10n.generalErrorContactingQubicNetwork, e.toString());

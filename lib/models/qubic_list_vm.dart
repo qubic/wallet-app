@@ -59,13 +59,14 @@ class QubicListVm {
     Map<String, QubicAssetDto> mergedAssets = {};
 
     for (int i = 0; i < newAssets.length; i++) {
-      String name = "${newAssets[i].assetName}-${newAssets[i].contractIndex}";
+      String name =
+          "${newAssets[i].issuedAsset.name}-${newAssets[i].managingContractIndex}";
       if (mergedAssets.containsKey(name)) {
-        if (mergedAssets[name]!.tick < newAssets[i].tick) {
-          mergedAssets[name] = newAssets[i].clone();
+        if (mergedAssets[name]!.info.tick < newAssets[i].info.tick) {
+          mergedAssets[name] = newAssets[i];
         }
       } else {
-        mergedAssets[name] = newAssets[i].clone();
+        mergedAssets[name] = newAssets[i];
       }
     }
 
@@ -79,16 +80,7 @@ class QubicListVm {
   Map<String, QubicAssetDto> getClonedAssets() {
     Map<String, QubicAssetDto> newShares = {};
     assets.forEach((key, value) {
-      newShares[key] = QubicAssetDto(
-          assetName: value.assetName,
-          contractIndex: value.contractIndex,
-          tick: value.tick,
-          contractName: value.contractName,
-          issuerIdentity: value.issuerIdentity,
-          ownedAmount: value.ownedAmount,
-          possessedAmount: value.possessedAmount,
-          publicId: value.publicId,
-          reportingNodes: value.reportingNodes);
+      newShares[key] = value;
     });
     return newShares;
   }

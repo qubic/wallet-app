@@ -20,7 +20,6 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -42,7 +41,6 @@ class Send extends StatefulWidget {
 class _SendState extends State<Send> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  final QubicLi apiService = getIt<QubicLi>();
   final _liveApi = getIt<QubicLiveApi>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();
@@ -653,7 +651,8 @@ class _SendState extends State<Send> {
     //Clear the state
     setState(() {
       isLoading = false;
-      getIt.get<PersistentTabController>().jumpToTab(1);
+      // TODO can be replaced later to jump to a screen where the list of pending trx is displayed
+      //getIt.get<PersistentTabController>().jumpToTab(1);
     });
     if (mounted) {
       Navigator.pop(context);

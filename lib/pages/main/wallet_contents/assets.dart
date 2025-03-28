@@ -4,6 +4,7 @@ import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/components/asset_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -46,15 +47,14 @@ class _AssetsState extends State<Assets> {
   }
 
   Widget getAssetLine(QubicAssetDto asset) {
-    return Text(asset.assetName);
+    return Text(asset.issuedAsset.name);
   }
 
   Widget getQXAssets() {
     final l10n = l10nOf(context);
 
     List<QubicAssetDto> qxAssets = accountItem.assets.values
-        .where(
-            (element) => QubicAssetDto.isSmartContractShare(element) == false)
+        .where((element) => !element.isSmartContractShare)
         .toList();
     if (qxAssets.isEmpty) {
       return Container();
@@ -63,7 +63,10 @@ class _AssetsState extends State<Assets> {
     List<Widget> output = [];
     output.add(
         Text(l10n.assetsLabelQXAssets, style: TextStyles.sliverCardPreLabel));
-    qxAssets.forEach((element) => output.add(getAssetEntry(element)));
+    output.add(const SizedBox(height: ThemePaddings.mediumPadding));
+    for (var element in qxAssets) {
+      output.add(getAssetEntry(element));
+    }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: output);
   }
@@ -72,7 +75,7 @@ class _AssetsState extends State<Assets> {
     final l10n = l10nOf(context);
 
     List<QubicAssetDto> scAssets = accountItem.assets.values
-        .where((element) => QubicAssetDto.isSmartContractShare(element))
+        .where((element) => element.isSmartContractShare)
         .toList();
     if (scAssets.isEmpty) {
       return Container();
@@ -82,7 +85,10 @@ class _AssetsState extends State<Assets> {
 
     output.add(Text(l10n.assetsLabelSmartContractShares,
         style: TextStyles.sliverCardPreLabel));
-    scAssets.forEach((element) => output.add(getAssetEntry(element)));
+    output.add(const SizedBox(height: ThemePaddings.mediumPadding));
+    for (var element in scAssets) {
+      output.add(getAssetEntry(element));
+    }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: output);
   }
@@ -97,9 +103,8 @@ class _AssetsState extends State<Assets> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
@@ -110,11 +115,10 @@ class _AssetsState extends State<Assets> {
                   getSCAssets(),
                   ThemedControls.spacerVerticalBig(),
                   getQXAssets(),
-                  ThemedControls.spacerVerticalMini(),
                 ],
               )
             ],
-          )))
+          ))
         ]));
   }
 
