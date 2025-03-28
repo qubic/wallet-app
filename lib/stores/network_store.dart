@@ -33,7 +33,7 @@ abstract class _NetworkStore with Store {
   String get rpcUrl => currentNetwork.rpcUrl;
   String get explorerUrl => currentNetwork.explorerUrl;
 
-  initNetowrks() {
+  initNetworks() {
     initStoredNetworks();
     initCurrentNetwork();
   }
