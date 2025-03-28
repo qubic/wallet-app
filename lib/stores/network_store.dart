@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/models/dapp_model.dart';
 import 'package:qubic_wallet/models/network_model.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
@@ -65,6 +66,7 @@ abstract class _NetworkStore with Store {
     getIt<QubicLiveApi>().updateDio();
     getIt<QubicStatsApi>().updateDio();
     getIt<HiveStorage>().saveCurrentNetworkName(network.name);
+    explorerApp.value = explorerApp.value.copyWith(url: network.explorerUrl);
   }
 
   @action
