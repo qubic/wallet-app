@@ -19,13 +19,12 @@ class _ApprovalHeader extends StatelessWidget {
                   data.pairingMetadata!.icons.isNotEmpty
               ? FadeInImage(
                   image: NetworkImage(data.pairingMetadata!.icons[0]),
-                  placeholder:
-                      const AssetImage('assets/images/dapp-default.png'),
+                  placeholder: const AssetImage(Config.dAppDefaultImageName),
                   imageErrorBuilder: (context, error, stackTrace) =>
-                      Image.asset('assets/images/dapp-default.png'),
+                      Image.asset(Config.dAppDefaultImageName),
                   fit: BoxFit.contain,
                 )
-              : Image.asset('assets/images/dapp-default.png'),
+              : Image.asset(Config.dAppDefaultImageName),
         ),
         //dAPP title
         ThemedControls.spacerVerticalBig(),

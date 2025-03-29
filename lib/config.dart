@@ -84,4 +84,6 @@ abstract class Config {
 
   static const averageTickDurationInSeconds = 2.0;
   static const secondsToFlagTrxAsInvalid = 20;
+
+  static const dAppDefaultImageName = "assets/images/dapp-default.png";
 }

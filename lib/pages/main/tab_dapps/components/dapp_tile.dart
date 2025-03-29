@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/dapp_model.dart';
@@ -42,7 +43,9 @@ class DAppTile extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: Image.network(dApp.icon, height: 40),
+              child: dApp.icon.isNotEmpty
+                  ? Image.network(dApp.icon, height: 40)
+                  : Image.asset(Config.dAppDefaultImageName, height: 40),
             ),
             const SizedBox(width: 15),
             Expanded(
