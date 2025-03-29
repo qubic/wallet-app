@@ -62,11 +62,16 @@ final List<DAppModel> dAppsList = [
     description: "Earn Rewards by Staking \$QUBIC.",
   ),
   DAppModel(
-    name: "Uniswap",
-    icon:
-        "https://cdn.brandfetch.io/idoYtBNi2C/w/800/h/800/theme/light/symbol.png?c=1dxbfHSJFAPEGdCLU4o5B",
-    url: "https://uniswap.org",
-    description: "Ethereum blockchain-based.",
+    name: "QXBoard",
+    icon: "",
+    url: "https://www.qxboard.com/",
+    description: "User Friendly QX UI for Qubic Assets.",
+  ),
+  DAppModel(
+    name: "QXTrade",
+    icon: "",
+    url: "https://qubictrade.com/",
+    description: "User Friendly QX UI for Qubic Assets.",
   ),
   DAppModel(
     name: "OpenSea",
