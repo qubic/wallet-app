@@ -13,6 +13,7 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 
@@ -25,6 +26,7 @@ class ApplicationStore = _ApplicationStore with _$ApplicationStore;
 abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
   late final HiveStorage _hiveStorage = getIt<HiveStorage>();
+  late final QubicArchiveApi qubicArchiveApi = getIt<QubicArchiveApi>();
 
   /// If there are stored wallet settings in the device
   @observable
@@ -431,6 +433,13 @@ abstract class _ApplicationStore with Store {
     }
   }
 
+  List<TransactionVm> getTransactionsForID(String publicId) {
+    return _hiveStorage.storedTransactions.values
+        .where((element) =>
+            element.sourceId == publicId || element.destId == publicId)
+        .toList();
+  }
+
   @action
   void _addStoredTransactionsToCurrent() {
     // Add transactions that are not in currentTransactions in order
@@ -454,23 +463,20 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
-  void validatePendingTransactions(int currentTick) {
+  void validatePendingTransactions(int currentTick) async {
     List<TransactionVm> toBeRemoved = [];
-    for (var trx in _hiveStorage.storedTransactions.values) {
-      if (currentTransactions.firstWhereOrNull((e) => e.id == trx.id) != null) {
-        // if already returned by the backend, then we delete the local copy
-        toBeRemoved.add(trx);
-      } else if (currentTick >=
-          trx.targetTick +
-              (Config.secondsToFlagTrxAsInvalid /
-                      Config.averageTickDurationInSeconds)
-                  .ceil()) {
-        // wait until 'secondsToFlagTrxAsInvalid' seconds to flag it (coud be temporarily) as invalid
-        convertPendingToInvalid(trx);
+    for (var trx in _hiveStorage.getStoredTransactions()) {
+      if (currentTick >= trx.targetTick + Config.ticksToFlagTrxAsInvalid) {
+        final checkTrx = await qubicArchiveApi.getTransaction(trx.id);
+        if (checkTrx == null) {
+          convertPendingToInvalid(trx);
+        } else {
+          toBeRemoved.add(trx);
+        }
       }
-    }
-    for (var trx in toBeRemoved) {
-      _hiveStorage.removeStoredTransaction(trx.id);
+      for (var trx in toBeRemoved) {
+        _hiveStorage.removeStoredTransaction(trx.id);
+      }
     }
   }
 
