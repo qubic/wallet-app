@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
+import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -27,16 +29,17 @@ class StoredTransactionsForId extends StatelessWidget {
             ThemedControls.pageHeader(
               headerText: (l10n.transfersLabelForAccount(item.name)),
             ),
-            Expanded(
-                child: ListView.builder(
-                    itemCount:
-                        getIt<HiveStorage>().storedTransactions.values.length,
-                    itemBuilder: (context, index) {
-                      final hiveStorage = getIt<HiveStorage>();
-                      final item =
-                          hiveStorage.storedTransactions.values.toList()[index];
-                      return TransactionItem(item: item);
-                    }))
+            Observer(builder: (context) {
+              return Expanded(
+                  child: ListView.builder(
+                      itemCount:
+                          getIt<ApplicationStore>().storedTransactions.length,
+                      itemBuilder: (context, index) {
+                        final item =
+                            getIt<ApplicationStore>().storedTransactions[index];
+                        return TransactionItem(item: item);
+                      }));
+            })
           ],
         ),
       ),

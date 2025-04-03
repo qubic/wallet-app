@@ -1,6 +1,8 @@
 // ignore_for_file: library_private_types_in_public_api
 
 // ignore: depend_on_referenced_packages
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
@@ -85,6 +87,8 @@ abstract class _ApplicationStore with Store {
   ObservableList<QubicListVm> currentQubicIDs = ObservableList<QubicListVm>();
   @observable
   ObservableList<TransactionVm> currentTransactions =
+      ObservableList<TransactionVm>();
+  ObservableList<TransactionVm> storedTransactions =
       ObservableList<TransactionVm>();
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
@@ -415,55 +419,26 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
-  Future<void> updateTransactions(List<TransactionDto> transactions) async {
-    _addOrUpdateCurrentTransactions(transactions);
-    _addStoredTransactionsToCurrent();
+  initStoredTransactions() {
+    storedTransactions.clear();
+    storedTransactions.addAll(_hiveStorage.getStoredTransactions());
   }
 
-  void _addOrUpdateCurrentTransactions(List<TransactionDto> transactions) {
-    for (var transaction in transactions) {
-      var index = currentTransactions
-          .indexWhere((element) => element.id == transaction.transaction.txId);
-      var transactionVm = TransactionVm.fromTransactionDto(transaction);
-      if (index == -1) {
-        currentTransactions.add(transactionVm);
-      } else {
-        currentTransactions[index] = transactionVm;
-      }
-    }
-  }
-
-  List<TransactionVm> getTransactionsForID(String publicId) {
-    return _hiveStorage.storedTransactions.values
+  List<TransactionVm> getStoredTransactionsForID(String publicId) {
+    return storedTransactions
         .where((element) =>
             element.sourceId == publicId || element.destId == publicId)
         .toList();
   }
 
   @action
-  void _addStoredTransactionsToCurrent() {
-    // Add transactions that are not in currentTransactions in order
-    for (var trx in _hiveStorage.storedTransactions.values) {
-      if (!currentTransactions.any((element) => element.id == trx.id)) {
-        int insertIndex = currentTransactions.indexWhere(
-          (element) => element.targetTick > trx.targetTick,
-        );
-        if (insertIndex == -1) {
-          currentTransactions.add(trx);
-        } else {
-          currentTransactions.insert(insertIndex, trx);
-        }
-      }
-    }
-  }
-
-  @action
   addStoredTransaction(TransactionVm transaction) {
+    storedTransactions.add(transaction);
     _hiveStorage.addStoredTransaction(transaction);
   }
 
   @action
-  void validatePendingTransactions(int currentTick) async {
+  Future<void> validatePendingTransactions(int currentTick) async {
     List<TransactionVm> toBeRemoved = [];
     for (var trx in _hiveStorage.getStoredTransactions()) {
       if (currentTick >= trx.targetTick + Config.ticksToFlagTrxAsInvalid) {
@@ -475,7 +450,7 @@ abstract class _ApplicationStore with Store {
         }
       }
       for (var trx in toBeRemoved) {
-        _hiveStorage.removeStoredTransaction(trx.id);
+        removeStoredTransaction(trx.id);
       }
     }
   }
@@ -483,6 +458,8 @@ abstract class _ApplicationStore with Store {
   @action
   convertPendingToInvalid(TransactionVm transaction) {
     transaction.isPending = false;
+    storedTransactions.removeWhere((element) => element.id == transaction.id);
+    storedTransactions.add(transaction);
     _hiveStorage.addStoredTransaction(transaction);
   }
 
@@ -495,7 +472,7 @@ abstract class _ApplicationStore with Store {
   @action
   void removeStoredTransaction(String transactionId) {
     _hiveStorage.removeStoredTransaction(transactionId);
-    currentTransactions.removeWhere((element) => element.id == transactionId);
+    storedTransactions.removeWhere((element) => element.id == transactionId);
   }
 
   @action

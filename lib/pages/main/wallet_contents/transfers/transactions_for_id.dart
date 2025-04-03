@@ -1,6 +1,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/custom_paged_list_view.dart';
@@ -217,39 +218,48 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                       ? l10n.transfersLabelFor
                       : l10n.transfersLabelForAccount(widget.item!.name)),
                   subheaderText: null),
-              if (appStore
-                  .getTransactionsForID(widget.publicQubicId)
-                  .isNotEmpty) ...[
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return StoredTransactionsForId(item: widget.item!);
-                    }));
-                  },
-                  child: ThemedControls.card(
-                      child: Row(
-                    children: [
-                      const Icon(Icons.info_outlined,
-                          color: LightThemeColors.pending),
-                      ThemedControls.spacerHorizontalMini(),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text("Show other transactions",
-                                style: TextStyles.labelText),
-                            Text(
-                                "${appStore.getTransactionsForID(widget.publicQubicId).length} transactions",
-                                style: TextStyles.secondaryText),
-                          ],
+              Observer(builder: (context) {
+                return (appStore
+                        .getStoredTransactionsForID(widget.publicQubicId)
+                        .isNotEmpty)
+                    ? Column(children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return StoredTransactionsForId(
+                                  item: widget.item!);
+                            }));
+                          },
+                          child: ThemedControls.card(
+                              child: Row(
+                            children: [
+                              const Icon(Icons.help_outline,
+                                  color: LightThemeColors.pending),
+                              ThemedControls.spacerHorizontalMini(),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Text(l10n.storedTransfersLabel,
+                                        style: TextStyles.labelText),
+                                    Text(
+                                        l10n.transactionsCount(appStore
+                                            .getStoredTransactionsForID(
+                                                widget.publicQubicId)
+                                            .length),
+                                        style: TextStyles.secondaryText),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )),
                         ),
-                      ),
-                    ],
-                  )),
-                ),
-                ThemedControls.spacerVerticalBig(),
-              ],
+                        ThemedControls.spacerVerticalBig(),
+                      ])
+                    : const SizedBox.shrink();
+              }),
               Expanded(
                 child: CustomPagedListView<int, TransactionDto>(
                   pagingController: _pagingController,
