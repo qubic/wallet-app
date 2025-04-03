@@ -116,6 +116,30 @@ class QubicSCStore {
         13: 'MSVault Vote Fee Change',
       },
     ),
+    QubicSCModel(
+        contractIndex: 12,
+        name: "Qbay",
+        contractId:
+            "MAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWLWD",
+        procedures: {
+          1: 'Qbay setting CFB and Qubic Price',
+          2: 'Qbay create collection',
+          3: 'Qbay mint',
+          4: 'Qbay mint of drop',
+          5: 'Qbay transfer',
+          6: 'Qbay list in market',
+          7: 'Qbay buy',
+          8: 'Qbay cancel sale',
+          9: 'Qbay list in exchange',
+          10: 'Qbay cancel exchange',
+          11: 'Qbay make offer',
+          12: 'Qbay accept offer',
+          13: 'Qbay cancel offer',
+          14: 'Qbay create traditional auction',
+          15: 'Qbay bid on traditional auction',
+          16: 'Qbay transfer share management rights',
+          17: 'Qbay change status of marketplace'
+        })
   ];
 
   static final Map<String, QubicSCModel> _byId = {

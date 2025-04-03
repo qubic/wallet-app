@@ -247,7 +247,7 @@
     "transactionLabelDirectionIncoming": "Entrante",
     "transactionLabelDirectionOutgoing": "Saliente",
     "transactionLabelDirectionInWallet": "Entre cuentas del Wallet",
-    "transactionLabelStatusSuccessful": "Ejecutada",
+    "transactionLabelStatusSuccessful": "Completada",
     "transactionLabelStatusPending": "Pendiente",
     "transactionLabelStatusExecuted": "Ejecutada",
     "transactionLabelStatusFailed": "Fallida",
