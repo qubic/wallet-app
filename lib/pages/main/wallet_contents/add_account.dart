@@ -306,7 +306,7 @@ class _AddAccountState extends State<AddAccount> {
                           FormBuilderValidators.required(
                               errorText: l10n.generalErrorRequiredField),
                           CustomFormFieldValidators.isNameAvailable(
-                              currentQubicIDs: appStore.currentQubicIDs,
+                              namesList: appStore.qubicIDsNames,
                               context: context)
                         ]),
                         controller: accountName,
@@ -571,8 +571,7 @@ class _AddAccountState extends State<AddAccount> {
                         FormBuilderValidators.required(
                             errorText: l10n.generalErrorRequiredField),
                         CustomFormFieldValidators.isNameAvailable(
-                            currentQubicIDs: appStore.currentQubicIDs,
-                            context: context)
+                            namesList: appStore.qubicIDsNames, context: context)
                       ]),
                       readOnly: isLoading,
                       style: TextStyles.inputBoxSmallStyle,
