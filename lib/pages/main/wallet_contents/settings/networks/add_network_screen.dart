@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/network_model.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
@@ -90,6 +91,11 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         controller: networkNameController,
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
+                          CustomFormFieldValidators.isNameAvailable(
+                              namesList: networkStore.networks
+                                  .map((e) => e.name)
+                                  .toList(),
+                              context: context)
                         ]),
                         decoration:
                             ThemeInputDecorations.normalInputbox.copyWith(

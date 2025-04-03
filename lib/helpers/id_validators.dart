@@ -123,7 +123,7 @@ class CustomFormFieldValidators {
   }
 
   static FormFieldValidator<T> isNameAvailable<T>(
-      {required ObservableList<QubicListVm> currentQubicIDs,
+      {required List<String> namesList,
       String? ignorePublicId,
       required BuildContext context}) {
     final l10n = l10nOf(context);
@@ -134,16 +134,14 @@ class CustomFormFieldValidators {
       }
 
       int total = ignorePublicId == null
-          ? currentQubicIDs
+          ? namesList
               .where((element) =>
-                  element.name ==
-                  valueCandidate.toString().replaceAll(",", "_"))
+                  element == valueCandidate.toString().replaceAll(",", "_"))
               .length
-          : currentQubicIDs
+          : namesList
               .where((element) =>
-                  element.name ==
-                      valueCandidate.toString().replaceAll(",", "_") &&
-                  element.publicId != ignorePublicId)
+                  element == valueCandidate.toString().replaceAll(",", "_") &&
+                  element != ignorePublicId)
               .length;
       if (total > 0) {
         return l10n.addAccountErrorNameAlreadyInUse;
