@@ -16,6 +16,7 @@ import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transactions.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/stored_transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -219,26 +220,34 @@ class _TransactionsForIdState extends State<TransactionsForId> {
               if (appStore
                   .getTransactionsForID(widget.publicQubicId)
                   .isNotEmpty) ...[
-                ThemedControls.card(
-                    child: Row(
-                  children: [
-                    const Icon(Icons.info_outlined,
-                        color: LightThemeColors.pending),
-                    ThemedControls.spacerHorizontalMini(),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text("Show other transactions",
-                              style: TextStyles.labelText),
-                          Text(
-                              "${appStore.getTransactionsForID(widget.publicQubicId).length} transactions",
-                              style: TextStyles.secondaryText),
-                        ],
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return StoredTransactionsForId(item: widget.item!);
+                    }));
+                  },
+                  child: ThemedControls.card(
+                      child: Row(
+                    children: [
+                      const Icon(Icons.info_outlined,
+                          color: LightThemeColors.pending),
+                      ThemedControls.spacerHorizontalMini(),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text("Show other transactions",
+                                style: TextStyles.labelText),
+                            Text(
+                                "${appStore.getTransactionsForID(widget.publicQubicId).length} transactions",
+                                style: TextStyles.secondaryText),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                )),
+                    ],
+                  )),
+                ),
                 ThemedControls.spacerVerticalBig(),
               ],
               Expanded(
