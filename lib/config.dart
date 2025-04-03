@@ -22,6 +22,8 @@ abstract class Config {
   static addressTransfers(String address) =>
       "/v2/identities/$address/transfers";
 
+  static const notFoundStatusCode = 404;
+
   static const fetchEverySeconds = 60;
   static const fetchEverySecondsSlow = 60 * 5;
   static const inactiveSecondsLimit = 120;
@@ -84,6 +86,8 @@ abstract class Config {
 
   static const averageTickDurationInSeconds = 2.0;
   static const secondsToFlagTrxAsInvalid = 20;
+  static const ticksToFlagTrxAsInvalid =
+      secondsToFlagTrxAsInvalid / averageTickDurationInSeconds;
 
   static const dAppDefaultImageName = "assets/images/dapp-default.png";
 }

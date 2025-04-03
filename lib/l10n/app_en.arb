@@ -155,6 +155,8 @@
     "transfersLabelNoTransactionsFoundInAccount": "No transactions found.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
     "transfersLabelFor": "Transfers for",
+    "storedTransfersLabel": "Show other transactions",
+    "transactionsCount": "{count, plural, =1{1 transaction} other{Showing {count} transactions}}",
     "transfersLabelForAccount": "Transfers for \"{accountName}\"",
     "@transfersLabelForAccount": {
         "placeholders": {

@@ -317,13 +317,14 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
         .run(() => super.setBalancesAndAssets(balances, assets));
   }
 
-  late final _$updateTransactionsAsyncAction =
-      AsyncAction('_ApplicationStore.updateTransactions', context: context);
+  late final _$validatePendingTransactionsAsyncAction = AsyncAction(
+      '_ApplicationStore.validatePendingTransactions',
+      context: context);
 
   @override
-  Future<void> updateTransactions(List<TransactionDto> transactions) {
-    return _$updateTransactionsAsyncAction
-        .run(() => super.updateTransactions(transactions));
+  Future validatePendingTransactions(int currentTick) {
+    return _$validatePendingTransactionsAsyncAction
+        .run(() => super.validatePendingTransactions(currentTick));
   }
 
   late final _$removeIDAsyncAction =
@@ -493,11 +494,11 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  void _addStoredTransactionsToCurrent() {
+  dynamic initStoredTransactions() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore._addStoredTransactionsToCurrent');
+        name: '_ApplicationStore.initStoredTransactions');
     try {
-      return super._addStoredTransactionsToCurrent();
+      return super.initStoredTransactions();
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
@@ -509,17 +510,6 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
         name: '_ApplicationStore.addStoredTransaction');
     try {
       return super.addStoredTransaction(transaction);
-    } finally {
-      _$_ApplicationStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void validatePendingTransactions(int currentTick) {
-    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.validatePendingTransactions');
-    try {
-      return super.validatePendingTransactions(currentTick);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }

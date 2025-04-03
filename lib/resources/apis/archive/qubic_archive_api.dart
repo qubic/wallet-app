@@ -3,6 +3,7 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/computors_dto.dart';
 import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/pagination_request_model.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
@@ -61,6 +62,20 @@ class QubicArchiveApi {
       final response = await _dio.get('$_baseUrl${Config.networkTicks(epoch)}',
           queryParameters: pagination.toJson());
       return NetworkTicksDto.fromJson(response.data);
+    } catch (error) {
+      throw ErrorHandler.handleError(error);
+    }
+  }
+
+  Future<TransactionDto?> getTransaction(String txId) async {
+    try {
+      final response = await _dio.get('$_baseUrl${Config.transaction(txId)}');
+      return TransactionDto.fromJson(response.data);
+    } on DioException catch (error) {
+      if (error.response?.statusCode == Config.notFoundStatusCode) {
+        return null;
+      }
+      throw ErrorHandler.handleError(error);
     } catch (error) {
       throw ErrorHandler.handleError(error);
     }
