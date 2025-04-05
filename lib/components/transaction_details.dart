@@ -202,6 +202,29 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               ),
                             ],
                           ),
+                          if (isQxTransferShares)
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: LightThemeColors.warning40,
+                                    width: 0.8),
+                              ),
+                              child: ThemedControls.cardWithBg(
+                                bgColor: Colors.transparent,
+                                child: Row(children: [
+                                  SvgPicture.asset(AppIcons.warning,
+                                      height: 20),
+                                  ThemedControls.spacerHorizontalSmall(),
+                                  Expanded(
+                                      child: Text(
+                                    l10n.qxTransferSharesWarning,
+                                    style: TextStyles.secondaryText.copyWith(
+                                        color: LightThemeColors.warning40),
+                                  ))
+                                ]),
+                              ),
+                            ),
                           ThemedControls.spacerVerticalNormal(),
                           TransactionStatusItem(item: widget.item),
                           SizedBox(
