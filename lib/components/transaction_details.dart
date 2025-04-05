@@ -267,7 +267,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                                 getCopyableDetails(
                                     context,
                                     l10n.generalLabelDestination,
-                                    widget.item.id),
+                                    widget.assetTransfer!.newOwnerAndPossessor),
                                 ThemedControls.spacerVerticalSmall(),
                                 getCopyableDetails(
                                     context,
