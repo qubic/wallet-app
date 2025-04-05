@@ -26,18 +26,20 @@ class ThemedControls {
         ]));
   }
 
-  static Widget cardWithBg({required Widget child, required Color bgColor}) {
+  static Widget cardWithBg(
+      {required Widget child, required Color bgColor, EdgeInsets? padding}) {
     return Card(
         color: bgColor,
         elevation: 0,
         margin: EdgeInsets.zero,
         child: Column(children: [
           Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  ThemePaddings.normalPadding,
-                  ThemePaddings.normalPadding,
-                  ThemePaddings.normalPadding,
-                  ThemePaddings.normalPadding),
+              padding: padding ??
+                  const EdgeInsets.fromLTRB(
+                      ThemePaddings.normalPadding,
+                      ThemePaddings.normalPadding,
+                      ThemePaddings.normalPadding,
+                      ThemePaddings.normalPadding),
               child: child)
         ]));
   }

@@ -163,6 +163,7 @@
             }
         }
     },
+    "qxTransferSharesWarning": "This transaction record is currently visible only to the sender",
     "filterTransfersTitle": "Filter Transfers",
     "filterTransfersLabelAnyQubicID": "Any Qubic ID",
     "filterTransfersLabelByQubicID": "By Qubic ID",
