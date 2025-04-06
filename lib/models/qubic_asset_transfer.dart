@@ -10,7 +10,7 @@ class QubicAssetTransfer {
   factory QubicAssetTransfer.fromJson(Map<String, dynamic> json) {
     return QubicAssetTransfer(
         assetName: json['assetName'],
-        newOwnerAndPossessor: json['assetIssuer'],
+        newOwnerAndPossessor: json['newOwnerAndPossessor'],
         numberOfUnits: json['numberOfUnits']['value']);
   }
 
