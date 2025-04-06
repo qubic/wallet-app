@@ -112,6 +112,14 @@
             }
         }
     },
+    "generalErrorMaxCharLength": "Must be {maxCharLength} characters long.",
+    "@generalErrorMaxCharLength": {
+        "placeholders": {
+            "maxCharLength": {
+                "type": "int"
+            }
+        }
+    },
     "generalErrorValueMustBeLowerThan": "Must be less than {maxValuePlusOne}.",
     "@generalErrorValueMustBeLowerThan": {
         "placeholders": {
@@ -885,5 +893,5 @@
     "wcSignMessage": "Sign Message",
     "wcSignTransaction": "Sign Transaction",
     "assetButtonIssuerIdentity": "Issuer Identity",
-    "generalLabelMultipleReceivers" :"Multiple Receivers"
+    "generalLabelMultipleReceivers": "Multiple Receivers"
 }

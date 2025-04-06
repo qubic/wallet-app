@@ -184,6 +184,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
               errorText: l10n.generalErrorRequiredField),
+          FormBuilderValidators.maxLength(15,
+              errorText: l10n.generalErrorMaxCharLength(15)),
           FormBuilderValidators.minLength(3,
               errorText: l10n.generalErrorMinCharLength(3))
         ]),

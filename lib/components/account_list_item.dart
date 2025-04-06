@@ -132,6 +132,8 @@ class _AccountListItemState extends State<AccountListItem> {
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
                           errorText: l10n.generalErrorRequiredField),
+                      FormBuilderValidators.maxLength(15,
+                          errorText: l10n.generalErrorMaxCharLength(15)),
                       CustomFormFieldValidators.isNameAvailable(
                           currentQubicIDs: _appStore.currentQubicIDs,
                           ignorePublicId: widget.item.name,

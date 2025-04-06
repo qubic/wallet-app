@@ -305,6 +305,8 @@ class _AddAccountState extends State<AddAccount> {
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(
                               errorText: l10n.generalErrorRequiredField),
+                          FormBuilderValidators.maxLength(15,
+                              errorText: l10n.generalErrorMaxCharLength(15)),
                           CustomFormFieldValidators.isNameAvailable(
                               currentQubicIDs: appStore.currentQubicIDs,
                               context: context)
@@ -570,6 +572,8 @@ class _AddAccountState extends State<AddAccount> {
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
                             errorText: l10n.generalErrorRequiredField),
+                        FormBuilderValidators.maxLength(15,
+                            errorText: l10n.generalErrorMaxCharLength(15)),
                         CustomFormFieldValidators.isNameAvailable(
                             currentQubicIDs: appStore.currentQubicIDs,
                             context: context)
