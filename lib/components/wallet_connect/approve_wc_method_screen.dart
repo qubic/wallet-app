@@ -200,8 +200,6 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         case WalletConnectMethod.sendAsset:
           await onApproveSendAsset();
           break;
-        default:
-          break;
       }
     } catch (e) {
       switch (widget.method) {
@@ -220,8 +218,6 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         case WalletConnectMethod.sendAsset:
           navigator.pop(
               RequestSignTransactionResult.error(errorMessage: e.toString()));
-          break;
-        default:
           break;
       }
     } finally {
