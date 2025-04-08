@@ -11,11 +11,12 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/explorer_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
@@ -70,16 +71,7 @@ class _TransactionItemState extends State<TransactionItem> {
         // Callback that sets the selected popup menu item.
         onSelected: (CardItem menuItem) async {
           if (menuItem == CardItem.explorer) {
-            pushScreen(
-              context,
-              screen: ExplorerResultPage(
-                resultType: ExplorerResultType.transaction,
-                tick: widget.item.targetTick,
-                focusedTransactionHash: widget.item.id,
-              ),
-              withNavBar: false,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
+            viewTransactionInExplorer(context, widget.item.id);
           }
 
           if (menuItem == CardItem.clipboardCopy) {
@@ -111,7 +103,7 @@ class _TransactionItemState extends State<TransactionItem> {
                 value: CardItem.details,
                 child: Text(l10n.transactionItemButtonViewDetails),
               ),
-              if (widget.item.status == TransactionVmStatus.success)
+              if (TransactionActionHelpers.canViewInExplorer(widget.item))
                 PopupMenuItem<CardItem>(
                   value: CardItem.explorer,
                   child: Text(l10n.transactionItemButtonViewInExplorer),
@@ -120,19 +112,12 @@ class _TransactionItemState extends State<TransactionItem> {
                 value: CardItem.clipboardCopy,
                 child: Text(l10n.transactionItemButtonCopyToClipboard),
               ),
-              if (appStore.currentQubicIDs.any((e) =>
-                      e.publicId == widget.item.sourceId && !e.watchOnly) &&
-                  widget.item.getStatus() !=
-                      ComputedTransactionStatus.pending &&
-                  widget.item.amount > 0 &&
-                  widget.item.destId != QxInfo.mainAssetIssuer &&
-                  widget.item.destId != QutilInfo.address &&
-                  widget.item.destId != QxInfo.address)
+              if (TransactionActionHelpers.canResend(widget.item))
                 PopupMenuItem<CardItem>(
                   value: CardItem.resend,
                   child: Text(l10n.transactionItemButtonResend),
                 ),
-              if (widget.item.getStatus() == ComputedTransactionStatus.invalid)
+              if (TransactionActionHelpers.canDelete(widget.item))
                 PopupMenuItem<CardItem>(
                   value: CardItem.delete,
                   child: Text(l10n.generalButtonDelete),

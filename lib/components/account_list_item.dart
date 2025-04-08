@@ -10,11 +10,11 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';
+import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/assets.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/receive.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_warning_sheet.dart';
@@ -206,15 +206,7 @@ class _AccountListItemState extends State<AccountListItem> {
               }
 
               if (menuItem == CardItem.viewInExplorer) {
-                pushScreen(
-                  context,
-                  screen: ExplorerResultPage(
-                    resultType: ExplorerResultType.publicId,
-                    qubicId: widget.item.publicId,
-                  ),
-                  withNavBar: false,
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                );
+                viewAddressInExplorer(context, widget.item.publicId);
               }
 
               if (menuItem == CardItem.viewTransactions) {
@@ -356,17 +348,6 @@ class _AccountListItemState extends State<AccountListItem> {
 
     for (var key in widget.item.assets.keys) {
       var asset = widget.item.assets[key];
-      bool isToken = !QubicAssetDto.isSmartContractShare(asset!);
-
-      int num = asset.ownedAmount ?? asset.possessedAmount ?? 0;
-
-      String text;
-
-      if (isToken) {
-        text = l10n.generalUnitTokens(num);
-      } else {
-        text = l10n.generalUnitShares(num);
-      }
 
       shares.add(AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
@@ -375,21 +356,19 @@ class _AccountListItemState extends State<AccountListItem> {
             return SizeTransition(sizeFactor: animation, child: child);
             //return ScaleTransition(scale: animation, child: child);
           },
-          child: widget.item.assets[key] != null
-              ? AmountFormatted(
-                  key: ValueKey<String>(
-                      "qubicAsset${widget.item.publicId}-${key}-${widget.item.assets[key]}"),
-                  amount: widget.item.assets[key]!.ownedAmount,
-                  isInHeader: false,
-                  labelOffset: -0,
-                  labelHorizOffset: -6,
-                  textStyle: MediaQuery.of(context).size.width < 400
-                      ? TextStyles.accountAmount.copyWith(fontSize: 16)
-                      : TextStyles.accountAmount,
-                  labelStyle: TextStyles.accountAmountLabel,
-                  currencyName: '${widget.item.assets[key]!.assetName} $text',
-                )
-              : Container()));
+          child: AmountFormatted(
+            key: ValueKey<String>(
+                "qubicAsset${widget.item.publicId}-$key-$asset"),
+            amount: asset?.numberOfUnits,
+            isInHeader: false,
+            labelOffset: -0,
+            labelHorizOffset: -6,
+            textStyle: MediaQuery.of(context).size.width < 400
+                ? TextStyles.accountAmount.copyWith(fontSize: 16)
+                : TextStyles.accountAmount,
+            labelStyle: TextStyles.accountAmountLabel,
+            currencyName: asset!.issuedAsset.name,
+          )));
     }
     return AnimatedCrossFade(
         firstChild: Container(

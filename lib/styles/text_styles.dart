@@ -9,7 +9,7 @@ class TextStyles {
     color: LightThemeColors.textColorSecondary,
   );
 
-  static TextStyle pageTitle = const TextStyle(
+  static const TextStyle pageTitle = TextStyle(
     fontSize: ThemeFontSizes.pageTitle,
     fontWeight: FontWeight.bold,
     color: LightThemeColors.textTitle,

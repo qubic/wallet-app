@@ -149,7 +149,7 @@
     "generalCode": "Code",
     "appTabHome": "Home",
     "appTabTransfers": "Transfers",
-    "appTabExplorer": "Explorer",
+    "appTabExplore": "Explore",
     "appTabSettings": "Settings",
     "homeLabelTotalBalance": "Total Balance",
     "homeHeader": "Accounts in Wallet",
@@ -160,7 +160,7 @@
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "No transactions in this epoch for your accounts match your filters",
     "transfersLabelNoTransactionsFoundInWallet": "No transactions in this epoch for your accounts",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "No transactions in this epoch match your filters",
-    "transfersLabelNoTransactionsFoundInAccount": "No transactions in this epoch",
+    "transfersLabelNoTransactionsFoundInAccount": "No transactions found.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
     "transfersLabelFor": "Transfers for",
     "transfersLabelForAccount": "Transfers for \"{accountName}\"",
@@ -420,7 +420,6 @@
     "transactionItemButtonCopyToClipboard": "Copy to Clipboard",
     "transactionItemButtonViewDetails": "View Details",
     "transactionItemButtonResend": "Resend",
-    "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
     "transactionItemLabelConfirmedDate": "Timestamp",
     "transactionItemLabelDetails": "Transfer Details",
     "sendItemLabelTargetTick": "Target Tick",
@@ -829,7 +828,7 @@
     "wcOpenApp": "Open App",
     "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",
     "wcExpiresInLessThanDay": "Session expires less than day",
-    "pasteURLHere": "Paste URL here",
+    "pasteURLHere": "Paste URL",
     "approvingConnection": "Approving connection",
     "pleaseWait": "Please wait",
     "wcApproveSignTransferOf": "Sign the transfer of",
@@ -892,6 +891,45 @@
     "wcSendAssets": "Send Assets",
     "wcSignMessage": "Sign Message",
     "wcSignTransaction": "Sign Transaction",
+    "dAppOpenButton": "Open",
+    "dAppFeaturedApp": "Featured App",
+    "dAppPopularApps": "Popular dApps",
     "assetButtonIssuerIdentity": "Issuer Identity",
     "generalLabelMultipleReceivers": "Multiple Receivers"
+    "networksTitle": "Networks",
+    "networksButtonAddNetwork": "Add Network",
+    "networksConfirmationDialogTitleDeleteNetwork": "Delete {networkName}?",
+    "@networksConfirmationDialogTitleDeleteNetwork": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "networksConfirmationDialogContentDeleteNetwork": "Are you sure you want to delete your custom network {networkName}?",
+    "@networksConfirmationDialogContentDeleteNetwork": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "networksLabelDefault": "Default",
+    "networksButtonSetAsDefault": "Set as Default",
+    "addNetworkTitle": "Add Custom Network",
+    "addNetworkLabelNetworkName": "Network Name",
+    "addNetworkTextFieldHintNetworkName": "Eg: Qubic Mainnet",
+    "addNetworkLabelRPCURL": "RPC URL",
+    "addNetworkLabelQubicExplorerURL": "Explorer URL",
+    "networksWarningBannerCurrentNetwork": "You are currently in {networkName}",
+    "@networksWarningBannerCurrentNetwork": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "generalLabelMultipleReceivers": "Multiple Receivers",
+    "webviewAddressBarLabelRefresh": "Refresh",
+    "webviewAddressBarLabelShareURL": "Share URL"
 }

@@ -19,7 +19,6 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/pages/auth/create_password.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -348,7 +347,6 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         await appStore.checkWalletIsInitialized();
         await appStore.addId(
             accountNameCtrl.text, generatedPublicId!, privateSeedCtrl.text);
-        await getIt<QubicLi>().authenticate();
       } catch (e) {
         showAlertDialog(
             context, l10n.generalErrorContactingQubicNetwork, e.toString());

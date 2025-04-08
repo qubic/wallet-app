@@ -17,7 +17,6 @@ import 'package:qubic_wallet/pages/auth/import_selector.dart';
 import 'package:qubic_wallet/pages/auth/sign_up.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_hub_store.dart';
@@ -243,7 +242,7 @@ class _SignInState extends State<SignIn>
 
       if (didAuthenticate) {
         await _appStore.biometricSignIn();
-        await authSuccess();
+        context.goNamed("mainScreen");
       }
       setState(() {
         isLoading = false;
@@ -275,24 +274,6 @@ class _SignInState extends State<SignIn>
     }
   }
 
-  Future<void> authSuccess() async {
-    final l10n = l10nOf(context);
-
-    try {
-      await getIt<QubicLi>().authenticate();
-      setState(() {
-        isLoading = false;
-      });
-      context.goNamed("mainScreen");
-    } catch (e) {
-      showAlertDialog(
-          context, l10n.generalErrorContactingQubicNetwork, e.toString());
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
   void signInHandler() async {
     final l10n = l10nOf(context);
 
@@ -310,7 +291,9 @@ class _SignInState extends State<SignIn>
       });
       if (await _appStore
           .signIn(_formKey.currentState!.instantValue["password"])) {
-        authSuccess();
+        setState(() {
+          isLoading = false;
+        });
       } else {
         setState(() {
           isLoading = false;

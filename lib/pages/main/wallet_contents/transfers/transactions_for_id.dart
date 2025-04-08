@@ -1,15 +1,22 @@
 // ignore: depend_on_referenced_packages
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
+import 'package:qubic_wallet/components/custom_paged_list_view.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/pagination_request_model.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
+import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transactions.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -28,6 +35,20 @@ class TransactionsForId extends StatefulWidget {
 class _TransactionsForIdState extends State<TransactionsForId> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final TimedController _timedController = getIt<TimedController>();
+  final QubicArchiveApi qubicArchiveApi = getIt<QubicArchiveApi>();
+  final int pageSize = 20;
+  late final PagingController<int, TransactionDto> _pagingController =
+      PagingController<int, TransactionDto>(
+    fetchPage: (pageKey) async {
+      final data = await qubicArchiveApi.getAddressTransfers(
+          widget.publicQubicId,
+          PaginationRequestModel(
+              page: pageKey, pageSize: pageSize, isDescending: true));
+
+      return data;
+    },
+    getNextPageKey: (state) => customNextPage(state, pageSize),
+  );
 
   QubicListVm? walletItem;
   bool showFilterForm = false;
@@ -102,7 +123,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                         selectedDirection = null;
                       });
                       // _formKey.currentState!.fields['status']?.setState(() {
-                      //   _formKey.currentState!.fields['status']?.didChange(null);
+                      // _formKey.currentState!.fields['status']?.didChange(null);
                       // });
                     },
                   )),
@@ -117,17 +138,18 @@ class _TransactionsForIdState extends State<TransactionsForId> {
             return Container(
               alignment: Alignment.centerLeft,
               child: Row(
-                  children: item.value != null
-                      ? getDirectionLabel(item.value)
-                      : [
-                          Text(
-                            l10n.generalLabelAnyDirection,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(fontStyle: FontStyle.italic),
-                          )
-                        ]),
+                children: item.value != null
+                    ? getDirectionLabel(item.value)
+                    : [
+                        Text(
+                          l10n.generalLabelAnyDirection,
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(fontStyle: FontStyle.italic),
+                        )
+                      ],
+              ),
             );
           }).toList();
         },
@@ -138,110 +160,107 @@ class _TransactionsForIdState extends State<TransactionsForId> {
   void initState() {
     super.initState();
     walletItem = appStore.findAccountById(widget.publicQubicId);
-    transactionFilter = TransactionFilter(qubicId: widget.publicQubicId);
   }
 
-  TransactionFilter? transactionFilter;
+  late TransactionFilter transactionFilter =
+      TransactionFilter(qubicId: widget.publicQubicId);
 
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        actions: [
+          Visibility(
+            visible: false, // Change to true to show
+            child: IconButton(
               icon: const ImageIcon(AssetImage('assets/images/filter_trx.png'),
                   color: LightThemeColors.primary),
               onPressed: () async {
                 final selectedFilter = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          FilterTransactions(initialFilter: transactionFilter),
-                    ));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        FilterTransactions(initialFilter: transactionFilter),
+                  ),
+                );
                 if (selectedFilter != null) {
                   setState(() {
                     transactionFilter = selectedFilter;
+                    _pagingController
+                        .refresh(); // Refresh the data when filter changes
                   });
                 }
               },
             ),
-            ThemedControls.spacerHorizontalSmall(),
-          ],
+          ),
+          ThemedControls.spacerHorizontalSmall(),
+        ],
+      ),
+      body: SafeArea(
+        minimum: ThemeEdgeInsets.pageInsets
+            .copyWith(bottom: ThemePaddings.normalPadding),
+        child: AdaptiveRefreshIndicator(
+          onRefresh: () async {
+            _pagingController.refresh();
+            await _timedController.interruptFetchTimer();
+          },
+          backgroundColor: LightThemeColors.refreshIndicatorBackground,
+          child: Column(
+            children: [
+              ThemedControls.pageHeader(
+                  headerText: (widget.item == null
+                      ? l10n.transfersLabelFor
+                      : l10n.transfersLabelForAccount(widget.item!.name)),
+                  subheaderText: null),
+              Expanded(
+                child: CustomPagedListView<int, TransactionDto>(
+                  pagingController: _pagingController,
+                  separatorBuilder: (context, index) => const SizedBox(
+                    height: ThemePaddings.normalPadding,
+                  ),
+                  itemBuilder: (context, item, index) {
+                    return TransactionItem(
+                        item: TransactionVm.fromTransactionDto(item));
+                  },
+                  firstPageProgressIndicatorBuilder: (context) =>
+                      const Center(child: CircularProgressIndicator()),
+                  firstPageErrorIndicatorBuilder: (context) =>
+                      TransactionUIHelpers.getEmptyTransactionsForSingleID(
+                          context: context,
+                          hasFiltered: transactionFilter.status != null ||
+                              transactionFilter.direction != null,
+                          numberOfFilters:
+                              transactionFilter.totalActiveFilters - 1,
+                          onTap: () {
+                            setState(() {
+                              transactionFilter = TransactionFilter(
+                                  qubicId: widget.publicQubicId);
+                              _pagingController.refresh();
+                            });
+                          }),
+                  noItemsFoundIndicatorBuilder: (context) =>
+                      TransactionUIHelpers.getEmptyTransactionsForSingleID(
+                          context: context,
+                          hasFiltered: transactionFilter.status != null ||
+                              transactionFilter.direction != null,
+                          numberOfFilters:
+                              transactionFilter.totalActiveFilters - 1,
+                          onTap: () {
+                            setState(() {
+                              transactionFilter = TransactionFilter(
+                                  qubicId: widget.publicQubicId);
+                              _pagingController.refresh();
+                            });
+                          }),
+                  //padding: ThemeEdgeInsets.pageInsets,
+                ),
+              ),
+            ],
+          ),
         ),
-        body: SafeArea(
-            minimum: ThemeEdgeInsets.pageInsets
-                .copyWith(bottom: ThemePaddings.normalPadding),
-            child: AdaptiveRefreshIndicator(
-              onRefresh: () async {
-                await _timedController.interruptFetchTimer();
-              },
-              backgroundColor: LightThemeColors.refreshIndicatorBackground,
-              child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        ThemedControls.pageHeader(
-                            headerText: (widget.item == null
-                                ? l10n.transfersLabelFor
-                                : l10n.transfersLabelForAccount(
-                                    widget.item!.name)),
-                            subheaderText: null),
-                        Builder(builder: (context) {
-                          List<Widget> results = [];
-                          for (var tran
-                              in appStore.currentTransactions.reversed) {
-                            bool matchesItem = true;
-                            if (transactionFilter != null) {
-                              matchesItem = transactionFilter!.matchesVM(tran);
-                            }
-                            if (matchesItem) {
-                              results.add(TransactionItem(item: tran));
-                              results.add(const SizedBox(
-                                  height: ThemePaddings.normalPadding));
-                            }
-                          }
-                          if (results.isEmpty) {
-                            results.add(TransactionUIHelpers
-                                .getEmptyTransactionsForSingleID(
-                                    context: context,
-                                    hasFiltered: transactionFilter?.status !=
-                                            null ||
-                                        transactionFilter?.direction != null,
-                                    numberOfFilters:
-                                        transactionFilter!.totalActiveFilters -
-                                            1,
-                                    onTap: () {
-                                      setState(() {
-                                        transactionFilter = TransactionFilter(
-                                            qubicId: widget.publicQubicId);
-                                      });
-                                    }));
-                          } else {
-                            results.insert(
-                                0,
-                                TransactionUIHelpers.getTransactionFiltersInfo(
-                                    context,
-                                    numberOfFilters:
-                                        transactionFilter!.totalActiveFilters -
-                                            1,
-                                    numberOfResults: results.length ~/ 2,
-                                    onTap: () {
-                                  setState(() {
-                                    transactionFilter = TransactionFilter(
-                                        qubicId: widget.publicQubicId);
-                                  });
-                                }));
-                          }
-                          return Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: results);
-                        })
-                      ])),
-            )));
+      ),
+    );
   }
 }
