@@ -12,7 +12,6 @@ import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 
@@ -29,7 +28,6 @@ void setupDI() {
   //Stores
   getIt.registerSingleton<ApplicationStore>(ApplicationStore());
   getIt.registerSingleton<SettingsStore>(SettingsStore());
-  getIt.registerSingleton<QubicHubStore>(QubicHubStore());
   getIt.registerSingleton<SecureStorage>(SecureStorage());
   getIt.registerSingleton<HiveStorage>(HiveStorage());
 

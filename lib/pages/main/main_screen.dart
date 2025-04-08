@@ -23,7 +23,6 @@ import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
@@ -41,7 +40,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   late final PersistentTabController _controller;
   final _timedController = getIt<TimedController>();
-  final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final ApplicationStore applicationStore = getIt<ApplicationStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
