@@ -318,7 +318,7 @@ class TextStyles {
   static TextStyle qubicAmountLight = TextStyle(
     fontSize: ThemeFontSizes.huge,
     fontWeight: FontWeight.w400,
-    color: LightThemeColors.primary.withOpacity(0.1),
+    color: LightThemeColors.primary.withValues(alpha: 0.1),
   );
 
   static TextStyle destructiveButtonText = const TextStyle(

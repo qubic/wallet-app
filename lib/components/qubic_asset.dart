@@ -17,11 +17,11 @@ class QubicAsset extends StatelessWidget {
         .copyWith(fontFamily: ThemeFonts.primary);
     TextStyle transparentStyle = opaqueStyle.copyWith(
         color:
-            Theme.of(context).textTheme.titleMedium?.color!.withOpacity(0.1));
+            Theme.of(context).textTheme.titleMedium?.color!.withValues(alpha: 0.1));
     TextStyle defaultStyle = opaque ? opaqueStyle : transparentStyle;
 
     TextStyle? transparentOverridenStyle = style?.copyWith(
-      color: style!.color!.withOpacity(0.1),
+      color: style!.color!.withValues(alpha: 0.1),
     );
 
     TextStyle? overridenStyle = style == null
@@ -72,7 +72,7 @@ class QubicAsset extends StatelessWidget {
       output.add(SkeletonAnimation(
           borderRadius: BorderRadius.circular(2.0),
           shimmerColor:
-              Theme.of(context).textTheme.titleMedium!.color!.withOpacity(0.3),
+              Theme.of(context).textTheme.titleMedium!.color!.withValues(alpha: 0.3),
           shimmerDuration: 3000,
           curve: Curves.easeInOutCirc,
           child: Container(
@@ -84,7 +84,7 @@ class QubicAsset extends StatelessWidget {
                     .textTheme
                     .titleMedium
                     ?.color!
-                    .withOpacity(0.1)),
+                    .withValues(alpha: 0.1)),
           )));
 
       return Row(mainAxisAlignment: MainAxisAlignment.center, children: output);

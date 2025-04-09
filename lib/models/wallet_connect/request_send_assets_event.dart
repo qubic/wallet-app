@@ -1,11 +1,12 @@
+import 'package:collection/collection.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+
 import 'package:qubic_wallet/helpers/id_validators.dart';
+import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/models/wallet_connect.dart';
-import 'package:collection/collection.dart';
 
 import '../../di.dart';
 

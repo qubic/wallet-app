@@ -85,6 +85,7 @@ class _AddAccountState extends State<AddAccount> {
         });
       } catch (e) {
         if (e.toString().startsWith("Exception: CRITICAL:")) {
+          if (!mounted) return;
           showAlertDialog(
               context,
               l10n.addAccountErrorTamperedWalletTitle,
@@ -815,7 +816,7 @@ class _AddAccountState extends State<AddAccount> {
 
     walletConnectService.triggerAccountsChangedEvent();
 
-    if (context.mounted) {
+    if (mounted) {
       Navigator.pop(context);
     }
   }

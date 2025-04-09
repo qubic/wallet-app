@@ -17,7 +17,6 @@ import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -39,8 +38,8 @@ Future<void> main() async {
 
   getIt.get<SettingsStore>().loadSettings();
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  getIt.get<QubicHubStore>().setVersion(packageInfo.version);
-  getIt.get<QubicHubStore>().setBuildNumber(packageInfo.buildNumber);
+  getIt.get<SettingsStore>().setVersion(packageInfo.version);
+  getIt.get<SettingsStore>().setBuildNumber(packageInfo.buildNumber);
 
   getIt.get<ApplicationStore>().checkWalletIsInitialized();
 
@@ -125,8 +124,6 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
           onSecondary: LightThemeColors.surface,
           error: LightThemeColors.error,
           onError: LightThemeColors.extraStrongBackground,
-          background: LightThemeColors.background,
-          onBackground: LightThemeColors.primary,
           surface: LightThemeColors.surface,
           onSurface: LightThemeColors.primary,
           seedColor: LightThemeColors.panelBackground,
@@ -160,7 +157,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
                   colorOpacity: 0.5,
                   blurColor: Colors.black,
                   child: Container(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                   ),
                 ),
               ),

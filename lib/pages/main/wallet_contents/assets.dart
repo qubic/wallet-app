@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/components/asset_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -8,7 +7,6 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
-
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -28,23 +26,8 @@ class _AssetsState extends State<Assets> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   late final QubicListVm accountItem;
-  late final reactionDispose;
 
   String? generatedPublicId;
-  @override
-  void initState() {
-    super.initState();
-    reactionDispose = autorun((_) {
-      accountItem = appStore.currentQubicIDs
-          .firstWhere((element) => element.publicId == widget.publicId);
-    });
-  }
-
-  @override
-  void dispose() {
-    reactionDispose();
-    super.dispose();
-  }
 
   Widget getAssetLine(QubicAssetDto asset) {
     return Text(asset.issuedAsset.name);

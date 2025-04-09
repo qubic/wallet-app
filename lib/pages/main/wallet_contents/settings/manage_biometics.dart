@@ -41,7 +41,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   @override
   void initState() {
     super.initState();
-
+    final l10n = l10nOf(context);
     auth.canCheckBiometrics.then((value) {
       setState(() {
         canCheckBiometrics = value;
@@ -54,7 +54,6 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       }
 
       auth.getAvailableBiometrics().then((value) {
-        final l10n = l10nOf(context);
         setState(() {
           availableBiometrics = value;
           canUseBiometrics = value.isNotEmpty;
@@ -158,7 +157,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       //Theme.of(context).cardTheme.color,
       settingsListBackground: Colors.transparent,
       dividerColor: Colors.transparent,
-      titleTextColor: Theme.of(context).colorScheme.onBackground,
+      titleTextColor: Theme.of(context).colorScheme.onSurface,
     );
     return Column(children: [
       const SizedBox(height: ThemePaddings.hugePadding),
@@ -265,7 +264,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
+          SizedBox(
               child: Expanded(
                   child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

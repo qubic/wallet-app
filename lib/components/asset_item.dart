@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -47,29 +47,28 @@ class _AssetItemState extends State<AssetItem> {
   Widget getAssetButtonBar(QubicAssetDto asset) {
     final l10n = l10nOf(context);
 
-    return Container(
-      child: ButtonBar(
-          alignment: MainAxisAlignment.start,
-          buttonPadding:
-              const EdgeInsets.fromLTRB(ThemePaddings.hugePadding, 0, 0, 0),
-          children: [
-            ThemedControls.primaryButtonBig(
-                onPressed: () {
-                  // Perform some action
-                  pushScreen(
-                    context,
-                    screen: TransferAsset(
-                        item: widget.account, asset: widget.asset),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
-                },
-                text: l10n.assetsButtonSend,
-                icon: LightThemeColors.shouldInvertIcon
-                    ? ThemedControls.invertedColors(
-                        child: Image.asset("assets/images/send.png"))
-                    : Image.asset("assets/images/send.png")),
-          ]),
+    return Padding(
+      padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+      child: OverflowBar(
+        alignment: MainAxisAlignment.start,
+        children: [
+          ThemedControls.primaryButtonBig(
+              onPressed: () {
+                pushScreen(
+                  context,
+                  screen:
+                      TransferAsset(item: widget.account, asset: widget.asset),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              },
+              text: l10n.assetsButtonSend,
+              icon: LightThemeColors.shouldInvertIcon
+                  ? ThemedControls.invertedColors(
+                      child: Image.asset("assets/images/send.png"))
+                  : Image.asset("assets/images/send.png")),
+        ],
+      ),
     );
   }
 

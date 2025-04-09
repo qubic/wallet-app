@@ -30,7 +30,6 @@ class DAppModel {
   }
 }
 
-//TODO Adjust as needed
 final featuredApp = DAppModel(
   name: "Qubic",
   icon: "assets/images/qx.jpg",
@@ -46,7 +45,6 @@ final Observable<DAppModel> explorerApp = Observable(DAppModel(
     url: getIt<NetworkStore>().explorerUrl,
     description: "Access easily to all the blockchain data."));
 
-//TODO Adjust as needed
 final List<DAppModel> dAppsList = [
   DAppModel(
     name: "Qx",

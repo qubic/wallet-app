@@ -15,7 +15,6 @@ import 'package:qubic_wallet/models/pagination_request_model.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
-import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transactions.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/stored_transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';

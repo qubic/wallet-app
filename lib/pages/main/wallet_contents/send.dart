@@ -4,16 +4,15 @@ import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
-import 'package:qubic_wallet/helpers/sendTransaction.dart';
+import 'package:qubic_wallet/helpers/send_transaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -354,7 +353,7 @@ class _SendState extends State<Send> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
+          SizedBox(
               child: Expanded(
                   child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -614,7 +613,7 @@ class _SendState extends State<Send> {
       _formKey.currentState?.validate();
       return;
     }
-
+    if (!mounted) return;
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
       return;
@@ -633,7 +632,7 @@ class _SendState extends State<Send> {
       int latestTick = (await _liveApi.getCurrentTick()).tick;
       targetTick = latestTick + targetTickType.value;
     }
-
+    if (!mounted) return;
     SignedTransaction? result = await sendTransactionDialog(
         context,
         widget.item.publicId,

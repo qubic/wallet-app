@@ -53,9 +53,8 @@ class _ChangePasswordState extends State<ChangePassword> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
@@ -147,7 +146,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                         ),
                       ]))
             ],
-          )))
+          ))
         ]));
   }
 
@@ -221,12 +220,14 @@ class _ChangePasswordState extends State<ChangePassword> {
         snackBar.show(l10n.changePasswordSnackbarPasswordChanged);
         //appStore.reportGlobalNotification("Password changed successfully");
       } else {
+        if (!mounted) return;
         showAlertDialog(context, l10n.changePasswordDialogSaveErrorTitle,
             l10n.changePasswordDialogSaveErrorMessage);
         setState(() {
           isLoading = false;
         });
       }
+      if (!mounted) return;
       Navigator.pop(context);
     }
   }

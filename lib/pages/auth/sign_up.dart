@@ -101,9 +101,9 @@ class _ReceiveState extends State<SignUp> {
           child: Switch(
               activeColor: LightThemeColors.primary,
               activeTrackColor: LightThemeColors.buttonPrimary,
-              trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
-                  (Set<MaterialState> states) {
-                return Colors.orange.withOpacity(0);
+              trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+                  (Set<WidgetState> states) {
+                return Colors.orange.withValues(alpha: 0);
               }),
               value: enabledBiometrics,
               onChanged: (value) async {
@@ -227,9 +227,8 @@ class _ReceiveState extends State<SignUp> {
       subheader = l10n.signUpStepTwoSubHeaderForDesktop;
     }
 
-    return Container(
-        child: Expanded(
-            child: Column(
+    return Expanded(
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ThemedControls.pageHeader(headerText: title, subheaderText: ""),
@@ -237,14 +236,13 @@ class _ReceiveState extends State<SignUp> {
         ThemedControls.spacerVerticalNormal(),
         biometricsControls()
       ],
-    )));
+    ));
   }
 
   Widget getStep1() {
     final l10n = l10nOf(context);
-    return Container(
-        child: Expanded(
-            child: Column(
+    return Expanded(
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ThemedControls.pageHeader(
@@ -252,7 +250,7 @@ class _ReceiveState extends State<SignUp> {
         Text(l10n.signUpStepOneSubHeader, style: TextStyles.secondaryText),
         FormBuilder(key: _formKey, child: Column(children: getSignUpForm()))
       ],
-    )));
+    ));
   }
 
   //Gets the container scroll view
@@ -346,6 +344,7 @@ class _ReceiveState extends State<SignUp> {
       try {
         await appStore.checkWalletIsInitialized();
       } catch (e) {
+        if (!mounted) return;
         showAlertDialog(
             context, l10n.generalErrorContactingQubicNetwork, e.toString());
         setState(() {
@@ -360,9 +359,11 @@ class _ReceiveState extends State<SignUp> {
           isLoading = false;
         });
       } catch (e) {
+        if (!mounted) return;
         showAlertDialog(
             context, l10n.signUpErrorStoringBiometricInfo, e.toString());
       }
+      if (!mounted) return;
       context.goNamed("mainScreen");
     } else {
       setState(() {
