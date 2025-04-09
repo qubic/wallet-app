@@ -276,50 +276,50 @@ class _AccountListItemState extends State<AccountListItem> {
   Widget getButtonBar(BuildContext context) {
     final l10n = l10nOf(context);
 
-    return ButtonBar(
-      alignment: MainAxisAlignment.start,
-      overflowDirection: VerticalDirection.down,
-      overflowButtonSpacing: ThemePaddings.smallPadding,
-      buttonPadding: const EdgeInsets.fromLTRB(ThemeFontSizes.large,
-          ThemeFontSizes.large, ThemeFontSizes.large, ThemeFontSizes.large),
-      children: isItemWatchOnly()
-          ? [getAssetsButton(context)]
-          : [
-              widget.item.amount != null //&& widget.item.
-                  ? ThemedControls.primaryButtonBig(
-                      onPressed: () {
-                        // Perform some action
-                        pushScreen(
-                          context,
-                          screen: Send(item: widget.item),
-                          withNavBar: false, // OPTIONAL VALUE. True by default.
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                      },
-                      text: l10n.accountButtonSend,
-                      icon: LightThemeColors.shouldInvertIcon
-                          ? ThemedControls.invertedColors(
-                              child: Image.asset("assets/images/send.png"))
-                          : Image.asset("assets/images/send.png"))
-                  : Container(),
-              ThemedControls.primaryButtonBig(
-                onPressed: () {
-                  pushScreen(
-                    context,
-                    screen: Receive(item: widget.item),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
-                },
-                icon: !LightThemeColors.shouldInvertIcon
-                    ? ThemedControls.invertedColors(
-                        child: Image.asset("assets/images/receive.png"))
-                    : Image.asset("assets/images/receive.png"),
-                text: l10n.accountButtonReceive,
-              ),
-              getAssetsButton(context),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+      child: OverflowBar(
+        alignment: MainAxisAlignment.start,
+        spacing: ThemePaddings.normalPadding,
+        children: isItemWatchOnly()
+            ? [getAssetsButton(context)]
+            : [
+                widget.item.amount != null
+                    ? ThemedControls.primaryButtonBig(
+                        onPressed: () {
+                          pushScreen(
+                            context,
+                            screen: Send(item: widget.item),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                        text: l10n.accountButtonSend,
+                        icon: LightThemeColors.shouldInvertIcon
+                            ? ThemedControls.invertedColors(
+                                child: Image.asset("assets/images/send.png"))
+                            : Image.asset("assets/images/send.png"))
+                    : Container(),
+                ThemedControls.primaryButtonBig(
+                  onPressed: () {
+                    pushScreen(
+                      context,
+                      screen: Receive(item: widget.item),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    );
+                  },
+                  icon: !LightThemeColors.shouldInvertIcon
+                      ? ThemedControls.invertedColors(
+                          child: Image.asset("assets/images/receive.png"))
+                      : Image.asset("assets/images/receive.png"),
+                  text: l10n.accountButtonReceive,
+                ),
+                getAssetsButton(context),
+              ],
+      ),
     );
   }
 
@@ -336,7 +336,7 @@ class _AccountListItemState extends State<AccountListItem> {
                 pageTransitionAnimation: PageTransitionAnimation.cupertino,
               );
             })
-        : Container();
+        : const SizedBox.shrink();
   }
 
   Widget getAssets(BuildContext context) {
