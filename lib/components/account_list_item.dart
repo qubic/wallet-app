@@ -229,9 +229,11 @@ class _AccountListItemState extends State<AccountListItem> {
                               item: widget.item,
                               onAccept: () async {
                                 if (await reAuthDialog(context) == false) {
+                                  if (!context.mounted) return;
                                   Navigator.pop(context);
                                   return;
                                 }
+                                if (!context.mounted) return;
                                 Navigator.pop(context);
                                 pushScreen(
                                   context,

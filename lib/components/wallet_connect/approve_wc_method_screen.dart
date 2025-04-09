@@ -144,6 +144,7 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     final navigator = Navigator.of(context);
     final l10n = l10nOf(context);
     final targetTick = await wCModalsController.getTargetTick(widget.data.tick);
+    if (!mounted) return;
     final result = await sendAssetTransferTransactionDialog(
         context,
         widget.data.fromID,

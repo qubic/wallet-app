@@ -41,7 +41,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   @override
   void initState() {
     super.initState();
-
+    final l10n = l10nOf(context);
     auth.canCheckBiometrics.then((value) {
       setState(() {
         canCheckBiometrics = value;
@@ -54,7 +54,6 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       }
 
       auth.getAvailableBiometrics().then((value) {
-        final l10n = l10nOf(context);
         setState(() {
           availableBiometrics = value;
           canUseBiometrics = value.isNotEmpty;

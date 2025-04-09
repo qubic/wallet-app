@@ -240,6 +240,7 @@ class _SignInState extends State<SignIn>
 
       if (didAuthenticate) {
         await _appStore.biometricSignIn();
+        if (!mounted) return;
         context.goNamed("mainScreen");
       }
       setState(() {
@@ -329,6 +330,7 @@ class _SignInState extends State<SignIn>
                         _appStore.checkWalletIsInitialized();
                         _appStore.signOut();
                         _timedController.stopFetchTimers();
+                        if (!context.mounted) return;
                         Navigator.pop(context);
                         _globalSnackbar
                             .show(l10n.generalSnackBarMessageWalletDataErased);
@@ -545,7 +547,7 @@ class _SignInState extends State<SignIn>
       padding: const EdgeInsets.all(
         ThemePaddings.bigPadding,
       ),
-      child: Container(
+      child: SizedBox(
           width: double.infinity,
           child: Padding(
               padding: EdgeInsets.only(
@@ -638,7 +640,7 @@ class _SignInState extends State<SignIn>
 
   @override
   void didChangeMetrics() {
-    final value = WidgetsBinding.instance.window.viewInsets.bottom;
+    final value = View.of(context).viewInsets.bottom;
     setState(() {
       isKeyboardVisible = value > 50.0;
     });

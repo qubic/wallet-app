@@ -230,6 +230,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
             } catch (e) {
               if (e.toString().startsWith("Exception: CRITICAL:")) {
                 appLogger.w("CRITICAL");
+                if (!mounted) return;
                 showAlertDialog(
                     context,
                     l10n.addAccountErrorTamperedWalletTitle,
@@ -346,6 +347,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         await appStore.addId(
             accountNameCtrl.text, generatedPublicId!, privateSeedCtrl.text);
       } catch (e) {
+        if (!mounted) return;
         showAlertDialog(
             context, l10n.generalErrorContactingQubicNetwork, e.toString());
         setState(() {
@@ -359,12 +361,14 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
           isLoading = false;
         });
       } catch (e) {
+        if (!mounted) return;
         showAlertDialog(
             context, l10n.signUpErrorStoringBiometricInfo, e.toString());
       }
 
       appStore.checkWalletIsInitialized();
       settingsStore.setBiometrics(enabledBiometrics);
+      if (!mounted) return;
       context.goNamed("mainScreen");
       _globalSnackbar
           .show(l10n.generalSnackBarMessageWalletImportedSuccessfully);

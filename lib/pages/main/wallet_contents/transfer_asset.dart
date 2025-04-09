@@ -650,7 +650,7 @@ class _TransferAssetState extends State<TransferAsset> {
       _formKey.currentState?.validate();
       return;
     }
-
+    if (!mounted) return;
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
       return;
@@ -669,7 +669,7 @@ class _TransferAssetState extends State<TransferAsset> {
       int latestTick = (await _liveApi.getCurrentTick()).tick;
       targetTick = latestTick + targetTickType.value;
     }
-
+    if (!mounted) return;
     var result = await sendAssetTransferTransactionDialog(
         context,
         widget.item.publicId,
@@ -693,7 +693,7 @@ class _TransferAssetState extends State<TransferAsset> {
       // TODO can be replaced later to jump to a screen where the list of pending trx is displayed
       //getIt.get<PersistentTabController>().jumpToTab(1);
     });
-
+    if (!mounted) return;
     Navigator.pop(context);
 
     _globalSnackBar.show(l10n

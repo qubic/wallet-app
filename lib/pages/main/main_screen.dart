@@ -215,12 +215,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         //Need to call any extra navigation effects after the builder has finished
         Future.delayed(const Duration(seconds: 1), () {
+          if (!mounted) return;
           appLinkController.parseUriString(
               applicationStore.currentInboundUri!, context);
         });
       });
     }
     getIt<AppLinks>().uriLinkStream.listen((uri) {
+      if (!mounted) return;
       appLinkController.parseUriString(
           applicationStore.currentInboundUri!, context);
     });

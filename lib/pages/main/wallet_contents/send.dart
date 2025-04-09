@@ -613,7 +613,7 @@ class _SendState extends State<Send> {
       _formKey.currentState?.validate();
       return;
     }
-
+    if (!mounted) return;
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
       return;
@@ -632,7 +632,7 @@ class _SendState extends State<Send> {
       int latestTick = (await _liveApi.getCurrentTick()).tick;
       targetTick = latestTick + targetTickType.value;
     }
-
+    if (!mounted) return;
     SignedTransaction? result = await sendTransactionDialog(
         context,
         widget.item.publicId,
