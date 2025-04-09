@@ -30,12 +30,12 @@ class TransactionResend extends StatelessWidget {
       Observer(builder: (context) {
         QubicListVm? source = appStore.findAccountById(accountId);
         if (source != null) {
-          return Container(
+          return SizedBox(
               width: double.infinity,
               child: Text(l10n.generalLabelToFromAccount(prepend, source.name),
                   style: TextStyles.labelText));
         }
-        return Container(
+        return SizedBox(
             width: double.infinity,
             child: Text(l10n.generalLabelToFromAddress(prepend),
                 style: TextStyles.labelText));
