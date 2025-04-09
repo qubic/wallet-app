@@ -15,10 +15,10 @@ class RevealSeedContents extends StatefulWidget {
   const RevealSeedContents({super.key, required this.item});
 
   @override
-  _RevealSeedContentsState createState() => _RevealSeedContentsState();
+  RevealSeedContentsState createState() => RevealSeedContentsState();
 }
 
-class _RevealSeedContentsState extends State<RevealSeedContents> {
+class RevealSeedContentsState extends State<RevealSeedContents> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   String? generatedPublicId;
