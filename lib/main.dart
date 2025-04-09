@@ -124,8 +124,6 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
           onSecondary: LightThemeColors.surface,
           error: LightThemeColors.error,
           onError: LightThemeColors.extraStrongBackground,
-          background: LightThemeColors.background,
-          onBackground: LightThemeColors.primary,
           surface: LightThemeColors.surface,
           onSurface: LightThemeColors.primary,
           seedColor: LightThemeColors.panelBackground,

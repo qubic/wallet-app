@@ -55,43 +55,11 @@ class TimedController extends WidgetsBindingObserver {
           appStore.currentQubicIDs.map((e) => e.publicId).toList();
 
       //Fetch network balances
-      //if (!_apiService.gettingNetworkBalances) { // TODO IMPORTANT!!!
-      if (true) {
-        _liveApi.getQubicBalances(myIds).then((balances) {
-          //_apiService.getNetworkBalances(myIds).then((balances) {
-          Map<String, int> changedIds = appStore.setAmounts(balances);
-          if (changedIds.isNotEmpty) {
-            Map<String, int> changedIdsWithSeed = {};
-
-            //Filter out only non WatchOnly accounts
-            for (var element in changedIds.entries) {
-              if (appStore.currentQubicIDs.any((currentQubicId) {
-                return currentQubicId.publicId == element.key &&
-                    currentQubicId.watchOnly == false;
-              })) {
-                changedIdsWithSeed[element.key] = element.value;
-              }
-            }
-            if (changedIdsWithSeed.isNotEmpty) {
-              _walletConnectService
-                  .triggerAmountChangedEvent(changedIdsWithSeed);
-            }
-          }
-        }, onError: (e) {
-          appStore
-              .reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-        });
-      }
-
-      //Fetch network assets
-      //if (!_apiService.gettingNetworkAssets) { // TODO IMPORTANT!!
-      if (true) {
-        _liveApi.getCurrentAssets(myIds).then((assets) {
-          //_apiService.getCurrentAssets(myIds).then((assets) {
-          Map<String, List<QubicAssetDto>> changedIds =
-              appStore.setAssets(assets);
-
-          Map<String, List<QubicAssetDto>> changedIdsWithSeed = {};
+      _liveApi.getQubicBalances(myIds).then((balances) {
+        //_apiService.getNetworkBalances(myIds).then((balances) {
+        Map<String, int> changedIds = appStore.setAmounts(balances);
+        if (changedIds.isNotEmpty) {
+          Map<String, int> changedIdsWithSeed = {};
 
           //Filter out only non WatchOnly accounts
           for (var element in changedIds.entries) {
@@ -102,16 +70,39 @@ class TimedController extends WidgetsBindingObserver {
               changedIdsWithSeed[element.key] = element.value;
             }
           }
-
           if (changedIdsWithSeed.isNotEmpty) {
-            _walletConnectService
-                .triggerAssetAmountChangedEvent(changedIdsWithSeed);
+            _walletConnectService.triggerAmountChangedEvent(changedIdsWithSeed);
           }
-        }, onError: (e) {
-          appStore
-              .reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-        });
-      }
+        }
+      }, onError: (e) {
+        appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      });
+
+      //Fetch network assets
+      _liveApi.getCurrentAssets(myIds).then((assets) {
+        //_apiService.getCurrentAssets(myIds).then((assets) {
+        Map<String, List<QubicAssetDto>> changedIds =
+            appStore.setAssets(assets);
+
+        Map<String, List<QubicAssetDto>> changedIdsWithSeed = {};
+
+        //Filter out only non WatchOnly accounts
+        for (var element in changedIds.entries) {
+          if (appStore.currentQubicIDs.any((currentQubicId) {
+            return currentQubicId.publicId == element.key &&
+                currentQubicId.watchOnly == false;
+          })) {
+            changedIdsWithSeed[element.key] = element.value;
+          }
+        }
+
+        if (changedIdsWithSeed.isNotEmpty) {
+          _walletConnectService
+              .triggerAssetAmountChangedEvent(changedIdsWithSeed);
+        }
+      }, onError: (e) {
+        appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      });
     } on Exception catch (e) {
       appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
     }

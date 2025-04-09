@@ -18,7 +18,6 @@ import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:reown_sign/reown_sign.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -302,7 +301,8 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
           actions: [
             IconButton(
               icon: SvgPicture.asset(AppIcons.walletConnect,
-                  color: LightThemeColors.primary),
+                  colorFilter: const ColorFilter.mode(
+                      LightThemeColors.primary, BlendMode.srcIn)),
               onPressed: () async {
                 await pushScreen(
                   context,
