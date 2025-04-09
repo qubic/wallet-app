@@ -99,34 +99,31 @@ class _TabTransfersState extends State<TabTransfers> {
                           ])),
                       SliverList(
                           delegate: SliverChildListDelegate([
-                        Container(
-                          child: Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  ThemePaddings.normalPadding,
-                                  ThemePaddings.normalPadding,
-                                  ThemePaddings.normalPadding,
-                                  ThemePaddings.miniPadding),
-                              child: ThemedControls.pageHeader(
-                                  headerText: l10n.appTabTransfers)),
-                        )
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.miniPadding),
+                            child: ThemedControls.pageHeader(
+                                headerText: l10n.appTabTransfers))
                       ])),
                       Observer(builder: (context) {
                         if (appStore.currentTransactions.isEmpty) {
                           return SliverList(
                               delegate: SliverChildListDelegate([
-                            Container(
-                                child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.normalPadding,
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.miniPadding),
-                                    child: TransactionUIHelpers
-                                        .getEmptyTransactions(
-                                            context: context,
-                                            hasFiltered: false,
-                                            numberOfFilters: null,
-                                            onTap: () {})))
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.normalPadding,
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.miniPadding),
+                                child:
+                                    TransactionUIHelpers.getEmptyTransactions(
+                                        context: context,
+                                        hasFiltered: false,
+                                        numberOfFilters: null,
+                                        onTap: () {}))
                           ]));
                         }
                         List<TransactionVm> filteredResults = [];
