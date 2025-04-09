@@ -103,7 +103,7 @@ class _ReceiveState extends State<SignUp> {
               activeTrackColor: LightThemeColors.buttonPrimary,
               trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
                   (Set<MaterialState> states) {
-                return Colors.orange.withOpacity(0);
+                return Colors.orange.withValues(alpha: 0);
               }),
               value: enabledBiometrics,
               onChanged: (value) async {

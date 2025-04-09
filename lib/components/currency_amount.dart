@@ -9,9 +9,9 @@ class CurrencyAmount extends StatelessWidget {
   late final TextStyle transparentTextStyle05;
   CurrencyAmount({super.key, required this.amount, required this.textStyle}) {
     transparentTextStyle01 =
-        textStyle.copyWith(color: textStyle.color!.withOpacity(0.1));
+        textStyle.copyWith(color: textStyle.color!.withValues(alpha: 0.1));
     transparentTextStyle05 =
-        textStyle.copyWith(color: textStyle.color!.withOpacity(0.5));
+        textStyle.copyWith(color: textStyle.color!.withValues(alpha: 0.5));
   }
 
   Widget getText(BuildContext context, String text, bool opaque) {
@@ -59,8 +59,11 @@ class CurrencyAmount extends StatelessWidget {
       List<Widget> output = [];
       output.add(SkeletonAnimation(
           borderRadius: BorderRadius.circular(2.0),
-          shimmerColor:
-              Theme.of(context).textTheme.titleMedium!.color!.withOpacity(0.3),
+          shimmerColor: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .color!
+              .withValues(alpha: 0.3),
           shimmerDuration: 3000,
           curve: Curves.easeInOutCirc,
           child: Container(
@@ -72,7 +75,7 @@ class CurrencyAmount extends StatelessWidget {
                     .textTheme
                     .titleMedium
                     ?.color!
-                    .withOpacity(0.1)),
+                    .withValues(alpha: 0.1)),
           )));
 
       return Row(mainAxisAlignment: MainAxisAlignment.center, children: output);

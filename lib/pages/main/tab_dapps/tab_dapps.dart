@@ -168,7 +168,7 @@ class FeaturedAppWidget extends StatelessWidget {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.black.withOpacity(0.7),
+                      Colors.black.withValues(alpha: 0.7),
                       Colors.transparent,
                     ],
                     stops: const [0.0, 1.0],

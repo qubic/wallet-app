@@ -159,7 +159,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
                   colorOpacity: 0.5,
                   blurColor: Colors.black,
                   child: Container(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                   ),
                 ),
               ),

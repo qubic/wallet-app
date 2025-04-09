@@ -93,7 +93,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   Widget getEmptyWallet() {
     final l10n = l10nOf(context);
     Color? transpColor =
-        Theme.of(context).textTheme.titleMedium?.color!.withOpacity(0.3);
+        Theme.of(context).textTheme.titleMedium?.color!.withValues(alpha: 0.3);
     return Center(
         child: DottedBorder(
             color: transpColor!,
@@ -112,7 +112,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           .textTheme
                           .titleMedium
                           ?.color!
-                          .withOpacity(0.3)),
+                          .withValues(alpha: 0.3)),
                   Text(l10n.homeLabelNoAccountsInWallet),
                   ThemedControls.spacerVerticalNormal(),
                   FilledButton.icon(

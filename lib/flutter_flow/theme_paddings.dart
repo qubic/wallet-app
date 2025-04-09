@@ -38,7 +38,7 @@ class LightThemeColors {
   static const successIncoming = Color(0xFF179C6C);
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);
-  static final border = Colors.white.withOpacity(0.03);
+  static final border = Colors.white.withValues(alpha: 0.03);
   // TODO Replace with error40 from the new palette
   static const dangerColor = Color(0xFFF97066);
   static const dangerBackgroundButton = Color(0xFF272127);
