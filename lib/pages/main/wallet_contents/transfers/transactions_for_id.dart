@@ -1,6 +1,7 @@
 // ignore: depend_on_referenced_packages
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/custom_paged_list_view.dart';
@@ -16,9 +17,12 @@ import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transactions.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/stored_transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 
@@ -214,6 +218,48 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                       ? l10n.transfersLabelFor
                       : l10n.transfersLabelForAccount(widget.item!.name)),
                   subheaderText: null),
+              Observer(builder: (context) {
+                return (appStore
+                        .getStoredTransactionsForID(widget.publicQubicId)
+                        .isNotEmpty)
+                    ? Column(children: [
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return StoredTransactionsForId(
+                                  item: widget.item!);
+                            }));
+                          },
+                          child: ThemedControls.card(
+                              child: Row(
+                            children: [
+                              const Icon(Icons.help_outline,
+                                  color: LightThemeColors.pending),
+                              ThemedControls.spacerHorizontalMini(),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Text(l10n.storedTransfersLabel,
+                                        style: TextStyles.labelText),
+                                    Text(
+                                        l10n.transactionsCount(appStore
+                                            .getStoredTransactionsForID(
+                                                widget.publicQubicId)
+                                            .length),
+                                        style: TextStyles.secondaryText),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          )),
+                        ),
+                        ThemedControls.spacerVerticalBig(),
+                      ])
+                    : const SizedBox.shrink();
+              }),
               Expanded(
                 child: CustomPagedListView<int, TransactionDto>(
                   pagingController: _pagingController,

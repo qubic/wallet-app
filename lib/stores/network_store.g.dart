@@ -43,9 +43,20 @@ mixin _$NetworkStore on _NetworkStore, Store {
   @override
   void initStoredNetworks() {
     final _$actionInfo = _$_NetworkStoreActionController.startAction(
-        name: '_NetworkStore.getStoredNetworks');
+        name: '_NetworkStore.initStoredNetworks');
     try {
       return super.initStoredNetworks();
+    } finally {
+      _$_NetworkStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic initCurrentNetwork() {
+    final _$actionInfo = _$_NetworkStoreActionController.startAction(
+        name: '_NetworkStore.initCurrentNetwork');
+    try {
+      return super.initCurrentNetwork();
     } finally {
       _$_NetworkStoreActionController.endAction(_$actionInfo);
     }
