@@ -103,8 +103,8 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
           child: Switch(
               activeColor: LightThemeColors.primary,
               activeTrackColor: LightThemeColors.buttonPrimary,
-              trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
-                  (Set<MaterialState> states) {
+              trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+                  (Set<WidgetState> states) {
                 return Colors.orange.withValues(alpha: 0);
               }),
               value: enabledBiometrics,
