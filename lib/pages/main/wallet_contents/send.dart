@@ -6,13 +6,13 @@ import 'package:intl/intl.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
-import 'package:qubic_wallet/helpers/sendTransaction.dart';
+import 'package:qubic_wallet/helpers/send_transaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -353,7 +353,7 @@ class _SendState extends State<Send> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
+          SizedBox(
               child: Expanded(
                   child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
