@@ -44,6 +44,8 @@ abstract class _NetworkStore with Store {
     final List<NetworkModel> storedNetworks =
         getIt<HiveStorage>().getStoredNetworks();
     networks.addAll(storedNetworks);
+    networks
+        .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
   }
 
   @action

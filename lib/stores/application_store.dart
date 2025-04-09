@@ -93,6 +93,8 @@ abstract class _ApplicationStore with Store {
   @observable
   TransactionFilter? transactionFilter = TransactionFilter();
 
+  List<String> get qubicIDsNames => currentQubicIDs.map((e) => e.name).toList();
+
   @observable
   int pendingRequests = 0; //The number of pending HTTP requests
 
