@@ -111,9 +111,8 @@ class _ReceiveState extends State<Receive> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
@@ -136,7 +135,7 @@ class _ReceiveState extends State<Receive> {
               ToggleableQRCode(
                   qRCodeData: widget.item.publicId, expanded: true),
             ],
-          )))
+          ))
         ]));
   }
 
