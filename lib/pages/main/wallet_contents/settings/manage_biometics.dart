@@ -158,7 +158,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       //Theme.of(context).cardTheme.color,
       settingsListBackground: Colors.transparent,
       dividerColor: Colors.transparent,
-      titleTextColor: Theme.of(context).colorScheme.onBackground,
+      titleTextColor: Theme.of(context).colorScheme.onSurface,
     );
     return Column(children: [
       const SizedBox(height: ThemePaddings.hugePadding),
@@ -265,7 +265,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
+          SizedBox(
               child: Expanded(
                   child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
