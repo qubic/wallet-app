@@ -173,7 +173,9 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               IconButton(
                                 onPressed: () => Navigator.pop(context),
                                 icon: SvgPicture.asset(AppIcons.close,
-                                    color: LightThemeColors.textLightGrey),
+                                    colorFilter: const ColorFilter.mode(
+                                        LightThemeColors.textLightGrey,
+                                        BlendMode.srcIn)),
                               ),
                             ],
                           ),

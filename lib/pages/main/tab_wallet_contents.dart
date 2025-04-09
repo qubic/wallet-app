@@ -184,7 +184,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                               );
                             },
                             icon: SvgPicture.asset(AppIcons.walletConnect,
-                                color: LightThemeColors.primary),
+                                colorFilter: const ColorFilter.mode(
+                                    LightThemeColors.primary, BlendMode.srcIn)),
                           ),
                         ),
                         ThemedControls.spacerHorizontalSmall(),

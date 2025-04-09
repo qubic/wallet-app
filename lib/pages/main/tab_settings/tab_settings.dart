@@ -125,7 +125,9 @@ class _TabSettingsState extends State<TabSettings> {
                               prefix: SvgPicture.asset(
                                 settingsUnlockIconPath,
                                 height: defaultIconHeight,
-                                color: LightThemeColors.textColorSecondary,
+                                colorFilter: const ColorFilter.mode(
+                                    LightThemeColors.textColorSecondary,
+                                    BlendMode.srcIn),
                               ),
                               title: settingsUnlockLabel,
                               path: const ManageBiometrics(),
