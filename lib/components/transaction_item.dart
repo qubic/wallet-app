@@ -8,7 +8,7 @@ import 'package:qubic_wallet/components/transaction_details.dart';
 import 'package:qubic_wallet/components/transaction_status_item.dart';
 import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
@@ -173,12 +173,12 @@ class _TransactionItemState extends State<TransactionItem> {
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
 
-    return Container(
+    return ConstrainedBox(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
         child: ThemedControls.card(
             child: Column(children: [
           Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-            Container(
+            SizedBox(
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

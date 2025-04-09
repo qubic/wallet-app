@@ -1,6 +1,4 @@
-// ignore_for_file: camel_case_extensions
-
-extension thousands on int {
+extension IntThousands on int {
   String asThousands({
     final String separator = ",",
     final int digits = 3,
