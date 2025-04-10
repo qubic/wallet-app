@@ -44,6 +44,8 @@ abstract class _NetworkStore with Store {
     final List<NetworkModel> storedNetworks =
         getIt<HiveStorage>().getStoredNetworks();
     networks.addAll(storedNetworks);
+    networks
+        .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
   }
 
   @action
@@ -60,6 +62,8 @@ abstract class _NetworkStore with Store {
 
   @action
   void setCurrentNetwork(NetworkModel network) {
+    networks
+        .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     networks.remove(network);
     networks.insert(0, network);
     getIt<QubicArchiveApi>().updateDio();
@@ -72,6 +76,8 @@ abstract class _NetworkStore with Store {
   @action
   void addNetwork(NetworkModel network) {
     networks.add(network);
+    networks
+        .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     getIt<HiveStorage>().addStoredNetwork(network);
   }
 

@@ -81,8 +81,9 @@ class NetworksScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Text(network.name, style: TextStyles.sliverCardPreLabel),
-                      const Spacer(),
+                      Expanded(
+                          child: Text(network.name,
+                              style: TextStyles.sliverCardPreLabel)),
                       if (isSelected)
                         Text(
                           l10n.networksLabelDefault,
