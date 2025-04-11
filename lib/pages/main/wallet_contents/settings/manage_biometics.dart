@@ -41,7 +41,6 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   @override
   void initState() {
     super.initState();
-    final l10n = l10nOf(context);
     auth.canCheckBiometrics.then((value) {
       setState(() {
         canCheckBiometrics = value;
@@ -54,6 +53,8 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       }
 
       auth.getAvailableBiometrics().then((value) {
+        if (!mounted) return;
+        final l10n = l10nOf(context);
         setState(() {
           availableBiometrics = value;
           canUseBiometrics = value.isNotEmpty;
@@ -262,23 +263,20 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
 
   Widget getScrollView() {
     return SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Row(children: [
-          SizedBox(
-              child: Expanded(
-                  child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ThemedControls.pageHeader(headerText: _title),
-              Text(_description, style: TextStyles.secondaryText),
-              canUseBiometrics == null
-                  ? loadingIndicator()
-                  : canUseBiometrics! == true
-                      ? biometricsControls()
-                      : showPossibleErrors(),
-            ],
-          )))
-        ]));
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ThemedControls.pageHeader(headerText: _title),
+          Text(_description, style: TextStyles.secondaryText),
+          canUseBiometrics == null
+              ? loadingIndicator()
+              : canUseBiometrics! == true
+                  ? biometricsControls()
+                  : showPossibleErrors(),
+        ],
+      ),
+    );
   }
 
   Widget getButtons() {

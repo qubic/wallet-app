@@ -129,7 +129,8 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                   children: [
                 const Text("2. Place it in the following folder"),
                 Padding(
-                    padding: EdgeInsets.only(left: ThemePaddings.normalPadding),
+                    padding: const EdgeInsets.only(
+                        left: ThemePaddings.normalPadding),
                     child: CopyableText(
                         copiedText: directory, child: Text(directory))),
                 const SizedBox(height: ThemePaddings.miniPadding),
@@ -212,7 +213,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
 
   Widget getIntroPage() {
     return Column(mainAxisSize: MainAxisSize.min, children: [
-      GradientForeground(child: const Icon(Icons.file_present_sharp, size: 90)),
+      const GradientForeground(child: Icon(Icons.file_present_sharp, size: 90)),
       ThemedControls.spacerVerticalNormal(),
       ThemedControls.pageHeader(headerText: "Missing required files"),
       ThemedControls.spacerVerticalNormal(),

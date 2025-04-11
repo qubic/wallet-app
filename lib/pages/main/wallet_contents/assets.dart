@@ -29,6 +29,13 @@ class _AssetsState extends State<Assets> {
 
   String? generatedPublicId;
 
+  @override
+  void initState() {
+    super.initState();
+    accountItem = appStore.currentQubicIDs
+        .firstWhere((element) => element.publicId == widget.publicId);
+  }
+
   Widget getAssetLine(QubicAssetDto asset) {
     return Text(asset.issuedAsset.name);
   }
