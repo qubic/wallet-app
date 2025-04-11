@@ -263,23 +263,20 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
 
   Widget getScrollView() {
     return SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Row(children: [
-          SizedBox(
-              child: Expanded(
-                  child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ThemedControls.pageHeader(headerText: _title),
-              Text(_description, style: TextStyles.secondaryText),
-              canUseBiometrics == null
-                  ? loadingIndicator()
-                  : canUseBiometrics! == true
-                      ? biometricsControls()
-                      : showPossibleErrors(),
-            ],
-          )))
-        ]));
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ThemedControls.pageHeader(headerText: _title),
+          Text(_description, style: TextStyles.secondaryText),
+          canUseBiometrics == null
+              ? loadingIndicator()
+              : canUseBiometrics! == true
+                  ? biometricsControls()
+                  : showPossibleErrors(),
+        ],
+      ),
+    );
   }
 
   Widget getButtons() {
