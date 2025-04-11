@@ -401,25 +401,24 @@ class _AccountListItemState extends State<AccountListItem> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Flex(
-                            direction: Axis.horizontal,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                  fit: FlexFit.loose,
-                                  child: Row(children: [
-                                    Text(widget.item.name,
-                                        style: TextStyles.accountName),
-                                    ThemedControls.spacerHorizontalSmall(),
-                                    isItemWatchOnly()
-                                        ? const Icon(
-                                            Icons.remove_red_eye_rounded,
-                                            color: LightThemeColors.color4,
-                                          )
-                                        : Container(),
-                                  ])),
-                              getCardMenu(context)
+                        Row(children: [
+                          Expanded(
+                            child: Row(children: [
+                              Expanded(
+                                child: Text(widget.item.name,
+                                    style: TextStyles.accountName),
+                              ),
+                              ThemedControls.spacerHorizontalSmall(),
+                              isItemWatchOnly()
+                                  ? const Icon(
+                                      Icons.remove_red_eye_rounded,
+                                      color: LightThemeColors.color4,
+                                    )
+                                  : Container(),
                             ]),
+                          ),
+                          getCardMenu(context)
+                        ]),
                         ThemedControls.spacerVerticalSmall(),
                         Text(widget.item.publicId),
                         ThemedControls.spacerVerticalSmall(),
