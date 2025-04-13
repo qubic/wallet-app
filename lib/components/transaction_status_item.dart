@@ -16,7 +16,7 @@ class TransactionStatusItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         child: Row(children: [
       Icon(TransactionStatusHelpers.getTransactionStatusIcon(item.getStatus()),
           color: TransactionStatusHelpers.getTransactionStatusColor(

@@ -8,7 +8,7 @@ import 'package:qubic_wallet/components/tick_refresh.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
@@ -99,65 +99,61 @@ class _TabTransfersState extends State<TabTransfers> {
                           ])),
                       SliverList(
                           delegate: SliverChildListDelegate([
-                        Container(
-                          child: Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  ThemePaddings.normalPadding,
-                                  ThemePaddings.normalPadding,
-                                  ThemePaddings.normalPadding,
-                                  ThemePaddings.miniPadding),
-                              child: ThemedControls.pageHeader(
-                                  headerText: l10n.appTabTransfers)),
-                        )
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.miniPadding),
+                            child: ThemedControls.pageHeader(
+                                headerText: l10n.appTabTransfers))
                       ])),
                       Observer(builder: (context) {
                         if (appStore.currentTransactions.isEmpty) {
                           return SliverList(
                               delegate: SliverChildListDelegate([
-                            Container(
-                                child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.normalPadding,
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.miniPadding),
-                                    child: TransactionUIHelpers
-                                        .getEmptyTransactions(
-                                            context: context,
-                                            hasFiltered: false,
-                                            numberOfFilters: null,
-                                            onTap: () {})))
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.normalPadding,
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.miniPadding),
+                                child:
+                                    TransactionUIHelpers.getEmptyTransactions(
+                                        context: context,
+                                        hasFiltered: false,
+                                        numberOfFilters: null,
+                                        onTap: () {}))
                           ]));
                         }
                         List<TransactionVm> filteredResults = [];
 
-                        appStore.currentTransactions.reversed.forEach((tran) {
+                        for (var tran
+                            in appStore.currentTransactions.reversed) {
                           if ((appStore.transactionFilter == null) ||
                               (appStore.transactionFilter!.matchesVM(tran))) {
                             filteredResults.add(tran);
                           }
-                        });
+                        }
                         if (filteredResults.isEmpty) {
                           return SliverList(
                               delegate: SliverChildListDelegate([
-                            Container(
-                                child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.normalPadding,
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.miniPadding),
-                                    child: TransactionUIHelpers
-                                        .getEmptyTransactions(
-                                            context: context,
-                                            hasFiltered: true,
-                                            numberOfFilters: appStore
-                                                .transactionFilter
-                                                ?.totalActiveFilters,
-                                            onTap: () {
-                                              appStore
-                                                  .clearTransactionFilters();
-                                            })))
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.normalPadding,
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.miniPadding),
+                                child:
+                                    TransactionUIHelpers.getEmptyTransactions(
+                                        context: context,
+                                        hasFiltered: true,
+                                        numberOfFilters: appStore
+                                            .transactionFilter
+                                            ?.totalActiveFilters,
+                                        onTap: () {
+                                          appStore.clearTransactionFilters();
+                                        }))
                           ]));
                         }
                         return SliverList(

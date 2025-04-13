@@ -1,24 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
 import 'package:qubic_wallet/components/transaction_status_item.dart';
 import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/date_formatter.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/explorer_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
@@ -73,34 +71,11 @@ class _TransactionDetailsState extends State<TransactionDetails> {
         child: Row(
           children: [
             Expanded(
-                child: ThemedControls.transparentButtonBigWithChild(
-                    onPressed: () async {
-                      await Clipboard.setData(ClipboardData(
-                          text: widget.item.toReadableString(context)));
-                    },
-                    child: Text(
-                      l10n.transactionItemButtonCopyToClipboard,
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyles.transparentButtonText.copyWith(height: 1),
-                    ))),
-            ThemedControls.spacerHorizontalNormal(),
-            Expanded(
-              child: (widget.item.status == TransactionVmStatus.success)
+              child: TransactionActionHelpers.canViewInExplorer(widget.item)
                   ? ThemedControls.primaryButtonBigWithChild(
                       onPressed: () {
-                        // Perform some action
-                        pushScreen(
-                          context,
-                          screen: ExplorerResultPage(
-                              resultType: ExplorerResultType.tick,
-                              tick: widget.item.targetTick,
-                              focusedTransactionHash: widget.item.id),
-                          //TransactionsForId(publicQubicId: item.publicId),
-                          withNavBar: false, // OPTIONAL VALUE. True by default.
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
+                        Navigator.pop(context);
+                        viewTransactionInExplorer(context, widget.item.id);
                       },
                       child: Text(l10n.transactionItemButtonViewInExplorer,
                           textAlign: TextAlign.center,
@@ -198,10 +173,35 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               IconButton(
                                 onPressed: () => Navigator.pop(context),
                                 icon: SvgPicture.asset(AppIcons.close,
-                                    color: LightThemeColors.textLightGrey),
+                                    colorFilter: const ColorFilter.mode(
+                                        LightThemeColors.textLightGrey,
+                                        BlendMode.srcIn)),
                               ),
                             ],
                           ),
+                          if (isQxTransferShares)
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: LightThemeColors.warning40,
+                                    width: 0.8),
+                              ),
+                              child: ThemedControls.cardWithBg(
+                                bgColor: Colors.transparent,
+                                child: Row(children: [
+                                  SvgPicture.asset(AppIcons.warning,
+                                      height: 20),
+                                  ThemedControls.spacerHorizontalSmall(),
+                                  Expanded(
+                                      child: Text(
+                                    l10n.qxTransferSharesWarning,
+                                    style: TextStyles.secondaryText.copyWith(
+                                        color: LightThemeColors.warning40),
+                                  ))
+                                ]),
+                              ),
+                            ),
                           ThemedControls.spacerVerticalNormal(),
                           TransactionStatusItem(item: widget.item),
                           SizedBox(
@@ -267,7 +267,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                                 getCopyableDetails(
                                     context,
                                     l10n.generalLabelDestination,
-                                    widget.item.id),
+                                    widget.assetTransfer!.newOwnerAndPossessor),
                                 ThemedControls.spacerVerticalSmall(),
                                 getCopyableDetails(
                                     context,
@@ -278,9 +278,9 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               getCopyableDetails(
                                   context,
                                   l10n.transactionItemLabelConfirmedDate,
-                                  widget.item.confirmed != null
+                                  widget.item.timestamp != null
                                       ? DateFormatter.formatShortWithTime(
-                                          widget.item.confirmed!.toLocal())
+                                          widget.item.timestamp!)
                                       : l10n.generalLabelNotAvailable),
                               if (isQutilSendToMany &&
                                   sendManyTransfers.isNotEmpty) ...[

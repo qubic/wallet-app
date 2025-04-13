@@ -111,7 +111,9 @@ class WalletConnectService {
         .getActiveSessions()
         .values
         .where((e) => e.pairingTopic == sessionPairingTopic)
-        .isNotEmpty) return true;
+        .isNotEmpty) {
+      return true;
+    }
 
     if (web3Wallet!.pairings.get(sessionPairingTopic) != null) return true;
 
@@ -167,11 +169,11 @@ class WalletConnectService {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
-          List<dynamic> assetsList = []; // Changed to a list
-          id.value.forEach((element) {
+          List<dynamic> assetsList = [];
+          for (var element in id.value) {
             dynamic assetItem = element.toWalletConnectJson();
             assetsList.add(assetItem);
-          });
+          }
           item["address"] = id.key;
           item["name"] = appStore.currentQubicIDs
               .firstWhere((element) => element.publicId == id.key)

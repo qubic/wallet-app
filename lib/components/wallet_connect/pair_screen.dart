@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/wallet_connect/components/domain_verification_card.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -207,13 +208,13 @@ class _PairScreenState extends State<PairScreen> {
                       ? FadeInImage(
                           image: NetworkImage(widget.pairingMetadata!.icons[0]),
                           placeholder: AssetImage(
-                            'assets/images/dapp-default.png',
+                            Config.dAppDefaultImageName,
                           ),
                           imageErrorBuilder: (context, error, stackTrace) =>
-                              Image.asset('assets/images/dapp-default.png'),
+                              Image.asset(Config.dAppDefaultImageName),
                           fit: BoxFit.contain,
                         )
-                      : Image.asset('assets/images/dapp-default.png'),
+                      : Image.asset(Config.dAppDefaultImageName),
                 ),
 
                 //dAPP title

@@ -85,6 +85,7 @@ class _AddAccountState extends State<AddAccount> {
         });
       } catch (e) {
         if (e.toString().startsWith("Exception: CRITICAL:")) {
+          if (!mounted) return;
           showAlertDialog(
               context,
               l10n.addAccountErrorTamperedWalletTitle,
@@ -306,7 +307,7 @@ class _AddAccountState extends State<AddAccount> {
                           FormBuilderValidators.required(
                               errorText: l10n.generalErrorRequiredField),
                           CustomFormFieldValidators.isNameAvailable(
-                              currentQubicIDs: appStore.currentQubicIDs,
+                              namesList: appStore.qubicIDsNames,
                               context: context)
                         ]),
                         controller: accountName,
@@ -571,8 +572,7 @@ class _AddAccountState extends State<AddAccount> {
                         FormBuilderValidators.required(
                             errorText: l10n.generalErrorRequiredField),
                         CustomFormFieldValidators.isNameAvailable(
-                            currentQubicIDs: appStore.currentQubicIDs,
-                            context: context)
+                            namesList: appStore.qubicIDsNames, context: context)
                       ]),
                       readOnly: isLoading,
                       style: TextStyles.inputBoxSmallStyle,
@@ -816,7 +816,7 @@ class _AddAccountState extends State<AddAccount> {
 
     walletConnectService.triggerAccountsChangedEvent();
 
-    if (context.mounted) {
+    if (mounted) {
       Navigator.pop(context);
     }
   }

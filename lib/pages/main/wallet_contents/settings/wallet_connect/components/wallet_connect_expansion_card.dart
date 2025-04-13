@@ -22,11 +22,11 @@ class WallectConnectExpansionCard extends StatefulWidget {
   });
 
   @override
-  _WallectConnectExpansionCardState createState() =>
-      _WallectConnectExpansionCardState();
+  WallectConnectExpansionCardState createState() =>
+      WallectConnectExpansionCardState();
 }
 
-class _WallectConnectExpansionCardState
+class WallectConnectExpansionCardState
     extends State<WallectConnectExpansionCard> {
   bool _isExpanded = false;
 

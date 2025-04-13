@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
-import 'package:qubic_wallet/components/qubic_asset.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:intl/intl.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 class CumulativeWalletValueSliver extends StatefulWidget {
   const CumulativeWalletValueSliver({super.key});
@@ -43,18 +41,6 @@ class _CumulativeWalletValueSliverState
     showingTotalBalance = settingsStore.settings.totalBalanceVisible ?? true;
     isQubicsPrimaryBalance =
         settingsStore.settings.isQubicsPrimaryBalance ?? true;
-  }
-
-// TODO Remove getShares if not used
-  List<Widget> getShares(BuildContext context) {
-    List<Widget> assets = [];
-    for (var asset in appStore.totalShares) {
-      assets.add(QubicAsset(
-          asset: asset,
-          style: Theme.of(context).textTheme.displaySmall!.copyWith(
-              fontWeight: FontWeight.normal, fontFamily: ThemeFonts.primary)));
-    }
-    return assets;
   }
 
   TextStyle primaryBalanceStyle() => MediaQuery.of(context).size.width < 400

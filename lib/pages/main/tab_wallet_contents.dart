@@ -11,6 +11,7 @@ import 'package:qubic_wallet/components/gradient_container.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/components/tick_indication_styled.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -18,7 +19,9 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -37,6 +40,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final TimedController _timedController = getIt<TimedController>();
+  final NetworkStore networkStore = getIt<NetworkStore>();
 
   final double sliverExpanded = 185;
 
@@ -90,7 +94,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   Widget getEmptyWallet() {
     final l10n = l10nOf(context);
     Color? transpColor =
-        Theme.of(context).textTheme.titleMedium?.color!.withOpacity(0.3);
+        Theme.of(context).textTheme.titleMedium?.color!.withValues(alpha: 0.3);
     return Center(
         child: DottedBorder(
             color: transpColor!,
@@ -109,7 +113,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           .textTheme
                           .titleMedium
                           ?.color!
-                          .withOpacity(0.3)),
+                          .withValues(alpha: 0.3)),
                   Text(l10n.homeLabelNoAccountsInWallet),
                   ThemedControls.spacerVerticalNormal(),
                   FilledButton.icon(
@@ -162,38 +166,60 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                 controller: _scrollController,
                 physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
-                  SliverAppBar(
-                    backgroundColor: LightThemeColors.background,
-                    actions: <Widget>[
-                      TickRefresh(),
-                      ThemedControls.spacerHorizontalSmall(),
-                      Visibility(
-                        visible: false,
-                        child: SliverButton(
-                          onPressed: () {
-                            pushScreen(
-                              context,
-                              screen: const AddWalletConnect(),
-                              withNavBar: false,
-                              pageTransitionAnimation:
-                                  PageTransitionAnimation.cupertino,
-                            );
-                          },
-                          icon: SvgPicture.asset(AppIcons.walletConnect,
-                              color: LightThemeColors.primary),
+                  Observer(builder: (context) {
+                    return SliverAppBar(
+                      backgroundColor: LightThemeColors.background,
+                      actions: <Widget>[
+                        TickRefresh(),
+                        ThemedControls.spacerHorizontalSmall(),
+                        Visibility(
+                          visible: true,
+                          child: SliverButton(
+                            onPressed: () {
+                              pushScreen(
+                                context,
+                                screen: const AddWalletConnect(),
+                                withNavBar: false,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.cupertino,
+                              );
+                            },
+                            icon: SvgPicture.asset(AppIcons.walletConnect,
+                                colorFilter: const ColorFilter.mode(
+                                    LightThemeColors.primary, BlendMode.srcIn)),
+                          ),
                         ),
-                      ),
-                      ThemedControls.spacerHorizontalSmall(),
-                      SliverButton(
-                        icon: const Icon(Icons.add,
-                            color: LightThemeColors.primary),
-                        onPressed: addAccount,
-                      ),
-                      ThemedControls.spacerHorizontalSmall(),
-                    ],
-                    floating: false,
-                    pinned: true,
-                  ),
+                        ThemedControls.spacerHorizontalSmall(),
+                        SliverButton(
+                          icon: const Icon(Icons.add,
+                              color: LightThemeColors.primary),
+                          onPressed: addAccount,
+                        ),
+                        ThemedControls.spacerHorizontalSmall(),
+                      ],
+                      bottom: networkStore.currentNetwork.name ==
+                              Config.networkQubicMainnet
+                          ? null
+                          : PreferredSize(
+                              preferredSize:
+                                  const Size.fromHeight(kToolbarHeight),
+                              child: Container(
+                                width: double.infinity,
+                                color: LightThemeColors.warning40,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: ThemePaddings.smallPadding),
+                                child: Text(
+                                    l10n.networksWarningBannerCurrentNetwork(
+                                        networkStore.currentNetwork.name),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyles.alertText.copyWith(
+                                        color: LightThemeColors.primary)),
+                              ),
+                            ),
+                      floating: false,
+                      pinned: true,
+                    );
+                  }),
                   SliverToBoxAdapter(
                     child: SizedBox(
                       height: sliverExpanded - kToolbarHeight,

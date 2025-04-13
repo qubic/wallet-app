@@ -3,15 +3,15 @@ import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfer_asset.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 
 enum CardItem { issuerIdentity }
 
@@ -47,29 +47,28 @@ class _AssetItemState extends State<AssetItem> {
   Widget getAssetButtonBar(QubicAssetDto asset) {
     final l10n = l10nOf(context);
 
-    return Container(
-      child: ButtonBar(
-          alignment: MainAxisAlignment.start,
-          buttonPadding:
-              const EdgeInsets.fromLTRB(ThemePaddings.hugePadding, 0, 0, 0),
-          children: [
-            ThemedControls.primaryButtonBig(
-                onPressed: () {
-                  // Perform some action
-                  pushScreen(
-                    context,
-                    screen: TransferAsset(
-                        item: widget.account, asset: widget.asset),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
-                },
-                text: l10n.assetsButtonSend,
-                icon: LightThemeColors.shouldInvertIcon
-                    ? ThemedControls.invertedColors(
-                        child: Image.asset("assets/images/send.png"))
-                    : Image.asset("assets/images/send.png")),
-          ]),
+    return Padding(
+      padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+      child: OverflowBar(
+        alignment: MainAxisAlignment.start,
+        children: [
+          ThemedControls.primaryButtonBig(
+              onPressed: () {
+                pushScreen(
+                  context,
+                  screen:
+                      TransferAsset(item: widget.account, asset: widget.asset),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              },
+              text: l10n.assetsButtonSend,
+              icon: LightThemeColors.shouldInvertIcon
+                  ? ThemedControls.invertedColors(
+                      child: Image.asset("assets/images/send.png"))
+                  : Image.asset("assets/images/send.png")),
+        ],
+      ),
     );
   }
 
@@ -84,51 +83,25 @@ class _AssetItemState extends State<AssetItem> {
             child: Column(children: [
               Padding(
                   padding: const EdgeInsets.fromLTRB(
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      0),
+                    ThemePaddings.normalPadding,
+                    ThemePaddings.mediumPadding,
+                    ThemePaddings.normalPadding,
+                    0,
+                  ),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Row(children: [
                           Expanded(
-                              child: Text(widget.asset.assetName,
+                              child: Text(
+                                  '${formatter.format(widget.asset.numberOfUnits)} ${widget.asset.issuedAsset.name}',
                                   style: TextStyles.accountName)),
                           getCardMenu(context)
                         ]),
                         Text(
                             l10n.assetsLabelTick(
-                                widget.asset.tick.asThousands()),
-                            style: TextStyles.assetSecondaryTextLabel),
-                        const SizedBox(height: ThemePaddings.normalPadding),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelOwned,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text(
-                                  widget.asset.ownedAmount == null
-                                      ? "-"
-                                      : formatter
-                                          .format(widget.asset.ownedAmount),
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelPossessed,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text(
-                                  widget.asset.possessedAmount == null
-                                      ? "-"
-                                      : formatter
-                                          .format(widget.asset.possessedAmount),
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
-                        const SizedBox(height: ThemePaddings.miniPadding),
+                                widget.asset.info.tick.asThousands()),
+                            style: TextStyles.assetSecondaryTextLabel)
                       ])),
               widget.account.watchOnly
                   ? ThemedControls.spacerVerticalNormal()
@@ -138,7 +111,7 @@ class _AssetItemState extends State<AssetItem> {
 
   //Gets the dropdown menu
   Widget getCardMenu(BuildContext context) {
-    if (QubicAssetDto.isSmartContractShare(widget.asset) == true) {
+    if (widget.asset.isSmartContractShare) {
       return Container();
     }
 
@@ -150,14 +123,8 @@ class _AssetItemState extends State<AssetItem> {
         // Callback that sets the selected popup menu item.
         onSelected: (CardItem menuItem) async {
           if (menuItem == CardItem.issuerIdentity) {
-            pushScreen(
-              context,
-              screen: ExplorerResultPage(
-                  resultType: ExplorerResultType.publicId,
-                  qubicId: widget.asset.issuerIdentity),
-              withNavBar: false,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
+            viewAddressInExplorer(
+                context, widget.asset.issuedAsset.issuerIdentity);
           }
         },
         itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[

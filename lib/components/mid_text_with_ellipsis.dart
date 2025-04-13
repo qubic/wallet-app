@@ -6,10 +6,10 @@ class TextWithMidEllipsis extends StatelessWidget {
   final TextAlign? textAlign;
   const TextWithMidEllipsis(
     this.data, {
-    Key? key,
+    super.key,
     this.textAlign,
     this.style = const TextStyle(),
-  }) : super(key: key);
+  });
 
   final textDirection = TextDirection.ltr;
   @override

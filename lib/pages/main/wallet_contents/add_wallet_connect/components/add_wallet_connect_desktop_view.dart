@@ -5,8 +5,7 @@ class _AddWalletConnectDesktopView extends StatefulWidget {
   final Function(String?) proceedHandler;
   final String? connectionUrl;
   const _AddWalletConnectDesktopView(
-      {super.key,
-      required this.isLoading,
+      {required this.isLoading,
       required this.proceedHandler,
       this.connectionUrl});
 

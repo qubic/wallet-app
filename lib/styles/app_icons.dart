@@ -31,4 +31,5 @@ abstract class AppIcons {
   static const String fingerPrint = '${_path}finger_print.svg';
   static const String iris = '${_path}iris.svg';
   static const String security = '${_path}security.svg';
+  static const String network = '${_path}network.svg';
 }
