@@ -53,23 +53,23 @@ abstract class Config {
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(
-          filename: "qubic-helper-win-x64-3_1_1.exe",
+          filename: "qubic-helper-win-x64-3_1_2.exe",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.1/qubic-helper-win-x64-3_1_1.exe",
-          checksum: "a32e17ba2b92158ee9a63f7d666cbf8a"),
+              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.2/qubic-helper-win-x64-3_1_2.exe",
+          checksum: "8fbc722d1e79ee80c44b440e20010cfa"),
       linux64: QubicHelperConfigEntry(
-          filename: "qubic-helper-linux-x64-3_1_1",
+          filename: "qubic-helper-linux-x64-3_1_2",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.1/qubic-helper-linux-x64-3_1_1",
+              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.2/qubic-helper-linux-x64-3_1_2",
           checksum: "b1f7c658ff81bdf9408f3bcaba3403fe"),
       macOs64: QubicHelperConfigEntry(
-          filename: "qubic-helper-mac-x64-3_1_1",
+          filename: "qubic-helper-mac-x64-3_1_2",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.1/qubic-helper-mac-x64-3_1_1",
-          checksum: "3a855b800fb2eb64035d83a1b48a2969"));
+              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.2/qubic-helper-mac-x64-3_1_2",
+          checksum: "86c4661b7027c1c54c43935ede1e4292"));
 
   static const qubicJSAssetPath =
-      "assets/qubic_js/qubic-helper-html-3_1_1.html";
+      "assets/qubic_js/qubic-helper-html-3_1_2.html";
 
   // This will only be read in Debug mode. In Release mode, proxy setup is ignored.
   static const bool useProxy = false; // Can be set to `true` to use a proxy
