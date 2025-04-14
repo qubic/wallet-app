@@ -185,7 +185,7 @@ class _ExplorerResultPageTransactionItemState
           Row(children: [
             Expanded(
                 child: getFromTo(context, l10n.generalLabelDestination,
-                    assetTransfer!.assetIssuer)),
+                    assetTransfer!.newOwnerAndPossessor)),
             CopyButton(copiedText: widget.transaction.data.destId.toString()),
           ]),
           ThemedControls.spacerVerticalSmall(),
