@@ -43,7 +43,7 @@ class _ExplorerResultPageTransactionItemState
 
   Future<QubicAssetTransfer> parseAssetTransferPayload() async {
     return await getIt<QubicCmd>()
-        .parseAssetTransferPayload(widget.transaction.transaction.inputHex!);
+        .parseAssetTransferPayload(widget.transaction.data.inputHex!);
   }
 
   bool get isQxTransferShares => QxInfo.isQxTransferShares(
@@ -119,7 +119,7 @@ class _ExplorerResultPageTransactionItemState
                           : l10n.generalLabelCurrencyQubic,
                       amount: int.tryParse(isQxTransferShares
                           ? assetTransfer!.numberOfUnits
-                          : widget.transaction.transaction
+                          : widget.transaction.data
                               .amount!))) // transaction.amount)),
               ),
         Row(children: [
@@ -127,12 +127,11 @@ class _ExplorerResultPageTransactionItemState
               ? Expanded(
                   flex: 1,
                   child: CopyableText(
-                      copiedText: widget.transaction.transaction.tickNumber
-                              ?.toString() ??
-                          "-",
+                      copiedText:
+                          widget.transaction.data.tickNumber?.toString() ?? "-",
                       child: Text(
                           l10n.generalLabelTickAndValue(widget
-                                  .transaction.transaction.tickNumber
+                                  .transaction.data.tickNumber
                                   ?.asThousands() ??
                               "-"),
                           textAlign: TextAlign.right)))
@@ -146,26 +145,23 @@ class _ExplorerResultPageTransactionItemState
                   children: [
                 Text(l10n.transactionItemLabelTransactionId,
                     style: itemHeaderType(context)),
-                Text(widget.transaction.transaction.txId.toString()),
+                Text(widget.transaction.data.txId.toString()),
               ])),
-          CopyButton(
-              copiedText: widget.transaction.transaction.txId.toString()),
+          CopyButton(copiedText: widget.transaction.data.txId.toString()),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Row(children: [
           Expanded(
               child: getFromTo(context, l10n.generalLabelFrom,
-                  widget.transaction.transaction.sourceId.toString())),
-          CopyButton(
-              copiedText: widget.transaction.transaction.sourceId.toString()),
+                  widget.transaction.data.sourceId.toString())),
+          CopyButton(copiedText: widget.transaction.data.sourceId.toString()),
         ]),
         ThemedControls.spacerVerticalSmall(),
         Row(children: [
           Expanded(
               child: getFromTo(context, l10n.generalLabelTo,
-                  widget.transaction.transaction.destId.toString())),
-          CopyButton(
-              copiedText: widget.transaction.transaction.destId.toString()),
+                  widget.transaction.data.destId.toString())),
+          CopyButton(copiedText: widget.transaction.data.destId.toString()),
         ]),
         if (isQxTransferShares && assetTransfer != null) ...[
           ThemedControls.spacerVerticalSmall(),
@@ -183,12 +179,11 @@ class _ExplorerResultPageTransactionItemState
                 children: [
                   Text(l10n.generalLabelFee, style: itemHeaderType(context)),
                   Text(
-                      "${widget.transaction.transaction.amount!.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
+                      "${widget.transaction.data.amount!.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
                 ],
               ),
             ),
-            CopyButton(
-                copiedText: widget.transaction.transaction.destId.toString()),
+            CopyButton(copiedText: widget.transaction.data.destId.toString()),
           ]),
         ]
       ]),
