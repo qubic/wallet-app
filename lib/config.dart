@@ -90,4 +90,7 @@ abstract class Config {
       secondsToFlagTrxAsInvalid / averageTickDurationInSeconds;
 
   static const dAppDefaultImageName = "assets/images/dapp-default.png";
+
+  static const zeroAddress =
+      "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFXIB";
 }

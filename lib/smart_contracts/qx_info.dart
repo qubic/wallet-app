@@ -1,3 +1,5 @@
+import 'package:qubic_wallet/config.dart';
+
 /// QX Related constants
 abstract class QxInfo {
   /// Qx Address
@@ -16,8 +18,7 @@ abstract class QxInfo {
   /// Input type for transferring an asset
   static const transferAssetInputType = 2;
 
-  static const mainAssetIssuer =
-      "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFXIB";
+  static const mainAssetIssuer = Config.zeroAddress;
 
   static bool isQxTransferShares(String? destId, int? inputType) =>
       destId == address && inputType == transferAssetInputType;
