@@ -198,7 +198,6 @@ class QubicJs {
       CallAsyncJavaScriptResult? result =
           await runFunction(QubicJSFunctions.parseAssetTransferPayload, [data]);
       final decodedResult = json.decode(result?.value);
-      appLogger.e(decodedResult);
       final asset = QubicAssetTransfer.fromJson(decodedResult);
       return asset;
     } catch (e) {

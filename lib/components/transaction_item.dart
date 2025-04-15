@@ -252,7 +252,7 @@ class _TransactionItemState extends State<TransactionItem> {
                     child: getFromTo(
                         context,
                         l10n.generalLabelTo,
-                        isQxTransferShares
+                        isQxTransferShares && assetTransfer != null
                             ? assetTransfer!.newOwnerAndPossessor
                             : widget.item.destId)),
                 CopyButton(copiedText: widget.item.destId),
