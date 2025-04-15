@@ -207,20 +207,20 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                    color: LightThemeColors.warning40,
+                                    color: LightThemeColors.primary40,
                                     width: 0.8),
                               ),
                               child: ThemedControls.cardWithBg(
                                 bgColor: Colors.transparent,
                                 child: Row(children: [
-                                  SvgPicture.asset(AppIcons.warning,
-                                      height: 20),
+                                  const Icon(Icons.info_outline_rounded,
+                                      color: LightThemeColors.primary40),
                                   ThemedControls.spacerHorizontalSmall(),
                                   Expanded(
                                       child: Text(
                                     l10n.qxTransferSharesWarning,
                                     style: TextStyles.secondaryText.copyWith(
-                                        color: LightThemeColors.warning40),
+                                        color: LightThemeColors.primary40),
                                   ))
                                 ]),
                               ),
