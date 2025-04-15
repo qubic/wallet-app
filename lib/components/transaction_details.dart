@@ -301,7 +301,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               if (isQutilSendToMany &&
                                   sendManyTransfers.isNotEmpty) ...[
                                 ThemedControls.spacerVerticalSmall(),
-                                Text("Multiple Receivers",
+                                Text(l10n.generalLabelMultipleReceivers,
                                     style: TextStyles.lightGreyTextNormal),
                                 ThemedControls.spacerVerticalMini(),
                                 Column(

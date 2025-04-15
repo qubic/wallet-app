@@ -202,7 +202,8 @@ class _ExplorerResultPageTransactionItemState
         ],
         if (isQutilSendToMany && sendManyTransfers.isNotEmpty) ...[
           ThemedControls.spacerVerticalSmall(),
-          Text("Multiple Receivers", style: itemHeaderType(context)),
+          Text(l10n.generalLabelMultipleReceivers,
+              style: itemHeaderType(context)),
           ThemedControls.spacerVerticalMini(),
           Column(
             children: sendManyTransfers

@@ -82,6 +82,7 @@
             }
         }
     },
+    "generalLabelMultipleReceivers": "Multiple Receivers",
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
