@@ -176,18 +176,15 @@ class _ExplorerResultPageTransactionItemState
         ThemedControls.spacerVerticalSmall(),
         Row(children: [
           Expanded(
-              child: getFromTo(context, l10n.generalLabelTo,
-                  widget.transaction.data.destId.toString())),
+              child: getFromTo(
+                  context,
+                  l10n.generalLabelTo,
+                  isQxTransferShares && assetTransfer != null
+                      ? assetTransfer!.newOwnerAndPossessor
+                      : widget.transaction.data.destId.toString())),
           CopyButton(copiedText: widget.transaction.data.destId.toString()),
         ]),
         if (isQxTransferShares && assetTransfer != null) ...[
-          ThemedControls.spacerVerticalSmall(),
-          Row(children: [
-            Expanded(
-                child: getFromTo(context, l10n.generalLabelDestination,
-                    assetTransfer!.newOwnerAndPossessor)),
-            CopyButton(copiedText: widget.transaction.data.destId.toString()),
-          ]),
           ThemedControls.spacerVerticalSmall(),
           Row(children: [
             Expanded(

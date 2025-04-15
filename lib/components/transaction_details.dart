@@ -283,21 +283,14 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               getFromTo(context, l10n.generalLabelFrom,
                                   widget.item.sourceId),
                               ThemedControls.spacerVerticalSmall(),
-                              getFromTo(context, l10n.generalLabelTo,
-                                  widget.item.destId),
+                              getFromTo(
+                                  context,
+                                  l10n.generalLabelTo,
+                                  isQxTransferShares
+                                      ? widget
+                                          .assetTransfer!.newOwnerAndPossessor
+                                      : widget.item.destId),
                               ThemedControls.spacerVerticalSmall(),
-                              if (isQxTransferShares) ...[
-                                getCopyableDetails(
-                                    context,
-                                    l10n.generalLabelDestination,
-                                    widget.assetTransfer!.newOwnerAndPossessor),
-                                ThemedControls.spacerVerticalSmall(),
-                                getCopyableDetails(
-                                    context,
-                                    l10n.generalLabelFee,
-                                    "${widget.item.amount.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
-                                ThemedControls.spacerVerticalSmall(),
-                              ],
                               getCopyableDetails(
                                   context,
                                   l10n.transactionItemLabelConfirmedDate,

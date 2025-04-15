@@ -250,7 +250,11 @@ class _TransactionItemState extends State<TransactionItem> {
               Flex(direction: Axis.horizontal, children: [
                 Expanded(
                     child: getFromTo(
-                        context, l10n.generalLabelTo, widget.item.destId)),
+                        context,
+                        l10n.generalLabelTo,
+                        isQxTransferShares
+                            ? assetTransfer!.newOwnerAndPossessor
+                            : widget.item.destId)),
                 CopyButton(copiedText: widget.item.destId),
               ]),
             ]),
