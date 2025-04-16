@@ -4,6 +4,7 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
+import 'package:qubic_wallet/smart_contracts/special_addresses.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -72,7 +73,7 @@ class TransactionUIHelpers {
 
   static String getTransactionType(int type, String destination) {
     return QubicSCStore.getProcedureName(destination, type) ??
-        "$type ${(type == 0 || Config.zeroAddress == destination) ? "Standard" : "SC"}";
+        "$type ${(type == 0 || SpecialAddresses.empty == destination) ? "Standard" : "SC"}";
   }
 
   static getTransactionFiltersInfo(BuildContext context,
