@@ -49,6 +49,8 @@
     "generalLabelUnknown": "Unknown",
     "generalLabelFrom": "From",
     "generalLabelTo": "To",
+    "generalLabelFee": "Fee",
+    "generalLabelDestination": "Destination",
     "generalLabeQubicAddress": "Qubic Address",
     "generalLabeQubicAddressAndPublicID": "Qubic Address (Public ID)",
     "generalLabelQubicAddressWithAccountName": "Qubic Address {accountName}",
@@ -80,6 +82,7 @@
             }
         }
     },
+    "generalLabelMultipleReceivers": "Multiple Receivers",
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
@@ -161,6 +164,7 @@
             }
         }
     },
+    "qxTransferSharesWarning": "This transaction record is currently visible only to the sender",
     "filterTransfersTitle": "Filter Transfers",
     "filterTransfersLabelAnyQubicID": "Any Qubic ID",
     "filterTransfersLabelByQubicID": "By Qubic ID",
