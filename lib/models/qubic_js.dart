@@ -31,4 +31,8 @@ abstract class QubicJSFunctions {
 
   // Import a vault from a file (LINUX ONLY)
   static const importVaultFile = "wallet.importVaultFile";
+  // Parse an asset transfer payload
+  static const parseAssetTransferPayload = "parseAssetTransferPayload";
+  // Parse QUtil SendMany transfer payload
+  static const parseTransferSendManyPayload = "parseTransferSendManyPayload";
 }

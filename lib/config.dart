@@ -69,7 +69,7 @@ abstract class Config {
           checksum: "3a855b800fb2eb64035d83a1b48a2969"));
 
   static const qubicJSAssetPath =
-      "assets/qubic_js/qubic-helper-html-3_1_1.html";
+      "assets/qubic_js/qubic-helper-html-3_1_2.html";
 
   // This will only be read in Debug mode. In Release mode, proxy setup is ignored.
   static const bool useProxy = false; // Can be set to `true` to use a proxy
