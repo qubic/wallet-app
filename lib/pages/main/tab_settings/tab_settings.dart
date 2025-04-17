@@ -139,7 +139,7 @@ class _TabSettingsState extends State<TabSettings> {
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.support,
                                   height: defaultIconHeight),
-                              title: "Support",
+                              title: l10n.settingsLabelSupport,
                               path: const SupportScreen(),
                             ),
                             SettingsListTile(
