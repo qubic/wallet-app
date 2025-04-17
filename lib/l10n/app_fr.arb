@@ -844,5 +844,9 @@
     "wcSmartContractWarningDescription": "Assurez-vous de faire confiance à cette DApp. En approuvant la transaction, vous pourriez autoriser le transfert de Qubics et/ou d'actifs",
     "wcApproveTransfer": "Approuver le transfert",
     "wcSendAssets": "Envoyer des actifs",
-    "assetButtonIssuerIdentity": "Identité de l'Émetteur"
+    "assetButtonIssuerIdentity": "Identité de l'Émetteur",
+    "settingsLabelSupport":"Support",
+    "settingsSupportEmail":"Envoyer un e-mail",
+    "settingsSupportGithub":"GitHub (Signaler un problème)",
+    "settingsSupportDiscord":"Discord (Canal de support)"
 }
