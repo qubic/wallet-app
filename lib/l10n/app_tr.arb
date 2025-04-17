@@ -254,7 +254,7 @@
     "transactionLabelStatusFailed": "Başarısız",
     "transactionLabelStatusInvalid": "Geçersiz",
     "signInTitleOne": "Qubic Cüzdanına",
-    "siginInTitleTwo": "Hoşgeldiniz",
+    "signInTitleTwo": "Hoşgeldiniz",
     "welcomeTitle": "Hoşgeldiniz!",
     "welcomeButtonUnlockWallet": "Cüzdanı Aç",
     "welcomeButtonCreateWallet": "Yeni Bir Cüzdan Oluştur",
@@ -843,5 +843,6 @@
     "settingsLabelSupport":"Destek",
     "settingsSupportEmail":"E-posta gönder",
     "settingsSupportGithub":"GitHub (Hata bildir)",
-    "settingsSupportDiscord":"Discord (Destek kanalı)"
+    "settingsSupportDiscord":"Discord (Destek kanalı)",
+    "emailFeedbackSubject": "Qubic Wallet için geri bildirim"
 }

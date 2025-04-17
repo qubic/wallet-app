@@ -278,7 +278,7 @@
     "transactionLabelStatusFailed": "Failed",
     "transactionLabelStatusInvalid": "Invalid",
     "signInTitleOne": "Welcome to the",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Welcome back!",
     "welcomeButtonUnlockWallet": "Unlock Wallet",
     "welcomeButtonCreateWallet": "Create a New Wallet",
@@ -890,5 +890,6 @@
     "wcSendAssets": "Send Assets",
     "wcSignMessage": "Sign Message",
     "wcSignTransaction": "Sign Transaction",
-    "assetButtonIssuerIdentity": "Issuer Identity"
+    "assetButtonIssuerIdentity": "Issuer Identity",
+    "emailFeedbackSubject": "Feedback for Qubic Wallet"
 }

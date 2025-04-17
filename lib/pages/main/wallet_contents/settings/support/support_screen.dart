@@ -11,19 +11,31 @@ import 'package:universal_platform/universal_platform.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});
-  openEmailApp() async {
-    String emailTo = "wallet+";
-    String subject = "Feedback for Qubic Wallet - ";
+  openEmailApp(BuildContext context) async {
+    String platform = "";
+
     if (UniversalPlatform.isIOS) {
-      emailTo += "ios@qubic.org";
-      subject += "iOS";
+      platform = "iOS";
     } else if (UniversalPlatform.isAndroid) {
-      emailTo += "android@qubic.org";
-      subject += "Android";
+      platform = "Android";
     } else if (UniversalPlatform.isMacOS) {
-      emailTo += "macos@qubic.org";
-      subject += "MacOS";
+      platform = "MacOS";
+    } else if (UniversalPlatform.isWindows) {
+      platform = "Windows";
+    } else if (UniversalPlatform.isLinux) {
+      platform = "Linux";
     }
+
+    String emailTo = "wallet";
+    String subject = l10nOf(context).emailFeedbackSubject;
+
+    if (platform.isNotEmpty) {
+      emailTo = "$emailTo+${platform.toLowerCase()}@qubic.org";
+      subject = "$subject - $platform";
+    } else {
+      emailTo = "$emailTo@qubic.org";
+    }
+
     final Email email = Email(
       subject: subject,
       recipients: [emailTo],

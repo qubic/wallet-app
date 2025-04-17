@@ -254,7 +254,7 @@
     "transactionLabelStatusFailed": "Fehlgeschlagen",
     "transactionLabelStatusInvalid": "Ungültig",
     "signInTitleOne": "Willkommen bei",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Willkommen zurück!",
     "welcomeButtonUnlockWallet": "Wallet entsperren",
     "welcomeButtonCreateWallet": "Neues Wallet erstellen",
@@ -843,5 +843,6 @@
     "settingsLabelSupport": "Support",
     "settingsSupportEmail":"E-Mail senden",
     "settingsSupportGithub":"GitHub (Problem melden)",
-    "settingsSupportDiscord":"Discord (Support-Kanal)"
+    "settingsSupportDiscord":"Discord (Support-Kanal)",
+    "emailFeedbackSubject": "Feedback zur Qubic Wallet"
 }

@@ -254,7 +254,7 @@
     "transactionLabelStatusFailed": "失败",
     "transactionLabelStatusInvalid": "无效",
     "signInTitleOne": "欢迎来到",
-    "siginInTitleTwo": "Qubic 钱包",
+    "signInTitleTwo": "Qubic 钱包",
     "welcomeTitle": "欢迎回来！",
     "welcomeButtonUnlockWallet": "解锁钱包",
     "welcomeButtonCreateWallet": "创建新钱包",
@@ -843,5 +843,6 @@
     "settingsLabelSupport":"支援",
     "settingsSupportEmail":"發送電子郵件",
     "settingsSupportGithub":"GitHub（提交問題）",
-    "settingsSupportDiscord":"Discord（支援頻道）"
+    "settingsSupportDiscord":"Discord（支援頻道）",
+    "emailFeedbackSubject": "Qubic Wallet 的意見反饋"
 }
