@@ -843,5 +843,6 @@
     "settingsLabelSupport":"Поддержка",
     "settingsSupportEmail":"Отправить письмо",
     "settingsSupportGithub":"GitHub (Создать обращение)",
-    "settingsSupportDiscord":"Discord (Канал поддержки)"
+    "settingsSupportDiscord":"Discord (Канал поддержки)",
+    "emailFeedbackSubject": "Отзыв о Qubic Wallet"
 }

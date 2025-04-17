@@ -842,5 +842,6 @@
     "settingsLabelSupport": "Soporte",
     "settingsSupportEmail": "Enviar e-mail",
     "settingsSupportGithub": "GitHub (Reportar un problema)",
-    "settingsSupportDiscord": "Discord (Canal de soporte)"
+    "settingsSupportDiscord": "Discord (Canal de soporte)",
+    "emailFeedbackSubject": "Feedback sobre Qubic Wallet"
 }

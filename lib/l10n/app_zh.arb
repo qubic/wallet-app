@@ -843,5 +843,6 @@
     "settingsLabelSupport":"支援",
     "settingsSupportEmail":"發送電子郵件",
     "settingsSupportGithub":"GitHub（提交問題）",
-    "settingsSupportDiscord":"Discord（支援頻道）"
+    "settingsSupportDiscord":"Discord（支援頻道）",
+    "emailFeedbackSubject": "Qubic Wallet 的意見反饋"
 }

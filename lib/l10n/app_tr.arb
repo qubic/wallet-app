@@ -843,5 +843,6 @@
     "settingsLabelSupport":"Destek",
     "settingsSupportEmail":"E-posta gönder",
     "settingsSupportGithub":"GitHub (Hata bildir)",
-    "settingsSupportDiscord":"Discord (Destek kanalı)"
+    "settingsSupportDiscord":"Discord (Destek kanalı)",
+    "emailFeedbackSubject": "Qubic Wallet için geri bildirim"
 }
