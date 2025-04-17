@@ -890,5 +890,6 @@
     "wcSendAssets": "Send Assets",
     "wcSignMessage": "Sign Message",
     "wcSignTransaction": "Sign Transaction",
-    "assetButtonIssuerIdentity": "Issuer Identity"
+    "assetButtonIssuerIdentity": "Issuer Identity",
+    "emailFeedbackSubject": "Feedback for Qubic Wallet"
 }

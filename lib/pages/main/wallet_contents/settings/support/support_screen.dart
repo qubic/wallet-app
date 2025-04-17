@@ -45,21 +45,33 @@ class SupportScreen extends StatelessWidget {
   }
 
   String _getEmailUri(BuildContext context) {
-    String emailTo = "wallet+";
-    String subject = "Feedback for Qubic Wallet - ";
+    String platform = "";
+
     if (UniversalPlatform.isIOS) {
-      emailTo += "ios@qubic.org";
-      subject += "iOS";
+      platform += "iOS";
     } else if (UniversalPlatform.isAndroid) {
-      emailTo += "android@qubic.org";
-      subject += "Android";
+      platform += "Android";
     } else if (UniversalPlatform.isMacOS) {
-      emailTo += "macos@qubic.org";
-      subject += "MacOS";
+      platform += "MacOS";
+    } else if (UniversalPlatform.isWindows) {
+      platform = "Windows";
+    } else if (UniversalPlatform.isLinux) {
+      platform = "Linux";
     }
+
+    String emailTo = "wallet";
+
+    final l10n = l10nOf(context);
+    String subject = l10n.emailFeedbackSubject;
+
+    if (platform.isNotEmpty) {
+      emailTo = "$emailTo+${platform.toLowerCase()}";
+      subject = "$subject - $platform";
+    }
+
     return Uri(
       scheme: 'mailto',
-      path: emailTo,
+      path: "$emailTo@qubic.org",
       query: 'subject=$subject',
     ).toString();
   }
