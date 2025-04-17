@@ -12,6 +12,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/support/support_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/wallet_connect.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -136,92 +137,10 @@ class _TabSettingsState extends State<TabSettings> {
                                 afterText: const BetaBadge(),
                                 path: const WalletConnectSettings()),
                             SettingsListTile(
-                              prefix: SvgPicture.asset(
-                                AppIcons.support,
-                                height: defaultIconHeight,
-                                color: LightThemeColors.textColorSecondary,
-                              ),
+                              prefix: SvgPicture.asset(AppIcons.support,
+                                  height: defaultIconHeight),
                               title: "Support",
-                              onPressed: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        ListTile(
-                                          leading: Icon(Icons.email_outlined,
-                                              size: defaultIconHeight,
-                                              color: LightThemeColors
-                                                  .textColorSecondary),
-                                          title: const Text("Send email"),
-                                          onTap: () {
-                                            final platform =
-                                                Theme.of(context).platform;
-                                            String emailTo = "wallet+";
-                                            String subject =
-                                                "Feedback for Qubic Wallet - ";
-                                            if (platform ==
-                                                TargetPlatform.iOS) {
-                                              emailTo += "ios@qubic.org";
-                                              subject += "iOS";
-                                            } else if (platform ==
-                                                TargetPlatform.android) {
-                                              emailTo += "android@qubic.org";
-                                              subject += "Android";
-                                            } else if (platform ==
-                                                TargetPlatform.macOS) {
-                                              emailTo += "macos@qubic.org";
-                                              subject += "MacOS";
-                                            }
-                                            final emailUri = Uri(
-                                              scheme: 'mailto',
-                                              path: emailTo,
-                                              query: 'subject=$subject',
-                                            );
-                                            launchUrlString(
-                                                emailUri.toString());
-                                          },
-                                        ),
-                                        ListTile(
-                                          leading: SvgPicture.asset(
-                                              AppIcons.github,
-                                              height: defaultIconHeight),
-                                          title: const Text(
-                                              "GitHub (File an issue)"),
-                                          trailing: SvgPicture.asset(
-                                              AppIcons.externalLink,
-                                              height: defaultIconHeight),
-                                          onTap: () {
-                                            launchUrlString(
-                                              "https://github.com/qubic/wallet-app/issues/new",
-                                              mode: LaunchMode
-                                                  .externalApplication,
-                                            );
-                                          },
-                                        ),
-                                        ListTile(
-                                          leading: SvgPicture.asset(
-                                              AppIcons.discord,
-                                              height: defaultIconHeight),
-                                          title: const Text(
-                                              "Discord (Support channel)"),
-                                          trailing: SvgPicture.asset(
-                                              AppIcons.externalLink,
-                                              height: defaultIconHeight),
-                                          onTap: () {
-                                            launchUrlString(
-                                              "https://discord.com/channels/768887649540243497/1074609434015322132",
-                                              mode: LaunchMode
-                                                  .externalApplication,
-                                            );
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
+                              path: const SupportScreen(),
                             ),
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.community,
