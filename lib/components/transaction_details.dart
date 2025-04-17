@@ -298,6 +298,14 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                                       ? formatter.format(
                                           widget.item.confirmed!.toLocal())
                                       : l10n.generalLabelNotAvailable),
+                              if (isQxTransferShares &&
+                                  widget.assetTransfer != null) ...[
+                                ThemedControls.spacerVerticalSmall(),
+                                getCopyableDetails(
+                                    context,
+                                    l10n.generalLabelFee,
+                                    "${widget.item.amount.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
+                              ],
                               if (isQutilSendToMany &&
                                   sendManyTransfers.isNotEmpty) ...[
                                 ThemedControls.spacerVerticalSmall(),
