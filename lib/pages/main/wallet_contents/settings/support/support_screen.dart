@@ -64,7 +64,9 @@ class SupportScreen extends StatelessWidget {
               AppIcons.email,
             ),
             suffix: const SizedBox(),
-            onPressed: openEmailApp,
+            onPressed: () {
+              openEmailApp(context);
+            },
           ),
           LinkListTile(
             title: l10n.settingsSupportGithub,
@@ -76,6 +78,11 @@ class SupportScreen extends StatelessWidget {
             prefixIconPath: AppIcons.discord,
             url:
                 "https://discord.com/channels/768887649540243497/1074609434015322132",
+          ),
+          LinkListTile(
+            title: l10n.settingsSupportGoogleForm,
+            prefixIconPath: AppIcons.google,
+            url: "https://forms.gle/kDomnBQew161iAsn8",
           ),
         ],
       ),
