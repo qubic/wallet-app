@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/components/community_list_tile.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/components/link_list_tile.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -24,18 +24,18 @@ class SupportScreen extends StatelessWidget {
       body: ListView(
         padding: ThemeEdgeInsets.pageInsets,
         children: [
-          CommunityListTile(
+          LinkListTile(
             title: l10n.settingsSupportEmail,
             prefixIconPath: AppIcons.email,
             hasSuffixIcon: false,
             url: _getEmailUri(context),
           ),
-          CommunityListTile(
+          LinkListTile(
             title: l10n.settingsSupportGithub,
             prefixIconPath: AppIcons.github,
             url: "https://github.com/qubic/wallet-app/issues/new",
           ),
-          CommunityListTile(
+          LinkListTile(
             title: l10n.settingsSupportDiscord,
             prefixIconPath: AppIcons.discord,
             url:

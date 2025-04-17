@@ -6,12 +6,12 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-class CommunityListTile extends StatelessWidget {
+class LinkListTile extends StatelessWidget {
   final String title;
   final String prefixIconPath;
   final bool hasSuffixIcon;
   final String url;
-  const CommunityListTile(
+  const LinkListTile(
       {super.key,
       required this.title,
       required this.prefixIconPath,
