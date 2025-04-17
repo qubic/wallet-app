@@ -437,7 +437,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Неправильный секретный сид",
     "addAccountErrorTamperedWalletTitle": "ОБНАРУЖЕН ПОДДЕЛЬНЫЙ КОШЕЛЕК",
     "addAccountErrorTamperedWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН.\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ С САЙТА HTTPS://GITHUB.COM/QUBIC/WALLET-APP ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА",
-    "sendAssetLabelTransactionCost": "Стоимость транзакции (fixed)",
+    "sendAssetLabelTransactionCost": "Комиссия (fixed)",
     "sendAssetButtonTransfer": "Транзакция",
     "sendAssetErrorTickIsInThePast": "Выбранный тик уже прошёл. Текущий тик {currentTick}",
     "@sendAssetErrorTickIsInThePast": {

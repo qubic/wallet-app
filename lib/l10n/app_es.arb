@@ -437,7 +437,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "La semilla privada es inválida",
     "addAccountErrorTamperedWalletTitle": "MANIPULACIÓN DEL WALLET DETECTADA",
     "addAccountErrorTamperedWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP PARA NO ARRIESGARTE A PERDER TUS FONDOS",
-    "sendAssetLabelTransactionCost": "Costo de la Transacción (fijo)",
+    "sendAssetLabelTransactionCost": "Tarifa (fijo)",
     "sendAssetButtonTransfer": "Transferir",
     "sendAssetErrorTickIsInThePast": "El tick seleccionado es pasado. El tick actual es {currentTick}",
     "@sendAssetErrorTickIsInThePast": {

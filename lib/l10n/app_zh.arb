@@ -438,7 +438,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "提供的私钥种子无效",
     "addAccountErrorTamperedWalletTitle": "检测到篡改的钱包",
     "addAccountErrorTamperedWalletMessage": "您当前正在使用的钱包已被篡改。\n\n请从 HTTPS://GITHUB.COM/QUBIC/WALLET-APP 安装官方版本，否则有资金损失的风险。",
-    "sendAssetLabelTransactionCost": "交易成本 (fixed)",
+    "sendAssetLabelTransactionCost": "费用 (fixed)",
     "sendAssetButtonTransfer": "转账",
     "sendAssetErrorTickIsInThePast": "提供的刻度已过期，当前的刻度是 {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
