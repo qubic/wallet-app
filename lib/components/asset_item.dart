@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
@@ -94,9 +95,20 @@ class _AssetItemState extends State<AssetItem> {
                       children: [
                         Row(children: [
                           Expanded(
-                              child: Text(
-                                  '${formatter.format(widget.asset.ownedAmount)} ${widget.asset.assetName}',
-                                  style: TextStyles.accountName)),
+                              child: AmountFormatted(
+                            key: ValueKey<String>(
+                                "qubicAsset${widget.asset.publicId}-${widget.asset}"),
+                            amount: widget.asset.ownedAmount,
+                            isInHeader: false,
+                            labelOffset: -0,
+                            labelHorizOffset: -6,
+                            textStyle: MediaQuery.of(context).size.width < 400
+                                ? TextStyles.accountAmount
+                                    .copyWith(fontSize: 20)
+                                : TextStyles.accountAmount,
+                            labelStyle: TextStyles.accountAmountLabel,
+                            currencyName: widget.asset.assetName,
+                          )),
                           getCardMenu(context)
                         ]),
                         Text(
