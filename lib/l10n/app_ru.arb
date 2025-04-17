@@ -839,5 +839,8 @@
     "wcSmartContractWarningDescription": "Убедитесь, что вы доверяете этому DApp. Одобряя транзакцию, вы можете разрешить перевод Qubics и/или активов",
     "wcApproveTransfer": "Одобрить перевод",
     "wcSendAssets": "Отправить активы",
-    "assetButtonIssuerIdentity": "Идентификатор владельца"
+    "assetButtonIssuerIdentity": "Идентификатор владельца",  
+    "generalLabelFee": "Комиссия",
+    "generalLabelMultipleReceivers": "Несколько получателей",
+    "qxTransferSharesWarning":"Эта запись о транзакции в данный момент видна только отправителю."
 }
