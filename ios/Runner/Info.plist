@@ -74,7 +74,9 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Use Face ID instead of password to unlock your wallet</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<true/>
+	<key>ITSEncryptionExportComplianceCode</key>
+	<string>b412f43a-05d2-4b42-8f3d-b9d5755103a5</string> 
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UISupportsDocumentBrowser</key>  

@@ -437,7 +437,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Geçersiz özel anahtar girildi",
     "addAccountErrorTamperedWalletTitle": "KUSURLU CÜZDAN TESPİT EDİLDİ",
     "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nHTTPS://GITHUB.COM/QUBIC/WALLET-APP'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
-    "sendAssetLabelTransactionCost": "Trasfer Ücreti (sabit)",
+    "sendAssetLabelTransactionCost": "Ücret (sabit)",
     "sendAssetButtonTransfer": "Transfer",
     "sendAssetErrorTickIsInThePast": "Tick geçmiştedir. Mevcut Tick: {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -845,4 +845,7 @@
     "settingsSupportGithub":"GitHub (Hata bildir)",
     "settingsSupportDiscord":"Discord (Destek kanalı)",
     "emailFeedbackSubject": "Qubic Wallet için geri bildirim"
+    "generalLabelFee": "Ücret",
+    "generalLabelMultipleReceivers":"Birden Fazla Alıcı",
+    "qxTransferSharesWarning":"Bu işlem kaydı şu anda yalnızca gönderen tarafından görülebilir."
 }
