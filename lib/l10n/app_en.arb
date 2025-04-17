@@ -50,7 +50,6 @@
     "generalLabelFrom": "From",
     "generalLabelTo": "To",
     "generalLabelFee": "Fee",
-    "generalLabelDestination": "Destination",
     "generalLabeQubicAddress": "Qubic Address",
     "generalLabeQubicAddressAndPublicID": "Qubic Address (Public ID)",
     "generalLabelQubicAddressWithAccountName": "Qubic Address {accountName}",
@@ -467,7 +466,7 @@
     "addAccountWatchOnlyHintQubicAddress": "Enter a Qubic Address",
     "addAccountCreateNewAccountModalBottomSheet": "Create New Account",
     "addAccountWatchOnlyAddressModalBottomSheet": "Watch Only Account",
-    "sendAssetLabelTransactionCost": "Transaction Cost (fixed)",
+    "sendAssetLabelTransactionCost": "Fee (fixed)",
     "sendAssetButtonTransfer": "Transfer",
     "sendAssetErrorTickIsInThePast": "Provided tick is in the past. Current tick is {currentTick}",
     "@sendAssetErrorTickIsInThePast": {

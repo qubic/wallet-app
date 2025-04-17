@@ -438,7 +438,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Seed privée fournie invalide",
     "addAccountErrorTamperedWalletTitle": "PORTEFEUILLE MODIFIÉ DÉTECTÉ",
     "addAccountErrorTamperedWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP OU RISQUEZ UNE PERTE DE FONDS",
-    "sendAssetLabelTransactionCost": "Coût de la Transaction (fixe)",
+    "sendAssetLabelTransactionCost": "Frais (fixe)",
     "sendAssetButtonTransfer": "Transférer",
     "sendAssetErrorTickIsInThePast": "Le tick fourni est dans le passé. Le tick actuel est {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -844,5 +844,8 @@
     "wcSmartContractWarningDescription": "Assurez-vous de faire confiance à cette DApp. En approuvant la transaction, vous pourriez autoriser le transfert de Qubics et/ou d'actifs",
     "wcApproveTransfer": "Approuver le transfert",
     "wcSendAssets": "Envoyer des actifs",
-    "assetButtonIssuerIdentity": "Identité de l'Émetteur"
+    "assetButtonIssuerIdentity": "Identité de l'Émetteur",
+    "generalLabelFee": "Frais",
+    "generalLabelMultipleReceivers": "Destinataires multiples",
+    "qxTransferSharesWarning":"Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur."
 }
