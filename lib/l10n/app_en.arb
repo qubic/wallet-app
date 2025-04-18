@@ -50,7 +50,6 @@
     "generalLabelFrom": "From",
     "generalLabelTo": "To",
     "generalLabelFee": "Fee",
-    "generalLabelDestination": "Destination",
     "generalLabeQubicAddress": "Qubic Address",
     "generalLabeQubicAddressAndPublicID": "Qubic Address (Public ID)",
     "generalLabelQubicAddressWithAccountName": "Qubic Address {accountName}",
@@ -82,6 +81,7 @@
             }
         }
     },
+    "generalLabelMultipleReceivers": "Multiple Receivers",
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
@@ -218,8 +218,13 @@
     "settingsLabelExportWalletVaultFile": "Export Wallet Vault File",
     "settingsHeaderAbout": "About",
     "settingsLabelJoinCommunity": "Join Community",
+    "settingsLabelSupport": "Support",
     "settingsLabelWalletInfo": "Wallet Info",
     "settingsLabelWalletConnect": "WalletConnect",
+    "settingsSupportEmail": "Send email",
+    "settingsSupportGithub": "GitHub (File an issue)",
+    "settingsSupportDiscord": "Discord (Support channel)",
+    "settingsSupportGoogleForm": "Fill Form",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "Iris",
@@ -275,7 +280,7 @@
     "transactionLabelStatusFailed": "Failed",
     "transactionLabelStatusInvalid": "Invalid",
     "signInTitleOne": "Welcome to the",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Welcome back!",
     "welcomeButtonUnlockWallet": "Unlock Wallet",
     "welcomeButtonCreateWallet": "Create a New Wallet",
@@ -292,8 +297,6 @@
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Advanced Options",
     "accountSendSectionInvalidDestinationAddress": "Invalid destination address",
-    "assetsLabelOwned": "Owned",
-    "assetsLabelPossessed": "Possessed",
     "assetsLabelContractName": "Contract Name",
     "assetsLabelContractIndex": "Contract Index",
     "assetsLabelTick": "Valid for tick {tick}",
@@ -467,7 +470,7 @@
     "addAccountWatchOnlyHintQubicAddress": "Enter a Qubic Address",
     "addAccountCreateNewAccountModalBottomSheet": "Create New Account",
     "addAccountWatchOnlyAddressModalBottomSheet": "Watch Only Account",
-    "sendAssetLabelTransactionCost": "Transaction Cost (fixed)",
+    "sendAssetLabelTransactionCost": "Fee (fixed)",
     "sendAssetButtonTransfer": "Transfer",
     "sendAssetErrorTickIsInThePast": "Provided tick is in the past. Current tick is {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -925,5 +928,6 @@
     },
     "generalLabelMultipleReceivers": "Multiple Receivers",
     "webviewAddressBarLabelRefresh": "Refresh",
-    "webviewAddressBarLabelShareURL": "Share URL"
+    "webviewAddressBarLabelShareURL": "Share URL",
+    "emailFeedbackSubject": "Feedback for Qubic Wallet"
 }

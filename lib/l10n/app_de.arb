@@ -253,7 +253,7 @@
     "transactionLabelStatusFailed": "Fehlgeschlagen",
     "transactionLabelStatusInvalid": "Ungültig",
     "signInTitleOne": "Willkommen bei",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Willkommen zurück!",
     "welcomeButtonUnlockWallet": "Wallet entsperren",
     "welcomeButtonCreateWallet": "Neues Wallet erstellen",
@@ -269,8 +269,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Erweiterte Optionen",
-    "assetsLabelOwned": "Im Besitz",
-    "assetsLabelPossessed": "In Besitz haben",
     "assetsLabelContractName": "Vertragsname",
     "assetsLabelContractIndex": "Vertragsindex",
     "assetsLabelTick": "Gültig für Tick {tick}",
@@ -436,7 +434,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Ungültigen privaten Seed angegeben.",
     "addAccountErrorTamperedWalletTitle": "MANIPULIERTES WALLET ERKANNT",
     "addAccountErrorTamperedWalletMessage": "DAS WALLET, DAS SIE DERZEIT VERWENDEN, IST MANIPULIERT.\n\nINSTALLIEREN SIE EINE OFFIZIELLE VERSION VON HTTPS://GITHUB.COM/QUBIC/WALLET-APP ODER RISIKIEREN SIE DEN VERLUST VON GELDERN.",
-    "sendAssetLabelTransactionCost": "Transaktionskosten (fest)",
+    "sendAssetLabelTransactionCost": "Gebühr (fest)",
     "sendAssetButtonTransfer": "Übertragen",
     "sendAssetErrorTickIsInThePast": "Der angegebene Tick liegt in der Vergangenheit. Aktueller Tick ist {currentTick}.",
     "@sendAssetErrorTickIsInThePast": {
@@ -838,7 +836,13 @@
     "wcApproveTransfer": "Übertragung Genehmigen",
     "wcSendAssets": "Vermögenswerte Senden",
     "assetButtonIssuerIdentity": "Identität des Ausstellers",
-    "generalLabelMultipleReceivers" :"Mehrere Empfänger",
-    "generalLabelFee" : "Gebühr",
-    "generalLabelDestination":"Ziel"
+    "settingsLabelSupport": "Support",
+    "settingsSupportEmail":"E-Mail senden",
+    "settingsSupportGithub":"GitHub (Problem melden)",
+    "settingsSupportDiscord":"Discord (Support-Kanal)",
+    "emailFeedbackSubject": "Feedback zur Qubic Wallet",
+    "generalLabelFee": "Gebühr",
+    "generalLabelMultipleReceivers":"Mehrere Empfänger",
+    "qxTransferSharesWarning":"Dieser Transaktionsdatensatz ist derzeit nur für den Absender sichtbar.",
+    "settingsSupportGoogleForm": "Formular Ausfüllen"
 }

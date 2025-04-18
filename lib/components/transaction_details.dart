@@ -184,20 +184,20 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
-                                    color: LightThemeColors.warning40,
+                                    color: LightThemeColors.primary40,
                                     width: 0.8),
                               ),
                               child: ThemedControls.cardWithBg(
                                 bgColor: Colors.transparent,
                                 child: Row(children: [
-                                  SvgPicture.asset(AppIcons.warning,
-                                      height: 20),
+                                  const Icon(Icons.info_outline_rounded,
+                                      color: LightThemeColors.primary40),
                                   ThemedControls.spacerHorizontalSmall(),
                                   Expanded(
                                       child: Text(
                                     l10n.qxTransferSharesWarning,
                                     style: TextStyles.secondaryText.copyWith(
-                                        color: LightThemeColors.warning40),
+                                        color: LightThemeColors.primary40),
                                   ))
                                 ]),
                               ),
@@ -260,14 +260,16 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               getFromTo(context, l10n.generalLabelFrom,
                                   widget.item.sourceId),
                               ThemedControls.spacerVerticalSmall(),
-                              getFromTo(context, l10n.generalLabelTo,
-                                  widget.item.destId),
+                              getFromTo(
+                                  context,
+                                  l10n.generalLabelTo,
+                                  isQxTransferShares
+                                      ? widget
+                                          .assetTransfer!.newOwnerAndPossessor
+                                      : widget.item.destId),
                               ThemedControls.spacerVerticalSmall(),
-                              if (isQxTransferShares) ...[
-                                getCopyableDetails(
-                                    context,
-                                    l10n.generalLabelDestination,
-                                    widget.assetTransfer!.newOwnerAndPossessor),
+                              if (isQxTransferShares &&
+                                  widget.assetTransfer != null) ...[
                                 ThemedControls.spacerVerticalSmall(),
                                 getCopyableDetails(
                                     context,

@@ -253,7 +253,7 @@
     "transactionLabelStatusFailed": "Başarısız",
     "transactionLabelStatusInvalid": "Geçersiz",
     "signInTitleOne": "Qubic Cüzdanına",
-    "siginInTitleTwo": "Hoşgeldiniz",
+    "signInTitleTwo": "Hoşgeldiniz",
     "welcomeTitle": "Hoşgeldiniz!",
     "welcomeButtonUnlockWallet": "Cüzdanı Aç",
     "welcomeButtonCreateWallet": "Yeni Bir Cüzdan Oluştur",
@@ -269,8 +269,6 @@
     "accountSendButtonMax": "Maksimum",
     "accountSendButtonMaxMinusOne": "Maksimum - 1",
     "accountSendSectionAdvanceOptionsTitle": "Gelişmiş Seçenekler",
-    "assetsLabelOwned": "Sahip Olunan",
-    "assetsLabelPossessed": "Sahip Olunan",
     "assetsLabelContractName": "Kontrakt Adı",
     "assetsLabelContractIndex": "Kontrakt İndeksi",
     "assetsLabelTick": "Valid for tick {tick}",
@@ -435,7 +433,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Geçersiz özel anahtar girildi",
     "addAccountErrorTamperedWalletTitle": "KUSURLU CÜZDAN TESPİT EDİLDİ",
     "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nHTTPS://GITHUB.COM/QUBIC/WALLET-APP'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
-    "sendAssetLabelTransactionCost": "Trasfer Ücreti (sabit)",
+    "sendAssetLabelTransactionCost": "Ücret (sabit)",
     "sendAssetButtonTransfer": "Transfer",
     "sendAssetErrorTickIsInThePast": "Tick geçmiştedir. Mevcut Tick: {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -838,7 +836,13 @@
     "wcApproveTransfer": "Transferi Onayla",
     "wcSendAssets": "Varlıkları Gönder",
     "assetButtonIssuerIdentity": "Veren Kimliği",
-    "generalLabelMultipleReceivers" :"Birden fazla alıcı",
-    "generalLabelFee":"Ücret",
-    "generalLabelDestination": "Hedef"
+    "settingsLabelSupport":"Destek",
+    "settingsSupportEmail":"E-posta gönder",
+    "settingsSupportGithub":"GitHub (Hata bildir)",
+    "settingsSupportDiscord":"Discord (Destek kanalı)",
+    "emailFeedbackSubject": "Qubic Wallet için geri bildirim",
+    "generalLabelFee": "Ücret",
+    "generalLabelMultipleReceivers":"Birden Fazla Alıcı",
+    "qxTransferSharesWarning":"Bu işlem kaydı şu anda yalnızca gönderen tarafından görülebilir.",
+    "settingsSupportGoogleForm": "Formu Doldur"
 }

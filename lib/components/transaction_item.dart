@@ -19,6 +19,7 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -233,7 +234,11 @@ class _TransactionItemState extends State<TransactionItem> {
               Flex(direction: Axis.horizontal, children: [
                 Expanded(
                     child: getFromTo(
-                        context, l10n.generalLabelTo, widget.item.destId)),
+                        context,
+                        l10n.generalLabelTo,
+                        isQxTransferShares && assetTransfer != null
+                            ? assetTransfer!.newOwnerAndPossessor
+                            : widget.item.destId)),
                 CopyButton(copiedText: widget.item.destId),
               ]),
             ]),

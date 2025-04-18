@@ -32,4 +32,7 @@ abstract class AppIcons {
   static const String iris = '${_path}iris.svg';
   static const String security = '${_path}security.svg';
   static const String network = '${_path}network.svg';
+  static const String support = '${_path}support.svg';
+  static const String email = '${_path}email.svg';
+  static const String google = '${_path}google.svg';
 }

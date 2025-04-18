@@ -253,7 +253,7 @@
     "transactionLabelStatusFailed": "Échoué",
     "transactionLabelStatusInvalid": "Invalide",
     "signInTitleOne": "Bienvenue dans le",
-    "siginInTitleTwo": "Portefeuille Qubic",
+    "signInTitleTwo": "Portefeuille Qubic",
     "welcomeTitle": "Bon retour !",
     "welcomeButtonUnlockWallet": "Déverrouiller le portefeuille",
     "welcomeButtonCreateWallet": "Créer un nouveau portefeuille",
@@ -269,8 +269,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Options avancées",
-    "assetsLabelOwned": "Possédé",
-    "assetsLabelPossessed": "Possédé",
     "assetsLabelContractName": "Nom du contrat",
     "assetsLabelContractIndex": "Index du contrat",
     "assetsLabelTick": "Valide pour le tick {tick}",
@@ -436,7 +434,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Seed privée fournie invalide",
     "addAccountErrorTamperedWalletTitle": "PORTEFEUILLE MODIFIÉ DÉTECTÉ",
     "addAccountErrorTamperedWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP OU RISQUEZ UNE PERTE DE FONDS",
-    "sendAssetLabelTransactionCost": "Coût de la Transaction (fixe)",
+    "sendAssetLabelTransactionCost": "Frais (fixe)",
     "sendAssetButtonTransfer": "Transférer",
     "sendAssetErrorTickIsInThePast": "Le tick fourni est dans le passé. Le tick actuel est {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -843,7 +841,13 @@
     "wcApproveTransfer": "Approuver le transfert",
     "wcSendAssets": "Envoyer des actifs",
     "assetButtonIssuerIdentity": "Identité de l'Émetteur",
-    "generalLabelMultipleReceivers" :"Récepteurs multiples",
+    "settingsLabelSupport":"Support",
+    "settingsSupportEmail":"Envoyer un e-mail",
+    "settingsSupportGithub":"GitHub (Signaler un problème)",
+    "settingsSupportDiscord":"Discord (Canal de support)",
+    "emailFeedbackSubject": "Retour concernant Qubic Wallet",
     "generalLabelFee": "Frais",
-    "generalLabelDestination": "Destinataire"
+    "generalLabelMultipleReceivers": "Destinataires multiples",
+    "qxTransferSharesWarning":"Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur.",
+    "settingsSupportGoogleForm": "Remplir le formulaire"
 }
