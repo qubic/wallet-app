@@ -827,7 +827,7 @@
     "wcOpenApp": "Open App",
     "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",
     "wcExpiresInLessThanDay": "Session expires less than day",
-    "pasteURLHere": "Paste URL here",
+    "pasteURLHere": "Paste URL",
     "approvingConnection": "Approving connection",
     "pleaseWait": "Please wait",
     "wcApproveSignTransferOf": "Sign the transfer of",

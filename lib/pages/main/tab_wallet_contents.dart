@@ -169,7 +169,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                       TickRefresh(),
                       ThemedControls.spacerHorizontalSmall(),
                       Visibility(
-                        visible: false,
+                        visible: true,
                         child: SliverButton(
                           onPressed: () {
                             pushScreen(

@@ -760,7 +760,7 @@
     "wcOpenApp": "Открыть приложение",
     "wcExpiresInDays": "{count, plural, =1{Сессия истекает через 1 день} other{Сессия истекает через {count} дней}}",
     "wcExpiresInLessThanDay": "Сессия истекает менее чем через день",
-    "pasteURLHere": "Вставьте URL сюда",
+    "pasteURLHere": "Вставить URL",
     "approvingConnection": "Подтверждение соединения",
     "pleaseWait": "Пожалуйста, подождите",
     "wcApproveSignTransferOf": "Подпишите передачу",
