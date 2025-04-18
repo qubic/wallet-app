@@ -254,7 +254,7 @@
     "transactionLabelStatusFailed": "Fehlgeschlagen",
     "transactionLabelStatusInvalid": "Ungültig",
     "signInTitleOne": "Willkommen bei",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Willkommen zurück!",
     "welcomeButtonUnlockWallet": "Wallet entsperren",
     "welcomeButtonCreateWallet": "Neues Wallet erstellen",
@@ -840,7 +840,13 @@
     "wcApproveTransfer": "Übertragung Genehmigen",
     "wcSendAssets": "Vermögenswerte Senden",
     "assetButtonIssuerIdentity": "Identität des Ausstellers",
+    "settingsLabelSupport": "Support",
+    "settingsSupportEmail":"E-Mail senden",
+    "settingsSupportGithub":"GitHub (Problem melden)",
+    "settingsSupportDiscord":"Discord (Support-Kanal)",
+    "emailFeedbackSubject": "Feedback zur Qubic Wallet",
     "generalLabelFee": "Gebühr",
     "generalLabelMultipleReceivers":"Mehrere Empfänger",
-    "qxTransferSharesWarning":"Dieser Transaktionsdatensatz ist derzeit nur für den Absender sichtbar."
+    "qxTransferSharesWarning":"Dieser Transaktionsdatensatz ist derzeit nur für den Absender sichtbar.",
+    "settingsSupportGoogleForm": "Formular Ausfüllen"
 }

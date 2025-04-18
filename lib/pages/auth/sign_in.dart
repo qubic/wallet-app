@@ -445,7 +445,7 @@ class _SignInState extends State<SignIn>
             textAlign: TextAlign.center,
             style: TextStyles.pageTitle
                 .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
-        Text(l10n.siginInTitleTwo,
+        Text(l10n.signInTitleTwo,
             textAlign: TextAlign.center,
             style: TextStyles.pageTitle.copyWith(
                 fontSize: ThemeFontSizes.loginTitle.toDouble(),
