@@ -270,8 +270,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Erweiterte Optionen",
-    "assetsLabelOwned": "Im Besitz",
-    "assetsLabelPossessed": "In Besitz haben",
     "assetsLabelContractName": "Vertragsname",
     "assetsLabelContractIndex": "Vertragsindex",
     "assetsLabelTick": "Gültig für Tick {tick}",

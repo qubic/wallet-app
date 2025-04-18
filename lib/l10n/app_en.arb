@@ -295,8 +295,6 @@
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Advanced Options",
     "accountSendSectionInvalidDestinationAddress": "Invalid destination address",
-    "assetsLabelOwned": "Owned",
-    "assetsLabelPossessed": "Possessed",
     "assetsLabelContractName": "Contract Name",
     "assetsLabelContractIndex": "Contract Index",
     "assetsLabelTick": "Valid for tick {tick}",

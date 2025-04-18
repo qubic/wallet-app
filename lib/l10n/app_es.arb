@@ -269,8 +269,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Opciones Avanzadas",
-    "assetsLabelOwned": "En propiedad",
-    "assetsLabelPossessed": "En posesión",
     "assetsLabelContractName": "Nombre del Contrato",
     "assetsLabelContractIndex": "Índice del Contrato",
     "assetsLabelTick": "Válido para el Tick: {tick}",
