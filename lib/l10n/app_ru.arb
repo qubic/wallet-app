@@ -844,9 +844,10 @@
     "settingsSupportEmail":"Отправить письмо",
     "settingsSupportGithub":"GitHub (Создать обращение)",
     "settingsSupportDiscord":"Discord (Канал поддержки)",
-    "emailFeedbackSubject": "Отзыв о Qubic Wallet"
+    "emailFeedbackSubject": "Отзыв о Qubic Wallet",
     "assetButtonIssuerIdentity": "Идентификатор владельца",  
     "generalLabelFee": "Комиссия",
     "generalLabelMultipleReceivers": "Несколько получателей",
-    "qxTransferSharesWarning":"Эта запись о транзакции в данный момент видна только отправителю."
+    "qxTransferSharesWarning":"Эта запись о транзакции в данный момент видна только отправителю.",
+    "settingsSupportGoogleForm": "Заполнить форму"
 }

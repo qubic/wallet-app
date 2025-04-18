@@ -849,8 +849,9 @@
     "settingsSupportEmail":"Envoyer un e-mail",
     "settingsSupportGithub":"GitHub (Signaler un problème)",
     "settingsSupportDiscord":"Discord (Canal de support)",
-    "emailFeedbackSubject": "Retour concernant Qubic Wallet"
+    "emailFeedbackSubject": "Retour concernant Qubic Wallet",
     "generalLabelFee": "Frais",
     "generalLabelMultipleReceivers": "Destinataires multiples",
-    "qxTransferSharesWarning":"Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur."
+    "qxTransferSharesWarning":"Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur.",
+    "settingsSupportGoogleForm": "Remplir le formulaire"
 }

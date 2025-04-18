@@ -844,8 +844,9 @@
     "settingsSupportEmail":"E-posta gönder",
     "settingsSupportGithub":"GitHub (Hata bildir)",
     "settingsSupportDiscord":"Discord (Destek kanalı)",
-    "emailFeedbackSubject": "Qubic Wallet için geri bildirim"
+    "emailFeedbackSubject": "Qubic Wallet için geri bildirim",
     "generalLabelFee": "Ücret",
     "generalLabelMultipleReceivers":"Birden Fazla Alıcı",
-    "qxTransferSharesWarning":"Bu işlem kaydı şu anda yalnızca gönderen tarafından görülebilir."
+    "qxTransferSharesWarning":"Bu işlem kaydı şu anda yalnızca gönderen tarafından görülebilir.",
+    "settingsSupportGoogleForm": "Formu Doldur"
 }

@@ -69,6 +69,11 @@ class SupportScreen extends StatelessWidget {
             },
           ),
           LinkListTile(
+            title: l10n.settingsSupportGoogleForm,
+            prefixIconPath: AppIcons.google,
+            url: "https://forms.gle/kDomnBQew161iAsn8",
+          ),
+          LinkListTile(
             title: l10n.settingsSupportGithub,
             prefixIconPath: AppIcons.github,
             url: "https://github.com/qubic/wallet-app/issues/new",
@@ -78,11 +83,6 @@ class SupportScreen extends StatelessWidget {
             prefixIconPath: AppIcons.discord,
             url:
                 "https://discord.com/channels/768887649540243497/1074609434015322132",
-          ),
-          LinkListTile(
-            title: l10n.settingsSupportGoogleForm,
-            prefixIconPath: AppIcons.google,
-            url: "https://forms.gle/kDomnBQew161iAsn8",
           ),
         ],
       ),
