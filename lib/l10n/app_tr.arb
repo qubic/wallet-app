@@ -838,13 +838,11 @@
     "wcApproveTransfer": "Transferi Onayla",
     "wcSendAssets": "Varlıkları Gönder",
     "assetButtonIssuerIdentity": "Veren Kimliği",
-    "settingsLabelSupport":"Destek",
-    "settingsSupportEmail":"E-posta gönder",
-    "settingsSupportGithub":"GitHub (Hata bildir)",
-    "settingsSupportDiscord":"Discord (Destek kanalı)",
-    "emailFeedbackSubject": "Qubic Wallet için geri bildirim",
+    "settingsLabelSupport": "Destek",
+    "settingsSupportGithub": "GitHub (Hata bildir)",
+    "settingsSupportDiscord": "Discord (Destek kanalı)",
     "generalLabelFee": "Ücret",
-    "generalLabelMultipleReceivers":"Birden Fazla Alıcı",
-    "qxTransferSharesWarning":"Bu işlem kaydı şu anda yalnızca gönderen tarafından görülebilir.",
+    "generalLabelMultipleReceivers": "Birden Fazla Alıcı",
+    "qxTransferSharesWarning": "Bu işlem kaydı şu anda yalnızca gönderen tarafından görülebilir.",
     "settingsSupportGoogleForm": "Formu Doldur"
 }

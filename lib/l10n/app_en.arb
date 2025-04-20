@@ -219,7 +219,6 @@
     "settingsLabelSupport": "Support",
     "settingsLabelWalletInfo": "Wallet Info",
     "settingsLabelWalletConnect": "WalletConnect",
-    "settingsSupportEmail": "Send email",
     "settingsSupportGithub": "GitHub (File an issue)",
     "settingsSupportDiscord": "Discord (Support channel)",
     "settingsSupportGoogleForm": "Fill Form",
@@ -888,6 +887,5 @@
     "wcSendAssets": "Send Assets",
     "wcSignMessage": "Sign Message",
     "wcSignTransaction": "Sign Transaction",
-    "assetButtonIssuerIdentity": "Issuer Identity",
-    "emailFeedbackSubject": "Feedback for Qubic Wallet"
+    "assetButtonIssuerIdentity": "Issuer Identity"
 }
