@@ -838,13 +838,11 @@
     "wcApproveTransfer": "批准轉帳",
     "wcSendAssets": "發送資產",
     "assetButtonIssuerIdentity": "发行人身份",
-    "settingsLabelSupport":"支援",
-    "settingsSupportEmail":"發送電子郵件",
-    "settingsSupportGithub":"GitHub（提交問題）",
-    "settingsSupportDiscord":"Discord（支援頻道）",
-    "emailFeedbackSubject": "Qubic Wallet 的意見反饋",
+    "settingsLabelSupport": "支援",
+    "settingsSupportGithub": "GitHub（提交問題）",
+    "settingsSupportDiscord": "Discord（支援頻道）",
     "generalLabelFee": "费用",
     "generalLabelMultipleReceivers": "多個接收者",
-    "qxTransferSharesWarning":"此交易当前仅发送方可见，接收方暂时无法查看",
+    "qxTransferSharesWarning": "此交易当前仅发送方可见，接收方暂时无法查看",
     "settingsSupportGoogleForm": "填写表单"
 }
