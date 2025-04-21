@@ -252,7 +252,7 @@
     "transactionLabelStatusFailed": "Fallida",
     "transactionLabelStatusInvalid": "Inválida",
     "signInTitleOne": "Bienvenido a",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Bienvenido de vuelta!",
     "welcomeButtonUnlockWallet": "Desbloquear Wallet",
     "welcomeButtonCreateWallet": "Crear un Nuevo Wallet",
@@ -268,8 +268,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Opciones Avanzadas",
-    "assetsLabelOwned": "En propiedad",
-    "assetsLabelPossessed": "En posesión",
     "assetsLabelContractName": "Nombre del Contrato",
     "assetsLabelContractIndex": "Índice del Contrato",
     "assetsLabelTick": "Válido para el Tick: {tick}",
@@ -435,7 +433,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "La semilla privada es inválida",
     "addAccountErrorTamperedWalletTitle": "MANIPULACIÓN DEL WALLET DETECTADA",
     "addAccountErrorTamperedWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP PARA NO ARRIESGARTE A PERDER TUS FONDOS",
-    "sendAssetLabelTransactionCost": "Costo de la Transacción (fijo)",
+    "sendAssetLabelTransactionCost": "Tarifa (fijo)",
     "sendAssetButtonTransfer": "Transferir",
     "sendAssetErrorTickIsInThePast": "El tick seleccionado es pasado. El tick actual es {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -837,7 +835,11 @@
     "wcApproveTransfer": "Aprobar Transferencia",
     "wcSendAssets": "Enviar Activos",
     "assetButtonIssuerIdentity": "Identidad del emisor",
-    "generalLabelMultipleReceivers" :"Destinatario Múltiple",
-    "generalLabelFee" : "Tarifa",
-    "generalLabelDestination": "Destinatario"
+    "settingsLabelSupport": "Soporte",
+    "settingsSupportGithub": "GitHub (Reportar un problema)",
+    "settingsSupportDiscord": "Discord (Canal de soporte)",
+    "generalLabelFee": "Tarifa",
+    "generalLabelMultipleReceivers": "Múltiples destinatarios",
+    "qxTransferSharesWarning": "Este registro de transacción es actualmente visible solo para el remitente.",
+    "settingsSupportGoogleForm": "Rellenar Formulario"
 }

@@ -253,7 +253,7 @@
     "transactionLabelStatusFailed": "Неудачно",
     "transactionLabelStatusInvalid": "Ошибка",
     "signInTitleOne": "Добро пожаловать в",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Рады видеть Вас снова!",
     "welcomeButtonUnlockWallet": "Разблокировать кошелек",
     "welcomeButtonCreateWallet": "Создать новый кошелек",
@@ -269,8 +269,6 @@
     "accountSendButtonMax": "Максимум",
     "accountSendButtonMaxMinusOne": "Максимум - 1",
     "accountSendSectionAdvanceOptionsTitle": "Дополнительные настройки",
-    "assetsLabelOwned": "Мои средства",
-    "assetsLabelPossessed": "Частичное владение",
     "assetsLabelContractName": "Имя контракта",
     "assetsLabelContractIndex": "Индекс контракта",
     "assetsLabelTick": "Действительно для тика {tick}",
@@ -435,7 +433,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Неправильный секретный сид",
     "addAccountErrorTamperedWalletTitle": "ОБНАРУЖЕН ПОДДЕЛЬНЫЙ КОШЕЛЕК",
     "addAccountErrorTamperedWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН.\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ С САЙТА HTTPS://GITHUB.COM/QUBIC/WALLET-APP ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА",
-    "sendAssetLabelTransactionCost": "Стоимость транзакции (fixed)",
+    "sendAssetLabelTransactionCost": "Комиссия (fixed)",
     "sendAssetButtonTransfer": "Транзакция",
     "sendAssetErrorTickIsInThePast": "Выбранный тик уже прошёл. Текущий тик {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -838,7 +836,12 @@
     "wcApproveTransfer": "Одобрить перевод",
     "wcSendAssets": "Отправить активы",
     "assetButtonIssuerIdentity": "Идентификатор владельца",
-    "generalLabelMultipleReceivers" :"Несколько получателей",
+    "settingsLabelSupport": "Поддержка",
+    "settingsSupportGithub": "GitHub (Создать обращение)",
+    "settingsSupportDiscord": "Discord (Канал поддержки)",
+    "assetButtonIssuerIdentity": "Идентификатор владельца",
     "generalLabelFee": "Комиссия",
-    "generalLabelDestination": "Получатель"
+    "generalLabelMultipleReceivers": "Несколько получателей",
+    "qxTransferSharesWarning": "Эта запись о транзакции в данный момент видна только отправителю.",
+    "settingsSupportGoogleForm": "Заполнить форму"
 }

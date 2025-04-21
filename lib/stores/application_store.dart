@@ -1,7 +1,6 @@
 // ignore_for_file: library_private_types_in_public_api
 
 // ignore: depend_on_referenced_packages
-import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
@@ -10,7 +9,6 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
-import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
