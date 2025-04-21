@@ -926,6 +926,5 @@
         }
     },
     "webviewAddressBarLabelRefresh": "Refresh",
-    "webviewAddressBarLabelShareURL": "Share URL",
-    "emailFeedbackSubject": "Feedback for Qubic Wallet"
+    "webviewAddressBarLabelShareURL": "Share URL"
 }
