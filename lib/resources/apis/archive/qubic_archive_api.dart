@@ -3,7 +3,6 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/computors_dto.dart';
 import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/pagination_request_model.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
