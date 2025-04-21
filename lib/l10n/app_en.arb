@@ -165,7 +165,7 @@
             }
         }
     },
-    "qxTransferSharesWarning": "This transaction record is currently visible only to the sender",
+    "qxTransferSharesWarning": "This transaction record is currently visible only to the sender.",
     "filterTransfersTitle": "Filter Transfers",
     "filterTransfersLabelAnyQubicID": "Any Qubic ID",
     "filterTransfersLabelByQubicID": "By Qubic ID",
@@ -221,7 +221,6 @@
     "settingsLabelSupport": "Support",
     "settingsLabelWalletInfo": "Wallet Info",
     "settingsLabelWalletConnect": "WalletConnect",
-    "settingsSupportEmail": "Send email",
     "settingsSupportGithub": "GitHub (File an issue)",
     "settingsSupportDiscord": "Discord (Support channel)",
     "settingsSupportGoogleForm": "Fill Form",
@@ -926,7 +925,6 @@
             }
         }
     },
-    "generalLabelMultipleReceivers": "Multiple Receivers",
     "webviewAddressBarLabelRefresh": "Refresh",
     "webviewAddressBarLabelShareURL": "Share URL",
     "emailFeedbackSubject": "Feedback for Qubic Wallet"

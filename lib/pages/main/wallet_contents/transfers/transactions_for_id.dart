@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/custom_paged_list_view.dart';
+import 'package:qubic_wallet/components/refresh_loading_indicator.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/transactions_dto.dart';
@@ -18,7 +19,6 @@ import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transactions.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/stored_transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
-import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -175,6 +175,15 @@ class _TransactionsForIdState extends State<TransactionsForId> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         actions: [
+          Observer(
+            builder: (context) {
+              // TODO can remove?
+              if (appStore.pendingRequests > 0) {
+                return const RefreshLoadingIndicator();
+              }
+              return const SizedBox.shrink();
+            },
+          ),
           Visibility(
             visible: false, // Change to true to show
             child: IconButton(

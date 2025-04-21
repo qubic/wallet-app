@@ -837,12 +837,10 @@
     "wcSendAssets": "Vermögenswerte Senden",
     "assetButtonIssuerIdentity": "Identität des Ausstellers",
     "settingsLabelSupport": "Support",
-    "settingsSupportEmail":"E-Mail senden",
-    "settingsSupportGithub":"GitHub (Problem melden)",
-    "settingsSupportDiscord":"Discord (Support-Kanal)",
-    "emailFeedbackSubject": "Feedback zur Qubic Wallet",
+    "settingsSupportGithub": "GitHub (Problem melden)",
+    "settingsSupportDiscord": "Discord (Support-Kanal)",
     "generalLabelFee": "Gebühr",
-    "generalLabelMultipleReceivers":"Mehrere Empfänger",
-    "qxTransferSharesWarning":"Dieser Transaktionsdatensatz ist derzeit nur für den Absender sichtbar.",
+    "generalLabelMultipleReceivers": "Mehrere Empfänger",
+    "qxTransferSharesWarning": "Dieser Transaktionsdatensatz ist derzeit nur für den Absender sichtbar.",
     "settingsSupportGoogleForm": "Formular Ausfüllen"
 }

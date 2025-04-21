@@ -841,13 +841,11 @@
     "wcApproveTransfer": "Approuver le transfert",
     "wcSendAssets": "Envoyer des actifs",
     "assetButtonIssuerIdentity": "Identité de l'Émetteur",
-    "settingsLabelSupport":"Support",
-    "settingsSupportEmail":"Envoyer un e-mail",
-    "settingsSupportGithub":"GitHub (Signaler un problème)",
-    "settingsSupportDiscord":"Discord (Canal de support)",
-    "emailFeedbackSubject": "Retour concernant Qubic Wallet",
+    "settingsLabelSupport": "Support",
+    "settingsSupportGithub": "GitHub (Signaler un problème)",
+    "settingsSupportDiscord": "Discord (Canal de support)",
     "generalLabelFee": "Frais",
     "generalLabelMultipleReceivers": "Destinataires multiples",
-    "qxTransferSharesWarning":"Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur.",
+    "qxTransferSharesWarning": "Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur.",
     "settingsSupportGoogleForm": "Remplir le formulaire"
 }
