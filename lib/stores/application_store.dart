@@ -250,7 +250,6 @@ abstract class _ApplicationStore with Store {
   @action
   Future<bool> signUp(String password) async {
     await secureStorage.deleteWallet();
-    await _hiveStorage.clear();
     final result = await secureStorage.createWallet(password);
     isSignedIn = result;
     currentQubicIDs = ObservableList<QubicListVm>();
