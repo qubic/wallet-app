@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
@@ -16,13 +17,17 @@ class HiveStorage {
   }
 
   final _secureStorage = getIt<SecureStorage>();
-  late final Box<TransactionVm> storedTransactions;
-  late final HiveAesCipher _encryptionCipher;
+  late Box<TransactionVm> storedTransactions;
+  late HiveAesCipher _encryptionCipher;
 
   Future<void> _init() async {
     appLogger.i('[HiveStorage] Initializing Hive...');
     await Hive.initFlutter();
     Hive.registerAdapter(TransactionVmAdapter());
+    initEncryptedBox();
+  }
+
+  initEncryptedBox() async {
     await _loadEncryptionKey();
     await openTransactionsBox();
   }
@@ -45,6 +50,8 @@ class HiveStorage {
       _encryptionCipher = HiveAesCipher(key);
       appLogger.w('[HiveStorage] Existing encryption key loaded.');
     }
+    appLogger.d(
+        '[HiveStorage] Encryption key loaded - $_encryptionCipher - ${_encryptionCipher.calculateKeyCrc()}');
   }
 
   Future<void> openTransactionsBox() async {
@@ -79,9 +86,10 @@ class HiveStorage {
   }
 
   Future<void> clear() async {
-    appLogger.w('[HiveStorage] Clearing transactions and encryption key...');
     await storedTransactions.clear();
+    storedTransactions.close();
     await _secureStorage.deleteHiveEncryptionKey();
-    appLogger.w('[HiveStorage] Storage cleared.');
+    appLogger.w(
+        '[HiveStorage] transactions cleared, encryption key deleted, boxes closed.');
   }
 }
