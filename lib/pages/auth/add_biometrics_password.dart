@@ -131,7 +131,7 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
     setState(() {
       isLoading = true;
     });
-    widget.onAddedBiometrics(enabledBiometrics);
+    await widget.onAddedBiometrics(enabledBiometrics);
     setState(() {
       isLoading = false;
     });
