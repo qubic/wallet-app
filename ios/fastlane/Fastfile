@@ -41,6 +41,9 @@ platform :ios do
 
   desc "🤖 CI: Build and upload silently to TestFlight"
   lane :ci_testflight_release do
+
+    xcversion(version: "16.2")
+    
     app_store_connect_api_key(
       key_id: ENV["APP_STORE_KEY_ID"],
       issuer_id: ENV["APP_STORE_ISSUER_ID"],
