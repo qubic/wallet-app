@@ -3,16 +3,18 @@ name: Flutter CI
 on:
   pull_request:
     branches:
-      - main
-      - develop
-      - release/*
-      - hotfix/*
+      - test/workflow
+      #- main
+      #- develop
+      #- release/*
+      #- hotfix/*
   push:
     branches:
-      - main
-      - develop
-      - release/*
-      - hotfix/*
+      - test/workflow
+      #- main
+      #- develop
+      #- release/*
+      #- hotfix/*
 
 jobs:
   android:
