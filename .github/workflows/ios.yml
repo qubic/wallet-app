@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - test/workflow
-      #- main
       #- develop
       #- release/*
       #- hotfix/*
@@ -17,7 +16,8 @@ jobs:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
 
-      - uses: ./.github/actions/setup-flutter
+      - name: 📶 Set up Flutter
+        uses: ./.github/actions/setup-flutter
 
       - name: 📦 Install Flutter dependencies
         run: flutter pub get

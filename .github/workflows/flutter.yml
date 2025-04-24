@@ -27,8 +27,6 @@ jobs:
 
       - name: 📶 Set up Flutter
         uses: ./.github/actions/setup-flutter
-        with:
-          version-file: .github/workflows/flutter-version.txt
 
       - name: 📅 Cache Flutter pub packages
         uses: actions/cache@v3

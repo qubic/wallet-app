@@ -1,7 +1,8 @@
 # .github/actions/setup-flutter/action.yml
-name: Setup Flutter from version file
 
-description: "Reads a version from a file and sets up Flutter"
+name: Setup Flutter from hardcoded version file
+
+description: "Reads a version from .github/workflows/flutter-version.txt and sets up Flutter"
 
 runs:
   using: "composite"
