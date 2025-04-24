@@ -2,15 +2,23 @@ name: Flutter CI
 
 on:
   pull_request:
-    branches: 
+    branches:
       - test/workflow
+      #- main
+      #- develop
+      #- release/*
+      #- hotfix/*
   push:
-    branches: 
+    branches:
       - test/workflow
+      #- main
+      #- develop
+      #- release/*
+      #- hotfix/*
 
 jobs:
-  build:
-    name: Build and Analyze
+  android:
+    name: Build Android
     runs-on: ubuntu-latest
 
     steps:
@@ -21,6 +29,15 @@ jobs:
         with:
           flutter-version: '3.27.1' # or your desired version
 
+      - name: Cache pub
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
       - name: Install dependencies
         run: flutter pub get
 
@@ -28,7 +45,50 @@ jobs:
         run: flutter analyze
 
       #- name: Run Tests
-      #  run: flutter test
+        #run: flutter test
 
-      - name: Build APK (optional)
+      - name: Build APK
         run: flutter build apk --debug
+
+  ios:
+    name: Build iOS
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1' # or your desired version
+
+      - name: Cache pub
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pub-
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v3
+        with:
+          path: |
+            ios/Pods
+            ios/Podfile.lock
+          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      - name: Install CocoaPods
+        run: |
+          cd ios
+          pod install
+          cd ..
+
+      - name: Build iOS
+        run: flutter build ios --no-codesign
