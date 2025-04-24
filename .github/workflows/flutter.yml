@@ -1,124 +1,49 @@
-name: Flutter CI
+# .github/workflows/flutter.yml
+
+name: 🔧 Flutter CI
 
 on:
-  pull_request:
-    branches:
-      - test/workflow
-      #- main
-      #- develop
-      #- release/*
-      #- hotfix/*
   push:
     branches:
       - test/workflow
-      #- main
-      #- develop
-      #- release/*
-      #- hotfix/*
+      - main
+      - develop
+      - release/*
+      - hotfix/*
+  pull_request:
+    branches:
+      - "*"
 
 jobs:
-  android:
-    name: Build Android
-    runs-on: ubuntu-latest
+  analyze:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v4
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
+      - name: 📶 Set up Flutter
+        uses: ./.github/actions/setup-flutter
         with:
-          flutter-version: "3.27.1" # or your desired version
+          version-file: .github/workflows/flutter-version.txt
 
-      - name: Cache pub
+      - name: 📅 Cache Flutter pub packages
         uses: actions/cache@v3
         with:
           path: |
             ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-pub-
+            ${{ runner.os }}-flutter-
 
-      - name: Install dependencies
+      - name: 📁 Install dependencies
         run: flutter pub get
 
-      - name: Analyze
+      - name: 📊 Analyze code
         run: flutter analyze
 
-      #- name: Run Tests
-      #run: flutter test
-
-      - name: Build APK
-        run: flutter build apk --debug
-
-  ios:
-    name: Build iOS
-    runs-on: macos-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.27.1" # or your desired version
-
-      - name: Cache pub
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.pub-cache
-          key: ${{ runner.os }}-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pub-
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Cache CocoaPods
-        uses: actions/cache@v3
-        with:
-          path: |
-            ios/Pods
-            ios/Podfile.lock
-          key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
-      - name: Install CocoaPods
-        run: |
-          cd ios
-          pod install
-          cd ..
-
-      - name: Build iOS
-        run: flutter build ios --no-codesign
-
-  windows:
-    name: Verify Windows Build
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Set up Flutter
-        uses: subosito/flutter-action@v2
-        with:
-          flutter-version: "3.27.1" # or your desired version
-
-      - name: Enable Windows desktop
-        run: flutter config --enable-windows-desktop
-
-      - name: Cache pub packages
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~\AppData\Local\Pub\Cache
-          key: windows-pub-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            windows-pub-
-
-      - name: Install dependencies
-        run: flutter pub get
-
-      - name: Build for Windows
-        run: flutter build windows
+      # - name: 🌐 Run tests
+      #   run: flutter test

@@ -1,0 +1,42 @@
+name: 📦 iOS TestFlight Release
+
+on:
+  push:
+    branches:
+      - test/workflow
+      #- main
+      #- develop
+      #- release/*
+      #- hotfix/*
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-flutter
+
+      - name: 📦 Install Flutter dependencies
+        run: flutter pub get
+
+      - name: 🔐 Decode App Store Connect API key (.p8)
+        run: echo "$APP_STORE_API_KEY" | base64 --decode > ios/AuthKey.p8
+        env:
+          APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
+
+      - name: 🧵 Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+          cd ios
+          pod install
+
+      - name: 🚀 Build and upload to TestFlight
+        run: |
+          cd ios
+          fastlane ci_testflight_release
+        env:
+          APP_STORE_KEY_ID: ${{ secrets.APP_STORE_KEY_ID }}
+          APP_STORE_ISSUER_ID: ${{ secrets.APP_STORE_ISSUER_ID }}

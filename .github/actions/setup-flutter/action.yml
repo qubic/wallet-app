@@ -1,0 +1,17 @@
+# .github/actions/setup-flutter/action.yml
+name: Setup Flutter from version file
+
+description: "Reads a version from a file and sets up Flutter"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Read Flutter version from file
+      id: read_version
+      shell: bash
+      run: echo "FLUTTER_VERSION=$(cat .github/workflows/flutter-version.txt)" >> $GITHUB_ENV
+
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: ${{ env.FLUTTER_VERSION }}

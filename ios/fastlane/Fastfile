@@ -1,0 +1,62 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+require 'dotenv'
+Dotenv.load
+
+default_platform(:ios)
+
+platform :ios do
+
+  desc "🔧 Build and upload to TestFlight (interactive, local use)"
+  lane :testflight_release do
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_KEY_ID"],
+      issuer_id: ENV["APP_STORE_ISSUER_ID"],
+      key_filepath: "AuthKey.p8"
+    )
+  
+    build_app(
+      scheme: "Runner",
+      export_method: "app-store"
+    )
+  
+    upload_to_testflight
+  end
+
+  desc "🤖 CI: Build and upload silently to TestFlight"
+  lane :ci_testflight_release do
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_KEY_ID"],
+      issuer_id: ENV["APP_STORE_ISSUER_ID"],
+      key_filepath: "AuthKey.p8"
+    )
+  
+    build_app(
+      scheme: "Runner",
+      export_method: "app-store",
+      skip_package_ipa: false,
+      silent: true,
+      clean: true
+    )
+  
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      distribute_external: false
+    )
+  end
+  
+
+end
