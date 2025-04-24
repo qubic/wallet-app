@@ -108,6 +108,15 @@ jobs:
       - name: Enable Windows desktop
         run: flutter config --enable-windows-desktop
 
+      - name: Cache pub packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~\AppData\Local\Pub\Cache
+          key: windows-pub-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            windows-pub-
+
       - name: Install dependencies
         run: flutter pub get
 
