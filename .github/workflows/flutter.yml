@@ -1,0 +1,34 @@
+name: Flutter CI
+
+on:
+  pull_request:
+    branches: 
+      - test/workflow
+  push:
+    branches: 
+      - test/workflow
+
+jobs:
+  build:
+    name: Build and Analyze
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.27.1' # or your desired version
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run Tests
+        run: flutter test
+
+      - name: Build APK (optional)
+        run: flutter build apk --debug
