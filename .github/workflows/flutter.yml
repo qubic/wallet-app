@@ -3,18 +3,16 @@ name: Flutter CI
 on:
   pull_request:
     branches:
-      - test/workflow
-      #- main
-      #- develop
-      #- release/*
-      #- hotfix/*
+      - main
+      - develop
+      - release/*
+      - hotfix/*
   push:
     branches:
-      - test/workflow
-      #- main
-      #- develop
-      #- release/*
-      #- hotfix/*
+      - main
+      - develop
+      - release/*
+      - hotfix/*
 
 jobs:
   android:
@@ -27,7 +25,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.27.1' # or your desired version
+          flutter-version: "3.27.1" # or your desired version
 
       - name: Cache pub
         uses: actions/cache@v3
@@ -45,7 +43,7 @@ jobs:
         run: flutter analyze
 
       #- name: Run Tests
-        #run: flutter test
+      #run: flutter test
 
       - name: Build APK
         run: flutter build apk --debug
@@ -60,7 +58,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.27.1' # or your desired version
+          flutter-version: "3.27.1" # or your desired version
 
       - name: Cache pub
         uses: actions/cache@v3
@@ -92,3 +90,24 @@ jobs:
 
       - name: Build iOS
         run: flutter build ios --no-codesign
+
+  windows:
+    name: Verify Windows Build
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.27.1" # or your desired version
+
+      - name: Enable Windows desktop
+        run: flutter config --enable-windows-desktop
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Build for Windows
+        run: flutter build windows
