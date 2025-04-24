@@ -22,6 +22,9 @@ platform :ios do
 
   desc "🔧 Build and upload to TestFlight (interactive, local use)"
   lane :testflight_release do
+
+    xcversion(version: "16.2")
+
     app_store_connect_api_key(
       key_id: ENV["APP_STORE_KEY_ID"],
       issuer_id: ENV["APP_STORE_ISSUER_ID"],
