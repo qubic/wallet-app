@@ -59,7 +59,10 @@ platform :ios do
       clean: true,
       xcargs: "-allowProvisioningUpdates",
       export_options: {
-        signingStyle: "automatic"
+        signingStyle: "automatic",
+        provisioningProfiles: {
+          "org.qubic.wallet" => "match AppStore org.qubic.wallet"
+        }
       }
     )
   
