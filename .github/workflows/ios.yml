@@ -12,6 +12,9 @@ jobs:
   build-ios:
     runs-on: macos-latest
 
+    env:
+      XCODE_VERSION: 16.2
+
     steps:
       - name: 📥 Checkout repository
         uses: actions/checkout@v4
@@ -36,7 +39,6 @@ jobs:
       - name: 🚀 Build and upload to TestFlight
         run: |
           cd ios
-          fastlane verify_api_key
           fastlane ci_testflight_release
         env:
           FASTLANE_VERBOSE: 1

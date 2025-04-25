@@ -1,100 +1,73 @@
-# This file contains the fastlane.tools configuration
-# You can find the documentation at https://docs.fastlane.tools
-#
-# For a list of all available actions, check out
-#
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
-
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
-require 'dotenv'
-Dotenv.load
-
 default_platform(:ios)
 
 platform :ios do
 
   desc "🔧 Build and upload to TestFlight (interactive, local use)"
   lane :testflight_release do
-
-    xcversion(version: "16.2")
+    xcversion(version: ENV["XCODE_VERSION"])
 
     app_store_connect_api_key(
       key_id: ENV["APP_STORE_KEY_ID"],
       issuer_id: ENV["APP_STORE_ISSUER_ID"],
       key_filepath: "AuthKey.p8"
     )
-  
+
+    sh "flutter clean"
+    sh "flutter pub get"
+    sh "flutter build ios --no-codesign"
+    sh "pod install"
+
     build_app(
-      scheme: "Runner",
-      export_method: "app-store"
-    )
-  
-    upload_to_testflight
-  end
-
-  lane :verify_api_key do
-    api_key = app_store_connect_api_key(
-      key_id: ENV["APP_STORE_KEY_ID"],
-      issuer_id: ENV["APP_STORE_ISSUER_ID"],
-      key_filepath: "AuthKey.p8"
-    )
-
-    Spaceship::ConnectAPI::App.all(api_key: api_key).each do |app|
-      puts "App: #{app.name}"
-    end
-  end
-
-  lane :ci_testflight_release do
-    api_key = app_store_connect_api_key(
-      key_id: ENV["APP_STORE_KEY_ID"],
-      issuer_id: ENV["APP_STORE_ISSUER_ID"],
-      key_filepath: "AuthKey.p8"
-    )
-    
-    match(type: "appstore", api_key: api_key) # Sync provisioning profiles and certificates
-    gym(scheme: "Runner")                    # Build the app
-    upload_to_testflight(api_key: api_key)   # Upload the app to TestFlight
-  end
-
-  desc "🤖 CI: Build and upload silently to TestFlight"
-  lane :ci_testflight_release2 do
-
-    xcversion(version: "16.2")
-    
-    app_store_connect_api_key(
-      key_id: ENV["APP_STORE_KEY_ID"],
-      issuer_id: ENV["APP_STORE_ISSUER_ID"],
-      key_filepath: "AuthKey.p8"
-    )
-  
-    build_app(
-      xcargs: "OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies'",
       scheme: "Runner",
       export_method: "app-store",
       skip_package_ipa: false,
-      silent: false,  # ✅ show full build logs
+      silent: false,
       clean: true,
       xcargs: "-allowProvisioningUpdates",
       export_options: {
         signingStyle: "automatic",
+        method: "app-store",
         provisioningProfiles: {
-          "org.qubic.wallet" => "match AppStore org.qubic.wallet"
-        }
+          "org.qubic.wallet" => "Wallet distribution profile"
+        },
+        manageAppVersionAndBuildNumber: true
       }
     )
-  
+
+    upload_to_testflight
+  end
+
+  desc "🤖 CI: Build and upload silently to TestFlight"
+  lane :ci_testflight_release do
+    xcversion(version: ENV["XCODE_VERSION"])
+
+    app_store_connect_api_key(
+      key_id: ENV["APP_STORE_KEY_ID"],
+      issuer_id: ENV["APP_STORE_ISSUER_ID"],
+      key_filepath: "AuthKey.p8"
+    )
+
+    build_app(
+      scheme: "Runner",
+      export_method: "app-store",
+      skip_package_ipa: false,
+      silent: false,
+      clean: true,
+      xcargs: "-allowProvisioningUpdates",
+      export_options: {
+        signingStyle: "automatic",
+        method: "app-store",
+        provisioningProfiles: {
+          "org.qubic.wallet" => "Wallet distribution profile"
+        },
+        manageAppVersionAndBuildNumber: true
+      }
+    )
+
     upload_to_testflight(
       skip_waiting_for_build_processing: true,
       distribute_external: false
     )
   end
-  
 
 end

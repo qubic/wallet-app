@@ -51,3 +51,4 @@ non_translated_keys.txt
 .codegpt
 ios/AuthKey.p8
 ios/.env
+ios/.env.default
