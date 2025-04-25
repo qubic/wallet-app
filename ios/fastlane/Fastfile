@@ -57,7 +57,10 @@ platform :ios do
       skip_package_ipa: false,
       silent: false,  # ✅ show full build logs
       clean: true,
-      xcargs: "-allowProvisioningUpdates"
+      xcargs: "-allowProvisioningUpdates",
+      export_options: {
+        signingStyle: "automatic"
+      }
     )
   
     upload_to_testflight(
