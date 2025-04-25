@@ -36,6 +36,7 @@ jobs:
       - name: 🚀 Build and upload to TestFlight
         run: |
           cd ios
+          fastlane verify_api_key
           fastlane ci_testflight_release
         env:
           FASTLANE_VERBOSE: 1

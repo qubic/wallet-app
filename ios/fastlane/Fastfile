@@ -39,6 +39,19 @@ platform :ios do
     upload_to_testflight
   end
 
+  lane :verify_api_key do
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_KEY_ID"],
+      issuer_id: ENV["APP_STORE_ISSUER_ID"],
+      key_filepath: "AuthKey.p8"
+    )
+    puts api_key.inspect
+
+    Spaceship::ConnectAPI::App.all(api_key: api_key).each do |app|
+      puts "App: #{app.name}"
+    end
+  end
+
   lane :ci_testflight_release do
     api_key = app_store_connect_api_key(
       key_id: ENV["APP_STORE_KEY_ID"],
