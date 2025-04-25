@@ -45,7 +45,6 @@ platform :ios do
       issuer_id: ENV["APP_STORE_ISSUER_ID"],
       key_filepath: "AuthKey.p8"
     )
-    puts api_key.inspect
 
     Spaceship::ConnectAPI::App.all(api_key: api_key).each do |app|
       puts "App: #{app.name}"
