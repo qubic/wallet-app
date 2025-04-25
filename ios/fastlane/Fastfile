@@ -39,8 +39,20 @@ platform :ios do
     upload_to_testflight
   end
 
-  desc "🤖 CI: Build and upload silently to TestFlight"
   lane :ci_testflight_release do
+    api_key = app_store_connect_api_key(
+      key_id: ENV["APP_STORE_KEY_ID"],
+      issuer_id: ENV["APP_STORE_ISSUER_ID"],
+      key_filepath: "AuthKey.p8"
+    )
+    
+    match(type: "appstore", api_key: api_key) # Sync provisioning profiles and certificates
+    gym(scheme: "Runner")                    # Build the app
+    upload_to_testflight(api_key: api_key)   # Upload the app to TestFlight
+  end
+
+  desc "🤖 CI: Build and upload silently to TestFlight"
+  lane :ci_testflight_release2 do
 
     xcversion(version: "16.2")
     
