@@ -56,7 +56,8 @@ platform :ios do
       export_method: "app-store",
       skip_package_ipa: false,
       silent: false,  # ✅ show full build logs
-      clean: true
+      clean: true,
+      xcargs: "-allowProvisioningUpdates"
     )
   
     upload_to_testflight(
