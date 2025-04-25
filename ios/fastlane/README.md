@@ -15,14 +15,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios testflight_release2
-
-```sh
-[bundle exec] fastlane ios testflight_release2
-```
-
-🔧 Build and upload to TestFlight (interactive, local use)
-
 ### ios testflight_release
 
 ```sh

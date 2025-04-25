@@ -51,10 +51,11 @@ platform :ios do
     )
   
     build_app(
+      xcargs: "OTHER_SWIFT_FLAGS='-Xfrontend -debug-time-function-bodies'",
       scheme: "Runner",
       export_method: "app-store",
       skip_package_ipa: false,
-      silent: true,
+      silent: false,  # ✅ show full build logs
       clean: true
     )
   

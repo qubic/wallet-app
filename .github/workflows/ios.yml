@@ -38,5 +38,6 @@ jobs:
           cd ios
           fastlane ci_testflight_release
         env:
+          FASTLANE_VERBOSE: 1
           APP_STORE_KEY_ID: ${{ secrets.APP_STORE_KEY_ID }}
           APP_STORE_ISSUER_ID: ${{ secrets.APP_STORE_ISSUER_ID }}
