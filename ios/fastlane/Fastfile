@@ -50,6 +50,7 @@ platform :ios do
     build_app(
       scheme: "Runner",
       export_method: "app-store",
+      configuration: "Release",   # <- FORCE Release build
       skip_package_ipa: false,
       silent: false,
       clean: true,
