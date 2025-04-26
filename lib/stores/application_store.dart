@@ -9,6 +9,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
@@ -254,11 +255,11 @@ abstract class _ApplicationStore with Store {
 
   @action
   Future<bool> signUp(String password) async {
-    await secureStorage.deleteWallet();
-    await _hiveStorage.clear();
     final result = await secureStorage.createWallet(password);
+    _hiveStorage.initEncryptedBox();
     isSignedIn = result;
     currentQubicIDs = ObservableList<QubicListVm>();
+    appLogger.d('[QubicWallet] Signed up');
     return isSignedIn;
   }
 
