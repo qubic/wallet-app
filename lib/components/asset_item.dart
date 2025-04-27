@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/extensions/asThousands.dart';
@@ -84,51 +85,36 @@ class _AssetItemState extends State<AssetItem> {
             child: Column(children: [
               Padding(
                   padding: const EdgeInsets.fromLTRB(
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      0),
+                    ThemePaddings.normalPadding,
+                    ThemePaddings.mediumPadding,
+                    ThemePaddings.normalPadding,
+                    0,
+                  ),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Row(children: [
                           Expanded(
-                              child: Text(widget.asset.assetName,
-                                  style: TextStyles.accountName)),
+                              child: AmountFormatted(
+                            key: ValueKey<String>(
+                                "qubicAsset${widget.asset.publicId}-${widget.asset}"),
+                            amount: widget.asset.ownedAmount,
+                            isInHeader: false,
+                            labelOffset: -0,
+                            labelHorizOffset: -6,
+                            textStyle: MediaQuery.of(context).size.width < 400
+                                ? TextStyles.accountAmount
+                                    .copyWith(fontSize: 20)
+                                : TextStyles.accountAmount,
+                            labelStyle: TextStyles.accountAmountLabel,
+                            currencyName: widget.asset.assetName,
+                          )),
                           getCardMenu(context)
                         ]),
                         Text(
                             l10n.assetsLabelTick(
                                 widget.asset.tick.asThousands()),
-                            style: TextStyles.assetSecondaryTextLabel),
-                        const SizedBox(height: ThemePaddings.normalPadding),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelOwned,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text(
-                                  widget.asset.ownedAmount == null
-                                      ? "-"
-                                      : formatter
-                                          .format(widget.asset.ownedAmount),
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(l10n.assetsLabelPossessed,
-                                  style: TextStyles.assetSecondaryTextLabel),
-                              Text(
-                                  widget.asset.possessedAmount == null
-                                      ? "-"
-                                      : formatter
-                                          .format(widget.asset.possessedAmount),
-                                  style:
-                                      TextStyles.assetSecondaryTextLabelValue),
-                            ]),
-                        const SizedBox(height: ThemePaddings.miniPadding),
+                            style: TextStyles.assetSecondaryTextLabel)
                       ])),
               widget.account.watchOnly
                   ? ThemedControls.spacerVerticalNormal()

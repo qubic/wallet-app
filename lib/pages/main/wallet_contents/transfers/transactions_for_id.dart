@@ -1,8 +1,8 @@
-// ignore: depend_on_referenced_packages
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
+import 'package:qubic_wallet/components/refresh_loading_indicator.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -151,6 +151,14 @@ class _TransactionsForIdState extends State<TransactionsForId> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           actions: [
+            Observer(
+              builder: (context) {
+                if (appStore.pendingRequests > 0) {
+                  return const RefreshLoadingIndicator();
+                }
+                return const SizedBox.shrink();
+              },
+            ),
             IconButton(
               icon: const ImageIcon(AssetImage('assets/images/filter_trx.png'),
                   color: LightThemeColors.primary),

@@ -1,3 +1,6 @@
+import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
+
 class QubicSCModel {
   final int contractIndex;
   final String name;
@@ -21,8 +24,7 @@ class QubicSCStore {
     QubicSCModel(
       contractIndex: 1,
       name: 'QX',
-      contractId:
-          'BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARMID',
+      contractId: QxInfo.address,
       procedures: {
         1: 'Qx Issue Asset',
         2: 'Qx Transfer Shares',
@@ -54,8 +56,7 @@ class QubicSCStore {
     QubicSCModel(
       contractIndex: 4,
       name: 'QUtil',
-      contractId:
-          'EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAVWRF',
+      contractId: QutilInfo.address,
       procedures: {
         1: 'Send to Many',
         2: 'Burn Qubic',

@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
+import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
@@ -124,6 +126,14 @@ class QubicCmd {
     }
   }
 
+  Future<QubicAssetTransfer> parseAssetTransferPayload(String input) async {
+    if (useJs) {
+      return await qubicJs.parseAssetTransferPayload(input);
+    } else {
+      return await qubicCmdUtils.parseAssetTransferPayload(input);
+    }
+  }
+
   Future<List<QubicImportVaultSeed>> importVaultFile(
       String password, String? filePath, Uint8List? fileContents) async {
     if (useJs) {
@@ -137,6 +147,15 @@ class QubicCmd {
         throw "File path is required";
       }
       return await qubicCmdUtils.importVaultFile(password, filePath);
+    }
+  }
+
+  Future<List<QubicSendManyTransfer>> parseTransferSendManyPayload(
+      String payload) async {
+    if (useJs) {
+      return await qubicJs.parseTransferSendManyPayload(payload);
+    } else {
+      return await qubicCmdUtils.parseTransferSendManyPayload(payload);
     }
   }
 

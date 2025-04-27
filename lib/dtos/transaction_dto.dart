@@ -16,6 +16,7 @@ class TransactionDto {
   int? quantity; //IPO Bids
   bool moneyFlow;
   int? type;
+  String? inputHex;
 
   TransactionDto(
     this.id,
@@ -35,6 +36,7 @@ class TransactionDto {
     this.quantity,
     this.moneyFlow,
     this.type,
+    this.inputHex,
   );
 
   factory TransactionDto.fromJson(Map<String, dynamic> data) {
@@ -62,6 +64,7 @@ class TransactionDto {
       data['quantity'],
       data['moneyFlow'],
       data['type'],
+      data['inputHex'],
     );
   }
 }
