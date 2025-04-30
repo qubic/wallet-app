@@ -20,8 +20,8 @@ class HiveStorage {
   }
 
   final _secureStorage = getIt<SecureStorage>();
-  late Box<TransactionVm> storedTransactions;
-  late Box<NetworkModel> storedNetworks;
+  late Box<TransactionVm> _storedTransactions;
+  late Box<NetworkModel> _storedNetworks;
   late Box<String> _currentNetworkBox;
   final currentNetworkKey = "current_network";
   late HiveAesCipher _encryptionCipher;
@@ -66,12 +66,12 @@ class HiveStorage {
   Future<void> openTransactionsBox() async {
     appLogger.d('[HiveStorage] Attempting to open transactions box...');
     try {
-      storedTransactions = await Hive.openBox<TransactionVm>(
+      _storedTransactions = await Hive.openBox<TransactionVm>(
         HiveBoxesNames.storedTransactions.name,
         encryptionCipher: _encryptionCipher,
       );
       appLogger.d(
-          '[HiveStorage] Transactions box opened with ${storedTransactions.length} items.');
+          '[HiveStorage] Transactions box opened with ${_storedTransactions.length} items.');
     } catch (e, stack) {
       appLogger.e('[HiveStorage] Failed to open transactions box: $e');
       appLogger.e('[HiveStorage] Stacktrace: $stack');
@@ -79,7 +79,7 @@ class HiveStorage {
   }
 
   Future<void> openNetworksBox() async {
-    storedNetworks = await Hive.openBox<NetworkModel>(
+    _storedNetworks = await Hive.openBox<NetworkModel>(
       HiveBoxesNames.storedNetworks.name,
       encryptionCipher: _encryptionCipher,
     );
@@ -93,30 +93,30 @@ class HiveStorage {
 
   void addStoredTransaction(TransactionVm transactionVm) {
     appLogger.d('[HiveStorage] Adding transaction: ${transactionVm.id}');
-    storedTransactions.put(transactionVm.id, transactionVm);
+    _storedTransactions.put(transactionVm.id, transactionVm);
   }
 
   void removeStoredTransaction(String transactionId) {
     appLogger.d('[HiveStorage] Removing transaction: $transactionId');
-    storedTransactions.delete(transactionId);
+    _storedTransactions.delete(transactionId);
   }
 
   List<TransactionVm> getStoredTransactions() {
     appLogger.d(
-        '[HiveStorage] Getting stored transactions (${storedTransactions.length})');
-    return storedTransactions.values.toList();
+        '[HiveStorage] Getting stored transactions (${_storedTransactions.length})');
+    return _storedTransactions.values.toList();
   }
 
   addStoredNetwork(NetworkModel network) {
-    storedNetworks.put(network.name, network);
+    _storedNetworks.put(network.name, network);
   }
 
   List<NetworkModel> getStoredNetworks() {
-    return storedNetworks.values.toList();
+    return _storedNetworks.values.toList();
   }
 
   removeStoredNetwork(String networkName) {
-    storedNetworks.delete(networkName);
+    _storedNetworks.delete(networkName);
   }
 
   void saveCurrentNetworkName(String networkName) {
@@ -128,11 +128,11 @@ class HiveStorage {
   }
 
   Future<void> clear() async {
-    await storedTransactions.clear();
-    storedTransactions.close();
+    await _storedTransactions.clear();
+    _storedTransactions.close();
 
-    await storedNetworks.clear();
-    storedNetworks.close();
+    await _storedNetworks.clear();
+    _storedNetworks.close();
 
     await _currentNetworkBox.clear();
     _currentNetworkBox.close();
