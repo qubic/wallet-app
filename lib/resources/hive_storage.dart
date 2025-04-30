@@ -31,10 +31,10 @@ class HiveStorage {
     await Hive.initFlutter();
     Hive.registerAdapter(TransactionVmAdapter());
     Hive.registerAdapter(NetworkAdapter());
-    initEncryptedBox();
+    initEncryptedBoxes();
   }
 
-  initEncryptedBox() async {
+  initEncryptedBoxes() async {
     await _loadEncryptionKey();
     await openTransactionsBox();
     await openNetworksBox();

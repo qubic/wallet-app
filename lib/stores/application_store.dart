@@ -256,7 +256,7 @@ abstract class _ApplicationStore with Store {
   @action
   Future<bool> signUp(String password) async {
     final result = await secureStorage.createWallet(password);
-    _hiveStorage.initEncryptedBox();
+    _hiveStorage.initEncryptedBoxes();
     isSignedIn = result;
     currentQubicIDs = ObservableList<QubicListVm>();
     appLogger.d('[QubicWallet] Signed up');
