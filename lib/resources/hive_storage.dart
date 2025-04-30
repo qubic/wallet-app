@@ -22,7 +22,7 @@ class HiveStorage {
   final _secureStorage = getIt<SecureStorage>();
   late Box<TransactionVm> storedTransactions;
   late Box<NetworkModel> storedNetworks;
-  late final Box<String> _currentNetworkBox;
+  late Box<String> _currentNetworkBox;
   final currentNetworkKey = "current_network";
   late HiveAesCipher _encryptionCipher;
 
@@ -134,8 +134,11 @@ class HiveStorage {
     await storedNetworks.clear();
     storedNetworks.close();
 
+    await _currentNetworkBox.clear();
+    _currentNetworkBox.close();
+
     await _secureStorage.deleteHiveEncryptionKey();
     appLogger.w(
-        '[HiveStorage] transactions cleared, encryption key deleted, boxes closed.');
+        '[HiveStorage] data cleared, boxes closed, and encryption key deleted.');
   }
 }
