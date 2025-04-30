@@ -4,9 +4,9 @@ on:
   push:
     branches:
       - test/workflow
-      #- develop
-      #- release/*
-      #- hotfix/*
+      - develop
+      - release/*
+      - hotfix/*
 
 jobs:
   build-ios:
