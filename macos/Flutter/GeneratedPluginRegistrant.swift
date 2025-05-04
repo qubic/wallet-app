@@ -5,7 +5,7 @@
 import FlutterMacOS
 import Foundation
 
-import dargon2_flutter_desktop
+import cryptography_flutter
 import downloadsfolder
 import flutter_inappwebview_macos
 import flutter_secure_storage_macos
@@ -20,7 +20,7 @@ import url_launcher_macos
 import window_manager
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
-  Dargon2FlutterDesktopPlugin.register(with: registry.registrar(forPlugin: "Dargon2FlutterDesktopPlugin"))
+  CryptographyFlutterPlugin.register(with: registry.registrar(forPlugin: "CryptographyFlutterPlugin"))
   DownloadsfolderPlugin.register(with: registry.registrar(forPlugin: "DownloadsfolderPlugin"))
   InAppWebViewFlutterPlugin.register(with: registry.registrar(forPlugin: "InAppWebViewFlutterPlugin"))
   FlutterSecureStoragePlugin.register(with: registry.registrar(forPlugin: "FlutterSecureStoragePlugin"))

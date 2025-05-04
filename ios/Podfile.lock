@@ -1,5 +1,7 @@
 PODS:
   - Argon2Swift (1.0.4)
+  - cryptography_flutter (0.2.0):
+    - Flutter
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
     - DKImagePickerController/Resource
@@ -126,6 +128,7 @@ PODS:
 
 DEPENDENCIES:
   - Argon2Swift
+  - cryptography_flutter (from `.symlinks/plugins/cryptography_flutter/ios`)
   - downloadsfolder (from `.symlinks/plugins/downloadsfolder/ios`)
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - Flutter (from `Flutter`)
@@ -163,6 +166,8 @@ SPEC REPOS:
     - SwiftyGif
 
 EXTERNAL SOURCES:
+  cryptography_flutter:
+    :path: ".symlinks/plugins/cryptography_flutter/ios"
   downloadsfolder:
     :path: ".symlinks/plugins/downloadsfolder/ios"
   file_picker:
@@ -194,6 +199,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Argon2Swift: 295b8bde7ba61434f227f5610b8813c42e866f74
+  cryptography_flutter: 381bdacc984abcfbe3ca45ef7c76566ff061614c
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   downloadsfolder: 84af83492bd9ab8c94109ba56fd202d7469d3632
@@ -228,4 +234,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 4da5bac12b419425b339f61dbc09da297bd5309d
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

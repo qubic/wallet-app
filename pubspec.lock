@@ -213,10 +213,10 @@ packages:
     dependency: transitive
     description:
       name: collection
-      sha256: ee67cb0715911d28db6bf4af1026078bd6f0128b07a5f66fb2ed94ec6783c09a
+      sha256: a1ace0a119f20aabc852d165077c036cd864315bd99b7eaa10a60100341941bf
       url: "https://pub.dev"
     source: hosted
-    version: "1.18.0"
+    version: "1.19.0"
   convert:
     dependency: transitive
     description:
@@ -241,6 +241,23 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
+  cryptography:
+    dependency: transitive
+    description:
+      name: cryptography
+      sha256: d146b76d33d94548cf035233fbc2f4338c1242fa119013bead807d033fc4ae05
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.7.0"
+  cryptography_flutter:
+    dependency: "direct main"
+    description:
+      path: cryptography_flutter
+      ref: "fix/compatibility-agp-8x"
+      resolved-ref: "666e4c20a87097f0fc69596dab366c53eea8899d"
+      url: "https://github.com/mvarendorff/cryptography"
+    source: git
+    version: "2.3.2"
   csslib:
     dependency: transitive
     description:
@@ -249,62 +266,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  dargon2_core:
-    dependency: transitive
-    description:
-      name: dargon2_core
-      sha256: a105fc3837782d02fff09a4aa355181c882962bf2a31c58f1905c401a6d1d6e5
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
-  dargon2_flutter:
-    dependency: "direct main"
-    description:
-      name: dargon2_flutter
-      sha256: "2ec4ed0cf5d80f92758ba2b2c600f237c35849aa723563ffe4c73e02d1904c0c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.0"
-  dargon2_flutter_desktop:
-    dependency: transitive
-    description:
-      name: dargon2_flutter_desktop
-      sha256: ca4a064f5b8e1fa1be62e5be50599567e13b68dca26eec31cbbc0928a276e777
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
-  dargon2_flutter_mobile:
-    dependency: transitive
-    description:
-      name: dargon2_flutter_mobile
-      sha256: "22b1b5229371c229cb55ca214262c6cb2189d40f7ef4ab87c1bea75bc2c582bf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.0"
-  dargon2_flutter_platform_interface:
-    dependency: transitive
-    description:
-      name: dargon2_flutter_platform_interface
-      sha256: d9fa9193c7c263a57d53411ccac0339e353e5b199426d861f8649f31564eeef7
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
-  dargon2_flutter_web:
-    dependency: transitive
-    description:
-      name: dargon2_flutter_web
-      sha256: c2607b07047f2937fc8ee0845b7b19fd80c26bf87f122473ee3cf307b8bc3249
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
-  dargon2_interface:
-    dependency: transitive
-    description:
-      name: dargon2_interface
-      sha256: e352efec19afac3fba5b4c1d4833bec7825ac43bdec88f33117cd68dfccfca40
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.1"
   dart_style:
     dependency: transitive
     description:
@@ -817,18 +778,18 @@ packages:
     dependency: transitive
     description:
       name: leak_tracker
-      sha256: "3f87a60e8c63aecc975dda1ceedbc8f24de75f09e4856ea27daf8958f2f0ce05"
+      sha256: "7bb2830ebd849694d1ec25bf1f44582d6ac531a57a365a803a6034ff751d2d06"
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.5"
+    version: "10.0.7"
   leak_tracker_flutter_testing:
     dependency: transitive
     description:
       name: leak_tracker_flutter_testing
-      sha256: "932549fb305594d82d7183ecd9fa93463e9914e1b67cacc34bc40906594a1806"
+      sha256: "9491a714cca3667b60b5c420da8217e6de0d1ba7a5ec322fab01758f6998f379"
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.5"
+    version: "3.0.8"
   leak_tracker_testing:
     dependency: transitive
     description:
@@ -1345,7 +1306,7 @@ packages:
     dependency: transitive
     description: flutter
     source: sdk
-    version: "0.0.99"
+    version: "0.0.0"
   source_gen:
     dependency: transitive
     description:
@@ -1374,10 +1335,10 @@ packages:
     dependency: transitive
     description:
       name: stack_trace
-      sha256: "73713990125a6d93122541237550ee3352a2d84baad52d375a4cad2eb9b7ce0b"
+      sha256: "9f47fd3630d76be3ab26f0ee06d213679aa425996925ff3feffdec504931c377"
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.1"
+    version: "1.12.0"
   sticky_headers:
     dependency: "direct main"
     description:
@@ -1406,10 +1367,10 @@ packages:
     dependency: transitive
     description:
       name: string_scanner
-      sha256: "556692adab6cfa87322a115640c11f13cb77b3f076ddcc5d6ae3c20242bedcde"
+      sha256: "688af5ed3402a4bde5b3a6c15fd768dbf2621a614950b17f04626c431ab3c4c3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.0"
   term_glyph:
     dependency: transitive
     description:
@@ -1422,10 +1383,10 @@ packages:
     dependency: transitive
     description:
       name: test_api
-      sha256: "5b8a98dafc4d5c4c9c72d8b31ab2b23fc13422348d2997120294d3bac86b4ddb"
+      sha256: "664d3a9a64782fcdeb83ce9c6b39e78fd2971d4e37827b9b06c3aa1edc5e760c"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.2"
+    version: "0.7.3"
   time:
     dependency: transitive
     description:
@@ -1582,10 +1543,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "5c5f338a667b4c644744b661f309fb8080bb94b18a7e91ef1dbd343bed00ed6d"
+      sha256: f6be3ed8bd01289b34d679c2b62226f63c0e69f9fd2e50a6b3c1c729a961041b
       url: "https://pub.dev"
     source: hosted
-    version: "14.2.5"
+    version: "14.3.0"
   watcher:
     dependency: transitive
     description:

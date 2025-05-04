@@ -29,7 +29,12 @@ dependencies:
   get_it: ^7.6.0
   form_builder_validators: ^11.0.0
   flex_color_scheme: null
-  dargon2_flutter: ^3.3.0
+  # dargon2_flutter: ^3.3.0
+  cryptography_flutter:
+    git:
+      url: https://github.com/mvarendorff/cryptography
+      ref: fix/compatibility-agp-8x
+      path: cryptography_flutter
   flutter_form_builder: ^9.1.0
   persistent_bottom_nav_bar_v2: ^5.2.3
   dotted_border: ^2.0.0+3

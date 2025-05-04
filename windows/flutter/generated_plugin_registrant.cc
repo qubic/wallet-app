@@ -6,7 +6,6 @@
 
 #include "generated_plugin_registrant.h"
 
-#include <dargon2_flutter_desktop/dargon2_flutter_desktop_plugin.h>
 #include <downloadsfolder/downloadsfolder_plugin_c_api.h>
 #include <flutter_inappwebview_windows/flutter_inappwebview_windows_plugin_c_api.h>
 #include <flutter_secure_storage_windows/flutter_secure_storage_windows_plugin.h>
@@ -18,8 +17,6 @@
 #include <window_manager/window_manager_plugin.h>
 
 void RegisterPlugins(flutter::PluginRegistry* registry) {
-  Dargon2FlutterDesktopPluginRegisterWithRegistrar(
-      registry->GetRegistrarForPlugin("Dargon2FlutterDesktopPlugin"));
   DownloadsfolderPluginCApiRegisterWithRegistrar(
       registry->GetRegistrarForPlugin("DownloadsfolderPluginCApi"));
   FlutterInappwebviewWindowsPluginCApiRegisterWithRegistrar(
