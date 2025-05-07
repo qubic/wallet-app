@@ -1,0 +1,57 @@
+name: Build and Upload APK to Firebase App Distribution
+
+on:
+  workflow_call:
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📶 Set up Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: 📅 Cache Flutter pub packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      - name: 📦 Install Flutter dependencies
+        run: flutter pub get
+
+      - name: 🔐 Decode keystore
+        run: echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > android/app/ci-release-key.keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+
+      - name: ✅ Confirm keystore file exists
+        run: ls -l android/app/ci-release-key.keystore
+
+      - name: 🏗️ Build Universal Release APK
+        run: flutter build apk --release
+        env:
+          CI: true
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+
+      - name: 📁 Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: 🔐 Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}"
+
+      - name: 🚀 Upload APK to Firebase App Distribution
+        run: |
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
+            --app ${{ secrets.FIREBASE_APP_ID }} \
+            --groups "Internal"

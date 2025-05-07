@@ -62,16 +62,26 @@ android {
     }
 
     signingConfigs {
-       release {
+       local {
            keyAlias keystoreProperties['keyAlias']
            keyPassword keystoreProperties['keyPassword']
-           storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
+            storeFile keystoreProperties['storeFile']
            storePassword keystoreProperties['storePassword']
        }
+
+        ci {
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
+            storeFile file("ci-release-key.keystore")
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+        }
    }
    buildTypes {
        release {
-           signingConfig signingConfigs.release
+            // Default to local keystore
+            signingConfig System.getenv("CI") == "true" 
+                ? signingConfigs.ci 
+                : signingConfigs.local
        }
    }
 }

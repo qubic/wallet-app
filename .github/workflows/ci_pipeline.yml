@@ -1,0 +1,58 @@
+# .github/workflows/flutter.yml
+
+name: CI Main Workflow
+
+on:
+  push:
+    branches:
+      - feature/ci # to remove after testing is ok
+      - develop
+      - release/*
+      - hotfix/*
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  analyze:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📶 Set up Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: 📅 Cache Flutter pub packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      - name: 📁 Install dependencies
+        run: flutter pub get
+
+      - name: 📊 Analyze code
+        run: flutter analyze
+
+      # - name: 🌐 Run tests
+      #   run: flutter test
+
+  build_ios:
+    name: Build iOS Application
+    needs: analyze
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/ios.yml
+
+  #build_android:
+  # name: Build Android Application
+  # needs: analyze
+  # if: github.event_name == 'push'
+  # uses: ./.github/workflows/firebase-app-distribution.yml

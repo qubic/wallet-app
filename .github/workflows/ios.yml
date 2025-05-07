@@ -1,0 +1,76 @@
+name: 📦 iOS TestFlight Release
+
+on:
+  workflow_call:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+
+    env:
+      XCODE_VERSION: 16.2
+
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 💻 Set up Flutter
+        uses: ./.github/actions/setup-flutter
+
+      - name: 📅 Cache Flutter pub packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-flutter-
+
+      - name: 📦 Install Flutter dependencies
+        run: flutter pub get
+
+      - name: 🔐 Decode App Store Connect API key (.p8)
+        run: echo "$APP_STORE_API_KEY" | base64 --decode > ios/AuthKey.p8
+        env:
+          APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
+
+      - name: 🔧 Install CocoaPods
+        run: |
+          sudo gem install cocoapods --no-document
+
+      - name: 🧼 Clean CocoaPods and Reinstall
+        run: |
+          cd ios
+          pod deintegrate
+          pod cache clean --all
+          pod install --verbose --no-repo-update
+
+      - name: 💻 Set up SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: 🧼 Clean Git workspace
+        run: |
+          rm -rf .git
+
+      - name: 🧼 Clean Xcode Derived Data
+        run: rm -rf ~/Library/Developer/Xcode/DerivedData
+
+      - name: 🚀 Build and upload to TestFlight
+        run: |
+          cd ios
+          fastlane ci_testflight_release
+        env:
+          #FASTLANE_VERBOSE: 1
+          APP_STORE_KEY_ID: ${{ secrets.APP_STORE_KEY_ID }}
+          APP_STORE_ISSUER_ID: ${{ secrets.APP_STORE_ISSUER_ID }}
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
