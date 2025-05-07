@@ -2,13 +2,25 @@ name: 📦 iOS TestFlight Release
 
 on:
   workflow_call:
-    secrets:
-      APP_STORE_KEY_ID: ${{ secrets.APP_STORE_KEY_ID }}
-      APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
-      APP_STORE_ISSUER_ID: ${{ secrets.APP_STORE_ISSUER_ID }}
-      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
+    inputs:
+      app_store_key_id:
+        required: true
+        type: string
+      app_store_api_key:
+        required: true
+        type: string
+      app_store_issuer_id:
+        required: true
+        type: string
+      match_password:
+        required: true
+        type: string
+      ssh_private_key:
+        required: true
+        type: string
+      temp_keychain_password:
+        required: true
+        type: string
 
 jobs:
   build-ios:
@@ -38,8 +50,8 @@ jobs:
 
       - name: 🔐 Decode App Store Connect API key (.p8)
         run: echo "$APP_STORE_API_KEY" | base64 --decode > ios/AuthKey.p8
-        #env:
-        # APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
+        env:
+          APP_STORE_API_KEY: ${{ inputs.app_store_api_key }}"
 
       - name: 🔧 Install CocoaPods
         run: |
@@ -60,8 +72,8 @@ jobs:
           eval $(ssh-agent -s)
           ssh-add ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
-        #env:
-        # SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        env:
+          SSH_PRIVATE_KEY: ${{ inputs.ssh_private_key }}
 
       - name: 🧼 Clean Git workspace
         run: |
