@@ -46,6 +46,7 @@ platform :ios do
 
   desc "🤖 CI: Build and upload silently to TestFlight"
   lane :ci_testflight_release do
+    require 'xcodeproj'
 
     create_keychain(
       name: "ci_temp_keychain",
@@ -73,24 +74,35 @@ platform :ios do
       keychain_password: ENV['TEMP_KEYCHAIN_PASSWORD']# Password for the keychain
     )
 
-    # Read app identifier from the plist file
-    app_identifier = get_info_plist_value(
-      path: "Runner/Info.plist",
-      key: "CFBundleIdentifier"
-    )
-    puts "📱 App Identifier: #{app_identifier}"
-
     sh "echo Current dir: $(pwd)"
     sh "ls -la"
 
-    # Read version/build from pubspec.yaml
-    pubspec = YAML.load_file("../pubspec.yaml")
+    # Path from fastlane folder to project root
+    pubspec_path = File.expand_path("../../pubspec.yaml", __dir__)
+
+    UI.user_error!("❌ pubspec.yaml not found at #{pubspec_path}") unless File.exist?(pubspec_path)
+
+    pubspec = YAML.load_file(pubspec_path)
     version_string = pubspec["version"]
     version, _ = version_string.split("+")
+
+    # Path to the Xcode project
+    xcodeproj_path = 'ios/Runner.xcodeproj'
+
+    # Open the Xcode project
+    project = Xcodeproj::Project.open(xcodeproj_path)
+
+    # Get the first target (usually 'Runner' for Flutter apps)
+    target = project.targets.first
+
+    # Get the bundle ID from the build settings
+    bundle_id = target.build_configurations.first.build_settings['PRODUCT_BUNDLE_IDENTIFIER']
+
+    puts "📱 App Identifier: #{bundle_id}"
     
     # Get latest build for this version
     latest = latest_testflight_build_number(
-      app_identifier: app_identifier,
+      app_identifier: bundle_id,
       version: version
     ) || 0
     

@@ -1,3 +1,7 @@
 source "https://rubygems.org"
 
+# Fastlane for automating iOS build and deployment
 gem "fastlane"
+
+# xcodeproj gem to parse and manage Xcode project files (optional for bundle ID extraction)
+gem "xcodeproj"
