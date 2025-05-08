@@ -50,14 +50,13 @@ jobs:
     needs: analyze
     if: github.event_name == 'push'
     uses: ./.github/workflows/ios.yml
-    with:
-      app_store_key_id: ${{ secrets.APP_STORE_KEY_ID }}
-      app_store_api_key: ${{ secrets.APP_STORE_API_KEY }}
-      app_store_issuer_id: ${{ secrets.APP_STORE_ISSUER_ID }}
-      match_password: ${{ secrets.MATCH_PASSWORD }}
-      ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-      temp_keychain_password: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
-
+    secrets:
+      APP_STORE_KEY_ID: ${{ secrets.APP_STORE_KEY_ID }}
+      APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}
+      APP_STORE_ISSUER_ID: ${{ secrets.APP_STORE_ISSUER_ID }}
+      MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
   #build_android:
   # name: Build Android Application
   # needs: analyze
