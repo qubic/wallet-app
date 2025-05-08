@@ -73,8 +73,11 @@ platform :ios do
       keychain_password: ENV['TEMP_KEYCHAIN_PASSWORD']# Password for the keychain
     )
 
-    # Read bundle ID from Xcode project
-    app_identifier = get_app_identifier(xcodeproj: "ios/Runner.xcodeproj")
+    # Read app identifier from the plist file
+    app_identifier = get_info_plist_value(
+      path: "Runner/Info.plist",
+      key: "CFBundleIdentifier"
+    )
     puts "📱 App Identifier: #{app_identifier}"
 
     sh "echo Current dir: $(pwd)"
