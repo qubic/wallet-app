@@ -4,6 +4,33 @@ require 'yaml'
 
 platform :ios do
 
+  require 'spaceship'
+
+  lane :get_max_build_number do |options|
+  
+    version = options[:version]
+    bundle_id = options[:bundle_id]
+
+    UI.message("🔐 Logging into App Store Connect...")
+    Spaceship::ConnectAPI.login
+
+    app = Spaceship::ConnectAPI::App.find(bundle_id)
+
+    UI.message("📦 Fetching builds for version #{version}...")
+
+    builds = Spaceship::ConnectAPI::Build.all(
+      app_id: app.id,
+      sort: "-uploadedDate", # optional
+      limit: 200
+    )
+
+    matching_builds = builds.select { |b| b.version == version }
+    max_build = matching_builds.map { |b| b.build_number.to_i }.max || 0
+
+    UI.success("🚀 Max build number for version #{version} is #{max_build}")
+    return max_build
+  end
+
   desc "🔧 Build and upload to TestFlight (local use only"
   lane :testflight_release do
 
@@ -74,9 +101,6 @@ platform :ios do
       keychain_password: ENV['TEMP_KEYCHAIN_PASSWORD']# Password for the keychain
     )
 
-    sh "echo Current dir: $(pwd)"
-    sh "ls -la"
-
     # Path from fastlane folder to project root
     pubspec_path = File.expand_path("../../pubspec.yaml", __dir__)
 
@@ -85,8 +109,6 @@ platform :ios do
     pubspec = YAML.load_file(pubspec_path)
     version_string = pubspec["version"]
     version, _ = version_string.split("+")
-
-    puts "📱 Version: #{version}"
 
     # Path to the Xcode project
     xcodeproj_path = '../Runner.xcodeproj'
@@ -100,23 +122,15 @@ platform :ios do
     # Get the bundle ID from the build settings
     bundle_id = target.build_configurations.first.build_settings['PRODUCT_BUNDLE_IDENTIFIER']
 
-    puts "📱 App Identifier: #{bundle_id}"
-    
-    # Get all builds for the given app identifier and version
-    builds = testflight_builds(
-      app_identifier: bundle_id,
-      version: version
-    )
+    puts "📱 App Identifier: #{bundle_id} - Version: #{version}"
 
-    # Find the maximum build number from all available builds
-    max_build_number = builds.map { |build| build[:build_number].to_i }.max || 0
+    max_build = get_max_build_number(version: version, bundle_id: bundle_id)
+    next_build = max_build + 1
 
-    puts "📱 Maximum Build Number: #{max_build_number}"
-
-    new_build = max_build_number + 1
+    UI.message("🔢 Next build number: #{next_build}")
     
     increment_build_number(
-      build_number: new_build.to_s,
+      build_number: next_build,
       skip_info_plist: true
     )
     
