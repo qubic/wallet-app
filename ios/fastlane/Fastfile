@@ -86,8 +86,10 @@ platform :ios do
     version_string = pubspec["version"]
     version, _ = version_string.split("+")
 
+    puts "📱 Version: #{version}"
+
     # Path to the Xcode project
-    xcodeproj_path = 'ios/Runner.xcodeproj'
+    xcodeproj_path = '../Runner.xcodeproj'
 
     # Open the Xcode project
     project = Xcodeproj::Project.open(xcodeproj_path)
