@@ -24,6 +24,13 @@ jobs:
       XCODE_VERSION: 16.2
 
     steps:
+      - name: 🔐 Decode App Store Connect API key (.p8)
+        run: |
+          echo "Length of APP_STORE_API_KEY: ${#APP_STORE_API_KEY}"
+          echo "$APP_STORE_API_KEY" | base64 --decode > ios/AuthKey.p8
+        env:
+          APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}"
+
       - name: 💻 Set up SSH key
         run: |
           mkdir -p ~/.ssh
@@ -52,13 +59,6 @@ jobs:
 
       - name: 📦 Install Flutter dependencies
         run: flutter pub get
-
-      - name: 🔐 Decode App Store Connect API key (.p8)
-        run: |
-          echo "Length of APP_STORE_API_KEY: ${#APP_STORE_API_KEY}"
-          echo "$APP_STORE_API_KEY" | base64 --decode > ios/AuthKey.p8
-        env:
-          APP_STORE_API_KEY: ${{ secrets.APP_STORE_API_KEY }}"
 
       - name: 🔧 Install CocoaPods
         run: |
