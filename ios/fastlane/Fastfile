@@ -102,13 +102,18 @@ platform :ios do
 
     puts "📱 App Identifier: #{bundle_id}"
     
-    # Get latest build for this version
-    latest = latest_testflight_build_number(
+    # Get all builds for the given app identifier and version
+    builds = testflight_builds(
       app_identifier: bundle_id,
       version: version
-    ) || 0
-    
-    new_build = latest + 1
+    )
+
+    # Find the maximum build number from all available builds
+    max_build_number = builds.map { |build| build[:build_number].to_i }.max || 0
+
+    puts "📱 Maximum Build Number: #{max_build_number}"
+
+    new_build = max_build_number + 1
     
     increment_build_number(
       build_number: new_build.to_s,
