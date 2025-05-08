@@ -73,13 +73,17 @@ platform :ios do
       keychain_password: ENV['TEMP_KEYCHAIN_PASSWORD']# Password for the keychain
     )
 
+    # Read bundle ID from Xcode project
+    app_identifier = get_app_identifier(xcodeproj: "ios/Runner.xcodeproj")
+    puts "📱 App Identifier: #{app_identifier}"
+
+    sh "echo Current dir: $(pwd)"
+    sh "ls -la"
+
     # Read version/build from pubspec.yaml
     pubspec = YAML.load_file("../pubspec.yaml")
     version_string = pubspec["version"]
     version, _ = version_string.split("+")
-    
-    # Read bundle ID from Xcode project
-    app_identifier = get_app_identifier(xcodeproj: "ios/Runner.xcodeproj")
     
     # Get latest build for this version
     latest = latest_testflight_build_number(
@@ -94,7 +98,6 @@ platform :ios do
       skip_info_plist: true
     )
     
-    puts "📱 App Identifier: #{app_identifier}"
     puts "📦 Version: #{version}, Build: #{new_build}"
 
     # Build the app using build_app (this will use the incremented build number)
