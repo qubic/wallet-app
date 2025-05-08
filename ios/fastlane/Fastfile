@@ -74,7 +74,7 @@ platform :ios do
     )
 
     # Read version/build from pubspec.yaml
-    pubspec = YAML.load_file("pubspec.yaml")
+    pubspec = YAML.load_file("../pubspec.yaml")
     version_string = pubspec["version"]
     version, _ = version_string.split("+")
     
