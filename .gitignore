@@ -49,3 +49,4 @@ devtools_options.yaml
 non_translated_keys.txt
 
 .codegpt
+ios/fastlane/.env.testflight_release

@@ -1,0 +1,5 @@
+app_identifier("org.qubic.wallet")  # Your app's bundle ID
+team_id("5D5V95GA6B")               # Your Apple Developer Team ID
+
+# For more information about the Appfile, see:
+# https://docs.fastlane.tools/advanced/#appfile

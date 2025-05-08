@@ -1,0 +1,5 @@
+git_url("git@github.com:qubic/wallet-app-ios-certificates.git")
+type("appstore") # or "adhoc", "development" depending on what you're using
+readonly(true) # Set this to `false` if you want to modify certificates in the repo
+app_identifier("org.qubic.wallet")  # The app's Bundle ID
+team_id("5D5V95GA6B")  # Optional, if you have multiple teams
