@@ -127,21 +127,13 @@ platform :ios do
       UI.user_error!("❌ Could not find app with bundle ID: #{bundle_id}")
     end
 
-    builds2 = app.get_builds
-    UI.message("✅ Found #{builds2.count} builds total")
+    #builds = Spaceship::ConnectAPI::Build.all(app_id: app.id)
 
-    # Optional: Print them
-    #builds2.each do |build|
-     # UI.message("Build #{build.version} (#{build.build_number})")
-    #end
-
-    builds = Spaceship::ConnectAPI::Build.all(app_id: app.id)
-
-    #builds = Spaceship::ConnectAPI::Build.all(
-     # app_id: app.id#,
-     # sort: "-uploadedDate", # optional
-      #limit: 200
-    #)
+    builds = Spaceship::ConnectAPI::Build.all(
+      app_id: app.id,
+      sort: "-uploadedDate", # optional
+      limit: 200
+    )
 
     if builds.empty?
       UI.user_error("⚠️ No builds found for app: #{app.name} (#{app.bundle_id})")
@@ -177,7 +169,6 @@ platform :ios do
     increment_build_number(build_number: next_build)
 
     # Update pubspec.yaml to match
-    version = pubspec["version"].split("+")[0]
     pubspec["version"] = "#{version}+#{next_build}"
     File.write(pubspec_path, pubspec.to_yaml)
 
