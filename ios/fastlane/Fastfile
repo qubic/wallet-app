@@ -131,23 +131,24 @@ platform :ios do
     UI.message("✅ Found #{builds2.count} builds total")
 
     # Optional: Print them
-    builds2.each do |build|
-      UI.message("Build #{build.version} (#{build.build_number})")
-    end
+    #builds2.each do |build|
+     # UI.message("Build #{build.version} (#{build.build_number})")
+    #end
 
-    UI.message("📦 Fetching builds for version #{version}...")
+    builds = Spaceship::ConnectAPI::Build.all(app_id: app.id)
 
-    builds = Spaceship::ConnectAPI::Build.all(
-      app_id: app.id,
-      sort: "-uploadedDate", # optional
-      limit: 200
-    )
+    #builds = Spaceship::ConnectAPI::Build.all(
+     # app_id: app.id#,
+     # sort: "-uploadedDate", # optional
+      #limit: 200
+    #)
 
     if builds.empty?
       UI.important("⚠️ No builds found for app: #{app.name} (#{app.bundle_id})")
       return 0
     end
     
+    UI.message("📦 Fetching builds for version #{version}...")
     matching_builds = builds.select { |b| b.version == version }
 
     if matching_builds.empty?
