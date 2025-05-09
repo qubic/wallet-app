@@ -4,73 +4,10 @@ require 'yaml'
 
 platform :ios do
 
-  require 'spaceship'
-
-  lane :get_max_build_number do |options|
-  
-    version = options[:version]
-    bundle_id = options[:bundle_id]
-
-    app = Spaceship::ConnectAPI::App.find(bundle_id)
-
-    UI.message("📦 Fetching builds for version #{version}...")
-
-    builds = Spaceship::ConnectAPI::Build.all(
-      app_id: app.id,
-      sort: "-uploadedDate", # optional
-      limit: 200
-    )
-
-    matching_builds = builds.select { |b| b.version == version }
-    max_build = matching_builds.map { |b| b.build_number.to_i }.max || 0
-
-    UI.success("🚀 Max build number for version #{version} is #{max_build}")
-    return max_build
-  end
-
-  desc "🔧 Build and upload to TestFlight (local use only"
-  lane :testflight_release do
-
-    # Load the custom environment file
-    Dotenv.load('.env.testflight_release')
-
-    app_store_connect_api_key(
-      key_id: ENV["APP_STORE_KEY_ID"],
-      issuer_id: ENV["APP_STORE_ISSUER_ID"],
-      key_filepath: ENV["APP_STORE_KEY_PATH"]
-    )
-
-    sh "flutter clean"
-    sh "flutter pub get"
-    sh "pod install"
-
-    increment_build_number(
-      build_number: latest_testflight_build_number + 1
-    )
-    
-    build_app(
-      workspace: "Runner.xcworkspace",
-      scheme: "Runner",
-      configuration: "Release",
-      export_method: "app-store",
-      clean: true,
-      silent: false,
-      export_options: {
-        signingStyle: "automatic",
-        manageAppVersionAndBuildNumber: true
-      }
-    )
-
-    #upload_to_testflight(
-     # skip_waiting_for_build_processing: true,
-      #distribute_external: false
-    #)
-  
-  end
-
   desc "🤖 CI: Build and upload silently to TestFlight"
   lane :ci_testflight_release do
     require 'xcodeproj'
+    require 'spaceship'
 
     create_keychain(
       name: "ci_temp_keychain",
@@ -127,11 +64,9 @@ platform :ios do
       UI.user_error!("❌ Could not find app with bundle ID: #{bundle_id}")
     end
 
-    #builds = Spaceship::ConnectAPI::Build.all(app_id: app.id)
-
     builds = Spaceship::ConnectAPI::Build.all(
       app_id: app.id,
-      sort: "-uploadedDate", # optional
+      sort: "-uploadedDate",
       limit: 200
     )
 
@@ -141,13 +76,6 @@ platform :ios do
     end
 
     UI.message("🔍 Version being checked: #{version}")
-
-    # Log build versions for comparison
-    builds.each do |b|
-      puts b.to_yaml
-      UI.message("Version: #{b.pre_release_version&.version}")
-      UI.message("Build number: #{b.version}")
-    end
 
     matching_builds = builds.select do |b|
       b.pre_release_version&.version == version
@@ -165,14 +93,12 @@ platform :ios do
 
     UI.message("🔢 Next build number: #{next_build}")
 
-    # Update Info.plist
     increment_build_number(build_number: next_build)
 
     # Update pubspec.yaml to match
     pubspec["version"] = "#{version}+#{next_build}"
     File.write(pubspec_path, pubspec.to_yaml)
 
-    # Build the app using build_app (this will use the incremented build number)
     build_app(
       workspace: "Runner.xcworkspace",
       scheme: "Runner",
@@ -188,7 +114,7 @@ platform :ios do
       distribute_external: false
     )
 
-    # Clean up keychain (optional but good practice)
+    # Clean up keychain
     delete_keychain(
       name: "ci_temp_keychain"
     )
