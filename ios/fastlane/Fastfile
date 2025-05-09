@@ -153,7 +153,12 @@ platform :ios do
     # Log build versions for comparison
     builds.each do |b|
       #UI.message("Build version: #{b.version} Build number: #{b.app_store_connect_version}")
-      UI.message("Build attributes: #{b.attributes}")
+      #UI.message("Build attributes: #{b.attributes}")
+      UI.message("Build version: #{b.version}")
+      UI.message("Build number: #{b.build_number}")
+      UI.message("Build processed: #{b.processed}")
+      UI.message("Uploaded date: #{b.uploaded_date}")
+      UI.message("Other keys: #{b.instance_variables}")
     end
 
     matching_builds = builds.select { |b| b.app_store_connect_version.strip == version.strip && !b.app_store_connect_version.nil? }
