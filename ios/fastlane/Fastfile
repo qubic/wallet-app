@@ -11,9 +11,6 @@ platform :ios do
     version = options[:version]
     bundle_id = options[:bundle_id]
 
-    UI.message("🔐 Logging into App Store Connect...")
-    Spaceship::ConnectAPI.login
-
     app = Spaceship::ConnectAPI::App.find(bundle_id)
 
     UI.message("📦 Fetching builds for version #{version}...")
@@ -124,7 +121,21 @@ platform :ios do
 
     puts "📱 App Identifier: #{bundle_id} - Version: #{version}"
 
-    max_build = get_max_build_number(version: version, bundle_id: bundle_id)
+    app = Spaceship::ConnectAPI::App.find(bundle_id)
+
+    UI.message("📦 Fetching builds for version #{version}...")
+
+    builds = Spaceship::ConnectAPI::Build.all(
+      app_id: app.id,
+      sort: "-uploadedDate", # optional
+      limit: 200
+    )
+
+    matching_builds = builds.select { |b| b.version == version }
+    max_build = matching_builds.map { |b| b.build_number.to_i }.max || 0
+
+    UI.success("🚀 Max build number for version #{version} is #{max_build}")
+
     next_build = max_build + 1
 
     UI.message("🔢 Next build number: #{next_build}")
