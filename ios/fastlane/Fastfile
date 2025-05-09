@@ -172,11 +172,14 @@ platform :ios do
     next_build = max_build_number + 1
 
     UI.message("🔢 Next build number: #{next_build}")
-    
-    increment_build_number(
-      build_number: next_build,
-      skip_info_plist: true
-    )
+
+    # Update Info.plist
+    increment_build_number(build_number: next_build)
+
+    # Update pubspec.yaml to match
+    version = pubspec["version"].split("+")[0]
+    pubspec["version"] = "#{version}+#{next_build}"
+    File.write(pubspec_path, pubspec.to_yaml)
 
     # Build the app using build_app (this will use the incremented build number)
     build_app(
