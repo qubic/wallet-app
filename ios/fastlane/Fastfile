@@ -152,7 +152,8 @@ platform :ios do
 
     # Log build versions for comparison
     builds.each do |b|
-      UI.message("Build version: #{b.version}")
+      UI.message("Build version: #{b.version} Build number: #{b.build_number}")
+      UI.message("Build attributes: #{b.attributes}")
     end
 
     matching_builds = builds.select { |b| b.version.strip == version.strip && !b.version.nil? }
