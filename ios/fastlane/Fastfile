@@ -144,18 +144,24 @@ platform :ios do
     #)
 
     if builds.empty?
-      UI.important("⚠️ No builds found for app: #{app.name} (#{app.bundle_id})")
+      UI.user_error("⚠️ No builds found for app: #{app.name} (#{app.bundle_id})")
       return 0
     end
-    
-    UI.message("📦 Fetching builds for version #{version}...")
-    matching_builds = builds.select { |b| b.version == version }
+
+    UI.message("🔍 Version being checked: #{version}")
+
+    # Log build versions for comparison
+    builds.each do |b|
+      UI.message("Build version: #{b.version}")
+    end
+
+    matching_builds = builds.select { |b| b.version.strip == version.strip && !b.version.nil? }
 
     if matching_builds.empty?
-      UI.important("⚠️ No builds found for version #{version}")
+      UI.user_error("⚠️ No builds found for version #{version}")
       return 0
     end
-
+  
     max_build = matching_builds.map { |b| b.build_number.to_i }.max || 0
 
     UI.success("🚀 Max build number for version #{version} is #{max_build}")
