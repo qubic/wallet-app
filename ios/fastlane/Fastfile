@@ -154,11 +154,19 @@ platform :ios do
     builds.each do |b|
       #UI.message("Build version: #{b.version} Build number: #{b.app_store_connect_version}")
       #UI.message("Build attributes: #{b.attributes}")
-      UI.message("Build version: #{b.version}")
-      UI.message("Build number: #{b.build_number}")
-      UI.message("Build processed: #{b.processed}")
-      UI.message("Uploaded date: #{b.uploaded_date}")
-      UI.message("Other keys: #{b.instance_variables}")
+      #UI.message("Build version: #{b.version}")
+      #UI.message("Build number: #{b.build_number}")
+      #UI.message("Build processed: #{b.processed}")
+      #UI.message("Uploaded date: #{b.uploaded_date}")
+      #UI.message("Other keys: #{b.instance_variables}")
+
+      UI.message("Build attributes: #{b.attributes}")
+      
+      version = build.attributes["version"]          # e.g., 2.0.0
+      build_number = build.attributes["buildNumber"] # e.g., 42
+      status = build.attributes["processingState"]   # e.g., PROCESSING, VALID, etc.
+
+      UI.message("Version: #{version}, Build Number: #{build_number}, Status: #{status}")
     end
 
     matching_builds = builds.select { |b| b.app_store_connect_version.strip == version.strip && !b.app_store_connect_version.nil? }
