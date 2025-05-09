@@ -152,35 +152,24 @@ platform :ios do
 
     # Log build versions for comparison
     builds.each do |b|
-
       puts b.to_yaml
-
-      #UI.message("Build version: #{b.version} Build number: #{b.app_store_connect_version}")
-      #UI.message("Build attributes: #{b.attributes}")
-      #UI.message("Build version: #{b.version}")
-      #UI.message("Build number: #{b.build_number}")
-      #UI.message("Build processed: #{b.processed}")
-      #UI.message("Uploaded date: #{b.uploaded_date}")
-
-      UI.message("Version: #{b.version}")
-      UI.message("Build number: #{b.build_number}")
-      UI.message("Uploaded date: #{b.uploaded_date}")
-      UI.message("Processed: #{b.processed}")
-      UI.message("Available keys: #{b.instance_variables}")
+      UI.message("Version: #{b.pre_release_version&.version}")
+      UI.message("Build number: #{b.version}")
     end
 
-    matching_builds = builds.select { |b| b.app_store_connect_version.strip == version.strip && !b.app_store_connect_version.nil? }
+    matching_builds = builds.select do |b|
+      b.pre_release_version&.version == version
+    end
 
     if matching_builds.empty?
       UI.user_error("⚠️ No builds found for version #{version}")
       return 0
     end
   
-    max_build = matching_builds.map { |b| b.version.to_i }.max || 0
+    max_build_number = matching_builds.map { |b| b.version.to_i }.max || 0
+    UI.message("🚀 Max build number for version #{version}: #{max_build_number}")
 
-    UI.success("🚀 Max build number for version #{version} is #{max_build}")
-
-    next_build = max_build + 1
+    next_build = max_build_number + 1
 
     UI.message("🔢 Next build number: #{next_build}")
     
