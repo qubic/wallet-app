@@ -152,7 +152,7 @@ platform :ios do
 
     # Log build versions for comparison
     builds.each do |b|
-      UI.message("Build version: #{b.version} Build number: #{b.app_store_connect_version}")
+      #UI.message("Build version: #{b.version} Build number: #{b.app_store_connect_version}")
       UI.message("Build attributes: #{b.attributes}")
     end
 
