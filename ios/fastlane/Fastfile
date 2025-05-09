@@ -127,6 +127,14 @@ platform :ios do
       UI.user_error!("❌ Could not find app with bundle ID: #{bundle_id}")
     end
 
+    builds2 = app.get_builds
+    UI.message("✅ Found #{builds2.count} builds total")
+
+    # Optional: Print them
+    builds2.each do |build|
+      UI.message("Build #{build.version} (#{build.build_number})")
+    end
+
     UI.message("📦 Fetching builds for version #{version}...")
 
     builds = Spaceship::ConnectAPI::Build.all(
