@@ -123,6 +123,10 @@ platform :ios do
 
     app = Spaceship::ConnectAPI::App.find(bundle_id)
 
+    if app.nil?
+      UI.user_error!("❌ Could not find app with bundle ID: #{bundle_id}")
+    end
+
     UI.message("📦 Fetching builds for version #{version}...")
 
     builds = Spaceship::ConnectAPI::Build.all(
@@ -131,7 +135,18 @@ platform :ios do
       limit: 200
     )
 
+    if builds.empty?
+      UI.important("⚠️ No builds found for app: #{app.name} (#{app.bundle_id})")
+      return 0
+    end
+    
     matching_builds = builds.select { |b| b.version == version }
+
+    if matching_builds.empty?
+      UI.important("⚠️ No builds found for version #{version}")
+      return 0
+    end
+
     max_build = matching_builds.map { |b| b.build_number.to_i }.max || 0
 
     UI.success("🚀 Max build number for version #{version} is #{max_build}")
@@ -144,8 +159,6 @@ platform :ios do
       build_number: next_build,
       skip_info_plist: true
     )
-    
-    puts "📦 Version: #{version}, Build: #{new_build}"
 
     # Build the app using build_app (this will use the incremented build number)
     build_app(
