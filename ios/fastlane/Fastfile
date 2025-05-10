@@ -41,8 +41,14 @@ platform :ios do
     UI.user_error!("❌ pubspec.yaml not found at #{pubspec_path}") unless File.exist?(pubspec_path)
 
     pubspec = YAML.load_file(pubspec_path)
-    version_string = pubspec["version"]
-    version, _ = version_string.split("+")
+    #version_string = pubspec["version"]
+    #version, _ = version_string.split("+")
+
+    # Read iOS version and build number, fallback if not present
+    ios_version_string = pubspec["ios_version"]
+    version, ios_build = ios_version_string.split("+") if ios_version_string
+    version ||= pubspec["version"]  # Fallback to the "version" field if ios_version is not set
+    version ||= "1.0.0"  # Further fallback if no version field is set
 
     # Path to the Xcode project
     xcodeproj_path = '../Runner.xcodeproj'
@@ -56,7 +62,7 @@ platform :ios do
     # Get the bundle ID from the build settings
     bundle_id = target.build_configurations.first.build_settings['PRODUCT_BUNDLE_IDENTIFIER']
 
-    puts "📱 App Identifier: #{bundle_id} - Version: #{version}"
+    UI.message("📱 iOS App Identifier: #{bundle_id} - Version: #{version} - Build: #{ios_build}")
 
     app = Spaceship::ConnectAPI::App.find(bundle_id)
 
@@ -109,10 +115,27 @@ platform :ios do
       verbose: true
     )
 
-    upload_to_testflight(
+    upload_result = upload_to_testflight(
       skip_waiting_for_build_processing: true,
       distribute_external: false
     )
+
+    # Check if the upload was successful
+    if upload_result.success?
+      UI.message("🚀 Build uploaded successfully to TestFlight!")
+
+      # If successful, commit the changes and create a tag
+      tag_name = "iOS_v#{ios_version}+#{next_build}"
+      UI.message("🏷️ Creating git tag: #{tag_name}")
+      sh("git config user.name 'GitHub Actions'")
+      sh("git config user.email 'actions@github.com'")
+      sh("git add #{pubspec_path}")
+      sh("git commit -m '📦 iOS release: #{tag_name}' || echo 'Nothing to commit'") # Commit changes
+      sh("git tag #{tag_name}")
+      sh("git push origin #{tag_name}")
+    else
+      UI.user_error!("❌ Failed to upload the build to TestFlight. Skipping commit and tag.")
+    end
 
     # Clean up keychain
     delete_keychain(
