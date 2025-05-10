@@ -128,7 +128,7 @@ platform :ios do
       UI.message("🚀 Build uploaded successfully to TestFlight!")
     
       # If successful, commit the changes and create a tag
-      tag_name = "iOS_v#{ios_version}+#{next_build}"
+      tag_name = "iOS_v#{version}+#{next_build}"
       UI.message("🏷️ Creating git tag: #{tag_name}")
       sh("git config user.name 'GitHub Actions'")
       sh("git config user.email 'actions@github.com'")
