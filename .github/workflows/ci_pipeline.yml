@@ -64,7 +64,7 @@ jobs:
   build_android:
     name: Build Android Application
     needs: analyze
-    if: github.event_name == 'push123'
+    if: github.event_name == 'push'
     uses: ./.github/workflows/firebase-app-distribution.yml
     secrets:
       ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}

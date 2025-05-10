@@ -46,9 +46,12 @@ platform :ios do
 
     # Read iOS version and build number, fallback if not present
     ios_version_string = pubspec["ios_version"]
-    version, ios_build = ios_version_string.split("+") if ios_version_string
-    version ||= pubspec["version"]  # Fallback to the "version" field if ios_version is not set
-    version ||= "1.0.0"  # Further fallback if no version field is set
+    version_string = ios_version_string || pubspec["version"]  # Fallback to "version" if ios_version is not set
+    version, ios_build = version_string.split("+")  # Split version and build number
+
+    # Ensure version and build number are assigned
+    version ||= "1.0.0"  # Fallback to a default version if neither ios_version nor version is set
+    ios_build ||= "0"  # Fallback to 0 if no build number is specified
 
     # Path to the Xcode project
     xcodeproj_path = '../Runner.xcodeproj'

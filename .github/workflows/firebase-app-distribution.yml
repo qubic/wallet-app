@@ -50,26 +50,28 @@ jobs:
       - name: ✅ Confirm keystore file exists
         run: ls -l android/app/ci-release-key.keystore
 
-      - name: 🧮 Bump versionCode
-        id: bump_version
+      - name: 📦 Extract and Increment Version in pubspec.yaml
         run: |
-          VERSION_NAME=$(grep version: pubspec.yaml | awk '{print $2}')
-          VERSION_CODE=$(grep versionCode android/app/build.gradle | awk '{print $2}')
-          echo "Current version: $VERSION_NAME+$VERSION_CODE"
+          # Extract version and build number from pubspec.yaml
+          VERSION_NAME=$(grep -E '^(android_version|version):' pubspec.yaml | head -n 1 | awk '{print $2}')
+          VERSION=$(echo $VERSION_NAME | cut -d '+' -f 1)   # i.e. 2.0.0 or 2.0.1
+          BUILD_NUMBER=$(echo $VERSION_NAME | cut -d '+' -f 2)  # i.e. 70 or 80
 
-          NEW_CODE=$((VERSION_CODE + 1))
+          # If there's no BUILD_NUMBER, default to 0
+          BUILD_NUMBER=${BUILD_NUMBER:-0}
 
-          # Update versionCode
-          sed -i "s/versionCode $VERSION_CODE/versionCode $NEW_CODE/" android/app/build.gradle
+          # Increment build number
+          NEW_BUILD_NUMBER=$((BUILD_NUMBER + 1))
 
-          # Commit and push
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add android/app/build.gradle
-          git commit -m "⬆️ Bump versionCode to $NEW_CODE for $VERSION_NAME"
-          git tag "Android_v$VERSION_NAME+$NEW_CODE"
+          # New version format (version+new_build_number)
+          NEW_VERSION="${VERSION}+${NEW_BUILD_NUMBER}"
 
-          echo "VERSION_TAG=v$VERSION_NAME+$NEW_CODE" >> $GITHUB_ENV
+          # Update pubspec.yaml with the new version
+          sed -i "s/version: ${VERSION_NAME}/version: ${NEW_VERSION}/" pubspec.yaml
+          sed -i "s/android_version: ${VERSION_NAME}/android_version: ${NEW_VERSION}/" pubspec.yaml
+
+          # Output the new version for confirmation
+          echo "Updated version: ${NEW_VERSION}"
 
       - name: 🏗️ Build Universal Release APK
         run: flutter build apk --release
@@ -88,10 +90,28 @@ jobs:
           credentials_json: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}"
 
       - name: 🚀 Upload APK to Firebase App Distribution
+        id: upload_apk
         run: |
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
             --app ${{ secrets.FIREBASE_APP_ID }} \
             --groups "Internal"
 
-      - name: 📤 Push tag to GitHub
-        run: git push origin ${{ env.VERSION_TAG }}
+      # Only proceed with commit and tag if APK was uploaded successfully
+      - name: Commit and Tag Changes
+        if: success() && steps.upload_apk.outcome == 'success'
+        run: |
+          # Configure Git user
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+          # Commit the changes to pubspec.yaml
+          git add pubspec.yaml
+          git commit -m "Bump version to ${NEW_VERSION}"
+
+          # Create a tag in the format Android_version_versioncode
+          TAG_NAME="Android_${VERSION}_${NEW_BUILD_NUMBER}"
+          git tag -a "${TAG_NAME}" -m "Release ${TAG_NAME}"
+
+          # Push the commit and tag to the repository
+          git push origin main
+          git push origin "${TAG_NAME}"
