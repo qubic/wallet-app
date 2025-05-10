@@ -16,6 +16,9 @@ on:
       FIREBASE_APP_ID:
         required: true
 
+permissions:
+  contents: write
+
 jobs:
   build-and-upload:
     runs-on: ubuntu-latest
@@ -47,6 +50,27 @@ jobs:
       - name: ✅ Confirm keystore file exists
         run: ls -l android/app/ci-release-key.keystore
 
+      - name: 🧮 Bump versionCode
+        id: bump_version
+        run: |
+          VERSION_NAME=$(grep version: pubspec.yaml | awk '{print $2}')
+          VERSION_CODE=$(grep versionCode android/app/build.gradle | awk '{print $2}')
+          echo "Current version: $VERSION_NAME+$VERSION_CODE"
+
+          NEW_CODE=$((VERSION_CODE + 1))
+
+          # Update versionCode
+          sed -i "s/versionCode $VERSION_CODE/versionCode $NEW_CODE/" android/app/build.gradle
+
+          # Commit and push
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add android/app/build.gradle
+          git commit -m "⬆️ Bump versionCode to $NEW_CODE for $VERSION_NAME"
+          git tag "Android_v$VERSION_NAME+$NEW_CODE"
+
+          echo "VERSION_TAG=v$VERSION_NAME+$NEW_CODE" >> $GITHUB_ENV
+
       - name: 🏗️ Build Universal Release APK
         run: flutter build apk --release
         env:
@@ -68,3 +92,6 @@ jobs:
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-release.apk \
             --app ${{ secrets.FIREBASE_APP_ID }} \
             --groups "Internal"
+
+      - name: 📤 Push tag to GitHub
+        run: git push origin ${{ env.VERSION_TAG }}
