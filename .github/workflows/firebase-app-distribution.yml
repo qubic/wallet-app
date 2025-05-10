@@ -109,7 +109,7 @@ jobs:
           git commit -m "Bump version to ${NEW_VERSION}"
 
           # Create a tag in the format Android_version_versioncode
-          TAG_NAME="Android_${VERSION}_${NEW_BUILD_NUMBER}"
+          TAG_NAME="Android_v${VERSION}+${NEW_BUILD_NUMBER}"
           git tag -a "${TAG_NAME}" -m "Release ${TAG_NAME}"
 
           # Push the commit and tag to the repository

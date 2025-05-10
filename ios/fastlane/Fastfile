@@ -118,15 +118,15 @@ platform :ios do
       verbose: true
     )
 
-    upload_result = upload_to_testflight(
-      skip_waiting_for_build_processing: true,
-      distribute_external: false
-    )
-
-    # Check if the upload was successful
-    if upload_result.success?
+    begin
+      # Attempt to upload the build to TestFlight
+      upload_to_testflight(
+        skip_waiting_for_build_processing: true,
+        distribute_external: false
+      )
+      
       UI.message("🚀 Build uploaded successfully to TestFlight!")
-
+    
       # If successful, commit the changes and create a tag
       tag_name = "iOS_v#{ios_version}+#{next_build}"
       UI.message("🏷️ Creating git tag: #{tag_name}")
@@ -136,8 +136,9 @@ platform :ios do
       sh("git commit -m '📦 iOS release: #{tag_name}' || echo 'Nothing to commit'") # Commit changes
       sh("git tag #{tag_name}")
       sh("git push origin #{tag_name}")
-    else
-      UI.user_error!("❌ Failed to upload the build to TestFlight. Skipping commit and tag.")
+    rescue => e
+      UI.error("❌ Failed to upload the build to TestFlight: #{e.message}")
+      UI.user_error!("Skipping commit and tag.")
     end
 
     # Clean up keychain
