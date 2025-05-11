@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io' as io;
 import 'dart:io';
-import 'dart:math';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:local_auth/local_auth.dart';
@@ -148,19 +146,19 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   Widget getSelectedPathSelector() {
     return Container(
         decoration: BoxDecoration(
-            color: LightThemeColors.primary.withOpacity(0.02),
+            color: LightThemeColors.primary.withValues(alpha: 0.02),
             border: Border(
                 top: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 left: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 right: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 bottom: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0)),
             borderRadius: BorderRadius.circular(8.0)),
         child: Padding(

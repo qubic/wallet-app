@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,7 +12,7 @@ import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/link.dart';
-import 'package:path/path.dart' as Path;
+import 'package:path/path.dart' as path_package;
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 class DownloadCmdUtils extends StatefulWidget {
@@ -37,7 +35,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
   String? manualError;
 
   num downloadProgress = 0;
-  String? downloadError = null;
+  String? downloadError;
 
   @override
   void initState() {
@@ -69,7 +67,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
     try {
       dio.download(
         downloadUrl,
-        Path.join(directory, filename),
+        path_package.join(directory, filename),
         onReceiveProgress: (rcv, total) async {
           setState(() {
             downloadProgress = rcv / total;
@@ -131,7 +129,8 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
                   children: [
                 const Text("2. Place it in the following folder"),
                 Padding(
-                    padding: EdgeInsets.only(left: ThemePaddings.normalPadding),
+                    padding: const EdgeInsets.only(
+                        left: ThemePaddings.normalPadding),
                     child: CopyableText(
                         copiedText: directory, child: Text(directory))),
                 const SizedBox(height: ThemePaddings.miniPadding),
@@ -214,7 +213,7 @@ class _DownloadCmdUtilsState extends State<DownloadCmdUtils> {
 
   Widget getIntroPage() {
     return Column(mainAxisSize: MainAxisSize.min, children: [
-      GradientForeground(child: const Icon(Icons.file_present_sharp, size: 90)),
+      const GradientForeground(child: Icon(Icons.file_present_sharp, size: 90)),
       ThemedControls.spacerVerticalNormal(),
       ThemedControls.pageHeader(headerText: "Missing required files"),
       ThemedControls.spacerVerticalNormal(),

@@ -7,7 +7,6 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/pages/auth/create_password_sheet.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -102,9 +101,9 @@ class _ReceiveState extends State<SignUp> {
           child: Switch(
               activeColor: LightThemeColors.primary,
               activeTrackColor: LightThemeColors.buttonPrimary,
-              trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
-                  (Set<MaterialState> states) {
-                return Colors.orange.withOpacity(0);
+              trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+                  (Set<WidgetState> states) {
+                return Colors.orange.withValues(alpha: 0);
               }),
               value: enabledBiometrics,
               onChanged: (value) async {
@@ -228,9 +227,8 @@ class _ReceiveState extends State<SignUp> {
       subheader = l10n.signUpStepTwoSubHeaderForDesktop;
     }
 
-    return Container(
-        child: Expanded(
-            child: Column(
+    return Expanded(
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ThemedControls.pageHeader(headerText: title, subheaderText: ""),
@@ -238,14 +236,13 @@ class _ReceiveState extends State<SignUp> {
         ThemedControls.spacerVerticalNormal(),
         biometricsControls()
       ],
-    )));
+    ));
   }
 
   Widget getStep1() {
     final l10n = l10nOf(context);
-    return Container(
-        child: Expanded(
-            child: Column(
+    return Expanded(
+        child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         ThemedControls.pageHeader(
@@ -253,7 +250,7 @@ class _ReceiveState extends State<SignUp> {
         Text(l10n.signUpStepOneSubHeader, style: TextStyles.secondaryText),
         FormBuilder(key: _formKey, child: Column(children: getSignUpForm()))
       ],
-    )));
+    ));
   }
 
   //Gets the container scroll view
@@ -346,8 +343,8 @@ class _ReceiveState extends State<SignUp> {
     if (await appStore.signUp(currentPassword)) {
       try {
         await appStore.checkWalletIsInitialized();
-        await getIt<QubicLi>().authenticate();
       } catch (e) {
+        if (!mounted) return;
         showAlertDialog(
             context, l10n.generalErrorContactingQubicNetwork, e.toString());
         setState(() {
@@ -362,9 +359,11 @@ class _ReceiveState extends State<SignUp> {
           isLoading = false;
         });
       } catch (e) {
+        if (!mounted) return;
         showAlertDialog(
             context, l10n.signUpErrorStoringBiometricInfo, e.toString());
       }
+      if (!mounted) return;
       context.goNamed("mainScreen");
     } else {
       setState(() {

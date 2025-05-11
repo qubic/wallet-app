@@ -41,13 +41,13 @@ class EraseWalletDataButton extends StatelessWidget {
               builder: (BuildContext context) {
                 return SafeArea(
                     child: EraseWalletSheet(onAccept: () async {
-                  if (!context.mounted) return;
                   await secureStorage.deleteWallet();
                   await settingsStore.loadSettings();
                   await _hiveStorage.clear();
                   appStore.checkWalletIsInitialized();
                   appStore.signOut();
                   timedController.stopFetchTimers();
+                  if (!context.mounted) return;
                   Navigator.pop(context);
                   context.go("/signInNoAuth");
                   _globalSnackBar

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/components/refresh_loading_indicator.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 

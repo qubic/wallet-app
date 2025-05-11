@@ -165,9 +165,8 @@ class SecureStorage {
 
   //Makes sure that all the wallet keys are valid
   Future<bool> validateWalletContents() async {
-    late CriticalSettings csettings;
     try {
-      csettings = await getCriticalSettings();
+      await getCriticalSettings();
     } catch (e) {
       return false;
     }
