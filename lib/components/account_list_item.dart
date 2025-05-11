@@ -6,6 +6,7 @@ import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
+import 'package:qubic_wallet/components/mid_text_with_ellipsis.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -409,25 +410,25 @@ class _AccountListItemState extends State<AccountListItem> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Flex(
-                            direction: Axis.horizontal,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                  fit: FlexFit.loose,
-                                  child: Row(children: [
-                                    Text(widget.item.name,
-                                        style: TextStyles.accountName),
-                                    ThemedControls.spacerHorizontalSmall(),
-                                    isItemWatchOnly()
-                                        ? const Icon(
-                                            Icons.remove_red_eye_rounded,
-                                            color: LightThemeColors.color4,
-                                          )
-                                        : Container(),
-                                  ])),
-                              getCardMenu(context)
+                        Row(children: [
+                          Expanded(
+                            child: Row(children: [
+                              Expanded(
+                                child: TextWithMidEllipsis(
+                                  widget.item.name,
+                                  style: TextStyles.accountName,
+                                ),
+                              ),
+                              isItemWatchOnly()
+                                  ? const Icon(
+                                      Icons.remove_red_eye_rounded,
+                                      color: LightThemeColors.color4,
+                                    )
+                                  : Container(),
                             ]),
+                          ),
+                          getCardMenu(context)
+                        ]),
                         ThemedControls.spacerVerticalSmall(),
                         Text(widget.item.publicId),
                         ThemedControls.spacerVerticalSmall(),
