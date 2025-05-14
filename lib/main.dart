@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app_links/app_links.dart';
 import 'package:blur/blur.dart';
-import 'package:dargon2_flutter/dargon2_flutter.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -22,8 +21,6 @@ import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {
-  registerAppSchemeIfNeeded();
-  DArgon2Flutter.init(); //Initialize DArgon 2
   WidgetsFlutterBinding.ensureInitialized();
   setupDI(); //Dependency injection
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
