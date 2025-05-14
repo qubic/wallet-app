@@ -100,6 +100,8 @@ jobs:
       - name: Commit and Tag Changes
         if: success() && steps.upload_apk.outcome == 'success'
         run: |
+
+
           # Configure Git user
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
@@ -112,6 +114,7 @@ jobs:
           TAG_NAME="Android_v${VERSION}+${NEW_BUILD_NUMBER}"
           git tag -a "${TAG_NAME}" -m "Release ${TAG_NAME}"
 
-          # Push the commit and tag to the repository
-          git push origin main
+          # Push the commit and tag to the current branch
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          git push origin "$CURRENT_BRANCH"
           git push origin "${TAG_NAME}"
