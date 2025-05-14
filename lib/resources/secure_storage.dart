@@ -49,14 +49,12 @@ class SecureStorage {
     storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   }
 
-<<<<<<< HEAD
   final _argon2idAlgorithm = Argon2id(
     memory: argon2MemorySize,
     iterations: argon2Iterations,
     parallelism: argon2Parallelism,
     hashLength: argon2Length,
   );
-=======
   Future<String?> getHiveEncryptionKey() async {
     try {
       final keyString =
@@ -82,7 +80,6 @@ class SecureStorage {
   Future<void> deleteHiveEncryptionKey() async {
     await storage.delete(key: SecureStorageKeys.hiveEncryptionKey);
   }
->>>>>>> upstream/develop
 
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
