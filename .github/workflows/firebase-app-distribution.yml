@@ -73,6 +73,11 @@ jobs:
           # Output the new version for confirmation
           echo "Updated version: ${NEW_VERSION}"
 
+          # Output variables for use in later steps
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+          echo "NEW_BUILD_NUMBER=${NEW_BUILD_NUMBER}" >> $GITHUB_ENV
+
       - name: 🏗️ Build Universal Release APK
         run: flutter build apk --release
         env:
