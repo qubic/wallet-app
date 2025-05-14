@@ -1,5 +1,10 @@
 PODS:
+  - app_links (1.0.0):
+    - FlutterMacOS
   - Argon2Swift (1.0.4)
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - dargon2_flutter_desktop (0.0.1):
     - Argon2Swift
     - FlutterMacOS
@@ -35,6 +40,8 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - app_links (from `Flutter/ephemeral/.symlinks/plugins/app_links/macos`)
+  - connectivity_plus (from `Flutter/ephemeral/.symlinks/plugins/connectivity_plus/darwin`)
   - dargon2_flutter_desktop (from `Flutter/ephemeral/.symlinks/plugins/dargon2_flutter_desktop/macos`)
   - downloadsfolder (from `Flutter/ephemeral/.symlinks/plugins/downloadsfolder/macos`)
   - flutter_inappwebview_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_inappwebview_macos/macos`)
@@ -56,6 +63,10 @@ SPEC REPOS:
     - OrderedSet
 
 EXTERNAL SOURCES:
+  app_links:
+    :path: Flutter/ephemeral/.symlinks/plugins/app_links/macos
+  connectivity_plus:
+    :path: Flutter/ephemeral/.symlinks/plugins/connectivity_plus/darwin
   dargon2_flutter_desktop:
     :path: Flutter/ephemeral/.symlinks/plugins/dargon2_flutter_desktop/macos
   downloadsfolder:
@@ -86,7 +97,9 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
 
 SPEC CHECKSUMS:
+  app_links: 10e0a0ab602ffaf34d142cd4862f29d34b303b2a
   Argon2Swift: 295b8bde7ba61434f227f5610b8813c42e866f74
+  connectivity_plus: 18382e7311ba19efcaee94442b23b32507b20695
   dargon2_flutter_desktop: 5c9ada7e2681da7dc95052e4fcc1e61ad17e27e1
   downloadsfolder: f8c4d35588cc58b607898ebbbdbeb5c0e7f04a46
   flutter_inappwebview_macos: bdf207b8f4ebd58e86ae06cd96b147de99a67c9b
@@ -95,14 +108,14 @@ SPEC CHECKSUMS:
   local_auth_darwin: 66e40372f1c29f383a314c738c7446e2f7fdadc3
   mobile_scanner: 0a05256215b047af27b9495db3b77640055e8824
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
-  package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
+  package_info_plus: 12f1c5c2cfe8727ca46cbd0b26677728972d9a5b
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
-  share_plus: 36537c04ce0c3e3f5bd297ce4318b6d5ee5fd6cf
+  share_plus: 1fa619de8392a4398bfaf176d441853922614e89
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  url_launcher_macos: 5f437abeda8c85500ceb03f5c1938a8c5a705399
+  url_launcher_macos: c82c93949963e55b228a30115bd219499a6fe404
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
 
 PODFILE CHECKSUM: cd4de04520a2f183f35981be9c3a084d83c36222
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2

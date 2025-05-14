@@ -2,6 +2,24 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<!-- Custom URL scheme -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+		<!-- Your scheme -->
+		<key>CFBundleURLSchemes</key>
+		<array>			
+			<string>qubic-wallet</string>
+		</array>
+		<!-- Optional URL to distinguish app from others in case of conflicting scheme name -->
+		<key>CFBundleURLName</key>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>		
+		</dict>
+	</array>
+	<!-- disable flutter deep linking -->
+	<key>FlutterDeepLinkingEnabled</key>
+	<false/>
+	<!-- END Custom URL scheme sample -->
 	<key>MinimumOSVersion</key>
 	<string>15.0</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
@@ -56,7 +74,9 @@
 	<key>NSFaceIDUsageDescription</key>
 	<string>Use Face ID instead of password to unlock your wallet</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<true/>
+	<key>ITSEncryptionExportComplianceCode</key>
+	<string>b412f43a-05d2-4b42-8f3d-b9d5755103a5</string> 
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UISupportsDocumentBrowser</key>  

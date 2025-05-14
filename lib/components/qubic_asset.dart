@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:skeleton_text/skeleton_text.dart';
 
 class QubicAsset extends StatelessWidget {
@@ -18,11 +17,11 @@ class QubicAsset extends StatelessWidget {
         .copyWith(fontFamily: ThemeFonts.primary);
     TextStyle transparentStyle = opaqueStyle.copyWith(
         color:
-            Theme.of(context).textTheme.titleMedium?.color!.withOpacity(0.1));
+            Theme.of(context).textTheme.titleMedium?.color!.withValues(alpha: 0.1));
     TextStyle defaultStyle = opaque ? opaqueStyle : transparentStyle;
 
     TextStyle? transparentOverridenStyle = style?.copyWith(
-      color: style!.color!.withOpacity(0.1),
+      color: style!.color!.withValues(alpha: 0.1),
     );
 
     TextStyle? overridenStyle = style == null
@@ -44,11 +43,11 @@ class QubicAsset extends StatelessWidget {
     if (asset == null) {
       return Container();
     }
-    bool isToken = asset!.contractIndex == QubicSCID.qX.contractIndex &&
-        asset!.contractName != "QX";
+
+    bool isToken = !asset!.isSmartContractShare;
 
     String text;
-    int amount = asset!.ownedAmount ?? asset!.possessedAmount ?? 0;
+    int amount = asset!.numberOfUnits;
 
     if (isToken) {
       text = l10n.generalUnitTokens(amount);
@@ -68,12 +67,12 @@ class QubicAsset extends StatelessWidget {
     if (asset == null) {
       return Container();
     }
-    if ((asset!.ownedAmount == null) && (asset!.possessedAmount == null)) {
+    if ((asset!.numberOfUnits == 0)) {
       List<Widget> output = [];
       output.add(SkeletonAnimation(
           borderRadius: BorderRadius.circular(2.0),
           shimmerColor:
-              Theme.of(context).textTheme.titleMedium!.color!.withOpacity(0.3),
+              Theme.of(context).textTheme.titleMedium!.color!.withValues(alpha: 0.3),
           shimmerDuration: 3000,
           curve: Curves.easeInOutCirc,
           child: Container(
@@ -85,13 +84,13 @@ class QubicAsset extends StatelessWidget {
                     .textTheme
                     .titleMedium
                     ?.color!
-                    .withOpacity(0.1)),
+                    .withValues(alpha: 0.1)),
           )));
 
       return Row(mainAxisAlignment: MainAxisAlignment.center, children: output);
     }
     List<Widget> numbers = [];
-    int numberOfShares = asset!.ownedAmount ?? asset!.possessedAmount ?? 0;
+    int numberOfShares = asset!.numberOfUnits;
     String? zeros = numberOfShares > 100
         ? null
         : numberOfShares >= 10
@@ -103,7 +102,8 @@ class QubicAsset extends StatelessWidget {
       numbers.add(getText(context, zeros, false));
     }
     numbers.add(getText(context, numberOfShares.toString(), true));
-    numbers.add(Text(" ${asset!.assetName}", style: getStyle(context, true)));
+    numbers.add(
+        Text(" ${asset!.issuedAsset.name}", style: getStyle(context, true)));
     numbers.add(getDescriptor(context));
     return Row(
         crossAxisAlignment: CrossAxisAlignment.baseline,

@@ -124,7 +124,6 @@
     "generalErrorSetWalletPasswordRepeatEmpty": "Пожалуйста, введите пароль еще раз.",
     "appTabHome": "Главная",
     "appTabTransfers": "Транзакции",
-    "appTabExplorer": "Обозреватель",
     "appTabSettings": "Настройки",
     "homeLabelTotalBalance": "Общий балланс",
     "homeHeader": "Аккаунты в кошельке",
@@ -135,7 +134,7 @@
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Ни одна транзакция в этой эпохе для ваших счетов не соответствует вашим фильтрам",
     "transfersLabelNoTransactionsFoundInWallet": "В эту эпоху нет операций по вашим счетам",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Ни одна транзакция в этой эпохе не соответствует вашим фильтрам",
-    "transfersLabelNoTransactionsFoundInAccount": "Никаких транзакций в этой эпохе",
+    "transfersLabelNoTransactionsFoundInAccount": "Транзакции не найдены.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Показать 1 транзакцию в тике} other{Показать {count} транзакций(и)}}",
     "transfersLabelFor": "Транзакция к",
     "transfersLabelForAccount": "Транзакция к \"{accountName}\"",
@@ -188,7 +187,7 @@
     "explorerTickResultLabelTickLeader": "Лидер тика",
     "explorerTickResultLabelNoTransactionsFound": "Нет транзакций в этом тике",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 транзакция в тике} other{{count} транзакций в тике}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Показать 1 из 1 транзакций в тике} other{Показать 1 из {count} транзакций в тике}}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Показать 1 из 1 транзакций в тике} other{Показать 1 из {count} транзакций в тике}}",
     "settingsTitle": "Настройки",
     "settingsHeaderAccountsAndData": "Аккаунты и данные",
     "settingsLockWallet": "Заблокировать кошелек",
@@ -250,11 +249,11 @@
     "transactionLabelDirectionInWallet": "В кошельке",
     "transactionLabelStatusSuccessful": "Удачно",
     "transactionLabelStatusPending": "В ожидании",
-    "transactionLabelStatusConfirmed": "Подтверждено",
+    "transactionLabelStatusExecuted": "Выполнено",
     "transactionLabelStatusFailed": "Неудачно",
-    "transactionLabelStatusInvalid": "Неудачно - ошибка",
+    "transactionLabelStatusInvalid": "Ошибка",
     "signInTitleOne": "Добро пожаловать в",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Рады видеть Вас снова!",
     "welcomeButtonUnlockWallet": "Разблокировать кошелек",
     "welcomeButtonCreateWallet": "Создать новый кошелек",
@@ -270,8 +269,6 @@
     "accountSendButtonMax": "Максимум",
     "accountSendButtonMaxMinusOne": "Максимум - 1",
     "accountSendSectionAdvanceOptionsTitle": "Дополнительные настройки",
-    "assetsLabelOwned": "Мои средства",
-    "assetsLabelPossessed": "Частичное владение",
     "assetsLabelContractName": "Имя контракта",
     "assetsLabelContractIndex": "Индекс контракта",
     "assetsLabelTick": "Действительно для тика {tick}",
@@ -378,10 +375,8 @@
     "accountExplorerLabelTotalOutgoing": "Общее кол-во выводов",
     "accountExplorerLabelReportedBy": "Подтверждена",
     "accountExplorerLabelNoResultsFound": "Нет транзакций для этого ID в эту эпоху",
-    "transactionItemLabelIncludedByTickLeader": "Включительно с лидером тика",
-    "transactionItemLabelNotIncludedByTickLeader": "Не включено в лидера тика",
     "transactionItemLabelTransactionId": "ID транзакции",
-    "transactionItemLabelTransactionDigest": "Дайджест транзакции",
+    "transactionItemLabelTransactionType": "Тип",
     "generalLabelTickAndValue": "Тик {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -390,16 +385,11 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Включено в сеть Qubic",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Не включено в сеть Qubic",
     "transactionItemButtonViewInExplorer": "Посмотреть в обозревателе",
     "transactionItemButtonCopyToClipboard": "Скопировать в буфер",
     "transactionItemButtonViewDetails": "Детали",
     "transactionItemButtonResend": "Переслать",
-    "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
-    "transactionItemLabelCreatedDate": "Создать дату",
-    "transactionItemLabelBroadcastedDate": "Дата выхода",
-    "transactionItemLabelConfirmedDate": "Дата подтверждения",
+    "transactionItemLabelConfirmedDate": "Метка времени",
     "transactionItemLabelDetails": "Детали транзакции",
     "sendItemLabelTargetTick": "На каком тике",
     "sendItemLabelTargetTickAutomatic": "Автоматически: этот тик + {addingTicks}",
@@ -413,7 +403,7 @@
     "sendItemLabelTargetTickManual": "Ручное управление",
     "sendItemLabelDetermineTargetTick": "Определите целевой тик",
     "sendItemDialogErrorGeneralTitle": "Ошибка при генерации транзакции",
-    "sendItemDialogResendTitle": "Повторно отправить неудачную транзакцию?",
+    "sendItemDialogResendTitle": "Повторно отправить транзакцию?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (current {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -443,7 +433,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Неправильный секретный сид",
     "addAccountErrorTamperedWalletTitle": "ОБНАРУЖЕН ПОДДЕЛЬНЫЙ КОШЕЛЕК",
     "addAccountErrorTamperedWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН.\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ С САЙТА HTTPS://GITHUB.COM/QUBIC/WALLET-APP ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА",
-    "sendAssetLabelTransactionCost": "Стоимость транзакции (fixed)",
+    "sendAssetLabelTransactionCost": "Комиссия (fixed)",
     "sendAssetButtonTransfer": "Транзакция",
     "sendAssetErrorTickIsInThePast": "Выбранный тик уже прошёл. Текущий тик {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -587,60 +577,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nОтправитель: {sourceId}\nПолучатель: {destId}\nКол-во: {amount}\nСтатус: {status}\nСоздано: {created}\nЗаписано: {stored}\nПоставлено: {staged}\nПередано: {broadcasted}\nПодтверждено: {confirmed}\nСтатус Обновлен: {statusUpdate}\nТик: {targetTick}\nВ процессе: {isPending}\nЦена: {price} \nКол-во: {quantity}\nДвижение: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nИсточник: {sourceId}\nПолучатель: {destId}\nТик: {amount}\nТип: {type}\nСтатус: {status}\nМетка времени: {timestamp}\nТик: {targetTick}",
     "welcomeButtonImportExistingWallet": "Импортировать существующий кошелек",
     "importWalletTitle": "Импортировать кошелек",
     "importWalletSubHeader": "Выберете каким образом вы хотите импортировать существующий кошелек",
@@ -753,7 +690,7 @@
     "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15.",
     "explorerLabelPrice": "Цена",
     "explorerLabelMarketCap": "Рыночная капитализация",
-    "settingsLabelWalletConnect": "Соединение кошелька",
+    "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Неверный адрес для наблюдения. Проверьте адрес.",
     "addAccountErrorVerifyIdentityError": "Невозможно верифицировать адрес.",
     "addAccountWatchOnlyPageTitle": "Добавить аккаунт для наблюдения",
@@ -775,5 +712,136 @@
         }
     },
     "joinCommunityLabelTiktok": "TikTok",
-    "accountExplorerLabelLatestTransactions": "Последние транзакции"
+    "accountExplorerLabelLatestTransactions": "Последние транзакции",
+    "wcScopeRequestAccounts": "Просмотр ваших кошельковых аккаунтов и их баланса",
+    "wcScopeSendQubic": "Запрос отправки Qubic с ваших кошельковых аккаунтов",
+    "wcScopeSendAssets": "Запрос отправки активов Qubic с ваших кошельковых аккаунтов",
+    "wcScopeSignTransaction": "Запрос подписания транзакций вашим приватным ключом",
+    "wcScopeSign": "Запрос подписания сообщений вашим приватным ключом",
+    "wcScopeForbiddenTransfer": "Передача Qubic или активов Qubic без вашего согласия",
+    "wcUnknownDapp": "Неизвестное dApp",
+    "wcAppInfoHeader": "Это приложение может",
+    "wcAppInfoHeaderPair": "Это приложение сможет",
+    "wcAppInfoHeaderPairForbidden": "Это приложение не сможет",
+    "wcErrorUserDisconnected": "Пользователь принудительно отключил соединение",
+    "wcErrorInvalidURL": "Неверный URL для подключения WalletConnect",
+    "wcErrorDeprecatedURL": "Устаревший URL для подключения WalletConnect",
+    "wcErrorUnsupportedChains": "Запрос соединения содержит неподдерживаемые сети",
+    "wcErrorUnsupportedMethods": "Запрос соединения содержит неподдерживаемые методы",
+    "wcErrorUnsupportedEvents": "Запрос соединения содержит неподдерживаемые события",
+    "wcErrorUnsupportedAccounts": "Запрос соединения содержит неподдерживаемые аккаунты",
+    "wcErrorUnsupportedNamespaces": "Запрос соединения содержит неподдерживаемые пространства имен",
+    "wcErrorUsedURL": "Соединение уже было установлено через этот URL",
+    "wcErrorPairingTimeout": "Время ожидания подключения истекло.",
+    "wcErrorUnsupportedNetwork": "Неподдерживаемая сеть",
+    "wcErrorUnsupportedNetworkDescription": "Это приложение использует сеть {networkName}. В настоящее время Qubic Wallet поддерживает только приложения в Qubic Mainnet",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcRevokePermissions": "Отозвать разрешения",
+    "wcDappsConnectedNone": "Нет активных подключений",
+    "wcDappsConnectedNoneHint": "После подключения к dApp вы сможете управлять ими здесь.",
+    "wcConnectionApproved": "Соединение WalletConnect одобрено",
+    "wcConnectionRejected": "Соединение WalletConnect отклонено",
+    "wcConnectionProposalTimeout": "Время ожидания предложения сессии WalletConnect истекло",
+    "wcPointCameraToQR": "Наведите камеру на QR-код с информацией о подключении WalletConnect",
+    "wcAddWcTitle": "Подключение через WalletConnect",
+    "wcAddURL": "Подключитесь к dApp, вставив URL подключения WalletConnect.",
+    "wcAddConnectionScan": "Откройте Web3-приложение, поддерживающее WalletConnect. Сканируйте QR-код приложения или вставьте его ссылку для подключения",
+    "wcNoPermissions": "У этого приложения нет разрешений",
+    "wcOpenApp": "Открыть приложение",
+    "wcExpiresInDays": "{count, plural, =1{Сессия истекает через 1 день} other{Сессия истекает через {count} дней}}",
+    "wcExpiresInLessThanDay": "Сессия истекает менее чем через день",
+    "pasteURLHere": "Вставить URL",
+    "approvingConnection": "Подтверждение соединения",
+    "pleaseWait": "Пожалуйста, подождите",
+    "wcApproveSignTransferOf": "Подпишите передачу",
+    "wcApproveTransferOf": "Передача",
+    "wcApproveSignOf": "Подпишите следующее сообщение",
+    "wcApprovedSignedTransaction": "Транзакция подписана и успешно отправлена в dApp",
+    "wcApprovedSignedMessage": "Сообщение подписано и успешно отправлено в dApp",
+    "wcDisconnectAll": "Отключить все приложения",
+    "wcDisconnectAllConfirm": "Отключение приложений удалит весь доступ к вашему кошельку",
+    "wcDisconnect": "Отключить",
+    "wcDisconnectConfirm": "Отключение этого приложения удалит доступ к вашему кошельку",
+    "wcAddConnection": "Добавить соединение",
+    "signBase64GenericError": "Ошибка при попытке подписать строку Base64: {errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "Ошибка при попытке подписать строку UTF-8: {errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "Ошибка при попытке подписать строку ASCII: {errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "wcDomainScamTitle": "Известный риск безопасности",
+    "wcDomainScamDescription": "Этот домен отмечен как небезопасный несколькими провайдерами безопасности. Немедленно покиньте его, чтобы защитить свои активы",
+    "wcDomainMismatchTitle": "Несоответствие домена",
+    "wcDomainMismatchDescription": "Этот сайт имеет домен, который не соответствует отправителю этого запроса. Одобрение может привести к потере средств",
+    "wcDomainUnkownTitle": "Неизвестный домен",
+    "wcDomainUnkownDescription": "Этот домен не может быть проверен. Тщательно проверьте запрос перед одобрением",
+    "wcApproveTransaction": "Одобрить транзакцию",
+    "wcSignMessage": "Подписать сообщение",
+    "wcSignTransaction": "Подписать транзакцию",
+    "generalButtonApprove": "Одобрить",
+    "generalButtonReject": "Отклонить",
+    "generalButtonPaste": "Вставить",
+    "generalButtonConnect": "Подключиться",
+    "generalErrorUnexpectedError": "Произошла неожиданная ошибка",
+    "generalErrorConnectionTimeout": "Время ожидания подключения истекло",
+    "generalErrorNoInternetConnection": "Нет подключения к интернету",
+    "generalErrorRequestCancelled": "Запрос отменен",
+    "generalErrorCouldntParseResponse": "Не удалось разобрать ответ",
+    "generalErrorServerError": "Ошибка сервера",
+    "generalStatusCode": "Код статуса",
+    "generalCode": "Код",
+    "accountSendSectionInvalidDestinationAddress": "Неверный адрес назначения",
+    "cmdErrorCreatingSignatureGeneric": "Ошибка при попытке создать подпись",
+    "cmdErrorCreatingSignatureDigestEmpty": "Ошибка при попытке создать подпись. Хэш пуст",
+    "cmdErrorCreatingSignatureSignedDataEmpty": "Ошибка при попытке создать подпись. Подписанные данные пусты",
+    "cmdErrorCreatingSignatureSignatureEmpty": "Ошибка при попытке создать подпись. Подпись пуста",
+    "cmdErrorCreatingSignature": "Ошибка при попытке создать подпись: {errorDescription}",
+    "wcErrorProposalExpired": "Срок действия предложения сессии истек",
+    "uriIsEmpty": "URI пуст",
+    "uriSchemeUnknown": "Неизвестная схема URI",
+    "uriInvalidFormat": "Недопустимый формат URI",
+    "uriUnknownAction": "Неизвестное действие URI",
+    "uriInvalidWCPairUrl": "Недопустимый URL подключения WC. Должен начинаться с wc:",
+    "generalButtonClear": "Очистить",
+    "generalLabelPayload": "Payload",
+    "generalLabelInputType": "Тип ввода",
+    "wcErrorTickExpired": "Значение тика уже в прошлом",
+    "wcSmartContractUnknown": "Неизвестно",
+    "wcSmartContractWarningTitle": "Транзакция смарт-контракта \"{smartContractName}\"",
+    "wcSmartContractWarningDescription": "Убедитесь, что вы доверяете этому DApp. Одобряя транзакцию, вы можете разрешить перевод Qubics и/или активов",
+    "wcApproveTransfer": "Одобрить перевод",
+    "wcSendAssets": "Отправить активы",
+    "assetButtonIssuerIdentity": "Идентификатор владельца",
+    "settingsLabelSupport": "Поддержка",
+    "settingsSupportGithub": "GitHub (Создать обращение)",
+    "settingsSupportDiscord": "Discord (Канал поддержки)",
+    "assetButtonIssuerIdentity": "Идентификатор владельца",
+    "generalLabelFee": "Комиссия",
+    "generalLabelMultipleReceivers": "Несколько получателей",
+    "qxTransferSharesWarning": "Эта запись о транзакции в данный момент видна только отправителю.",
+    "settingsSupportGoogleForm": "Заполнить форму"
 }

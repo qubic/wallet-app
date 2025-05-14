@@ -124,7 +124,6 @@
     "generalErrorSetWalletPasswordRepeatEmpty": "请再次填写密码。",
     "appTabHome": "首页",
     "appTabTransfers": "转账",
-    "appTabExplorer": "浏览器",
     "appTabSettings": "设置",
     "homeLabelTotalBalance": "总余额",
     "homeHeader": "钱包中的账户",
@@ -135,7 +134,7 @@
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "在您的账户当前纪元中，没有匹配您筛选条件的任何交易。",
     "transfersLabelNoTransactionsFoundInWallet": "在您的账户当前纪元中，没有交易记录。",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "在当前纪元中，没有符合您过滤条件的交易。",
-    "transfersLabelNoTransactionsFoundInAccount": "在当前纪元中没有交易。",
+    "transfersLabelNoTransactionsFoundInAccount": "未找到交易。",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{正在显示 1 笔交易} other{正在显示 {count} 笔交易}}",
     "transfersLabelFor": "转账来自",
     "transfersLabelForAccount": "转账来自 \"{accountName}\"",
@@ -188,7 +187,7 @@
     "explorerTickResultLabelTickLeader": "刻度验证者",
     "explorerTickResultLabelNoTransactionsFound": "此刻度中无交易",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 笔交易在此刻度} other{{count} 笔交易在此刻度}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{正在显示 1 of 1 笔交易在此刻度} other{正在显示 1 of {count} 笔交易在此刻度}}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{正在显示 1 of 1 笔交易在此刻度} other{正在显示 1 of {count} 笔交易在此刻度}}",
     "settingsTitle": "设置",
     "settingsHeaderAccountsAndData": "账户和数据",
     "settingsLockWallet": "锁定钱包",
@@ -250,11 +249,11 @@
     "transactionLabelDirectionInWallet": "钱包内",
     "transactionLabelStatusSuccessful": "成功",
     "transactionLabelStatusPending": "等待中",
-    "transactionLabelStatusConfirmed": "确认",
+    "transactionLabelStatusExecuted": "已执行",
     "transactionLabelStatusFailed": "失败",
-    "transactionLabelStatusInvalid": "失败 - 无效",
+    "transactionLabelStatusInvalid": "无效",
     "signInTitleOne": "欢迎来到",
-    "siginInTitleTwo": "Qubic 钱包",
+    "signInTitleTwo": "Qubic 钱包",
     "welcomeTitle": "欢迎回来！",
     "welcomeButtonUnlockWallet": "解锁钱包",
     "welcomeButtonCreateWallet": "创建新钱包",
@@ -270,8 +269,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "高级选项",
-    "assetsLabelOwned": "拥有",
-    "assetsLabelPossessed": "持有",
     "assetsLabelContractName": "合约名称",
     "assetsLabelContractIndex": "合约索引",
     "assetsLabelTick": "有效至刻度 {tick}",
@@ -379,10 +376,8 @@
     "accountExplorerLabelTotalOutgoing": "总转出",
     "accountExplorerLabelReportedBy": "报告来自",
     "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
-    "transactionItemLabelIncludedByTickLeader": "由刻度验证者包含的交易",
-    "transactionItemLabelNotIncludedByTickLeader": "不由刻度验证者包含的交易",
     "transactionItemLabelTransactionId": "交易 ID",
-    "transactionItemLabelTransactionDigest": "交易摘要",
+    "transactionItemLabelTransactionType": "类型",
     "generalLabelTickAndValue": "刻度 {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -391,16 +386,11 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "由 Qubic 网络包含的交易",
-    "transactionItemLabelNotIncludedByQubicNetwork": "不由 Qubic 网络包含的交易",
     "transactionItemButtonViewInExplorer": "在浏览器中查看",
     "transactionItemButtonCopyToClipboard": "复制到剪贴板",
     "transactionItemButtonViewDetails": "查看详情",
     "transactionItemButtonResend": "重新发送",
-    "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
-    "transactionItemLabelCreatedDate": "创建日期",
-    "transactionItemLabelBroadcastedDate": "广播日期",
-    "transactionItemLabelConfirmedDate": "确认日期",
+    "transactionItemLabelConfirmedDate": "时间戳",
     "transactionItemLabelDetails": "转账详情",
     "sendItemLabelTargetTick": "目标刻度",
     "sendItemLabelTargetTickAutomatic": "自动：当前刻度 + {addingTicks}",
@@ -414,7 +404,7 @@
     "sendItemLabelTargetTickManual": "手动调整",
     "sendItemLabelDetermineTargetTick": "确定目标刻度",
     "sendItemDialogErrorGeneralTitle": "生成交易时出现错误",
-    "sendItemDialogResendTitle": "重新发送失败的交易？",
+    "sendItemDialogResendTitle": "重新发送交易？",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (当前 {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -444,7 +434,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "提供的私钥种子无效",
     "addAccountErrorTamperedWalletTitle": "检测到篡改的钱包",
     "addAccountErrorTamperedWalletMessage": "您当前正在使用的钱包已被篡改。\n\n请从 HTTPS://GITHUB.COM/QUBIC/WALLET-APP 安装官方版本，否则有资金损失的风险。",
-    "sendAssetLabelTransactionCost": "交易成本 (fixed)",
+    "sendAssetLabelTransactionCost": "费用 (fixed)",
     "sendAssetButtonTransfer": "转账",
     "sendAssetErrorTickIsInThePast": "提供的刻度已过期，当前的刻度是 {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -588,60 +578,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\n发送方: {sourceId}\n接收方: {destId}\n数量: {amount}\n类型: {type}\nStatus: {status}\n时间戳: {timestamp}\n刻度: {targetTick}",
     "welcomeButtonImportExistingWallet": "导入已有钱包",
     "importWalletTitle": "导入钱包",
     "importWalletSubHeader": "选择您想要导入钱包的方式",
@@ -754,7 +691,7 @@
     "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。",
     "explorerLabelPrice": "价格",
     "explorerLabelMarketCap": "市值",
-    "settingsLabelWalletConnect": "钱包连接",
+    "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "无效的观察地址。请检查输入的地址。",
     "addAccountErrorVerifyIdentityError": "无法验证地址。",
     "addAccountWatchOnlyPageTitle": "添加观察账户",
@@ -775,5 +712,135 @@
             }
         }
     },
-    "accountExplorerLabelLatestTransactions": "最新交易"
+    "accountExplorerLabelLatestTransactions": "最新交易",
+    "wcScopeRequestAccounts": "查看您的錢包帳戶及其餘額",
+    "wcScopeSendQubic": "請求您從錢包帳戶發送 Qubic",
+    "wcScopeSendAssets": "請求您從錢包帳戶發送 Qubic 資產",
+    "wcScopeSignTransaction": "請求您使用您的私密種子簽署交易",
+    "wcScopeSign": "請求您使用您的私密種子簽署訊息",
+    "wcScopeForbiddenTransfer": "未經您的同意轉移 Qubic 或 Qubic 資產",
+    "wcUnknownDapp": "未知的 dApp",
+    "wcAppInfoHeader": "此應用程式能夠",
+    "wcAppInfoHeaderPair": "此應用程式將能夠",
+    "wcAppInfoHeaderPairForbidden": "此應用程式將無法",
+    "wcErrorUserDisconnected": "用戶強制斷開連接",
+    "wcErrorInvalidURL": "無效的 WalletConnect 連接 URL",
+    "wcErrorDeprecatedURL": "已棄用的 WalletConnect 連接 URL",
+    "wcErrorUnsupportedChains": "配對請求包含不受支持的鏈",
+    "wcErrorUnsupportedMethods": "配對請求包含不受支持的方法",
+    "wcErrorUnsupportedEvents": "配對請求包含不受支持的事件",
+    "wcErrorUnsupportedAccounts": "配對請求包含不受支持的帳戶",
+    "wcErrorUnsupportedNamespaces": "配對請求包含不受支持的命名空間",
+    "wcErrorUsedURL": "該 URL 已建立連接",
+    "wcErrorPairingTimeout": "配對請求超時",
+    "wcErrorUnsupportedNetwork": "不支持的網絡",
+    "wcErrorUnsupportedNetworkDescription": "此應用程式使用 {networkName} 網絡。目前，Qubic錢包僅支援Qubic Mainnet上的應用程式",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcRevokePermissions": "撤銷權限",
+    "wcDappsConnectedNone": "無活動連接",
+    "wcDappsConnectedNoneHint": "當您連接任何 dApp 時，您將可以在此管理它們.",
+    "wcConnectionApproved": "WalletConnect 連接已批准",
+    "wcConnectionRejected": "WalletConnect 連接已拒絕",
+    "wcConnectionProposalTimeout": "WalletConnect 會議提案超時",
+    "wcPointCameraToQR": "請將相機對準包含 WalletConnect 連接資訊的 QR 碼",
+    "wcAddWcTitle": "通過 WalletConnect 配對",
+    "wcAddURL": "通過粘貼 WalletConnect 連接 URL 來連接 dApp。",
+    "wcAddConnectionScan": "打開支援 WalletConnect 的 Web3 應用程式。掃描應用程式的 QR 碼，或貼上其連接鏈接",
+    "wcNoPermissions": "此應用程式無任何權限",
+    "wcOpenApp": "打開應用程式",
+    "wcExpiresInDays": "{count, plural, =1{會議在 1 天內過期} other{會議在 {count} 天內過期}}",
+    "wcExpiresInLessThanDay": "會議在不到一天內過期",
+    "pasteURLHere": "粘貼 URL",
+    "approvingConnection": "正在批准連接",
+    "pleaseWait": "請稍候",
+    "wcApproveSignTransferOf": "簽署轉帳",
+    "wcApproveTransferOf": "轉帳",
+    "wcApproveSignOf": "簽署以下訊息",
+    "wcApprovedSignedTransaction": "已簽署交易並成功發送至 dApp",
+    "wcApprovedSignedMessage": "已簽署訊息並成功發送至 dApp",
+    "wcDisconnectAll": "斷開所有應用程式",
+    "wcDisconnectAllConfirm": "斷開應用程式的連接將移除對您的錢包的所有訪問",
+    "wcDisconnect": "斷開連接",
+    "wcDisconnectConfirm": "斷開此應用程式的連接將移除對您的錢包的訪問",
+    "wcAddConnection": "新增連接",
+    "signBase64GenericError": "簽署 Base64 字串時發生錯誤：{errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "簽署 UTF-8 字串時發生錯誤：{errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "簽署 ASCII 字串時發生錯誤：{errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "wcDomainScamTitle": "已知安全風險",
+    "wcDomainScamDescription": "該域名已被多個安全提供商標記為不安全。為保護您的資產，請立即離開",
+    "wcDomainMismatchTitle": "域名不匹配",
+    "wcDomainMismatchDescription": "此網站的域名與請求發送者不匹配。批准後可能會導致資金損失",
+    "wcDomainUnkownTitle": "未知域名",
+    "wcDomainUnkownDescription": "無法驗證此域名。請在批准前仔細檢查請求",
+    "wcApproveTransaction": "批准交易",
+    "wcSignMessage": "簽署訊息",
+    "wcSignTransaction": "簽署交易",
+    "generalButtonApprove": "批准",
+    "generalButtonReject": "拒絕",
+    "generalButtonPaste": "粘貼",
+    "generalButtonConnect": "連接",
+    "generalErrorUnexpectedError": "發生了意外錯誤",
+    "generalErrorConnectionTimeout": "連接超時",
+    "generalErrorNoInternetConnection": "無網絡連接",
+    "generalErrorRequestCancelled": "請求已取消",
+    "generalErrorCouldntParseResponse": "無法解析響應",
+    "generalErrorServerError": "伺服器錯誤",
+    "generalStatusCode": "狀態碼",
+    "generalCode": "代碼",
+    "accountSendSectionInvalidDestinationAddress": "無效的目的地地址",
+    "cmdErrorCreatingSignatureGeneric": "創建簽名時發生錯誤",
+    "cmdErrorCreatingSignatureDigestEmpty": "創建簽名時發生錯誤。摘要為空",
+    "cmdErrorCreatingSignatureSignedDataEmpty": "創建簽名時發生錯誤。已簽署的數據為空",
+    "cmdErrorCreatingSignatureSignatureEmpty": "創建簽名時發生錯誤。簽名為空",
+    "cmdErrorCreatingSignature": "創建簽名時發生錯誤：{errorDescription}",
+    "wcErrorProposalExpired": "會話提案已過期",
+    "uriIsEmpty": "URI 為空",
+    "uriSchemeUnknown": "未知的 URI 協議",
+    "uriInvalidFormat": "無效的 URI 格式",
+    "uriUnknownAction": "未知的 URI 操作",
+    "uriInvalidWCPairUrl": "無效的 WC 連接 URL。應以 wc: 開頭",
+    "generalButtonClear": "清除",
+    "generalLabelPayload": "Payload",
+    "generalLabelInputType": "輸入類型",
+    "wcErrorTickExpired": "Tick 值已過期",
+    "wcSmartContractUnknown": "未知",
+    "wcSmartContractWarningTitle": "\"{smartContractName}\" 智能合約交易",
+    "wcSmartContractWarningDescription": "請確保您信任此 DApp。批准交易後，您可能會授權轉移 Qubics 和/或資產",
+    "wcApproveTransfer": "批准轉帳",
+    "wcSendAssets": "發送資產",
+    "assetButtonIssuerIdentity": "发行人身份",
+    "settingsLabelSupport": "支援",
+    "settingsSupportGithub": "GitHub（提交問題）",
+    "settingsSupportDiscord": "Discord（支援頻道）",
+    "generalLabelFee": "费用",
+    "generalLabelMultipleReceivers": "多個接收者",
+    "qxTransferSharesWarning": "此交易当前仅发送方可见，接收方暂时无法查看",
+    "settingsSupportGoogleForm": "填写表单"
 }

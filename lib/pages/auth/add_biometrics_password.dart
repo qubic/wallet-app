@@ -10,7 +10,6 @@ import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:settings_ui/settings_ui.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class AddBiometricsPassword extends StatefulWidget {
@@ -104,9 +103,9 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
           child: Switch(
               activeColor: LightThemeColors.primary,
               activeTrackColor: LightThemeColors.buttonPrimary,
-              trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
-                  (Set<MaterialState> states) {
-                return Colors.orange.withOpacity(0);
+              trackOutlineColor: WidgetStateProperty.resolveWith<Color?>(
+                  (Set<WidgetState> states) {
+                return Colors.orange.withValues(alpha: 0);
               }),
               value: enabledBiometrics,
               onChanged: (value) async {
@@ -131,7 +130,7 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
     setState(() {
       isLoading = true;
     });
-    widget.onAddedBiometrics(enabledBiometrics);
+    await widget.onAddedBiometrics(enabledBiometrics);
     setState(() {
       isLoading = false;
     });

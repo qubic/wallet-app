@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
-import 'package:qubic_wallet/components/qubic_asset.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/currency_helpers.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:intl/intl.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 class CumulativeWalletValueSliver extends StatefulWidget {
   const CumulativeWalletValueSliver({super.key});
@@ -44,18 +43,6 @@ class _CumulativeWalletValueSliverState
         settingsStore.settings.isQubicsPrimaryBalance ?? true;
   }
 
-// TODO Remove getShares if not used
-  List<Widget> getShares(BuildContext context) {
-    List<Widget> assets = [];
-    for (var asset in appStore.totalShares) {
-      assets.add(QubicAsset(
-          asset: asset,
-          style: Theme.of(context).textTheme.displaySmall!.copyWith(
-              fontWeight: FontWeight.normal, fontFamily: ThemeFonts.primary)));
-    }
-    return assets;
-  }
-
   TextStyle primaryBalanceStyle() => MediaQuery.of(context).size.width < 400
       ? TextStyles.sliverBig.copyWith(fontSize: 26)
       : TextStyles.sliverBig;
@@ -64,16 +51,6 @@ class _CumulativeWalletValueSliverState
 
   String getTotalQubics(BuildContext context) {
     return numberFormat.format(appStore.totalAmounts);
-  }
-
-  String getTotalUSD() {
-    // Create a NumberFormat object for USD currency with 2 decimal places
-    NumberFormat currencyFormat =
-        NumberFormat.currency(symbol: '\$', decimalDigits: 2);
-
-    // Format the double value as a USD amount
-    String formattedValue = currencyFormat.format(appStore.totalAmountsInUSD);
-    return formattedValue;
   }
 
   Widget getConversion() {
@@ -129,7 +106,8 @@ class _CumulativeWalletValueSliverState
                       firstChild: Text(
                         isQubicsPrimaryBalance
                             ? getTotalQubics(context)
-                            : getTotalUSD(),
+                            : CurrencyHelpers.formatToUsdCurrency(
+                                appStore.totalAmountsInUSD),
                         style: primaryBalanceStyle(),
                       ),
                       secondChild: Text(l10n.generalLabelHiddenLong,
@@ -149,7 +127,8 @@ class _CumulativeWalletValueSliverState
                         duration: const Duration(milliseconds: 300),
                         child: Text(
                           isQubicsPrimaryBalance
-                              ? getTotalUSD()
+                              ? CurrencyHelpers.formatToUsdCurrency(
+                                  appStore.totalAmountsInUSD)
                               : getTotalQubics(context),
                           style: secondaryBalanceStyle(),
                         ));

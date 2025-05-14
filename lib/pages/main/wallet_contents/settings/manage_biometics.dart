@@ -41,7 +41,6 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
   @override
   void initState() {
     super.initState();
-
     auth.canCheckBiometrics.then((value) {
       setState(() {
         canCheckBiometrics = value;
@@ -54,6 +53,7 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
       }
 
       auth.getAvailableBiometrics().then((value) {
+        if (!mounted) return;
         final l10n = l10nOf(context);
         setState(() {
           availableBiometrics = value;
@@ -156,9 +156,9 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
     var theme = SettingsThemeData(
       settingsSectionBackground: LightThemeColors.cardBackground,
       //Theme.of(context).cardTheme.color,
-      settingsListBackground: LightThemeColors.background,
+      settingsListBackground: Colors.transparent,
       dividerColor: Colors.transparent,
-      titleTextColor: Theme.of(context).colorScheme.onBackground,
+      titleTextColor: Theme.of(context).colorScheme.onSurface,
     );
     return Column(children: [
       const SizedBox(height: ThemePaddings.hugePadding),
@@ -263,23 +263,20 @@ class _ManageBiometricsState extends State<ManageBiometrics> {
 
   Widget getScrollView() {
     return SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ThemedControls.pageHeader(headerText: _title),
-              Text(_description, style: TextStyles.secondaryText),
-              canUseBiometrics == null
-                  ? loadingIndicator()
-                  : canUseBiometrics! == true
-                      ? biometricsControls()
-                      : showPossibleErrors(),
-            ],
-          )))
-        ]));
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ThemedControls.pageHeader(headerText: _title),
+          Text(_description, style: TextStyles.secondaryText),
+          canUseBiometrics == null
+              ? loadingIndicator()
+              : canUseBiometrics! == true
+                  ? biometricsControls()
+                  : showPossibleErrors(),
+        ],
+      ),
+    );
   }
 
   Widget getButtons() {

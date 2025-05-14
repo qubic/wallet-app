@@ -1,16 +1,15 @@
 import 'dart:async';
 import 'dart:io' as io;
 import 'dart:io';
-import 'dart:math';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -86,7 +85,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
             try {
               directory = await getDownloadsDirectory();
             } catch (e) {
-              debugPrint("Error getting application documents directory: $e");
+              appLogger.e("Error getting application documents directory: $e");
             }
             String? outputFile = await FilePicker.platform.saveFile(
                 dialogTitle: l10n.exportWalletVaultDialogTitleSelectPath,
@@ -98,7 +97,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
 
             if (outputFile == null) {
               // User canceled the picker
-              debugPrint("Did not select");
+              appLogger.w("User canceled the picker");
             }
             setState(() {
               selectedPath = outputFile!;
@@ -147,19 +146,19 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   Widget getSelectedPathSelector() {
     return Container(
         decoration: BoxDecoration(
-            color: LightThemeColors.primary.withOpacity(0.02),
+            color: LightThemeColors.primary.withValues(alpha: 0.02),
             border: Border(
                 top: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 left: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 right: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 bottom: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0)),
             borderRadius: BorderRadius.circular(8.0)),
         child: Padding(

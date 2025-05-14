@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:app_links/app_links.dart';
 import 'package:blur/blur.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
@@ -7,13 +10,14 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/helpers/win_registry_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
+import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {
@@ -31,8 +35,8 @@ Future<void> main() async {
 
   getIt.get<SettingsStore>().loadSettings();
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  getIt.get<QubicHubStore>().setVersion(packageInfo.version);
-  getIt.get<QubicHubStore>().setBuildNumber(packageInfo.buildNumber);
+  getIt.get<SettingsStore>().setVersion(packageInfo.version);
+  getIt.get<SettingsStore>().setBuildNumber(packageInfo.buildNumber);
 
   getIt.get<ApplicationStore>().checkWalletIsInitialized();
 
@@ -50,7 +54,17 @@ class WalletApp extends StatefulWidget {
 
 class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
   final QubicCmd qubicCmd = getIt<QubicCmd>();
+  final AppLinks appLinks = getIt<AppLinks>();
+
   bool _isInBackground = false;
+  StreamSubscription<Uri>? _linkSubscription;
+
+  Future<void> initDeepLinks() async {
+    // Handle links
+    _linkSubscription = appLinks.uriLinkStream.listen((uri) {
+      getIt<ApplicationStore>().setCurrentInboundUrl(uri);
+    });
+  }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -69,11 +83,14 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    initDeepLinks();
     WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    _linkSubscription?.cancel();
+
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -104,8 +121,6 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
           onSecondary: LightThemeColors.surface,
           error: LightThemeColors.error,
           onError: LightThemeColors.extraStrongBackground,
-          background: LightThemeColors.background,
-          onBackground: LightThemeColors.primary,
           surface: LightThemeColors.surface,
           onSurface: LightThemeColors.primary,
           seedColor: LightThemeColors.panelBackground,
@@ -118,7 +133,10 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
         surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
         blendLevel: 2,
         visualDensity: FlexColorScheme.comfortablePlatformDensity,
-      ),
+      ).copyWith(
+          filledButtonTheme: FilledButtonThemeData(
+        style: ButtonStyles.primaryButtonBig,
+      )),
       builder: (context, child) {
         final localizations = AppLocalizations.of(context);
         if (localizations != null) {
@@ -136,7 +154,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
                   colorOpacity: 0.5,
                   blurColor: Colors.black,
                   child: Container(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                   ),
                 ),
               ),

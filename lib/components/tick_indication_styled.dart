@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:qubic_wallet/components/refresh_loading_indicator.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 
 import '../stores/application_store.dart';
 
@@ -37,17 +38,15 @@ class TickIndicatorStyled extends StatelessWidget {
           ),
         );
       }),
-      Observer(builder: (context) {
-        if (appStore.pendingRequests > 0) {
-          return const SizedBox(
-              width: 10,
-              height: 10,
-              child: CircularProgressIndicator(
-                  strokeWidth: 2, color: LightThemeColors.buttonBackground));
-        }
-
-        return const SizedBox(width: 10, height: 10);
-      })
+      ThemedControls.spacerHorizontalSmall(),
+      Observer(
+        builder: (context) {
+          if (appStore.pendingRequests > 0) {
+            return const RefreshLoadingIndicator();
+          }
+          return const SizedBox(width: 10);
+        },
+      )
     ]);
   }
 }

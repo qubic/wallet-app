@@ -5,25 +5,27 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
+import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/currency_helpers.dart';
+import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/assets.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/explorer/explorer_result_page.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/receive.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_warning_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum CardItem { delete, rename, reveal, viewTransactions, viewInExplorer }
 
@@ -130,7 +132,7 @@ class _AccountListItemState extends State<AccountListItem> {
                       FormBuilderValidators.required(
                           errorText: l10n.generalErrorRequiredField),
                       CustomFormFieldValidators.isNameAvailable(
-                          currentQubicIDs: _appStore.currentQubicIDs,
+                          namesList: _appStore.qubicIDsNames,
                           ignorePublicId: widget.item.name,
                           context: context)
                     ]),
@@ -155,43 +157,21 @@ class _AccountListItemState extends State<AccountListItem> {
 
   showRemoveDialog(BuildContext context) {
     final l10n = l10nOf(context);
-    late BuildContext dialogContext;
-
-    // set up the buttons
-    Widget cancelButton = ThemedControls.transparentButtonNormal(
-        onPressed: () {
-          Navigator.pop(dialogContext);
-        },
-        text: l10n.generalButtonCancel);
-
-    Widget continueButton = ThemedControls.primaryButtonNormal(
-      text: l10n.deleteAccountDialogButtonDelete,
-      onPressed: () async {
-        await _appStore.removeID(widget.item.publicId);
-        Navigator.pop(dialogContext);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: Text(l10n.deleteAccountDialogTitle, style: TextStyles.alertHeader),
-      content: Text(
-          isItemWatchOnly()
-              ? l10n.deleteAccountDialogMessageWatchOnly
-              : l10n.deleteAccountDialogMessage,
-          style: TextStyles.alertText),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
+    WalletConnectService wallet3ConnectService = getIt<WalletConnectService>();
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        dialogContext = context;
-        return alert;
+        return ConfirmationDialog(
+          title: l10n.deleteAccountDialogTitle,
+          content: isItemWatchOnly()
+              ? l10n.deleteAccountDialogMessageWatchOnly
+              : l10n.deleteAccountDialogMessage,
+          continueText: l10n.deleteAccountDialogButtonDelete,
+          continueFunction: () async {
+            await _appStore.removeID(widget.item.publicId);
+            wallet3ConnectService.triggerAccountsChangedEvent();
+          },
+        );
       },
     );
   }
@@ -223,15 +203,7 @@ class _AccountListItemState extends State<AccountListItem> {
               }
 
               if (menuItem == CardItem.viewInExplorer) {
-                pushScreen(
-                  context,
-                  screen: ExplorerResultPage(
-                    resultType: ExplorerResultType.publicId,
-                    qubicId: widget.item.publicId,
-                  ),
-                  withNavBar: false,
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                );
+                viewAddressInExplorer(context, widget.item.publicId);
               }
 
               if (menuItem == CardItem.viewTransactions) {
@@ -257,9 +229,11 @@ class _AccountListItemState extends State<AccountListItem> {
                               item: widget.item,
                               onAccept: () async {
                                 if (await reAuthDialog(context) == false) {
+                                  if (!context.mounted) return;
                                   Navigator.pop(context);
                                   return;
                                 }
+                                if (!context.mounted) return;
                                 Navigator.pop(context);
                                 pushScreen(
                                   context,
@@ -304,50 +278,50 @@ class _AccountListItemState extends State<AccountListItem> {
   Widget getButtonBar(BuildContext context) {
     final l10n = l10nOf(context);
 
-    return ButtonBar(
-      alignment: MainAxisAlignment.start,
-      overflowDirection: VerticalDirection.down,
-      overflowButtonSpacing: ThemePaddings.smallPadding,
-      buttonPadding: const EdgeInsets.fromLTRB(ThemeFontSizes.large,
-          ThemeFontSizes.large, ThemeFontSizes.large, ThemeFontSizes.large),
-      children: isItemWatchOnly()
-          ? [getAssetsButton(context)]
-          : [
-              widget.item.amount != null //&& widget.item.
-                  ? ThemedControls.primaryButtonBig(
-                      onPressed: () {
-                        // Perform some action
-                        pushScreen(
-                          context,
-                          screen: Send(item: widget.item),
-                          withNavBar: false, // OPTIONAL VALUE. True by default.
-                          pageTransitionAnimation:
-                              PageTransitionAnimation.cupertino,
-                        );
-                      },
-                      text: l10n.accountButtonSend,
-                      icon: LightThemeColors.shouldInvertIcon
-                          ? ThemedControls.invertedColors(
-                              child: Image.asset("assets/images/send.png"))
-                          : Image.asset("assets/images/send.png"))
-                  : Container(),
-              ThemedControls.primaryButtonBig(
-                onPressed: () {
-                  pushScreen(
-                    context,
-                    screen: Receive(item: widget.item),
-                    withNavBar: false, // OPTIONAL VALUE. True by default.
-                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                  );
-                },
-                icon: !LightThemeColors.shouldInvertIcon
-                    ? ThemedControls.invertedColors(
-                        child: Image.asset("assets/images/receive.png"))
-                    : Image.asset("assets/images/receive.png"),
-                text: l10n.accountButtonReceive,
-              ),
-              getAssetsButton(context),
-            ],
+    return Padding(
+      padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+      child: OverflowBar(
+        alignment: MainAxisAlignment.start,
+        spacing: ThemePaddings.normalPadding,
+        children: isItemWatchOnly()
+            ? [getAssetsButton(context)]
+            : [
+                widget.item.amount != null
+                    ? ThemedControls.primaryButtonBig(
+                        onPressed: () {
+                          pushScreen(
+                            context,
+                            screen: Send(item: widget.item),
+                            withNavBar: false,
+                            pageTransitionAnimation:
+                                PageTransitionAnimation.cupertino,
+                          );
+                        },
+                        text: l10n.accountButtonSend,
+                        icon: LightThemeColors.shouldInvertIcon
+                            ? ThemedControls.invertedColors(
+                                child: Image.asset("assets/images/send.png"))
+                            : Image.asset("assets/images/send.png"))
+                    : Container(),
+                ThemedControls.primaryButtonBig(
+                  onPressed: () {
+                    pushScreen(
+                      context,
+                      screen: Receive(item: widget.item),
+                      withNavBar: false,
+                      pageTransitionAnimation:
+                          PageTransitionAnimation.cupertino,
+                    );
+                  },
+                  icon: !LightThemeColors.shouldInvertIcon
+                      ? ThemedControls.invertedColors(
+                          child: Image.asset("assets/images/receive.png"))
+                      : Image.asset("assets/images/receive.png"),
+                  text: l10n.accountButtonReceive,
+                ),
+                getAssetsButton(context),
+              ],
+      ),
     );
   }
 
@@ -359,12 +333,12 @@ class _AccountListItemState extends State<AccountListItem> {
             onPressed: () {
               pushScreen(
                 context,
-                screen: Assets(PublicId: widget.item.publicId),
+                screen: Assets(publicId: widget.item.publicId),
                 withNavBar: false, // OPTIONAL VALUE. True by default.
                 pageTransitionAnimation: PageTransitionAnimation.cupertino,
               );
             })
-        : Container();
+        : const SizedBox.shrink();
   }
 
   Widget getAssets(BuildContext context) {
@@ -373,18 +347,6 @@ class _AccountListItemState extends State<AccountListItem> {
 
     for (var key in widget.item.assets.keys) {
       var asset = widget.item.assets[key];
-      bool isToken = asset!.contractIndex == QubicSCID.qX.contractIndex &&
-          asset.contractName != "QX";
-
-      int num = asset.ownedAmount ?? asset.possessedAmount ?? 0;
-
-      String text;
-
-      if (isToken) {
-        text = l10n.generalUnitTokens(num);
-      } else {
-        text = l10n.generalUnitShares(num);
-      }
 
       shares.add(AnimatedSwitcher(
           duration: const Duration(milliseconds: 500),
@@ -393,21 +355,19 @@ class _AccountListItemState extends State<AccountListItem> {
             return SizeTransition(sizeFactor: animation, child: child);
             //return ScaleTransition(scale: animation, child: child);
           },
-          child: widget.item.assets[key] != null
-              ? AmountFormatted(
-                  key: ValueKey<String>(
-                      "qubicAsset${widget.item.publicId}-${key}-${widget.item.assets[key]}"),
-                  amount: widget.item.assets[key]!.ownedAmount,
-                  isInHeader: false,
-                  labelOffset: -0,
-                  labelHorizOffset: -6,
-                  textStyle: MediaQuery.of(context).size.width < 400
-                      ? TextStyles.accountAmount.copyWith(fontSize: 16)
-                      : TextStyles.accountAmount,
-                  labelStyle: TextStyles.accountAmountLabel,
-                  currencyName: '${widget.item.assets[key]!.assetName} $text',
-                )
-              : Container()));
+          child: AmountFormatted(
+            key: ValueKey<String>(
+                "qubicAsset${widget.item.publicId}-$key-$asset"),
+            amount: asset?.numberOfUnits,
+            isInHeader: false,
+            labelOffset: -0,
+            labelHorizOffset: -6,
+            textStyle: MediaQuery.of(context).size.width < 400
+                ? TextStyles.accountAmount.copyWith(fontSize: 16)
+                : TextStyles.accountAmount,
+            labelStyle: TextStyles.accountAmountLabel,
+            currencyName: asset!.issuedAsset.name,
+          )));
     }
     return AnimatedCrossFade(
         firstChild: Container(
@@ -441,25 +401,24 @@ class _AccountListItemState extends State<AccountListItem> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Flex(
-                            direction: Axis.horizontal,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                  fit: FlexFit.loose,
-                                  child: Row(children: [
-                                    Text(widget.item.name,
-                                        style: TextStyles.accountName),
-                                    ThemedControls.spacerHorizontalSmall(),
-                                    isItemWatchOnly()
-                                        ? const Icon(
-                                            Icons.remove_red_eye_rounded,
-                                            color: LightThemeColors.color4,
-                                          )
-                                        : Container(),
-                                  ])),
-                              getCardMenu(context)
+                        Row(children: [
+                          Expanded(
+                            child: Row(children: [
+                              Expanded(
+                                child: Text(widget.item.name,
+                                    style: TextStyles.accountName),
+                              ),
+                              ThemedControls.spacerHorizontalSmall(),
+                              isItemWatchOnly()
+                                  ? const Icon(
+                                      Icons.remove_red_eye_rounded,
+                                      color: LightThemeColors.color4,
+                                    )
+                                  : Container(),
                             ]),
+                          ),
+                          getCardMenu(context)
+                        ]),
                         ThemedControls.spacerVerticalSmall(),
                         Text(widget.item.publicId),
                         ThemedControls.spacerVerticalSmall(),
@@ -474,20 +433,34 @@ class _AccountListItemState extends State<AccountListItem> {
                                     sizeFactor: animation, child: child);
                                 //return ScaleTransition(scale: animation, child: child);
                               },
-                              child: AmountFormatted(
-                                key: ValueKey<String>(
-                                    "qubicAmount${widget.item.publicId}-${widget.item.amount}"),
-                                amount: widget.item.amount,
-                                isInHeader: false,
-                                labelOffset: -0,
-                                labelHorizOffset: -6,
-                                textStyle:
-                                    MediaQuery.of(context).size.width < 400
-                                        ? TextStyles.accountAmount
-                                            .copyWith(fontSize: 22)
-                                        : TextStyles.accountAmount,
-                                labelStyle: TextStyles.accountAmountLabel,
-                                currencyName: l10n.generalLabelCurrencyQubic,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  AmountFormatted(
+                                    key: ValueKey<String>(
+                                        "qubicAmount${widget.item.publicId}-${widget.item.amount}"),
+                                    amount: widget.item.amount,
+                                    isInHeader: false,
+                                    labelOffset: -0,
+                                    labelHorizOffset: -6,
+                                    textStyle:
+                                        MediaQuery.of(context).size.width < 400
+                                            ? TextStyles.accountAmount
+                                                .copyWith(fontSize: 22)
+                                            : TextStyles.accountAmount,
+                                    labelStyle: TextStyles.accountAmountLabel,
+                                    currencyName:
+                                        l10n.generalLabelCurrencyQubic,
+                                  ),
+                                  Text(
+                                      CurrencyHelpers.formatToUsdCurrency(
+                                          (widget.item.amount ?? 0) *
+                                              (_appStore.marketInfo?.price ??
+                                                  0)),
+                                      style: TextStyles.sliverSmall),
+                                  if (widget.item.assets.isNotEmpty)
+                                    ThemedControls.spacerVerticalSmall(),
+                                ],
                               )),
                           secondChild: Text(l10n.generalLabelHidden,
                               style: MediaQuery.of(context).size.width < 400

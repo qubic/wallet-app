@@ -8,7 +8,7 @@ import 'package:qubic_wallet/components/tick_refresh.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
@@ -99,54 +99,53 @@ class _TabTransfersState extends State<TabTransfers> {
                           ])),
                       SliverList(
                           delegate: SliverChildListDelegate([
-                        Container(
-                          child: Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  ThemePaddings.normalPadding,
-                                  ThemePaddings.normalPadding,
-                                  ThemePaddings.normalPadding,
-                                  ThemePaddings.miniPadding),
-                              child: ThemedControls.pageHeader(
-                                  headerText: l10n.appTabTransfers)),
-                        )
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.miniPadding),
+                            child: ThemedControls.pageHeader(
+                                headerText: l10n.appTabTransfers))
                       ])),
                       Observer(builder: (context) {
                         if (appStore.currentTransactions.isEmpty) {
                           return SliverList(
                               delegate: SliverChildListDelegate([
-                            Container(
-                                child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.normalPadding,
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.miniPadding),
-                                    child: getEmptyTransactions(
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.normalPadding,
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.miniPadding),
+                                child:
+                                    TransactionUIHelpers.getEmptyTransactions(
                                         context: context,
                                         hasFiltered: false,
                                         numberOfFilters: null,
-                                        onTap: () {})))
+                                        onTap: () {}))
                           ]));
                         }
                         List<TransactionVm> filteredResults = [];
 
-                        appStore.currentTransactions.reversed.forEach((tran) {
+                        for (var tran
+                            in appStore.currentTransactions.reversed) {
                           if ((appStore.transactionFilter == null) ||
                               (appStore.transactionFilter!.matchesVM(tran))) {
                             filteredResults.add(tran);
                           }
-                        });
+                        }
                         if (filteredResults.isEmpty) {
                           return SliverList(
                               delegate: SliverChildListDelegate([
-                            Container(
-                                child: Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.normalPadding,
-                                        ThemePaddings.smallPadding,
-                                        ThemePaddings.miniPadding),
-                                    child: getEmptyTransactions(
+                            Padding(
+                                padding: const EdgeInsets.fromLTRB(
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.normalPadding,
+                                    ThemePaddings.smallPadding,
+                                    ThemePaddings.miniPadding),
+                                child:
+                                    TransactionUIHelpers.getEmptyTransactions(
                                         context: context,
                                         hasFiltered: true,
                                         numberOfFilters: appStore
@@ -154,14 +153,15 @@ class _TabTransfersState extends State<TabTransfers> {
                                             ?.totalActiveFilters,
                                         onTap: () {
                                           appStore.clearTransactionFilters();
-                                        })))
+                                        }))
                           ]));
                         }
                         return SliverList(
                           delegate:
                               SliverChildBuilderDelegate((context, index) {
                             if (index == 0) {
-                              return getTransactionFiltersInfo(
+                              return TransactionUIHelpers
+                                  .getTransactionFiltersInfo(
                                 context,
                                 numberOfResults: filteredResults.length,
                                 numberOfFilters: appStore.transactionFilter
@@ -177,8 +177,7 @@ class _TabTransfersState extends State<TabTransfers> {
                                 child: Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: ThemePaddings.smallPadding,
-                                        vertical:
-                                            ThemePaddings.normalPadding / 2),
+                                        vertical: ThemePaddings.minimumPadding),
                                     child: TransactionItem(
                                       item: filteredResults[index - 1],
                                     )));

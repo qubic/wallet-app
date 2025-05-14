@@ -2,7 +2,7 @@
 
 Official self-custodial wallet app for the QUBIC network (https://qubic.org/).
 Source code is written in [Dart](https://dart.dev) using [Flutter](https://flutter.dev).
-Find more about QUBIC on (https://doc.qubic.world/). 
+Find more about QUBIC on (https://doc.qubic.world/).
 Find us on discord (https://discord.com/invite/2vDMR8m).
 
 ## Functionality
@@ -13,6 +13,7 @@ Find us on discord (https://discord.com/invite/2vDMR8m).
 - [x] Block Explorer: View complete tick / transacation / account info
 - [x] Assets: View shares in your accounts
 - [x] Asset transfers: Allow to send and receive shares
+- [x] WalletConnect support
 
 ## Other features
 
@@ -30,7 +31,16 @@ Find us on discord (https://discord.com/invite/2vDMR8m).
 - [x] MacOS
 - [x] Web
 
-# Security
+## WalletConnect Integration and Custom Links 
+
+Qubic Wallet is WalletConnect compatible, allowing communication with dApps. For detailed information about WalletConnect integration, including supported methods, events, error handling, and how to use deep-links for seamless mobile connections, see the [WalletConnect Integration Details](walletconnect.md) document.
+
+### Why WalletConnect?
+
+WalletConnect enables a secure and decentralized way for dApps to connect with mobile or hardware wallets. It uses a simple QR code scanning or copy-paste of a connection URL for a connection and requires no browser plugins or extensions.
+
+
+## Security
 
 All stored data is encrypted via (https://pub.dev/packages/flutter_secure_storage)
 
@@ -86,10 +96,18 @@ and run the .apk file on your device.
 
 - Run : `flutter build windows` to build the windows version. Run it in your windows
 - Please note that running the windows version requires the VC++ Redistributables which can be found here(https://www.microsoft.com/en-gb/download/details.aspx?id=48145)
+  
+## MacOS
+
+```bash
+flutter build macos
+```
 
 # Contribution - Bug reports
 
-Feel free to contribute to the project. Just create an MR. Feel free to post any found bugs in Issues page. We cannot support you in any case. You are welcome to provide updates, bugfixes or other code changes by pull requests.
+Your contribution to the project will be very appreciated. Feel free to contribute by:
+- Adding new issues in the "Issues" page to report found bugs or to request new features/improvements.
+- Providing updates, bugfixes or other code changes by pull requests.
 
 # License
 
@@ -120,3 +138,4 @@ Abovementioned restrictions should apply to all modification, alteration, merge,
 The above copyright notice and this permission notice shall be included in all copies or substantial portions, modifications and alterations of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+

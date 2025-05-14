@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qubic_wallet/components/beta_badge.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -11,9 +12,12 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/networks/networks_screen.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/support/support_screen.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/wallet_connect.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
+import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -30,12 +34,12 @@ class TabSettings extends StatefulWidget {
 
 class _TabSettingsState extends State<TabSettings> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
+  final SettingsStore settingsStore = getIt<SettingsStore>();
   final BiometricService biometricService = getIt<BiometricService>();
   final TimedController timedController = getIt<TimedController>();
 
   String settingsUnlockLabel = "";
-  Widget settingsUnlockIcon = const Icon(Icons.fingerprint);
+  String settingsUnlockIconPath = AppIcons.fingerPrint;
   bool isFirstOpen = true;
 
   final defaultIconHeight = 20.0;
@@ -46,7 +50,7 @@ class _TabSettingsState extends State<TabSettings> {
       biometricService.getAvailableBiometric(context).then((result) {
         setState(() {
           settingsUnlockLabel = result['label'];
-          settingsUnlockIcon = result['icon'];
+          settingsUnlockIconPath = result['icon'];
         });
       });
       isFirstOpen = false;
@@ -79,10 +83,8 @@ class _TabSettingsState extends State<TabSettings> {
                         child: Column(
                           children: [
                             SettingsListTile(
-                              prefix: const Icon(
-                                Icons.lock,
-                                color: LightThemeColors.textColorSecondary,
-                              ),
+                              prefix: SvgPicture.asset(AppIcons.lock,
+                                  height: defaultIconHeight),
                               title: l10n.settingsLockWallet,
                               suffix: const SizedBox.shrink(),
                               onPressed: () {
@@ -97,8 +99,11 @@ class _TabSettingsState extends State<TabSettings> {
                               },
                             ),
                             SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.autoLock,
-                                  height: defaultIconHeight),
+                              prefix: SizedBox(
+                                width: 24,
+                                child: SvgPicture.asset(AppIcons.autoLock,
+                                    height: defaultIconHeight),
+                              ),
                               title: l10n.settingsLabelAutlock,
                               path: AutoLockSettings(),
                             ),
@@ -109,22 +114,43 @@ class _TabSettingsState extends State<TabSettings> {
                               path: const ExportWalletVault(),
                             ),
                             SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.changePassword,
-                                  height: defaultIconHeight),
+                              prefix: SizedBox(
+                                width: 24,
+                                child: SvgPicture.asset(AppIcons.changePassword,
+                                    height: defaultIconHeight),
+                              ),
                               title: l10n.settingsLabelChangePassword,
                               path: const ChangePassword(),
                             ),
                             SettingsListTile(
-                              prefix: settingsUnlockIcon,
+                              prefix: SvgPicture.asset(
+                                settingsUnlockIconPath,
+                                height: defaultIconHeight,
+                                colorFilter: const ColorFilter.mode(
+                                    LightThemeColors.textColorSecondary,
+                                    BlendMode.srcIn),
+                              ),
                               title: settingsUnlockLabel,
                               path: const ManageBiometrics(),
                             ),
-                            // SettingsListTile(
-                            //   prefix:
-                            //       SvgPicture.asset(AppIcons.walletConnect, height: defaultIconHeight),
-                            //   title: l10n.settingsLabelWalletConnect,
-                            //   onPressed: () {},
-                            // ),
+                            SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.walletConnect,
+                                    height: defaultIconHeight),
+                                title: l10n.settingsLabelWalletConnect,
+                                afterText: const BetaBadge(),
+                                path: const WalletConnectSettings()),
+                            SettingsListTile(
+                              prefix: SvgPicture.asset(AppIcons.network,
+                                  height: defaultIconHeight),
+                              title: l10n.networksTitle,
+                              path: NetworksScreen(),
+                            ),
+                            SettingsListTile(
+                              prefix: SvgPicture.asset(AppIcons.support,
+                                  height: defaultIconHeight),
+                              title: l10n.settingsLabelSupport,
+                              path: const SupportScreen(),
+                            ),
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.community,
                                   height: defaultIconHeight),
@@ -137,7 +163,7 @@ class _TabSettingsState extends State<TabSettings> {
                               title: l10n.settingsLabelPrivacyPolicy,
                               onPressed: () {
                                 launchUrlString(
-                                    "https://qubic.org/Privacy-policy",
+                                    "https://qubic.org/privacy-policy",
                                     mode: LaunchMode.externalApplication);
                               },
                               suffix: SvgPicture.asset(AppIcons.externalLink,
@@ -152,7 +178,7 @@ class _TabSettingsState extends State<TabSettings> {
                       padding: const EdgeInsets.only(
                           bottom: ThemePaddings.bigPadding),
                       child: Text(
-                        "Qubic Wallet v.${qubicHubStore.versionInfo!}${qubicHubStore.buildNumber!.isNotEmpty ? " (${qubicHubStore.buildNumber!})" : ""}",
+                        "Qubic Wallet v.${settingsStore.versionInfo!}${settingsStore.buildNumber!.isNotEmpty ? " (${settingsStore.buildNumber!})" : ""}",
                         textAlign: TextAlign.center,
                         style: TextStyles.secondaryTextSmall,
                       ),

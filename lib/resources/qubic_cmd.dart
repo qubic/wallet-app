@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:flutter/material.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
+import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
+import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_js.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -79,13 +81,15 @@ class QubicCmd {
     }
   }
 
-  Future<String> createTransaction(
-      String seed, String destinationId, int value, int tick) async {
+  Future<SignedTransaction> createTransaction(
+      String seed, String destinationId, int value, int tick,
+      {int? inputType, String? payload}) async {
     if (useJs) {
-      return await qubicJs.createTransaction(seed, destinationId, value, tick);
+      return await qubicJs.createTransaction(
+          seed, destinationId, value, tick, inputType, payload);
     } else {
       return await qubicCmdUtils.createTransaction(
-          seed, destinationId, value, tick);
+          seed, destinationId, value, tick, inputType, payload);
     }
   }
 
@@ -122,6 +126,14 @@ class QubicCmd {
     }
   }
 
+  Future<QubicAssetTransfer> parseAssetTransferPayload(String input) async {
+    if (useJs) {
+      return await qubicJs.parseAssetTransferPayload(input);
+    } else {
+      return await qubicCmdUtils.parseAssetTransferPayload(input);
+    }
+  }
+
   Future<List<QubicImportVaultSeed>> importVaultFile(
       String password, String? filePath, Uint8List? fileContents) async {
     if (useJs) {
@@ -135,6 +147,39 @@ class QubicCmd {
         throw "File path is required";
       }
       return await qubicCmdUtils.importVaultFile(password, filePath);
+    }
+  }
+
+  Future<List<QubicSendManyTransfer>> parseTransferSendManyPayload(
+      String payload) async {
+    if (useJs) {
+      return await qubicJs.parseTransferSendManyPayload(payload);
+    } else {
+      return await qubicCmdUtils.parseTransferSendManyPayload(payload);
+    }
+  }
+
+  Future<QubicSignResult> signBase64(String seed, String base64) async {
+    if (useJs) {
+      return await qubicJs.signBase64(seed, base64);
+    } else {
+      return await qubicCmdUtils.signBase64(seed, base64);
+    }
+  }
+
+  Future<QubicSignResult> signASCII(String seed, String asciiText) async {
+    if (useJs) {
+      return await qubicJs.signASCII(seed, asciiText);
+    } else {
+      return await qubicCmdUtils.signASCII(seed, asciiText);
+    }
+  }
+
+  Future<QubicSignResult> signUTF8(String seed, String utf8Text) async {
+    if (useJs) {
+      return await qubicJs.signUTF8(seed, utf8Text);
+    } else {
+      return await qubicCmdUtils.signUTF8(seed, utf8Text);
     }
   }
 }

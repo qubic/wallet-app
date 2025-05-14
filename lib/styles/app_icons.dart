@@ -22,4 +22,16 @@ abstract class AppIcons {
   static const String eye = '${_path}eye.svg';
   static const String plusCircular = '${_path}plus_circular.svg';
   static const String import = '${_path}import.svg';
+  static const String danger = '${_path}danger.svg';
+  static const String warning = '${_path}warning.svg';
+  static const String scan = '${_path}scan.svg';
+  static const String close = '${_path}close.svg';
+  static const String arrowDown = '${_path}arrow_down.svg';
+  static const String noConnection = '${_path}no_connection.svg';
+  static const String fingerPrint = '${_path}finger_print.svg';
+  static const String iris = '${_path}iris.svg';
+  static const String security = '${_path}security.svg';
+  static const String network = '${_path}network.svg';
+  static const String support = '${_path}support.svg';
+  static const String google = '${_path}google.svg';
 }

@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:intl/intl.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
-import 'package:qubic_wallet/helpers/sendTransaction.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/send_transaction.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
-import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/helpers/target_tick.dart';
 
 class Send extends StatefulWidget {
   final QubicListVm item;
-  const Send({super.key, required this.item});
+  final String? destId;
+  final int? amount;
+  const Send({super.key, required this.item, this.destId, this.amount});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -41,7 +40,6 @@ class Send extends StatefulWidget {
 class _SendState extends State<Send> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  final QubicLi apiService = getIt<QubicLi>();
   final _liveApi = getIt<QubicLiveApi>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();
@@ -88,6 +86,8 @@ class _SendState extends State<Send> {
 
   @override
   void initState() {
+    destinationID = TextEditingController(text: widget.destId);
+    amount = TextEditingController(text: widget.amount?.toString() ?? "");
     knownQubicIDs = appStore.currentQubicIDs
         .where((account) => account.publicId != widget.item.publicId)
         .toList();
@@ -203,65 +203,74 @@ class _SendState extends State<Send> {
     final l10n = l10nOf(context);
 
     showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        isScrollControlled: true,
-        builder: (BuildContext context) {
-          return SafeArea(
-              child: Container(
-            height: 400,
-            child: Center(
-                child: Padding(
-              padding: const EdgeInsets.all(0),
-              child: Flex(
-                direction: Axis.vertical,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
-                children: <Widget>[
-                  Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                          ThemePaddings.bigPadding,
-                          ThemePaddings.normalPadding,
-                          ThemePaddings.bigPadding,
-                          0),
-                      child: ThemedControls.pageHeader(
+      context: context,
+      useSafeArea: true,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          initialChildSize: 0.8,
+          minChildSize: 0.2,
+          maxChildSize: 1,
+          expand: false,
+          builder: (context, scrollController) {
+            return ListView.separated(
+              controller: scrollController,
+              itemCount: knownQubicIDs.length + 1, // Extra item for header
+              separatorBuilder: (context, index) {
+                if (index == 0) return const SizedBox.shrink();
+                return const Divider(
+                  indent: ThemePaddings.bigPadding,
+                  endIndent: ThemePaddings.bigPadding,
+                  color: LightThemeColors.primary,
+                );
+              },
+              itemBuilder: (BuildContext context, int index) {
+                if (index == 0) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                      ThemePaddings.bigPadding,
+                      ThemePaddings.miniPadding,
+                      ThemePaddings.bigPadding,
+                      0,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: 48,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: LightThemeColors.navBorder,
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                        const SizedBox(height: ThemePaddings.smallPadding),
+                        ThemedControls.pageHeader(
                           headerText:
                               l10n.sendItemLabelSelectSenderAddressLineOne,
-                          subheaderText:
-                              l10n.sendItemLabelSelectSenderAddressLineTwo)),
-                  Expanded(
-                    child: ListView.separated(
-                        itemCount: knownQubicIDs.length,
-                        separatorBuilder: (context, index) {
-                          return const Divider(
-                            indent: ThemePaddings.bigPadding,
-                            endIndent: ThemePaddings.bigPadding,
-                            color: LightThemeColors.primary,
-                          );
-                        },
-                        itemBuilder: (BuildContext context, int index) {
-                          return InkWell(
-                            child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: ThemePaddings.bigPadding,
-                                    vertical: ThemePaddings.smallPadding),
-                                child: IdListItemSelect(
-                                    item: knownQubicIDs[index])),
-                            onTap: () {
-                              destinationID.text =
-                                  knownQubicIDs[index].publicId;
-
-                              Navigator.pop(context);
-                            },
-                          );
-                        }),
-                  )
-                ],
-              ),
-            )),
-          ));
-        });
+                          subheaderText: null,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                final item = knownQubicIDs[index - 1];
+                return InkWell(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: ThemePaddings.bigPadding),
+                    child: IdListItemSelect(item: item),
+                  ),
+                  onTap: () {
+                    destinationID.text = item.publicId;
+                    Navigator.pop(context);
+                  },
+                );
+              },
+            );
+          },
+        );
+      },
+    );
   }
 
   List<Widget> getOverrideTick() {
@@ -342,217 +351,207 @@ class _SendState extends State<Send> {
   Widget getScrollView(BuildContext context) {
     final l10n = l10nOf(context);
     return SingleChildScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              ThemedControls.pageHeader(
-                  headerText: l10n.accountSendTitle,
-                  subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
-              ThemedControls.spacerVerticalSmall(),
-              Text(l10n.accountSendLabelDestinationAddress,
-                  style: TextStyles.labelTextNormal),
-              ThemedControls.spacerVerticalMini(),
-              FormBuilder(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      Flex(direction: Axis.horizontal, children: [
-                        Expanded(
-                            flex: 10,
-                            child: FormBuilderTextField(
-                              name: "destinationID",
-                              readOnly: isLoading,
-                              controller: destinationID,
-                              enableSuggestions: false,
-                              onSubmitted: (value) => transferNowHandler(),
-                              keyboardType: TextInputType.visiblePassword,
-                              validator: FormBuilderValidators.compose([
-                                FormBuilderValidators.required(
-                                    errorText: l10n.generalErrorRequiredField),
-                                CustomFormFieldValidators.isPublicID(
-                                    context: context),
-                                verifyPublicId(l10n
-                                    .accountSendSectionInvalidDestinationAddress),
-                              ]),
-                              maxLines: 2,
-                              style: TextStyles.inputBoxSmallStyle,
-                              maxLength: 60,
-                              decoration: ThemeInputDecorations
-                                  .normalMultiLineInputbox
-                                  .copyWith(
-                                      hintText: "",
-                                      hintMaxLines: 3,
-                                      // This line is the one that causes the error
-                                      suffixIcon: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.end,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            appStore.currentQubicIDs.length > 1
-                                                ? IconButton(
-                                                    onPressed: () async {
-                                                      showPickerBottomSheet();
-                                                    },
-                                                    icon: LightThemeColors
-                                                            .shouldInvertIcon
-                                                        ? ThemedControls
-                                                            .invertedColors(
-                                                                child: Image.asset(
-                                                                    "assets/images/bookmark-24.png"))
-                                                        : Image.asset(
+      physics: const AlwaysScrollableScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          ThemedControls.pageHeader(
+              headerText: l10n.accountSendTitle,
+              subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
+          ThemedControls.spacerVerticalSmall(),
+          Text(l10n.accountSendLabelDestinationAddress,
+              style: TextStyles.labelTextNormal),
+          ThemedControls.spacerVerticalMini(),
+          FormBuilder(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Flex(direction: Axis.horizontal, children: [
+                    Expanded(
+                        flex: 10,
+                        child: FormBuilderTextField(
+                          name: "destinationID",
+                          readOnly: isLoading,
+                          controller: destinationID,
+                          enableSuggestions: false,
+                          onSubmitted: (value) => transferNowHandler(),
+                          keyboardType: TextInputType.visiblePassword,
+                          validator: FormBuilderValidators.compose([
+                            FormBuilderValidators.required(
+                                errorText: l10n.generalErrorRequiredField),
+                            CustomFormFieldValidators.isPublicID(
+                                context: context),
+                            verifyPublicId(l10n
+                                .accountSendSectionInvalidDestinationAddress),
+                          ]),
+                          maxLines: 2,
+                          style: TextStyles.inputBoxSmallStyle,
+                          maxLength: 60,
+                          decoration: ThemeInputDecorations
+                              .normalMultiLineInputbox
+                              .copyWith(
+                                  hintText: "",
+                                  hintMaxLines: 3,
+                                  // This line is the one that causes the error
+                                  suffixIcon: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        appStore.currentQubicIDs.length > 1
+                                            ? IconButton(
+                                                onPressed: () async {
+                                                  showPickerBottomSheet();
+                                                },
+                                                icon: LightThemeColors
+                                                        .shouldInvertIcon
+                                                    ? ThemedControls.invertedColors(
+                                                        child: Image.asset(
                                                             "assets/images/bookmark-24.png"))
-                                                //const Icon(Icons.book))
-                                                : Container(),
-                                            ThemedControls
-                                                .spacerHorizontalMini()
-                                          ])),
-                              autocorrect: false,
-                              autofillHints: null,
-                            )),
-                      ]),
-                      if (isMobile)
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: ThemedControls.primaryButtonNormal(
-                                onPressed: () {
-                                  showQRScanner();
-                                },
-                                text: l10n.generalButtonUseQRCode,
-                                icon: !LightThemeColors.shouldInvertIcon
-                                    ? ThemedControls.invertedColors(
-                                        child: Image.asset(
-                                            "assets/images/Group 2294.png"))
-                                    : Image.asset(
-                                        "assets/images/Group 2294.png"))),
-                      ThemedControls.spacerVerticalMini(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Expanded(
-                              child: Text(l10n.accountSendLabelAmount,
-                                  style: TextStyles.labelTextNormal)),
-                          ThemedControls.transparentButtonSmall(
-                              text: l10n.accountSendButtonMax,
+                                                    : Image.asset(
+                                                        "assets/images/bookmark-24.png"))
+                                            //const Icon(Icons.book))
+                                            : Container(),
+                                        ThemedControls.spacerHorizontalMini()
+                                      ])),
+                          autocorrect: false,
+                          autofillHints: null,
+                        )),
+                  ]),
+                  if (isMobile)
+                    Align(
+                        alignment: Alignment.topLeft,
+                        child: ThemedControls.primaryButtonNormal(
+                            onPressed: () {
+                              showQRScanner();
+                            },
+                            text: l10n.generalButtonUseQRCode,
+                            icon: !LightThemeColors.shouldInvertIcon
+                                ? ThemedControls.invertedColors(
+                                    child: Image.asset(
+                                        "assets/images/Group 2294.png"))
+                                : Image.asset("assets/images/Group 2294.png"))),
+                  ThemedControls.spacerVerticalMini(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                          child: Text(l10n.accountSendLabelAmount,
+                              style: TextStyles.labelTextNormal)),
+                      ThemedControls.transparentButtonSmall(
+                          text: l10n.accountSendButtonMax,
+                          onPressed: () {
+                            if (widget.item.amount == null) {
+                              return;
+                            }
+                            if (widget.item.amount! > 0) {
+                              amount.value = getInputFormatter()
+                                  .formatEditUpdate(
+                                      const TextEditingValue(text: ''),
+                                      TextEditingValue(
+                                          text:
+                                              (widget.item.amount).toString()));
+                            }
+                          }),
+                      (widget.item.amount != null && widget.item.amount! > 1)
+                          ? ThemedControls.transparentButtonSmall(
+                              text: l10n.accountSendButtonMaxMinusOne,
                               onPressed: () {
                                 if (widget.item.amount == null) {
                                   return;
                                 }
-                                if (widget.item.amount! > 0) {
+                                if (widget.item.amount! > 1) {
                                   amount.value = getInputFormatter()
                                       .formatEditUpdate(
                                           const TextEditingValue(text: ''),
                                           TextEditingValue(
-                                              text: (widget.item.amount)
+                                              text: (widget.item.amount! - 1)
                                                   .toString()));
                                 }
-                              }),
-                          (widget.item.amount != null &&
-                                  widget.item.amount! > 1)
-                              ? ThemedControls.transparentButtonSmall(
-                                  text: l10n.accountSendButtonMaxMinusOne,
-                                  onPressed: () {
-                                    if (widget.item.amount == null) {
-                                      return;
-                                    }
-                                    if (widget.item.amount! > 1) {
-                                      amount.value = getInputFormatter()
-                                          .formatEditUpdate(
-                                              const TextEditingValue(text: ''),
-                                              TextEditingValue(
-                                                  text:
-                                                      (widget.item.amount! - 1)
-                                                          .toString()));
-                                    }
-                                  })
-                              : Container()
-                        ],
-                      ),
-                      FormBuilderTextField(
-                        //decoration: const InputDecoration(labelText: 'Amount'),
-                        keyboardType: const TextInputType.numberWithOptions(
-                          decimal:
-                              false, // Set to true if you want to allow decimal numbers
-                          signed:
-                              false, // Set to true if you want to allow signed numbers
-                        ),
-                        decoration: ThemeInputDecorations.normalInputbox
-                            .copyWith(hintMaxLines: 1),
-                        name: l10n.accountSendLabelAmount,
-                        readOnly: isLoading,
-                        controller: amount,
-                        enableSuggestions: false,
-                        textAlign: TextAlign.start,
-                        onSubmitted: (value) => transferNowHandler(),
-                        validator: FormBuilderValidators.compose([
-                          FormBuilderValidators.required(
-                              errorText: l10n.generalErrorRequiredField),
-                          CustomFormFieldValidators.isLessThanParsed(
-                              lessThan: widget.item.amount!, context: context),
-                        ]),
-                        inputFormatters: [getInputFormatter()],
-                        maxLines: 1,
-                        autocorrect: false,
-                        autofillHints: null,
-                      ),
-                      const SizedBox(height: ThemePaddings.miniPadding),
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                                l10n.assetsLabelCurrentBalance(
-                                    formatter.format(widget.item.amount)),
-                                style: TextStyles.secondaryText),
-                          ]),
-                      const SizedBox(height: ThemePaddings.bigPadding),
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Material(
-                              elevation: 0,
-                              borderOnForeground: false,
-                              shadowColor: Colors.transparent,
-                              child: ExpansionPanelList(
-                                  elevation: 0,
-                                  expansionCallback:
-                                      (int index, bool isExpanded) {
-                                    setState(() {
-                                      expanded = !expanded;
-                                    });
-                                  },
-                                  children: [
-                                    ExpansionPanel(
-                                      canTapOnHeader: true,
-                                      backgroundColor:
-                                          LightThemeColors.cardBackground,
-                                      headerBuilder: (BuildContext context,
-                                          bool isExpanded) {
-                                        return ListTile(
-                                          title: Text(
-                                              l10n.accountSendSectionAdvanceOptionsTitle,
-                                              style: TextStyles.labelText),
-                                        );
-                                      },
-                                      body: Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                            ThemePaddings.normalPadding,
-                                            0,
-                                            ThemePaddings.normalPadding,
-                                            ThemePaddings.normalPadding,
-                                          ),
-                                          child: getAdvancedOptions()),
-                                      isExpanded: expanded,
-                                    )
-                                  ])))
+                              })
+                          : Container()
                     ],
-                  )),
-              const SizedBox(height: ThemePaddings.normalPadding),
-            ],
-          )))
-        ]));
+                  ),
+                  FormBuilderTextField(
+                    //decoration: const InputDecoration(labelText: 'Amount'),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal:
+                          false, // Set to true if you want to allow decimal numbers
+                      signed:
+                          false, // Set to true if you want to allow signed numbers
+                    ),
+                    decoration: ThemeInputDecorations.normalInputbox
+                        .copyWith(hintMaxLines: 1),
+                    name: l10n.accountSendLabelAmount,
+                    readOnly: isLoading,
+                    controller: amount,
+                    enableSuggestions: false,
+                    textAlign: TextAlign.start,
+                    onSubmitted: (value) => transferNowHandler(),
+                    validator: FormBuilderValidators.compose([
+                      FormBuilderValidators.required(
+                          errorText: l10n.generalErrorRequiredField),
+                      CustomFormFieldValidators.isLessThanParsed(
+                          lessThan: widget.item.amount!, context: context),
+                    ]),
+                    inputFormatters: [getInputFormatter()],
+                    maxLines: 1,
+                    autocorrect: false,
+                    autofillHints: null,
+                  ),
+                  const SizedBox(height: ThemePaddings.miniPadding),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                            l10n.assetsLabelCurrentBalance(
+                                formatter.format(widget.item.amount)),
+                            style: TextStyles.secondaryText),
+                      ]),
+                  const SizedBox(height: ThemePaddings.bigPadding),
+                  ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Material(
+                          elevation: 0,
+                          borderOnForeground: false,
+                          shadowColor: Colors.transparent,
+                          child: ExpansionPanelList(
+                              elevation: 0,
+                              expansionCallback: (int index, bool isExpanded) {
+                                setState(() {
+                                  expanded = !expanded;
+                                });
+                              },
+                              children: [
+                                ExpansionPanel(
+                                  canTapOnHeader: true,
+                                  backgroundColor:
+                                      LightThemeColors.cardBackground,
+                                  headerBuilder:
+                                      (BuildContext context, bool isExpanded) {
+                                    return ListTile(
+                                      title: Text(
+                                          l10n.accountSendSectionAdvanceOptionsTitle,
+                                          style: TextStyles.labelText),
+                                    );
+                                  },
+                                  body: Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                        ThemePaddings.normalPadding,
+                                        0,
+                                        ThemePaddings.normalPadding,
+                                        ThemePaddings.normalPadding,
+                                      ),
+                                      child: getAdvancedOptions()),
+                                  isExpanded: expanded,
+                                )
+                              ])))
+                ],
+              )),
+          const SizedBox(height: ThemePaddings.normalPadding),
+        ],
+      ),
+    );
   }
 
   List<Widget> getButtons() {
@@ -592,8 +591,6 @@ class _SendState extends State<Send> {
   }
 
   void transferNowHandler() async {
-    final l10n = l10nOf(context);
-
     _formKey.currentState?.validate();
     if (!_formKey.currentState!.isValid) {
       return;
@@ -606,7 +603,7 @@ class _SendState extends State<Send> {
       _formKey.currentState?.validate();
       return;
     }
-
+    if (!mounted) return;
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
       return;
@@ -625,10 +622,14 @@ class _SendState extends State<Send> {
       int latestTick = (await _liveApi.getCurrentTick()).tick;
       targetTick = latestTick + targetTickType.value;
     }
-
-    bool result = await sendTransactionDialog(context, widget.item.publicId,
-        destinationID.text, getQubicAmount(), targetTick!);
-    if (!result) {
+    if (!mounted) return;
+    SignedTransaction? result = await sendTransactionDialog(
+        context,
+        widget.item.publicId,
+        destinationID.text,
+        getQubicAmount(),
+        targetTick!);
+    if (result == null) {
       setState(() {
         isLoading = false;
       });
@@ -639,17 +640,25 @@ class _SendState extends State<Send> {
     //Clear the state
     setState(() {
       isLoading = false;
-      getIt.get<PersistentTabController>().jumpToTab(1);
+      // TODO can be replaced later to jump to a screen where the list of pending trx is displayed
+      //getIt.get<PersistentTabController>().jumpToTab(1);
     });
+    if (mounted) {
+      Navigator.pop(context);
+    }
+    if (mounted) {
+      final l10n = l10nOf(context);
+      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
+          targetTick.toString().asThousands()));
+    }
 
-    Navigator.pop(context);
-
-    _globalSnackBar.show(l10n
-        .generalSnackBarMessageTransactionSubmitted(targetTick!.asThousands()));
+    setState(() {
+      isLoading = false;
+    });
   }
 
-  TextEditingController destinationID = TextEditingController();
-  TextEditingController amount = TextEditingController();
+  late final TextEditingController destinationID;
+  late final TextEditingController amount;
   TextEditingController tickController = TextEditingController();
 
   bool isLoading = false;

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 
 abstract class ButtonStyles {
+  static const double buttonHeight = 48;
   static ButtonStyle dangerButtonBig = ButtonStyle(
       overlayColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.dangerColor.withOpacity(0.2)),
+          LightThemeColors.dangerColor.withValues(alpha: 0.2)),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
               side: BorderSide.none,
@@ -12,7 +13,7 @@ abstract class ButtonStyles {
 
   static ButtonStyle primaryButtonBig = ButtonStyle(
       overlayColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.extraStrongBackground.withOpacity(0.1)),
+          LightThemeColors.extraStrongBackground.withValues(alpha: 0.1)),
       backgroundColor: const WidgetStatePropertyAll<Color>(
           LightThemeColors.buttonBackground),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
@@ -20,23 +21,31 @@ abstract class ButtonStyles {
 
   static ButtonStyle textButtonBig = ButtonStyle(
       overlayColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.buttonBackground.withOpacity(0.1)),
+          LightThemeColors.buttonBackground.withValues(alpha: 0.1)),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0))));
 
   static ButtonStyle primaryButtonBigDisabled = ButtonStyle(
       overlayColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.extraStrongBackground.withOpacity(0.1)),
+          LightThemeColors.extraStrongBackground.withValues(alpha: 0.1)),
       backgroundColor: const WidgetStatePropertyAll<Color>(
           LightThemeColors.buttonBackgroundDisabled),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0))));
 
+  static ButtonStyle secondaryButton = ButtonStyle(
+      padding: WidgetStateProperty.all(EdgeInsets.zero),
+      overlayColor: WidgetStatePropertyAll<Color>(
+          LightThemeColors.buttonPrimary.withValues(alpha: 0.1)),
+      backgroundColor: const WidgetStatePropertyAll<Color>(Color(0xff152932)),
+      shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0))));
+
   static ButtonStyle darkButtonBig = ButtonStyle(
       overlayColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.primary.withOpacity(0.03)),
+          LightThemeColors.primary.withValues(alpha: 0.03)),
       backgroundColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.primary.withOpacity(0.02)),
+          LightThemeColors.primary.withValues(alpha: 0.2)),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
@@ -45,9 +54,9 @@ abstract class ButtonStyles {
 
   static ButtonStyle darkButtonBigError = ButtonStyle(
       overlayColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.primary.withOpacity(0.03)),
+          LightThemeColors.primary.withValues(alpha: 0.03)),
       backgroundColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.primary.withOpacity(0.02)),
+          LightThemeColors.primary.withValues(alpha: 0.2)),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),

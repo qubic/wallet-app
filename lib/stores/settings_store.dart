@@ -26,6 +26,9 @@ abstract class _SettingsStore with Store {
   @observable
   bool isQubicsPrimaryBalance = true;
 
+  String? versionInfo;
+  String? buildNumber;
+
   @action
   Future<void> loadSettings() async {
     Settings newSettings;
@@ -80,5 +83,13 @@ abstract class _SettingsStore with Store {
     settings.autoLockTimeout = value;
     settings = Settings.clone(settings);
     await secureStorage.setWalletSettings(settings);
+  }
+
+  void setVersion(String versionInfo) {
+    this.versionInfo = versionInfo;
+  }
+
+  void setBuildNumber(String buildNumber) {
+    this.buildNumber = buildNumber;
   }
 }

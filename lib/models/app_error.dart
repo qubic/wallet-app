@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AppError {
@@ -17,11 +17,11 @@ class AppError {
   String toString() {
     String errorMessage = message;
 
-    if (statusCode != null) {
-      errorMessage += ', ${l10nWrapper.l10n!.generalStatusCode}: $statusCode';
-    }
     if (code != null) {
       errorMessage += ', ${l10nWrapper.l10n!.generalCode}: $code';
+    }
+    if (statusCode != null) {
+      errorMessage += ' (${l10nWrapper.l10n!.generalStatusCode}: $statusCode)';
     }
 
     return errorMessage;
@@ -32,16 +32,29 @@ class AppError {
   /// Here you can update it to handle server errors, according to the error model
   /// comes from back end.
   factory AppError.serverErrorParse(DioException error) {
-    log(error.response?.data?.toString() ?? "NULL",
-        name: "AppError.serverErrorParse");
-    final serverMessage = error.response?.data['message'] ??
-        l10nWrapper.l10n!.generalErrorUnexpectedError;
-    final code = error.response?.data['code'];
+    appLogger.e(error.response?.data?.toString() ?? "NULL");
+
+    final responseData = error.response?.data;
+    String serverMessage;
+    int? code;
+
+    if (responseData is Map<String, dynamic>) {
+      serverMessage = responseData['message'] ??
+          l10nWrapper.l10n!.generalErrorUnexpectedError;
+      code = responseData['code'];
+    } else if (responseData is String) {
+      serverMessage = responseData;
+    } else {
+      // Handling unexpected response formats (null, int, etc.)
+      serverMessage = l10nWrapper.l10n!.generalErrorUnexpectedError;
+    }
+
     return AppError(
-        "${l10nWrapper.l10n!.generalErrorServerError}: $serverMessage",
-        ErrorType.server,
-        statusCode: error.response?.statusCode,
-        code: code);
+      "${l10nWrapper.l10n!.generalErrorServerError}: $serverMessage",
+      ErrorType.server,
+      statusCode: error.response?.statusCode,
+      code: code,
+    );
   }
 }
 
@@ -55,8 +68,8 @@ enum ErrorType {
 
 class ErrorHandler {
   static AppError handleError(Object? error) {
-    log(error.toString());
-    log(error.runtimeType.toString(), name: "Error type");
+    appLogger.e(error.toString());
+    appLogger.e("Error type:${error.runtimeType}");
     switch (error) {
       case DioException dioError:
         switch (dioError.type) {

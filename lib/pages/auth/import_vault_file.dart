@@ -15,6 +15,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
@@ -23,7 +24,6 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -102,19 +102,19 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
   Widget getSelectedPathSelector() {
     return Container(
         decoration: BoxDecoration(
-            color: LightThemeColors.primary.withOpacity(0.02),
+            color: LightThemeColors.primary.withValues(alpha: 0.02),
             border: Border(
                 top: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 left: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 right: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 bottom: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0)),
             borderRadius: BorderRadius.circular(8.0)),
         child: Padding(
@@ -167,8 +167,8 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
                 try {
                   directory = await getDownloadsDirectory();
                 } catch (e) {
-                  debugPrint(
-                      "Error getting application documents directory: $e");
+                  appLogger
+                      .e("Error getting application documents directory: $e");
                 }
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                     dialogTitle: l10n.importVaultFilePickerLabel,
@@ -354,7 +354,6 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
               importedSeed.getAlias()!, 0));
         }
         await appStore.addManyIds(ids);
-        await getIt<QubicLi>().authenticate();
       } catch (e) {
         if (context.mounted) {
           showAlertDialog(

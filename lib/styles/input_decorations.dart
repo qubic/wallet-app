@@ -5,7 +5,7 @@ abstract class ThemeInputDecorations {
   static InputDecoration dropdownBox = InputDecoration(
     contentPadding:
         const EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 20),
-    hoverColor: LightThemeColors.primary.withOpacity(0.01),
+    hoverColor: LightThemeColors.primary.withValues(alpha: 0.01),
     errorStyle: const TextStyle(
         color: LightThemeColors.error,
         fontSize: ThemeFontSizes.small,
@@ -21,16 +21,18 @@ abstract class ThemeInputDecorations {
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     errorBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
+        borderSide:
+            BorderSide(color: LightThemeColors.error.withValues(alpha: 0.5))),
     focusedErrorBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
+        borderSide:
+            BorderSide(color: LightThemeColors.error.withValues(alpha: 0.5))),
     disabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     filled: true,
     hintStyle: TextStyle(
-        color: LightThemeColors.primary.withOpacity(0.4),
+        color: LightThemeColors.primary.withValues(alpha: 0.4),
         fontSize: ThemeFontSizes.label),
     fillColor: Colors.transparent,
   );
@@ -38,7 +40,7 @@ abstract class ThemeInputDecorations {
   static InputDecoration bigInputbox = InputDecoration(
     contentPadding:
         const EdgeInsets.only(left: 24, right: 24, top: 20, bottom: 20),
-    hoverColor: LightThemeColors.primary.withOpacity(0.01),
+    hoverColor: LightThemeColors.primary.withValues(alpha: 0.01),
     errorStyle: const TextStyle(
         color: LightThemeColors.error,
         fontSize: ThemeFontSizes.small,
@@ -54,10 +56,12 @@ abstract class ThemeInputDecorations {
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     errorBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
+        borderSide:
+            BorderSide(color: LightThemeColors.error.withValues(alpha: 0.5))),
     focusedErrorBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
+        borderSide:
+            BorderSide(color: LightThemeColors.error.withValues(alpha: 0.5))),
     disabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
@@ -70,7 +74,7 @@ abstract class ThemeInputDecorations {
   static InputDecoration normalInputbox = InputDecoration(
     contentPadding:
         const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 10),
-    hoverColor: LightThemeColors.primary.withOpacity(0.01),
+    hoverColor: LightThemeColors.primary.withValues(alpha: 0.01),
     errorStyle: const TextStyle(
         color: LightThemeColors.error,
         fontSize: ThemeFontSizes.small,
@@ -86,10 +90,12 @@ abstract class ThemeInputDecorations {
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     errorBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
+        borderSide:
+            BorderSide(color: LightThemeColors.error.withValues(alpha: 0.5))),
     focusedErrorBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
+        borderSide:
+            BorderSide(color: LightThemeColors.error.withValues(alpha: 0.5))),
     disabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(12)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
@@ -102,7 +108,7 @@ abstract class ThemeInputDecorations {
   static InputDecoration normalMultiLineInputbox = InputDecoration(
     contentPadding:
         const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
-    hoverColor: LightThemeColors.primary.withOpacity(0.01),
+    hoverColor: LightThemeColors.primary.withValues(alpha: 0.01),
     errorStyle: const TextStyle(
         color: LightThemeColors.error,
         fontSize: ThemeFontSizes.small,
@@ -118,10 +124,12 @@ abstract class ThemeInputDecorations {
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),
     errorBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
+        borderSide:
+            BorderSide(color: LightThemeColors.error.withValues(alpha: 0.5))),
     focusedErrorBorder: OutlineInputBorder(
         borderRadius: const BorderRadius.all(Radius.circular(12)),
-        borderSide: BorderSide(color: LightThemeColors.error.withOpacity(0.5))),
+        borderSide:
+            BorderSide(color: LightThemeColors.error.withValues(alpha: 0.5))),
     disabledBorder: const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(2)),
         borderSide: BorderSide(color: LightThemeColors.inputBorderColor)),

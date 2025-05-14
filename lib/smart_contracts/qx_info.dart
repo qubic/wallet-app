@@ -1,3 +1,5 @@
+import 'package:qubic_wallet/smart_contracts/special_addresses.dart';
+
 /// QX Related constants
 abstract class QxInfo {
   /// Qx Address
@@ -15,4 +17,9 @@ abstract class QxInfo {
 
   /// Input type for transferring an asset
   static const transferAssetInputType = 2;
+
+  static const mainAssetIssuer = SpecialAddresses.empty;
+
+  static bool isQxTransferShares(String? destId, int? inputType) =>
+      destId == address && inputType == transferAssetInputType;
 }

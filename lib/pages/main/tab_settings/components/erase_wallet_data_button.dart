@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:local_auth/local_auth.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -17,6 +16,7 @@ import 'package:qubic_wallet/timed_controller.dart';
 class EraseWalletDataButton extends StatelessWidget {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
+  final HiveStorage _hiveStorage = getIt<HiveStorage>();
   final SecureStorage secureStorage = getIt<SecureStorage>();
   final _globalSnackBar = getIt<GlobalSnackBar>();
   final TimedController timedController = getIt<TimedController>();
@@ -41,12 +41,13 @@ class EraseWalletDataButton extends StatelessWidget {
               builder: (BuildContext context) {
                 return SafeArea(
                     child: EraseWalletSheet(onAccept: () async {
-                  if (!context.mounted) return;
                   await secureStorage.deleteWallet();
                   await settingsStore.loadSettings();
+                  await _hiveStorage.clear();
                   appStore.checkWalletIsInitialized();
                   appStore.signOut();
                   timedController.stopFetchTimers();
+                  if (!context.mounted) return;
                   Navigator.pop(context);
                   context.go("/signInNoAuth");
                   _globalSnackBar

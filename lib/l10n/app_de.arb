@@ -124,7 +124,6 @@
     "generalErrorSetWalletPasswordRepeatEmpty": "Bitte geben Sie das Passwort erneut ein.",
     "appTabHome": "Startseite",
     "appTabTransfers": "Übertragungen",
-    "appTabExplorer": "Explorer",
     "appTabSettings": "Einstellungen",
     "homeLabelTotalBalance": "Gesamtguthaben",
     "homeHeader": "Konten im Wallet",
@@ -135,7 +134,7 @@
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Keine Transaktionen sind in dieser Epoche für Ihre Konten anhand des Filters vorhanden.",
     "transfersLabelNoTransactionsFoundInWallet": "Keine Transaktionen sind in dieser Epoche für Ihre Konten vorhanden.",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Keine Transaktionen entsprechen Ihren Filtern aus dieser Epoche.",
-    "transfersLabelNoTransactionsFoundInAccount": "Keine Transaktionen in dieser Epoche.",
+    "transfersLabelNoTransactionsFoundInAccount": "Keine Transaktionen gefunden.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Zeigt 1 Transaktion in Tick} other{Zeigt {count} Transaktionen}}",
     "transfersLabelFor": "Übertragungen für",
     "transfersLabelForAccount": "Übertragungen für \"{accountName}\"",
@@ -188,7 +187,7 @@
     "explorerTickResultLabelTickLeader": "Tick-Leader",
     "explorerTickResultLabelNoTransactionsFound": "Keine Transaktionen in diesem Tick",
     "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 Transaktion im Tick} other{{count} Transaktionen im Tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Zeigt 1 von 1 Transaktion im Tick} other{Zeigt 1 von {count} Transaktionen im Tick}}}",
+    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Zeigt 1 von 1 Transaktion im Tick} other{Zeigt 1 von {count} Transaktionen im Tick}}",
     "settingsTitle": "Einstellungen",
     "settingsHeaderAccountsAndData": "Konten und Daten",
     "settingsLockWallet": "Wallet sperren",
@@ -250,11 +249,11 @@
     "transactionLabelDirectionInWallet": "Im Wallet",
     "transactionLabelStatusSuccessful": "Erfolgreich",
     "transactionLabelStatusPending": "Ausstehend",
-    "transactionLabelStatusConfirmed": "Bestätigt",
+    "transactionLabelStatusExecuted": "Ausgeführt",
     "transactionLabelStatusFailed": "Fehlgeschlagen",
-    "transactionLabelStatusInvalid": "Fehlgeschlagen - ungültig",
+    "transactionLabelStatusInvalid": "Ungültig",
     "signInTitleOne": "Willkommen bei",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Willkommen zurück!",
     "welcomeButtonUnlockWallet": "Wallet entsperren",
     "welcomeButtonCreateWallet": "Neues Wallet erstellen",
@@ -270,8 +269,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Erweiterte Optionen",
-    "assetsLabelOwned": "Im Besitz",
-    "assetsLabelPossessed": "In Besitz haben",
     "assetsLabelContractName": "Vertragsname",
     "assetsLabelContractIndex": "Vertragsindex",
     "assetsLabelTick": "Gültig für Tick {tick}",
@@ -379,10 +376,8 @@
     "accountExplorerLabelTotalOutgoing": "Ausgang gesamt",
     "accountExplorerLabelReportedBy": "Gemeldet von",
     "accountExplorerLabelNoResultsFound": "Keine Transaktionen für diese ID in dieser Epoche.",
-    "transactionItemLabelIncludedByTickLeader": "Enthalten vom Tick-Leader",
-    "transactionItemLabelNotIncludedByTickLeader": "Nicht enthalten vom Tick-Leader",
     "transactionItemLabelTransactionId": "Transaktions-ID",
-    "transactionItemLabelTransactionDigest": "Transaktionsübersicht",
+    "transactionItemLabelTransactionType": "Typ",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -391,16 +386,11 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Im Qubic Netzwerk enthalten",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Nicht im Qubic Netzwerk enthalten",
     "transactionItemButtonViewInExplorer": "Im Explorer anzeigen",
     "transactionItemButtonCopyToClipboard": "In die Zwischenablage kopieren",
     "transactionItemButtonViewDetails": "Details anzeigen",
     "transactionItemButtonResend": "Erneut senden",
-    "transactionItemLabelLeadToMoneyFlow": "Führen zu Geldfluss",
-    "transactionItemLabelCreatedDate": "Erstellungsdatum",
-    "transactionItemLabelBroadcastedDate": "Sendedatum",
-    "transactionItemLabelConfirmedDate": "Bestätigungsdatum",
+    "transactionItemLabelConfirmedDate": "Zeitstempel",
     "transactionItemLabelDetails": "Überweisungsdetails",
     "sendItemLabelTargetTick": "Ziel-Tick",
     "sendItemLabelTargetTickAutomatic": "Automatisch: Aktuell + {addingTicks}",
@@ -414,7 +404,7 @@
     "sendItemLabelTargetTickManual": "Manuelles Überschreiben",
     "sendItemLabelDetermineTargetTick": "Ziel-Tick bestimmen",
     "sendItemDialogErrorGeneralTitle": "Fehler beim Generieren der Transaktion.",
-    "sendItemDialogResendTitle": "Fehlgeschlagene Transaktion erneut senden?",
+    "sendItemDialogResendTitle": "Transaktion erneut senden?",
     "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (aktuell {formattedCurrentTick})",
     "@sendItemLabelResendTargetTickValue": {
         "placeholders": {
@@ -444,7 +434,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Ungültigen privaten Seed angegeben.",
     "addAccountErrorTamperedWalletTitle": "MANIPULIERTES WALLET ERKANNT",
     "addAccountErrorTamperedWalletMessage": "DAS WALLET, DAS SIE DERZEIT VERWENDEN, IST MANIPULIERT.\n\nINSTALLIEREN SIE EINE OFFIZIELLE VERSION VON HTTPS://GITHUB.COM/QUBIC/WALLET-APP ODER RISIKIEREN SIE DEN VERLUST VON GELDERN.",
-    "sendAssetLabelTransactionCost": "Transaktionskosten (fest)",
+    "sendAssetLabelTransactionCost": "Gebühr (fest)",
     "sendAssetButtonTransfer": "Übertragen",
     "sendAssetErrorTickIsInThePast": "Der angegebene Tick liegt in der Vergangenheit. Aktueller Tick ist {currentTick}.",
     "@sendAssetErrorTickIsInThePast": {
@@ -588,60 +578,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nQuelle: {sourceId}\nZiel: {destId}\nBetrag: {amount}\nStatus: {status}\nErstellt: {created}\nGespeichert: {stored}\nStaging: {staged}\nGesendet: {broadcasted}\nBestätigt: {confirmed}\nStatus-Update: {statusUpdate}\nZiel-Tick: {targetTick}\nIst ausstehend: {isPending}\nPreis: {price} \nMenge: {quantity}\nGeldfluss: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "Dies enthält die Zeichenfolge, die in der Zwischenablage kopiert wird und alle Transaktionsdetails enthält.",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nQuelle: {sourceId}\nZiel: {destId}\nBetrag: {amount}\nTyp: {type}\nStatus: {status}\nZeitstempel: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Vorhandene Wallet importieren",
     "importWalletTitle": "Wallet importieren",
     "importWalletSubHeader": "Wählen Sie, wie Sie Ihre vorhandene Wallet importieren möchten",
@@ -755,7 +692,7 @@
     "explorerLabelPrice": "Preis",
     "explorerLabelMarketCap": "Marktkapitalisierung",
     "accountExplorerLabelLatestTransactions": "Letzte Transaktionen",
-    "settingsLabelWalletConnect": "Wallet Connect",
+    "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Ungültige Watch-Only-Adresse. Bitte überprüfen Sie die eingegebene Adresse.",
     "addAccountErrorVerifyIdentityError": "Die Adresse konnte nicht überprüft werden.",
     "addAccountWatchOnlyPageTitle": "Watch-Only-Konto hinzufügen",
@@ -775,5 +712,135 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "wcScopeRequestAccounts": "Zeige deine Wallet-Konten und deren Saldo an",
+    "wcScopeSendQubic": "Frage, ob du Qubic von deinen Wallet-Konten senden möchtest",
+    "wcScopeSendAssets": "Frage, ob du Qubic-Assets von deinen Wallet-Konten senden möchtest",
+    "wcScopeSignTransaction": "Frage, ob du Transaktionen mit deinem privaten Seed signieren möchtest",
+    "wcScopeSign": "Frage, ob du Nachrichten mit deinem privaten Seed signieren möchtest",
+    "wcScopeForbiddenTransfer": "Übertrage Qubic oder Qubic-Assets ohne deine Zustimmung",
+    "wcUnknownDapp": "Unbekannte dApp",
+    "wcAppInfoHeader": "Diese App kann",
+    "wcAppInfoHeaderPair": "Diese App wird können",
+    "wcAppInfoHeaderPairForbidden": "Diese App wird nicht können",
+    "wcErrorUserDisconnected": "Du hast die Verbindung erzwungen getrennt",
+    "wcErrorInvalidURL": "Ungültige WalletConnect-Verbindungs-URL",
+    "wcErrorDeprecatedURL": "Veraltete WalletConnect-Verbindungs-URL",
+    "wcErrorUnsupportedChains": "Die Kopplungsanfrage enthält nicht unterstützte Chains",
+    "wcErrorUnsupportedMethods": "Die Kopplungsanfrage enthält nicht unterstützte Methoden",
+    "wcErrorUnsupportedEvents": "Die Kopplungsanfrage enthält nicht unterstützte Ereignisse",
+    "wcErrorUnsupportedAccounts": "Die Kopplungsanfrage enthält nicht unterstützte Konten",
+    "wcErrorUnsupportedNamespaces": "Die Kopplungsanfrage enthält nicht unterstützte Namensräume",
+    "wcErrorUsedURL": "Eine Verbindung wurde bereits über diese URL hergestellt",
+    "wcErrorPairingTimeout": "Kopplungsanfrage ist abgelaufen.",
+    "wcErrorUnsupportedNetwork": "Nicht unterstütztes Netzwerk",
+    "wcErrorUnsupportedNetworkDescription": "Diese App verwendet das Netzwerk {networkName}. Derzeit unterstützt Qubic Wallet nur Apps im Qubic Mainnet",
+    "@wcErrorUnsupportedNetworkDescription": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "wcRevokePermissions": "Berechtigungen widerrufen",
+    "wcDappsConnectedNone": "Keine aktiven Verbindungen",
+    "wcDappsConnectedNoneHint": "Sobald du dich mit einer dApp verbindest, kannst du sie hier verwalten.",
+    "wcConnectionApproved": "WalletConnect-Verbindung genehmigt",
+    "wcConnectionRejected": "WalletConnect-Verbindung abgelehnt",
+    "wcConnectionProposalTimeout": "WalletConnect-Sitzungsvorschlag ist abgelaufen",
+    "wcPointCameraToQR": "Richte die Kamera auf einen QR-Code mit den WalletConnect-Verbindungsinformationen",
+    "wcAddWcTitle": "Über WalletConnect koppeln",
+    "wcAddURL": "Verbinde dich mit einer dApp, indem du die WalletConnect-Verbindungs-URL einfügst.",
+    "wcAddConnectionScan": "Öffne eine Web3-App, die WalletConnect unterstützt. Scanne den QR-Code der App oder füge den Verbindungslink ein",
+    "wcNoPermissions": "Diese App hat keine Berechtigungen",
+    "wcOpenApp": "App öffnen",
+    "wcExpiresInDays": "{count, plural, =1{Die Sitzung läuft in 1 Tag ab} other{Die Sitzung läuft in {count} Tagen ab}}",
+    "wcExpiresInLessThanDay": "Die Sitzung läuft in weniger als einem Tag ab",
+    "pasteURLHere": "Füge die URL ein",
+    "approvingConnection": "Verbindung wird genehmigt",
+    "pleaseWait": "Bitte warte",
+    "wcApproveSignTransferOf": "Signiere die Übertragung von",
+    "wcApproveTransferOf": "Übertragung von",
+    "wcApproveSignOf": "Signiere die folgende Nachricht",
+    "wcApprovedSignedTransaction": "Transaktion signiert und erfolgreich an dApp gesendet",
+    "wcApprovedSignedMessage": "Nachricht signiert und erfolgreich an dApp gesendet",
+    "wcDisconnectAll": "Alle Apps trennen",
+    "wcDisconnectAllConfirm": "Durch das Trennen der Apps wird der gesamte Zugriff auf deine Wallet entfernt",
+    "wcDisconnect": "Trennen",
+    "wcDisconnectConfirm": "Das Trennen dieser App entfernt den Zugriff auf deine Wallet",
+    "wcAddConnection": "Verbindung hinzufügen",
+    "signBase64GenericError": "Fehler beim Signieren der Base64-Zeichenkette: {errorDescription}",
+    "@signBase64GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signUTF8GenericError": "Fehler beim Signieren der UTF-8-Zeichenkette: {errorDescription}",
+    "@signUTF8GenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "signASCIIGenericError": "Fehler beim Signieren der ASCII-Zeichenkette: {errorDescription}",
+    "@signASCIIGenericError": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "wcDomainScamTitle": "Bekanntes Sicherheitsrisiko",
+    "wcDomainScamDescription": "Diese Domain wird von mehreren Sicherheitsanbietern als unsicher eingestuft. Verlasse sie sofort, um deine Vermögenswerte zu schützen",
+    "wcDomainMismatchTitle": "Domain stimmt nicht überein",
+    "wcDomainMismatchDescription": "Diese Website hat eine Domain, die nicht mit dem Absender dieser Anfrage übereinstimmt. Eine Genehmigung könnte zum Verlust von Geldern führen",
+    "wcDomainUnkownTitle": "Unbekannte Domain",
+    "wcDomainUnkownDescription": "Diese Domain kann nicht verifiziert werden. Überprüfe die Anfrage sorgfältig, bevor du sie genehmigst",
+    "wcApproveTransaction": "Transaktion genehmigen",
+    "wcSignMessage": "Nachricht signieren",
+    "wcSignTransaction": "Transaktion signieren",
+    "generalButtonApprove": "Genehmigen",
+    "generalButtonReject": "Ablehnen",
+    "generalButtonPaste": "Einfügen",
+    "generalButtonConnect": "Verbinden",
+    "generalErrorUnexpectedError": "Ein unerwarteter Fehler ist aufgetreten",
+    "generalErrorConnectionTimeout": "Zeitüberschreitung der Verbindung",
+    "generalErrorNoInternetConnection": "Keine Internetverbindung",
+    "generalErrorRequestCancelled": "Anfrage abgebrochen",
+    "generalErrorCouldntParseResponse": "Antwort konnte nicht analysiert werden",
+    "generalErrorServerError": "Serverfehler",
+    "generalStatusCode": "Statuscode",
+    "generalCode": "Code",
+    "accountSendSectionInvalidDestinationAddress": "Ungültige Zieladresse",
+    "cmdErrorCreatingSignatureGeneric": "Fehler beim Erstellen der Signatur",
+    "cmdErrorCreatingSignatureDigestEmpty": "Fehler beim Erstellen der Signatur. Digest ist leer",
+    "cmdErrorCreatingSignatureSignedDataEmpty": "Fehler beim Erstellen der Signatur. Signierte Daten sind leer",
+    "cmdErrorCreatingSignatureSignatureEmpty": "Fehler beim Erstellen der Signatur. Signatur ist leer",
+    "cmdErrorCreatingSignature": "Fehler beim Erstellen der Signatur: {errorDescription}",
+    "wcErrorProposalExpired": "Der Sitzungsantrag ist abgelaufen",
+    "uriIsEmpty": "URI ist leer",
+    "uriSchemeUnknown": "Unbekanntes URI-Schema",
+    "uriInvalidFormat": "Ungültiges URI-Format",
+    "uriUnknownAction": "Unbekannte URI-Aktion",
+    "uriInvalidWCPairUrl": "Ungültige WC-Verbindungs-URL. Sollte mit wc: beginnen",
+    "generalButtonClear": "Löschen",
+    "generalLabelPayload": "Payload",
+    "generalLabelInputType": "Eingabetyp",
+    "wcErrorTickExpired": "Der Tick-Wert liegt bereits in der Vergangenheit",
+    "wcSmartContractUnknown": "Unbekannt",
+    "wcSmartContractWarningTitle": "\"{smartContractName}\" Smart-Contract-Transaktion",
+    "wcSmartContractWarningDescription": "Stelle sicher, dass du dieser DApp vertraust. Durch die Genehmigung der Transaktion kannst du möglicherweise die Übertragung von Qubics und/oder Vermögenswerten autorisieren",
+    "wcApproveTransfer": "Übertragung Genehmigen",
+    "wcSendAssets": "Vermögenswerte Senden",
+    "assetButtonIssuerIdentity": "Identität des Ausstellers",
+    "settingsLabelSupport": "Support",
+    "settingsSupportGithub": "GitHub (Problem melden)",
+    "settingsSupportDiscord": "Discord (Support-Kanal)",
+    "generalLabelFee": "Gebühr",
+    "generalLabelMultipleReceivers": "Mehrere Empfänger",
+    "qxTransferSharesWarning": "Dieser Transaktionsdatensatz ist derzeit nur für den Absender sichtbar.",
+    "settingsSupportGoogleForm": "Formular Ausfüllen"
 }

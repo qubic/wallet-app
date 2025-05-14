@@ -123,7 +123,7 @@ class CustomFormFieldValidators {
   }
 
   static FormFieldValidator<T> isNameAvailable<T>(
-      {required ObservableList<QubicListVm> currentQubicIDs,
+      {required List<String> namesList,
       String? ignorePublicId,
       required BuildContext context}) {
     final l10n = l10nOf(context);
@@ -134,16 +134,14 @@ class CustomFormFieldValidators {
       }
 
       int total = ignorePublicId == null
-          ? currentQubicIDs
+          ? namesList
               .where((element) =>
-                  element.name ==
-                  valueCandidate.toString().replaceAll(",", "_"))
+                  element == valueCandidate.toString().replaceAll(",", "_"))
               .length
-          : currentQubicIDs
+          : namesList
               .where((element) =>
-                  element.name ==
-                      valueCandidate.toString().replaceAll(",", "_") &&
-                  element.publicId != ignorePublicId)
+                  element == valueCandidate.toString().replaceAll(",", "_") &&
+                  element != ignorePublicId)
               .length;
       if (total > 0) {
         return l10n.addAccountErrorNameAlreadyInUse;
@@ -204,6 +202,62 @@ class CustomFormFieldValidators {
       }
       if (!valid) {
         return l10n.generalErrorOnlyLowercaseChar;
+      }
+
+      return null;
+    };
+  }
+
+  static FormFieldValidator<T> isPublicIDNoContext<T>(
+      {String? errorText = "Not a valid public address"}) {
+    HashSet validChars = HashSet();
+    validChars.addAll({
+      "A",
+      "B",
+      "C",
+      "D",
+      "E",
+      "F",
+      "G",
+      "H",
+      "I",
+      "J",
+      "K",
+      "L",
+      "M",
+      "N",
+      "O",
+      "P",
+      "Q",
+      "R",
+      "S",
+      "T",
+      "U",
+      "V",
+      "W",
+      "X",
+      "Y",
+      "Z"
+    });
+
+    return (T? valueCandidate) {
+      if (valueCandidate == null ||
+          (valueCandidate is String && valueCandidate.trim().isEmpty)) {
+        return errorText;
+      }
+
+      if (valueCandidate is String && valueCandidate.length != 60) {
+        return errorText;
+      }
+
+      bool valid = true;
+      for (int i = 0; i < (valueCandidate as String).length; i++) {
+        if (!validChars.contains(valueCandidate[i])) {
+          valid = false;
+        }
+      }
+      if (!valid) {
+        return errorText;
       }
 
       return null;

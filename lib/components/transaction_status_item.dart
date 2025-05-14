@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -16,11 +16,13 @@ class TransactionStatusItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         child: Row(children: [
-      Icon(getTransactionStatusIcon(item.getStatus()),
-          color: getTransactionStatusColor(item.getStatus())),
-      Text(" ${getTransactionStatusText(item.getStatus(), context)}",
+      Icon(TransactionStatusHelpers.getTransactionStatusIcon(item.getStatus()),
+          color: TransactionStatusHelpers.getTransactionStatusColor(
+              item.getStatus())),
+      Text(
+          " ${TransactionStatusHelpers.getTransactionStatusText(item.getStatus(), context)}",
           style: TextStyles.labelText)
     ]));
   }

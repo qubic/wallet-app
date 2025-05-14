@@ -47,3 +47,5 @@ app.*.map.json
 devtools_options.yaml
 .vscode/launch.json
 non_translated_keys.txt
+
+.codegpt

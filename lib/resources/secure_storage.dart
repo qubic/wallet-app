@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -30,6 +31,7 @@ class SecureStorageKeys {
   static const publicIdsList = "${prepend}_PIDs"; // The public IDs
   static const namesList = "${prepend}_NAMEs"; // The names of the IDs
   static const settings = "${prepend}_SETTINGS"; // The settings of the wallet
+  static const hiveEncryptionKey = "${prepend}_HIVE_KEY";
 }
 
 /// A class that handles the secure storage of the wallet. The wallet is stored in the secure storage of the device
@@ -47,12 +49,40 @@ class SecureStorage {
     storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   }
 
+<<<<<<< HEAD
   final _argon2idAlgorithm = Argon2id(
     memory: argon2MemorySize,
     iterations: argon2Iterations,
     parallelism: argon2Parallelism,
     hashLength: argon2Length,
   );
+=======
+  Future<String?> getHiveEncryptionKey() async {
+    try {
+      final keyString =
+          await storage.read(key: SecureStorageKeys.hiveEncryptionKey);
+      return keyString;
+    } catch (e) {
+      appLogger.e("Error reading Hive key: ${e.toString()}");
+      return null;
+    }
+  }
+
+  Future<void> storeHiveEncryptionKey(String newKey) async {
+    try {
+      await storage.write(
+        key: SecureStorageKeys.hiveEncryptionKey,
+        value: newKey,
+      );
+    } catch (e) {
+      appLogger.e("Error generating Hive key: ${e.toString()}");
+    }
+  }
+
+  Future<void> deleteHiveEncryptionKey() async {
+    await storage.delete(key: SecureStorageKeys.hiveEncryptionKey);
+  }
+>>>>>>> upstream/develop
 
   AndroidOptions _getAndroidOptions() => const AndroidOptions(
         encryptedSharedPreferences: true,
@@ -157,9 +187,8 @@ class SecureStorage {
 
   //Makes sure that all the wallet keys are valid
   Future<bool> validateWalletContents() async {
-    late CriticalSettings csettings;
     try {
-      csettings = await getCriticalSettings();
+      await getCriticalSettings();
     } catch (e) {
       return false;
     }
@@ -181,7 +210,7 @@ class SecureStorage {
       await storage.write(
           key: SecureStorageKeys.criticalSettings, value: settings.toJSON());
     } catch (e) {
-      dev.log(e.toString());
+      appLogger.e(e.toString());
       return false;
     }
     return true;

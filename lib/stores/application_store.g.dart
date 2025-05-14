@@ -128,6 +128,22 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
+  late final _$currentInboundUriAtom =
+      Atom(name: '_ApplicationStore.currentInboundUri', context: context);
+
+  @override
+  Uri? get currentInboundUri {
+    _$currentInboundUriAtom.reportRead();
+    return super.currentInboundUri;
+  }
+
+  @override
+  set currentInboundUri(Uri? value) {
+    _$currentInboundUriAtom.reportWrite(value, super.currentInboundUri, () {
+      super.currentInboundUri = value;
+    });
+  }
+
   late final _$showAddAccountModalAtom =
       Atom(name: '_ApplicationStore.showAddAccountModal', context: context);
 
@@ -301,13 +317,14 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
         .run(() => super.setBalancesAndAssets(balances, assets));
   }
 
-  late final _$updateTransactionsAsyncAction =
-      AsyncAction('_ApplicationStore.updateTransactions', context: context);
+  late final _$validatePendingTransactionsAsyncAction = AsyncAction(
+      '_ApplicationStore.validatePendingTransactions',
+      context: context);
 
   @override
-  Future<void> updateTransactions(List<TransactionDto> transactions) {
-    return _$updateTransactionsAsyncAction
-        .run(() => super.updateTransactions(transactions));
+  Future validatePendingTransactions(int currentTick) {
+    return _$validatePendingTransactionsAsyncAction
+        .run(() => super.validatePendingTransactions(currentTick));
   }
 
   late final _$removeIDAsyncAction =
@@ -320,6 +337,17 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
 
   late final _$_ApplicationStoreActionController =
       ActionController(name: '_ApplicationStore', context: context);
+
+  @override
+  void setCurrentInboundUrl(Uri? uri) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.setCurrentInboundUrl');
+    try {
+      return super.setCurrentInboundUrl(uri);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setCurrentTabIndex(int index) {
@@ -455,11 +483,55 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  void setAmounts(List<CurrentBalanceDto> amounts) {
+  Map<String, int> setAmounts(List<CurrentBalanceDto> amounts) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.setAmounts');
     try {
       return super.setAmounts(amounts);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic initStoredTransactions() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.initStoredTransactions');
+    try {
+      return super.initStoredTransactions();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addStoredTransaction(TransactionVm transaction) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.addStoredTransaction');
+    try {
+      return super.addStoredTransaction(transaction);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic convertPendingToInvalid(TransactionVm transaction) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.convertPendingToInvalid');
+    try {
+      return super.convertPendingToInvalid(transaction);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void removeStoredTransaction(String transactionId) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.removeStoredTransaction');
+    try {
+      return super.removeStoredTransaction(transactionId);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
@@ -474,6 +546,7 @@ globalNotification: ${globalNotification},
 currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
 currentTabIndex: ${currentTabIndex},
+currentInboundUri: ${currentInboundUri},
 showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},

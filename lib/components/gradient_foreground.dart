@@ -3,7 +3,8 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 
 class GradientForeground extends StatelessWidget {
   final Widget? child;
-  GradientForeground({
+  const GradientForeground({
+    super.key,
     this.child,
   });
 
@@ -26,7 +27,7 @@ class GradientForeground extends StatelessWidget {
           // LightThemeColors.gradient1,
         ], // Gradient colors for the icon
       ).createShader(bounds),
-      child: child != null ? child : Container(),
+      child: child ?? Container(),
     );
 
     // return Container(
