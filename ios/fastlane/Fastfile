@@ -133,15 +133,17 @@ platform :ios do
 
       UI.message("📂 Current directory: #{Dir.pwd}")
 
-      # Ensure we are in the root directory of the Git repo
-      sh("cd #{ENV['GITHUB_WORKSPACE']}")
-      sh("git config user.name 'GitHub Actions'")
-      sh("git config user.email 'actions@github.com'")
+      Dir.chdir(ENV['GITHUB_WORKSPACE']) do
+        sh("git config user.name 'GitHub Actions'")
+        sh("git config user.email 'actions@github.com'")
 
-      sh("git add #{pubspec_path}")
-      sh("git commit -m '📦 iOS release: #{tag_name}' || echo 'Nothing to commit'") # Commit changes
-      sh("git tag #{tag_name}")
-      sh("git push origin #{tag_name}")
+        sh("git add #{pubspec_path}")
+        # Commit changes; if no changes, echo so the lane doesn't fail
+        sh("git commit -m '📦 iOS release: #{tag_name}' || echo 'Nothing to commit'")
+        sh("git tag #{tag_name}")
+        sh("git push origin #{tag_name}")
+      end
+      
     rescue => e
       UI.error("❌ Failed to upload the build to TestFlight: #{e.message}")
       UI.user_error!("Skipping commit and tag.")
