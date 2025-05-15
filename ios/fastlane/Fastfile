@@ -131,9 +131,13 @@ platform :ios do
       tag_name = "iOS_v#{version}+#{next_build}"
       UI.message("🏷️ Creating git tag: #{tag_name}")
 
+      UI.message("📂 Current directory: #{Dir.pwd}")
+
       # Ensure we are in the root directory of the Git repo
-      sh("cd .. && git config user.name 'GitHub Actions'")
-      sh("cd .. && git config user.email 'actions@github.com'")
+      sh("cd ../..")
+      sh("git config user.name 'GitHub Actions'")
+      sh("git config user.email 'actions@github.com'")
+
       sh("git add #{pubspec_path}")
       sh("git commit -m '📦 iOS release: #{tag_name}' || echo 'Nothing to commit'") # Commit changes
       sh("git tag #{tag_name}")
