@@ -293,6 +293,9 @@ class _SignInState extends State<SignIn>
         setState(() {
           isLoading = false;
         });
+        if (mounted) {
+          context.goNamed("mainScreen");
+        }
       } else {
         setState(() {
           isLoading = false;
