@@ -82,8 +82,8 @@ jobs:
 
       - name: 🚀 Build and upload to TestFlight
         run: |
-          cd ios
           fastlane ci_testflight_release
+        working-directory: ./ios
         env:
           #FASTLANE_VERBOSE: 1
           APP_STORE_KEY_ID: ${{ secrets.APP_STORE_KEY_ID }}
