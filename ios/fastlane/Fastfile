@@ -133,7 +133,8 @@ platform :ios do
 
       UI.message("📂 Current directory: #{Dir.pwd}")
 
-      Dir.chdir(ENV['GITHUB_WORKSPACE']) do
+      repo_root = ENV['GITHUB_WORKSPACE'] || sh("git rev-parse --show-toplevel").strip
+      Dir.chdir(repo_root) do
         sh("git config user.name 'GitHub Actions'")
         sh("git config user.email 'actions@github.com'")
 
@@ -143,7 +144,7 @@ platform :ios do
         sh("git tag #{tag_name}")
         sh("git push origin #{tag_name}")
       end
-      
+
     rescue => e
       UI.error("❌ Failed to upload the build to TestFlight: #{e.message}")
       UI.user_error!("Skipping commit and tag.")
