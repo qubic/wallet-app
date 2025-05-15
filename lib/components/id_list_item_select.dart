@@ -32,7 +32,9 @@ class IdListItemSelect extends StatelessWidget {
         child:
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
           Row(children: [
-            Text(item.name, style: TextStyles.accountName),
+            Expanded(
+                child: TextWithMidEllipsis(item.name,
+                    style: TextStyles.accountName)),
             ThemedControls.spacerHorizontalSmall(),
             item.watchOnly
                 ? const Icon(
