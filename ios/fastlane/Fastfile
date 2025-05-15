@@ -134,7 +134,7 @@ platform :ios do
       UI.message("📂 Current directory: #{Dir.pwd}")
 
       # Ensure we are in the root directory of the Git repo
-      sh("cd ../..")
+      sh("cd #{ENV['GITHUB_WORKSPACE']}")
       sh("git config user.name 'GitHub Actions'")
       sh("git config user.email 'actions@github.com'")
 
