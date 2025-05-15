@@ -133,7 +133,8 @@ platform :ios do
 
       UI.message("📂 Current directory: #{Dir.pwd}")
 
-      repo_root = ENV['GITHUB_WORKSPACE'] || sh("git rev-parse --show-toplevel").strip
+      repo_root = sh("git rev-parse --show-toplevel").strip
+
       Dir.chdir(repo_root) do
         sh("git config user.name 'GitHub Actions'")
         sh("git config user.email 'actions@github.com'")
