@@ -118,37 +118,18 @@ platform :ios do
       verbose: true
     )
 
-    begin
-      # Attempt to upload the build to TestFlight
-      upload_to_testflight(
-        skip_waiting_for_build_processing: true,
-        distribute_external: false
-      )
+    # Attempt to upload the build to TestFlight
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true,
+      distribute_external: false
+    )
       
-      UI.message("🚀 Build uploaded successfully to TestFlight!")
-    
-      # If successful, commit the changes and create a tag
-      tag_name = "iOS_v#{version}+#{next_build}"
-      UI.message("🏷️ Creating git tag: #{tag_name}")
+    UI.message("🚀 Build uploaded successfully to TestFlight!")
 
-      UI.message("📂 Current directory: #{Dir.pwd}")
-
-      #repo_root = sh("git rev-parse --show-toplevel").strip
-
-      #Dir.chdir(repo_root) do
-       # sh("git config user.name 'GitHub Actions'")
-       # sh("git config user.email 'actions@github.com'")
-
-       # sh("git add #{pubspec_path}")
-        # Commit changes; if no changes, echo so the lane doesn't fail
-       # sh("git commit -m '📦 iOS release: #{tag_name}' || echo 'Nothing to commit'")
-       # sh("git tag #{tag_name}")
-      #  sh("git push origin #{tag_name}")
-     # end
-
-    rescue => e
-      UI.error("❌ Failed to upload the build to TestFlight: #{e.message}")
-      UI.user_error!("Skipping commit and tag.")
+    # Output values for GitHub Actions
+    File.open(ENV['GITHUB_ENV'], 'a') do |file|
+      file.puts("VERSION=#{pubspec['ios_version']}")
+      file.puts("NEW_BUILD_NUMBER=#{next_build}")
     end
 
     # Clean up keychain

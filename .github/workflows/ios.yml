@@ -103,6 +103,8 @@ jobs:
       - name: Commit and Tag Changes
         if: success() && steps.fastlane_ios.outcome == 'success'
         run: |
+|
+          cd "$GITHUB_WORKSPACE"
 
           # Configure Git user
           git config user.name "GitHub Actions"
@@ -110,7 +112,7 @@ jobs:
 
           # Commit the changes to pubspec.yaml
           git add pubspec.yaml
-          git commit -m "Bump version to ${{ env.VERSION }}+${{ env.NEW_BUILD_NUMBER }}"
+          git commit -m "Bump iOS version to ${{ env.VERSION }}+${{ env.NEW_BUILD_NUMBER }}"
 
           # Create a tag in the format Android_version_versioncode
           TAG_NAME="iOS_${{ env.VERSION }}+${{ env.NEW_BUILD_NUMBER }}"
