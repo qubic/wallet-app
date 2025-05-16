@@ -103,7 +103,6 @@ jobs:
       - name: Commit and Tag Changes
         if: success() && steps.fastlane_ios.outcome == 'success'
         run: |
-|
           cd "$GITHUB_WORKSPACE"
 
           # Configure Git user
