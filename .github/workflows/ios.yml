@@ -81,8 +81,15 @@ jobs:
         run: rm -rf ~/Library/Developer/Xcode/DerivedData
 
       - name: 🚀 Build and upload to TestFlight
+        id: fastlane_ios
         run: |
           fastlane ci_testflight_release
+
+          # Output variables for use in later steps
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+          echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+          echo "NEW_BUILD_NUMBER=${NEW_BUILD_NUMBER}" >> $GITHUB_ENV
+
         working-directory: ./ios
         env:
           #FASTLANE_VERBOSE: 1
@@ -91,3 +98,25 @@ jobs:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           TEMP_KEYCHAIN_PASSWORD: ${{ secrets.TEMP_KEYCHAIN_PASSWORD }}
+
+      # Only proceed with commit and tag if APK was uploaded successfully
+      - name: Commit and Tag Changes
+        if: success() && steps.fastlane_ios.outcome == 'success'
+        run: |
+
+          # Configure Git user
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # Commit the changes to pubspec.yaml
+          git add pubspec.yaml
+          git commit -m "Bump version to ${{ env.VERSION }}+${{ env.NEW_BUILD_NUMBER }}"
+
+          # Create a tag in the format Android_version_versioncode
+          TAG_NAME="iOS_${{ env.VERSION }}+${{ env.NEW_BUILD_NUMBER }}"
+          git tag -a "${TAG_NAME}" -m "Release ${TAG_NAME}"
+
+          # Push the commit and tag to the current branch
+          CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          git push origin "$CURRENT_BRANCH"
+          git push origin "${TAG_NAME}"

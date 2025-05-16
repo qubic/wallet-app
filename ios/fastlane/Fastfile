@@ -133,18 +133,18 @@ platform :ios do
 
       UI.message("📂 Current directory: #{Dir.pwd}")
 
-      repo_root = sh("git rev-parse --show-toplevel").strip
+      #repo_root = sh("git rev-parse --show-toplevel").strip
 
-      Dir.chdir(repo_root) do
-        sh("git config user.name 'GitHub Actions'")
-        sh("git config user.email 'actions@github.com'")
+      #Dir.chdir(repo_root) do
+       # sh("git config user.name 'GitHub Actions'")
+       # sh("git config user.email 'actions@github.com'")
 
-        sh("git add #{pubspec_path}")
+       # sh("git add #{pubspec_path}")
         # Commit changes; if no changes, echo so the lane doesn't fail
-        sh("git commit -m '📦 iOS release: #{tag_name}' || echo 'Nothing to commit'")
-        sh("git tag #{tag_name}")
-        sh("git push origin #{tag_name}")
-      end
+       # sh("git commit -m '📦 iOS release: #{tag_name}' || echo 'Nothing to commit'")
+       # sh("git tag #{tag_name}")
+      #  sh("git push origin #{tag_name}")
+     # end
 
     rescue => e
       UI.error("❌ Failed to upload the build to TestFlight: #{e.message}")
