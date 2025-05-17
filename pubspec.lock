@@ -451,10 +451,10 @@ packages:
     dependency: transitive
     description:
       name: event
-      sha256: eb4814de94cbf6a10da9c4f652bc654087d7066e33566b5036822e6c0b24befb
+      sha256: "5809a742e6274146a23d9cba63c24caf2f4c87a9a781fdf16ef07f052becaf72"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "3.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -1359,26 +1359,26 @@ packages:
     dependency: transitive
     description:
       name: reown_core
-      sha256: e21ad9ca211ecd5221f027a76f978105eaf2335edb0687ddcebda1da53417d20
+      sha256: "171ce977b563b7b2fe0a17393517a4743ab758152d6c0c5158921a7ed3746326"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.1.5"
   reown_sign:
     dependency: transitive
     description:
       name: reown_sign
-      sha256: ef2493a3992772d9495b9232b4ece7e7be0e0893f88d34f80aa6eda2e49b3e6e
+      sha256: eb24d5b201635b0adbe15182c4cd2f831642dde05f59f033dac8de3bd423495d
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.1.6"
   reown_walletkit:
     dependency: "direct main"
     description:
       name: reown_walletkit
-      sha256: "1fba5538db1b595f3b7ba09a4ac6ae5cc09a8488749bd27df7bdc7535ffc3c49"
+      sha256: d5173b0712b757cfd02b452a0e080abd52526646e602cc0fce9038f420c3d790
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "1.1.3"
   rfc_6901:
     dependency: transitive
     description:
