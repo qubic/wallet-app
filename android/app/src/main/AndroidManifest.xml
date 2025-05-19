@@ -10,6 +10,10 @@
         android:fullBackupContent="false"
         android:enableOnBackInvokedCallback="true"
         android:localeConfig="@xml/locales_config">
+        <!-- Disable the impeller manually, should be removed after the Flutter fix (>=3.29.2) -->
+        <meta-data
+        android:name="io.flutter.embedding.android.EnableImpeller"
+        android:value="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
