@@ -406,9 +406,11 @@ class _AccountListItemState extends State<AccountListItem> {
                           Expanded(
                             child: Row(children: [
                               Expanded(
-                                child: TextWithMidEllipsis(
+                                child: Text(
                                   widget.item.name,
                                   style: TextStyles.accountName,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                               ThemedControls.spacerHorizontalSmall(),
