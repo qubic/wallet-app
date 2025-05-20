@@ -1,6 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:dargon2_flutter/dargon2_flutter.dart';
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -8,6 +9,9 @@ import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/settings.dart';
+import 'dart:convert';
+import 'dart:developer' as dev;
+import 'package:cryptography/cryptography.dart';
 
 class SecureStorageKeys {
   static const prepend = kReleaseMode
@@ -30,33 +34,27 @@ class SecureStorageKeys {
   static const hiveEncryptionKey = "${prepend}_HIVE_KEY";
 }
 
-class PassAndHash {
-  late String password;
-  late String hash;
-  PassAndHash({required this.password, required this.hash});
-}
-
-class PassAndSalt {
-  late String password;
-  late Salt salt;
-  PassAndSalt({required this.password, required this.salt});
-}
-
 /// A class that handles the secure storage of the wallet. The wallet is stored in the secure storage of the device
 /// The wallet password is encrypted using Argon2
 class SecureStorage {
-  final ARGON2_TYPE = Argon2Type.id;
-  final ARGON2_SALT_SIZE_BYTES = 32; //(256 bit)
-  final ARGON2_ITERATIONS = 64;
-  final ARGON2_MEMORY_SIZE = 1024;
-  final ARGON2_PARALLELISM = 2;
-  final ARGON2_LENGTH = 32;
+  // final ARGON2_TYPE = Argon2Type.id;
+  static const argon2SaltSizeBytes = 32; //(256 bit)
+  static const argon2Iterations = 64;
+  static const argon2MemorySize = 1024;
+  static const argon2Parallelism = 2;
+  static const argon2Length = 32;
   late final FlutterSecureStorage storage;
   late String prepend;
   SecureStorage() {
     storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   }
 
+  final _argon2idAlgorithm = Argon2id(
+    memory: argon2MemorySize,
+    iterations: argon2Iterations,
+    parallelism: argon2Parallelism,
+    hashLength: argon2Length,
+  );
   Future<String?> getHiveEncryptionKey() async {
     try {
       final keyString =
@@ -87,20 +85,10 @@ class SecureStorage {
         encryptedSharedPreferences: true,
       );
 
-  Future<DArgon2Result> getPasswordHash(String password) async {
-    var result = await compute((String password) async {
-      DArgon2Flutter.init();
-
-      return await argon2.hashPasswordString(password,
-          salt: Salt.newSalt(length: ARGON2_SALT_SIZE_BYTES),
-          type: ARGON2_TYPE,
-          iterations: ARGON2_ITERATIONS,
-          memory: ARGON2_MEMORY_SIZE,
-          parallelism: ARGON2_PARALLELISM,
-          length: ARGON2_LENGTH,
-          version: Argon2Version.V13);
-    }, password);
-    return result;
+  Uint8List generateSalt(int length) {
+    final random = Random.secure();
+    return Uint8List.fromList(
+        List<int>.generate(length, (_) => random.nextInt(256)));
   }
 
   /// Checks if the critical settings exist in the secure storage
@@ -131,6 +119,43 @@ class SecureStorage {
     }
   }
 
+  Uint8List decodeBase64WithPadding(String input) {
+    int mod = input.length % 4;
+    if (mod > 0) {
+      input += '=' * (4 - mod); // add necessary padding
+    }
+    return base64.decode(input);
+  }
+
+  Future<bool> verifyArgon2Hash({
+    required String password,
+    required String hashString,
+  }) async {
+    /// Parse PHC components for example: argon2id$v=19$m=1024,t=64,p=2$VW/30Zp2IWl7EQhxTgK7YHTQMwW0Fdv0g32xTX2q1ZU$T8tM27lPD1glAjCHnq1VhLu7/OC9U+T5E2f8XeL6sJk
+    final parts = hashString.split(r'$');
+    if (parts.length < 6) return false;
+    final saltBase64 = parts[4];
+    final hashBase64 = parts[5];
+    final salt = decodeBase64WithPadding(saltBase64);
+    final expectedHash = decodeBase64WithPadding(hashBase64);
+    dev.log("Started verifying the hash");
+    final newHash = await _argon2idAlgorithm.deriveKeyFromPassword(
+        password: password, nonce: salt);
+    dev.log("Hash generated");
+    final newHashBytes = await newHash.extractBytes();
+    dev.log("Extract bytes");
+    return _constantTimeBytesEqual(newHashBytes, expectedHash);
+  }
+
+  bool _constantTimeBytesEqual(List<int> a, List<int> b) {
+    if (a.length != b.length) return false;
+    int diff = 0;
+    for (int i = 0; i < a.length; i++) {
+      diff |= a[i] ^ b[i];
+    }
+    return diff == 0;
+  }
+
   /// Signs a user in the wallet. Updates the padding of the wallet settings
   /// if user signs in correctly
   /// Returns true if the password is correct
@@ -142,19 +167,13 @@ class SecureStorage {
         settings.storedPasswordHash!.trim().isEmpty) {
       return false;
     }
-
-    var result = await compute((PassAndHash message) async {
-      try {
-        DArgon2Flutter.init();
-
-        var res = await argon2.verifyHashString(message.password, message.hash,
-            type: ARGON2_TYPE);
-        return res;
-      } catch (e) {
-        return false;
-      }
-    }, PassAndHash(password: password, hash: settings.storedPasswordHash!));
-
+    dev.log('password: $password');
+    dev.log('hash: ${settings.storedPasswordHash}');
+    var result = await verifyArgon2Hash(
+      password: password,
+      hashString: settings.storedPasswordHash!,
+    );
+    dev.log('result: $result');
     if (result) {
       Settings s = await getWalletSettings();
       s.padding = settings.padding;
@@ -165,9 +184,8 @@ class SecureStorage {
 
   //Makes sure that all the wallet keys are valid
   Future<bool> validateWalletContents() async {
-    late CriticalSettings csettings;
     try {
-      csettings = await getCriticalSettings();
+      await getCriticalSettings();
     } catch (e) {
       return false;
     }
@@ -183,9 +201,9 @@ class SecureStorage {
       return false;
     }
     try {
-      var result = await getPasswordHash(password);
+      var result = await hashPasswordWithArgon2id(password);
       CriticalSettings settings = await getCriticalSettings();
-      settings.storedPasswordHash = result.encodedString;
+      settings.storedPasswordHash = result;
       await storage.write(
           key: SecureStorageKeys.criticalSettings, value: settings.toJSON());
     } catch (e) {
@@ -195,18 +213,53 @@ class SecureStorage {
     return true;
   }
 
+  /// Generates a secure random salt for password hashing
+  Uint8List generateSecureSalt(int saltLength) {
+    final random = Random.secure();
+    return Uint8List.fromList(
+      List<int>.generate(saltLength, (_) => random.nextInt(256)),
+    );
+  }
+
+  /// Encodes bytes to base64 without padding
+  String encodeBase64WithoutPadding(Uint8List bytes) {
+    String base64Str = base64.encode(bytes);
+    return base64Str.replaceAll('=', '');
+  }
+
+  /// Creates an Argon2id hash in PHC string format from a password
+  /// Returns a string in the format: $argon2id$v=19$m=1024,t=64,p=2$salt$hash
+  ///
+  /// This optimized version reduces async operations and reuses the algorithm instance
+  Future<String> hashPasswordWithArgon2id(String password) async {
+    final salt = generateSecureSalt(argon2SaltSizeBytes);
+    dev.log('Generating key');
+    final secretKey = await _argon2idAlgorithm.deriveKeyFromPassword(
+      password: password,
+      nonce: salt,
+    );
+    dev.log('Key generated');
+    dev.log('Extracting bytes');
+    final hashBytes = await secretKey.extractBytes();
+    dev.log('Bytes extracted');
+    // Convert salt and hash to base64 without padding for PHC format
+    final saltBase64 = encodeBase64WithoutPadding(salt);
+    final hashBase64 =
+        encodeBase64WithoutPadding(Uint8List.fromList(hashBytes));
+    // Construct the PHC string format
+    return '\$argon2id\$v=19\$m=$argon2MemorySize,t=$argon2Iterations,p=$argon2Parallelism\$$saltBase64\$$hashBase64';
+  }
+
   // Creates a new wallet
   // Returns true if the wallet was created successfully
   Future<bool> createWallet(String password) async {
     if (password.isEmpty || password.trim().isEmpty) {
       return false;
     }
-    var result = await getPasswordHash(password);
+    var result = await hashPasswordWithArgon2id(password);
+    dev.log("The new hash after creating the wallet is: $result");
     CriticalSettings csettings = CriticalSettings(
-        storedPasswordHash: result.encodedString,
-        publicIds: [],
-        privateSeeds: [],
-        names: []);
+        storedPasswordHash: result, publicIds: [], privateSeeds: [], names: []);
 
     await storage.write(
         key: SecureStorageKeys.criticalSettings, value: csettings.toJSON());

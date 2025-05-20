@@ -18,10 +18,10 @@ class EraseWalletSheet extends StatefulWidget {
   });
 
   @override
-  _EraseWalletSheetState createState() => _EraseWalletSheetState();
+  EraseWalletSheetState createState() => EraseWalletSheetState();
 }
 
-class _EraseWalletSheetState extends State<EraseWalletSheet> {
+class EraseWalletSheetState extends State<EraseWalletSheet> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   bool hasAccepted = false;

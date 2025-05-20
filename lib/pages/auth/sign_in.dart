@@ -17,10 +17,8 @@ import 'package:qubic_wallet/pages/auth/import_selector.dart';
 import 'package:qubic_wallet/pages/auth/sign_up.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -46,7 +44,6 @@ class _SignInState extends State<SignIn>
   final ApplicationStore _appStore = getIt<ApplicationStore>();
   final SettingsStore _settingsStore = getIt<SettingsStore>();
   final HiveStorage _hiveStorage = getIt<HiveStorage>();
-  final QubicHubStore _qubicHubStore = getIt<QubicHubStore>();
   final TimedController _timedController = getIt<TimedController>();
   final SecureStorage _secureStorage = getIt<SecureStorage>();
   final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
@@ -243,7 +240,8 @@ class _SignInState extends State<SignIn>
 
       if (didAuthenticate) {
         await _appStore.biometricSignIn();
-        await authSuccess();
+        if (!mounted) return;
+        context.goNamed("mainScreen");
       }
       setState(() {
         isLoading = false;
@@ -275,24 +273,6 @@ class _SignInState extends State<SignIn>
     }
   }
 
-  Future<void> authSuccess() async {
-    final l10n = l10nOf(context);
-
-    try {
-      await getIt<QubicLi>().authenticate();
-      setState(() {
-        isLoading = false;
-      });
-      context.goNamed("mainScreen");
-    } catch (e) {
-      showAlertDialog(
-          context, l10n.generalErrorContactingQubicNetwork, e.toString());
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
   void signInHandler() async {
     final l10n = l10nOf(context);
 
@@ -310,7 +290,12 @@ class _SignInState extends State<SignIn>
       });
       if (await _appStore
           .signIn(_formKey.currentState!.instantValue["password"])) {
-        authSuccess();
+        setState(() {
+          isLoading = false;
+        });
+        if (mounted) {
+          context.goNamed("mainScreen");
+        }
       } else {
         setState(() {
           isLoading = false;
@@ -348,6 +333,7 @@ class _SignInState extends State<SignIn>
                         _appStore.checkWalletIsInitialized();
                         _appStore.signOut();
                         _timedController.stopFetchTimers();
+                        if (!context.mounted) return;
                         Navigator.pop(context);
                         _globalSnackbar
                             .show(l10n.generalSnackBarMessageWalletDataErased);
@@ -415,11 +401,11 @@ class _SignInState extends State<SignIn>
       return Container();
     }
     return Observer(builder: (BuildContext context) {
-      if (_qubicHubStore.versionInfo == null) {
+      if (_settingsStore.versionInfo == null) {
         return Container();
       }
       return Text(
-          "${_qubicHubStore.versionInfo} (${_qubicHubStore.buildNumber})",
+          "${_settingsStore.versionInfo} (${_settingsStore.buildNumber})",
           textAlign: TextAlign.center,
           style: TextStyles.labelTextSmall
               .copyWith(color: LightThemeColors.color3));
@@ -564,7 +550,7 @@ class _SignInState extends State<SignIn>
       padding: const EdgeInsets.all(
         ThemePaddings.bigPadding,
       ),
-      child: Container(
+      child: SizedBox(
           width: double.infinity,
           child: Padding(
               padding: EdgeInsets.only(
@@ -657,7 +643,7 @@ class _SignInState extends State<SignIn>
 
   @override
   void didChangeMetrics() {
-    final value = WidgetsBinding.instance.window.viewInsets.bottom;
+    final value = View.of(context).viewInsets.bottom;
     setState(() {
       isKeyboardVisible = value > 50.0;
     });

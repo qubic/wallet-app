@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -20,7 +19,6 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/pages/auth/create_password.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -232,6 +230,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
             } catch (e) {
               if (e.toString().startsWith("Exception: CRITICAL:")) {
                 appLogger.w("CRITICAL");
+                if (!mounted) return;
                 showAlertDialog(
                     context,
                     l10n.addAccountErrorTamperedWalletTitle,
@@ -347,8 +346,8 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         await appStore.checkWalletIsInitialized();
         await appStore.addId(
             accountNameCtrl.text, generatedPublicId!, privateSeedCtrl.text);
-        await getIt<QubicLi>().authenticate();
       } catch (e) {
+        if (!mounted) return;
         showAlertDialog(
             context, l10n.generalErrorContactingQubicNetwork, e.toString());
         setState(() {
@@ -362,12 +361,14 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
           isLoading = false;
         });
       } catch (e) {
+        if (!mounted) return;
         showAlertDialog(
             context, l10n.signUpErrorStoringBiometricInfo, e.toString());
       }
 
       appStore.checkWalletIsInitialized();
       settingsStore.setBiometrics(enabledBiometrics);
+      if (!mounted) return;
       context.goNamed("mainScreen");
       _globalSnackbar
           .show(l10n.generalSnackBarMessageWalletImportedSuccessfully);

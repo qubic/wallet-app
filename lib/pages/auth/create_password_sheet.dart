@@ -18,10 +18,10 @@ class CreatePasswordSheet extends StatefulWidget {
   });
 
   @override
-  _CreatePasswordSheetState createState() => _CreatePasswordSheetState();
+  CreatePasswordSheetState createState() => CreatePasswordSheetState();
 }
 
-class _CreatePasswordSheetState extends State<CreatePasswordSheet> {
+class CreatePasswordSheetState extends State<CreatePasswordSheet> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   bool hasAccepted = false;

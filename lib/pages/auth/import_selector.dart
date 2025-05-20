@@ -64,7 +64,7 @@ class _ImportSelectorState extends State<ImportSelector> {
                         children: [
                           Text(title, style: TextStyles.textBold),
                           ThemedControls.spacerVerticalSmall(),
-                          Container(
+                          SizedBox(
                               child: Text(subtitle,
                                   style: TextStyles.secondaryText))
                         ]),

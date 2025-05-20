@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 
 class DioClient {
@@ -7,6 +11,23 @@ class DioClient {
     dio.options.headers = {'Content-Type': 'application/json'};
     // Interceptors for logging requests
     dio.interceptors.add(CustomLogInterceptor());
+
+    if (Config.useProxy) {
+      // Use IOHttpClientAdapter instead of DefaultHttpClientAdapter
+      (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
+        HttpClient client = HttpClient();
+
+        // Set proxy
+        client.findProxy = (uri) {
+          return "PROXY ${Config.proxyIP}:${Config.proxyPort}"; // Replace with your proxy IP and port
+        };
+
+        // Allow self-signed certificates (if needed)
+        client.badCertificateCallback =
+            (X509Certificate cert, String host, int port) => true;
+        return client;
+      };
+    }
     return dio;
   }
 }

@@ -255,7 +255,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(child: Builder(builder: (context) {
+                  Builder(builder: (context) {
                     if (signInError == null) {
                       return Container();
                     } else {
@@ -273,7 +273,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                                             .error))),
                       );
                     }
-                  })),
+                  }),
                   FormBuilderTextField(
                     name: "password",
                     autofocus: !settingsStore.settings.biometricEnabled ||

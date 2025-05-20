@@ -14,10 +14,10 @@ class AddAccountWarningSheet extends StatefulWidget {
       {super.key, required this.onAccept, required this.onReject});
 
   @override
-  _AddAccountWarningSheetState createState() => _AddAccountWarningSheetState();
+  AddAccountWarningSheetState createState() => AddAccountWarningSheetState();
 }
 
-class _AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
+class AddAccountWarningSheetState extends State<AddAccountWarningSheet> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   bool hasAccepted = false;

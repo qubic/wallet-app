@@ -1,11 +1,12 @@
+import 'package:collection/collection.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+
 import 'package:qubic_wallet/helpers/id_validators.dart';
+import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/models/wallet_connect.dart';
-import 'package:collection/collection.dart';
 
 import '../../di.dart';
 
@@ -39,14 +40,15 @@ class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
     }
 
     final asset = account.assets.values.firstWhereOrNull((element) =>
-        element.assetName == assetName && element.issuerIdentity == issuer);
+        element.issuedAsset.name == assetName &&
+        element.issuedAsset.issuerIdentity == issuer);
     if (asset == null) {
       throw ArgumentError("Asset not found in this account $from",
           WcRequestParameters.assetName);
     }
 
-    final ownedAmount = asset.ownedAmount;
-    if (ownedAmount == null || ownedAmount < amount) {
+    final ownedAmount = asset.numberOfUnits;
+    if (ownedAmount < amount) {
       throw ArgumentError("Insufficient assets", WcRequestParameters.amount);
     }
 
