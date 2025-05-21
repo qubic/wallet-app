@@ -10,7 +10,6 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
-import 'package:qubic_wallet/helpers/win_registry_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';

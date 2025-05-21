@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 void viewAddressInExplorer(BuildContext context, String address) {
   viewExplorerURL(context, "network/address/$address");
@@ -13,5 +14,10 @@ void viewTransactionInExplorer(BuildContext context, String trxId) {
 
 void viewExplorerURL(BuildContext context, String pathToData) {
   final String explorerUrl = getIt<NetworkStore>().explorerUrl;
-  launchUrlString("$explorerUrl/$pathToData", mode: LaunchMode.inAppWebView);
+  pushScreen(
+    context,
+    screen: WebviewScreen(initialUrl: explorerUrl),
+    pageTransitionAnimation: PageTransitionAnimation.slideUp,
+    withNavBar: false,
+  );
 }
