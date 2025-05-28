@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 
 void showQRScanner({
   required BuildContext context,
   required Function(String) onFoundSuccess,
   required String instructionText,
 }) {
+  late MobileScannerController controller;
+
   showModalBottomSheet<void>(
     context: context,
     useSafeArea: true,
     builder: (BuildContext context) {
       bool hasProcessedSuccess = false;
-
+      controller = MobileScannerController(
+        detectionSpeed: DetectionSpeed.normal,
+        facing: CameraFacing.back,
+        torchEnabled: false,
+      );
       return Stack(
         children: [
           MobileScanner(
-            controller: MobileScannerController(
-              detectionSpeed: DetectionSpeed.normal,
-              facing: CameraFacing.back,
-              torchEnabled: false,
-            ),
+            controller: controller,
             onDetect: (capture) {
               if (hasProcessedSuccess) {
                 return; // Exit early if already processed
@@ -64,5 +67,8 @@ void showQRScanner({
         ],
       );
     },
-  );
+  ).whenComplete(() {
+    appLogger.d("QR Scanner dialog closed");
+    controller.dispose();
+  });
 }
