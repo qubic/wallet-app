@@ -1,11 +1,6 @@
-// Enum to define scanner types
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
-import 'package:qubic_wallet/helpers/id_validators.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 void showQRScanner({
   required BuildContext context,
@@ -16,6 +11,8 @@ void showQRScanner({
     context: context,
     useSafeArea: true,
     builder: (BuildContext context) {
+      bool hasProcessedSuccess = false;
+
       return Stack(
         children: [
           MobileScanner(
@@ -25,21 +22,19 @@ void showQRScanner({
               torchEnabled: false,
             ),
             onDetect: (capture) {
+              if (hasProcessedSuccess) {
+                return; // Exit early if already processed
+              }
+
               final List<Barcode> barcodes = capture.barcodes;
-              bool foundSuccess = false;
 
               for (final barcode in barcodes) {
-                if (barcode.rawValue != null) {
-                  if (foundSuccess) break;
-
-                  // Call the callback function to handle validation and success logic
+                if (barcode.rawValue != null && !hasProcessedSuccess) {
                   try {
-                    appLogger
-                        .i("QR Code scanned with value: ${barcode.rawValue!}");
                     onFoundSuccess(barcode.rawValue!);
-                    foundSuccess = true;
+                    hasProcessedSuccess = true;
+                    break;
                   } catch (e) {
-                    // Continue to next barcode if validation fails
                     continue;
                   }
                 }
