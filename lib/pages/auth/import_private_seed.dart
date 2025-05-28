@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/components/scanner_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -109,69 +110,6 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               strokeWidth: 2,
               color: Theme.of(context).colorScheme.inversePrimary)),
     );
-  }
-
-  void showQRScanner() {
-    final l10n = l10nOf(context);
-
-    detected = false;
-    showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        builder: (BuildContext context) {
-          bool foundSuccess = false;
-          return Stack(children: [
-            MobileScanner(
-              // fit: BoxFit.contain,
-              controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.normal,
-                facing: CameraFacing.back,
-                torchEnabled: false,
-              ),
-
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-
-                for (final barcode in barcodes) {
-                  if (barcode.rawValue != null) {
-                    var validator =
-                        CustomFormFieldValidators.isSeed(context: context);
-                    if (validator(barcode.rawValue) == null) {
-                      privateSeedCtrl.text = barcode.rawValue!;
-                      foundSuccess = true;
-                    }
-                  }
-
-                  if (foundSuccess) {
-                    if (!detected) {
-                      Navigator.pop(context);
-
-                      _globalSnackbar.show(
-                          l10n.generalSnackBarMessageQRScannedWithSuccess);
-                    }
-                    detected = true;
-                  }
-                }
-              },
-            ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    color: Colors.white60,
-                    width: double.infinity,
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(l10n.addAccountHeaderScanQRCodeInstructions,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            textAlign: TextAlign.center))))
-          ]);
-        });
   }
 
   List<Widget> getSeedForm() {
@@ -440,7 +378,27 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                     alignment: Alignment.topLeft,
                     child: ThemedControls.primaryButtonNormal(
                         onPressed: () {
-                          showQRScanner();
+                          detected = false;
+                          showQRScanner(
+                            context: context,
+                            instructionText:
+                                l10n.addAccountHeaderScanQRCodeInstructions,
+                            onFoundSuccess: (String scannedValue) {
+                              var validator = CustomFormFieldValidators.isSeed(
+                                  context: context);
+                              if (validator(scannedValue) == null) {
+                                privateSeedCtrl.text = scannedValue;
+                                if (!detected) {
+                                  Navigator.pop(context);
+                                  _globalSnackbar.show(l10n
+                                      .generalSnackBarMessageQRScannedWithSuccess);
+                                  detected = true;
+                                }
+                              } else {
+                                throw Exception('Invalid seed');
+                              }
+                            },
+                          );
                         },
                         text: l10n.generalButtonUseQRCode,
                         icon: !LightThemeColors.shouldInvertIcon

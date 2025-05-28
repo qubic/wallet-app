@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:qubic_wallet/components/scanner_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
@@ -113,130 +114,6 @@ class _AddAccountState extends State<AddAccount> {
     }
     var seed = getRandomSeed();
     privateSeed.text = seed;
-  }
-
-  void showQRScanner() {
-    final l10n = l10nOf(context);
-    detected = false;
-    showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        builder: (BuildContext context) {
-          bool foundSuccess = false;
-          return Stack(children: [
-            MobileScanner(
-              // fit: BoxFit.contain,
-              controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.normal,
-                facing: CameraFacing.back,
-                torchEnabled: false,
-              ),
-
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-
-                for (final barcode in barcodes) {
-                  if (barcode.rawValue != null) {
-                    var validator =
-                        CustomFormFieldValidators.isSeed(context: context);
-                    if (validator(barcode.rawValue) == null) {
-                      privateSeed.text = barcode.rawValue!;
-                      foundSuccess = true;
-                    }
-                  }
-
-                  if (foundSuccess) {
-                    if (!detected) {
-                      Navigator.pop(context);
-
-                      _globalSnackBar.show(
-                          l10n.generalSnackBarMessageQRScannedWithSuccess);
-                    }
-                    detected = true;
-                  }
-                }
-              },
-            ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    color: Colors.white60,
-                    width: double.infinity,
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(l10n.addAccountHeaderScanQRCodeInstructions,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            textAlign: TextAlign.center))))
-          ]);
-        });
-  }
-
-  void showWatchOnlyQRScanner() {
-    showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        builder: (BuildContext context) {
-          final l10n = l10nOf(context);
-
-          return Stack(children: [
-            MobileScanner(
-              // fit: BoxFit.contain,
-              controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.normal,
-                facing: CameraFacing.back,
-                torchEnabled: false,
-              ),
-
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-                bool foundSuccess = false;
-                for (final barcode in barcodes) {
-                  if (barcode.rawValue != null) {
-                    var value = publicId.text;
-                    value = barcode.rawValue!
-                        .replaceAll("https://wallet.qubic.org/payment/", "");
-                    var validator =
-                        CustomFormFieldValidators.isPublicID(context: context);
-                    if (validator(value) == null) {
-                      if (foundSuccess == true) {
-                        break;
-                      }
-                      publicId.text = value;
-                      foundSuccess = true;
-                    }
-                  }
-                }
-                if (foundSuccess) {
-                  Navigator.pop(context);
-                  _globalSnackBar
-                      .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
-                }
-              },
-            ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    color: Colors.white60,
-                    width: double.infinity,
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(l10n.sendItemLabelQRScannerInstructions,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            textAlign: TextAlign.center))))
-          ]);
-        });
   }
 
   Widget getCreateAccountView() {
@@ -442,7 +319,29 @@ class _AddAccountState extends State<AddAccount> {
                             alignment: Alignment.topLeft,
                             child: ThemedControls.primaryButtonNormal(
                                 onPressed: () {
-                                  showQRScanner();
+                                  detected = false;
+
+                                  showQRScanner(
+                                    context: context,
+                                    instructionText: l10n
+                                        .addAccountHeaderScanQRCodeInstructions,
+                                    onFoundSuccess: (String scannedValue) {
+                                      var validator =
+                                          CustomFormFieldValidators.isSeed(
+                                              context: context);
+                                      if (validator(scannedValue) == null) {
+                                        privateSeed.text = scannedValue;
+                                        if (!detected) {
+                                          Navigator.pop(context);
+                                          _globalSnackBar.show(l10n
+                                              .generalSnackBarMessageQRScannedWithSuccess);
+                                          detected = true;
+                                        }
+                                      } else {
+                                        throw Exception('Invalid seed');
+                                      }
+                                    },
+                                  );
                                 },
                                 text: l10n.generalButtonUseQRCode,
                                 icon: !LightThemeColors.shouldInvertIcon
@@ -648,7 +547,27 @@ class _AddAccountState extends State<AddAccount> {
                           alignment: Alignment.topLeft,
                           child: ThemedControls.primaryButtonNormal(
                               onPressed: () {
-                                showWatchOnlyQRScanner();
+                                showQRScanner(
+                                  context: context,
+                                  instructionText:
+                                      l10n.sendItemLabelQRScannerInstructions,
+                                  onFoundSuccess: (String scannedValue) {
+                                    String value = scannedValue.replaceAll(
+                                        "https://wallet.qubic.org/payment/",
+                                        "");
+                                    var validator =
+                                        CustomFormFieldValidators.isPublicID(
+                                            context: context);
+                                    if (validator(value) == null) {
+                                      publicId.text = value;
+                                      Navigator.pop(context);
+                                      _globalSnackBar.show(l10n
+                                          .generalSnackBarMessageQRScannedWithSuccess);
+                                    } else {
+                                      throw Exception('Invalid public ID');
+                                    }
+                                  },
+                                );
                               },
                               text: l10n.generalButtonUseQRCode,
                               icon: !LightThemeColors.shouldInvertIcon
