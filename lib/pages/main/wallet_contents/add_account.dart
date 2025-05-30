@@ -6,22 +6,21 @@ import 'package:qubic_wallet/components/scanner_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/random.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_warning_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum AddAccountType { createAccount, watchOnly, importPrivateSeed }
 
@@ -319,29 +318,10 @@ class _AddAccountState extends State<AddAccount> {
                             alignment: Alignment.topLeft,
                             child: ThemedControls.primaryButtonNormal(
                                 onPressed: () {
-                                  detected = false;
-
-                                  showQRScanner(
-                                    context: context,
-                                    instructionText: l10n
-                                        .addAccountHeaderScanQRCodeInstructions,
-                                    onFoundSuccess: (String scannedValue) {
-                                      var validator =
-                                          CustomFormFieldValidators.isSeed(
-                                              context: context);
-                                      if (validator(scannedValue) == null) {
-                                        privateSeed.text = scannedValue;
-                                        if (!detected) {
-                                          Navigator.pop(context);
-                                          _globalSnackBar.show(l10n
-                                              .generalSnackBarMessageQRScannedWithSuccess);
-                                          detected = true;
-                                        }
-                                      } else {
-                                        throw Exception('Invalid seed');
-                                      }
-                                    },
-                                  );
+                                  scanAndSetSeed(
+                                      context: context,
+                                      controller: privateSeed,
+                                      globalSnackBar: _globalSnackBar);
                                 },
                                 text: l10n.generalButtonUseQRCode,
                                 icon: !LightThemeColors.shouldInvertIcon
@@ -547,27 +527,10 @@ class _AddAccountState extends State<AddAccount> {
                           alignment: Alignment.topLeft,
                           child: ThemedControls.primaryButtonNormal(
                               onPressed: () {
-                                showQRScanner(
-                                  context: context,
-                                  instructionText:
-                                      l10n.sendItemLabelQRScannerInstructions,
-                                  onFoundSuccess: (String scannedValue) {
-                                    String value = scannedValue.replaceAll(
-                                        "https://wallet.qubic.org/payment/",
-                                        "");
-                                    var validator =
-                                        CustomFormFieldValidators.isPublicID(
-                                            context: context);
-                                    if (validator(value) == null) {
-                                      publicId.text = value;
-                                      Navigator.pop(context);
-                                      _globalSnackBar.show(l10n
-                                          .generalSnackBarMessageQRScannedWithSuccess);
-                                    } else {
-                                      throw Exception('Invalid public ID');
-                                    }
-                                  },
-                                );
+                                scanAndSetPublicId(
+                                    context: context,
+                                    controller: publicId,
+                                    globalSnackBar: _globalSnackBar);
                               },
                               text: l10n.generalButtonUseQRCode,
                               icon: !LightThemeColors.shouldInvertIcon

@@ -378,27 +378,10 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                     alignment: Alignment.topLeft,
                     child: ThemedControls.primaryButtonNormal(
                         onPressed: () {
-                          detected = false;
-                          showQRScanner(
-                            context: context,
-                            instructionText:
-                                l10n.addAccountHeaderScanQRCodeInstructions,
-                            onFoundSuccess: (String scannedValue) {
-                              var validator = CustomFormFieldValidators.isSeed(
-                                  context: context);
-                              if (validator(scannedValue) == null) {
-                                privateSeedCtrl.text = scannedValue;
-                                if (!detected) {
-                                  Navigator.pop(context);
-                                  _globalSnackbar.show(l10n
-                                      .generalSnackBarMessageQRScannedWithSuccess);
-                                  detected = true;
-                                }
-                              } else {
-                                throw Exception('Invalid seed');
-                              }
-                            },
-                          );
+                          scanAndSetSeed(
+                              context: context,
+                              controller: privateSeedCtrl,
+                              globalSnackBar: _globalSnackbar);
                         },
                         text: l10n.generalButtonUseQRCode,
                         icon: !LightThemeColors.shouldInvertIcon

@@ -362,28 +362,10 @@ class _SendState extends State<Send> {
                         alignment: Alignment.topLeft,
                         child: ThemedControls.primaryButtonNormal(
                             onPressed: () {
-                              showQRScanner(
-                                context: context,
-                                instructionText:
-                                    l10n.sendItemLabelQRScannerInstructions,
-                                onFoundSuccess: (String scannedValue) {
-                                  String value = scannedValue.replaceAll(
-                                      "https://wallet.qubic.org/payment/", "");
-                                  var validator =
-                                      CustomFormFieldValidators.isPublicID(
-                                          context: context);
-                                  if (validator(value) == null) {
-                                    destinationID.text = value;
-                                    appLogger.i(
-                                        "QR Code scanned with value: $value");
-                                    Navigator.pop(context);
-                                    _globalSnackBar.show(l10n
-                                        .generalSnackBarMessageQRScannedWithSuccess);
-                                  } else {
-                                    throw Exception('Invalid destination ID');
-                                  }
-                                },
-                              );
+                              scanAndSetPublicId(
+                                  context: context,
+                                  controller: destinationID,
+                                  globalSnackBar: _globalSnackBar);
                             },
                             text: l10n.generalButtonUseQRCode,
                             icon: !LightThemeColors.shouldInvertIcon
