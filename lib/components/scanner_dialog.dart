@@ -76,26 +76,26 @@ void showQRScanner({
   });
 }
 
-void scanAndSetPublicId({
+void scanAndSet({
   required BuildContext context,
   required TextEditingController controller,
   required GlobalSnackBar globalSnackBar,
+  required String Function(BuildContext) instructionTextBuilder,
+  required String? Function(String) validator,
+  String Function(String)? transformer,
 }) {
   final l10n = l10nOf(context);
+
   showQRScanner(
     context: context,
-    instructionText: l10n.sendItemLabelQRScannerInstructions,
+    instructionText: instructionTextBuilder(context),
     onFoundSuccess: (String scannedValue) {
-      final l10n = l10nOf(context);
-      String value =
-          scannedValue.replaceAll("https://wallet.qubic.org/payment/", "");
-      var validator = CustomFormFieldValidators.isPublicID(context: context);
-      final validationResult = validator(value);
+      final transformed = transformer?.call(scannedValue) ?? scannedValue;
+      final validationResult = validator(transformed);
       if (validationResult == null) {
-        controller.text = value;
+        controller.text = transformed;
         Navigator.pop(context);
         globalSnackBar.show(l10n.generalSnackBarMessageQRScannedWithSuccess);
-        appLogger.i("QR Code scanned with value: $value");
       } else {
         Navigator.pop(context);
         appLogger.e("QR Code scanned with invalid value: $validationResult");
@@ -106,28 +106,34 @@ void scanAndSetPublicId({
   );
 }
 
+void scanAndSetPublicId({
+  required BuildContext context,
+  required TextEditingController controller,
+  required GlobalSnackBar globalSnackBar,
+}) {
+  scanAndSet(
+    context: context,
+    controller: controller,
+    globalSnackBar: globalSnackBar,
+    instructionTextBuilder: (ctx) =>
+        l10nOf(ctx).sendItemLabelQRScannerInstructions,
+    validator: CustomFormFieldValidators.isPublicID(context: context),
+    transformer: (value) =>
+        value.replaceAll("https://wallet.qubic.org/payment/", ""),
+  );
+}
+
 void scanAndSetSeed({
   required BuildContext context,
   required TextEditingController controller,
   required GlobalSnackBar globalSnackBar,
 }) {
-  final l10n = l10nOf(context);
-  showQRScanner(
+  scanAndSet(
     context: context,
-    instructionText: l10n.addAccountHeaderScanQRCodeInstructions,
-    onFoundSuccess: (String scannedValue) {
-      var validator = CustomFormFieldValidators.isSeed(context: context);
-      final validationResult = validator(scannedValue);
-      if (validationResult == null) {
-        controller.text = scannedValue;
-        Navigator.pop(context);
-        globalSnackBar.show(l10n.generalSnackBarMessageQRScannedWithSuccess);
-      } else {
-        Navigator.pop(context);
-        appLogger.e("QR Code scanned with invalid value: $validationResult");
-        globalSnackBar
-            .showError("QR Code scanned with invalid value: $validationResult");
-      }
-    },
+    controller: controller,
+    globalSnackBar: globalSnackBar,
+    instructionTextBuilder: (ctx) =>
+        l10nOf(ctx).addAccountHeaderScanQRCodeInstructions,
+    validator: CustomFormFieldValidators.isSeed(context: context),
   );
 }
