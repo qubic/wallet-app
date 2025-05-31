@@ -6,7 +6,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
-import 'package:qubic_wallet/components/scanner_dialog.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
@@ -461,10 +461,10 @@ class _TransferAssetState extends State<TransferAsset> {
                       getDestinationQubicId(),
                       if (isMobile)
                         ScanCodeButton(onPressed: () {
-                          scanAndSetPublicId(
-                              context: context,
-                              controller: destinationID,
-                              globalSnackBar: _globalSnackBar);
+                          getIt<QrScannerService>().scanAndSetPublicId(
+                            context: context,
+                            controller: destinationID,
+                          );
                         }),
                       ThemedControls.spacerVerticalMini(),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [

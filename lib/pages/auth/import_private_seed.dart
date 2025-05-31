@@ -5,10 +5,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
-import 'package:qubic_wallet/components/scanner_dialog.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -22,7 +21,6 @@ import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/pages/auth/create_password.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
-
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -376,10 +374,10 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                   key: _formKey, child: Column(children: getSeedForm())),
               if (isMobile)
                 ScanCodeButton(onPressed: () {
-                  scanAndSetSeed(
-                      context: context,
-                      controller: privateSeedCtrl,
-                      globalSnackBar: _globalSnackbar);
+                  getIt<QrScannerService>().scanAndSetSeed(
+                    context: context,
+                    controller: privateSeedCtrl,
+                  );
                 }),
               getGeneratedPublicId(),
               ThemedControls.spacerVerticalBig(),

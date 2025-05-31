@@ -3,14 +3,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
-import 'package:qubic_wallet/components/scanner_dialog.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
@@ -360,10 +358,10 @@ class _SendState extends State<Send> {
                   ]),
                   if (isMobile)
                     ScanCodeButton(onPressed: () {
-                      scanAndSetPublicId(
-                          context: context,
-                          controller: destinationID,
-                          globalSnackBar: _globalSnackBar);
+                      getIt<QrScannerService>().scanAndSetPublicId(
+                        context: context,
+                        controller: destinationID,
+                      );
                     }),
                   ThemedControls.spacerVerticalMini(),
                   Row(

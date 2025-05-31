@@ -6,7 +6,6 @@ import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
-import 'package:qubic_wallet/components/mid_text_with_ellipsis.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';

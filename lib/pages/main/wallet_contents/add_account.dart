@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
-import 'package:qubic_wallet/components/scanner_dialog.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
@@ -316,10 +316,10 @@ class _AddAccountState extends State<AddAccount> {
                       ),
                       if (isMobile && hasQrCodeButton)
                         ScanCodeButton(onPressed: () {
-                          scanAndSetSeed(
-                              context: context,
-                              controller: privateSeed,
-                              globalSnackBar: _globalSnackBar);
+                          getIt<QrScannerService>().scanAndSetSeed(
+                            context: context,
+                            controller: privateSeed,
+                          );
                         }),
                       if (hasPrivateSeedTip) ...[
                         ThemedControls.spacerVerticalNormal(),
@@ -515,10 +515,10 @@ class _AddAccountState extends State<AddAccount> {
                     ThemedControls.spacerVerticalNormal(),
                     if (isMobile)
                       ScanCodeButton(onPressed: () {
-                        scanAndSetPublicId(
-                            context: context,
-                            controller: publicId,
-                            globalSnackBar: _globalSnackBar);
+                        getIt<QrScannerService>().scanAndSetPublicId(
+                          context: context,
+                          controller: publicId,
+                        );
                       }),
                     const SizedBox(height: ThemePaddings.normalPadding),
                   ],
