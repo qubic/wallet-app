@@ -5,6 +5,7 @@ import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
+import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/components/scanner_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -459,22 +460,12 @@ class _TransferAssetState extends State<TransferAsset> {
                     children: [
                       getDestinationQubicId(),
                       if (isMobile)
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: ThemedControls.primaryButtonNormal(
-                                onPressed: () {
-                                  scanAndSetPublicId(
-                                      context: context,
-                                      controller: destinationID,
-                                      globalSnackBar: _globalSnackBar);
-                                },
-                                text: l10n.generalButtonUseQRCode,
-                                icon: !LightThemeColors.shouldInvertIcon
-                                    ? ThemedControls.invertedColors(
-                                        child: Image.asset(
-                                            "assets/images/Group 2294.png"))
-                                    : Image.asset(
-                                        "assets/images/Group 2294.png"))),
+                        ScanCodeButton(onPressed: () {
+                          scanAndSetPublicId(
+                              context: context,
+                              controller: destinationID,
+                              globalSnackBar: _globalSnackBar);
+                        }),
                       ThemedControls.spacerVerticalMini(),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         Expanded(

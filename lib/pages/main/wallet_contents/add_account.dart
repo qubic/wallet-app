@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/components/scanner_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -314,22 +315,12 @@ class _AddAccountState extends State<AddAccount> {
                         autofillHints: null,
                       ),
                       if (isMobile && hasQrCodeButton)
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: ThemedControls.primaryButtonNormal(
-                                onPressed: () {
-                                  scanAndSetSeed(
-                                      context: context,
-                                      controller: privateSeed,
-                                      globalSnackBar: _globalSnackBar);
-                                },
-                                text: l10n.generalButtonUseQRCode,
-                                icon: !LightThemeColors.shouldInvertIcon
-                                    ? ThemedControls.invertedColors(
-                                        child: Image.asset(
-                                            "assets/images/Group 2294.png"))
-                                    : Image.asset(
-                                        "assets/images/Group 2294.png"))),
+                        ScanCodeButton(onPressed: () {
+                          scanAndSetSeed(
+                              context: context,
+                              controller: privateSeed,
+                              globalSnackBar: _globalSnackBar);
+                        }),
                       if (hasPrivateSeedTip) ...[
                         ThemedControls.spacerVerticalNormal(),
                         Align(
@@ -523,22 +514,12 @@ class _AddAccountState extends State<AddAccount> {
                     ),
                     ThemedControls.spacerVerticalNormal(),
                     if (isMobile)
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: ThemedControls.primaryButtonNormal(
-                              onPressed: () {
-                                scanAndSetPublicId(
-                                    context: context,
-                                    controller: publicId,
-                                    globalSnackBar: _globalSnackBar);
-                              },
-                              text: l10n.generalButtonUseQRCode,
-                              icon: !LightThemeColors.shouldInvertIcon
-                                  ? ThemedControls.invertedColors(
-                                      child: Image.asset(
-                                          "assets/images/Group 2294.png"))
-                                  : Image.asset(
-                                      "assets/images/Group 2294.png"))),
+                      ScanCodeButton(onPressed: () {
+                        scanAndSetPublicId(
+                            context: context,
+                            controller: publicId,
+                            globalSnackBar: _globalSnackBar);
+                      }),
                     const SizedBox(height: ThemePaddings.normalPadding),
                   ],
                 ),

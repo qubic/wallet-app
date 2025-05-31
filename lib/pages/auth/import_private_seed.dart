@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/components/scanner_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -374,21 +375,12 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               FormBuilder(
                   key: _formKey, child: Column(children: getSeedForm())),
               if (isMobile)
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: ThemedControls.primaryButtonNormal(
-                        onPressed: () {
-                          scanAndSetSeed(
-                              context: context,
-                              controller: privateSeedCtrl,
-                              globalSnackBar: _globalSnackbar);
-                        },
-                        text: l10n.generalButtonUseQRCode,
-                        icon: !LightThemeColors.shouldInvertIcon
-                            ? ThemedControls.invertedColors(
-                                child:
-                                    Image.asset("assets/images/Group 2294.png"))
-                            : Image.asset("assets/images/Group 2294.png"))),
+                ScanCodeButton(onPressed: () {
+                  scanAndSetSeed(
+                      context: context,
+                      controller: privateSeedCtrl,
+                      globalSnackBar: _globalSnackbar);
+                }),
               getGeneratedPublicId(),
               ThemedControls.spacerVerticalBig(),
             ],

@@ -76,7 +76,7 @@ void showQRScanner({
   });
 }
 
-void scanAndSet({
+void _scanAndSet({
   required BuildContext context,
   required TextEditingController controller,
   required GlobalSnackBar globalSnackBar,
@@ -111,7 +111,7 @@ void scanAndSetPublicId({
   required TextEditingController controller,
   required GlobalSnackBar globalSnackBar,
 }) {
-  scanAndSet(
+  _scanAndSet(
     context: context,
     controller: controller,
     globalSnackBar: globalSnackBar,
@@ -128,7 +128,7 @@ void scanAndSetSeed({
   required TextEditingController controller,
   required GlobalSnackBar globalSnackBar,
 }) {
-  scanAndSet(
+  _scanAndSet(
     context: context,
     controller: controller,
     globalSnackBar: globalSnackBar,
