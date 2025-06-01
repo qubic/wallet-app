@@ -2,25 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:qubic_wallet/components/scan_code_button.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/random.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_warning_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 enum AddAccountType { createAccount, watchOnly, importPrivateSeed }
 
@@ -113,130 +114,6 @@ class _AddAccountState extends State<AddAccount> {
     }
     var seed = getRandomSeed();
     privateSeed.text = seed;
-  }
-
-  void showQRScanner() {
-    final l10n = l10nOf(context);
-    detected = false;
-    showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        builder: (BuildContext context) {
-          bool foundSuccess = false;
-          return Stack(children: [
-            MobileScanner(
-              // fit: BoxFit.contain,
-              controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.normal,
-                facing: CameraFacing.back,
-                torchEnabled: false,
-              ),
-
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-
-                for (final barcode in barcodes) {
-                  if (barcode.rawValue != null) {
-                    var validator =
-                        CustomFormFieldValidators.isSeed(context: context);
-                    if (validator(barcode.rawValue) == null) {
-                      privateSeed.text = barcode.rawValue!;
-                      foundSuccess = true;
-                    }
-                  }
-
-                  if (foundSuccess) {
-                    if (!detected) {
-                      Navigator.pop(context);
-
-                      _globalSnackBar.show(
-                          l10n.generalSnackBarMessageQRScannedWithSuccess);
-                    }
-                    detected = true;
-                  }
-                }
-              },
-            ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    color: Colors.white60,
-                    width: double.infinity,
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(l10n.addAccountHeaderScanQRCodeInstructions,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            textAlign: TextAlign.center))))
-          ]);
-        });
-  }
-
-  void showWatchOnlyQRScanner() {
-    showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        builder: (BuildContext context) {
-          final l10n = l10nOf(context);
-
-          return Stack(children: [
-            MobileScanner(
-              // fit: BoxFit.contain,
-              controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.normal,
-                facing: CameraFacing.back,
-                torchEnabled: false,
-              ),
-
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-                bool foundSuccess = false;
-                for (final barcode in barcodes) {
-                  if (barcode.rawValue != null) {
-                    var value = publicId.text;
-                    value = barcode.rawValue!
-                        .replaceAll("https://wallet.qubic.org/payment/", "");
-                    var validator =
-                        CustomFormFieldValidators.isPublicID(context: context);
-                    if (validator(value) == null) {
-                      if (foundSuccess == true) {
-                        break;
-                      }
-                      publicId.text = value;
-                      foundSuccess = true;
-                    }
-                  }
-                }
-                if (foundSuccess) {
-                  Navigator.pop(context);
-                  _globalSnackBar
-                      .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
-                }
-              },
-            ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    color: Colors.white60,
-                    width: double.infinity,
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(l10n.sendItemLabelQRScannerInstructions,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            textAlign: TextAlign.center))))
-          ]);
-        });
   }
 
   Widget getCreateAccountView() {
@@ -438,19 +315,12 @@ class _AddAccountState extends State<AddAccount> {
                         autofillHints: null,
                       ),
                       if (isMobile && hasQrCodeButton)
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: ThemedControls.primaryButtonNormal(
-                                onPressed: () {
-                                  showQRScanner();
-                                },
-                                text: l10n.generalButtonUseQRCode,
-                                icon: !LightThemeColors.shouldInvertIcon
-                                    ? ThemedControls.invertedColors(
-                                        child: Image.asset(
-                                            "assets/images/Group 2294.png"))
-                                    : Image.asset(
-                                        "assets/images/Group 2294.png"))),
+                        ScanCodeButton(onPressed: () {
+                          getIt<QrScannerService>().scanAndSetSeed(
+                            context: context,
+                            controller: privateSeed,
+                          );
+                        }),
                       if (hasPrivateSeedTip) ...[
                         ThemedControls.spacerVerticalNormal(),
                         Align(
@@ -644,19 +514,12 @@ class _AddAccountState extends State<AddAccount> {
                     ),
                     ThemedControls.spacerVerticalNormal(),
                     if (isMobile)
-                      Align(
-                          alignment: Alignment.topLeft,
-                          child: ThemedControls.primaryButtonNormal(
-                              onPressed: () {
-                                showWatchOnlyQRScanner();
-                              },
-                              text: l10n.generalButtonUseQRCode,
-                              icon: !LightThemeColors.shouldInvertIcon
-                                  ? ThemedControls.invertedColors(
-                                      child: Image.asset(
-                                          "assets/images/Group 2294.png"))
-                                  : Image.asset(
-                                      "assets/images/Group 2294.png"))),
+                      ScanCodeButton(onPressed: () {
+                        getIt<QrScannerService>().scanAndSetPublicId(
+                          context: context,
+                          controller: publicId,
+                        );
+                      }),
                     const SizedBox(height: ThemePaddings.normalPadding),
                   ],
                 ),

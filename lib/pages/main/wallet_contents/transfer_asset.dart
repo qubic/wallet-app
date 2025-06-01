@@ -4,8 +4,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
+import 'package:qubic_wallet/components/scan_code_button.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
@@ -135,67 +136,6 @@ class _TransferAssetState extends State<TransferAsset> {
         return alert;
       },
     );
-  }
-
-  void showQRScanner() {
-    final l10n = l10nOf(context);
-    showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        builder: (BuildContext context) {
-          return Stack(children: [
-            MobileScanner(
-              // fit: BoxFit.contain,
-              controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.normal,
-                facing: CameraFacing.back,
-                torchEnabled: false,
-              ),
-
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-                bool foundSuccess = false;
-                for (final barcode in barcodes) {
-                  if (barcode.rawValue != null) {
-                    var value = destinationID.text;
-                    value = barcode.rawValue!
-                        .replaceAll("https://wallet.qubic.org/payment/", "");
-                    var validator =
-                        CustomFormFieldValidators.isPublicID(context: context);
-                    if (validator(value) == null) {
-                      if (foundSuccess == true) {
-                        break;
-                      }
-                      destinationID.text = value;
-                      foundSuccess = true;
-                    }
-                  }
-                }
-                if (foundSuccess) {
-                  Navigator.pop(context);
-                  _globalSnackBar
-                      .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
-                }
-              },
-            ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    color: Colors.white60,
-                    width: double.infinity,
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(l10n.sendItemLabelQRScannerInstructions,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            textAlign: TextAlign.center))))
-          ]);
-        });
   }
 
   //Shows the bottom sheet allowing to select a Public ID from the wallet
@@ -520,19 +460,12 @@ class _TransferAssetState extends State<TransferAsset> {
                     children: [
                       getDestinationQubicId(),
                       if (isMobile)
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: ThemedControls.primaryButtonNormal(
-                                onPressed: () {
-                                  showQRScanner();
-                                },
-                                text: l10n.generalButtonUseQRCode,
-                                icon: !LightThemeColors.shouldInvertIcon
-                                    ? ThemedControls.invertedColors(
-                                        child: Image.asset(
-                                            "assets/images/Group 2294.png"))
-                                    : Image.asset(
-                                        "assets/images/Group 2294.png"))),
+                        ScanCodeButton(onPressed: () {
+                          getIt<QrScannerService>().scanAndSetPublicId(
+                            context: context,
+                            controller: destinationID,
+                          );
+                        }),
                       ThemedControls.spacerVerticalMini(),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         Expanded(

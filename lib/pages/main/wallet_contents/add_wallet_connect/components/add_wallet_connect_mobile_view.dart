@@ -62,14 +62,30 @@ class _AddWalletConnectMobileViewState
           children: [
             // QR Scanner
             if (!widget.isLoading)
-              MobileScanner(
-                fit: BoxFit.cover,
-                controller: MobileScannerController(
-                  facing: CameraFacing.back,
-                  torchEnabled: false,
+              Positioned(
+                child: MobileScanner(
+                  fit: BoxFit.cover,
+                  controller: MobileScannerController(
+                    facing: CameraFacing.back,
+                    torchEnabled: false,
+                  ),
+                  scanWindow: scanWindow,
+                  onDetect: widget.onDetect,
+                  errorBuilder: (context, error, child) {
+                    return Material(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 50),
+                          child: Text(
+                            error.toString(),
+                            style: TextStyles.textNormal,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                scanWindow: scanWindow,
-                onDetect: widget.onDetect,
               ),
             // Blurred Background excluding the scan window area
             if (isCameraInitialized)
