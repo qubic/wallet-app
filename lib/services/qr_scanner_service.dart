@@ -5,6 +5,7 @@ import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 
 class QrScannerService {
   final GlobalSnackBar globalSnackBar;
@@ -91,6 +92,18 @@ class QrScannerService {
           children: [
             MobileScanner(
               controller: controller,
+              errorBuilder: (context, error, _) {
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: Text(
+                      error.toString(),
+                      style: TextStyles.textNormal,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                );
+              },
               onDetect: (capture) {
                 if (hasProcessedSuccess) return;
 
