@@ -75,7 +75,7 @@ Access to the Qubic Network is currently provided by the wonderful work of (http
 
 # Compiling - Downloading - Running
 
-Fluter 3.22.2 is required.
+Fluter 3.27.1 is required.
 Soon there will be a dedicated compilation manual page. Until then here's some brief instructions:
 
 ## iOS
