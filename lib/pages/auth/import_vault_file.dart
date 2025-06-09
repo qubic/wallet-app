@@ -172,9 +172,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
                 }
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                     dialogTitle: l10n.importVaultFilePickerLabel,
-                    withData: isMobile ||
-                        isWindows ||
-                        isMacOS, //TODO Sally check this in MacOS
+                    withData: isMobile || isWindows || isMacOS,
                     initialDirectory: directory?.path,
                     //allowedExtensions: ['qubic-vault'],
                     lockParentWindow: true);
