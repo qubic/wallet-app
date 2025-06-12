@@ -2,7 +2,7 @@ class DappDto {
   final String id;
   final String? nameId;
   final String? icon;
-  final String? url;
+  String? url;
   final String? descriptionId;
   final String? customDescriptionId;
   final String? description;
