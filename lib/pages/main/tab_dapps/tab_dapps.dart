@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/dapp_model.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/components/featured_app_widget.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/components/popular_apps_widget.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
+import 'package:qubic_wallet/stores/dapp_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -19,6 +23,9 @@ class TabDApps extends StatefulWidget {
 class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   bool _isImagesLoaded = false;
   bool _isFirst = true;
+  final featuredApp = getIt<DappStore>().featuredDapp;
+  final explorer = getIt<DappStore>().explorerDapp;
+  final dapps = getIt<DappStore>().allDapps;
   late AnimationController _featuredController;
   late Animation<Offset> _featuredSlideAnimation;
   late Animation<double> _fadeAnimation;
@@ -84,8 +91,6 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   }
 
   Future<void> _preloadImages() async {
-    await precacheImage(AssetImage(featuredApp.icon), context);
-
     if (mounted) {
       setState(() {
         _isImagesLoaded = true;
@@ -114,11 +119,13 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                 FeaturedAppWidget(
                   slideAnimation: _featuredSlideAnimation,
                   fadeAnimation: _fadeAnimation,
+                  featuredApp: featuredApp,
                 ),
                 const SizedBox(height: 16),
                 ExplorerAppWidget(
                   slideAnimation: _featuredSlideAnimation,
                   fadeAnimation: _fadeAnimation,
+                  explorerApp: explorer,
                 ),
                 const SizedBox(height: 16),
                 Text(l10n.dAppPopularApps, style: TextStyles.pageTitle),
@@ -133,83 +140,15 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   }
 }
 
-class FeaturedAppWidget extends StatelessWidget {
-  final Animation<Offset> slideAnimation;
-  final Animation<double> fadeAnimation;
-
-  const FeaturedAppWidget({
-    required this.slideAnimation,
-    required this.fadeAnimation,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = l10nOf(context);
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WebviewScreen(initialUrl: featuredApp.url),
-          ),
-        );
-      },
-      child: SlideTransition(
-        position: slideAnimation,
-        child: FadeTransition(
-          opacity: fadeAnimation,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withValues(alpha: 0.7),
-                      Colors.transparent,
-                    ],
-                    stops: const [0.0, 1.0],
-                  ).createShader(bounds);
-                },
-                blendMode: BlendMode.dstIn,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(featuredApp.icon),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: ThemePaddings.normalPadding),
-                child: Column(
-                  children: [
-                    Text(l10n.dAppFeaturedApp, style: TextStyles.labelText),
-                    ThemedControls.spacerVerticalMini(),
-                    Text(
-                      featuredApp.description,
-                      style: TextStyles.secondaryTextSmall,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class ExplorerAppWidget extends StatelessWidget {
   final Animation<Offset> slideAnimation;
   final Animation<double> fadeAnimation;
+  final DappDto? explorerApp;
 
   const ExplorerAppWidget({
     required this.slideAnimation,
     required this.fadeAnimation,
+    required this.explorerApp,
     super.key,
   });
 
@@ -221,35 +160,7 @@ class ExplorerAppWidget extends StatelessWidget {
             child: FadeTransition(
                 opacity: fadeAnimation,
                 child: Observer(builder: (context) {
-                  return DAppTile(dApp: explorerApp.value);
+                  return DAppTile(dApp: explorerApp!);
                 }))));
-  }
-}
-
-class PopularDAppsWidget extends StatelessWidget {
-  final Animation<Offset> slideAnimation;
-  final Animation<double> fadeAnimation;
-
-  const PopularDAppsWidget({
-    required this.slideAnimation,
-    required this.fadeAnimation,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ThemedControls.card(
-      child: Column(
-        children: List.generate(dAppsList.length, (index) {
-          return SlideTransition(
-            position: slideAnimation,
-            child: FadeTransition(
-              opacity: fadeAnimation,
-              child: DAppTile(dApp: dAppsList[index]),
-            ),
-          );
-        }),
-      ),
-    );
   }
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/config.dart';
+import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/dapp_model.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class DAppTile extends StatelessWidget {
-  final DAppModel dApp;
+  final DappDto dApp;
   final bool openFullScreen;
   const DAppTile({
     required this.dApp,
@@ -19,13 +19,14 @@ class DAppTile extends StatelessWidget {
   });
 
   onTap(BuildContext context) {
+    if (dApp.url == null) return;
     if (openFullScreen) {
-      launchUrlString(dApp.url, mode: LaunchMode.inAppBrowserView);
+      launchUrlString(dApp.url!, mode: LaunchMode.inAppBrowserView);
       return;
     }
     pushScreen(
       context,
-      screen: WebviewScreen(initialUrl: dApp.url),
+      screen: WebviewScreen(initialUrl: dApp.url!),
       pageTransitionAnimation: PageTransitionAnimation.slideUp,
       withNavBar: true,
     );
@@ -43,8 +44,8 @@ class DAppTile extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
-              child: dApp.icon.isNotEmpty
-                  ? Image.network(dApp.icon, height: 40)
+              child: dApp.icon?.isNotEmpty == true
+                  ? Image.network(dApp.icon!, height: 40)
                   : Image.asset(Config.dAppDefaultImageName, height: 40),
             ),
             const SizedBox(width: 15),
@@ -53,12 +54,12 @@ class DAppTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    dApp.name,
+                    dApp.name ?? "-",
                     style: TextStyles.labelText,
                   ),
                   ThemedControls.spacerVerticalMini(),
                   Text(
-                    dApp.description,
+                    dApp.description ?? "-",
                     style: TextStyles.smallInfoText,
                   ),
                 ],
