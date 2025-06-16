@@ -15,6 +15,7 @@ import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/dapp_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -142,6 +143,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
           LocalizationManager.instance.setLocalizations(localizations);
           l10nWrapper.setL10n(localizations);
         }
+        getIt<DappStore>().loadDapps();
 
         return Stack(
           children: [

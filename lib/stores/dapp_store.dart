@@ -5,7 +5,6 @@ import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
-import 'package:qubic_wallet/stores/settings_store.dart';
 
 part 'dapp_store.g.dart';
 
@@ -13,10 +12,6 @@ class DappStore = _DappStore with _$DappStore;
 
 abstract class _DappStore with Store {
   final QubicHelpersApi _qubicHelpersApi = getIt<QubicHelpersApi>();
-
-  _DappStore() {
-    loadDapps();
-  }
 
   @observable
   DappsResponse? dappsResponse;
@@ -27,14 +22,22 @@ abstract class _DappStore with Store {
   @observable
   bool isLoading = false;
 
+  String getCurrentLocale() {
+    String currentLocale = l10nWrapper.l10n?.localeName ?? "en";
+    if (!["de", "es", "fr", "ru", "tr", "zh"].contains(currentLocale)) {
+      currentLocale = "en";
+    }
+    return currentLocale;
+  }
+
   @action
   Future<void> loadDapps() async {
     try {
       isLoading = true;
       error = null;
       dappsResponse = await _qubicHelpersApi.getDapps();
-      final dappsLocalized = await _qubicHelpersApi
-          .getLocalizedJson(L10nWrapper().l10n?.localeName ?? "en");
+      final dappsLocalized =
+          await _qubicHelpersApi.getLocalizedJson(getCurrentLocale());
       // Change the description and name of each dapp inside dapps to have the localized value
       dappsResponse!.dapps = dappsResponse!.dapps.map((dapp) {
         return dapp.copyWith(
