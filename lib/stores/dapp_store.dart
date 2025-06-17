@@ -41,7 +41,9 @@ abstract class _DappStore with Store {
   List<DappDto> get popularDapps {
     if (dappsResponse == null) return [];
     return dappsResponse!.dapps
-        .where((dapp) => !dappsResponse!.topApps.contains(dapp.id))
+        .where((dapp) =>
+            !dappsResponse!.topApps.contains(dapp.id) &&
+            dapp.id != dappsResponse!.featuredApp?.id)
         .toList();
   }
 

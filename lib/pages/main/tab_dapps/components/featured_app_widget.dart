@@ -63,7 +63,8 @@ class FeaturedAppWidget extends StatelessWidget {
                     horizontal: ThemePaddings.normalPadding),
                 child: Column(
                   children: [
-                    Text(l10n.dAppFeaturedApp, style: TextStyles.labelText),
+                    Text(featuredApp?.name ?? l10n.dAppFeaturedApp,
+                        style: TextStyles.labelText),
                     ThemedControls.spacerVerticalMini(),
                     Text(
                       featuredApp?.description ?? "-",
