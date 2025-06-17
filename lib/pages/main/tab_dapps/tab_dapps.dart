@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/featured_app_widget.dart';
@@ -135,7 +136,9 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                 //   explorerApp: explorer,
                 // ),
                 const SizedBox(height: 16),
-                Text(l10n.dAppPopularApps, style: TextStyles.pageTitle),
+                Text(l10n.dAppPopularApps,
+                    style: TextStyles.pageTitle
+                        .copyWith(fontSize: ThemeFontSizes.sectionTitle)),
                 PopularDAppsWidget(
                   slideAnimation: _popularSlideAnimation,
                   fadeAnimation: _popularFadeAnimation,
