@@ -22,6 +22,29 @@ abstract class _DappStore with Store {
   @observable
   bool isLoading = false;
 
+  @computed
+  List<DappDto> get allDapps => dappsResponse?.dapps ?? [];
+
+  @computed
+  List<DappDto> get topDapps {
+    if (dappsResponse == null) return [];
+    return dappsResponse!.dapps
+        .where((dapp) => dappsResponse!.topApps.contains(dapp.id))
+        .toList();
+  }
+
+  @computed
+  DappDto? get featuredDapp => dappsResponse?.dapps
+      .firstWhereOrNull((e) => e.id == dappsResponse?.featuredApp?.id);
+
+  @computed
+  List<DappDto> get popularDapps {
+    if (dappsResponse == null) return [];
+    return dappsResponse!.dapps
+        .where((dapp) => !dappsResponse!.topApps.contains(dapp.id))
+        .toList();
+  }
+
   String getCurrentLocale() {
     String currentLocale = l10nWrapper.l10n?.localeName ?? "en";
     if (!["de", "es", "fr", "ru", "tr", "zh"].contains(currentLocale)) {
@@ -52,22 +75,4 @@ abstract class _DappStore with Store {
       isLoading = false;
     }
   }
-
-  @computed
-  List<DappDto> get allDapps => dappsResponse?.dapps ?? [];
-
-  @computed
-  List<DappDto> get topDapps {
-    if (dappsResponse == null) return [];
-    return dappsResponse!.dapps
-        .where((dapp) => dappsResponse!.topApps.contains(dapp.id))
-        .toList();
-  }
-
-  @computed
-  DappDto? get featuredDapp => dappsResponse?.dapps
-      .firstWhereOrNull((e) => e.id == dappsResponse?.featuredApp?.id);
-  @computed
-  DappDto? get explorerDapp =>
-      dappsResponse?.dapps.firstWhereOrNull((e) => e.id == "explorer_app_id");
 }

@@ -19,13 +19,13 @@ class PopularDAppsWidget extends StatelessWidget {
     final dappStore = getIt<DappStore>();
     return ThemedControls.card(
       child: Column(
-        children: List.generate(dappStore.allDapps.length, (index) {
+        children: List.generate(dappStore.popularDapps.length, (index) {
           return SlideTransition(
             position: slideAnimation,
             child: FadeTransition(
               opacity: fadeAnimation,
               child: DAppTile(
-                dApp: dappStore.allDapps[index],
+                dApp: dappStore.popularDapps[index],
               ),
             ),
           );

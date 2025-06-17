@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/featured_app_widget.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/popular_apps_widget.dart';
-import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/stores/dapp_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -24,7 +22,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   bool _isImagesLoaded = false;
   bool _isFirst = true;
   final featuredApp = getIt<DappStore>().featuredDapp;
-  final explorer = getIt<DappStore>().explorerDapp;
+  final topApps = getIt<DappStore>().topDapps;
   final dapps = getIt<DappStore>().allDapps;
   late AnimationController _featuredController;
   late Animation<Offset> _featuredSlideAnimation;
@@ -122,11 +120,20 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                   featuredApp: featuredApp,
                 ),
                 const SizedBox(height: 16),
-                ExplorerAppWidget(
-                  slideAnimation: _featuredSlideAnimation,
-                  fadeAnimation: _fadeAnimation,
-                  explorerApp: explorer,
+                Column(
+                  children: topApps
+                      .map((e) => ToppAppWidget(
+                            explorerApp: e,
+                            fadeAnimation: _fadeAnimation,
+                            slideAnimation: _featuredSlideAnimation,
+                          ))
+                      .toList(),
                 ),
+                // ExplorerAppWidget(
+                //   slideAnimation: _featuredSlideAnimation,
+                //   fadeAnimation: _fadeAnimation,
+                //   explorerApp: explorer,
+                // ),
                 const SizedBox(height: 16),
                 Text(l10n.dAppPopularApps, style: TextStyles.pageTitle),
                 PopularDAppsWidget(
@@ -140,12 +147,12 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   }
 }
 
-class ExplorerAppWidget extends StatelessWidget {
+class ToppAppWidget extends StatelessWidget {
   final Animation<Offset> slideAnimation;
   final Animation<double> fadeAnimation;
   final DappDto? explorerApp;
 
-  const ExplorerAppWidget({
+  const ToppAppWidget({
     required this.slideAnimation,
     required this.fadeAnimation,
     required this.explorerApp,

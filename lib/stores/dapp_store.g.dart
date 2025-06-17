@@ -30,6 +30,13 @@ mixin _$DappStore on _DappStore, Store {
       (_$featuredDappComputed ??= Computed<DappDto?>(() => super.featuredDapp,
               name: '_DappStore.featuredDapp'))
           .value;
+  Computed<List<DappDto>>? _$popularDappsComputed;
+
+  @override
+  List<DappDto> get popularDapps => (_$popularDappsComputed ??=
+          Computed<List<DappDto>>(() => super.popularDapps,
+              name: '_DappStore.popularDapps'))
+      .value;
 
   late final _$dappsResponseAtom =
       Atom(name: '_DappStore.dappsResponse', context: context);
@@ -94,7 +101,8 @@ error: ${error},
 isLoading: ${isLoading},
 allDapps: ${allDapps},
 topDapps: ${topDapps},
-featuredDapp: ${featuredDapp}
+featuredDapp: ${featuredDapp},
+popularDapps: ${popularDapps}
     ''';
   }
 }
