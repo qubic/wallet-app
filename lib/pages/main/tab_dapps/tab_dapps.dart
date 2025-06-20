@@ -20,11 +20,9 @@ class TabDApps extends StatefulWidget {
 }
 
 class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
-  bool _isImagesLoaded = false;
   bool _isFirst = true;
-  final featuredApp = getIt<DappStore>().featuredDapp;
-  final topApps = getIt<DappStore>().topDapps;
-  final dapps = getIt<DappStore>().allDapps;
+  final dappStore = getIt<DappStore>();
+
   late AnimationController _featuredController;
   late Animation<Offset> _featuredSlideAnimation;
   late Animation<double> _fadeAnimation;
@@ -38,7 +36,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
     if (_isFirst) {
       _initializeFeaturedAnimations();
       _initializePopularAnimations();
-      _preloadImages();
+      _startAnimations();
       _isFirst = false;
     }
   }
@@ -89,12 +87,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
     ));
   }
 
-  Future<void> _preloadImages() async {
+  Future<void> _startAnimations() async {
     if (mounted) {
-      setState(() {
-        _isImagesLoaded = true;
-      });
-
       _featuredController.forward();
       _popularController.forward();
     }
@@ -110,38 +104,59 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
-    return Scaffold(
-      body: _isImagesLoaded
-          ? ListView(
-              padding: ThemeEdgeInsets.pageInsets,
-              children: [
-                FeaturedAppWidget(
-                  slideAnimation: _featuredSlideAnimation,
-                  fadeAnimation: _fadeAnimation,
-                  featuredApp: featuredApp,
-                ),
-                const SizedBox(height: 16),
-                TopDAppsWidget(
-                  topDApps: topApps,
-                  fadeAnimation: _fadeAnimation,
-                  slideAnimation: _featuredSlideAnimation,
-                ),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: ThemePaddings.normalPadding),
-                  child: Text(l10n.dAppPopularApps,
-                      style: TextStyles.pageTitle
-                          .copyWith(fontSize: ThemeFontSizes.sectionTitle)),
-                ),
-                PopularDAppsWidget(
-                  slideAnimation: _popularSlideAnimation,
-                  fadeAnimation: _popularFadeAnimation,
-                ),
-              ],
-            )
-          : const Center(child: CircularProgressIndicator()),
-    );
+    return Scaffold(body: Observer(builder: (context) {
+      if (dappStore.error != null) {
+        return SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                l10n.generalErrorUnexpectedError,
+                style: TextStyles.secondaryText,
+              ),
+              const SizedBox(height: ThemePaddings.normalPadding),
+              ThemedControls.primaryButtonBig(
+                  onPressed: () {
+                    getIt<DappStore>().loadDapps();
+                  },
+                  text: l10n.generalButtonTryAgain)
+            ],
+          ),
+        );
+      } else if (dappStore.isLoading) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      return ListView(
+        padding: ThemeEdgeInsets.pageInsets,
+        children: [
+          FeaturedAppWidget(
+            slideAnimation: _featuredSlideAnimation,
+            fadeAnimation: _fadeAnimation,
+            featuredApp: dappStore.featuredDapp,
+          ),
+          const SizedBox(height: 16),
+          TopDAppsWidget(
+            topDApps: dappStore.topDapps,
+            fadeAnimation: _fadeAnimation,
+            slideAnimation: _featuredSlideAnimation,
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: ThemePaddings.normalPadding),
+            child: Text(l10n.dAppPopularApps,
+                style: TextStyles.pageTitle
+                    .copyWith(fontSize: ThemeFontSizes.sectionTitle)),
+          ),
+          PopularDAppsWidget(
+            slideAnimation: _popularSlideAnimation,
+            fadeAnimation: _popularFadeAnimation,
+          ),
+        ],
+      );
+    }));
   }
 }
 

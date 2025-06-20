@@ -113,4 +113,18 @@ class DappsResponse {
   String toString() {
     return 'DappsResponse(version: $version, featuredApp: $featuredApp, topApps: $topApps, dapps: $dapps)';
   }
+
+  DappsResponse copyWith({
+    String? version,
+    FeaturedAppDto? featuredApp,
+    List<String>? topApps,
+    List<DappDto>? dapps,
+  }) {
+    return DappsResponse(
+      version: version ?? this.version,
+      featuredApp: featuredApp ?? this.featuredApp,
+      topApps: topApps ?? this.topApps,
+      dapps: dapps ?? this.dapps,
+    );
+  }
 }

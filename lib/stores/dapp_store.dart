@@ -58,13 +58,15 @@ abstract class _DappStore with Store {
   @action
   Future<void> loadDapps() async {
     try {
+      appLogger.d("message");
       isLoading = true;
       error = null;
-      dappsResponse = await _qubicHelpersApi.getDapps();
+      final response = await _qubicHelpersApi.getDapps();
       final dappsLocalized =
           await _qubicHelpersApi.getLocalizedJson(getCurrentLocale());
-      // Change the description and name of each dapp inside dapps to have the localized value
-      dappsResponse!.dapps = dappsResponse!.dapps.map((dapp) {
+
+      // Create the localized dapps list
+      final localizedDapps = response.dapps.map((dapp) {
         return dapp.copyWith(
           description: dappsLocalized[dapp.descriptionId],
           name: dappsLocalized[dapp.nameId],
@@ -73,6 +75,9 @@ abstract class _DappStore with Store {
               : null,
         );
       }).toList();
+
+      // Assign the new response with localized dapps
+      dappsResponse = response.copyWith(dapps: localizedDapps);
     } catch (e) {
       appLogger.e(e);
       error = e.toString();

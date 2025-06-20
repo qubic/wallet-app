@@ -17,6 +17,7 @@ class PopularDAppsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dappStore = getIt<DappStore>();
+
     return ThemedControls.card(
       child: Column(
         children: List.generate(dappStore.popularDapps.length, (index) {

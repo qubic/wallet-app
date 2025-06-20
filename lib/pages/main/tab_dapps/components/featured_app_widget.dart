@@ -46,41 +46,42 @@ class FeaturedAppWidget extends StatelessWidget {
                 child: Image.asset("assets/images/featured.jpg"),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: ThemePaddings.normalPadding),
-              child: Column(
-                children: [
-                  Text(featuredApp?.name ?? l10n.dAppFeaturedApp,
-                      style: TextStyles.pageTitle),
-                  ThemedControls.spacerVerticalMini(),
-                  Text(
-                    featuredApp?.description ?? "-",
-                    style: TextStyles.secondaryTextNormal,
-                    textAlign: TextAlign.center,
-                  ),
-                  ThemedControls.spacerVerticalMini(),
-                  ThemedControls.secondaryButtonWithChild(
-                    onPressed: () {
-                      if (featuredApp?.url != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                WebviewScreen(initialUrl: featuredApp!.url!),
-                          ),
-                        );
-                      }
-                    },
-                    child: Text(
-                      featuredApp?.openButtonTitle ?? l10n.dAppOpenButton,
-                      style: TextStyles.primaryButtonTextSmall
-                          .copyWith(color: LightThemeColors.primary40),
+            if (featuredApp != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ThemePaddings.normalPadding),
+                child: Column(
+                  children: [
+                    Text(featuredApp?.name ?? l10n.dAppFeaturedApp,
+                        style: TextStyles.pageTitle),
+                    ThemedControls.spacerVerticalMini(),
+                    Text(
+                      featuredApp?.description ?? "-",
+                      style: TextStyles.secondaryTextNormal,
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                ],
+                    ThemedControls.spacerVerticalMini(),
+                    ThemedControls.secondaryButtonWithChild(
+                      onPressed: () {
+                        if (featuredApp?.url != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  WebviewScreen(initialUrl: featuredApp!.url!),
+                            ),
+                          );
+                        }
+                      },
+                      child: Text(
+                        featuredApp?.openButtonTitle ?? l10n.dAppOpenButton,
+                        style: TextStyles.primaryButtonTextSmall
+                            .copyWith(color: LightThemeColors.primary40),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

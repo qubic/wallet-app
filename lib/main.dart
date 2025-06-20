@@ -10,6 +10,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -144,7 +145,6 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
           l10nWrapper.setL10n(localizations);
         }
         getIt<DappStore>().loadDapps();
-
         return Stack(
           children: [
             child ?? const SizedBox.shrink(),
