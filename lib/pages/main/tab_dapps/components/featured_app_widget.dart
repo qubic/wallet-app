@@ -21,70 +21,67 @@ class FeaturedAppWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
-    return GestureDetector(
-      onTap: () {
-        if (featuredApp?.url != null) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  WebviewScreen(initialUrl: featuredApp!.url!),
-            ),
-          );
-        }
-      },
-      child: SlideTransition(
-        position: slideAnimation,
-        child: FadeTransition(
-          opacity: fadeAnimation,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withValues(alpha: 0.7),
-                      Colors.transparent,
-                    ],
-                    stops: const [0.0, 1.0],
-                  ).createShader(bounds);
-                },
-                blendMode: BlendMode.dstIn,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset("assets/images/featured.jpg"),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: ThemePaddings.normalPadding),
-                child: Column(
-                  children: [
-                    Text(featuredApp?.name ?? l10n.dAppFeaturedApp,
-                        style: TextStyles.pageTitle),
-                    ThemedControls.spacerVerticalMini(),
-                    Text(
-                      featuredApp?.description ?? "-",
-                      style: TextStyles.secondaryTextNormal,
-                      textAlign: TextAlign.center,
-                    ),
-                    ThemedControls.spacerVerticalMini(),
-                    ThemedControls.secondaryButtonWithChild(
-                      onPressed: () {},
-                      child: Text(
-                        featuredApp?.openButtonTitle ?? l10n.dAppOpenButton,
-                        style: TextStyles.primaryButtonTextSmall
-                            .copyWith(color: LightThemeColors.primary40),
-                      ),
-                    ),
+    return SlideTransition(
+      position: slideAnimation,
+      child: FadeTransition(
+        opacity: fadeAnimation,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            ShaderMask(
+              shaderCallback: (Rect bounds) {
+                return LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withValues(alpha: 0.7),
+                    Colors.transparent,
                   ],
-                ),
+                  stops: const [0.0, 1.0],
+                ).createShader(bounds);
+              },
+              blendMode: BlendMode.dstIn,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset("assets/images/featured.jpg"),
               ),
-            ],
-          ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: ThemePaddings.normalPadding),
+              child: Column(
+                children: [
+                  Text(featuredApp?.name ?? l10n.dAppFeaturedApp,
+                      style: TextStyles.pageTitle),
+                  ThemedControls.spacerVerticalMini(),
+                  Text(
+                    featuredApp?.description ?? "-",
+                    style: TextStyles.secondaryTextNormal,
+                    textAlign: TextAlign.center,
+                  ),
+                  ThemedControls.spacerVerticalMini(),
+                  ThemedControls.secondaryButtonWithChild(
+                    onPressed: () {
+                      if (featuredApp?.url != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                WebviewScreen(initialUrl: featuredApp!.url!),
+                          ),
+                        );
+                      }
+                    },
+                    child: Text(
+                      featuredApp?.openButtonTitle ?? l10n.dAppOpenButton,
+                      style: TextStyles.primaryButtonTextSmall
+                          .copyWith(color: LightThemeColors.primary40),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
