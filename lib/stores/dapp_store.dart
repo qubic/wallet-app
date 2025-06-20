@@ -68,6 +68,9 @@ abstract class _DappStore with Store {
         return dapp.copyWith(
           description: dappsLocalized[dapp.descriptionId],
           name: dappsLocalized[dapp.nameId],
+          openButtonTitle: (dapp.openButtonTitleId != null)
+              ? dappsLocalized[dapp.openButtonTitleId]
+              : null,
         );
       }).toList();
     } catch (e) {

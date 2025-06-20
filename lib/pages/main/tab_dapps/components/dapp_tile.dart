@@ -68,7 +68,7 @@ class DAppTile extends StatelessWidget {
             ThemedControls.secondaryButtonWithChild(
               onPressed: () => onTap(context),
               child: Text(
-                l10n.dAppOpenButton,
+                dApp.openButtonTitle ?? l10n.dAppOpenButton,
                 style: TextStyles.primaryButtonTextSmall
                     .copyWith(color: LightThemeColors.primary40),
               ),

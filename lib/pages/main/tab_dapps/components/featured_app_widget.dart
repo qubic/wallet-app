@@ -64,12 +64,21 @@ class FeaturedAppWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(featuredApp?.name ?? l10n.dAppFeaturedApp,
-                        style: TextStyles.labelText),
+                        style: TextStyles.pageTitle),
                     ThemedControls.spacerVerticalMini(),
                     Text(
                       featuredApp?.description ?? "-",
-                      style: TextStyles.secondaryTextSmall,
+                      style: TextStyles.secondaryTextNormal,
                       textAlign: TextAlign.center,
+                    ),
+                    ThemedControls.spacerVerticalMini(),
+                    ThemedControls.secondaryButtonWithChild(
+                      onPressed: () {},
+                      child: Text(
+                        featuredApp?.openButtonTitle ?? l10n.dAppOpenButton,
+                        style: TextStyles.primaryButtonTextSmall
+                            .copyWith(color: LightThemeColors.primary40),
+                      ),
                     ),
                   ],
                 ),

@@ -5,8 +5,10 @@ class DappDto {
   String? url;
   final String? descriptionId;
   final String? customDescriptionId;
+  final String? openButtonTitleId;
   final String? description;
   final String? name;
+  final String? openButtonTitle;
 
   DappDto({
     required this.id,
@@ -15,8 +17,10 @@ class DappDto {
     required this.url,
     required this.descriptionId,
     required this.customDescriptionId,
+    required this.openButtonTitleId,
     this.description,
     this.name,
+    this.openButtonTitle,
   });
 
   factory DappDto.fromJson(Map<String, dynamic> json) {
@@ -27,6 +31,8 @@ class DappDto {
       url: json['url'],
       descriptionId: json['descriptionId'],
       customDescriptionId: json['customDescriptionId'],
+      openButtonTitleId: json['openButtonTitleId'],
+      openButtonTitle: json['openButtonTitle'],
     );
   }
 
@@ -39,6 +45,8 @@ class DappDto {
     String? customDescriptionId,
     String? description,
     String? name,
+    String? openButtonTitleId,
+    String? openButtonTitle,
   }) {
     return DappDto(
       id: id ?? this.id,
@@ -49,12 +57,14 @@ class DappDto {
       customDescriptionId: customDescriptionId ?? this.customDescriptionId,
       description: description ?? this.description,
       name: name ?? this.name,
+      openButtonTitleId: openButtonTitleId ?? this.openButtonTitleId,
+      openButtonTitle: openButtonTitle ?? this.openButtonTitle,
     );
   }
 
   @override
   String toString() {
-    return 'DappDto(id: $id, nameId: $nameId, icon: $icon, url: $url, descriptionId: $descriptionId, customDescriptionId: $customDescriptionId, description: $description, name: $name)';
+    return 'DappDto(id: $id, nameId: $nameId, icon: $icon, url: $url, descriptionId: $descriptionId, customDescriptionId: $customDescriptionId, description: $description, name: $name openButtonTitle: $openButtonTitle)';
   }
 }
 

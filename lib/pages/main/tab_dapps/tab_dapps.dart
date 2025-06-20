@@ -121,24 +121,19 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                   featuredApp: featuredApp,
                 ),
                 const SizedBox(height: 16),
-                Column(
-                  children: topApps
-                      .map((e) => ToppAppWidget(
-                            explorerApp: e,
-                            fadeAnimation: _fadeAnimation,
-                            slideAnimation: _featuredSlideAnimation,
-                          ))
-                      .toList(),
+                TopDAppsWidget(
+                  topDApps: topApps,
+                  fadeAnimation: _fadeAnimation,
+                  slideAnimation: _featuredSlideAnimation,
                 ),
-                // ExplorerAppWidget(
-                //   slideAnimation: _featuredSlideAnimation,
-                //   fadeAnimation: _fadeAnimation,
-                //   explorerApp: explorer,
-                // ),
                 const SizedBox(height: 16),
-                Text(l10n.dAppPopularApps,
-                    style: TextStyles.pageTitle
-                        .copyWith(fontSize: ThemeFontSizes.sectionTitle)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: ThemePaddings.normalPadding),
+                  child: Text(l10n.dAppPopularApps,
+                      style: TextStyles.pageTitle
+                          .copyWith(fontSize: ThemeFontSizes.sectionTitle)),
+                ),
                 PopularDAppsWidget(
                   slideAnimation: _popularSlideAnimation,
                   fadeAnimation: _popularFadeAnimation,
@@ -150,27 +145,34 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   }
 }
 
-class ToppAppWidget extends StatelessWidget {
+class TopDAppsWidget extends StatelessWidget {
   final Animation<Offset> slideAnimation;
   final Animation<double> fadeAnimation;
-  final DappDto? explorerApp;
+  final List<DappDto> topDApps;
 
-  const ToppAppWidget({
+  const TopDAppsWidget({
     required this.slideAnimation,
     required this.fadeAnimation,
-    required this.explorerApp,
+    required this.topDApps,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return ThemedControls.card(
-        child: SlideTransition(
+      child: Column(
+        children: List.generate(topDApps.length, (index) {
+          return SlideTransition(
             position: slideAnimation,
             child: FadeTransition(
-                opacity: fadeAnimation,
-                child: Observer(builder: (context) {
-                  return DAppTile(dApp: explorerApp!);
-                }))));
+              opacity: fadeAnimation,
+              child: DAppTile(
+                dApp: topDApps[index],
+              ),
+            ),
+          );
+        }),
+      ),
+    );
   }
 }
