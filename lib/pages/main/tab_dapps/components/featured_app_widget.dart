@@ -73,10 +73,14 @@ class FeaturedAppWidget extends StatelessWidget {
                           );
                         }
                       },
-                      child: Text(
-                        featuredApp?.openButtonTitle ?? l10n.dAppOpenButton,
-                        style: TextStyles.primaryButtonTextSmall
-                            .copyWith(color: LightThemeColors.primary40),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: ThemePaddings.normalPadding),
+                        child: Text(
+                          featuredApp?.openButtonTitle ?? l10n.dAppOpenButton,
+                          style: TextStyles.primaryButtonTextSmall
+                              .copyWith(color: LightThemeColors.primary40),
+                        ),
                       ),
                     ),
                   ],
