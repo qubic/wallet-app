@@ -404,7 +404,7 @@ class _AccountListItemState extends State<AccountListItem> {
                         Row(children: [
                           Expanded(
                             child: Row(children: [
-                              Expanded(
+                              Flexible(
                                 child: Text(
                                   widget.item.name,
                                   style: TextStyles.accountName,
