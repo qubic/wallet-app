@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/dapp_model.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
-import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/components/featured_app_widget.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/components/popular_apps_widget.dart';
+import 'package:qubic_wallet/stores/dapp_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -17,8 +20,9 @@ class TabDApps extends StatefulWidget {
 }
 
 class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
-  bool _isImagesLoaded = false;
   bool _isFirst = true;
+  final dappStore = getIt<DappStore>();
+
   late AnimationController _featuredController;
   late Animation<Offset> _featuredSlideAnimation;
   late Animation<double> _fadeAnimation;
@@ -32,7 +36,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
     if (_isFirst) {
       _initializeFeaturedAnimations();
       _initializePopularAnimations();
-      _preloadImages();
+      _startAnimations();
       _isFirst = false;
     }
   }
@@ -83,14 +87,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
     ));
   }
 
-  Future<void> _preloadImages() async {
-    await precacheImage(AssetImage(featuredApp.icon), context);
-
+  Future<void> _startAnimations() async {
     if (mounted) {
-      setState(() {
-        _isImagesLoaded = true;
-      });
-
       _featuredController.forward();
       _popularController.forward();
     }
@@ -106,133 +104,71 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
-    return Scaffold(
-      body: _isImagesLoaded
-          ? ListView(
-              padding: ThemeEdgeInsets.pageInsets,
-              children: [
-                FeaturedAppWidget(
-                  slideAnimation: _featuredSlideAnimation,
-                  fadeAnimation: _fadeAnimation,
-                ),
-                const SizedBox(height: 16),
-                ExplorerAppWidget(
-                  slideAnimation: _featuredSlideAnimation,
-                  fadeAnimation: _fadeAnimation,
-                ),
-                const SizedBox(height: 16),
-                Text(l10n.dAppPopularApps, style: TextStyles.pageTitle),
-                PopularDAppsWidget(
-                  slideAnimation: _popularSlideAnimation,
-                  fadeAnimation: _popularFadeAnimation,
-                ),
-              ],
-            )
-          : const Center(child: CircularProgressIndicator()),
-    );
-  }
-}
-
-class FeaturedAppWidget extends StatelessWidget {
-  final Animation<Offset> slideAnimation;
-  final Animation<double> fadeAnimation;
-
-  const FeaturedAppWidget({
-    required this.slideAnimation,
-    required this.fadeAnimation,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = l10nOf(context);
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => WebviewScreen(initialUrl: featuredApp.url),
-          ),
-        );
-      },
-      child: SlideTransition(
-        position: slideAnimation,
-        child: FadeTransition(
-          opacity: fadeAnimation,
-          child: Stack(
-            alignment: Alignment.center,
+    return Scaffold(body: Observer(builder: (context) {
+      if (dappStore.error != null) {
+        return SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              ShaderMask(
-                shaderCallback: (Rect bounds) {
-                  return LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.black.withValues(alpha: 0.7),
-                      Colors.transparent,
-                    ],
-                    stops: const [0.0, 1.0],
-                  ).createShader(bounds);
-                },
-                blendMode: BlendMode.dstIn,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(featuredApp.icon),
-                ),
+              Text(
+                l10n.generalErrorUnexpectedError,
+                style: TextStyles.secondaryText,
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: ThemePaddings.normalPadding),
-                child: Column(
-                  children: [
-                    Text(l10n.dAppFeaturedApp, style: TextStyles.labelText),
-                    ThemedControls.spacerVerticalMini(),
-                    Text(
-                      featuredApp.description,
-                      style: TextStyles.secondaryTextSmall,
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
-                ),
-              ),
+              const SizedBox(height: ThemePaddings.normalPadding),
+              ThemedControls.primaryButtonBig(
+                  onPressed: () {
+                    getIt<DappStore>().loadDapps();
+                  },
+                  text: l10n.generalButtonTryAgain)
             ],
           ),
-        ),
-      ),
-    );
+        );
+      } else if (dappStore.isLoading) {
+        return const Center(child: CircularProgressIndicator());
+      }
+      return ListView(
+        padding: ThemeEdgeInsets.pageInsets,
+        children: [
+          FeaturedAppWidget(
+            slideAnimation: _featuredSlideAnimation,
+            fadeAnimation: _fadeAnimation,
+            featuredApp: dappStore.featuredDapp,
+          ),
+          const SizedBox(height: 16),
+          TopDAppsWidget(
+            topDApps: dappStore.topDapps,
+            fadeAnimation: _fadeAnimation,
+            slideAnimation: _featuredSlideAnimation,
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: ThemePaddings.normalPadding),
+            child: Text(l10n.dAppPopularApps,
+                style: TextStyles.pageTitle
+                    .copyWith(fontSize: ThemeFontSizes.sectionTitle)),
+          ),
+          PopularDAppsWidget(
+            slideAnimation: _popularSlideAnimation,
+            fadeAnimation: _popularFadeAnimation,
+          ),
+        ],
+      );
+    }));
   }
 }
 
-class ExplorerAppWidget extends StatelessWidget {
+class TopDAppsWidget extends StatelessWidget {
   final Animation<Offset> slideAnimation;
   final Animation<double> fadeAnimation;
+  final List<DappDto> topDApps;
 
-  const ExplorerAppWidget({
+  const TopDAppsWidget({
     required this.slideAnimation,
     required this.fadeAnimation,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ThemedControls.card(
-        child: SlideTransition(
-            position: slideAnimation,
-            child: FadeTransition(
-                opacity: fadeAnimation,
-                child: Observer(builder: (context) {
-                  return DAppTile(dApp: explorerApp.value);
-                }))));
-  }
-}
-
-class PopularDAppsWidget extends StatelessWidget {
-  final Animation<Offset> slideAnimation;
-  final Animation<double> fadeAnimation;
-
-  const PopularDAppsWidget({
-    required this.slideAnimation,
-    required this.fadeAnimation,
+    required this.topDApps,
     super.key,
   });
 
@@ -240,12 +176,14 @@ class PopularDAppsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemedControls.card(
       child: Column(
-        children: List.generate(dAppsList.length, (index) {
+        children: List.generate(topDApps.length, (index) {
           return SlideTransition(
             position: slideAnimation,
             child: FadeTransition(
               opacity: fadeAnimation,
-              child: DAppTile(dApp: dAppsList[index]),
+              child: DAppTile(
+                dApp: topDApps[index],
+              ),
             ),
           );
         }),

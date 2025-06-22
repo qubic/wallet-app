@@ -14,7 +14,9 @@ import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
+import 'package:qubic_wallet/stores/dapp_store.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -25,10 +27,12 @@ void setupDI() {
   getIt.registerSingleton<QubicArchiveApi>(
       QubicArchiveApi(getIt<NetworkStore>()));
   getIt.registerSingleton<QubicStatsApi>(QubicStatsApi(getIt<NetworkStore>()));
+  getIt.registerSingleton<QubicHelpersApi>(QubicHelpersApi());
 
   //Stores
   getIt.registerSingleton<ApplicationStore>(ApplicationStore());
   getIt.registerSingleton<SettingsStore>(SettingsStore());
+  getIt.registerSingleton<DappStore>(DappStore());
   getIt.registerSingleton<SecureStorage>(SecureStorage());
   getIt.registerSingleton<HiveStorage>(HiveStorage());
 

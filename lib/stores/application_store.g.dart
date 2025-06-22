@@ -322,7 +322,7 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
       context: context);
 
   @override
-  Future validatePendingTransactions(int currentTick) {
+  Future<void> validatePendingTransactions(int currentTick) {
     return _$validatePendingTransactionsAsyncAction
         .run(() => super.validatePendingTransactions(currentTick));
   }
