@@ -5,7 +5,7 @@ import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 
 class QubicHelpersApi {
-  Dio _dio;
+  final Dio _dio;
 
   QubicHelpersApi()
       : _dio = DioClient.getDio(
