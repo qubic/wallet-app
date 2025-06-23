@@ -35,6 +35,19 @@ class QubicLiveApi {
     }
   }
 
+  Future<int> getLatestTickProcessed() async {
+    try {
+      _appStore.incrementPendingRequests();
+      final response = await _dio.get(
+          '${_networkStore.currentNetwork.rpcUrl}${Config.latestTickProcessed}');
+      return response.data["latestTick"];
+    } catch (error) {
+      throw ErrorHandler.handleError(error);
+    } finally {
+      _appStore.decreasePendingRequests();
+    }
+  }
+
   Future<String> submitTransaction(String transaction) async {
     try {
       _appStore.incrementPendingRequests();

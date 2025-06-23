@@ -11,6 +11,7 @@ abstract class Config {
   static computors(int epoch) => "/v1/epochs/$epoch/computors";
   static transaction(String transaction) => "/v2/transactions/$transaction";
   static networkTicks(int epoch) => "/v2/epochs/$epoch/ticks";
+  static const latestTickProcessed = "/v1/latestTick";
 
   static const latestStatsUrl = "/v1/latest-stats";
 
@@ -83,11 +84,6 @@ abstract class Config {
   static const walletConnectExistsTimeoutSeconds = 2;
 
   static const CustomURLScheme = "qubic-wallet";
-
-  static const averageTickDurationInSeconds = 2.0;
-  static const secondsToFlagTrxAsInvalid = 20;
-  static const ticksToFlagTrxAsInvalid =
-      secondsToFlagTrxAsInvalid / averageTickDurationInSeconds;
 
   static const dAppDefaultImageName = "assets/images/dapp-default.png";
 }

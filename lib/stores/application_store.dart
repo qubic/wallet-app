@@ -439,10 +439,10 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
-  Future<void> validatePendingTransactions(int currentTick) async {
+  Future<void> validatePendingTransactions(int latestTickProcessed) async {
     List<TransactionVm> toBeRemoved = [];
     for (var trx in _hiveStorage.getStoredTransactions()) {
-      if (currentTick >= trx.targetTick + Config.ticksToFlagTrxAsInvalid) {
+      if (latestTickProcessed >= trx.targetTick) {
         final checkTrx = await qubicArchiveApi.getTransaction(trx.id);
         if (checkTrx == null) {
           convertPendingToInvalid(trx);
