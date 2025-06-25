@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/globals/navigator_key.dart';
 import 'package:qubic_wallet/pages/auth/sign_in.dart';
 import 'package:qubic_wallet/pages/main/main_screen.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -40,6 +41,7 @@ bool isSignedIn() {
 
 // GoRouter configuration
 final appRouter = GoRouter(
+  navigatorKey: rootNavigatorKey, // Add this line
   routes: [
     GoRoute(
       path: '/signIn',
@@ -68,3 +70,4 @@ final appRouter = GoRouter(
     ),
   ],
 );
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();

@@ -76,8 +76,10 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
       });
     } else if (state == AppLifecycleState.resumed) {
       qubicCmd.reinitialize();
-      getIt<RootJailbreakFlagStore>().showAppropriateDialog(context);
-      appLogger.e("App resumed");
+      final navContext = rootNavigatorKey.currentState?.context;
+      if (navContext != null) {
+        getIt<RootJailbreakFlagStore>().showAppropriateDialog(navContext);
+      }
       setState(() {
         _isInBackground = false;
       });
