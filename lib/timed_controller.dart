@@ -5,6 +5,7 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
@@ -22,6 +23,7 @@ class TimedController extends WidgetsBindingObserver {
       getIt<WalletConnectService>();
   final _liveApi = getIt<QubicLiveApi>();
   final QubicStatsApi _statsApi = getIt<QubicStatsApi>();
+  final QubicArchiveApi _archiveApi = getIt<QubicArchiveApi>();
 
   stopFetchTimers() {
     if (_fetchTimer != null) {
@@ -128,7 +130,8 @@ class TimedController extends WidgetsBindingObserver {
       //Fetch the ticks
       int tick = (await _liveApi.getCurrentTick()).tick;
       appStore.currentTick = tick;
-      appStore.validatePendingTransactions(tick);
+      int latestTickProcessed = (await _archiveApi.getLatestTickProcessed());
+      appStore.validatePendingTransactions(latestTickProcessed);
       _getNetworkBalancesAndAssets();
       lastFetch = DateTime.now();
     } on Exception catch (e) {
