@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 
 abstract class Config {
   // Qubic RPC backend related config
@@ -65,6 +66,7 @@ abstract class Config {
   static const bool useProxy = false; // Can be set to `true` to use a proxy
   static const String proxyIP = '192.168.1.1'; // Replace with actual proxy IP
   static const int proxyPort = 8888; // Replace with actual proxy port
+  static const DetectionModes detectionMode = DetectionModes.warn;
 
   // Configuration for Wallet Connect
   static const walletConnectProjectId = "b2ace378845f0e4806ef23d2732f77a4";

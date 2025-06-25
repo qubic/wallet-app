@@ -31,9 +31,9 @@ mixin _$RootJailbreakFlagStore on _RootJailbreakFlagStore, Store {
       context: context);
 
   @override
-  Future<void> setRootedOrJailbroken() {
+  Future<void> checkDeviceState() {
     return _$setRootedOrJailbrokenAsyncAction
-        .run(() => super.setRootedOrJailbroken());
+        .run(() => super.checkDeviceState());
   }
 
   @override

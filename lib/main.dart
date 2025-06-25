@@ -10,12 +10,14 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/dapp_store.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -74,6 +76,8 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
       });
     } else if (state == AppLifecycleState.resumed) {
       qubicCmd.reinitialize();
+      getIt<RootJailbreakFlagStore>().showAppropriateDialog(context);
+      appLogger.e("App resumed");
       setState(() {
         _isInBackground = false;
       });
