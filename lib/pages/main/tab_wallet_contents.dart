@@ -21,6 +21,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -175,6 +176,10 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           visible: true,
                           child: SliverButton(
                             onPressed: () {
+                              if (getIt<RootJailbreakFlagStore>()
+                                  .isRestricted()) {
+                                return;
+                              }
                               pushScreen(
                                 context,
                                 screen: const AddWalletConnect(),

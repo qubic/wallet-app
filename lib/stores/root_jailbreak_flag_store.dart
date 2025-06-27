@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
+import 'package:qubic_wallet/routes.dart';
 import 'package:safe_device/safe_device.dart';
 
 part 'root_jailbreak_flag_store.g.dart';
@@ -39,7 +40,7 @@ abstract class _RootJailbreakFlagStore with Store {
       showAlertDialog(
         context,
         "Access Restricted",
-        "Your device appears to be rooted or jailbroken. For security reasons, we have disabled this feature.",
+        "Your device appears to be rooted or jailbroken. For security reasons, some features are disabled.",
         primaryButtonLabel: "Ok",
       );
     }
@@ -57,6 +58,17 @@ abstract class _RootJailbreakFlagStore with Store {
       case DetectionModes.none:
         break;
     }
+  }
+
+  bool isRestricted() {
+    bool isRestricted =
+        Config.detectionMode == DetectionModes.restrict && isRootedOrJailbroken;
+    if (isRestricted) {
+      if (rootNavigatorKey.currentState?.context != null) {
+        showRestrictDialog(rootNavigatorKey.currentState!.context);
+      }
+    }
+    return isRestricted;
   }
 }
 
