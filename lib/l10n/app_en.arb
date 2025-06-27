@@ -926,5 +926,11 @@
         }
     },
     "webviewAddressBarLabelRefresh": "Refresh",
-    "webviewAddressBarLabelShareURL": "Share URL"
+    "webviewAddressBarLabelShareURL": "Share URL",
+    "rootJailbreakDialogTitleWarning": "Device Compromised",
+    "rootJailbreakDialogMessageWarning": "Your device appears to be rooted or jailbroken. Some features may be exposed to security risks. We strongly recommend using this wallet only on secure, unmodified devices. You can still use the app under your own risk.",
+    "rootJailbreakDialogButtonWarning": "I understand",
+    "rootJailbreakDialogTitleRestrict": "Access Restricted",
+    "rootJailbreakDialogMessageRestrict": "Your device appears to be rooted or jailbroken. For security reasons, some features are disabled.",
+    "rootJailbreakDialogButtonRestrict": "Ok"
 }

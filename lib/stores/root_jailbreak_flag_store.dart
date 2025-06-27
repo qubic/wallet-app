@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/routes.dart';
 import 'package:safe_device/safe_device.dart';
 
@@ -25,23 +26,25 @@ abstract class RootJailbreakFlagStoreBase with Store {
   }
 
   Future<void> showWarningDialog(BuildContext context) async {
-    if (isRootedOrJailbroken) {
+    final l10n = l10nWrapper.l10n;
+    if (isRootedOrJailbroken && l10n != null) {
       showAlertDialog(
         context,
-        "Device Compromised",
-        "Your device appears to be rooted or jailbroken. Some features may be exposed to security risks. We strongly recommend using this wallet only on secure, unmodified devices. You can still use the app under your own risk.",
-        primaryButtonLabel: "I understand",
+        l10n.rootJailbreakDialogTitleWarning,
+        l10n.rootJailbreakDialogMessageWarning,
+        primaryButtonLabel: l10n.rootJailbreakDialogButtonWarning,
       );
     }
   }
 
   Future<void> showRestrictDialog(BuildContext context) async {
-    if (isRootedOrJailbroken) {
+    final l10n = l10nWrapper.l10n;
+    if (isRootedOrJailbroken && l10n != null) {
       showAlertDialog(
         context,
-        "Access Restricted",
-        "Your device appears to be rooted or jailbroken. For security reasons, some features are disabled.",
-        primaryButtonLabel: "Ok",
+        l10n.rootJailbreakDialogTitleRestrict,
+        l10n.rootJailbreakDialogMessageRestrict,
+        primaryButtonLabel: l10n.rootJailbreakDialogButtonRestrict,
       );
     }
   }
