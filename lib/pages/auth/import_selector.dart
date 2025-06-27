@@ -89,7 +89,8 @@ class _ImportSelectorState extends State<ImportSelector> {
               Text(l10n.importWalletSubHeader, style: TextStyles.secondaryText),
               ThemedControls.spacerVerticalNormal(),
               getSelectionButton(() {
-                if (getIt<RootJailbreakFlagStore>().isRestricted()) {
+                if (getIt<RootJailbreakFlagStore>()
+                    .checkAndHandleRestriction()) {
                   return;
                 }
                 pushScreen(

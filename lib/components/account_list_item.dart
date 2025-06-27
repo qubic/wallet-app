@@ -218,7 +218,8 @@ class _AccountListItemState extends State<AccountListItem> {
               }
 
               if (menuItem == CardItem.reveal) {
-                if (getIt<RootJailbreakFlagStore>().isRestricted()) {
+                if (getIt<RootJailbreakFlagStore>()
+                    .checkAndHandleRestriction()) {
                   return;
                 }
                 showModalBottomSheet<void>(

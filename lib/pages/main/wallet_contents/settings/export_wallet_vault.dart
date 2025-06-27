@@ -334,7 +334,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                     ),
             ),
             onPressed: () async {
-              if (getIt<RootJailbreakFlagStore>().isRestricted()) {
+              if (getIt<RootJailbreakFlagStore>().checkAndHandleRestriction()) {
                 return;
               }
               await exportButtonHandler(buttonContext);

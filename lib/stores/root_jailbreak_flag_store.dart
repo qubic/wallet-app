@@ -46,7 +46,7 @@ abstract class RootJailbreakFlagStoreBase with Store {
     }
   }
 
-  Future<void> showAppropriateDialog(BuildContext context) async {
+  Future<void> showSecurityNoticeIfNeeded(BuildContext context) async {
     if (!isRootedOrJailbroken) return;
     switch (Config.detectionMode) {
       case DetectionModes.warn:
@@ -60,15 +60,15 @@ abstract class RootJailbreakFlagStoreBase with Store {
     }
   }
 
-  bool isRestricted() {
-    bool isRestricted =
-        Config.detectionMode == DetectionModes.restrict && isRootedOrJailbroken;
-    if (isRestricted) {
-      if (rootNavigatorKey.currentState?.context != null) {
-        showRestrictDialog(rootNavigatorKey.currentState!.context);
-      }
+  bool get isDeviceRestricted =>
+      Config.detectionMode == DetectionModes.restrict && isRootedOrJailbroken;
+
+  bool checkAndHandleRestriction() {
+    if (isDeviceRestricted && rootNavigatorKey.currentState?.context != null) {
+      showRestrictDialog(rootNavigatorKey.currentState!.context);
     }
-    return isRestricted;
+
+    return isDeviceRestricted;
   }
 }
 

@@ -177,7 +177,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           child: SliverButton(
                             onPressed: () {
                               if (getIt<RootJailbreakFlagStore>()
-                                  .isRestricted()) {
+                                  .checkAndHandleRestriction()) {
                                 return;
                               }
                               pushScreen(

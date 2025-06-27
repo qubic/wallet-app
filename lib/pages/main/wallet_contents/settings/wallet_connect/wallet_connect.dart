@@ -267,7 +267,8 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
             width: 180,
             child: ThemedControls.primaryButtonNormal(
                 onPressed: () async {
-                  if (getIt<RootJailbreakFlagStore>().isRestricted()) {
+                  if (getIt<RootJailbreakFlagStore>()
+                      .checkAndHandleRestriction()) {
                     return;
                   }
                   await pushScreen(
@@ -308,7 +309,8 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
                   colorFilter: const ColorFilter.mode(
                       LightThemeColors.primary, BlendMode.srcIn)),
               onPressed: () async {
-                if (getIt<RootJailbreakFlagStore>().isRestricted()) {
+                if (getIt<RootJailbreakFlagStore>()
+                    .checkAndHandleRestriction()) {
                   return;
                 }
                 await pushScreen(
