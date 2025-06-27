@@ -7,14 +7,14 @@ import 'package:safe_device/safe_device.dart';
 
 part 'root_jailbreak_flag_store.g.dart';
 
-class RootJailbreakFlagStore = _RootJailbreakFlagStore
+class RootJailbreakFlagStore = RootJailbreakFlagStoreBase
     with _$RootJailbreakFlagStore;
 
-abstract class _RootJailbreakFlagStore with Store {
+abstract class RootJailbreakFlagStoreBase with Store {
   @observable
   bool isRootedOrJailbroken = false;
 
-  _RootJailbreakFlagStore() {
+  RootJailbreakFlagStoreBase() {
     checkDeviceState();
   }
 
