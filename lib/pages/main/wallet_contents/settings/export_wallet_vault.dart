@@ -15,6 +15,7 @@ import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -333,6 +334,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                     ),
             ),
             onPressed: () async {
+              if (getIt<RootJailbreakFlagStore>().isRestricted()) {
+                return;
+              }
               await exportButtonHandler(buttonContext);
             },
           ),
