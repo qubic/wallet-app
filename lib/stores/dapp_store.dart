@@ -8,9 +8,9 @@ import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
 
 part 'dapp_store.g.dart';
 
-class DappStore = _DappStore with _$DappStore;
+class DappStore = DappStoreBase with _$DappStore;
 
-abstract class _DappStore with Store {
+abstract class DappStoreBase with Store {
   final QubicHelpersApi _qubicHelpersApi = getIt<QubicHelpersApi>();
 
   @observable
