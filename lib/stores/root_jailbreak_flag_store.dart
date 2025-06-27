@@ -49,7 +49,7 @@ abstract class RootJailbreakFlagStoreBase with Store {
     }
   }
 
-  Future<void> showSecurityNoticeIfNeeded(BuildContext context) async {
+  Future<void> showSecurityWarningIfNeeded(BuildContext context) async {
     if (!isRootedOrJailbroken) return;
     switch (Config.detectionMode) {
       case DetectionModes.warn:

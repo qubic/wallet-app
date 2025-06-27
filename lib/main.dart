@@ -104,7 +104,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     if (mounted) {
       final navContext = rootNavigatorKey.currentState?.context;
       if (navContext != null) {
-        getIt<RootJailbreakFlagStore>().showSecurityNoticeIfNeeded(navContext);
+        getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded(navContext);
       }
     }
   }
