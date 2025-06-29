@@ -13,6 +13,7 @@ import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/stores/dapp_store.dart';
 import 'package:qubic_wallet/timed_controller.dart';
@@ -23,6 +24,7 @@ final GetIt getIt = GetIt.instance;
 /// Setups Dependency injection
 void setupDI() {
   getIt.registerSingleton<NetworkStore>(NetworkStore());
+  getIt.registerSingleton<RootJailbreakFlagStore>(RootJailbreakFlagStore());
 
   getIt.registerSingleton<QubicArchiveApi>(
       QubicArchiveApi(getIt<NetworkStore>()));

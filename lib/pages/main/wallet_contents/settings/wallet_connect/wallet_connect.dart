@@ -13,6 +13,7 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/components/wallet_connect_expansion_card.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -266,6 +267,10 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
             width: 180,
             child: ThemedControls.primaryButtonNormal(
                 onPressed: () async {
+                  if (getIt<RootJailbreakFlagStore>()
+                      .checkAndHandleRestriction()) {
+                    return;
+                  }
                   await pushScreen(
                     context,
                     screen: const AddWalletConnect(),
@@ -304,6 +309,10 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
                   colorFilter: const ColorFilter.mode(
                       LightThemeColors.primary, BlendMode.srcIn)),
               onPressed: () async {
+                if (getIt<RootJailbreakFlagStore>()
+                    .checkAndHandleRestriction()) {
+                  return;
+                }
                 await pushScreen(
                   context,
                   screen: const AddWalletConnect(),

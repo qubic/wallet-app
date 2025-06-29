@@ -22,6 +22,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -217,6 +218,10 @@ class _AccountListItemState extends State<AccountListItem> {
               }
 
               if (menuItem == CardItem.reveal) {
+                if (getIt<RootJailbreakFlagStore>()
+                    .checkAndHandleRestriction()) {
+                  return;
+                }
                 showModalBottomSheet<void>(
                     context: context,
                     isScrollControlled: true,

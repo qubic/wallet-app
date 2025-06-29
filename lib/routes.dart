@@ -40,6 +40,7 @@ bool isSignedIn() {
 
 // GoRouter configuration
 final appRouter = GoRouter(
+  navigatorKey: rootNavigatorKey, // Add this line
   routes: [
     GoRoute(
       path: '/signIn',
@@ -68,3 +69,4 @@ final appRouter = GoRouter(
     ),
   ],
 );
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();

@@ -7,6 +7,7 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_verbs.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 
 class AppLinkController {
   final ApplicationStore _applicationStore = getIt<ApplicationStore>();
@@ -44,7 +45,9 @@ class AppLinkController {
     if (validateWalletConnectURL(connectionUrl, context) != null) {
       throw Exception(l10n.uriInvalidWCPairUrl);
     }
-
+    if (getIt<RootJailbreakFlagStore>().checkAndHandleRestriction()) {
+      return;
+    }
     await pushScreen(
       context,
       screen:
