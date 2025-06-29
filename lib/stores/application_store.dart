@@ -4,7 +4,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
-import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
@@ -439,10 +438,10 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
-  Future<void> validatePendingTransactions(int currentTick) async {
+  Future<void> validatePendingTransactions(int latestTickProcessed) async {
     List<TransactionVm> toBeRemoved = [];
     for (var trx in _hiveStorage.getStoredTransactions()) {
-      if (currentTick >= trx.targetTick + Config.ticksToFlagTrxAsInvalid) {
+      if (latestTickProcessed >= trx.targetTick) {
         final checkTrx = await qubicArchiveApi.getTransaction(trx.id);
         if (checkTrx == null) {
           convertPendingToInvalid(trx);

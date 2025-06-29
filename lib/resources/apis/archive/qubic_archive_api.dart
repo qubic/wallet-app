@@ -79,4 +79,14 @@ class QubicArchiveApi {
       throw ErrorHandler.handleError(error);
     }
   }
+
+  Future<int> getLatestTickProcessed() async {
+    try {
+      final response = await _dio.get(
+          '${_networkStore.currentNetwork.rpcUrl}${Config.latestTickProcessed}');
+      return response.data["latestTick"];
+    } catch (error) {
+      throw ErrorHandler.handleError(error);
+    }
+  }
 }

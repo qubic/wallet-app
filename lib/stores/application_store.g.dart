@@ -322,9 +322,9 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
       context: context);
 
   @override
-  Future<void> validatePendingTransactions(int currentTick) {
+  Future<void> validatePendingTransactions(int latestTickProcessed) {
     return _$validatePendingTransactionsAsyncAction
-        .run(() => super.validatePendingTransactions(currentTick));
+        .run(() => super.validatePendingTransactions(latestTickProcessed));
   }
 
   late final _$removeIDAsyncAction =
