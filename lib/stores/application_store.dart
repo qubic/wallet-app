@@ -4,7 +4,6 @@
 
 import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
-import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
