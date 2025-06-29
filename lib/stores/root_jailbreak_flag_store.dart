@@ -49,8 +49,9 @@ abstract class RootJailbreakFlagStoreBase with Store {
     }
   }
 
-  Future<void> showSecurityWarningIfNeeded(BuildContext context) async {
-    if (!isRootedOrJailbroken) return;
+  Future<void> showSecurityWarningIfNeeded() async {
+    final context = rootNavigatorKey.currentState?.context;
+    if (!isRootedOrJailbroken || context == null) return;
     switch (Config.detectionMode) {
       case DetectionModes.warn:
         await showWarningDialog(context);

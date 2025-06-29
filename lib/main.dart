@@ -75,7 +75,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
       });
     } else if (state == AppLifecycleState.resumed) {
       qubicCmd.reinitialize();
-      showAppropriateDialog();
+      getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded();
       setState(() {
         _isInBackground = false;
       });
@@ -88,7 +88,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     initDeepLinks();
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      showAppropriateDialog();
+      getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded();
       getIt<DappStore>().loadDapps();
     });
   }
@@ -98,15 +98,6 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     _linkSubscription?.cancel();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  void showAppropriateDialog() {
-    if (mounted) {
-      final navContext = rootNavigatorKey.currentState?.context;
-      if (navContext != null) {
-        getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded(navContext);
-      }
-    }
   }
 
   @override
