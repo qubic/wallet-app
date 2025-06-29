@@ -867,5 +867,8 @@
     "rootJailbreakDialogButtonWarning": "Entiendo",
     "rootJailbreakDialogTitleRestrict": "Acceso restringido",
     "rootJailbreakDialogMessageRestrict": "Tu dispositivo parece estar rooteado o modificado. Por razones de seguridad, algunas funciones están deshabilitadas.",
-    "rootJailbreakDialogButtonRestrict": "Aceptar"
+    "rootJailbreakDialogButtonRestrict": "Ok",
+    "rootJailbreakDialogTitleRestrictFeature": "Restricción de seguridad",
+    "rootJailbreakDialogMessageRestrictFeature": "Esta función no está disponible en dispositivos con acceso root o jailbreak, ya que puede comprometer la seguridad de sus datos.",
+    "rootJailbreakDialogButtonRestrictFeature": "Ok"
 }

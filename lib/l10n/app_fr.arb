@@ -873,5 +873,8 @@
     "rootJailbreakDialogButtonWarning": "Je comprends",
     "rootJailbreakDialogTitleRestrict": "Accès restreint",
     "rootJailbreakDialogMessageRestrict": "Votre appareil semble être rooté ou jailbreaké. Pour des raisons de sécurité, certaines fonctionnalités sont désactivées.",
-    "rootJailbreakDialogButtonRestrict": "OK"
+    "rootJailbreakDialogButtonRestrict": "Ok",
+    "rootJailbreakDialogTitleRestrictFeature": "Restriction de sécurité",
+    "rootJailbreakDialogMessageRestrictFeature": "Cette fonctionnalité n’est pas disponible sur les appareils rootés ou jailbreakés, car cela pourrait compromettre la sécurité de vos données.",
+    "rootJailbreakDialogButtonRestrictFeature": "Ok"
 }

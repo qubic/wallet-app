@@ -868,5 +868,8 @@
     "rootJailbreakDialogButtonWarning": "Anladım",
     "rootJailbreakDialogTitleRestrict": "Erişim Kısıtlandı",
     "rootJailbreakDialogMessageRestrict": "Cihazınızın root'lu veya jailbreak'li olduğu tespit edildi. Güvenlik nedeniyle bazı özellikler devre dışı bırakılmıştır.",
-    "rootJailbreakDialogButtonRestrict": "Tamam"
+    "rootJailbreakDialogButtonRestrict": "Tamam",
+    "rootJailbreakDialogTitleRestrictFeature": "Güvenlik Kısıtlaması",
+    "rootJailbreakDialogMessageRestrictFeature": "Bu özellik, root'lu veya jailbreak yapılmış cihazlarda veri güvenliğinizi tehlikeye atabileceği için kullanılamaz.",
+    "rootJailbreakDialogButtonRestrictFeature": "Tamam"
 }

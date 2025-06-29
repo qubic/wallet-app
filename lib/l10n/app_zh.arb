@@ -868,5 +868,8 @@
     "rootJailbreakDialogButtonWarning": "我了解",
     "rootJailbreakDialogTitleRestrict": "限制存取",
     "rootJailbreakDialogMessageRestrict": "您的裝置可能已經 root 或越獄。為了安全起見，某些功能已被停用。",
-    "rootJailbreakDialogButtonRestrict": "好"
+    "rootJailbreakDialogButtonRestrict": "好",
+    "rootJailbreakDialogTitleRestrictFeature": "安全限制",
+    "rootJailbreakDialogMessageRestrictFeature": "此功能無法在已越獄或取得 root 權限的裝置上使用，因為這可能會危害您的資料安全。",
+    "rootJailbreakDialogButtonRestrictFeature": "確定"
 }

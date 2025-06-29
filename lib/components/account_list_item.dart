@@ -219,7 +219,7 @@ class _AccountListItemState extends State<AccountListItem> {
 
               if (menuItem == CardItem.reveal) {
                 if (getIt<RootJailbreakFlagStore>()
-                    .checkAndHandleRestriction()) {
+                    .restrictFeatureIfDeviceCompromised()) {
                   return;
                 }
                 showModalBottomSheet<void>(

@@ -90,7 +90,7 @@ class _ImportSelectorState extends State<ImportSelector> {
               ThemedControls.spacerVerticalNormal(),
               getSelectionButton(() {
                 if (getIt<RootJailbreakFlagStore>()
-                    .checkAndHandleRestriction()) {
+                    .restrictFeatureIfDeviceCompromised()) {
                   return;
                 }
                 pushScreen(

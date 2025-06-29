@@ -869,5 +869,8 @@
     "rootJailbreakDialogButtonWarning": "Я понимаю",
     "rootJailbreakDialogTitleRestrict": "Доступ ограничен",
     "rootJailbreakDialogMessageRestrict": "Похоже, ваше устройство рутировано или взломано. В целях безопасности некоторые функции отключены.",
-    "rootJailbreakDialogButtonRestrict": "ОК"
+    "rootJailbreakDialogButtonRestrict": "Ок",
+    "rootJailbreakDialogTitleRestrictFeature": "Ограничение безопасности",
+    "rootJailbreakDialogMessageRestrictFeature": "Эта функция недоступна на устройствах с root-доступом или jailbreak, так как это может поставить под угрозу безопасность ваших данных.",
+    "rootJailbreakDialogButtonRestrictFeature": "Ок"
 }

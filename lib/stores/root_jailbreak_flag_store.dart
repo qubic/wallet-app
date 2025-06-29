@@ -68,9 +68,21 @@ abstract class RootJailbreakFlagStoreBase with Store {
       Config.deviceIntegrityResponse == DeviceIntegrityResponse.restrict &&
       isRootedOrJailbroken;
 
-  bool checkAndHandleRestriction() {
+  Future<void> showRestrictFeatureDialog(BuildContext context) async {
+    final l10n = l10nWrapper.l10n;
+    if (isRootedOrJailbroken && l10n != null) {
+      showAlertDialog(
+        context,
+        l10n.rootJailbreakDialogTitleRestrictFeature,
+        l10n.rootJailbreakDialogMessageRestrictFeature,
+        primaryButtonLabel: l10n.rootJailbreakDialogButtonRestrictFeature,
+      );
+    }
+  }
+
+  bool restrictFeatureIfDeviceCompromised() {
     if (isDeviceRestricted && rootNavigatorKey.currentState?.context != null) {
-      showRestrictDialog(rootNavigatorKey.currentState!.context);
+      showRestrictFeatureDialog(rootNavigatorKey.currentState!.context);
     }
 
     return isDeviceRestricted;

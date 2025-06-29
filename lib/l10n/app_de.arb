@@ -868,5 +868,8 @@
     "rootJailbreakDialogButtonWarning": "Ich verstehe",
     "rootJailbreakDialogTitleRestrict": "Zugriff eingeschränkt",
     "rootJailbreakDialogMessageRestrict": "Ihr Gerät scheint gerootet oder jailbroken zu sein. Aus Sicherheitsgründen sind einige Funktionen deaktiviert.",
-    "rootJailbreakDialogButtonRestrict": "OK"
+    "rootJailbreakDialogButtonRestrict": "Okay",
+    "rootJailbreakDialogTitleRestrictFeature": "Sicherheitsbeschränkung",
+    "rootJailbreakDialogMessageRestrictFeature": "Diese Funktion ist auf Geräten mit Root-Zugriff oder Jailbreak nicht verfügbar, da dies die Sicherheit Ihrer Daten gefährden könnte.",
+    "rootJailbreakDialogButtonRestrictFeature": "Okay"
 }
