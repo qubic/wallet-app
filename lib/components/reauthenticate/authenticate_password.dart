@@ -138,7 +138,6 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
           formOpacity = 1;
         });
       } on PlatformException catch (err) {
-        // Handle biometric errors by code, not message
         if (err.code == lockedOut) {
           _setAuthError(l10n.biometricErrorLockedOut);
         } else if (err.code == permanentlyLockedOut) {
