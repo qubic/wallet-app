@@ -52,31 +52,45 @@ abstract class RootJailbreakFlagStoreBase with Store {
   Future<void> showSecurityWarningIfNeeded() async {
     final context = rootNavigatorKey.currentState?.context;
     if (!isRootedOrJailbroken || context == null) return;
-    switch (Config.detectionMode) {
-      case DetectionModes.warn:
+    switch (Config.deviceIntegrityResponse) {
+      case DeviceIntegrityResponse.warn:
         await showWarningDialog(context);
         break;
-      case DetectionModes.restrict:
+      case DeviceIntegrityResponse.restrict:
         await showRestrictDialog(context);
         break;
-      case DetectionModes.none:
+      case DeviceIntegrityResponse.none:
         break;
     }
   }
 
   bool get isDeviceRestricted =>
-      Config.detectionMode == DetectionModes.restrict && isRootedOrJailbroken;
+      Config.deviceIntegrityResponse == DeviceIntegrityResponse.restrict &&
+      isRootedOrJailbroken;
 
-  bool checkAndHandleRestriction() {
+  Future<void> showRestrictFeatureDialog(BuildContext context) async {
+    final l10n = l10nWrapper.l10n;
+    if (isRootedOrJailbroken && l10n != null) {
+      showAlertDialog(
+        context,
+        l10n.rootJailbreakDialogTitleRestrictFeature,
+        l10n.rootJailbreakDialogMessageRestrictFeature,
+        primaryButtonLabel: l10n.rootJailbreakDialogButtonRestrictFeature,
+      );
+    }
+  }
+
+  bool restrictFeatureIfDeviceCompromised() {
     if (isDeviceRestricted && rootNavigatorKey.currentState?.context != null) {
-      showRestrictDialog(rootNavigatorKey.currentState!.context);
+      showRestrictFeatureDialog(rootNavigatorKey.currentState!.context);
     }
 
     return isDeviceRestricted;
   }
 }
 
-enum DetectionModes {
+/// Defines how the app responds to rooted (Android) or jailbroken (iOS) devices.
+enum DeviceIntegrityResponse {
   none,
   warn,
   restrict,

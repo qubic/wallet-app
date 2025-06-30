@@ -45,7 +45,7 @@ class AppLinkController {
     if (validateWalletConnectURL(connectionUrl, context) != null) {
       throw Exception(l10n.uriInvalidWCPairUrl);
     }
-    if (getIt<RootJailbreakFlagStore>().checkAndHandleRestriction()) {
+    if (getIt<RootJailbreakFlagStore>().restrictFeatureIfDeviceCompromised()) {
       return;
     }
     await pushScreen(

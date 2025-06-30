@@ -67,7 +67,8 @@ abstract class Config {
   static const bool useProxy = false; // Can be set to `true` to use a proxy
   static const String proxyIP = '192.168.1.1'; // Replace with actual proxy IP
   static const int proxyPort = 8888; // Replace with actual proxy port
-  static const DetectionModes detectionMode = DetectionModes.warn;
+  static const DeviceIntegrityResponse deviceIntegrityResponse =
+      DeviceIntegrityResponse.restrict;
 
   // Configuration for Wallet Connect
   static const walletConnectProjectId = "b2ace378845f0e4806ef23d2732f77a4";
