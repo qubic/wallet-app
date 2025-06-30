@@ -22,7 +22,7 @@ abstract class RootJailbreakFlagStoreBase with Store {
   @action
   Future<void> checkDeviceState() async {
     bool isSafeDevice = await SafeDevice.isSafeDevice;
-    isRootedOrJailbroken = isSafeDevice;
+    isRootedOrJailbroken = !isSafeDevice;
   }
 
   Future<void> showWarningDialog(BuildContext context) async {
