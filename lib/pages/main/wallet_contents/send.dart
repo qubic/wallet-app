@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
@@ -570,24 +571,21 @@ class _SendState extends State<Send> {
     }
     await _timedController.interruptFetchTimer();
 
-    //Clear the state
     setState(() {
       isLoading = false;
-      // TODO can be replaced later to jump to a screen where the list of pending trx is displayed
-      //getIt.get<PersistentTabController>().jumpToTab(1);
     });
-    if (mounted) {
-      Navigator.pop(context);
-    }
-    if (mounted) {
-      final l10n = l10nOf(context);
-      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
-          targetTick.toString().asThousands()));
-    }
 
-    setState(() {
-      isLoading = false;
-    });
+    if (!mounted) return;
+    Navigator.pop(context);
+    final l10n = l10nOf(context);
+    _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
+        targetTick.toString().asThousands()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return TransactionsForId(
+        publicQubicId: widget.item.publicId,
+        item: widget.item,
+      );
+    }));
   }
 
   late final TextEditingController destinationID;
