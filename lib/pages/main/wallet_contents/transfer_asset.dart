@@ -6,6 +6,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -623,14 +624,17 @@ class _TransferAssetState extends State<TransferAsset> {
     //Clear the state
     setState(() {
       isLoading = false;
-      // TODO can be replaced later to jump to a screen where the list of pending trx is displayed
-      //getIt.get<PersistentTabController>().jumpToTab(1);
     });
     if (!mounted) return;
     Navigator.pop(context);
-
     _globalSnackBar.show(l10n
         .generalSnackBarMessageTransactionSubmitted(targetTick.asThousands()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return TransactionsForId(
+        publicQubicId: widget.item.publicId,
+        item: widget.item,
+      );
+    }));
   }
 
   TextEditingController destinationID = TextEditingController();

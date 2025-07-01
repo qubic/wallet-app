@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:local_auth/error_codes.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -105,6 +106,14 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
     );
   }
 
+  void _setAuthError(String? error) {
+    setState(() {
+      isLoading = false;
+      formOpacity = 1;
+      signInError = error;
+    });
+  }
+
   Future<void> handleBiometricsAuth() async {
     if (mounted) {
       final l10n = l10nOf(context);
@@ -129,28 +138,24 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
           formOpacity = 1;
         });
       } on PlatformException catch (err) {
-        if ((err.message != null) &&
-            (err.message!
-                // TODO: can we check the error with the error code? why if the app is in another langauge?
-                .contains("API is locked out due to too many attempts"))) {
-          setState(() {
-            isLoading = false;
-            formOpacity = 1;
-            signInError = err.message ?? l10n.authenticateErrorTooManyAttempts;
-          });
-        } else if (err.message != null) {
-          setState(() {
-            isLoading = false;
-            formOpacity = 1;
-            signInError = err.message ?? l10n.authenticateErrorGeneral;
-          });
+        if (err.code == lockedOut) {
+          _setAuthError(l10n.biometricErrorLockedOut);
+        } else if (err.code == permanentlyLockedOut) {
+          _setAuthError(l10n.biometricErrorPermanentlyLockedOut);
+        } else if (err.code == notAvailable ||
+            err.code == otherOperatingSystem) {
+          _setAuthError(l10n.biometricErrorNotAvailable);
+        } else if (err.code == notEnrolled) {
+          _setAuthError(l10n.biometricErrorNotEnrolled);
+        } else if (err.code == passcodeNotSet) {
+          _setAuthError(l10n.biometricErrorPasscodeNotSet);
+        } else if (err.code == biometricOnlyNotSupported) {
+          _setAuthError(l10n.biometricErrorBiometricOnlyNotSupported);
+        } else {
+          _setAuthError(err.message ?? l10n.authenticateErrorGeneral);
         }
       } catch (e) {
-        setState(() {
-          isLoading = false;
-          formOpacity = 1;
-          signInError = l10n.authenticateErrorGeneral;
-        });
+        _setAuthError(l10n.authenticateErrorGeneral);
       }
     }
   }
