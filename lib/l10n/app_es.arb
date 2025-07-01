@@ -870,5 +870,12 @@
     "rootJailbreakDialogButtonRestrict": "Ok",
     "rootJailbreakDialogTitleRestrictFeature": "Restricción de seguridad",
     "rootJailbreakDialogMessageRestrictFeature": "Esta función no está disponible en dispositivos con acceso root o jailbreak, ya que puede comprometer la seguridad de sus datos.",
-    "rootJailbreakDialogButtonRestrictFeature": "Ok"
+    "rootJailbreakDialogButtonRestrictFeature": "Ok",
+    "biometricErrorPasscodeNotSet": "No has configurado un código, PIN o contraseña en el dispositivo. Por favor, hazlo en los ajustes del dispositivo para habilitar la autenticación biométrica.",
+    "biometricErrorNotEnrolled": "No hay datos biométricos registrados en tu dispositivo. Registra tus datos biométricos en los ajustes del dispositivo.",
+    "biometricErrorNotAvailable": "La autenticación biométrica no está disponible en este dispositivo.",
+    "biometricErrorOtherOperatingSystem": "Tu sistema operativo no admite la autenticación biométrica.",
+    "biometricErrorLockedOut": "Demasiados intentos fallidos. Bloquea y desbloquea tu teléfono con un PIN, patrón o contraseña, y vuelve a intentarlo.",
+    "biometricErrorPermanentlyLockedOut": "La autenticación biométrica se ha bloqueado permanentemente. Desbloquea el dispositivo con tu PIN, patrón o contraseña e inténtalo de nuevo.",
+    "biometricErrorBiometricOnlyNotSupported": "La autenticación solo biométrica no es compatible con esta plataforma."
 }

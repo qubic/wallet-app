@@ -871,5 +871,12 @@
     "rootJailbreakDialogButtonRestrict": "Tamam",
     "rootJailbreakDialogTitleRestrictFeature": "Güvenlik Kısıtlaması",
     "rootJailbreakDialogMessageRestrictFeature": "Bu özellik, root'lu veya jailbreak yapılmış cihazlarda veri güvenliğinizi tehlikeye atabileceği için kullanılamaz.",
-    "rootJailbreakDialogButtonRestrictFeature": "Tamam"
+    "rootJailbreakDialogButtonRestrictFeature": "Tamam",
+    "biometricErrorPasscodeNotSet": "Cihazınızda bir parola, PIN veya şifre ayarlanmamış. Biyometrik kimlik doğrulamayı etkinleştirmek için lütfen cihaz ayarlarından bir tanesini ayarlayın.",
+    "biometricErrorNotEnrolled": "Cihazınızda kayıtlı biyometrik veri bulunmuyor. Lütfen cihaz ayarlarından biyometrik verinizi kaydedin.",
+    "biometricErrorNotAvailable": "Bu cihazda biyometrik kimlik doğrulama mevcut değil.",
+    "biometricErrorOtherOperatingSystem": "İşletim sisteminiz biyometrik kimlik doğrulamayı desteklemiyor.",
+    "biometricErrorLockedOut": "Çok fazla başarısız deneme yapıldı. Lütfen telefonunuzu PIN / desen veya şifre ile kilitleyip tekrar açın ve tekrar deneyin.",
+    "biometricErrorPermanentlyLockedOut": "Biyometrik kimlik doğrulama kalıcı olarak kilitlendi. Lütfen cihazınızı PIN, desen veya şifre ile açarak tekrar deneyin.",
+    "biometricErrorBiometricOnlyNotSupported": "Bu platformda yalnızca biyometrik kimlik doğrulama desteklenmiyor."
 }

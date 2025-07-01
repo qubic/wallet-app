@@ -871,5 +871,12 @@
     "rootJailbreakDialogButtonRestrict": "好",
     "rootJailbreakDialogTitleRestrictFeature": "安全限制",
     "rootJailbreakDialogMessageRestrictFeature": "此功能無法在已越獄或取得 root 權限的裝置上使用，因為這可能會危害您的資料安全。",
-    "rootJailbreakDialogButtonRestrictFeature": "確定"
+    "rootJailbreakDialogButtonRestrictFeature": "確定",
+    "biometricErrorPasscodeNotSet": "您尚未在裝置上設定密碼、PIN 碼或解鎖密碼。請至裝置設定中設定，以啟用生物辨識驗證。",
+    "biometricErrorNotEnrolled": "您的裝置尚未註冊任何生物辨識資料。請至設定中註冊指紋或臉部辨識。",
+    "biometricErrorNotAvailable": "此裝置不支援生物辨識驗證功能。",
+    "biometricErrorOtherOperatingSystem": "您的作業系統不支援生物辨識驗證。",
+    "biometricErrorLockedOut": "驗證失敗次數過多。請使用 PIN、圖形或密碼鎖定並解鎖裝置後再試一次。",
+    "biometricErrorPermanentlyLockedOut": "生物辨識驗證已被永久鎖定。請使用 PIN、圖形或密碼解鎖裝置後再試一次。",
+    "biometricErrorBiometricOnlyNotSupported": "此平台不支援僅使用生物辨識的驗證方式。"
 }
