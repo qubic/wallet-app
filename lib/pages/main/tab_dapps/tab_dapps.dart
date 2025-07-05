@@ -8,7 +8,6 @@ import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/featured_app_widget.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/popular_apps_widget.dart';
 import 'package:qubic_wallet/stores/dapp_store.dart';
-import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
