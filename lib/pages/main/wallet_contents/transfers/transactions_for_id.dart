@@ -214,6 +214,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
         minimum: ThemeEdgeInsets.pageInsets
             .copyWith(bottom: ThemePaddings.normalPadding),
         child: AdaptiveRefreshIndicator(
+          edgeOffset: kToolbarHeight,
           onRefresh: () async {
             _pagingController.refresh();
             await _timedController.interruptFetchTimer();
