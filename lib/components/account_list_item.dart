@@ -67,6 +67,16 @@ class _AccountListItemState extends State<AccountListItem> {
     super.dispose();
   }
 
+  void pushToTransactionsScreen() {
+    pushScreen(
+      context,
+      screen: TransactionsForId(
+          publicQubicId: widget.item.publicId, item: widget.item),
+      withNavBar: false,
+      pageTransitionAnimation: PageTransitionAnimation.cupertino,
+    );
+  }
+
   showRenameDialog(BuildContext context) {
     final l10n = l10nOf(context);
 
@@ -208,13 +218,7 @@ class _AccountListItemState extends State<AccountListItem> {
               }
 
               if (menuItem == CardItem.viewTransactions) {
-                pushScreen(
-                  context,
-                  screen: TransactionsForId(
-                      publicQubicId: widget.item.publicId, item: widget.item),
-                  withNavBar: false, // OPTIONAL VALUE. True by default.
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                );
+                pushToTransactionsScreen();
               }
 
               if (menuItem == CardItem.reveal) {
@@ -391,98 +395,104 @@ class _AccountListItemState extends State<AccountListItem> {
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
-    return Container(
-        constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
-        child: Card(
-            color: LightThemeColors.cardBackground,
-            elevation: 0,
-            child: Column(children: [
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      ThemePaddings.normalPadding,
-                      0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(children: [
-                          Expanded(
-                            child: Row(children: [
-                              Flexible(
-                                child: Text(
-                                  widget.item.name,
-                                  style: TextStyles.accountName,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              ThemedControls.spacerHorizontalSmall(),
-                              isItemWatchOnly()
-                                  ? const Icon(
-                                      Icons.remove_red_eye_rounded,
-                                      color: LightThemeColors.color4,
-                                    )
-                                  : Container(),
-                            ]),
-                          ),
-                          getCardMenu(context)
-                        ]),
-                        ThemedControls.spacerVerticalSmall(),
-                        Text(widget.item.publicId),
-                        ThemedControls.spacerVerticalSmall(),
-                        AnimatedCrossFade(
-                          duration: const Duration(milliseconds: 300),
-                          firstChild: AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 500),
-                              transitionBuilder:
-                                  (Widget child, Animation<double> animation) {
-                                //return FadeTransition(opacity: animation, child: child);
-                                return SizeTransition(
-                                    sizeFactor: animation, child: child);
-                                //return ScaleTransition(scale: animation, child: child);
-                              },
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  AmountFormatted(
-                                    key: ValueKey<String>(
-                                        "qubicAmount${widget.item.publicId}-${widget.item.amount}"),
-                                    amount: widget.item.amount,
-                                    isInHeader: false,
-                                    labelOffset: -0,
-                                    labelHorizOffset: -6,
-                                    textStyle:
-                                        MediaQuery.of(context).size.width < 400
-                                            ? TextStyles.accountAmount
-                                                .copyWith(fontSize: 22)
-                                            : TextStyles.accountAmount,
-                                    labelStyle: TextStyles.accountAmountLabel,
-                                    currencyName:
-                                        l10n.generalLabelCurrencyQubic,
+    return GestureDetector(
+      onTap: () {
+        pushToTransactionsScreen();
+      },
+      child: Container(
+          constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
+          child: Card(
+              color: LightThemeColors.cardBackground,
+              elevation: 0,
+              child: Column(children: [
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(
+                        ThemePaddings.normalPadding,
+                        ThemePaddings.normalPadding,
+                        ThemePaddings.normalPadding,
+                        0),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(children: [
+                            Expanded(
+                              child: Row(children: [
+                                Flexible(
+                                  child: Text(
+                                    widget.item.name,
+                                    style: TextStyles.accountName,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  Text(
-                                      CurrencyHelpers.formatToUsdCurrency(
-                                          (widget.item.amount ?? 0) *
-                                              (_appStore.marketInfo?.price ??
-                                                  0)),
-                                      style: TextStyles.sliverSmall),
-                                  if (widget.item.assets.isNotEmpty)
-                                    ThemedControls.spacerVerticalSmall(),
-                                ],
-                              )),
-                          secondChild: Text(l10n.generalLabelHidden,
-                              style: MediaQuery.of(context).size.width < 400
-                                  ? TextStyles.accountAmount
-                                      .copyWith(fontSize: 22)
-                                  : TextStyles.accountAmount),
-                          crossFadeState: totalBalanceVisible
-                              ? CrossFadeState.showFirst
-                              : CrossFadeState.showSecond,
-                        ),
-                        getAssets(context)
-                      ])),
-              getButtonBar(context),
-            ])));
+                                ),
+                                ThemedControls.spacerHorizontalSmall(),
+                                isItemWatchOnly()
+                                    ? const Icon(
+                                        Icons.remove_red_eye_rounded,
+                                        color: LightThemeColors.color4,
+                                      )
+                                    : Container(),
+                              ]),
+                            ),
+                            getCardMenu(context)
+                          ]),
+                          ThemedControls.spacerVerticalSmall(),
+                          Text(widget.item.publicId),
+                          ThemedControls.spacerVerticalSmall(),
+                          AnimatedCrossFade(
+                            duration: const Duration(milliseconds: 300),
+                            firstChild: AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 500),
+                                transitionBuilder: (Widget child,
+                                    Animation<double> animation) {
+                                  //return FadeTransition(opacity: animation, child: child);
+                                  return SizeTransition(
+                                      sizeFactor: animation, child: child);
+                                  //return ScaleTransition(scale: animation, child: child);
+                                },
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    AmountFormatted(
+                                      key: ValueKey<String>(
+                                          "qubicAmount${widget.item.publicId}-${widget.item.amount}"),
+                                      amount: widget.item.amount,
+                                      isInHeader: false,
+                                      labelOffset: -0,
+                                      labelHorizOffset: -6,
+                                      textStyle:
+                                          MediaQuery.of(context).size.width <
+                                                  400
+                                              ? TextStyles.accountAmount
+                                                  .copyWith(fontSize: 22)
+                                              : TextStyles.accountAmount,
+                                      labelStyle: TextStyles.accountAmountLabel,
+                                      currencyName:
+                                          l10n.generalLabelCurrencyQubic,
+                                    ),
+                                    Text(
+                                        CurrencyHelpers.formatToUsdCurrency(
+                                            (widget.item.amount ?? 0) *
+                                                (_appStore.marketInfo?.price ??
+                                                    0)),
+                                        style: TextStyles.sliverSmall),
+                                    if (widget.item.assets.isNotEmpty)
+                                      ThemedControls.spacerVerticalSmall(),
+                                  ],
+                                )),
+                            secondChild: Text(l10n.generalLabelHidden,
+                                style: MediaQuery.of(context).size.width < 400
+                                    ? TextStyles.accountAmount
+                                        .copyWith(fontSize: 22)
+                                    : TextStyles.accountAmount),
+                            crossFadeState: totalBalanceVisible
+                                ? CrossFadeState.showFirst
+                                : CrossFadeState.showSecond,
+                          ),
+                          getAssets(context)
+                        ])),
+                getButtonBar(context),
+              ]))),
+    );
   }
 }

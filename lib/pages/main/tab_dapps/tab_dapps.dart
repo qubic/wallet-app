@@ -8,7 +8,6 @@ import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/featured_app_widget.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/popular_apps_widget.dart';
 import 'package:qubic_wallet/stores/dapp_store.dart';
-import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -129,31 +128,40 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
         return const Center(child: CircularProgressIndicator());
       }
       return ListView(
-        padding: ThemeEdgeInsets.pageInsets,
+        padding: EdgeInsets.zero,
         children: [
           FeaturedAppWidget(
             slideAnimation: _featuredSlideAnimation,
             fadeAnimation: _fadeAnimation,
             featuredApp: dappStore.featuredDapp,
           ),
-          const SizedBox(height: 16),
-          TopDAppsWidget(
-            topDApps: dappStore.topDapps,
-            fadeAnimation: _fadeAnimation,
-            slideAnimation: _featuredSlideAnimation,
+          if (dappStore.featuredDapp != null) const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: ThemePaddings.normalPadding),
+            child: TopDAppsWidget(
+              topDApps: dappStore.topDapps,
+              fadeAnimation: _fadeAnimation,
+              slideAnimation: _featuredSlideAnimation,
+            ),
           ),
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: ThemePaddings.normalPadding),
+                horizontal: ThemePaddings.hugePadding),
             child: Text(l10n.dAppPopularApps,
                 style: TextStyles.pageTitle
                     .copyWith(fontSize: ThemeFontSizes.sectionTitle)),
           ),
-          PopularDAppsWidget(
-            slideAnimation: _popularSlideAnimation,
-            fadeAnimation: _popularFadeAnimation,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: ThemePaddings.normalPadding),
+            child: PopularDAppsWidget(
+              slideAnimation: _popularSlideAnimation,
+              fadeAnimation: _popularFadeAnimation,
+            ),
           ),
+          const SizedBox(height: 16),
         ],
       );
     }));
