@@ -57,7 +57,6 @@ class DAppTile extends StatelessWidget {
                     dApp.name ?? "-",
                     style: TextStyles.labelText,
                   ),
-                  ThemedControls.spacerVerticalMini(),
                   Text(
                     dApp.description ?? "-",
                     style: TextStyles.smallInfoText,
