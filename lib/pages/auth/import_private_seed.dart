@@ -241,30 +241,25 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         if (enteredPassword.isEmpty) {
           return;
         }
-        // VERY UGLY HACK. TODO: FIX THIS
-        // ignore: unused_local_variable
-        var timer = Timer(const Duration(milliseconds: 300), () async {
-          setState(() {
-            isLoading = false;
-          });
-          if (totalSteps == 2) {
-            //Device has biometrics enabled, so show biometrics panel
-            pushScreen(
-              context,
-              screen: AddBiometricsPassword(onAddedBiometrics: (bool eb) async {
-                enabledBiometrics = eb;
+        // Wait for the current frame to complete before proceeding
+        await Future.delayed(Duration.zero);
+        if (totalSteps == 2) {
+          // Device has biometrics enabled, so show biometrics panel
+          pushScreen(
+            context,
+            screen: AddBiometricsPassword(onAddedBiometrics: (bool eb) async {
+              enabledBiometrics = eb;
 
-                await doCreateWallet();
-              }),
-              withNavBar: false, // OPTIONAL VALUE. True by default.
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
-          } else {
-            await doCreateWallet();
-          }
-        });
+              await doCreateWallet();
+            }),
+            withNavBar: false,
+            pageTransitionAnimation: PageTransitionAnimation.cupertino,
+          );
+        } else {
+          await doCreateWallet();
+        }
       }),
-      withNavBar: false, // OPTIONAL VALUE. True by default.
+      withNavBar: false,
       pageTransitionAnimation: PageTransitionAnimation.cupertino,
     );
   }
