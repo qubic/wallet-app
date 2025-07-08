@@ -433,7 +433,13 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
         File(path).writeAsBytes([], flush: true);
       });
     } catch (e) {
-      showErrorDialog(l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
+      if (e.toString().startsWith("Exception: CRITICAL:")) {
+        showErrorDialog(
+          l10n.addAccountErrorTamperedWalletMessage
+        );
+      } else {
+        showErrorDialog(l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
+      }
       setState(() {
         isLoading = false;
       });
@@ -470,7 +476,13 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
         isLoading = false;
       });
     } catch (e) {
-      showErrorDialog(e.toString());
+      if (e.toString().startsWith("Exception: CRITICAL:")) {
+        showErrorDialog(
+          l10n.addAccountErrorTamperedWalletMessage
+        );
+      } else {
+        showErrorDialog(e.toString());
+      }
       setState(() {
         isLoading = false;
       });

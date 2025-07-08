@@ -312,6 +312,21 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
       importedSeeds = await qubicCmd.importVaultFile(
           vaultPassword, selectedPath, selectedFileBytes);
     } catch (e) {
+      if (e.toString().startsWith("Exception: CRITICAL:")) {
+        final l10n = l10nOf(context);
+        showAlertDialog(
+            context,
+            l10n.addAccountErrorTamperedWalletTitle,
+            isAndroid
+                ? l10n.addAccountErrorTamperedAndroidWalletMessage
+                : isIOS
+                    ? l10n.addAccountErrorTamperediOSWalletMessage
+                    : l10n.addAccountErrorTamperedWalletMessage);
+        setState(() {
+          isLoading = false;
+        });
+        return false;
+      }
       setState(() {
         importError = e.toString().replaceAll("Exception: ", "");
       });
