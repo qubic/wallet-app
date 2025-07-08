@@ -126,8 +126,8 @@ class QubicCmdUtils {
 
   Future<void> validateFileStreamSignature() async {
     if (await checkUtilitiesChecksum() != true) {
+      // This error is caught in the UI and showTamperedWalletAlert is called
       throw Exception(
-          // TODO check if the message is valid
           "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN");
     }
   }
