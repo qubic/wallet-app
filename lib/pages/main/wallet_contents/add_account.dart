@@ -87,14 +87,7 @@ class _AddAccountState extends State<AddAccount> {
       } catch (e) {
         if (e.toString().startsWith("Exception: CRITICAL:")) {
           if (!mounted) return;
-          showAlertDialog(
-              context,
-              l10n.addAccountErrorTamperedWalletTitle,
-              isAndroid
-                  ? l10n.addAccountErrorTamperedAndroidWalletMessage
-                  : isIOS
-                      ? l10n.addAccountErrorTamperediOSWalletMessage
-                      : l10n.addAccountErrorTamperedWalletMessage);
+          showTamperedWalletAlert(context);
         }
         setState(() {
           privateSeed.value = TextEditingValue.empty;

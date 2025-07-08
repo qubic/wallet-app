@@ -12,6 +12,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
+import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -434,11 +435,10 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       });
     } catch (e) {
       if (e.toString().startsWith("Exception: CRITICAL:")) {
-        showErrorDialog(
-          l10n.addAccountErrorTamperedWalletMessage
-        );
+        showTamperedWalletAlert(context);
       } else {
-        showErrorDialog(l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
+        showErrorDialog(
+            l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
       }
       setState(() {
         isLoading = false;
@@ -477,9 +477,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
       });
     } catch (e) {
       if (e.toString().startsWith("Exception: CRITICAL:")) {
-        showErrorDialog(
-          l10n.addAccountErrorTamperedWalletMessage
-        );
+        showTamperedWalletAlert(context);
       } else {
         showErrorDialog(e.toString());
       }

@@ -168,14 +168,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
               if (e.toString().startsWith("Exception: CRITICAL:")) {
                 appLogger.w("CRITICAL");
                 if (!mounted) return;
-                showAlertDialog(
-                    context,
-                    l10n.addAccountErrorTamperedWalletTitle,
-                    isAndroid
-                        ? l10n.addAccountErrorTamperedAndroidWalletMessage
-                        : isIOS
-                            ? l10n.addAccountErrorTamperediOSWalletMessage
-                            : l10n.addAccountErrorTamperedWalletMessage);
+                showTamperedWalletAlert(context);
               }
               setState(() {
                 privateSeedCtrl.value = TextEditingValue.empty;
