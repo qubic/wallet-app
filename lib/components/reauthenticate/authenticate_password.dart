@@ -13,6 +13,7 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/services/biometric_service.dart';
 
 class AuthenticatePassword extends StatefulWidget {
   final Function onSuccess;
@@ -37,6 +38,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final LocalAuthentication _auth = LocalAuthentication();
+  final BiometricService _biometricService = getIt<BiometricService>();
 
   String? signInError; //Error of signing in
   double formOpacity = 1; //Hide the form when biometric is shown
@@ -116,47 +118,25 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
 
   Future<void> handleBiometricsAuth() async {
     if (mounted) {
-      final l10n = l10nOf(context);
-
       if (isLoading) {
         return;
       }
       setState(() {
         isLoading = true;
       });
-      try {
-        final bool didAuthenticate = await _auth.authenticate(
-            localizedReason: ' ',
-            options: AuthenticationOptions(
-                biometricOnly: UniversalPlatform.isDesktop ? false : true));
 
-        if (didAuthenticate) {
-          widget.onSuccess();
-        }
-        setState(() {
-          isLoading = false;
-          formOpacity = 1;
-        });
-      } on PlatformException catch (err) {
-        if (err.code == lockedOut) {
-          _setAuthError(l10n.biometricErrorLockedOut);
-        } else if (err.code == permanentlyLockedOut) {
-          _setAuthError(l10n.biometricErrorPermanentlyLockedOut);
-        } else if (err.code == notAvailable ||
-            err.code == otherOperatingSystem) {
-          _setAuthError(l10n.biometricErrorNotAvailable);
-        } else if (err.code == notEnrolled) {
-          _setAuthError(l10n.biometricErrorNotEnrolled);
-        } else if (err.code == passcodeNotSet) {
-          _setAuthError(l10n.biometricErrorPasscodeNotSet);
-        } else if (err.code == biometricOnlyNotSupported) {
-          _setAuthError(l10n.biometricErrorBiometricOnlyNotSupported);
-        } else {
-          _setAuthError(err.message ?? l10n.authenticateErrorGeneral);
-        }
-      } catch (e) {
-        _setAuthError(l10n.authenticateErrorGeneral);
+      final error = await _biometricService.handleBiometricsAuth(context);
+      
+      if (error == null) {
+        widget.onSuccess();
+      } else {
+        _setAuthError(error);
       }
+      
+      setState(() {
+        isLoading = false;
+        formOpacity = 1;
+      });
     }
   }
 
