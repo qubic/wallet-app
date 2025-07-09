@@ -13,6 +13,7 @@ import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/random.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_warning_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -85,7 +86,7 @@ class _AddAccountState extends State<AddAccount> {
           generatingId = false;
         });
       } catch (e) {
-        if (e.toString().startsWith("Exception: CRITICAL:")) {
+        if (e is AppError && e.type == ErrorType.tamperedWallet) {
           if (!mounted) return;
           showTamperedWalletAlert(context);
         }

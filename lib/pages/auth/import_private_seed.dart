@@ -17,6 +17,7 @@ import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/pages/auth/create_password.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -165,8 +166,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                 generatingId = false;
               });
             } catch (e) {
-              if (e.toString().startsWith("Exception: CRITICAL:")) {
-                appLogger.w("CRITICAL");
+              if (e is AppError && e.type == ErrorType.tamperedWallet) {
                 if (!mounted) return;
                 showTamperedWalletAlert(context);
               }

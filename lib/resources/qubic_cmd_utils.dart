@@ -19,6 +19,7 @@ import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -126,9 +127,7 @@ class QubicCmdUtils {
 
   Future<void> validateFileStreamSignature() async {
     if (await checkUtilitiesChecksum() != true) {
-      // This error is caught in the UI and showTamperedWalletAlert is called
-      throw Exception(
-          "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN");
+      throw AppError.tamperedWallet();
     }
   }
 

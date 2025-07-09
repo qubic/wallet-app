@@ -3,6 +3,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
@@ -62,7 +63,7 @@ Future<SignedTransaction?> sendAssetTransferTransactionDialog(
     return SignedTransaction(
         transactionKey: transactionKey, transactionId: transactionId);
   } catch (e) {
-    if (e.toString().startsWith("Exception: CRITICAL:")) {
+    if (e is AppError && e.type == ErrorType.tamperedWallet) {
       if (context.mounted) {
         showTamperedWalletAlert(context);
       }
