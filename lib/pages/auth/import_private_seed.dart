@@ -7,10 +7,8 @@ import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
-import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
@@ -22,12 +20,18 @@ import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/pages/auth/create_password.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+
+enum AuthFlow {
+  biometric,
+  basic,
+}
 
 class ImportPrivateSeed extends StatefulWidget {
   const ImportPrivateSeed({super.key});
@@ -56,13 +60,13 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
 
   bool detected = false; //Throttling QR code detection
   bool generatingId = false; //True if the public id is being generated
-
-  int totalSteps = 1; //1 for no biometrics, 2 for biometrics
+  AuthFlow authFlow = AuthFlow.basic;
 
   //Variable for local authentication
   final LocalAuthentication auth = LocalAuthentication();
   bool? canCheckBiometrics; //If true, the device has biometrics
   List<BiometricType>? availableBiometrics; //Is empty, no biometric is enrolled
+
   bool? canUseBiometrics = false; //Are biometrics available in this device?
   bool enabledBiometrics =
       false; //Has the user enabled biometrics when signing up?
@@ -79,7 +83,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
 
     auth.canCheckBiometrics.then((value) {
       setState(() {
-        totalSteps = 2;
+        authFlow = value ? AuthFlow.biometric : AuthFlow.basic;
         canCheckBiometrics = value;
       });
 
@@ -236,8 +240,9 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         }
         // Wait for the current frame to complete before proceeding
         await Future.delayed(Duration.zero);
-        if (totalSteps == 2) {
-          // Device has biometrics enabled, so show biometrics panel
+        if (authFlow == AuthFlow.biometric) {
+          // Device supports biometric authentication
+          // Show biometrics setup panel since device supports and requires biometric authentication
           pushScreen(
             context,
             screen: AddBiometricsPassword(onAddedBiometrics: (bool eb) async {
