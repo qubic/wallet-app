@@ -6,7 +6,7 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 
 getAlertDialog(String title, String message,
-    {String primaryButtonLabel = "OK",
+    {required String primaryButtonLabel,
     Function? primaryButtonFunction,
     String? secondaryButtonLabel,
     Function? secondaryButtonFunction}) {
