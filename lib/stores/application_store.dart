@@ -281,8 +281,6 @@ abstract class _ApplicationStore with Store {
 
   @action
   Future<void> addId(String name, String publicId, String privateSeed) async {
-    //Todo store in wallet
-
     await secureStorage.addID(QubicId(privateSeed, publicId, name, null));
     currentQubicIDs.add(QubicListVm(
         publicId, name, null, null, null, privateSeed == '' ? true : false));

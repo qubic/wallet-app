@@ -22,6 +22,7 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
@@ -312,6 +313,13 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
       importedSeeds = await qubicCmd.importVaultFile(
           vaultPassword, selectedPath, selectedFileBytes);
     } catch (e) {
+      if (e is AppError && e.type == ErrorType.tamperedWallet) {
+        showTamperedWalletAlert(context);
+        setState(() {
+          isLoading = false;
+        });
+        return false;
+      }
       setState(() {
         importError = e.toString().replaceAll("Exception: ", "");
       });
