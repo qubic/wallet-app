@@ -30,7 +30,7 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 
 enum AuthFlow {
   biometric,
-  basic,
+  password,
 }
 
 class ImportPrivateSeed extends StatefulWidget {
@@ -60,7 +60,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
 
   bool detected = false; //Throttling QR code detection
   bool generatingId = false; //True if the public id is being generated
-  AuthFlow authFlow = AuthFlow.basic;
+  AuthFlow authFlow = AuthFlow.password;
 
   //Variable for local authentication
   final LocalAuthentication auth = LocalAuthentication();
@@ -83,7 +83,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
 
     auth.canCheckBiometrics.then((value) {
       setState(() {
-        authFlow = value ? AuthFlow.biometric : AuthFlow.basic;
+        authFlow = value ? AuthFlow.biometric : AuthFlow.password;
         canCheckBiometrics = value;
       });
 
