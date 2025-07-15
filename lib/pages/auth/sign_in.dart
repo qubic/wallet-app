@@ -1,11 +1,9 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
-import 'package:local_auth/error_codes.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
@@ -243,7 +241,7 @@ class _SignInState extends State<SignIn>
     });
 
     final error = await _biometricService.handleBiometricsAuth(context);
-    
+
     if (error == null) {
       await _appStore.biometricSignIn();
       if (!mounted) return;
@@ -251,7 +249,7 @@ class _SignInState extends State<SignIn>
     } else {
       _setAuthError(error);
     }
-    
+
     setState(() {
       isLoading = false;
       formOpacity = 1;
