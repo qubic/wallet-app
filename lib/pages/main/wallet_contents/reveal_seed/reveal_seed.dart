@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:no_screenshot/no_screenshot.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_contents.dart';
@@ -16,16 +17,19 @@ class RevealSeed extends StatefulWidget {
 
 class _RevealSeedState extends State<RevealSeed> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
+  final _noScreenshot = NoScreenshot.instance;
 
   bool hasAccepted = false;
 
   @override
   void initState() {
     super.initState();
+    _noScreenshot.screenshotOff();
   }
 
   @override
   void dispose() {
+    _noScreenshot.screenshotOn();
     super.dispose();
   }
 
