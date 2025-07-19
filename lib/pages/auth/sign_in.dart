@@ -28,9 +28,8 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 
 class SignIn extends StatefulWidget {
-  final String?
-      disableLocalAuth; //if not null then local auth is disabled. TODO: Change this to a boolean
-  const SignIn({super.key, this.disableLocalAuth});
+  final bool disableLocalAuth;
+  const SignIn({super.key, this.disableLocalAuth = false});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -184,7 +183,7 @@ class _SignInState extends State<SignIn>
     if (firstRun) {
       //Automatic local authentication on launch of widget
       _disposeLocalAuth = autorun((_) {
-        if (((widget.disableLocalAuth == null)) &&
+        if ((!widget.disableLocalAuth) &&
             (_settingsStore.settings.biometricEnabled)) {
           setState(() {
             formOpacity = 0;
