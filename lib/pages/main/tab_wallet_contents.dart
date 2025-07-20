@@ -6,8 +6,10 @@ import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/account_list_item.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
+import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/components/cumulative_wallet_value_sliver.dart';
 import 'package:qubic_wallet/components/gradient_container.dart';
+import 'package:qubic_wallet/components/price_panel.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
 import 'package:qubic_wallet/components/tick_indication_styled.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
@@ -168,7 +170,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                 slivers: [
                   Observer(builder: (context) {
                     return SliverAppBar(
+                      leadingWidth: 120,
                       backgroundColor: LightThemeColors.background,
+                      leading: PricePanel(),
                       actions: <Widget>[
                         TickRefresh(),
                         ThemedControls.spacerHorizontalSmall(),
