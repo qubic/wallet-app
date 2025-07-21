@@ -154,40 +154,6 @@
     "filterTransfersFieldHintByDirection": "По назначению",
     "generalLabelAnyDirection": "Любое назначение",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Очистить фильтр} other{Очистить {filtersCount} активных фильтра(ов)}}",
-    "explorerTitle": "Обозореватель эпохи",
-    "explorerLabelEpoch": "Эпоха {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Обзор",
-    "explorerHeaderTicks": "Обзор тиков",
-    "explorerSubHeaderTicks": "Последний тик",
-    "explorerLabelTotalTicks": "Общее кол-во тиков",
-    "explorerLabelEmptyTicks": "Пустые тики",
-    "explorerLabelTickQuality": "Качество тиков",
-    "explorerLabelTotalSupply": "Общее предложение (QUBIC)",
-    "explorerLabelTotalAddresses": "Всего адресов",
-    "explorerButtonRefreshData": "Обновить данные",
-    "explorerLabelLoadingData": "Загрузить данные обозревателя для этой эпохи",
-    "explorerSearchTitle": "Поиск в обозревателе",
-    "explorerSearchLabelCriteria": "Тик / TX ID / Публичный ID",
-    "explorerSearchLabelNoResults": "Не найдено соответствий",
-    "explorerSearchLabelResults": "{count, plural, =1{Найден 1 результат} other{Найдено {count} результата(ов))}}",
-    "explorerTickResultLabelBlockStatus": "Статус тика",
-    "explorerTickResultLabelBlockStatusEmpty": "Пусто / Не выполнено",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Непустой / Выполнено",
-    "explorerTickResultLabelBlockStatusUnknown": "Неизвестно",
-    "explorerTickResultLabelDataStatus": "Статус данных",
-    "explorerTickResultLabelInfoCompleted": "Завершено",
-    "explorerTickResultLabelInfoNotValidated": "Не подтверждено",
-    "explorerTickResultLabelTickLeader": "Лидер тика",
-    "explorerTickResultLabelNoTransactionsFound": "Нет транзакций в этом тике",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 транзакция в тике} other{{count} транзакций в тике}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Показать 1 из 1 транзакций в тике} other{Показать 1 из {count} транзакций в тике}}",
     "settingsTitle": "Настройки",
     "settingsHeaderAccountsAndData": "Аккаунты и данные",
     "settingsLockWallet": "Заблокировать кошелек",
@@ -361,20 +327,6 @@
     "eraseDataSheetLabelOne": "Это действие нельзя отменить. Все ваши учетные записи будут удалены с вашего устройства.",
     "eraseDataSheetLabelTwo": "Вы сможете восстановить свои учетные записи, только если у вас есть резервная копия секретного сида.",
     "eraseDataSheetCheckboxLabel": "Да, сотрите данные моего кошелька.",
-    "accountExplorerTitle": "Адрес Qubic",
-    "accountExplorerLabelCurrentValue": "Текущая стоимость",
-    "accountExplorerLabelValueReportedBy": "Стоимость подтвержденная {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Общее кол-во вводов",
-    "accountExplorerLabelTotalOutgoing": "Общее кол-во выводов",
-    "accountExplorerLabelReportedBy": "Подтверждена",
-    "accountExplorerLabelNoResultsFound": "Нет транзакций для этого ID в эту эпоху",
     "transactionItemLabelTransactionId": "ID транзакции",
     "transactionItemLabelTransactionType": "Тип",
     "generalLabelTickAndValue": "Тик {tick}",
@@ -688,8 +640,6 @@
     "generalErrorFileRequired": "Выберите файл",
     "generalErrorPathRequired": "Выберите путь",
     "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15.",
-    "explorerLabelPrice": "Цена",
-    "explorerLabelMarketCap": "Рыночная капитализация",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Неверный адрес для наблюдения. Проверьте адрес.",
     "addAccountErrorVerifyIdentityError": "Невозможно верифицировать адрес.",
@@ -712,7 +662,6 @@
         }
     },
     "joinCommunityLabelTiktok": "TikTok",
-    "accountExplorerLabelLatestTransactions": "Последние транзакции",
     "wcScopeRequestAccounts": "Просмотр ваших кошельковых аккаунтов и их баланса",
     "wcScopeSendQubic": "Запрос отправки Qubic с ваших кошельковых аккаунтов",
     "wcScopeSendAssets": "Запрос отправки активов Qubic с ваших кошельковых аккаунтов",

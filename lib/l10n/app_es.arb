@@ -153,40 +153,6 @@
     "filterTransfersFieldHintByDirection": "Por Dirección",
     "generalLabelAnyDirection": "Cualquier Dirección",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Limpiar 1 filtro Activo} other{Limpiar {filtersCount} Filtros Activos}}",
-    "explorerTitle": "Explorador por Época",
-    "explorerLabelEpoch": "Época {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Resumen",
-    "explorerHeaderTicks": "Resumen de Ticks",
-    "explorerSubHeaderTicks": "Últimos Ticks",
-    "explorerLabelTotalTicks": "Total de Ticks",
-    "explorerLabelEmptyTicks": "Vacíos",
-    "explorerLabelTickQuality": "Calidad del Tick",
-    "explorerLabelTotalSupply": "Acciones en Circulación",
-    "explorerLabelTotalAddresses": "Direcciones Activas",
-    "explorerButtonRefreshData": "Refrescar Data",
-    "explorerLabelLoadingData": "Cargando la información para esta época",
-    "explorerSearchTitle": "Buscador",
-    "explorerSearchLabelCriteria": "Tick / TX ID / ID Público",
-    "explorerSearchLabelNoResults": "No se encontraron resultados que coincidan",
-    "explorerSearchLabelResults": "{count, plural, =1{Se encontró 1 resultado} other{Se encontraron {count} resultados}}",
-    "explorerTickResultLabelBlockStatus": "Estado del Tick",
-    "explorerTickResultLabelBlockStatusEmpty": "Vacío / No ejecutado",
-    "explorerTickResultLabelBlockStatusNonEmpty": "No vacío / Ejecutado",
-    "explorerTickResultLabelBlockStatusUnknown": "Desconocido",
-    "explorerTickResultLabelDataStatus": "Estado de los Datos",
-    "explorerTickResultLabelInfoCompleted": "Completado",
-    "explorerTickResultLabelInfoNotValidated": "No Validado",
-    "explorerTickResultLabelTickLeader": "Tick líder",
-    "explorerTickResultLabelNoTransactionsFound": "No se encontraron transacciones en este tick",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transacción en el tick} other{{count} transacciones en el tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Mostrando 1 de 1 transacción en el tick} other{Mostrando 1 de {count} transacciones en el tick}}",
     "settingsTitle": "Configuraciones",
     "settingsHeaderAccountsAndData": "Cuentas y datos",
     "settingsLockWallet": "Bloquear el Wallet",
@@ -361,20 +327,6 @@
     "eraseDataSheetLabelOne": "Esta acción no se puede revertir. Todas tus cuentas serán eliminadas del dispositivo.",
     "eraseDataSheetLabelTwo": "Sólo podrás recuperar tus cuentas si tienes una copia de respaldo de tus semillas públicas.",
     "eraseDataSheetCheckboxLabel": "Sí, eliminar mi Wallet.",
-    "accountExplorerTitle": "Dirección Qubic",
-    "accountExplorerLabelCurrentValue": "Valor Actual",
-    "accountExplorerLabelValueReportedBy": "Valor reportado por {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Total Entrante",
-    "accountExplorerLabelTotalOutgoing": "Total Saliente",
-    "accountExplorerLabelReportedBy": "Reportado por",
-    "accountExplorerLabelNoResultsFound": "No se encontraron transacciones para esta dirección en esta época.",
     "transactionItemLabelTransactionId": "ID de la Transacción",
     "transactionItemLabelTransactionType": "Tipo",
     "generalLabelTickAndValue": "Tick {tick}",
@@ -688,9 +640,6 @@
     "generalErrorFileRequired": "Por favor, selecciona un archivo",
     "generalErrorPathRequired": "Por favor, selecciona un directorio",
     "homeWarningTooManyAccounts": "Tienes más de 15 cuentas en tu Wallet. No podrás ver los balances o hacer transferencias hasta que no elimines algunas de ellas hasta tener 15 o menos",
-    "explorerLabelPrice": "Precio",
-    "explorerLabelMarketCap": "Capitalización de mercado",
-    "accountExplorerLabelLatestTransactions": "Últimas Transacciones",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Dirección de sólo lectura inválida. Por favor, verifica la dirección ingresada.",
     "addAccountErrorVerifyIdentityError": "No se puede verificar la dirección",

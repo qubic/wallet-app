@@ -154,40 +154,6 @@
     "filterTransfersFieldHintByDirection": "Par Direction",
     "generalLabelAnyDirection": "N'importe quelle Direction",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Effacer 1 Filtre Actif} other{Effacer {filtersCount} Filtres Actifs}}",
-    "explorerTitle": "Explorateur Epoch",
-    "explorerLabelEpoch": "Epoch {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Aperçu",
-    "explorerHeaderTicks": "Aperçu des Ticks",
-    "explorerSubHeaderTicks": "Derniers Ticks",
-    "explorerLabelTotalTicks": "Total des Ticks",
-    "explorerLabelEmptyTicks": "Ticks Vides",
-    "explorerLabelTickQuality": "Qualité du Tick",
-    "explorerLabelTotalSupply": "Offre Totale (QUBIC)",
-    "explorerLabelTotalAddresses": "Total des Adresses",
-    "explorerButtonRefreshData": "Actualiser les Données",
-    "explorerLabelLoadingData": "Chargement des données de l'explorateur pour cette époque",
-    "explorerSearchTitle": "Recherche dans l'Explorateur",
-    "explorerSearchLabelCriteria": "Tick / ID TX / ID Public",
-    "explorerSearchLabelNoResults": "Aucun résultat correspondant",
-    "explorerSearchLabelResults": "{count, plural, =1{1 résultat trouvé} other{{count} résultats trouvés}}",
-    "explorerTickResultLabelBlockStatus": "Statut du Tick",
-    "explorerTickResultLabelBlockStatusEmpty": "Vide / Non exécuté",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Non vide / Exécuté",
-    "explorerTickResultLabelBlockStatusUnknown": "Inconnu",
-    "explorerTickResultLabelDataStatus": "Statut des Données",
-    "explorerTickResultLabelInfoCompleted": "Terminé",
-    "explorerTickResultLabelInfoNotValidated": "Non Validé",
-    "explorerTickResultLabelTickLeader": "Leader du Tick",
-    "explorerTickResultLabelNoTransactionsFound": "Aucune transaction dans ce tick",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction dans le tick} other{{count} transactions dans le tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Affichage de 1 sur 1 transaction dans le tick} other{Affichage de 1 sur {count} transactions dans le tick}}",
     "settingsTitle": "Paramètres",
     "settingsHeaderAccountsAndData": "Comptes et Données",
     "settingsLockWallet": "Verrouiller le Portefeuille",
@@ -362,20 +328,6 @@
     "eraseDataSheetLabelOne": "Cette action est irréversible. Tous vos comptes seront supprimés de votre appareil.",
     "eraseDataSheetLabelTwo": "Vous ne pourrez récupérer vos comptes que si vous avez une sauvegarde de vos Seeds privées.",
     "eraseDataSheetCheckboxLabel": "Oui, effacez les données de mon portefeuille.",
-    "accountExplorerTitle": "Adresse Qubic",
-    "accountExplorerLabelCurrentValue": "Valeur Actuelle",
-    "accountExplorerLabelValueReportedBy": "Valeur rapportée par {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Total Entrant",
-    "accountExplorerLabelTotalOutgoing": "Total Sortant",
-    "accountExplorerLabelReportedBy": "Rapporté par",
-    "accountExplorerLabelNoResultsFound": "Aucune transaction pour cet ID dans cette époque",
     "transactionItemLabelTransactionId": "ID de la Transaction",
     "transactionItemLabelTransactionType": "Type",
     "generalLabelTickAndValue": "Tick {tick}",
@@ -694,9 +646,6 @@
     "generalErrorFileRequired": "Veuillez remplir le fichier",
     "generalErrorPathRequired": "Veuillez remplir le chemin du fichier",
     "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins",
-    "explorerLabelPrice": "Prix",
-    "explorerLabelMarketCap": "Capitalisation boursière",
-    "accountExplorerLabelLatestTransactions": "Dernières Transactions",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Adresse en lecture seule invalide. Veuillez vérifier l'adresse saisie.",
     "addAccountErrorVerifyIdentityError": "Impossible de vérifier l'adresse.",

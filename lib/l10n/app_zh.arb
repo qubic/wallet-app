@@ -154,40 +154,6 @@
     "filterTransfersFieldHintByDirection": "按方向",
     "generalLabelAnyDirection": "所有转账",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{清除 1 个筛选条件} other{清除 {filtersCount} 个筛选条件}}",
-    "explorerTitle": "纪元浏览器",
-    "explorerLabelEpoch": "纪元 {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "概览",
-    "explorerHeaderTicks": "刻度概览",
-    "explorerSubHeaderTicks": "最新刻度",
-    "explorerLabelTotalTicks": "总刻度",
-    "explorerLabelEmptyTicks": "空刻度",
-    "explorerLabelTickQuality": "刻度质量",
-    "explorerLabelTotalSupply": "总供应 (QUBIC)",
-    "explorerLabelTotalAddresses": "活跃地址",
-    "explorerButtonRefreshData": "刷新数据",
-    "explorerLabelLoadingData": "正在加载当前纪元数据",
-    "explorerSearchTitle": "浏览器搜索",
-    "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
-    "explorerSearchLabelNoResults": "没有找到匹配的结果。",
-    "explorerSearchLabelResults": "{count, plural, =1{找到 1 个结果} other{找到 {count} 个结果}}",
-    "explorerTickResultLabelBlockStatus": "滴答状态",
-    "explorerTickResultLabelBlockStatusEmpty": "空 / 未実行",
-    "explorerTickResultLabelBlockStatusNonEmpty": "非空 / 実行済み",
-    "explorerTickResultLabelBlockStatusUnknown": "未知",
-    "explorerTickResultLabelDataStatus": "数据状态",
-    "explorerTickResultLabelInfoCompleted": "完成",
-    "explorerTickResultLabelInfoNotValidated": "未验证",
-    "explorerTickResultLabelTickLeader": "刻度验证者",
-    "explorerTickResultLabelNoTransactionsFound": "此刻度中无交易",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 笔交易在此刻度} other{{count} 笔交易在此刻度}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{正在显示 1 of 1 笔交易在此刻度} other{正在显示 1 of {count} 笔交易在此刻度}}",
     "settingsTitle": "设置",
     "settingsHeaderAccountsAndData": "账户和数据",
     "settingsLockWallet": "锁定钱包",
@@ -362,20 +328,6 @@
     "eraseDataSheetLabelOne": "此操作无法撤销，您的所有账户将从设备中删除。",
     "eraseDataSheetLabelTwo": "您仅能通过备份私有种子来恢复账户。",
     "eraseDataSheetCheckboxLabel": "是的，清除我的钱包数据。",
-    "accountExplorerTitle": "Qubic 地址",
-    "accountExplorerLabelCurrentValue": "当前数量",
-    "accountExplorerLabelValueReportedBy": "数量报告来自 {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "总转入",
-    "accountExplorerLabelTotalOutgoing": "总转出",
-    "accountExplorerLabelReportedBy": "报告来自",
-    "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
     "transactionItemLabelTransactionId": "交易 ID",
     "transactionItemLabelTransactionType": "类型",
     "generalLabelTickAndValue": "刻度 {tick}",
@@ -689,8 +641,6 @@
     "generalErrorFileRequired": "请选择文件",
     "generalErrorPathRequired": "请选择路径",
     "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。",
-    "explorerLabelPrice": "价格",
-    "explorerLabelMarketCap": "市值",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "无效的观察地址。请检查输入的地址。",
     "addAccountErrorVerifyIdentityError": "无法验证地址。",
@@ -712,7 +662,6 @@
             }
         }
     },
-    "accountExplorerLabelLatestTransactions": "最新交易",
     "wcScopeRequestAccounts": "查看您的錢包帳戶及其餘額",
     "wcScopeSendQubic": "請求您從錢包帳戶發送 Qubic",
     "wcScopeSendAssets": "請求您從錢包帳戶發送 Qubic 資產",

@@ -154,40 +154,6 @@
     "filterTransfersFieldHintByDirection": "Yöne Göre",
     "generalLabelAnyDirection": "Herhangi Bir Yöne",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Clear 1 Active Filter} other{Clear {filtersCount} Active Filters}}",
-    "explorerTitle": "Dönem Gezgini",
-    "explorerLabelEpoch": "Epoch {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Özet",
-    "explorerHeaderTicks": "Tick Özeti",
-    "explorerSubHeaderTicks": "Son Tickler",
-    "explorerLabelTotalTicks": "Toplam Tickler",
-    "explorerLabelEmptyTicks": "Boş Tickler",
-    "explorerLabelTickQuality": "Tick Kalitesi",
-    "explorerLabelTotalSupply": "Toplam Arz (QUBIC)",
-    "explorerLabelTotalAddresses": "Toplam Adres Sayısı",
-    "explorerButtonRefreshData": "Verileri Güncelle",
-    "explorerLabelLoadingData": "Bu dönem için gezgin verileri güncelleniyor.",
-    "explorerSearchTitle": "Gezgin Araması",
-    "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
-    "explorerSearchLabelNoResults": "Eşleşen sonuç bulunamadı",
-    "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
-    "explorerTickResultLabelBlockStatus": "Tik Durumu",
-    "explorerTickResultLabelBlockStatusEmpty": "Boş / Gerçekleştirilmemiş",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Dolu / Gerçekleştirildi",
-    "explorerTickResultLabelBlockStatusUnknown": "Bilinmeyen",
-    "explorerTickResultLabelDataStatus": "Data Durumu",
-    "explorerTickResultLabelInfoCompleted": "Tamamlanmış",
-    "explorerTickResultLabelInfoNotValidated": "Doğrulanmamış",
-    "explorerTickResultLabelTickLeader": "Tick Lideri",
-    "explorerTickResultLabelNoTransactionsFound": "Bu Tickte Hiçbir Transfer Bulunmamaktadır.",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}",
     "settingsTitle": "Ayarlar",
     "settingsHeaderAccountsAndData": "Hesaplar ve Veriler",
     "settingsLockWallet": "Cüzdanı Kilitle",
@@ -362,19 +328,6 @@
     "eraseDataSheetLabelOne": "Bu işlem geri alınamaz. Bütün hesaplarınız cihazınızdan silinecektir.",
     "eraseDataSheetLabelTwo": "Hesaplarınızı yalnızca özel anahtarlarınızın yedeği varsa kurtarabilirsiniz.",
     "eraseDataSheetCheckboxLabel": "Evet, cüzdan verimi sil.",
-    "accountExplorerTitle": "Qubic Adres",
-    "accountExplorerLabelCurrentValue": "Güncel Değeri",
-    "accountExplorerLabelValueReportedBy": "{ip} tarafından bildirilen değer",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Toplam Gelen",
-    "accountExplorerLabelTotalOutgoing": "Toplam Giden",
-    "accountExplorerLabelReportedBy": "Bildiren",
     "transactionItemLabelTransactionId": "Transfer ID'si",
     "transactionItemLabelTransactionType": "Tür",
     "generalLabelTickAndValue": "Tick {tick}",
@@ -688,8 +641,6 @@
     "generalErrorFileRequired": "Lütfen bir dosya seçin",
     "generalErrorPathRequired": "Lütfen bir yol seçin",
     "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz.",
-    "explorerLabelPrice": "Fiyat",
-    "explorerLabelMarketCap": "Piyasa Değeri",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Geçersiz yanlızca izleme adresi. Lütfen girilen adresi kontrol edin.",
     "addAccountErrorVerifyIdentityError": "Adres doğrulanamadı.",
@@ -711,8 +662,6 @@
             }
         }
     },
-    "accountExplorerLabelNoResultsFound": "Bu dönemde bu kimlik için işlem yok",
-    "accountExplorerLabelLatestTransactions": "Son İşlemler",
     "wcScopeRequestAccounts": "Cüzdan hesaplarını ve bakiyelerini görüntüle",
     "wcScopeSendQubic": "Cüzdan hesaplarından Qubic göndermenizi talep eder",
     "wcScopeSendAssets": "Cüzdan hesaplarından Qubic Varlıkları göndermenizi talep eder",
