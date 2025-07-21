@@ -19,7 +19,7 @@ class PricePanel extends StatelessWidget {
       return AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: price == null
-            ? const SizedBox(width: 120)
+            ? const SizedBox.shrink()
             : Container(
                 margin: const EdgeInsets.symmetric(
                     horizontal: ThemePaddings.normalPadding),
