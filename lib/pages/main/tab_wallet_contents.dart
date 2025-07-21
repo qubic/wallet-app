@@ -170,7 +170,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                 slivers: [
                   Observer(builder: (context) {
                     return SliverAppBar(
-                      leadingWidth: 120,
+                      leadingWidth: 300,
                       backgroundColor: LightThemeColors.background,
                       leading: PricePanel(),
                       actions: <Widget>[
