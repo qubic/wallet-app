@@ -31,7 +31,7 @@ class PricePanel extends StatelessWidget {
                         children: [
                           FittedBox(
                               fit: BoxFit.scaleDown,
-                              child: Text(l10n.explorerLabelPrice,
+                              child: Text(l10n.homeHeaderQubicPrice,
                                   style: TextStyles.secondaryTextSmall)),
                           FittedBox(
                               fit: BoxFit.scaleDown,

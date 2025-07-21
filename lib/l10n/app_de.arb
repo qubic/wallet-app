@@ -154,40 +154,6 @@
     "filterTransfersFieldHintByDirection": "Nach Richtung",
     "generalLabelAnyDirection": "Beliebige Richtung",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{1 aktiven Filter löschen} other{{filtersCount} aktive Filter löschen}}",
-    "explorerTitle": "Explorer",
-    "explorerLabelEpoch": "Epoche {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Übersicht",
-    "explorerHeaderTicks": "Tick Übersicht",
-    "explorerSubHeaderTicks": "Letzte Ticks",
-    "explorerLabelTotalTicks": "Gesamtanzahl Ticks",
-    "explorerLabelEmptyTicks": "Leere Ticks",
-    "explorerLabelTickQuality": "Tick Qualität",
-    "explorerLabelTotalSupply": "Gesamtversorgung (QUBIC)",
-    "explorerLabelTotalAddresses": "Gesamtanzahl Adressen",
-    "explorerButtonRefreshData": "Daten aktualisieren",
-    "explorerLabelLoadingData": "Lade Explorerdaten für diese Epoche",
-    "explorerSearchTitle": "Explorer Suche",
-    "explorerSearchLabelCriteria": "Tick / TX ID / Öffentliche ID",
-    "explorerSearchLabelNoResults": "Keine Ergebnisse gefunden für",
-    "explorerSearchLabelResults": "{count, plural, =1{1 Ergebnis gefunden} other{{count} Ergebnisse gefunden}}",
-    "explorerTickResultLabelBlockStatus": "Tick-Status",
-    "explorerTickResultLabelBlockStatusEmpty": "Leer / Nicht ausgeführt",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Nicht leer / Ausgeführt",
-    "explorerTickResultLabelBlockStatusUnknown": "Unbekannt",
-    "explorerTickResultLabelDataStatus": "Datenstatus",
-    "explorerTickResultLabelInfoCompleted": "Abgeschlossen",
-    "explorerTickResultLabelInfoNotValidated": "Nicht validiert",
-    "explorerTickResultLabelTickLeader": "Tick-Leader",
-    "explorerTickResultLabelNoTransactionsFound": "Keine Transaktionen in diesem Tick",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 Transaktion im Tick} other{{count} Transaktionen im Tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Zeigt 1 von 1 Transaktion im Tick} other{Zeigt 1 von {count} Transaktionen im Tick}}",
     "settingsTitle": "Einstellungen",
     "settingsHeaderAccountsAndData": "Konten und Daten",
     "settingsLockWallet": "Wallet sperren",
@@ -362,20 +328,6 @@
     "eraseDataSheetLabelOne": "Diese Aktion kann nicht rückgängig gemacht werden. Alle Ihre Konten werden von Ihrem Gerät entfernt.",
     "eraseDataSheetLabelTwo": "Sie können Ihre Konten nur wiederherstellen, wenn Sie eine Sicherung Ihres privaten Seeds haben.",
     "eraseDataSheetCheckboxLabel": "Ja, löschen Sie meine Wallet-Daten.",
-    "accountExplorerTitle": "Qubic Adresse",
-    "accountExplorerLabelCurrentValue": "Aktueller Wert",
-    "accountExplorerLabelValueReportedBy": "Wert gemeldet von {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Eingang gesamt",
-    "accountExplorerLabelTotalOutgoing": "Ausgang gesamt",
-    "accountExplorerLabelReportedBy": "Gemeldet von",
-    "accountExplorerLabelNoResultsFound": "Keine Transaktionen für diese ID in dieser Epoche.",
     "transactionItemLabelTransactionId": "Transaktions-ID",
     "transactionItemLabelTransactionType": "Typ",
     "generalLabelTickAndValue": "Tick {tick}",
@@ -689,9 +641,6 @@
     "generalErrorFileRequired": "Bitte wählen Sie eine Datei",
     "generalErrorPathRequired": "Bitte wählen Sie einen Pfad",
     "homeWarningTooManyAccounts": "Sie haben mehr als 15 Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und QUBICs zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
-    "explorerLabelPrice": "Preis",
-    "explorerLabelMarketCap": "Marktkapitalisierung",
-    "accountExplorerLabelLatestTransactions": "Letzte Transaktionen",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Ungültige Watch-Only-Adresse. Bitte überprüfen Sie die eingegebene Adresse.",
     "addAccountErrorVerifyIdentityError": "Die Adresse konnte nicht überprüft werden.",

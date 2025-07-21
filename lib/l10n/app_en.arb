@@ -145,6 +145,7 @@
     "appTabSettings": "Settings",
     "homeLabelTotalBalance": "Total Balance",
     "homeHeader": "Accounts in Wallet",
+    "homeHeaderQubicPrice": "QUBIC Price",
     "homeLabelNoAccountsInWallet": "You don't have any Qubic Accounts in your wallet yet",
     "homeButtonAddAccount": "Add Account",
     "transfersTitle": "Epoch Transfers",
@@ -175,40 +176,6 @@
     "filterTransfersFieldHintByDirection": "By Direction",
     "generalLabelAnyDirection": "Any Direction",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Clear 1 Active Filter} other{Clear {filtersCount} Active Filters}}",
-    "explorerTitle": "Epoch Explorer",
-    "explorerLabelEpoch": "Epoch {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Overview",
-    "explorerHeaderTicks": "Tick Overview",
-    "explorerSubHeaderTicks": "Latest Ticks",
-    "explorerLabelTotalTicks": "Total Ticks",
-    "explorerLabelEmptyTicks": "Empty Ticks",
-    "explorerLabelTickQuality": "Tick Quality",
-    "explorerLabelTotalSupply": "Total Supply (QUBIC)",
-    "explorerLabelTotalAddresses": "Total Addresses",
-    "explorerButtonRefreshData": "Refresh Data",
-    "explorerLabelLoadingData": "Loading explorer data for this epoch",
-    "explorerSearchTitle": "Explorer Search",
-    "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
-    "explorerSearchLabelNoResults": "No results found matching",
-    "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
-    "explorerTickResultLabelBlockStatus": "Tick Status",
-    "explorerTickResultLabelBlockStatusEmpty": "Empty / Unexecuted",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Non-empty / Executed",
-    "explorerTickResultLabelBlockStatusUnknown": "Unknown",
-    "explorerTickResultLabelDataStatus": "Data Status",
-    "explorerTickResultLabelInfoCompleted": "Completed",
-    "explorerTickResultLabelInfoNotValidated": "Not Validated",
-    "explorerTickResultLabelTickLeader": "Tick Leader",
-    "explorerTickResultLabelNoTransactionsFound": "No transactions in this tick",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}",
     "settingsTitle": "Settings",
     "settingsHeaderAccountsAndData": "Accounts and Data",
     "settingsLockWallet": "Lock Wallet",
@@ -395,20 +362,6 @@
     "eraseDataSheetLabelOne": "This action cannot be undone. All your accounts will be removed from your device.",
     "eraseDataSheetLabelTwo": "You will only be able to recover your accounts if you have a backup of your private seeds.",
     "eraseDataSheetCheckboxLabel": "Yes, erase my wallet data.",
-    "accountExplorerTitle": "Qubic Address",
-    "accountExplorerLabelCurrentValue": "Current Value",
-    "accountExplorerLabelValueReportedBy": "Value reported by {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Total Incoming",
-    "accountExplorerLabelTotalOutgoing": "Total Outgoing",
-    "accountExplorerLabelReportedBy": "Reported by",
-    "accountExplorerLabelNoResultsFound": "No transactions for this ID in this epoch",
     "transactionItemLabelTransactionId": "Transaction ID",
     "transactionItemLabelTransactionType": "Type",
     "generalLabelTickAndValue": "Tick {tick}",
@@ -774,9 +727,6 @@
     "generalErrorFileRequired": "Please select a file",
     "generalErrorPathRequired": "Please select a path",
     "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
-    "explorerLabelPrice": "Price",
-    "explorerLabelMarketCap": "Market Cap",
-    "accountExplorerLabelLatestTransactions": "Latest Transactions",
     "cmdErrorVerifyingIdentityGeneric": "Error verifying the identity.",
     "cmdErrorVerifyingIdentity": "Cannot verify your identity: {errorDescription}",
     "@cmdErrorVerifyingIdentity": {
