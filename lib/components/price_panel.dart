@@ -20,24 +20,19 @@ class PricePanel extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         child: price == null
             ? const SizedBox.shrink()
-            : Container(
-                margin: const EdgeInsets.symmetric(
-                    horizontal: ThemePaddings.normalPadding),
-                child: Padding(
-                    padding: const EdgeInsets.all(ThemePaddings.smallPadding),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(l10n.homeHeaderQubicPrice,
-                                  style: TextStyles.secondaryTextSmall)),
-                          FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text("\$${price.toString()}",
-                                  style: TextStyles.textExtraLargeBold))
-                        ]))),
+            : Padding(
+                padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(l10n.homeHeaderQubicPrice,
+                          style: TextStyles.secondaryTextSmall),
+                      Text(" \$${price.toString()}",
+                          style: TextStyles.textSmall.copyWith(
+                            color: LightThemeColors.primary40,
+                          ))
+                    ])),
       );
     });
   }
