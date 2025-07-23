@@ -133,6 +133,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         },
         enabled: !isLoading,
         obscureText: false,
+        enableSuggestions: false,
         autocorrect: false,
         autofillHints: null,
         style: TextStyles.inputBoxSmallStyle,

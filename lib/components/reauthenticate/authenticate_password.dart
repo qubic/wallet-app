@@ -126,13 +126,13 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
       });
 
       final error = await _biometricService.handleBiometricsAuth(context);
-      
+
       if (error == null) {
         widget.onSuccess();
       } else {
         _setAuthError(error);
       }
-      
+
       setState(() {
         isLoading = false;
         formOpacity = 1;
@@ -288,6 +288,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                     style: TextStyles.inputBoxNormalStyle,
                     enabled: !isLoading,
                     obscureText: obscuringTextPass,
+                    enableSuggestions: false,
                     autocorrect: false,
                     autofillHints: null,
                   ),

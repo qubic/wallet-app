@@ -499,6 +499,7 @@ class _SignInState extends State<SignIn>
       onSubmitted: (value) => signInHandler(),
       enabled: !isLoading,
       obscureText: obscuringText,
+      enableSuggestions: false,
       autocorrect: false,
       autofillHints: null,
     );

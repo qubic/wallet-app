@@ -474,6 +474,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
             ),
             enabled: !isLoading,
             obscureText: obscuringTextPass,
+            enableSuggestions: false,
             autocorrect: false,
             autofillHints: null,
           )
