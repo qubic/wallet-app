@@ -832,5 +832,6 @@
     "biometricErrorOtherOperatingSystem": "Votre système d’exploitation ne prend pas en charge l’authentification biométrique.",
     "biometricErrorLockedOut": "Trop de tentatives échouées. Verrouillez puis déverrouillez votre téléphone avec votre code PIN, motif ou mot de passe, puis réessayez.",
     "biometricErrorPermanentlyLockedOut": "L’authentification biométrique est définitivement verrouillée. Déverrouillez votre appareil avec votre code PIN, motif ou mot de passe et réessayez.",
-    "biometricErrorBiometricOnlyNotSupported": "L’authentification uniquement biométrique n’est pas prise en charge sur cette plateforme."
+    "biometricErrorBiometricOnlyNotSupported": "L’authentification uniquement biométrique n’est pas prise en charge sur cette plateforme.",
+    "homeHeaderQubicPrice": "QUBIC Prix"
 }

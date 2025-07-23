@@ -827,5 +827,6 @@
     "biometricErrorOtherOperatingSystem": "Ihr Betriebssystem unterstützt keine biometrische Authentifizierung.",
     "biometricErrorLockedOut": "Zu viele fehlgeschlagene Versuche. Bitte sperren und entsperren Sie Ihr Gerät mit PIN, Muster oder Passwort und versuchen Sie es erneut.",
     "biometricErrorPermanentlyLockedOut": "Die biometrische Authentifizierung ist dauerhaft gesperrt. Bitte entsperren Sie Ihr Gerät mit PIN, Muster oder Passwort und versuchen Sie es erneut.",
-    "biometricErrorBiometricOnlyNotSupported": "Nur-biometrische Authentifizierung wird auf dieser Plattform nicht unterstützt."
+    "biometricErrorBiometricOnlyNotSupported": "Nur-biometrische Authentifizierung wird auf dieser Plattform nicht unterstützt.",
+    "homeHeaderQubicPrice": "QUBIC Preis"
 }

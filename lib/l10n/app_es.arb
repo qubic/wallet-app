@@ -826,5 +826,6 @@
     "biometricErrorOtherOperatingSystem": "Tu sistema operativo no admite la autenticación biométrica.",
     "biometricErrorLockedOut": "Demasiados intentos fallidos. Bloquea y desbloquea tu teléfono con un PIN, patrón o contraseña, y vuelve a intentarlo.",
     "biometricErrorPermanentlyLockedOut": "La autenticación biométrica se ha bloqueado permanentemente. Desbloquea el dispositivo con tu PIN, patrón o contraseña e inténtalo de nuevo.",
-    "biometricErrorBiometricOnlyNotSupported": "La autenticación solo biométrica no es compatible con esta plataforma."
+    "biometricErrorBiometricOnlyNotSupported": "La autenticación solo biométrica no es compatible con esta plataforma.",
+    "homeHeaderQubicPrice": "QUBIC Precio"
 }

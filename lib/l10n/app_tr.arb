@@ -827,5 +827,6 @@
     "biometricErrorOtherOperatingSystem": "İşletim sisteminiz biyometrik kimlik doğrulamayı desteklemiyor.",
     "biometricErrorLockedOut": "Çok fazla başarısız deneme yapıldı. Lütfen telefonunuzu PIN / desen veya şifre ile kilitleyip tekrar açın ve tekrar deneyin.",
     "biometricErrorPermanentlyLockedOut": "Biyometrik kimlik doğrulama kalıcı olarak kilitlendi. Lütfen cihazınızı PIN, desen veya şifre ile açarak tekrar deneyin.",
-    "biometricErrorBiometricOnlyNotSupported": "Bu platformda yalnızca biyometrik kimlik doğrulama desteklenmiyor."
+    "biometricErrorBiometricOnlyNotSupported": "Bu platformda yalnızca biyometrik kimlik doğrulama desteklenmiyor.",
+    "homeHeaderQubicPrice": "QUBIC Fiyat"
 }
