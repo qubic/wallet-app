@@ -827,5 +827,6 @@
     "biometricErrorOtherOperatingSystem": "您的作業系統不支援生物辨識驗證。",
     "biometricErrorLockedOut": "驗證失敗次數過多。請使用 PIN、圖形或密碼鎖定並解鎖裝置後再試一次。",
     "biometricErrorPermanentlyLockedOut": "生物辨識驗證已被永久鎖定。請使用 PIN、圖形或密碼解鎖裝置後再試一次。",
-    "biometricErrorBiometricOnlyNotSupported": "此平台不支援僅使用生物辨識的驗證方式。"
+    "biometricErrorBiometricOnlyNotSupported": "此平台不支援僅使用生物辨識的驗證方式。",
+    "homeHeaderQubicPrice": "QUBIC 价格"
 }
