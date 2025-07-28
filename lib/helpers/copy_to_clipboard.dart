@@ -7,10 +7,10 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 /// Copies a string to clipboard and shows a snackbar
-copyToClipboard(String copiedText, BuildContext context) async {
+copyToClipboard(String copiedText, BuildContext context,
+    {String? message}) async {
   final l10n = l10nOf(context);
-
   final _globalSnackBar = getIt<GlobalSnackBar>();
   await Clipboard.setData(ClipboardData(text: copiedText));
-  _globalSnackBar.show(l10n.generalSnackBarMessageCopiedToClipboard);
+  _globalSnackBar.show(message ?? l10n.generalSnackBarMessageCopiedToClipboard);
 }
