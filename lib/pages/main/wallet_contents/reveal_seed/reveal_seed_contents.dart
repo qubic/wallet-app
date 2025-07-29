@@ -171,11 +171,6 @@ class RevealSeedContentsState extends State<RevealSeedContents>
     ];
   }
 
-  TextEditingController privateSeed = TextEditingController();
-
-  bool showAccountInfoTooltip = false;
-  bool showSeedInfoTooltip = false;
-  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Column(children: [
