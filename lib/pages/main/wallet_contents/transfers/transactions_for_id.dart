@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/custom_paged_list_view.dart';
@@ -19,6 +20,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transac
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/stored_transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -233,9 +235,11 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                           child: ThemedControls.card(
                               child: Row(
                             children: [
-                              const Icon(Icons.help_outline,
-                                  color: LightThemeColors.pending),
-                              ThemedControls.spacerHorizontalMini(),
+                              SvgPicture.asset(AppIcons.pendingAndFailedTrx,
+                                  colorFilter: const ColorFilter.mode(
+                                      LightThemeColors.pending,
+                                      BlendMode.srcIn)),
+                              ThemedControls.spacerHorizontalSmall(),
                               Expanded(
                                 child: Column(
                                   crossAxisAlignment:
@@ -263,7 +267,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                 child: CustomPagedListView<int, TransactionDto>(
                   pagingController: _pagingController,
                   separatorBuilder: (context, index) => const SizedBox(
-                    height: ThemePaddings.normalPadding,
+                    height: ThemePaddings.miniPadding,
                   ),
                   itemBuilder: (context, item, index) {
                     return TransactionItem(

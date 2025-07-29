@@ -26,7 +26,7 @@ class StoredTransactionsForId extends StatelessWidget {
         child: Column(
           children: [
             ThemedControls.pageHeader(
-              headerText: (l10n.transfersLabelForAccount(item.name)),
+              headerText: (l10n.storedTransfersLabelForAccount(item.name)),
             ),
             Observer(builder: (context) {
               return Expanded(

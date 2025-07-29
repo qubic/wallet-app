@@ -145,6 +145,14 @@
             }
         }
     },
+    "storedTransfersLabelForAccount": "未完成的轉帳來自 \"{accountName}\"",
+    "@storedTransfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
     "filterTransfersTitle": "转账记录",
     "filterTransfersLabelAnyQubicID": "所有 Qubic ID",
     "filterTransfersLabelByQubicID": "按 Qubic ID",
@@ -793,7 +801,7 @@
     "qxTransferSharesWarning": "此交易当前仅发送方可见，接收方暂时无法查看",
     "settingsSupportGoogleForm": "填写表单",
     "appTabExplore": "探索",
-    "storedTransfersLabel": "顯示其他交易",
+    "storedTransfersLabel": "查看未完成的交易",
     "transactionsCount": "{count, plural, =1{1 筆交易} other{顯示 {count} 筆交易}}",
     "dAppOpenButton": "開啟",
     "dAppFeaturedApp": "精選應用程式",
