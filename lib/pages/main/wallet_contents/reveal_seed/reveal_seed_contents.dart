@@ -2,10 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -45,19 +46,44 @@ class RevealSeedContentsState extends State<RevealSeedContents>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _clipboardTimer?.cancel();
+    _clipboardTimer = null;
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) {
-      // If more than 1 minute has passed since copying, clear clipboard
-      if (_clipboardSetTime != null &&
-          DateTime.now().difference(_clipboardSetTime!).inSeconds >= 60) {
-        Clipboard.setData(const ClipboardData(text: ''));
-        _clipboardSetTime = null;
-      }
+      _checkAndClearExpiredClipboard();
     }
+  }
+
+  void _checkAndClearExpiredClipboard() {
+    if (_clipboardSetTime != null &&
+        DateTime.now().difference(_clipboardSetTime!).inSeconds >= 60) {
+      _clearClipboard();
+    }
+  }
+
+  void _clearClipboardTimer() {
+    _clipboardTimer?.cancel();
+    _clipboardTimer = null;
+  }
+
+  void _clearClipboard() {
+    Clipboard.setData(const ClipboardData(text: ''));
+    _clearClipboardTimer();
+    _clipboardSetTime = null;
+    appLogger.i("[Clipboard] Cleared after timeout");
+  }
+
+  void setTimerToClearClipboard() {
+    _clipboardSetTime = DateTime.now();
+    _clearClipboardTimer();
+    _clipboardTimer = Timer(const Duration(minutes: 1), () {
+      if (mounted) {
+        _clearClipboard();
+      }
+    });
   }
 
   Widget getScrollView() {
@@ -112,17 +138,15 @@ class RevealSeedContentsState extends State<RevealSeedContents>
                                 Expanded(
                                   child: SelectableText(
                                     seedId!,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         fontSize: 16, fontFamily: 'monospace'),
                                   ),
                                 ),
-                                IconButton(
-                                  icon: ThemedControls.invertedColors(
-                                      child: Image.asset(
-                                          "assets/images/Group 2400.png")),
-                                  tooltip: l10n.revealSeedButtonCopy,
-                                  onPressed: () =>
-                                      _copySeedToClipboard(seedId!),
+                                CopyButton(
+                                  copiedText: seedId!,
+                                  snackbarMessage:
+                                      l10n.revealSeedCopiedToClipboardMessage,
+                                  onTap: setTimerToClearClipboard,
                                 ),
                               ],
                             )
@@ -141,20 +165,6 @@ class RevealSeedContentsState extends State<RevealSeedContents>
         ],
       ),
     );
-  }
-
-  void _copySeedToClipboard(String seed) async {
-    await Clipboard.setData(ClipboardData(text: seed));
-    _clipboardSetTime = DateTime.now();
-    _clipboardTimer?.cancel();
-    _clipboardTimer = Timer(const Duration(minutes: 1), () async {
-      await Clipboard.setData(const ClipboardData(text: ''));
-      _clipboardSetTime = null;
-    });
-    final l10n = l10nOf(context);
-    final _globalSnackBar = getIt<GlobalSnackBar>();
-    _globalSnackBar.show(
-        'Private seed temporarily copied to clipboard (stored for 1 minute)');
   }
 
   List<Widget> getButtons() {
