@@ -151,7 +151,6 @@ class RevealSeedContentsState extends State<RevealSeedContents>
                               ],
                             )
                           : const Text("-"),
-                      ThemedControls.spacerVerticalNormal(),
                     ],
                   ),
                 ),
