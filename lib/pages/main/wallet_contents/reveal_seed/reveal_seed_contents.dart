@@ -113,12 +113,12 @@ class RevealSeedContentsState extends State<RevealSeedContents>
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Do not share your Private Seed!',
+                      Text(l10n.revealSeedWarningTitle,
                           style: TextStyles.alertHeader
                               .copyWith(color: LightThemeColors.warning40)),
                       const SizedBox(height: 4),
                       Text(
-                        'If someone has your private seed, they will have full control of your account.',
+                        l10n.revealSeedWarningDescription,
                         style: TextStyles.alertText
                             .copyWith(color: LightThemeColors.warning40),
                       ),
