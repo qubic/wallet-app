@@ -836,5 +836,8 @@
     "biometricErrorLockedOut": "驗證失敗次數過多。請使用 PIN、圖形或密碼鎖定並解鎖裝置後再試一次。",
     "biometricErrorPermanentlyLockedOut": "生物辨識驗證已被永久鎖定。請使用 PIN、圖形或密碼解鎖裝置後再試一次。",
     "biometricErrorBiometricOnlyNotSupported": "此平台不支援僅使用生物辨識的驗證方式。",
-    "homeHeaderQubicPrice": "QUBIC 价格"
+    "homeHeaderQubicPrice": "QUBIC 价格",
+    "revealSeedCopiedToClipboardMessage": "私密助记词已临时复制到剪贴板（保存 1 分钟）",
+    "revealSeedWarningTitle": "请勿泄露您的私密助记词！",
+    "revealSeedWarningDescription": "如果他人获取了您的私密助记词，他们将完全控制您的账户"
 }

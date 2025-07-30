@@ -836,5 +836,8 @@
     "biometricErrorLockedOut": "Çok fazla başarısız deneme yapıldı. Lütfen telefonunuzu PIN / desen veya şifre ile kilitleyip tekrar açın ve tekrar deneyin.",
     "biometricErrorPermanentlyLockedOut": "Biyometrik kimlik doğrulama kalıcı olarak kilitlendi. Lütfen cihazınızı PIN, desen veya şifre ile açarak tekrar deneyin.",
     "biometricErrorBiometricOnlyNotSupported": "Bu platformda yalnızca biyometrik kimlik doğrulama desteklenmiyor.",
-    "homeHeaderQubicPrice": "QUBIC Fiyat"
+    "homeHeaderQubicPrice": "QUBIC Fiyat",
+    "revealSeedCopiedToClipboardMessage": "Özel anahtar geçici olarak panoya kopyalandı (1 dakika saklanır)",
+    "revealSeedWarningTitle": "Özel Anahtarınızı Paylaşmayın!",
+    "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur"
 }
