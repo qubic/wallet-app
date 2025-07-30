@@ -145,6 +145,14 @@
             }
         }
     },
+    "storedTransfersLabelForAccount": "Transferts incomplètes pour \"{accountName}\"",
+    "@storedTransfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
     "filterTransfersTitle": "Filtrer les Transferts",
     "filterTransfersLabelAnyQubicID": "N'importe quel ID Qubic",
     "filterTransfersLabelByQubicID": "Par ID Qubic",
@@ -798,7 +806,7 @@
     "qxTransferSharesWarning": "Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur.",
     "settingsSupportGoogleForm": "Remplir le formulaire",
     "appTabExplore": "Explorer",
-    "storedTransfersLabel": "Afficher les autres transactions",
+    "storedTransfersLabel": "Voir les transactions incomplètes",
     "transactionsCount": "{count, plural, =1{1 transaction} other{Affichage de {count} transactions}}",
     "dAppOpenButton": "Ouvrir",
     "dAppFeaturedApp": "Application en vedette",

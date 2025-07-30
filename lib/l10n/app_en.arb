@@ -156,10 +156,18 @@
     "transfersLabelNoTransactionsFoundInAccount": "No transactions found.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
     "transfersLabelFor": "Transfers for",
-    "storedTransfersLabel": "Show other transactions",
+    "storedTransfersLabel": "View Incomplete Transactions",
     "transactionsCount": "{count, plural, =1{1 transaction} other{Showing {count} transactions}}",
     "transfersLabelForAccount": "Transfers for \"{accountName}\"",
     "@transfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "storedTransfersLabelForAccount": "Incomplete Transfers for \"{accountName}\"",
+    "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
                 "type": "String"

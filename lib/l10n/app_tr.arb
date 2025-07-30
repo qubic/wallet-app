@@ -145,6 +145,14 @@
             }
         }
     },
+    "storedTransfersLabelForAccount": "\"{accountName}\" için tamamlanmamış transferleri",
+    "@storedTransfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
     "filterTransfersTitle": "Transferleri Filtrele",
     "filterTransfersLabelAnyQubicID": "Herhangi bir qubic ID'si",
     "filterTransfersLabelByQubicID": "Qubic ID'sine Göre",
@@ -793,7 +801,7 @@
     "qxTransferSharesWarning": "Bu işlem kaydı şu anda yalnızca gönderen tarafından görülebilir.",
     "settingsSupportGoogleForm": "Formu Doldur",
     "appTabExplore": "Keşfet",
-    "storedTransfersLabel": "Diğer işlemleri göster",
+    "storedTransfersLabel": "Eksik işlemleri görüntüle",
     "transactionsCount": "{count, plural, =1{1 işlem} other{{count} işlem gösteriliyor}}",
     "dAppOpenButton": "Aç",
     "dAppFeaturedApp": "Öne Çıkan Uygulama",

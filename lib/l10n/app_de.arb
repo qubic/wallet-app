@@ -145,6 +145,14 @@
             }
         }
     },
+    "storedTransfersLabelForAccount": "Unvollständige Übertragungen für \"{accountName}\"",
+    "@storedTransfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
     "filterTransfersTitle": "Übertragungen filtern",
     "filterTransfersLabelAnyQubicID": "Beliebige Qubic-ID",
     "filterTransfersLabelByQubicID": "Nach Qubic-ID",
@@ -793,7 +801,7 @@
     "qxTransferSharesWarning": "Dieser Transaktionsdatensatz ist derzeit nur für den Absender sichtbar.",
     "settingsSupportGoogleForm": "Formular Ausfüllen",
     "appTabExplore": "Entdecken",
-    "storedTransfersLabel": "Weitere Transaktionen anzeigen",
+    "storedTransfersLabel": "Unvollständige Transaktionen anzeigen",
     "transactionsCount": "{count, plural, =1{1 Transaktion} other{Es werden {count} Transaktionen angezeigt}}",
     "dAppOpenButton": "Öffnen",
     "dAppFeaturedApp": "Empfohlene App",

@@ -145,6 +145,14 @@
             }
         }
     },
+    "storedTransfersLabelForAccount": "Незавершённые переводы для \"{accountName}\"",
+    "@storedTransfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
     "filterTransfersTitle": "Фильтр транзакций",
     "filterTransfersLabelAnyQubicID": "Любой адрес Qubic",
     "filterTransfersLabelByQubicID": "По Qubic ID",
@@ -794,7 +802,7 @@
     "qxTransferSharesWarning": "Эта запись о транзакции в данный момент видна только отправителю.",
     "settingsSupportGoogleForm": "Заполнить форму",
     "appTabExplore": "Исследовать",
-    "storedTransfersLabel": "Показать другие транзакции",
+    "storedTransfersLabel": "Просмотреть незавершённые транзакции",
     "transactionsCount": "{count, plural, =1{1 транзакция} other{Показано {count} транзакций}}",
     "dAppOpenButton": "Открыть",
     "dAppFeaturedApp": "Рекомендуемое приложение",
