@@ -6,7 +6,7 @@ import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
@@ -290,7 +290,7 @@ class _AddAccountState extends State<AddAccount> {
                                                     .isEmpty) {
                                                   return;
                                                 }
-                                                copyToClipboard(
+                                                ClipboardHelper.copyToClipboard(
                                                     _createAccountFormKey
                                                             .currentState
                                                             ?.instantValue[
@@ -372,7 +372,7 @@ class _AddAccountState extends State<AddAccount> {
                                     if (generatedPublicId == null) {
                                       return;
                                     }
-                                    copyToClipboard(
+                                    ClipboardHelper.copyToClipboard(
                                         generatedPublicId!, context);
                                   },
                                   icon: LightThemeColors.shouldInvertIcon

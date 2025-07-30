@@ -899,5 +899,8 @@
     "rootJailbreakDialogButtonRestrict": "Ok",
     "rootJailbreakDialogTitleRestrictFeature": "Security Restriction",
     "rootJailbreakDialogMessageRestrictFeature": "This feature can’t be used on devices that have been rooted or jailbroken, as it may compromise your data security.",
-    "rootJailbreakDialogButtonRestrictFeature": "Ok"
+    "rootJailbreakDialogButtonRestrictFeature": "Ok",
+    "revealSeedCopiedToClipboardMessage": "Private seed temporarily copied to clipboard (stored for 1 minute)",
+    "revealSeedWarningTitle": "Do not share your Private Seed!",
+    "revealSeedWarningDescription": "If someone has your private seed, they will have full control of your account"
 }

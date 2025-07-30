@@ -10,7 +10,7 @@ import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -74,7 +74,8 @@ class _TransactionItemState extends State<TransactionItem> {
           }
 
           if (menuItem == CardItem.clipboardCopy) {
-            copyToClipboard(widget.item.toReadableString(context), context);
+            ClipboardHelper.copyToClipboard(
+                widget.item.toReadableString(context), context);
           }
 
           if (menuItem == CardItem.resend) {
