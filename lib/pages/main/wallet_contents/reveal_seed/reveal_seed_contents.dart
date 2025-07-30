@@ -83,11 +83,7 @@ class RevealSeedContentsState extends State<RevealSeedContents> {
                           ? Row(
                               children: [
                                 Expanded(
-                                  child: SelectableText(
-                                    seedId!,
-                                    style: const TextStyle(
-                                        fontSize: 16, fontFamily: 'monospace'),
-                                  ),
+                                  child: Text(seedId!),
                                 ),
                                 CopyButton(
                                   copiedText: seedId!,
