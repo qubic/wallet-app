@@ -21,7 +21,9 @@ class PricePanel extends StatelessWidget {
         child: price == null
             ? const SizedBox.shrink()
             : Padding(
-                padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                padding: const EdgeInsets.symmetric(
+                    vertical: ThemePaddings.smallPadding,
+                    horizontal: ThemePaddings.normalPadding),
                 child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.start,
