@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class CopyButton extends StatelessWidget {
@@ -21,7 +21,7 @@ class CopyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () async {
-        await copyToClipboard(
+        await ClipboardHelper.copyToClipboard(
           copiedText,
           context,
           message: snackbarMessage,

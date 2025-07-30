@@ -9,7 +9,7 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
@@ -207,7 +207,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
                                 .isEmpty) {
                               return;
                             }
-                            copyToClipboard(
+                            ClipboardHelper.copyToClipboard(
                                 _formKey
                                     .currentState?.instantValue["privateSeed"],
                                 context);

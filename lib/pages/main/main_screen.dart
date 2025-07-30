@@ -11,7 +11,7 @@ import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
@@ -88,7 +88,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     if (state == AppLifecycleState.resumed ||
         (UniversalPlatform.isDesktop && state == AppLifecycleState.inactive)) {
       // Clear the clipboard if sensitive data was copied and the timer has expired
-      checkAndClearExpiredClipboard();
+      ClipboardHelper.checkAndClearExpiredClipboard();
       _backgroundTimer?.cancel();
       _timedController.restartFetchTimersIfNeeded();
       _autoLockTimer?.cancel();
