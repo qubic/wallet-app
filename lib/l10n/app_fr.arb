@@ -841,5 +841,8 @@
     "biometricErrorLockedOut": "Trop de tentatives échouées. Verrouillez puis déverrouillez votre téléphone avec votre code PIN, motif ou mot de passe, puis réessayez.",
     "biometricErrorPermanentlyLockedOut": "L’authentification biométrique est définitivement verrouillée. Déverrouillez votre appareil avec votre code PIN, motif ou mot de passe et réessayez.",
     "biometricErrorBiometricOnlyNotSupported": "L’authentification uniquement biométrique n’est pas prise en charge sur cette plateforme.",
-    "homeHeaderQubicPrice": "QUBIC Prix"
+    "homeHeaderQubicPrice": "QUBIC Prix",
+    "revealSeedCopiedToClipboardMessage": "La phrase secrète a été copiée temporairement (pendant 1 minute) dans le presse-papiers ",
+    "revealSeedWarningTitle": "Ne partagez pas votre phrase secrète!",
+    "revealSeedWarningDescription": "Si quelqu’un possède votre phrase secrète, il aura un contrôle total sur votre compte"
 }

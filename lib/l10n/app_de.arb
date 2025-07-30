@@ -836,5 +836,8 @@
     "biometricErrorLockedOut": "Zu viele fehlgeschlagene Versuche. Bitte sperren und entsperren Sie Ihr Gerät mit PIN, Muster oder Passwort und versuchen Sie es erneut.",
     "biometricErrorPermanentlyLockedOut": "Die biometrische Authentifizierung ist dauerhaft gesperrt. Bitte entsperren Sie Ihr Gerät mit PIN, Muster oder Passwort und versuchen Sie es erneut.",
     "biometricErrorBiometricOnlyNotSupported": "Nur-biometrische Authentifizierung wird auf dieser Plattform nicht unterstützt.",
-    "homeHeaderQubicPrice": "QUBIC Preis"
+    "homeHeaderQubicPrice": "QUBIC Preis",
+    "revealSeedCopiedToClipboardMessage": "Privater Seed wurde vorübergehend in die Zwischenablage kopiert (für 1 Minute gespeichert)",
+    "revealSeedWarningTitle": "Teile deinen privaten Seed nicht!",
+    "revealSeedWarningDescription": "Wenn jemand deinen privaten Seed hat, hat er vollständige Kontrolle über dein Konto"
 }
