@@ -51,18 +51,14 @@ class TransactionUIHelpers {
       required String message,
       required void Function()? onTap}) {
     final l10n = l10nOf(context);
-    return Column(children: [
-      ThemedControls.spacerVerticalHuge(),
-      ChangeForeground(
-          color: LightThemeColors.gradient1,
-          child: Image.asset('assets/images/transactions-color-146.png')),
-      ThemedControls.spacerVerticalHuge(),
+    return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Text(
         message,
         textAlign: TextAlign.center,
-        style: TextStyles.secondaryText,
+        style: TextStyles.secondaryText
+            .copyWith(fontSize: ThemeFontSizes.extraLarge),
       ),
-      ThemedControls.spacerVerticalHuge(),
+      const SizedBox(height: ThemePaddings.hugePadding * 3),
       if ((hasFiltered) && (numberOfFilters != null))
         ThemedControls.primaryButtonNormal(
             onPressed: onTap,
