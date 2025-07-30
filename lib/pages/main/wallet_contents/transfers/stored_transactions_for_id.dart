@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -29,15 +30,24 @@ class StoredTransactionsForId extends StatelessWidget {
               headerText: (l10n.storedTransfersLabelForAccount(item.name)),
             ),
             Observer(builder: (context) {
+              bool isEmpty =
+                  getIt<ApplicationStore>().storedTransactions.isEmpty;
               return Expanded(
-                  child: ListView.builder(
-                      itemCount:
-                          getIt<ApplicationStore>().storedTransactions.length,
-                      itemBuilder: (context, index) {
-                        final item =
-                            getIt<ApplicationStore>().storedTransactions[index];
-                        return TransactionItem(item: item);
-                      }));
+                  child: isEmpty
+                      ? TransactionUIHelpers.getEmptyTransactionsForSingleID(
+                          context: context,
+                          hasFiltered: false,
+                          numberOfFilters: 0,
+                          onTap: null)
+                      : ListView.builder(
+                          itemCount: getIt<ApplicationStore>()
+                              .storedTransactions
+                              .length,
+                          itemBuilder: (context, index) {
+                            final item = getIt<ApplicationStore>()
+                                .storedTransactions[index];
+                            return TransactionItem(item: item);
+                          }));
             })
           ],
         ),
