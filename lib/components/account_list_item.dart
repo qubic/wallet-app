@@ -10,6 +10,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';
+import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -205,15 +206,16 @@ class _AccountListItemState extends State<AccountListItem> {
               }
 
               if (menuItem == CardItem.viewInExplorer) {
-                pushScreen(
-                  context,
-                  screen: ExplorerResultPage(
-                    resultType: ExplorerResultType.publicId,
-                    qubicId: widget.item.publicId,
-                  ),
-                  withNavBar: false,
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                );
+                viewAddressInExplorer(context, widget.item.publicId);
+                // pushScreen(
+                //   context,
+                //   screen: ExplorerResultPage(
+                //     resultType: ExplorerResultType.publicId,
+                //     qubicId: widget.item.publicId,
+                //   ),
+                //   withNavBar: false,
+                //   pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                // );
               }
 
               if (menuItem == CardItem.viewTransactions) {
