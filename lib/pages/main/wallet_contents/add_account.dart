@@ -672,6 +672,7 @@ class _AddAccountState extends State<AddAccount> {
     });
 
     walletConnectService.triggerAccountsChangedEvent();
+    getIt<WalletConnectService>().registerAccount(generatedPublicId!);
 
     if (mounted) {
       Navigator.pop(context);

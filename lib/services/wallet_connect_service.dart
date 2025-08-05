@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -480,8 +479,7 @@ class WalletConnectService {
 
     appStore.currentQubicIDs.forEach(((id) {
       if (id.watchOnly == false) {
-        web3Wallet!.registerAccount(
-            accountAddress: id.publicId, chainId: Config.walletConnectChainId);
+        registerAccount(id.publicId);
       }
     }));
   }
@@ -493,6 +491,15 @@ class WalletConnectService {
       return pairingInfo!;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  void registerAccount(String accountAddress) {
+    if (web3Wallet != null) {
+      web3Wallet!.registerAccount(
+        accountAddress: accountAddress,
+        chainId: Config.walletConnectChainId,
+      );
     }
   }
 
