@@ -16,7 +16,9 @@ void viewExplorerURL(BuildContext context, String pathToData) {
   final String explorerUrl = getIt<NetworkStore>().explorerUrl;
   pushScreen(
     context,
-    screen: WebviewScreen(initialUrl: "$explorerUrl/$pathToData"),
+    screen: SafeArea(
+        top: false,
+        child: WebviewScreen(initialUrl: "$explorerUrl/$pathToData")),
     pageTransitionAnimation: PageTransitionAnimation.slideUp,
     withNavBar: false,
   );
