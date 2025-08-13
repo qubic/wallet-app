@@ -98,8 +98,10 @@ class ExplorerResultPageQubicIdHeader extends StatelessWidget {
         output.add(getPeerReport(context, element, null));
       }
     } else {
-      output.add(
-          getPeerReport(context, idInfo.reportedValues[0], idInfo.reportedIPs));
+      if (idInfo.reportedIPs.isNotEmpty && idInfo.reportedValues.isNotEmpty) {
+        output.add(getPeerReport(
+            context, idInfo.reportedValues[0], idInfo.reportedIPs));
+      }
     }
     return output;
   }
