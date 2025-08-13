@@ -66,7 +66,9 @@ class _AssetsState extends State<Assets> {
         Text(l10n.assetsLabelQXAssets, style: TextStyles.sliverCardPreLabel));
     output.add(const SizedBox(height: ThemePaddings.mediumPadding));
     for (var element in qxAssets) {
-      output.add(getAssetEntry(element));
+      if (element.ownedAmount! > 0) {
+        output.add(getAssetEntry(element));
+      }
     }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: output);
@@ -88,7 +90,9 @@ class _AssetsState extends State<Assets> {
         style: TextStyles.sliverCardPreLabel));
     output.add(const SizedBox(height: ThemePaddings.mediumPadding));
     for (var element in scAssets) {
-      output.add(getAssetEntry(element));
+      if (element.ownedAmount! > 0) {
+        output.add(getAssetEntry(element));
+      }
     }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: output);

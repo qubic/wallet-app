@@ -358,26 +358,28 @@ class _AccountListItemState extends State<AccountListItem> {
     for (var key in widget.item.assets.keys) {
       var asset = widget.item.assets[key];
 
-      shares.add(AnimatedSwitcher(
-          duration: const Duration(milliseconds: 500),
-          transitionBuilder: (Widget child, Animation<double> animation) {
-            //return FadeTransition(opacity: animation, child: child);
-            return SizeTransition(sizeFactor: animation, child: child);
-            //return ScaleTransition(scale: animation, child: child);
-          },
-          child: AmountFormatted(
-            key: ValueKey<String>(
-                "qubicAsset${widget.item.publicId}-$key-$asset"),
-            amount: asset?.ownedAmount,
-            isInHeader: false,
-            labelOffset: -0,
-            labelHorizOffset: -6,
-            textStyle: MediaQuery.of(context).size.width < 400
-                ? TextStyles.accountAmount.copyWith(fontSize: 16)
-                : TextStyles.accountAmount,
-            labelStyle: TextStyles.accountAmountLabel,
-            currencyName: asset!.assetName,
-          )));
+      if (asset!.ownedAmount! > 0) {
+        shares.add(AnimatedSwitcher(
+            duration: const Duration(milliseconds: 500),
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              //return FadeTransition(opacity: animation, child: child);
+              return SizeTransition(sizeFactor: animation, child: child);
+              //return ScaleTransition(scale: animation, child: child);
+            },
+            child: AmountFormatted(
+              key: ValueKey<String>(
+                  "qubicAsset${widget.item.publicId}-$key-$asset"),
+              amount: asset.ownedAmount,
+              isInHeader: false,
+              labelOffset: -0,
+              labelHorizOffset: -6,
+              textStyle: MediaQuery.of(context).size.width < 400
+                  ? TextStyles.accountAmount.copyWith(fontSize: 16)
+                  : TextStyles.accountAmount,
+              labelStyle: TextStyles.accountAmountLabel,
+              currencyName: asset.assetName,
+            )));
+      }
     }
     return AnimatedCrossFade(
         firstChild: Container(
