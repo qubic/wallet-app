@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';

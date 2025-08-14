@@ -374,7 +374,7 @@ class _AccountListItemState extends State<AccountListItem> {
                   ? TextStyles.accountAmount.copyWith(fontSize: 16)
                   : TextStyles.accountAmount,
               labelStyle: TextStyles.accountAmountLabel,
-              currencyName: asset!.issuedAsset.name,
+              currencyName: asset.issuedAsset.name,
             )));
       }
     }

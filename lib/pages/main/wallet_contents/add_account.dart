@@ -72,7 +72,6 @@ class _AddAccountState extends State<AddAccount> {
   }
 
   onPrivateSeedChanged() async {
-    final l10n = l10nOf(context);
     final value = privateSeed.value.text;
     var v = CustomFormFieldValidators.isSeed(context: context);
     if (value.trim().isNotEmpty && v(value) == null) {
