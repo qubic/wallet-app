@@ -1,141 +1,245 @@
 # Qubic Wallet
 
-Official self-custodial wallet app for the QUBIC network (https://qubic.org/).
-Source code is written in [Dart](https://dart.dev) using [Flutter](https://flutter.dev).
-Find more about QUBIC on (https://doc.qubic.world/).
-Find us on discord (https://discord.com/invite/2vDMR8m).
+An official **self-custody wallet** for the [Qubic Network](https://qubic.org), empowering users to securely hold and manage their QUBIC tokens and assets **locally on their device** — no third-party custody.
 
-## Functionality
+---
 
-- [x] Multi account: Add and manage multiple accounts
-- [x] Transfers: Send and receive QUBIC
-- [x] Manual resend: Manual resend failed transfers
-- [x] Block Explorer: View complete tick / transacation / account info
-- [x] Assets: View shares in your accounts
-- [x] Asset transfers: Allow to send and receive shares
-- [x] WalletConnect support
+## About
+- **Source Code:** Written in [Dart](https://dart.dev) with [Flutter](https://flutter.dev)  
+- **Learn More:** [Qubic Documentation](https://docs.qubic.org/)  
+- **Community:** [Join us on Discord](https://discord.com/invite/2vDMR8m)  
+- **Tutorials:**  
+  - [Qubic iOS Wallet Setup](https://discord.com/channels/@me/1280497695512989727/1405653740178116759)
+  - [Qubic Android Wallet Setup](https://www.youtube.com/watch?v=a031L7Sz3iU)
+  - [Using WalletConnect with Qubic Wallet for Qx](https://www.youtube.com/watch?v=vpqc9H5rc3A)  
 
-## Other features
+---
 
-- [x] Requires password to login
-- [x] Requires authentication view seed / make transfer
-- [x] Biometric authentication (provided that your phone has the required hardware)
-- [x] Scan QR codes
+## Supported Platforms
 
-# Supported Platforms
-
-- [x] iOS - Available in the [App Store](https://apps.apple.com/us/app/qubic-wallet/id6502265811)
-- [x] Android - Available in the [Play Store](https://play.google.com/store/apps/details?id=org.qubic.wallet)
-- [x] Windows
-- [x] Linux
-- [x] MacOS
-- [x] Web
-
-## WalletConnect Integration and Custom Links 
-
-Qubic Wallet is WalletConnect compatible, allowing communication with dApps. For detailed information about WalletConnect integration, including supported methods, events, error handling, and how to use deep-links for seamless mobile connections, see the [WalletConnect Integration Details](walletconnect.md) document.
-
-### Why WalletConnect?
-
-WalletConnect enables a secure and decentralized way for dApps to connect with mobile or hardware wallets. It uses a simple QR code scanning or copy-paste of a connection URL for a connection and requires no browser plugins or extensions.
-
-
-## Security
-
-All stored data is encrypted via (https://pub.dev/packages/flutter_secure_storage)
-
-- Android : Use of EncryptedSharedPreferences
-- iOS: KeyChain
-- MacOS: KeyChain
-- Windows: Windows Credentials Manager
-
-## Cryptographic operations
-
-### Mobile version
-
-Open source Dart cryptographic libraries for required algorithms state that are not audited / production ready. For this, we are using an embedded web browser
-which features the Web Crypto API and use Javascript libs for the cryptographic operations. This is transparent to the end user. Javascript libs are extracted by qubic.li wallet and added as an asset.
-
-### Desktop version
-
-In order to not have to embed a javascript runtime inside the application, for desktop apps, we have compiled the Javascript libs to standalone executables using pkg. You can find them here: https://github.com/qubic/ts-library-wrapper
-Desktop versions try to locate the appropriate executable and if it's missing it automatically downloads it (or allows the user to manually download it).
-
-### Anti-tampering
-
-Both mobile and desktop version check the Hashes of the assets / executables before using them, in order to prevent tampering.
-
-## Backend
-
-Your keys are never shared to any 3rd party. Yet the wallet uses some backend services:
-
-### Access to Qubic Network
-
-Access to the Qubic Network is currently provided by the wonderful work of (https://www.qubic.org). We are working with a new version to interface directly with the Computor nodes.
-
-# Compiling - Downloading - Running
-
-Fluter 3.27.1 is required.
-Soon there will be a dedicated compilation manual page. Until then here's some brief instructions:
-
-## iOS
-
-```bash
-flutter build ios
-```
-
-## Android
-
-```bash
-flutter build apk --split-per-abi
-```
-
-and run the .apk file on your device.
-
-## Windows
-
-- Run : `flutter build windows` to build the windows version. Run it in your windows
-- Please note that running the windows version requires the VC++ Redistributables which can be found here(https://www.microsoft.com/en-gb/download/details.aspx?id=48145)
+- **iOS** – Available in the [App Store](https://apps.apple.com/us/app/qubic-wallet/id6502265811)  
+- **Android** – Available in the [Play Store](https://play.google.com/store/apps/details?id=org.qubic.wallet)  
+- **macOS** – Available in the [Releases](https://github.com/qubic/wallet-app/releases)  
+- **Windows** – Build from source code  
+- **Linux** – Build from source code
   
-## MacOS
+---
+
+## Features
+
+### Core Functionality
+- **Multi-account** – Add and manage multiple accounts  
+- **Transfers** – Send and receive QUBIC  
+- **Manual resend** – Retry failed transfers  
+- **Blockchain Explorer** – View complete ticks, transactions, and account details  
+- **Assets** – View tokens and Smart Contract shares in your accounts  
+- **Asset transfers** – Send and receive tokens or Smart Contract shares  
+- **WalletConnect support** – Connect with dApps  
+- **Support multiple networks** – Switch between predefined networks (mainnet, testnet) or add a custom RPC and explorer URL
+
+
+
+### Security & Privacy
+- **Local-only key storage** – Private keys never leave the device  
+- **Biometric authentication** – Fingerprint, Face ID, or password protection for seed access and transaction execution  
+
+---
+
+## Functional Information
+
+### 1. Wallet Creation
+The wallet app supports:
+- **New empty wallets** – Start fresh  
+- **Import from vault file** – Load an existing encrypted wallet backup  
+
+You can add accounts to a wallet by:
+- **Generating a new account** – Creates a new key pair and stores it securely  
+- **Importing by private seed** – Restore access to an existing account  
+- **Adding a watch-only account** – View balances using a public address (no transactions allowed)  
+
+---
+
+### 2. Transactions & Asset Transfers
+- **Qubic transfers have 0 fees**  
+- **Asset transfers** are performed via smart contract execution and **cost 100 QU**  
+- *Qubic currently does not have a transaction memory pool (WIP). Because of this, only one concurrent transaction per sending account can exist in the network. Do not send a new transaction from the same source address until the previous transaction's target tick has passed. If multiple transactions are sent before that tick, only the last one will be processed — earlier ones will be ignored and the app will display them as failed once it knows the tick execution is completed.*
+
+---
+
+### 3. WalletConnect Integration
+- Works with dApps via **QR codes** or **deep links**  
+- Supports:
+  - Session creation  
+  - Transaction signing  
+  - Message signing  
+- **Sample integration**: [`qubic/wallet-app-dapp`](https://github.com/qubic/wallet-app-dapp)  
+- **Security note:** A WalletConnect session grants the dApp **access to all accounts** in the wallet.  
+  - dApps should implement account selection UI for each transaction or signing request.  
+
+---
+
+### 4. Vault Import & Export
+- Vault files contain **encrypted wallets and keys** for backup/migration  
+- Encrypted with **AES-256** using a password provided by the user  
+- **Minimum password length:** 8 characters (no recovery possible if forgotten)  
+- When exporting, the vault password can be the same as or different from the wallet password  
+- Vaults can also be imported into the **[Qubic Web Wallet](https://qubic.wallet.org)**  
+
+---
+
+## RPC Communication
+
+Qubic Wallet interacts with the network using the following RPC endpoints:
+
+| RPC Type         | Purpose                                                                                                                       | Documentation                                                                                                 |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| **Live RPC**     | Sends transactions and retrieves the latest blockchain data in real-time (ticks, account balances, unconfirmed transactions). | https://qubic.github.io/integration/Partners/qubic-rpc-doc.html?urls.primaryName=Qubic%20RPC%20Live%20Tree    |
+| **Stats RPC**    | Provides network statistics, supply data, validator lists, and performance metrics.                                           | https://qubic.github.io/integration/Partners/qubic-rpc-doc.html?urls.primaryName=Qubic%20Stats%20API          |
+| **Archiver RPC** | Allows access to historical blockchain data — older ticks, past transactions, and archived account states.                    | https://qubic.github.io/integration/Partners/qubic-rpc-doc.html?urls.primaryName=Qubic%20RPC%20Archive%20Tree |
+
+The wallet automatically routes requests to the appropriate RPC type depending on the feature in use.  
+For example:
+- Sending a transaction → **Live RPC**
+- Viewing latest balances → **Live RPC**
+- Checking historical transactions → **Archiver RPC**
+- Displaying market data → **Stats RPC**
+
+**RPC Security:** All communication is performed over TLS.  
+⚠ **Note:** Certificate pinning is **not** currently implemented.
+
+---
+
+## Cryptography Implementation
+
+Qubic Wallet uses [ts-library-wrapper](https://github.com/qubic/ts-library-wrapper), which packages the core [Qubic TypeScript cryptographic library](https://github.com/qubic/ts-library) for use across:
+
+- Desktop platforms (Windows, Linux, macOS)  
+- Packaged web environments  
+
+All cryptographic operations — including key generation, signing, and verification — are performed by the **ts-library**.  
+The wrapper ensures compatibility and consistent cryptographic handling across all supported platforms.
+
+---
+
+## Data Storage
+
+Qubic Wallet stores all sensitive data — including **private keys** — exclusively in secure, platform-native keystores:
+
+- **Mobile (iOS / Android)** → Stored in OS-provided secure storage (Keychain / Keystore)  
+- **Desktop** → Encrypted and stored locally using platform-specific secure storage APIs  
+- **Web** → Encrypted in browser storage with keys derived from the user’s password (never stored in plain text)
+
+**Important:**  
+- Private keys never leave the device.  
+- There is no remote backup or recovery — users must securely store their vault export.  
+- The vault export file is encrypted with **AES-256** using the password provided by the user.  
+
+---
+
+## DApp Explorer
+
+- Loads DApp metadata from **JSON files** stored in the [`qubic/dapps-explorer`](https://github.com/qubic/dapps-explorer) repository.  
+- Presents a **curated catalog** of DApps, but also lets users open **any DApp by URL**, even if it’s not in the catalog.  
+- Supports **WalletConnect**, allowing DApps to request account information and ask the user to **sign transactions/messages**.  
+
+## Testing Coverage
+There are currently no automated unit or integration tests. 
+
+---
+
+## Building & Compiling
+
+### Prerequisites
+
+To build Qubic Wallet, you will need:
+
+* [Flutter SDK](https://flutter.dev/docs/get-started/install) (**3.22.2** or later)
+* [Dart SDK](https://dart.dev/get-dart) (included with Flutter)
+* Platform-specific tools:
+
+  * **Android:** Android Studio with Android SDK tools installed
+  * **iOS:** Xcode, CocoaPods, and an active Apple Developer account
+  * **macOS:** Xcode and macOS 12 or later
+  * **Windows:** Windows 10 or later with Visual Studio (Desktop Development with C++ workload)
+
+
+### Step 1: Clone the Repository
 
 ```bash
-flutter build macos
+git clone https://github.com/qubic/wallet-app.git
+cd wallet-app
 ```
 
-# Contribution - Bug reports
+### Step 2: Install Dependencies
 
-Your contribution to the project will be very appreciated. Feel free to contribute by:
-- Adding new issues in the "Issues" page to report found bugs or to request new features/improvements.
-- Providing updates, bugfixes or other code changes by pull requests.
+```bash
+flutter pub get
+```
 
-# License
+---
 
-Permission is hereby granted, perpetual, worldwide, non-exclusive, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+### Step 3: Run in Development Mode
 
-The Software cannot be used in any form or in any substantial portions for development, maintenance and for any other purposes, in the military sphere and in relation to military products, including, but not limited to: a. any kind of armored force vehicles, missile weapons, warships, artillery weapons, air military vehicles (including military aircrafts, combat helicopters, military drones aircrafts), air defense systems, rifle armaments, small arms, firearms and side arms, melee weapons, chemical weapons, weapons of mass destruction;
+```bash
+# Android
+flutter run android
 
-b. any special software for development technical documentation for military purposes;
+# iOS
+flutter run ios
 
-c. any special equipment for tests of prototypes of any subjects with military purpose of use;
+# macOS
+flutter run macos
 
-d. any means of protection for conduction of acts of a military nature;
+# Windows
+flutter run windows
+```
 
-e. any software or hardware for determining strategies, reconnaissance, troop positioning, conducting military actions, conducting special operations;
+---
 
-f. any dual-use products with possibility to use the product in military purposes;
+### Step 4: Build for Release
 
-g. any other products, software or services connected to military activities;
+**Android (APK):**
 
-h. any auxiliary means related to abovementioned spheres and products.
+```bash
+flutter build apk --release
+```
 
-The Software cannot be used as described herein in any connection to the military activities. A person, a company, or any other entity, which wants to use the Software, shall take all reasonable actions to make sure that the purpose of use of the Software cannot be possibly connected to military purposes.
+**Android (App Bundle):**
 
-The Software cannot be used by a person, a company, or any other entity, activities of which are connected to military sphere in any means. If a person, a company, or any other entity, during the period of time for the usage of Software, would engage in activities, connected to military purposes, such person, company, or any other entity shall immediately stop the usage of Software and any its modifications or alterations.
+```bash
+flutter build appbundle --release
+```
 
-Abovementioned restrictions should apply to all modification, alteration, merge, and to other actions, related to the Software, regardless of how the Software was changed due to the abovementioned actions.
+**iOS:**
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions, modifications and alterations of the Software.
+```bash
+flutter build ios --release
+```
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+**macOS:**
 
+```bash
+flutter build macos --release
+```
+
+**Windows:**
+
+```bash
+flutter build windows --release
+```
+
+---
+
+## Limited Support & Contributions
+
+We do not provide direct support in all cases.  
+However, your contributions to the project are very welcome and appreciated.
+
+You can help by:
+- Adding new issues on the **Issues** page to report bugs or request new features/improvements.
+- Providing updates, bug fixes, or other code changes via pull requests.
+
+---
+
+## License
+See [LICENSE.md](LICENSE.md).
