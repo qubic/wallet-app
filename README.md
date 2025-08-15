@@ -15,6 +15,16 @@ An official **self-custody wallet** for the [Qubic Network](https://qubic.org), 
 
 ---
 
+## Supported Platforms
+
+- **iOS** – Available in the [App Store](https://apps.apple.com/us/app/qubic-wallet/id6502265811)  
+- **Android** – Available in the [Play Store](https://play.google.com/store/apps/details?id=org.qubic.wallet)  
+- **macOS** – Available in the [Releases](https://github.com/qubic/wallet-app/releases)  
+- **Windows** – Build from source code  
+- **Linux** – Build from source code
+  
+---
+
 ## Features
 
 ### Core Functionality
