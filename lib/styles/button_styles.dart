@@ -45,7 +45,7 @@ abstract class ButtonStyles {
       overlayColor: WidgetStatePropertyAll<Color>(
           LightThemeColors.primary.withValues(alpha: 0.03)),
       backgroundColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.primary.withValues(alpha: 0.2)),
+          LightThemeColors.primary.withValues(alpha: 0.02)),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
@@ -56,7 +56,7 @@ abstract class ButtonStyles {
       overlayColor: WidgetStatePropertyAll<Color>(
           LightThemeColors.primary.withValues(alpha: 0.03)),
       backgroundColor: WidgetStatePropertyAll<Color>(
-          LightThemeColors.primary.withValues(alpha: 0.2)),
+          LightThemeColors.primary.withValues(alpha: 0.02)),
       shape: WidgetStatePropertyAll<RoundedRectangleBorder>(
           RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8.0),
