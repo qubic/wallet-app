@@ -30,8 +30,9 @@ class StoredTransactionsForId extends StatelessWidget {
               headerText: (l10n.storedTransfersLabelForAccount(item.name)),
             ),
             Observer(builder: (context) {
-              bool isEmpty =
-                  getIt<ApplicationStore>().storedTransactions.isEmpty;
+              final storedTransactions = getIt<ApplicationStore>()
+                  .getStoredTransactionsForID(item.publicId);
+              final isEmpty = storedTransactions.isEmpty;
               return Expanded(
                   child: isEmpty
                       ? TransactionUIHelpers.getEmptyTransactionsForSingleID(
@@ -40,13 +41,10 @@ class StoredTransactionsForId extends StatelessWidget {
                           numberOfFilters: 0,
                           onTap: null)
                       : ListView.builder(
-                          itemCount: getIt<ApplicationStore>()
-                              .storedTransactions
-                              .length,
+                          itemCount: storedTransactions.length,
                           itemBuilder: (context, index) {
-                            final item = getIt<ApplicationStore>()
-                                .storedTransactions[index];
-                            return TransactionItem(item: item);
+                            return TransactionItem(
+                                item: storedTransactions[index]);
                           }));
             })
           ],
