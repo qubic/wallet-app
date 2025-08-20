@@ -188,6 +188,33 @@ class _AddAccountState extends State<AddAccount> {
                         autocorrect: false,
                         autofillHints: null,
                       ),
+                      if (hasPrivateSeedTip) ...[
+                        ThemedControls.spacerVerticalNormal(),
+                        Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: LightThemeColors.cardBackground,
+                            borderRadius: BorderRadius.circular(8),
+                            border:
+                                Border.all(color: LightThemeColors.warning40),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(l10n.revealSeedWarningTitle,
+                                  style: TextStyles.alertHeader.copyWith(
+                                      color: LightThemeColors.warning40)),
+                              const SizedBox(height: 4),
+                              Text(
+                                l10n.addAccountHeaderKeepPrivateSeedSecret,
+                                style: TextStyles.alertText.copyWith(
+                                    color: LightThemeColors.warning40),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                       ThemedControls.spacerVerticalNormal(),
                       Row(children: [
                         Text(l10n.addAccountLabelPrivateSeed,
@@ -314,14 +341,7 @@ class _AddAccountState extends State<AddAccount> {
                             controller: privateSeed,
                           );
                         }),
-                      if (hasPrivateSeedTip) ...[
-                        ThemedControls.spacerVerticalNormal(),
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                                l10n.addAccountHeaderKeepPrivateSeedSecret,
-                                style: TextStyles.assetSecondaryTextLabel)),
-                      ],
+
                       ThemedControls.spacerVerticalHuge(),
                       Align(
                           alignment: Alignment.topLeft,
