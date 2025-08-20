@@ -60,7 +60,10 @@ class QubicSCStore {
       procedures: {
         1: 'Send to Many',
         2: 'Burn Qubic',
-        3: 'Send to Many Benchmark'
+        3: 'Send to Many Benchmark',
+        4: 'Create Poll',
+        5: 'Poll Vote',
+        6: 'Cancel Poll'
       },
     ),
     QubicSCModel(
