@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:qubic_wallet/components/private_seed_warning.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
@@ -190,29 +191,10 @@ class _AddAccountState extends State<AddAccount> {
                       ),
                       if (hasPrivateSeedTip) ...[
                         ThemedControls.spacerVerticalNormal(),
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: LightThemeColors.cardBackground,
-                            borderRadius: BorderRadius.circular(8),
-                            border:
-                                Border.all(color: LightThemeColors.warning40),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(l10n.revealSeedWarningTitle,
-                                  style: TextStyles.alertHeader.copyWith(
-                                      color: LightThemeColors.warning40)),
-                              const SizedBox(height: 4),
-                              Text(
-                                l10n.addAccountHeaderKeepPrivateSeedSecret,
-                                style: TextStyles.alertText.copyWith(
-                                    color: LightThemeColors.warning40),
-                              ),
-                            ],
-                          ),
+                        PrivateSeedWarning(
+                          title: l10n.revealSeedWarningTitle,
+                          description:
+                              l10n.addAccountHeaderKeepPrivateSeedSecret,
                         ),
                       ],
                       ThemedControls.spacerVerticalNormal(),
