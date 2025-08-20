@@ -34,10 +34,6 @@ abstract class Config {
 
   static const useNativeSnackbar = false;
 
-  // The qubic-hub.com backend
-  static const servicesDomain = "wallet.qubic-hub.com";
-  static const URL_VersionInfo = "/versionInfo.php";
-
   static const URL_WebExplorer = "https://explorer.qubic.org";
 
   static const networkQubicMainnet = "Qubic Mainnet";
