@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:qubic_wallet/components/private_seed_warning.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
@@ -188,6 +189,14 @@ class _AddAccountState extends State<AddAccount> {
                         autocorrect: false,
                         autofillHints: null,
                       ),
+                      if (hasPrivateSeedTip) ...[
+                        ThemedControls.spacerVerticalNormal(),
+                        PrivateSeedWarning(
+                          title: l10n.revealSeedWarningTitle,
+                          description:
+                              l10n.addAccountHeaderKeepPrivateSeedSecret,
+                        ),
+                      ],
                       ThemedControls.spacerVerticalNormal(),
                       Row(children: [
                         Text(l10n.addAccountLabelPrivateSeed,
@@ -314,14 +323,7 @@ class _AddAccountState extends State<AddAccount> {
                             controller: privateSeed,
                           );
                         }),
-                      if (hasPrivateSeedTip) ...[
-                        ThemedControls.spacerVerticalNormal(),
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                                l10n.addAccountHeaderKeepPrivateSeedSecret,
-                                style: TextStyles.assetSecondaryTextLabel)),
-                      ],
+
                       ThemedControls.spacerVerticalHuge(),
                       Align(
                           alignment: Alignment.topLeft,

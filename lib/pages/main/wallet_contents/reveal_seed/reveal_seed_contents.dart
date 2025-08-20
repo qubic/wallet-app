@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
+import 'package:qubic_wallet/components/private_seed_warning.dart';
 import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -47,31 +48,11 @@ class RevealSeedContentsState extends State<RevealSeedContents> {
                   headerText: l10n.revealSeedTitle,
                   subheaderText: l10n.revealSeedHeader(widget.item.name),
                 ),
-                // Warning Banner
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(12),
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: LightThemeColors.cardBackground,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: LightThemeColors.warning40),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(l10n.revealSeedWarningTitle,
-                          style: TextStyles.alertHeader
-                              .copyWith(color: LightThemeColors.warning40)),
-                      const SizedBox(height: 4),
-                      Text(
-                        l10n.revealSeedWarningDescription,
-                        style: TextStyles.alertText
-                            .copyWith(color: LightThemeColors.warning40),
-                      ),
-                    ],
-                  ),
+                PrivateSeedWarning(
+                  title: l10n.revealSeedWarningTitle,
+                  description: l10n.revealSeedWarningDescription,
                 ),
+                ThemedControls.spacerVerticalSmall(),
                 ThemedControls.card(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
