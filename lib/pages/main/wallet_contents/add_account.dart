@@ -189,14 +189,7 @@ class _AddAccountState extends State<AddAccount> {
                         autocorrect: false,
                         autofillHints: null,
                       ),
-                      if (hasPrivateSeedTip) ...[
-                        ThemedControls.spacerVerticalNormal(),
-                        PrivateSeedWarning(
-                          title: l10n.revealSeedWarningTitle,
-                          description:
-                              l10n.addAccountHeaderKeepPrivateSeedSecret,
-                        ),
-                      ],
+
                       ThemedControls.spacerVerticalNormal(),
                       Row(children: [
                         Text(l10n.addAccountLabelPrivateSeed,
@@ -248,6 +241,14 @@ class _AddAccountState extends State<AddAccount> {
                                   : Image.asset(
                                       "assets/images/private seed-16.png"))
                       ]),
+                      if (hasPrivateSeedTip) ...[
+                        ThemedControls.spacerVerticalMini(),
+                        PrivateSeedWarning(
+                          title: l10n.revealSeedWarningTitle,
+                          description:
+                              l10n.addAccountHeaderKeepPrivateSeedSecret,
+                        ),
+                      ],
                       // Spacer instead of the default button padding
                       if (!hasPrivateSeedRandomButton)
                         ThemedControls.spacerVerticalSmall(),
