@@ -144,6 +144,23 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
+  late final _$currentAccountSortingAtom =
+      Atom(name: '_ApplicationStore.currentAccountSorting', context: context);
+
+  @override
+  AccountSortMode get currentAccountSorting {
+    _$currentAccountSortingAtom.reportRead();
+    return super.currentAccountSorting;
+  }
+
+  @override
+  set currentAccountSorting(AccountSortMode value) {
+    _$currentAccountSortingAtom.reportWrite(value, super.currentAccountSorting,
+        () {
+      super.currentAccountSorting = value;
+    });
+  }
+
   late final _$showAddAccountModalAtom =
       Atom(name: '_ApplicationStore.showAddAccountModal', context: context);
 
@@ -350,6 +367,28 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  void setCurrentAccountSorting(AccountSortMode mode) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.setCurrentAccountSorting');
+    try {
+      return super.setCurrentAccountSorting(mode);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void sortAccounts() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.sortAccounts');
+    try {
+      return super.sortAccounts();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setCurrentTabIndex(int index) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.setCurrentTabIndex');
@@ -547,6 +586,7 @@ currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
 currentTabIndex: ${currentTabIndex},
 currentInboundUri: ${currentInboundUri},
+currentAccountSorting: ${currentAccountSorting},
 showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},

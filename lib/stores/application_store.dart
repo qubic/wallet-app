@@ -11,6 +11,7 @@ import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/models/settings.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
@@ -57,6 +58,31 @@ abstract class _ApplicationStore with Store {
   @action
   void setCurrentInboundUrl(Uri? uri) {
     currentInboundUri = uri;
+  }
+
+  @observable
+  AccountSortMode currentAccountSorting = AccountSortMode.creationOrder;
+
+  @action
+  void setCurrentAccountSorting(AccountSortMode mode) {
+    currentAccountSorting = mode;
+    sortAccounts();
+  }
+
+  @action
+  void sortAccounts() {
+    if (currentAccountSorting == AccountSortMode.name) {
+      currentQubicIDs.sort((a, b) => a.name.compareTo(b.name));
+    } else if (currentAccountSorting == AccountSortMode.balance) {
+      currentQubicIDs.sort((b, a) =>
+          (a.amount ?? 0).compareTo(b.amount ?? 0)); // Descending order
+    } else if (currentAccountSorting == AccountSortMode.creationOrder) {
+      // currentQubicIDs.sort((a, b) => a.creationTime.compareTo(b.creationTime));
+    } else {
+      // Default to creation order or any other logic
+      // Assuming creation order is the order in which they were added to the list
+      // If you have a specific property for creation time, use that instead
+    }
   }
 
 // Add an action to update the tab index
@@ -492,4 +518,10 @@ abstract class _ApplicationStore with Store {
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
   }
+}
+
+enum AccountSortMode {
+  creationOrder,
+  name,
+  balance,
 }

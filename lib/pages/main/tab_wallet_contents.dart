@@ -20,6 +20,7 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
@@ -58,6 +59,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   void initState() {
     super.initState();
 
+    // Auto scroll to top with one item
     disposeAutorun = autorun((_) {
       if (appStore.currentQubicIDs.length <= 1) {
         if (_scrollController.hasClients) {
@@ -196,6 +198,65 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                     LightThemeColors.primary, BlendMode.srcIn)),
                           ),
                         ),
+                        ThemedControls.spacerHorizontalSmall(),
+                        Observer(builder: (context) {
+                          return PopupMenuButton<AccountSortMode>(
+                            icon: Icon(Icons.sort,
+                                color: LightThemeColors.primary),
+                            onSelected: (AccountSortMode mode) {
+                              appStore.setCurrentAccountSorting(mode);
+                            },
+                            itemBuilder: (BuildContext context) {
+                              return [
+                                PopupMenuItem<AccountSortMode>(
+                                  value: AccountSortMode.name,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.sort_by_alpha,
+                                          color: getIt<HiveStorage>()
+                                                      .getCurrentAccountSorting() ==
+                                                  AccountSortMode.name
+                                              ? LightThemeColors.primary
+                                              : null),
+                                      const SizedBox(width: 8),
+                                      const Text("Name (A-Z)"),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem<AccountSortMode>(
+                                  value: AccountSortMode.balance,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.account_balance_wallet,
+                                          color: getIt<HiveStorage>()
+                                                      .getCurrentAccountSorting() ==
+                                                  AccountSortMode.balance
+                                              ? LightThemeColors.primary
+                                              : null),
+                                      const SizedBox(width: 8),
+                                      const Text("Balance (High → Low)"),
+                                    ],
+                                  ),
+                                ),
+                                PopupMenuItem<AccountSortMode>(
+                                  value: AccountSortMode.creationOrder,
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.access_time,
+                                          color: getIt<HiveStorage>()
+                                                      .getCurrentAccountSorting() ==
+                                                  AccountSortMode.creationOrder
+                                              ? LightThemeColors.primary
+                                              : null),
+                                      const SizedBox(width: 8),
+                                      const Text("Creation (Oldest → Newest)"),
+                                    ],
+                                  ),
+                                ),
+                              ];
+                            },
+                          );
+                        }),
                         ThemedControls.spacerHorizontalSmall(),
                         SliverButton(
                           icon: const Icon(Icons.add,
@@ -340,17 +401,40 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                     ]))));
                       }, childCount: 1));
                     } else {
+                      final sortMode =
+                          getIt<HiveStorage>().getCurrentAccountSorting();
+                      final accounts = appStore.currentQubicIDs;
                       return SliverList(
-                        delegate: SliverChildBuilderDelegate((context, index) {
-                          return Container(
-                              color: LightThemeColors.background,
-                              child: Padding(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final account = accounts[index];
+                            return AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 200),
+                              transitionBuilder:
+                                  (Widget child, Animation<double> animation) {
+                                return FadeTransition(
+                                  opacity: animation,
+                                  child: child,
+                                );
+                              },
+                              child: Container(
+                                key: ValueKey(
+                                    '${account.publicId}-$sortMode-$index'),
+                                color: LightThemeColors.background,
+                                child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: ThemePaddings.smallPadding,
                                       vertical: ThemePaddings.minimumPadding),
                                   child: AccountListItem(
-                                      item: appStore.currentQubicIDs[index])));
-                        }, childCount: appStore.currentQubicIDs.length),
+                                    key: ValueKey(account.publicId),
+                                    item: account,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          childCount: accounts.length,
+                        ),
                       );
                     }
                   }),
