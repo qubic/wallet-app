@@ -7,8 +7,8 @@ import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
-import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
 class TimedController extends WidgetsBindingObserver {
@@ -46,6 +46,7 @@ class TimedController extends WidgetsBindingObserver {
     }
   }
 
+// TODO: Refactor this function to remove side effects and separate concerns
   /// Fetch balances assets and transactions from the network
   /// Makes four calls (balances, network balances, network assets, network transactions
   /// and updates the store with the results)
@@ -75,6 +76,7 @@ class TimedController extends WidgetsBindingObserver {
           if (changedIdsWithSeed.isNotEmpty) {
             _walletConnectService.triggerAmountChangedEvent(changedIdsWithSeed);
           }
+          appStore.sortAccounts();
         }
       }, onError: (e) {
         appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
