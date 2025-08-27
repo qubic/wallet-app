@@ -11,7 +11,6 @@ import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
-import 'package:qubic_wallet/models/settings.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
@@ -65,8 +64,19 @@ abstract class _ApplicationStore with Store {
 
   @action
   void setCurrentAccountSorting(AccountSortMode mode) {
+    if (currentAccountSorting == mode) return;
+    appLogger.i('Setting accounts by ${mode.name}');
     currentAccountSorting = mode;
     sortAccounts();
+  }
+
+  void initStoredAccountsIfAbsent() {
+    if (_hiveStorage.getAccountsSortingMode() == null &&
+        currentQubicIDs.isNotEmpty) {
+      appLogger.i('Setting accounts by creation order');
+      _hiveStorage.setAccounts(currentQubicIDs);
+      _hiveStorage.setAccountsSortingMode(AccountSortMode.creationOrder);
+    }
   }
 
   @action
@@ -76,12 +86,17 @@ abstract class _ApplicationStore with Store {
     } else if (currentAccountSorting == AccountSortMode.balance) {
       currentQubicIDs.sort((b, a) =>
           (a.amount ?? 0).compareTo(b.amount ?? 0)); // Descending order
-    } else if (currentAccountSorting == AccountSortMode.creationOrder) {
-      // currentQubicIDs.sort((a, b) => a.creationTime.compareTo(b.creationTime));
     } else {
-      // Default to creation order or any other logic
-      // Assuming creation order is the order in which they were added to the list
-      // If you have a specific property for creation time, use that instead
+      final accountsSorted = _hiveStorage.getAccounts();
+      //arrange currentQubicIDs based on the accountsSorted
+      currentQubicIDs.sort((a, b) {
+        final aIndex =
+            accountsSorted.indexWhere((acc) => acc.publicId == a.publicId);
+        final bIndex =
+            accountsSorted.indexWhere((acc) => acc.publicId == b.publicId);
+        return aIndex.compareTo(bIndex);
+      });
+      print(currentQubicIDs);
     }
   }
 
@@ -310,6 +325,9 @@ abstract class _ApplicationStore with Store {
     await secureStorage.addID(QubicId(privateSeed, publicId, name, null));
     currentQubicIDs.add(QubicListVm(
         publicId, name, null, null, null, privateSeed == '' ? true : false));
+    // Add to stored by creation order accounts
+    _hiveStorage.addAccount(QubicListVm(
+        publicId, name, null, null, null, privateSeed == '' ? true : false));
   }
 
   Future<String> getSeedById(String publicId) async {
@@ -327,7 +345,9 @@ abstract class _ApplicationStore with Store {
         await secureStorage.renameId(publicId, name);
         return;
       }
-    } //);
+    }
+    // Rename stored by creation order accounts
+    _hiveStorage.renameAccount(publicId, name);
   }
 
   @action
@@ -517,6 +537,8 @@ abstract class _ApplicationStore with Store {
         currentQubicIDs.any(
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
+    // Remove from stored by creation order accounts
+    _hiveStorage.deleteAccount(publicId);
   }
 }
 
