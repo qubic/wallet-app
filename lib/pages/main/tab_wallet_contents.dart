@@ -20,7 +20,6 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
-import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
@@ -69,6 +68,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
         }
       }
     });
+    appStore.sortAccounts();
 
     _scrollController.addListener(() {
       if (_scrollController.offset > sliverExpanded) {
@@ -204,7 +204,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                             icon: Icon(Icons.sort,
                                 color: LightThemeColors.primary),
                             onSelected: (AccountSortMode mode) {
-                              appStore.setCurrentAccountSorting(mode);
+                              appStore.setAccountsSortingMode(mode);
                             },
                             itemBuilder: (BuildContext context) {
                               return [
@@ -213,11 +213,10 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                   child: Row(
                                     children: [
                                       Icon(Icons.sort_by_alpha,
-                                          color: getIt<HiveStorage>()
-                                                      .getCurrentAccountSorting() ==
+                                          color: appStore.accountsSortingMode ==
                                                   AccountSortMode.name
-                                              ? LightThemeColors.primary
-                                              : null),
+                                              ? LightThemeColors.primary60
+                                              : LightThemeColors.primary),
                                       const SizedBox(width: 8),
                                       const Text("Name (A-Z)"),
                                     ],
@@ -228,11 +227,10 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                   child: Row(
                                     children: [
                                       Icon(Icons.account_balance_wallet,
-                                          color: getIt<HiveStorage>()
-                                                      .getCurrentAccountSorting() ==
+                                          color: appStore.accountsSortingMode ==
                                                   AccountSortMode.balance
-                                              ? LightThemeColors.primary
-                                              : null),
+                                              ? LightThemeColors.primary60
+                                              : LightThemeColors.primary),
                                       const SizedBox(width: 8),
                                       const Text("Balance (High → Low)"),
                                     ],
@@ -243,11 +241,10 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                   child: Row(
                                     children: [
                                       Icon(Icons.access_time,
-                                          color: getIt<HiveStorage>()
-                                                      .getCurrentAccountSorting() ==
+                                          color: appStore.accountsSortingMode ==
                                                   AccountSortMode.creationOrder
-                                              ? LightThemeColors.primary
-                                              : null),
+                                              ? LightThemeColors.primary60
+                                              : LightThemeColors.primary),
                                       const SizedBox(width: 8),
                                       const Text("Creation (Oldest → Newest)"),
                                     ],
@@ -401,8 +398,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                     ]))));
                       }, childCount: 1));
                     } else {
-                      final sortMode =
-                          getIt<HiveStorage>().getCurrentAccountSorting();
                       final accounts = appStore.currentQubicIDs;
                       return SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -418,8 +413,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                 );
                               },
                               child: Container(
-                                key: ValueKey(
-                                    '${account.publicId}-$sortMode-$index'),
                                 color: LightThemeColors.background,
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(

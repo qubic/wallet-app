@@ -60,13 +60,14 @@ abstract class _ApplicationStore with Store {
   }
 
   @observable
-  AccountSortMode currentAccountSorting = AccountSortMode.creationOrder;
+  late AccountSortMode accountsSortingMode =
+      _hiveStorage.getAccountsSortingMode() ?? AccountSortMode.creationOrder;
 
   @action
-  void setCurrentAccountSorting(AccountSortMode mode) {
-    if (currentAccountSorting == mode) return;
-    appLogger.i('Setting accounts by ${mode.name}');
-    currentAccountSorting = mode;
+  void setAccountsSortingMode(AccountSortMode mode) {
+    if (accountsSortingMode == mode) return;
+    accountsSortingMode = mode;
+    _hiveStorage.setAccountsSortingMode(mode);
     sortAccounts();
   }
 
@@ -81,14 +82,13 @@ abstract class _ApplicationStore with Store {
 
   @action
   void sortAccounts() {
-    if (currentAccountSorting == AccountSortMode.name) {
+    if (accountsSortingMode == AccountSortMode.name) {
       currentQubicIDs.sort((a, b) => a.name.compareTo(b.name));
-    } else if (currentAccountSorting == AccountSortMode.balance) {
-      currentQubicIDs.sort((b, a) =>
-          (a.amount ?? 0).compareTo(b.amount ?? 0)); // Descending order
+    } else if (accountsSortingMode == AccountSortMode.balance) {
+      currentQubicIDs.sort((b, a) => (a.amount ?? 0).compareTo(b.amount ?? 0));
     } else {
+      //Arrange currentQubicIDs based on the accountsSorted
       final accountsSorted = _hiveStorage.getAccounts();
-      //arrange currentQubicIDs based on the accountsSorted
       currentQubicIDs.sort((a, b) {
         final aIndex =
             accountsSorted.indexWhere((acc) => acc.publicId == a.publicId);
@@ -96,7 +96,6 @@ abstract class _ApplicationStore with Store {
             accountsSorted.indexWhere((acc) => acc.publicId == b.publicId);
         return aIndex.compareTo(bIndex);
       });
-      print(currentQubicIDs);
     }
   }
 

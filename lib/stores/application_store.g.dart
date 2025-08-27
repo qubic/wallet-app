@@ -144,20 +144,24 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
-  late final _$currentAccountSortingAtom =
-      Atom(name: '_ApplicationStore.currentAccountSorting', context: context);
+  late final _$accountsSortingModeAtom =
+      Atom(name: '_ApplicationStore.accountsSortingMode', context: context);
 
   @override
-  AccountSortMode get currentAccountSorting {
-    _$currentAccountSortingAtom.reportRead();
-    return super.currentAccountSorting;
+  AccountSortMode get accountsSortingMode {
+    _$accountsSortingModeAtom.reportRead();
+    return super.accountsSortingMode;
   }
 
+  bool _accountsSortingModeIsInitialized = false;
+
   @override
-  set currentAccountSorting(AccountSortMode value) {
-    _$currentAccountSortingAtom.reportWrite(value, super.currentAccountSorting,
+  set accountsSortingMode(AccountSortMode value) {
+    _$accountsSortingModeAtom.reportWrite(value,
+        _accountsSortingModeIsInitialized ? super.accountsSortingMode : null,
         () {
-      super.currentAccountSorting = value;
+      super.accountsSortingMode = value;
+      _accountsSortingModeIsInitialized = true;
     });
   }
 
@@ -367,11 +371,11 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  void setCurrentAccountSorting(AccountSortMode mode) {
+  void setAccountsSortingMode(AccountSortMode mode) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.setCurrentAccountSorting');
+        name: '_ApplicationStore.setAccountsSortingMode');
     try {
-      return super.setCurrentAccountSorting(mode);
+      return super.setAccountsSortingMode(mode);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
@@ -586,7 +590,7 @@ currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
 currentTabIndex: ${currentTabIndex},
 currentInboundUri: ${currentInboundUri},
-currentAccountSorting: ${currentAccountSorting},
+accountsSortingMode: ${accountsSortingMode},
 showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
