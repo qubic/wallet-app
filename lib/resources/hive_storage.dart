@@ -45,11 +45,13 @@ class HiveStorage {
 
   initEncryptedBoxes() async {
     await _loadEncryptionKey();
-    await openTransactionsBox();
-    await openNetworksBox();
-    await openCurrentNetworkBox();
-    await openAccountsBox();
-    await openAccountsSortingModeBox();
+    await Future.wait([
+      openTransactionsBox(),
+      openNetworksBox(),
+      openCurrentNetworkBox(),
+      openAccountsBox(),
+      openAccountsSortingModeBox(),
+    ]);
   }
 
   /// Loads or generates a new encryption key and stores it securely.
@@ -167,24 +169,32 @@ class HiveStorage {
 
   void setAccounts(List<QubicListVm> accounts) {
     for (var account in accounts) {
-      _accounts.put(account.publicId, account);
+      _accounts.add(account);
     }
   }
 
   void addAccount(QubicListVm account) {
-    _accounts.put(account.publicId, account);
+    _accounts.add(account);
   }
 
-  void renameAccount(String publicId, String name) {
-    final account = _accounts.get(publicId);
-    if (account != null) {
-      account.name = name;
-      _accounts.put(publicId, account);
+  void renameAccount(String publicId, String newName) {
+    final index =
+        _accounts.values.toList().indexWhere((a) => a.publicId == publicId);
+    if (index != -1) {
+      final account = _accounts.getAt(index);
+      if (account != null) {
+        account.name = newName;
+        _accounts.putAt(index, account);
+      }
     }
   }
 
   void deleteAccount(String publicId) {
-    _accounts.delete(publicId);
+    final index =
+        _accounts.values.toList().indexWhere((a) => a.publicId == publicId);
+    if (index != -1) {
+      _accounts.deleteAt(index); // delete by index
+    }
   }
 
   Future<void> clear() async {
