@@ -203,62 +203,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           ),
                         ),
                         ThemedControls.spacerHorizontalSmall(),
-                        Observer(builder: (context) {
-                          return PopupMenuButton<AccountSortMode>(
-                            icon: Icon(Icons.sort,
-                                color: LightThemeColors.primary),
-                            onSelected: (AccountSortMode mode) {
-                              appStore.setAccountsSortingMode(mode);
-                            },
-                            itemBuilder: (BuildContext context) {
-                              return [
-                                PopupMenuItem<AccountSortMode>(
-                                  value: AccountSortMode.name,
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.sort_by_alpha,
-                                          color: appStore.accountsSortingMode ==
-                                                  AccountSortMode.name
-                                              ? LightThemeColors.primary60
-                                              : LightThemeColors.primary),
-                                      const SizedBox(width: 8),
-                                      const Text("Name (A-Z)"),
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem<AccountSortMode>(
-                                  value: AccountSortMode.balance,
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.account_balance_wallet,
-                                          color: appStore.accountsSortingMode ==
-                                                  AccountSortMode.balance
-                                              ? LightThemeColors.primary60
-                                              : LightThemeColors.primary),
-                                      const SizedBox(width: 8),
-                                      const Text("Balance (High → Low)"),
-                                    ],
-                                  ),
-                                ),
-                                PopupMenuItem<AccountSortMode>(
-                                  value: AccountSortMode.creationOrder,
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.access_time,
-                                          color: appStore.accountsSortingMode ==
-                                                  AccountSortMode.creationOrder
-                                              ? LightThemeColors.primary60
-                                              : LightThemeColors.primary),
-                                      const SizedBox(width: 8),
-                                      const Text("Creation (Oldest → Newest)"),
-                                    ],
-                                  ),
-                                ),
-                              ];
-                            },
-                          );
-                        }),
-                        ThemedControls.spacerHorizontalSmall(),
                         SliverButton(
                           icon: const Icon(Icons.add,
                               color: LightThemeColors.primary),
@@ -362,6 +306,69 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                       }
                     }),
                   ])),
+                  Observer(builder: (context) {
+                    if (appStore.currentQubicIDs.isNotEmpty) {
+                      return SliverToBoxAdapter(
+                          child: Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: PopupMenuButton<AccountSortMode>(
+                          icon:
+                              Icon(Icons.sort, color: LightThemeColors.primary),
+                          onSelected: (AccountSortMode mode) {
+                            appStore.setAccountsSortingMode(mode);
+                          },
+                          itemBuilder: (BuildContext context) {
+                            return [
+                              PopupMenuItem<AccountSortMode>(
+                                value: AccountSortMode.name,
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.sort_by_alpha,
+                                        color: appStore.accountsSortingMode ==
+                                                AccountSortMode.name
+                                            ? LightThemeColors.primary60
+                                            : LightThemeColors.primary),
+                                    const SizedBox(width: 8),
+                                    const Text("Name (A-Z)"),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem<AccountSortMode>(
+                                value: AccountSortMode.balance,
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.account_balance_wallet,
+                                        color: appStore.accountsSortingMode ==
+                                                AccountSortMode.balance
+                                            ? LightThemeColors.primary60
+                                            : LightThemeColors.primary),
+                                    const SizedBox(width: 8),
+                                    const Text("Balance (High → Low)"),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuItem<AccountSortMode>(
+                                value: AccountSortMode.creationOrder,
+                                child: Row(
+                                  children: [
+                                    Icon(Icons.access_time,
+                                        color: appStore.accountsSortingMode ==
+                                                AccountSortMode.creationOrder
+                                            ? LightThemeColors.primary60
+                                            : LightThemeColors.primary),
+                                    const SizedBox(width: 8),
+                                    const Text("Creation (Oldest → Newest)"),
+                                  ],
+                                ),
+                              ),
+                            ];
+                          },
+                        ),
+                      ));
+                    } else {
+                      return const SliverToBoxAdapter(child: SizedBox.shrink());
+                    }
+                  }),
                   Observer(builder: (context) {
                     if (appStore.currentQubicIDs.isEmpty) {
                       return SliverList(
