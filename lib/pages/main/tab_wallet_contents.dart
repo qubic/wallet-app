@@ -58,6 +58,31 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
   ReactionDisposer? disposeAutorun;
 
+  PopupMenuItem<AccountSortMode> _buildSortMenuItem(
+      AccountSortMode mode, IconData icon, String label) {
+    final isSelected = appStore.accountsSortingMode == mode;
+    final color =
+        isSelected ? LightThemeColors.primary40 : LightThemeColors.primary;
+
+    return PopupMenuItem<AccountSortMode>(
+      value: mode,
+      child: Row(
+        children: [
+          Icon(icon, color: color),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(label,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                )),
+          ),
+          if (isSelected) Icon(Icons.check, color: color, size: 18),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -319,48 +344,16 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           },
                           itemBuilder: (BuildContext context) {
                             return [
-                              PopupMenuItem<AccountSortMode>(
-                                value: AccountSortMode.name,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.sort_by_alpha,
-                                        color: appStore.accountsSortingMode ==
-                                                AccountSortMode.name
-                                            ? LightThemeColors.primary60
-                                            : LightThemeColors.primary),
-                                    const SizedBox(width: 8),
-                                    const Text("Name (A-Z)"),
-                                  ],
-                                ),
-                              ),
-                              PopupMenuItem<AccountSortMode>(
-                                value: AccountSortMode.balance,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.account_balance_wallet,
-                                        color: appStore.accountsSortingMode ==
-                                                AccountSortMode.balance
-                                            ? LightThemeColors.primary60
-                                            : LightThemeColors.primary),
-                                    const SizedBox(width: 8),
-                                    const Text("Balance (High → Low)"),
-                                  ],
-                                ),
-                              ),
-                              PopupMenuItem<AccountSortMode>(
-                                value: AccountSortMode.creationOrder,
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.access_time,
-                                        color: appStore.accountsSortingMode ==
-                                                AccountSortMode.creationOrder
-                                            ? LightThemeColors.primary60
-                                            : LightThemeColors.primary),
-                                    const SizedBox(width: 8),
-                                    const Text("Creation (Oldest → Newest)"),
-                                  ],
-                                ),
-                              ),
+                              _buildSortMenuItem(AccountSortMode.name,
+                                  Icons.sort_by_alpha, "Name (A-Z)"),
+                              _buildSortMenuItem(
+                                  AccountSortMode.balance,
+                                  Icons.account_balance_wallet,
+                                  "Balance (High → Low)"),
+                              _buildSortMenuItem(
+                                  AccountSortMode.creationOrder,
+                                  Icons.access_time,
+                                  "Creation (Oldest → Newest)"),
                             ];
                           },
                         ),
