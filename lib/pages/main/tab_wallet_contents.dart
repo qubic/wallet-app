@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:implicitly_animated_list/implicitly_animated_list.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/account_list_item.dart';
@@ -18,6 +19,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -28,6 +30,8 @@ import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:sprung/sprung.dart';
 
 class TabWalletContents extends StatefulWidget {
   const TabWalletContents({super.key});
@@ -399,35 +403,34 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                       }, childCount: 1));
                     } else {
                       final accounts = appStore.currentQubicIDs;
-                      return SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final account = accounts[index];
-                            return AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 200),
-                              transitionBuilder:
-                                  (Widget child, Animation<double> animation) {
-                                return FadeTransition(
-                                  opacity: animation,
-                                  child: child,
-                                );
-                              },
-                              child: Container(
-                                color: LightThemeColors.background,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: ThemePaddings.smallPadding,
-                                      vertical: ThemePaddings.minimumPadding),
-                                  child: AccountListItem(
-                                    key: ValueKey(account.publicId),
-                                    item: account,
-                                  ),
-                                ),
+                      return SliverImplicitlyAnimatedList<QubicListVm>(
+                        itemData: accounts,
+                        itemEquality: (a, b) => a.publicId == b.publicId,
+                        itemBuilder: (context, account) {
+                          return Container(
+                            color: LightThemeColors.background,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: ThemePaddings.smallPadding,
+                                vertical: ThemePaddings.minimumPadding,
                               ),
-                            );
-                          },
-                          childCount: accounts.length,
-                        ),
+                              child: AccountListItem(
+                                key: ValueKey(account.publicId),
+                                item: account,
+                              )
+                                  .animate()
+                                  .fadeIn(
+                                    duration: 600.ms,
+                                    begin: 0.0,
+                                  )
+                                  .slideY(
+                                    begin: 0.1,
+                                    curve: Sprung.underDamped,
+                                    duration: 2.seconds,
+                                  ),
+                            ),
+                          );
+                        },
                       );
                     }
                   }),
