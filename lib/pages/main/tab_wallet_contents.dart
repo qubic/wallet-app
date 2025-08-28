@@ -429,13 +429,18 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                               )
                                   .animate()
                                   .fadeIn(
-                                    duration: 600.ms,
+                                    duration: 1000.ms,
                                     begin: 0.0,
                                   )
                                   .slideY(
                                     begin: 0.1,
                                     curve: Sprung.underDamped,
                                     duration: 2.seconds,
+                                  )
+                                  .slideX(
+                                    begin: 0.1,
+                                    duration: 2.seconds,
+                                    curve: Sprung.underDamped,
                                   ),
                             ),
                           );
