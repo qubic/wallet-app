@@ -16,6 +16,7 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/app_error.dart';
+import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -387,7 +388,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
 
   Future<List<QubicVaultExportSeed>> getSeeds() async {
     List<QubicVaultExportSeed> seeds = [];
-    for (var element in appStore.currentQubicIDs) {
+    for (var element in getIt<HiveStorage>().getAccounts()) {
       var seed = await appStore.getSeedById(element.publicId);
       seeds.add(QubicVaultExportSeed(
           seed: seed,
