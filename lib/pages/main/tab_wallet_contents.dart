@@ -312,8 +312,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           child: Align(
                         alignment: AlignmentDirectional.centerEnd,
                         child: PopupMenuButton<AccountSortMode>(
-                          icon:
-                              Icon(Icons.sort, color: LightThemeColors.primary),
+                          icon: const Icon(Icons.sort,
+                              color: LightThemeColors.primary),
                           onSelected: (AccountSortMode mode) {
                             appStore.setAccountsSortingMode(mode);
                           },
@@ -412,6 +412,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                       final accounts = appStore.currentQubicIDs;
                       return SliverImplicitlyAnimatedList<QubicListVm>(
                         itemData: accounts,
+                        deleteDuration: const Duration(milliseconds: 600),
+                        insertDuration: const Duration(milliseconds: 600),
                         itemEquality: (a, b) => a.publicId == b.publicId,
                         itemBuilder: (context, account) {
                           return Container(
