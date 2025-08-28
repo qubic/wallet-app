@@ -317,6 +317,7 @@ abstract class _ApplicationStore with Store {
       currentQubicIDs.add(QubicListVm(element.getPublicId(), element.getName(),
           null, null, null, element.getPrivateSeed() == '' ? true : false));
     }
+    initStoredAccountsIfAbsent();
   }
 
   @action
@@ -327,6 +328,7 @@ abstract class _ApplicationStore with Store {
     // Add to stored by creation order accounts
     _hiveStorage.addAccount(QubicListVm(
         publicId, name, null, null, null, privateSeed == '' ? true : false));
+    sortAccounts();
   }
 
   Future<String> getSeedById(String publicId) async {
