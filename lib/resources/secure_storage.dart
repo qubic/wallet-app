@@ -46,7 +46,14 @@ class SecureStorage {
   late final FlutterSecureStorage storage;
   late String prepend;
   SecureStorage() {
-    storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+    storage = const FlutterSecureStorage(
+        aOptions: AndroidOptions(
+          encryptedSharedPreferences: true,
+        ),
+        iOptions: IOSOptions(
+          synchronizable: false,
+          accessibility: KeychainAccessibility.unlocked_this_device,
+        ));
   }
 
   final _argon2idAlgorithm = Argon2id(
@@ -80,10 +87,6 @@ class SecureStorage {
   Future<void> deleteHiveEncryptionKey() async {
     await storage.delete(key: SecureStorageKeys.hiveEncryptionKey);
   }
-
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
-        encryptedSharedPreferences: true,
-      );
 
   Uint8List generateSalt(int length) {
     final random = Random.secure();
