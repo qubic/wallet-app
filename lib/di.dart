@@ -61,6 +61,5 @@ void setupDI() {
 
   getIt.registerSingleton<AppLinks>(AppLinks());
   getIt.registerLazySingleton(() => QrScannerService(getIt<GlobalSnackBar>()));
-
   getIt.registerLazySingleton<ScreenshotService>(() => ScreenshotService());
 }
