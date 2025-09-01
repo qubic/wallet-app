@@ -72,8 +72,9 @@ class _AddAccountState extends State<AddAccount> {
       if (widget.type != AddAccountType.watchOnly) {
         screenshotService.disableScreenshot();
         screenshotService.startListening(onScreenshot: (e) {
-          _globalSnackBar
-              .show("Screenshot protected — this screen is private.");
+          if (l10nWrapper.l10n != null && e.wasScreenshotTaken == true) {
+            _globalSnackBar.show(l10nWrapper.l10n!.blockedScreenshotWarning);
+          }
         });
       }
       firstOpen = false;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_contents.dart';
 import 'package:qubic_wallet/services/screenshot_service.dart';
@@ -28,7 +29,9 @@ class _RevealSeedState extends State<RevealSeed> {
     super.initState();
     screenshotService.disableScreenshot();
     screenshotService.startListening(onScreenshot: (e) {
-      globalSnackBar.show("Screenshot protected — this screen is private.");
+      if (l10nWrapper.l10n != null && e.wasScreenshotTaken == true) {
+        globalSnackBar.show(l10nWrapper.l10n!.blockedScreenshotWarning);
+      }
     });
   }
 
