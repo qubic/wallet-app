@@ -17,6 +17,7 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_warning_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/services/screenshot_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -45,6 +46,7 @@ class _AddAccountState extends State<AddAccount> {
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   final WalletConnectService walletConnectService =
       getIt<WalletConnectService>();
+  final screenshotService = getIt<ScreenshotService>();
   final TextEditingController privateSeed = TextEditingController();
   final TextEditingController publicId = TextEditingController();
   final TextEditingController accountName = TextEditingController();
@@ -67,9 +69,26 @@ class _AddAccountState extends State<AddAccount> {
         generatePrivateSeed();
         onPrivateSeedChanged();
       }
+      if (widget.type != AddAccountType.watchOnly) {
+        screenshotService.disableScreenshot();
+        screenshotService.startListening(onScreenshot: (e) {
+          if (l10nWrapper.l10n != null && e.wasScreenshotTaken == true) {
+            _globalSnackBar.show(l10nWrapper.l10n!.blockedScreenshotWarning);
+          }
+        });
+      }
       firstOpen = false;
     }
     super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    if (widget.type != AddAccountType.watchOnly) {
+      screenshotService.disableScreenshot();
+      screenshotService.stopListening();
+    }
+    super.dispose();
   }
 
   onPrivateSeedChanged() async {

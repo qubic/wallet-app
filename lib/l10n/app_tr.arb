@@ -839,5 +839,6 @@
     "homeHeaderQubicPrice": "QUBIC Fiyat",
     "revealSeedCopiedToClipboardMessage": "Özel anahtar geçici olarak panoya kopyalandı (1 dakika saklanır)",
     "revealSeedWarningTitle": "Özel Anahtarınızı Paylaşmayın!",
-    "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur"
+    "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur",
+    "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır."
 }

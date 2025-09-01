@@ -1,5 +1,6 @@
 import 'package:app_links/app_links.dart';
 import 'package:get_it/get_it.dart';
+import 'package:qubic_wallet/services/screenshot_service.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
@@ -60,4 +61,5 @@ void setupDI() {
 
   getIt.registerSingleton<AppLinks>(AppLinks());
   getIt.registerLazySingleton(() => QrScannerService(getIt<GlobalSnackBar>()));
+  getIt.registerLazySingleton<ScreenshotService>(() => ScreenshotService());
 }

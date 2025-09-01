@@ -3,7 +3,6 @@ import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/private_seed_warning.dart';
 import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
