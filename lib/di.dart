@@ -22,7 +22,7 @@ import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
 final GetIt getIt = GetIt.instance;
 
 /// Setups Dependency injection
-void setupDI() async {
+Future<void> setupDI() async {
   getIt.registerSingleton<NetworkStore>(NetworkStore());
   getIt.registerSingleton<RootJailbreakFlagStore>(RootJailbreakFlagStore());
 
@@ -36,7 +36,7 @@ void setupDI() async {
   getIt.registerSingleton<SettingsStore>(SettingsStore());
   getIt.registerSingleton<DappStore>(DappStore());
   getIt.registerSingleton<SecureStorage>(SecureStorage());
-  getIt<SecureStorage>().initialize();
+  await getIt<SecureStorage>().initialize();
   getIt.registerSingleton<HiveStorage>(HiveStorage());
 
 //Providers
@@ -58,6 +58,7 @@ void setupDI() async {
   getIt.registerSingleton<BiometricService>(BiometricService());
 
   getIt.registerSingleton<QubicCmd>(QubicCmd());
+  getIt.get<QubicCmd>().initialize();
 
   getIt.registerSingleton<AppLinks>(AppLinks());
   getIt.registerLazySingleton(() => QrScannerService(getIt<GlobalSnackBar>()));

@@ -25,7 +25,7 @@ import 'package:universal_platform/universal_platform.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    setupDI(); //Dependency injection
+    await setupDI(); //Dependency injection
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
@@ -41,8 +41,6 @@ Future<void> main() async {
     getIt.get<SettingsStore>().setBuildNumber(packageInfo.buildNumber);
 
     getIt.get<ApplicationStore>().checkWalletIsInitialized();
-
-    getIt.get<QubicCmd>().initialize();
   } catch (e) {
     appLogger.e(e.toString());
   }
