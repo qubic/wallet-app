@@ -9,9 +9,11 @@ import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/settings.dart';
+import 'package:qubic_wallet/resources/keychain_migration.dart';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'package:cryptography/cryptography.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class SecureStorageKeys {
   static const prepend = kReleaseMode
@@ -54,6 +56,13 @@ class SecureStorage {
           synchronizable: false,
           accessibility: KeychainAccessibility.unlocked_this_device,
         ));
+  }
+
+  /// Initialize secure storage and run migrations if needed
+  Future<void> initialize() async {
+    if (UniversalPlatform.isIOS) {
+      await KeychainMigration.migrateKeychain();
+    }
   }
 
   final _argon2idAlgorithm = Argon2id(

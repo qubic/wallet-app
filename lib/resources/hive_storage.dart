@@ -35,10 +35,14 @@ class HiveStorage {
   }
 
   initEncryptedBoxes() async {
-    await _loadEncryptionKey();
-    await openTransactionsBox();
-    await openNetworksBox();
-    await openCurrentNetworkBox();
+    try {
+      await _loadEncryptionKey();
+      await openTransactionsBox();
+      await openNetworksBox();
+      await openCurrentNetworkBox();
+    } catch (e) {
+      appLogger.e("[HiveStorage] Error initializing hive storage: $e");
+    }
   }
 
   /// Loads or generates a new encryption key and stores it securely.
@@ -83,12 +87,15 @@ class HiveStorage {
       HiveBoxesNames.storedNetworks.name,
       encryptionCipher: _encryptionCipher,
     );
+    appLogger.d(
+        '[HiveStorage] Networks box opened with ${_storedNetworks.length} items.');
   }
 
   Future<void> openCurrentNetworkBox() async {
     _currentNetworkBox = await Hive.openBox<String>(
         HiveBoxesNames.currentNetworkName.name,
         encryptionCipher: _encryptionCipher);
+    appLogger.d('[HiveStorage] Current network box opened.');
   }
 
   void addStoredTransaction(TransactionVm transactionVm) {
