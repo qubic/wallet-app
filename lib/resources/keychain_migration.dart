@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:universal_platform/universal_platform.dart';
 
+// TODO: Remove this when the issue is fixed in the next version
 class KeychainMigration {
   static const String _migrationKey = 'keychain_migration_completed_v1';
 

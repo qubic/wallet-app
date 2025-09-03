@@ -58,7 +58,7 @@ class SecureStorage {
         ));
   }
 
-  /// Initialize secure storage and run migrations if needed
+  // TODO: Remove this when the issue is fixed in the next version
   Future<void> initialize() async {
     if (UniversalPlatform.isIOS) {
       await KeychainMigration.migrateKeychain();
