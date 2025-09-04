@@ -328,9 +328,7 @@ class SecureStorage {
   }
 
   Future<bool> deleteWallet() async {
-    //Note The current implementation of flutter_secure_storage does not support readAll and deleteAll .
-    await storage.delete(key: SecureStorageKeys.criticalSettings);
-    await storage.delete(key: SecureStorageKeys.settings);
+    await storage.deleteAll();
     return true;
   }
 
