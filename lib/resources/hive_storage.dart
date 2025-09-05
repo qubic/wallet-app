@@ -15,10 +15,6 @@ enum HiveBoxesNames {
 }
 
 class HiveStorage {
-  HiveStorage() {
-    _init();
-  }
-
   final _secureStorage = getIt<SecureStorage>();
   late Box<TransactionVm> _storedTransactions;
   late Box<NetworkModel> _storedNetworks;
@@ -26,15 +22,15 @@ class HiveStorage {
   final currentNetworkKey = "current_network";
   late HiveAesCipher _encryptionCipher;
 
-  Future<void> _init() async {
+  Future<void> initialize() async {
     appLogger.i('[HiveStorage] Initializing Hive...');
     await Hive.initFlutter();
     Hive.registerAdapter(TransactionVmAdapter());
     Hive.registerAdapter(NetworkAdapter());
-    initEncryptedBoxes();
+    await initEncryptedBoxes();
   }
 
-  initEncryptedBoxes() async {
+  Future<void> initEncryptedBoxes() async {
     try {
       await _loadEncryptionKey();
       await openTransactionsBox();

@@ -38,6 +38,7 @@ Future<void> setupDI() async {
   getIt.registerSingleton<SecureStorage>(SecureStorage());
   await getIt<SecureStorage>().initialize();
   getIt.registerSingleton<HiveStorage>(HiveStorage());
+  await getIt<HiveStorage>().initialize();
 
 //Providers
   getIt.registerSingleton<GlobalSnackBar>(GlobalSnackBar());
