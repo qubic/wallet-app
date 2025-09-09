@@ -123,21 +123,19 @@
     "generalErrorSetWalletPasswordEmpty": "Bitte geben Sie ein Passwort ein.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Bitte geben Sie das Passwort erneut ein.",
     "appTabHome": "Startseite",
-    "appTabTransfers": "Übertragungen",
     "appTabSettings": "Einstellungen",
     "homeLabelTotalBalance": "Gesamtguthaben",
     "homeHeader": "Konten im Wallet",
     "homeLabelNoAccountsInWallet": "Sie haben noch keine Qubic-Konten in Ihrem Wallet.",
     "homeButtonAddAccount": "Konto hinzufügen",
-    "transfersTitle": "Übertragungen der Epoche",
     "transfersLabelAllTransactions": "Alle Transaktionen",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Keine Transaktionen sind in dieser Epoche für Ihre Konten anhand des Filters vorhanden.",
     "transfersLabelNoTransactionsFoundInWallet": "Keine Transaktionen sind in dieser Epoche für Ihre Konten vorhanden.",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Keine Transaktionen entsprechen Ihren Filtern aus dieser Epoche.",
     "transfersLabelNoTransactionsFoundInAccount": "Keine Transaktionen gefunden.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Zeigt 1 Transaktion in Tick} other{Zeigt {count} Transaktionen}}",
-    "transfersLabelFor": "Übertragungen für",
-    "transfersLabelForAccount": "Übertragungen für \"{accountName}\"",
+    "transfersLabelFor": "Transaktionen für",
+    "transfersLabelForAccount": "Transaktionen für \"{accountName}\"",
     "@transfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -145,7 +143,7 @@
             }
         }
     },
-    "storedTransfersLabelForAccount": "Unvollständige Übertragungen für \"{accountName}\"",
+    "storedTransfersLabelForAccount": "Unvollständige Transaktionen für \"{accountName}\"",
     "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -153,7 +151,7 @@
             }
         }
     },
-    "filterTransfersTitle": "Übertragungen filtern",
+    "filterTransfersTitle": "Transaktionen filtern",
     "filterTransfersLabelAnyQubicID": "Beliebige Qubic-ID",
     "filterTransfersLabelByQubicID": "Nach Qubic-ID",
     "filterTransfersLabelAnyStatus": "Beliebiger Status",
@@ -209,7 +207,7 @@
     "manageBiometricsLabelInstructionsForGeneric": "Sie können die Authentifizierung mit Biometrie aktivieren.",
     "manageBiometricsLabelInstructionsForIris": "Sie können die Authentifizierung mit Ihrer Iris aktivieren.",
     "manageBiometricsLabelInstructionsForOS": "Sie können die Authentifizierung über Ihr Betriebssystem aktivieren.",
-    "manageBiometricsLabelAdditionalInstructions": "Wenn Sie dies aktivieren, können Sie sich in Ihr Wallet einloggen und Übertragungen durchführen, ohne Ihr Passwort zu verwenden.",
+    "manageBiometricsLabelAdditionalInstructions": "Wenn Sie dies aktivieren, können Sie sich in Ihr Wallet einloggen und Transaktionen durchführen, ohne Ihr Passwort zu verwenden.",
     "manageBiometricsErrorOSAuthNotAvailableTitle": "Authentifizierung über Betriebssystem nicht verfügbar.",
     "manageBiometricsErrorNotAvailableTitle": "Biometrische Authentifizierung nicht verfügbar.",
     "manageBiometricsErrorOSAuthNotAvailableMessage": "Ihr Betriebssystem unterstützt keine Betriebssystemauthentifizierung.",
@@ -231,7 +229,7 @@
     "welcomeTitle": "Willkommen zurück!",
     "welcomeButtonUnlockWallet": "Wallet entsperren",
     "welcomeButtonCreateWallet": "Neues Wallet erstellen",
-    "accountButtonViewTransfer": "Übertragungen anzeigen",
+    "accountButtonViewTransfer": "Transaktionen anzeigen",
     "accountButtonViewInExplorer": "Im Explorer anzeigen",
     "accountButtonRevealPrivateSeed": "Privaten Seed anzeigen",
     "accountButtonReceive": "Empfangen",
@@ -289,9 +287,9 @@
     "generalErrorContactingQubicNetwork": "Fehler beim Kontaktieren des Qubic-Netzwerkes.",
     "signUpErrorStoringBiometricInfo": "Fehler beim Speichern biometrischer Informationen.",
     "signUpStepTwoHeader": "Biometrische Entsperrung",
-    "signUpStepTwoSubHeader": "Sie können die Authentifizierung über Biometrie aktivieren. Wenn aktiviert, können Sie sich in Ihr Wallet einloggen und Übertragungen durchführen, ohne Ihr Passwort zu verwenden.",
+    "signUpStepTwoSubHeader": "Sie können die Authentifizierung über Biometrie aktivieren. Wenn aktiviert, können Sie sich in Ihr Wallet einloggen und Transaktionen durchführen, ohne Ihr Passwort zu verwenden.",
     "signUpStepTwoHeaderForDesktop": "Betriebssystem Entsperrung",
-    "signUpStepTwoSubHeaderForDesktop": "Sie können die Authentifizierung über Ihr Betriebssystem aktivieren. Wenn Sie dies aktivieren, können Sie sich in Ihr Wallet einloggen und Übertragungen durchführen, ohne Ihr Passwort zu verwenden.",
+    "signUpStepTwoSubHeaderForDesktop": "Sie können die Authentifizierung über Ihr Betriebssystem aktivieren. Wenn Sie dies aktivieren, können Sie sich in Ihr Wallet einloggen und Transaktionen durchführen, ohne Ihr Passwort zu verwenden.",
     "signUpStepOneHeader": "Neues Wallet erstellen",
     "signUpStepOneSubHeader": "Geben Sie ein Passwort ein, das zum Entsperren Ihres neuen Wallets verwendet wird.",
     "signUpSwitchLabelBiometricUnlock": "Biometrische Entsperrung verwenden",
