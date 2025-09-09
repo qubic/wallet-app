@@ -73,6 +73,7 @@ class _AddAccountState extends State<AddAccount> {
         screenshotService.disableScreenshot();
         screenshotService.startListening(onScreenshot: (e) {
           if (l10nWrapper.l10n != null && e.wasScreenshotTaken == true) {
+            setState(() {});
             _globalSnackBar.show(l10nWrapper.l10n!.blockedScreenshotWarning);
           }
         });

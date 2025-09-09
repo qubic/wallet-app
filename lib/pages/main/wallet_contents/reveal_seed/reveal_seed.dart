@@ -30,6 +30,7 @@ class _RevealSeedState extends State<RevealSeed> {
     screenshotService.disableScreenshot();
     screenshotService.startListening(onScreenshot: (e) {
       if (l10nWrapper.l10n != null && e.wasScreenshotTaken == true) {
+        setState(() {});
         globalSnackBar.show(l10nWrapper.l10n!.blockedScreenshotWarning);
       }
     });
