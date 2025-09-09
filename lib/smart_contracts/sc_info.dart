@@ -143,6 +143,39 @@ class QubicSCStore {
           15: 'Qbay bid on traditional auction',
           16: 'Qbay transfer share management rights',
           17: 'Qbay change status of marketplace'
+        }),
+    QubicSCModel(
+        contractIndex: 13,
+        name: "QSwap",
+        contractId:
+            "NAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMAML",
+        procedures: {
+          1: 'Issue Asset', // aka: Qbay mint
+          2: 'Transfer Share Ownership and Possession',
+          3: 'Create Pool',
+          4: 'Add Liquidity',
+          5: 'Remove Liquidity',
+          6: 'Swap Exact QU for Asset',
+          7: 'Swap QU for Exact Asset',
+          8: 'Swap Exact Asset for QU',
+          9: 'Swap Asset for Exact QU',
+          10: 'Set Team Info'
+        }),
+    QubicSCModel(
+        contractIndex: 14,
+        name: "Nostromo",
+        contractId:
+            "OAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZTPD",
+        procedures: {
+          1: 'Register in Tier',
+          2: 'Logout from Tier',
+          3: 'Create Project',
+          4: 'Vote in Project',
+          5: 'Create Fundraising',
+          6: 'Invest in Project',
+          7: 'Claim Token',
+          8: 'Upgrade Tier',
+          9: 'Transfer Share Management Rights',
         })
   ];
 
