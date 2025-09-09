@@ -85,7 +85,7 @@ class _AddAccountState extends State<AddAccount> {
   @override
   void dispose() {
     if (widget.type != AddAccountType.watchOnly) {
-      screenshotService.disableScreenshot();
+      screenshotService.enableScreenshot();
       screenshotService.stopListening();
     }
     super.dispose();

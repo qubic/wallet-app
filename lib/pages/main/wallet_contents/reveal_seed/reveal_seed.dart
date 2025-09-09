@@ -37,7 +37,7 @@ class _RevealSeedState extends State<RevealSeed> {
 
   @override
   void dispose() {
-    screenshotService.disableScreenshot();
+    screenshotService.enableScreenshot();
     screenshotService.stopListening();
     super.dispose();
   }
