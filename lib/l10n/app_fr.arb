@@ -123,21 +123,19 @@
     "generalErrorSetWalletPasswordEmpty": "Veuillez remplir un mot de passe.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Veuillez remplir à nouveau le mot de passe.",
     "appTabHome": "Accueil",
-    "appTabTransfers": "Transferts",
     "appTabSettings": "Paramètres",
     "homeLabelTotalBalance": "Solde Total",
     "homeHeader": "Comptes dans le Portefeuille",
     "homeLabelNoAccountsInWallet": "Vous n'avez pas encore de comptes Qubic dans votre portefeuille",
     "homeButtonAddAccount": "Ajouter Compte",
-    "transfersTitle": "Transferts Epoch",
     "transfersLabelAllTransactions": "Toutes les Transactions",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Aucune transaction dans cette époque pour vos comptes ne correspond à vos filtres",
     "transfersLabelNoTransactionsFoundInWallet": "Aucune transaction dans cette époque pour vos comptes",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Aucune transaction dans cette époque ne correspond à vos filtres",
     "transfersLabelNoTransactionsFoundInAccount": "Aucune transaction trouvée.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Affichage de 1 transaction dans le tick} other{Affichage de {count} transactions}}",
-    "transfersLabelFor": "Transferts pour",
-    "transfersLabelForAccount": "Transferts pour \"{accountName}\"",
+    "transfersLabelFor": "Transactions pour",
+    "transfersLabelForAccount": "Transactions pour \"{accountName}\"",
     "@transfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -145,7 +143,7 @@
             }
         }
     },
-    "storedTransfersLabelForAccount": "Transferts incomplètes pour \"{accountName}\"",
+    "storedTransfersLabelForAccount": "Transactions incomplètes pour \"{accountName}\"",
     "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -153,7 +151,7 @@
             }
         }
     },
-    "filterTransfersTitle": "Filtrer les Transferts",
+    "filterTransfersTitle": "Filtrer les Transactions",
     "filterTransfersLabelAnyQubicID": "N'importe quel ID Qubic",
     "filterTransfersLabelByQubicID": "Par ID Qubic",
     "filterTransfersLabelAnyStatus": "N'importe quel Statut",
@@ -209,7 +207,7 @@
     "manageBiometricsLabelInstructionsForGeneric": "Vous pouvez activer l'authentification biométrique.",
     "manageBiometricsLabelInstructionsForIris": "Vous pouvez activer l'authentification via votre iris.",
     "manageBiometricsLabelInstructionsForOS": "Vous pouvez activer l'authentification via votre système d'exploitation.",
-    "manageBiometricsLabelAdditionalInstructions": "Si vous activez cette option, vous pourrez vous connecter à votre portefeuille et émettre des transferts sans utiliser votre mot de passe.",
+    "manageBiometricsLabelAdditionalInstructions": "Si vous activez cette option, vous pourrez vous connecter à votre portefeuille et émettre des transactions sans utiliser votre mot de passe.",
     "manageBiometricsErrorOSAuthNotAvailableTitle": "Authentification du système d'exploitation non disponible",
     "manageBiometricsErrorNotAvailableTitle": "Authentification biométrique non disponible",
     "manageBiometricsErrorOSAuthNotAvailableMessage": "Votre système d'exploitation ne prend pas en charge l'authentification.",
@@ -231,7 +229,7 @@
     "welcomeTitle": "Bon retour !",
     "welcomeButtonUnlockWallet": "Déverrouiller le portefeuille",
     "welcomeButtonCreateWallet": "Créer un nouveau portefeuille",
-    "accountButtonViewTransfer": "Voir les transferts",
+    "accountButtonViewTransfer": "Voir les transactions",
     "accountButtonViewInExplorer": "Voir dans l'explorateur",
     "accountButtonRevealPrivateSeed": "Révéler la Seed privée",
     "accountButtonReceive": "Recevoir",
@@ -289,9 +287,9 @@
     "generalErrorContactingQubicNetwork": "Erreur de connexion au réseau Qubic",
     "signUpErrorStoringBiometricInfo": "Erreur lors de l'enregistrement des informations biométriques",
     "signUpStepTwoHeader": "Déverrouillage biométrique",
-    "signUpStepTwoSubHeader": "Vous pouvez activer l'authentification via biométrie. Si elle est activée, vous pouvez vous connecter à votre portefeuille et émettre des transferts sans utiliser votre mot de passe.",
+    "signUpStepTwoSubHeader": "Vous pouvez activer l'authentification via biométrie. Si elle est activée, vous pouvez vous connecter à votre portefeuille et émettre des transactions sans utiliser votre mot de passe.",
     "signUpStepTwoHeaderForDesktop": "Déverrouillage OS",
-    "signUpStepTwoSubHeaderForDesktop": "Vous pouvez activer l'authentification via votre système d'exploitation. Si vous activez cette option, vous pouvez vous connecter à votre portefeuille et émettre des transferts sans utiliser votre mot de passe.",
+    "signUpStepTwoSubHeaderForDesktop": "Vous pouvez activer l'authentification via votre système d'exploitation. Si vous activez cette option, vous pouvez vous connecter à votre portefeuille et émettre des transactions sans utiliser votre mot de passe.",
     "signUpStepOneHeader": "Créer un nouveau portefeuille",
     "signUpStepOneSubHeader": "Remplissez un mot de passe qui sera utilisé pour déverrouiller votre nouveau portefeuille",
     "signUpSwitchLabelBiometricUnlock": "Utiliser le déverrouillage biométrique",
