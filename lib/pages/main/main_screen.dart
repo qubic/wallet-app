@@ -128,6 +128,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
     _setupWalletConnect();
     getIt<NetworkStore>().initNetworks();
+    applicationStore.initStoredTransactions();
 
     _timedController.restartFetchTimersIfNeeded();
     _controller = PersistentTabController(initialIndex: widget.initialTabIndex);
