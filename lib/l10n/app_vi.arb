@@ -1,0 +1,905 @@
+{
+  "generalButtonCancel": "Hủy bỏ",
+  "generalButtonOK": "Được rồi",
+  "generalLabelYes": "Đúng",
+  "generalLabelNo": "KHÔNG",
+  "generalButtonConfirm": "Xác nhận",
+  "generalButtonDelete": "Xóa bỏ",
+  "generalButtonAdd": "Thêm vào",
+  "generalButtonCopy": "Sao chép",
+  "generalButtonRename": "Đổi tên",
+  "generalButtonSave": "Cứu",
+  "generalButtonProceed": "Tiếp tục",
+  "generalButtonApprove": "Chấp thuận",
+  "generalButtonReject": "Từ chối",
+  "generalButtonBack": "Mặt sau",
+  "generalButtonClose": "Đóng",
+  "generalButtonTryAgain": "Hãy thử lại",
+  "generalButtonShare": "Chia sẻ",
+  "generalButtonSearch": "Tìm kiếm",
+  "generalButtonApply": "Áp dụng",
+  "generalButtonEraseWalletData": "Xóa dữ liệu Wallet",
+  "generalButtonClearAll": "Rõ ràng tất cả",
+  "generalButtonShowAll": "Hiển thị tất cả",
+  "generalButtonUseQRCode": "Sử dụng mã QR",
+  "generalButtonCopyAddress": "Địa chỉ sao chép",
+  "generalButtonPaste": "Dán",
+  "generalButtonClear": "Thông thoáng",
+  "generalButtonConnect": "Kết nối",
+  "generalLabelHidden": "******",
+  "generalLabelHiddenLong": "*********",
+  "generalLabelCurrencyQubic": "Qubic",
+  "generalLabelCurrencyUSD": "USD",
+  "generalLabelTick": "Đánh dấu",
+  "generalLabelPayload": "Tải trọng",
+  "generalLabelInputType": "Loại đầu vào",
+  "generalLabelInfo": "Thông tin",
+  "generalLabelDate": "Ngày",
+  "generalLabelID": "NHẬN DẠNG",
+  "generalLabelAccount": "Tài khoản {accountNumber}",
+  "@generalLabelAccount": {
+    "placeholders": {
+      "accountNumber": {
+        "type": "int"
+      }
+    }
+  },
+  "generalLabelTransaction": "Giao dịch",
+  "generalLabelLoading": "Đang tải...",
+  "generalLabelUnknown": "Không xác định",
+  "generalLabelFrom": "Từ",
+  "generalLabelTo": "ĐẾN",
+  "generalLabelFee": "Phí",
+  "generalLabeQubicAddress": "Qubic Địa chỉ",
+  "generalLabeQubicAddressAndPublicID": "Qubic Địa chỉ (ID công khai)",
+  "generalLabelQubicAddressWithAccountName": "Qubic Địa chỉ {accountName}",
+  "@generalLabelQubicAddressWithAccountName": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "generalLabelToFromAccount": "{toFrom} wallet account \"{accountName}\"",
+  "@generalLabelToFromAccount": {
+    "placeholders": {
+      "toFrom": {
+        "description": "String that defines if it's the destination or source address for the transaction",
+        "type": "String"
+      },
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "generalLabelToFromAddress": "{toOrFrom} Địa chỉ",
+  "@generalLabelToFromAddress": {
+    "placeholders": {
+      "toOrFrom": {
+        "description": "String that defines if it's the destination or source address for the transaction",
+        "type": "String"
+      }
+    }
+  },
+  "generalLabelMultipleReceivers": "Nhiều máy thu",
+  "generalLabelNotAvailable": "N/a",
+  "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
+  "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
+  "generalLabelEnabled": "Đã bật",
+  "generalLabelDisabled": "Tàn tật",
+  "generalLabelUSDQubicConversion": "USD / Qubic",
+  "generalLabelError": "Một lỗi đã được thực hiện",
+  "generalSnackBarMessageCopiedToClipboard": "Sao chép vào bảng tạm",
+  "generalSnackBarMessageWalletDataErased": "Wallet dữ liệu bị xóa khỏi thiết bị",
+  "generalSnackBarMessageQRScannedWithSuccess": "Mã QR được quét thành công",
+  "generalSnackBarMessageAccountAlreadyExist": "Tài khoản này đã tồn tại trong Wallet của bạn",
+  "generalSnackBarMessageTransactionSubmitted": "Giao dịch của bạn đã được lưu trữ để nhân giống trong Tick {tick}.",
+  "@generalSnackBarMessageTransactionSubmitted": {
+    "placeholders": {
+      "tick": {
+        "type": "String"
+      }
+    }
+  },
+  "generalErrorUnsupportedOS": "Hệ điều hành không được hỗ trợ",
+  "generalErrorOnlyLowercaseChar": "Phải chỉ chứa các chữ cái viết thường.",
+  "generalErrorOnlyUppercaseChar": "Phải chỉ chứa chữ hoa.",
+  "generalErrorMinCharLength": "Phải là {minCharLength} ký tự dài.",
+  "@generalErrorMinCharLength": {
+    "placeholders": {
+      "minCharLength": {
+        "type": "int"
+      }
+    }
+  },
+  "generalErrorValueMustBeLowerThan": "Phải nhỏ hơn {maxValuePlusOne}.",
+  "@generalErrorValueMustBeLowerThan": {
+    "placeholders": {
+      "maxValuePlusOne": {
+        "type": "int",
+        "description": "Non inclusive maximun value for the field"
+      }
+    }
+  },
+  "generalErrorRequiredField": "Trường này không thể trống.",
+  "generalErrorNotEnoughQubicFunds": "Không đủ Qubic trong id.",
+  "generalErrorZeroQubicFunds": "Không đủ Qubic trong id. ID không có tiền.",
+  "generalErrorNotEnoughTokens": "Không đủ mã thông báo trong ID.",
+  "generalErrorNotEnoughAssets": "Không đủ tài sản trong ID.",
+  "generalErrorNotNumeric": "Không phải là một giá trị số",
+  "generalTextFieldHintPassword": "Wallet mật khẩu",
+  "generalErrorEmptyWalletPassword": "Vui lòng điền mật khẩu của bạn",
+  "generalErrorSetWalletPasswordEmpty": "Vui lòng điền mật khẩu.",
+  "generalErrorSetWalletPasswordRepeatEmpty": "Vui lòng điền vào mật khẩu một lần nữa.",
+  "generalErrorUnexpectedError": "Một lỗi không mong muốn đã xảy ra",
+  "generalErrorConnectionTimeout": "Kết nối hết thời gian",
+  "generalErrorNoInternetConnection": "Không có kết nối internet",
+  "generalErrorRequestCancelled": "Yêu cầu hủy bỏ",
+  "generalErrorCouldntParseResponse": "Không thể phân tích cú pháp phản hồi",
+  "generalErrorServerError": "Lỗi máy chủ",
+  "generalStatusCode": "Mã trạng thái",
+  "generalCode": "Mã số",
+  "appTabHome": "Trang chủ",
+  "appTabExplore": "Khám phá",
+  "appTabSettings": "Cài đặt",
+  "homeLabelTotalBalance": "Tổng số dư",
+  "homeHeader": "Tài khoản trong Wallet",
+  "homeHeaderQubicPrice": "Qubic giá",
+  "homeLabelNoAccountsInWallet": "Bạn không có bất kỳ tài khoản Qubic nào trong Wallet của bạn",
+  "homeButtonAddAccount": "Thêm tài khoản",
+  "transfersLabelAllTransactions": "Tất cả các giao dịch",
+  "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Không có giao dịch nào trong kỷ nguyên này cho tài khoản của bạn phù hợp với bộ lọc của bạn",
+  "transfersLabelNoTransactionsFoundInWallet": "Không có giao dịch nào trong kỷ nguyên này cho tài khoản của bạn",
+  "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Không có giao dịch nào trong kỷ nguyên này phù hợp với bộ lọc của bạn",
+  "transfersLabelNoTransactionsFoundInAccount": "Không tìm thấy giao dịch.",
+  "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
+  "transfersLabelFor": "Giao dịch cho",
+  "storedTransfersLabel": "Xem các giao dịch không đầy đủ",
+  "transactionsCount": "{count, plural, =1{1 transaction} other{Showing {count} transactions}}",
+  "transfersLabelForAccount": "Giao dịch cho \"{accountName}\"",
+  "@transfersLabelForAccount": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "storedTransfersLabelForAccount": "Các giao dịch không đầy đủ cho \"{accountName}\"",
+  "@storedTransfersLabelForAccount": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "qxTransferSharesWarning": "Hồ sơ giao dịch này hiện chỉ hiển thị cho người gửi.",
+  "filterTransfersTitle": "Bộ lọc chuyển",
+  "filterTransfersLabelAnyQubicID": "Bất kỳ Qubic id",
+  "filterTransfersLabelByQubicID": "Bởi Qubic id",
+  "filterTransfersLabelAnyStatus": "Bất kỳ trạng thái",
+  "filterTransfersLabelByStatus": "Theo trạng thái",
+  "filterTransfersLabelByDirection": "Lọc theo hướng",
+  "filterTransfersFieldHintByDirection": "Theo hướng",
+  "generalLabelAnyDirection": "Bất kỳ hướng nào",
+  "filterTransfersClearFilters": "{filtersCount, plural, =1{Clear 1 Active Filter} other{Clear {filtersCount} Active Filters}}",
+  "settingsTitle": "Cài đặt",
+  "settingsHeaderAccountsAndData": "Tài khoản và dữ liệu",
+  "settingsLockWallet": "Khóa Wallet",
+  "settingsHeaderSecurity": "Bảo vệ",
+  "settingsLabelChangePassword": "Thay đổi mật khẩu",
+  "settingsLabelPrivacyPolicy": "Chính sách bảo mật",
+  "settingsLabelExportWalletVaultFile": "Xuất Wallet Tệp Vault",
+  "settingsHeaderAbout": "Về",
+  "settingsLabelJoinCommunity": "Tham gia cộng đồng",
+  "settingsLabelSupport": "Ủng hộ",
+  "settingsLabelWalletInfo": "Wallet thông tin",
+  "settingsLabelWalletConnect": "WalletConnect",
+  "settingsSupportGithub": "GitHub (tập tin một vấn đề)",
+  "settingsSupportDiscord": "Discord (kênh hỗ trợ)",
+  "settingsSupportGoogleForm": "Điền vào hình thức",
+  "generalBiometricTypeFaceID": "ID mặt",
+  "generalBiometricTypeTouchID": "Id chạm vào",
+  "generalBiometricTypeIris": "Iris",
+  "generalBiometricTypeOS": "Hệ điều hành",
+  "generalBiometricTypeGeneric": "Sinh trắc học",
+  "settingsLabelManageBiometrics": "Quản lý mở khóa bằng {biometricTypeLabel}",
+  "@settingsLabelManageBiometrics": {
+    "placeholders": {
+      "biometricTypeLabel": {
+        "type": "String",
+        "example": "Face ID, Touch ID..."
+      }
+    }
+  },
+  "manageBiometricsTitle": "Quản lý mở khóa bằng {biometricTypeLabel}",
+  "@manageBiometricsTitle": {
+    "placeholders": {
+      "biometricTypeLabel": {
+        "type": "String",
+        "example": "Face ID, Touch ID..."
+      }
+    }
+  },
+  "manageBiometricsSwitchLabel": "Sử dụng mở khóa với {biometricTypeLabel}",
+  "@manageBiometricsSwitchLabel": {
+    "placeholders": {
+      "biometricTypeLabel": {
+        "type": "String",
+        "example": "Face ID, Touch ID..."
+      }
+    }
+  },
+  "manageBiometricsLabelInstructionsForFaceID": "Bạn có thể cho phép xác thực qua ID mặt.",
+  "manageBiometricsLabelInstructionsForTouchID": "Bạn có thể cho phép xác thực qua Touch ID.",
+  "manageBiometricsLabelInstructionsForGeneric": "Bạn có thể cho phép xác thực với sinh trắc học.",
+  "manageBiometricsLabelInstructionsForIris": "Bạn có thể cho phép xác thực với IRIS của bạn.",
+  "manageBiometricsLabelInstructionsForOS": "Bạn có thể cho phép xác thực thông qua hệ điều hành của bạn.",
+  "manageBiometricsLabelAdditionalInstructions": "Nếu bạn bật điều này, bạn có thể đăng nhập vào Wallet của bạn và phát hành giao dịch mà không cần sử dụng mật khẩu của bạn.",
+  "manageBiometricsErrorOSAuthNotAvailableTitle": "Xác thực HĐH không khả dụng",
+  "manageBiometricsErrorNotAvailableTitle": "Xác thực sinh trắc học không có sẵn",
+  "manageBiometricsErrorOSAuthNotAvailableMessage": "Hệ điều hành của bạn không hỗ trợ xác thực hệ điều hành",
+  "manageBiometricsErrorNotAvailableMessage": "Thiết bị của bạn không hỗ trợ xác thực sinh trắc học",
+  "manageBiometricsErrorNoOSAuthTitle": "Không có thông tin xác thực nào được đăng ký trong hệ điều hành của bạn",
+  "manageBiometricsErrorNoBiometricDataTitle": "Không có dữ liệu sinh trắc học nào được đăng ký trong thiết bị",
+  "manageBiometricsErrorNoOSAuthMessage": "Bạn đã không thiết lập xác thực trong hệ điều hành của bạn. Vui lòng điều hướng đến bảng điều khiển hệ điều hành của bạn và xác thực thiết lập.",
+  "manageBiometricsErrorNoBiometricDataMessage": "Thiết bị của bạn hỗ trợ xác thực sinh trắc học nhưng bạn chưa đăng ký dữ liệu sinh trắc học của mình. Vui lòng điều hướng đến Bảng điều khiển thiết bị của bạn, đăng ký dữ liệu sinh trắc học của bạn và thử lại.",
+  "transactionLabelDirectionIncoming": "Đến",
+  "transactionLabelDirectionOutgoing": "Hướng ngoại",
+  "transactionLabelDirectionInWallet": "Trong -__ crypto_term_2__",
+  "transactionLabelStatusSuccessful": "Thành công",
+  "transactionLabelStatusPending": "Chưa giải quyết",
+  "transactionLabelStatusExecuted": "Thực hiện",
+  "transactionLabelStatusFailed": "Thất bại",
+  "transactionLabelStatusInvalid": "Không hợp lệ",
+  "signInTitleOne": "Chào mừng đến với",
+  "signInTitleTwo": "Qubic Wallet",
+  "welcomeTitle": "Chào mừng trở lại!",
+  "welcomeButtonUnlockWallet": "Mở khóa Wallet",
+  "welcomeButtonCreateWallet": "Tạo một Wallet mới",
+  "accountButtonViewTransfer": "Xem giao dịch",
+  "accountButtonViewInExplorer": "Xem trong Explorer",
+  "accountButtonRevealPrivateSeed": "Tiết lộ hạt giống riêng tư",
+  "accountButtonReceive": "Nhận được",
+  "accountButtonSend": "Gửi",
+  "accountButtonAssets": "Tài sản",
+  "accountSendTitle": "Gửi tiền",
+  "accountSendLabelDestinationAddress": "Địa chỉ đích",
+  "accountSendLabelAmount": "Số lượng",
+  "accountSendButtonMax": "Tối đa",
+  "accountSendButtonMaxMinusOne": "Tối đa - 1",
+  "accountSendSectionAdvanceOptionsTitle": "Tùy chọn nâng cao",
+  "accountSendSectionInvalidDestinationAddress": "Địa chỉ đích không hợp lệ",
+  "assetsLabelContractName": "Tên hợp đồng",
+  "assetsLabelContractIndex": "Chỉ số hợp đồng",
+  "assetsLabelTick": "Có giá trị cho đánh dấu {tick}",
+  "@assetsLabelTick": {
+    "placeholders": {
+      "tick": {
+        "type": "String"
+      }
+    }
+  },
+  "assetsLabelCurrentBalance": "Cân bằng trong ID: {amount} qubic",
+  "@assetsLabelCurrentBalance": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "assetsLabelSmartContractShares": "__Crypto_term_8__ cổ phiếu",
+  "assetsButtonSend": "Gửi",
+  "assetsTitle": "Tài sản",
+  "assetsHeader": "của \"{accountName}\"",
+  "@assetsHeader": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "assetsLabelQXAssets": "QX phát hành mã thông báo",
+  "createPasswordSheetHeader": "Vui lòng sao lưu mật khẩu của bạn",
+  "createPasswordSheetMessage": "Không có cách nào để truy xuất mật khẩu của bạn nếu bạn quên nó. Vui lòng đảm bảo bạn có một bản sao lưu mật khẩu của mình trước khi tiếp tục.",
+  "createPasswordSheetCheckboxMessage": "Có, tôi đã sao lưu mật khẩu của mình.",
+  "generalButtonUnlockWithBiometric": "Mở khóa với sinh trắc học",
+  "generalButtonUnlockWithFaceID": "Mở khóa bằng ID mặt",
+  "generalButtonUnlockWithTouchID": "Mở khóa bằng Touch ID",
+  "generalButtonUnlockWithIris": "Mở khóa với Iris",
+  "generalButtonUnlockWithOS": "Mở khóa với hệ điều hành",
+  "generalButtonAlternativeUnlock": "Mở khóa thay thế",
+  "generalErrorPasswordMinLength": "Mật khẩu phải dài ít nhất 8 ký tự",
+  "signUpTextFieldHintPassword": "Nhập mật khẩu",
+  "generalErrorSetPasswordNotMatching": "Mật khẩu không khớp",
+  "signUpTextFieldHintRepeatPassword": "Lặp lại mật khẩu",
+  "generalErrorContactingQubicNetwork": "Lỗi liên hệ Qubic mạng",
+  "signUpErrorStoringBiometricInfo": "Lỗi lưu trữ thông tin sinh trắc học",
+  "signUpStepTwoHeader": "Mở khóa sinh trắc học",
+  "signUpStepTwoSubHeader": "Bạn có thể cho phép xác thực thông qua sinh trắc học. Nếu được bật, bạn có thể đăng nhập vào Wallet và phát hành giao dịch mà không cần sử dụng mật khẩu của bạn.",
+  "signUpStepTwoHeaderForDesktop": "Mở khóa hệ điều hành",
+  "signUpStepTwoSubHeaderForDesktop": "Bạn có thể cho phép xác thực thông qua hệ điều hành của bạn. Nếu bạn bật điều này, bạn có thể đăng nhập vào Wallet của bạn và phát hành giao dịch mà không cần sử dụng mật khẩu của bạn.",
+  "signUpStepOneHeader": "Tạo Wallet mới Wallet",
+  "signUpStepOneSubHeader": "Điền vào mật khẩu sẽ được sử dụng để mở khóa Wallet mới của bạn",
+  "signUpSwitchLabelBiometricUnlock": "Sử dụng mở khóa sinh trắc học",
+  "signUpSwitchLabelOSUnlock": "Sử dụng mở khóa hệ điều hành",
+  "joinCommunityLabelDiscord": "Bất hòa",
+  "joinCommunityLabelTelegram": "Telegram",
+  "joinCommunityLabelYouTube": "YouTube",
+  "joinCommunityLabelGitHub": "GitHub",
+  "joinCommunityLabelReddit": "Reddit",
+  "joinCommunityLabelTwitter": "Twitter",
+  "joinCommunityLabelLinkedIn": "LinkedIn",
+  "joinCommunityLabelInstagram": "Instagram",
+  "joinCommunityLabelTiktok": "Tiktok",
+  "revealSeedTitle": "Hạt giống riêng",
+  "revealSeedHeader": "của {accountName}",
+  "@revealSeedHeader": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "revealSeedButtonCopy": "Sao chép hạt giống riêng tư",
+  "revealSeedLabelPrivateSeed": "Hạt giống riêng (giữ bí mật)",
+  "revealSeedWarningSheetHeader": "Trước khi bạn tiến hành",
+  "revealSeedWarningSheetLabelOne": "Giữ một bản sao lưu an toàn của hạt giống riêng tư của bạn",
+  "revealSeedWarningSheetLabelTwo": "Không bao giờ chia sẻ hạt giống riêng tư của bạn với bất kỳ ai",
+  "revealSeedWarningSheetLabelThree": "Không dán hạt giống riêng tư của bạn vào các ứng dụng hoặc trang web không xác định",
+  "revealSeedWarningSheetCheckboxLabel": "Tôi hiểu những điều trên",
+  "revealSeedButtonShow": "Hiển thị hạt giống riêng tư",
+  "authenticateButtonWithBiometrics": "Xác thực với sinh trắc học",
+  "authenticateButtonWithWithFaceID": "Xác thực với ID mặt",
+  "authenticateButtonWithTouchID": "Xác thực với Touch ID",
+  "authenticateButtonWithIris": "Xác thực với Iris",
+  "authenticateButtonWithOS": "Xác thực với hệ điều hành",
+  "authenticateButtonAlternative": "Xác thực thay thế",
+  "authenticateButtonAuthenticate": "Xác thực",
+  "authenticateErrorInvalidPassword": "Bạn đã cung cấp một mật khẩu không hợp lệ.",
+  "authenticateErrorGeneral": "Một lỗi đã xảy ra trong khi cố gắng xác thực bạn. Hãy thử lại.",
+  "biometricErrorPasscodeNotSet": "Bạn chưa đặt mật mã, pin hoặc mật khẩu của thiết bị. Vui lòng đặt một trong cài đặt thiết bị của bạn để cho phép xác thực sinh trắc học.",
+  "biometricErrorNotEnrolled": "Không có dữ liệu sinh trắc học được ghi danh trên thiết bị của bạn. Vui lòng đăng ký sinh trắc học của bạn trong cài đặt thiết bị của bạn.",
+  "biometricErrorNotAvailable": "Xác thực sinh trắc học không có sẵn trên thiết bị này.",
+  "biometricErrorOtherOperatingSystem": "Hệ điều hành của bạn không hỗ trợ xác thực sinh trắc học.",
+  "biometricErrorLockedOut": "Quá nhiều nỗ lực thất bại để xác thực bạn. Vui lòng khóa và mở khóa điện thoại của bạn qua pin / mẫu hoặc mật khẩu và thử lại.",
+  "biometricErrorPermanentlyLockedOut": "Xác thực sinh trắc học được khóa vĩnh viễn. Vui lòng mở khóa thiết bị của bạn bằng pin, mẫu hoặc mật khẩu của bạn và thử lại.",
+  "biometricErrorBiometricOnlyNotSupported": "Xác thực chỉ sinh trắc học không được hỗ trợ trên nền tảng này.",
+  "eraseDataSheetHeader": "Bạn có chắc là bạn muốn xóa dữ liệu Wallet hiện có không?",
+  "eraseDataSheetLabelOne": "Hành động này không thể được hoàn tác. Tất cả các tài khoản của bạn sẽ bị xóa khỏi thiết bị của bạn.",
+  "eraseDataSheetLabelTwo": "Bạn sẽ chỉ có thể khôi phục tài khoản của mình nếu bạn có bản sao lưu hạt giống riêng tư của mình.",
+  "eraseDataSheetCheckboxLabel": "Có, xóa dữ liệu Wallet của tôi.",
+  "transactionItemLabelTransactionId": "ID giao dịch",
+  "transactionItemLabelTransactionType": "Kiểu",
+  "generalLabelTickAndValue": "Tick {tick}",
+  "@generalLabelTickAndValue": {
+    "placeholders": {
+      "tick": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionItemButtonViewInExplorer": "Xem trong Explorer",
+  "transactionItemButtonCopyToClipboard": "Sao chép vào bảng tạm",
+  "transactionItemButtonViewDetails": "Xem chi tiết",
+  "transactionItemButtonResend": "Chia rẽ",
+  "transactionItemLabelConfirmedDate": "Dấu thời gian",
+  "transactionItemLabelDetails": "Chuyển chi tiết",
+  "sendItemLabelTargetTick": "Target Tick",
+  "sendItemLabelTargetTickAutomatic": "Tự động: Hiện tại + {addingTicks}",
+  "@sendItemLabelTargetTickAutomatic": {
+    "placeholders": {
+      "addingTicks": {
+        "type": "int"
+      }
+    }
+  },
+  "sendItemLabelTargetTickManual": "Ghi đè thủ công",
+  "sendItemLabelDetermineTargetTick": "Xác định đánh dấu mục tiêu",
+  "sendItemDialogErrorGeneralTitle": "Lỗi khi tạo giao dịch",
+  "sendItemDialogResendTitle": "Phân chia giao dịch?",
+  "sendItemLabelResendTargetTickValue": "{formattedTargetTick} (hiện tại {formattedCurrentTick})",
+  "@sendItemLabelResendTargetTickValue": {
+    "placeholders": {
+      "formattedTargetTick": {
+        "type": "String"
+      },
+      "formattedCurrentTick": {
+        "type": "String"
+      }
+    }
+  },
+  "addAccountErrorVerifyIdentityWrongIdentity": "Chỉ có địa chỉ đồng hồ không hợp lệ. Vui lòng kiểm tra địa chỉ đã nhập.",
+  "addAccountErrorVerifyIdentityError": "Không thể xác minh địa chỉ.",
+  "addAccountErrorNameAlreadyInUse": "Tên đã được sử dụng",
+  "addAccountErrorPublicIDAlreadyInUse": "ID công khai đã được sử dụng",
+  "addAccountDialogTitleMaxNumberOfAccountsReached": "Giới hạn tài khoản tối đa đạt được",
+  "addAccountDialogMessageMaxNumberOfAccountsReached": "Bạn chỉ có thể có tối đa 15 Qubic các tài khoản trong Wallet của bạn. Nếu bạn cần thêm một cái khác, vui lòng xóa một trong những cái hiện có.",
+  "addAccountButtonCreateRandom": "Tạo ngẫu nhiên",
+  "addAccountLabelPrivateSeed": "Hạt giống riêng",
+  "addAccountLabelAccountName": "Tên tài khoản",
+  "addAccountHintAccountName": "Chọn một tên",
+  "addAccountTooltipAccountName": "Tên tài khoản là tên có thể đọc được của con người mà bạn có thể sử dụng để xác định hạt giống riêng Qubic của bạn trong Wallet của bạn. Tên tài khoản chỉ được giữ trong thiết bị của bạn. Nó có thể được thay đổi bất cứ lúc nào.",
+  "addAccountTooltipPrivateSeed": "Một hạt giống riêng được tạo bằng 55 chữ cái viết thường và được sử dụng để tạo địa chỉ Qubic của bạn. Nó được khuyến khích để làm cho nó ngẫu nhiên nhất có thể. Luôn giữ bí mật và không bao giờ chia sẻ với bất cứ ai.",
+  "addAccountHeader": "Thêm tài khoản mới",
+  "addAccountHeaderScanQRCodeInstructions": "Vui lòng trỏ máy ảnh vào mã QR chứa hạt giống riêng",
+  "addAccountHintPrivateSeed": "Giữ bí mật hạt giống riêng tư",
+  "addAccountHeaderKeepPrivateSeedSecret": "Vui lòng sao lưu hạt giống riêng tư của bạn ở một nơi an toàn. Giữ bí mật và không bao giờ chia sẻ nó với bất cứ ai. Truy cập vào hạt giống riêng tư của bạn có nghĩa là truy cập vào tiền của bạn.",
+  "addAccountHintAddressNoPrivateSeed": "Không có hạt giống riêng tư được cung cấp",
+  "addAccountHintAddressInvalidPrivateSeed": "Hạt giống riêng tư không hợp lệ được cung cấp",
+  "addAccountErrorTamperedWalletTitle": "Bị giả mạo Wallet được phát hiện",
+  "addAccountErrorTamperedWalletMessage": "Wallet hiện tại bạn đang sử dụng bị giả mạo.\n\nCài đặt phiên bản chính thức từ https://github.com/qubic/wallet-app hoặc mất rủi ro",
+  "addAccountWatchOnlyPageTitle": "Thêm tài khoản đồng hồ",
+  "addAccountWatchOnlySubtitle": "Thêm một địa chỉ Qubic công khai để xem. Bạn không có quyền gửi hoặc nhận bất kỳ giao dịch nào.",
+  "addAccountWatchOnlyQubicAddressTooltip": "Một ID công khai được tạo bởi 60 chữ cái chữ hoa.",
+  "addAccountWatchOnlyHintQubicAddress": "Nhập địa chỉ Qubic",
+  "addAccountCreateNewAccountModalBottomSheet": "Tạo tài khoản mới",
+  "addAccountWatchOnlyAddressModalBottomSheet": "Chỉ xem tài khoản",
+  "sendAssetLabelTransactionCost": "Phí (Đã sửa)",
+  "sendAssetButtonTransfer": "Chuyển khoản",
+  "sendAssetErrorTickIsInThePast": "Cung cấp đánh dấu là trong quá khứ. Tick ​​hiện tại là {currentTick}",
+  "@sendAssetErrorTickIsInThePast": {
+    "placeholders": {
+      "currentTick": {
+        "type": "int"
+      }
+    }
+  },
+  "addAccountWarningSheetHeader": "Trước khi bạn tiến hành",
+  "addAccountWarningSheetLabelOne": "Giữ một bản sao lưu an toàn của hạt giống riêng tư của bạn",
+  "addAccountWarningSheetLabelTwo": "Không bao giờ chia sẻ hạt giống riêng tư của bạn với bất kỳ ai",
+  "addAccountWarningSheetLabelThree": "Không dán hạt giống riêng tư của bạn vào các ứng dụng hoặc trang web không xác định",
+  "addAccountWarningSheetCheckboxLabel": "Tôi hiểu những điều trên",
+  "deleteAccountDialogTitle": "Xóa tài khoản",
+  "deleteAccountDialogMessage": "Bạn có chắc chắn bạn muốn xóa tài khoản Qubic này khỏi Wallet của bạn? (Bất kỳ khoản tiền nào liên quan đến tài khoản này sẽ không bị xóa)\n\nHãy chắc chắn rằng bạn có một bản sao lưu hạt giống riêng tư của bạn trước khi xóa tài khoản này!",
+  "deleteAccountDialogMessageWatchOnly": "Bạn có chắc là bạn muốn xóa tài khoản đồng hồ này chỉ từ Wallet của bạn?",
+  "deleteAccountDialogButtonDelete": "Xóa tài khoản",
+  "renameAccountDialogTitle": "Đổi tên tài khoản",
+  "renameAccountLabelName": "Tên",
+  "renameAccountDialogHintName": "Tên mới",
+  "reauthenticateTitle": "Xác thực cần thiết",
+  "reauthenticateHeader": "Xin vui lòng tái hiện",
+  "reathenticateLabelReason": "Vui lòng xác thực một lần nữa để tiến hành.",
+  "reathenticateWithPasswordLabelReason": "Vui lòng xác thực một lần nữa để tiến hành. Mật khẩu bạn cung cấp sẽ là mật khẩu được sử dụng để mã hóa kho tiền Wallet của bạn.",
+  "receiveTitle": "Nhận tiền và tài sản",
+  "receiveHeader": "Trong \"{accountName}\"",
+  "@receiveHeader": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "receiveLabelAddress": "Qubic Địa chỉ",
+  "changePasswordHeader": "Thay đổi mật khẩu",
+  "changePasswordErrorPasswordDontMatch": "Mật khẩu không khớp",
+  "changePasswordFieldHintNewPassword": "Mật khẩu mới",
+  "changePasswordFieldHintRepeatPassword": "Lặp lại mật khẩu mới",
+  "changePasswordButtonSave": "Lưu mật khẩu",
+  "changePasswordSnackbarPasswordChanged": "Mật khẩu đã thay đổi thành công",
+  "changePasswordDialogSaveErrorTitle": "Lỗi",
+  "changePasswordDialogSaveErrorMessage": "Không lưu mật khẩu mới",
+  "changePasswordLabelInstructions": "Mật khẩu của bạn được sử dụng để truy cập Wallet của bạn. Chọn một mật khẩu mạnh mà bạn có thể nhớ. Không có cách nào để đặt lại mật khẩu của bạn nếu bạn quên nó",
+  "toggleableQRCodeButtonShow": "Hiển thị mã QR",
+  "toggleableQRCodeButtonHide": "Ẩn mã QR",
+  "sendItemLabelQRScannerInstructions": "Vui lòng trỏ máy ảnh vào mã Qubic \n(Mã QR được tạo bởi Wallet.Qubic.org cũng tương thích)",
+  "sendItemButtonSetCurrentTick": "Hiện tại ({currentTickFormatted})",
+  "@sendItemButtonSetCurrentTick": {
+    "placeholders": {
+      "currentTickFormatted": {
+        "type": "String"
+      }
+    }
+  },
+  "sendItemLabelSelectSenderAddressLineOne": "Chọn địa chỉ",
+  "sendItemLabelSelectSenderAddressLineTwo": "Từ tài khoản Wallet của bạn",
+  "sendItemLabelCurrentTick": "(Tick hiện tại: {currentTickFormatted})",
+  "@sendItemLabelCurrentTick": {
+    "placeholders": {
+      "currentTickFormatted": {
+        "type": "String"
+      }
+    }
+  },
+  "exportWalletVaultTitle": "Xuất Wallet Tệp Vault",
+  "exportWalletVaultLabelInstructions": "Xuất nội dung của Wallet trong tệp kho tiền được mã hóa dưới dạng sao lưu. Tệp này có thể được nhập trong web Wallet và chỉ có thể được mở khóa bằng mật khẩu được cung cấp. Luôn luôn giữ tập tin này ở một nơi an toàn.",
+  "exportWalletVaultButtonExport": "Xuất khẩu",
+  "exportWalletVaultDialogTitleSelectPath": "Vui lòng chọn một đường dẫn để lưu tệp Vault của bạn",
+  "generalLabelSelectFilePath": "Chọn Đường dẫn Tệp",
+  "exportWalletVaultLabelSelectFilePathInstructions": "Duyệt thiết bị của bạn để chọn vị trí để lưu tệp Vault",
+  "exportWalletVaultTextFieldHintPassword": "Mật khẩu tệp Vault",
+  "exportWalletVaultErrorEmptyPassword": "Vui lòng điền vào mật khẩu kho tiền",
+  "exportWalletVaultErrorPasswordMinLength": "Vault password must be at least {minLength} characters long",
+  "@exportWalletVaultErrorPasswordMinLength": {
+    "placeholders": {
+      "minLength": {
+        "type": "int"
+      }
+    }
+  },
+  "exportWalletVaultTextFieldHintRepeatPassword": "Lặp lại mật khẩu tệp Vault",
+  "exportWalletVaultErrorEmptyRepeatPassword": "Vui lòng điền vào mật khẩu Vault của bạn",
+  "exportWalletVaultSnackbarSuccessMessage": "Tệp vault xuất công thành công",
+  "exportWalletVaultSnackbarSuccessMessageWithPath": "Tệp vault xuất công thành {filePath}",
+  "@exportWalletVaultSnackbarSuccessMessageWithPath": {
+    "placeholders": {
+      "filePath": {
+        "type": "String"
+      }
+    }
+  },
+  "exportWalletDialogTitleOverwriteFile": "Ghi đè tệp",
+  "exportWalletDialogMessageOverwriteFile": "Các tập tin đã tồn tại. Bạn có muốn ghi đè lên nó?",
+  "exportWalletDialogTitleErrorWhileSaving": "Đã xảy ra lỗi trong khi lưu tệp Vault",
+  "transfersListLabelReceiveIn": "Nhận trong",
+  "transfersListLabelSharePublicIdInstructionsOne": "Vui lòng chia sẻ ID công khai sau với người gửi:",
+  "transfersListLabelSharePublicIdInstructionsTwo": "Hoặc hiển thị mã QR sau",
+  "transferAssetHeaderForShares": "Chuyển giao {assetName} Cổ phiếu",
+  "@transferAssetHeaderForShares": {
+    "placeholders": {
+      "assetName": {
+        "type": "String"
+      }
+    }
+  },
+  "transferAssetHeaderForTokens": "Chuyển giao {assetName} Mã thông báo",
+  "@transferAssetHeaderForTokens": {
+    "placeholders": {
+      "assetName": {
+        "type": "String"
+      }
+    }
+  },
+  "transferAssetSubHeader": "Từ \"{accountName}\"",
+  "@transferAssetSubHeader": {
+    "placeholders": {
+      "accountName": {
+        "type": "String"
+      }
+    }
+  },
+  "transferAssetLabelOwnedShares": "{assetName} Cổ phiếu thuộc sở hữu của ID: {formattedAmount}",
+  "@transferAssetLabelOwnedShares": {
+    "placeholders": {
+      "assetName": {
+        "type": "String"
+      },
+      "formattedAmount": {
+        "type": "String"
+      }
+    }
+  },
+  "transferAssetLabelOwnedTokens": "{assetName} TOKENS thuộc sở hữu của ID: {formattedAmount}",
+  "@transferAssetLabelOwnedTokens": {
+    "placeholders": {
+      "assetName": {
+        "type": "String"
+      },
+      "formattedAmount": {
+        "type": "String"
+      }
+    }
+  },
+  "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nType: {type}\nStatus: {status}\nTimestamp: {timestamp}\nTick: {targetTick}",
+  "@generalAllTransactionDetails": {
+    "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
+    "placeholders": {
+      "trxId": {
+        "type": "String"
+      },
+      "sourceId": {
+        "type": "String"
+      },
+      "destId": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "type": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      },
+      "timestamp": {
+        "type": "String"
+      },
+      "targetTick": {
+        "type": "String"
+      }
+    }
+  },
+  "welcomeButtonImportExistingWallet": "Nhập một Wallet hiện có",
+  "importWalletTitle": "Nhập Wallet",
+  "importWalletSubHeader": "Chọn cách bạn muốn nhập Wallet hiện tại của mình",
+  "importWalletLabelFromVaultFile": "Nhập tệp Vault",
+  "importWalletLabelFromVaultFileDescription": "Nhập một Wallet hiện có với nhiều tài khoản thông qua tệp kho tiền.",
+  "importWalletLabelFromPrivateSeed": "Nhập hạt giống riêng tư",
+  "importWalletLabelFromPrivateSeedDescription": "Nhập một tài khoản hiện có bằng cách nhập hạt giống tư nhân 55 ký tự.",
+  "importVaultSubHeader": "Chọn một tệp có phần mở rộng .__ crypto_term_10 __- Vault",
+  "importVaultLabelEnterPassword": "Nhập mật khẩu Vault",
+  "importVaultLabelSelectPathInstructions": "Duyệt thiết bị của bạn để chọn tệp Vault để nhập.",
+  "importPrivateSeedSubHeader": "Nhập hạt giống 55 ký tự mà bạn đã lưu khi tạo tài khoản của mình.",
+  "generalSnackBarMessageWalletImportedSuccessfully": "Wallet đã nhập thành công",
+  "addAccountErrorTamperedAndroidWalletMessage": "Wallet hiện tại bạn đang sử dụng bị giả mạo.\n\nCài đặt phiên bản chính thức từ cửa hàng Google Play hoặc mất rủi ro",
+  "addAccountErrorTamperediOSWalletMessage": "Wallet hiện tại bạn đang sử dụng bị giả mạo.\n\nCài đặt phiên bản chính thức từ App Store hoặc mất rủi ro",
+  "generalLabelSelectFile": "Chọn Tệp",
+  "autolockLabelDurationInMinutes": "{minutes, plural, =1{1 minute} other{{minutes} minutes}}",
+  "@autolockLabelDurationInMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "autolockLabelDurationImmediately": "Ngay lập tức",
+  "settingsLabelAutlock": "Tự động khóa",
+  "importVaultDialogTitleTooManyAccounts": "Quá nhiều tài khoản được tìm thấy",
+  "importVaultDialogMessageTooManyAccounts": "Tệp vault của bạn chứa hơn 15 tài khoản. Tất cả các tài khoản sẽ được nhập, nhưng để xem số dư của bạn và gửi tiền, vui lòng xóa một số cho đến khi có 15 hoặc ít hơn.",
+  "importVaultErrorNoAccountsFound": "Không có tài khoản nào được tìm thấy trong tệp kho tiền của bạn. Chúng tôi không thể tiến hành nhập khẩu.",
+  "importVaultFilePickerLabel": "Vui lòng chọn tệp Vault để tiếp tục:",
+  "importVaultFileErrorGeneralMessage": "Lỗi Nhập tệp Vault: {errorDescription}",
+  "@importVaultFileErrorGeneralMessage": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "exportWalletVaultErrorGeneralMessage": "Lỗi Tạo tệp Vault: {errorDescription}",
+  "@exportWalletVaultErrorGeneralMessage": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "importPrivateSeedDefaultAccountName": "Tài khoản 1",
+  "cmdErrorVerifyIdentityJsonDecoding": "Lỗi khi giải mã đầu ra của xác minh",
+  "cmdErrorVerifyIdentityParsingError": "Lỗi phân tích cú pháp đầu ra của xác thực",
+  "cmdErrorCreatingAssetTransferTransactionGeneric": "Lỗi khi cố gắng tạo giao dịch chuyển nhượng tài sản",
+  "cmdErrorCreatingAssetTransferTransactionEmpty": "Lỗi khi cố gắng tạo giao dịch chuyển nhượng tài sản. Giao dịch được tạo trống",
+  "cmdErrorCreatingAssetTransferTransaction": "Lỗi khi cố gắng tạo giao dịch chuyển nhượng tài sản: {errorDescription}",
+  "@cmdErrorCreatingAssetTransferTransaction": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "cmdErrorCreatingTransferTransactionGeneric": "Lỗi khi cố gắng tạo giao dịch chuyển nhượng",
+  "cmdErrorCreatingTransferTransactionEmpty": "Lỗi khi cố gắng tạo giao dịch chuyển nhượng. Giao dịch được tạo trống",
+  "cmdErrorCreatingTransferTransaction": "Lỗi khi cố gắng tạo giao dịch chuyển giao: {errorDescription}",
+  "@cmdErrorCreatingTransferTransaction": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "cmdErrorGettingPublicIdFromSeedGeneric": "Lỗi khi cố gắng lấy ID công khai từ hạt giống",
+  "cmdErrorGettingPublicIdFromSeedEmpty": "Lỗi khi cố gắng lấy ID công khai từ hạt giống. ID công khai được tạo trống",
+  "cmdErrorGettingPublicIdFromSeed": "Lỗi khi cố gắng lấy ID công khai từ hạt giống: {errorDescription}",
+  "@cmdErrorGettingPublicIdFromSeed": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "cmdErrorCreatingVaultFileGeneric": "Lỗi khi cố gắng tạo tệp vault",
+  "cmdErrorCreatingVaultFileGeneratedIsEmpty": "Lỗi khi cố gắng tạo tệp Vault. Tệp vault được tạo trống",
+  "cmdErrorCreatingSignatureGeneric": "Lỗi khi cố gắng tạo chữ ký",
+  "cmdErrorCreatingSignatureDigestEmpty": "Lỗi khi cố gắng tạo chữ ký. Digest là trống rỗng",
+  "cmdErrorCreatingSignatureSignedDataEmpty": "Lỗi khi cố gắng tạo chữ ký. Dữ liệu đã ký trống",
+  "cmdErrorCreatingSignatureSignatureEmpty": "Lỗi khi cố gắng tạo chữ ký. Chữ ký trống rỗng",
+  "cmdErrorCreatingSignature": "Lỗi khi cố gắng tạo chữ ký: {errorDescription}",
+  "@cmdErrorCreatingSignature": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "importVaultFileOrPasswordError": "Tệp đã chọn không phải là tệp Qubic hoặc mật khẩu không chính xác",
+  "importVaultFileGenericError": "Lỗi khi cố gắng nhập tệp kho tiền",
+  "importVaultFileSeedsNullError": "Tệp vault bị dị dạng và không chứa thông tin tài khoản",
+  "importVaultFileSeedsMalformedError": "Tệp vault chứa thông tin tài khoản bị dị tật",
+  "importVaultFileParsedSeedsNullError": "Không thể phân tích các tài khoản từ tệp kho tiền",
+  "importVaultFileAccountMissingName": "Account entry {accountIndex} is missing account name",
+  "@importVaultFileAccountMissingName": {
+    "placeholders": {
+      "accountIndex": {
+        "type": "int"
+      }
+    }
+  },
+  "importVaultFileAccountMissingPublicId": "Account entry {accountIndex} is missing public ID",
+  "@importVaultFileAccountMissingPublicId": {
+    "placeholders": {
+      "accountIndex": {
+        "type": "int"
+      }
+    }
+  },
+  "importVaultFileAccountMissingSeed": "Account entry {accountIndex} is missing seed",
+  "@importVaultFileAccountMissingSeed": {
+    "placeholders": {
+      "accountIndex": {
+        "type": "int"
+      }
+    }
+  },
+  "generalErrorFileRequired": "Vui lòng chọn một tệp",
+  "generalErrorPathRequired": "Vui lòng chọn một đường dẫn",
+  "homeWarningTooManyAccounts": "Bạn có hơn 15 tài khoản trong Wallet của bạn. Bạn sẽ không thể chuyển tiền hoặc xem số dư cho đến khi bạn loại bỏ một số để bạn có 15 hoặc ít hơn.",
+  "cmdErrorVerifyingIdentityGeneric": "Lỗi xác minh danh tính.",
+  "cmdErrorVerifyingIdentity": "Không thể xác minh danh tính của bạn: {errorDescription}",
+  "@cmdErrorVerifyingIdentity": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "wcScopeRequestAccounts": "Xem tài khoản Wallet của bạn và số dư của họ",
+  "wcScopeSendQubic": "Yêu cầu bạn gửi Qubic từ tài khoản Wallet của bạn",
+  "wcScopeSendAssets": "Yêu cầu bạn gửi Qubic tài sản từ tài khoản Wallet của bạn",
+  "wcScopeSignTransaction": "Yêu cầu bạn ký giao dịch với hạt giống riêng tư của bạn",
+  "wcScopeSign": "Yêu cầu bạn ký tin nhắn với hạt giống riêng tư của bạn",
+  "wcScopeForbiddenTransfer": "Chuyển giao Qubic hoặc Qubic tài sản mà không có sự đồng ý của bạn",
+  "wcUnknownDapp": "Không xác định __crypto_term_9__",
+  "wcAppInfoHeader": "Ứng dụng này có thể",
+  "wcAppInfoHeaderPair": "Ứng dụng này sẽ có thể",
+  "wcAppInfoHeaderPairForbidden": "Ứng dụng này sẽ không thể",
+  "wcErrorUserDisconnected": "Người dùng bị ngắt kết nối mạnh mẽ",
+  "wcErrorInvalidURL": "URL kết nối WalletConnect không hợp lệ",
+  "wcErrorDeprecatedURL": "URL kết nối WalletConnect không dùng nữa",
+  "wcErrorUnsupportedChains": "Yêu cầu cặp chứa chuỗi không được hỗ trợ",
+  "wcErrorUnsupportedMethods": "Yêu cầu cặp chứa các phương thức không được hỗ trợ",
+  "wcErrorUnsupportedEvents": "Yêu cầu cặp chứa các sự kiện không được hỗ trợ",
+  "wcErrorUnsupportedAccounts": "Yêu cầu cặp chứa các tài khoản không được hỗ trợ",
+  "wcErrorUnsupportedNamespaces": "Yêu cầu cặp chứa không gian tên không được hỗ trợ",
+  "wcErrorUsedURL": "Một kết nối đã được thiết lập thông qua url này",
+  "wcErrorPairingTimeout": "Yêu cầu ghép nối hết thời gian.",
+  "wcErrorProposalExpired": "Đề xuất phiên đã hết hạn",
+  "wcErrorTickExpired": "Giá trị đánh dấu đã trong quá khứ",
+  "wcErrorUnsupportedNetwork": "Mạng không được hỗ trợ",
+  "wcErrorUnsupportedNetworkDescription": "Ứng dụng này sử dụng mạng {networkName}. Hiện tại, Qubic Wallet Chỉ hỗ trợ các ứng dụng trên",
+  "@wcErrorUnsupportedNetworkDescription": {
+    "placeholders": {
+      "networkName": {
+        "type": "String"
+      }
+    }
+  },
+  "wcRevokePermissions": "Thu hồi quyền",
+  "wcDappsConnectedNone": "Không có kết nối hoạt động",
+  "wcDappsConnectedNoneHint": "Khi bạn kết nối với bất kỳ DAPP nào, bạn sẽ có thể quản lý chúng ở đây.",
+  "wcConnectionApproved": "Kết nối WalletConnect được phê duyệt",
+  "wcConnectionRejected": "Kết nối WalletConnect bị từ chối",
+  "wcConnectionProposalTimeout": "Đề xuất phiên WalletConnect đã hết thời gian",
+  "wcPointCameraToQR": "Vui lòng trỏ máy ảnh vào mã QR chứa thông tin kết nối WalletConnect",
+  "wcAddWcTitle": "Ghép nối qua WalletConnect",
+  "wcAddURL": "Kết nối với __crypto_term_9__ bằng cách dán URL kết nối WalletConnect.",
+  "wcAddConnectionScan": "Mở một ứng dụng Web3 hỗ trợ WalletConnect. Quét mã QR của ứng dụng hoặc dán liên kết kết nối của nó",
+  "wcNoPermissions": "Ứng dụng này không có bất kỳ quyền nào",
+  "wcOpenApp": "Mở ứng dụng",
+  "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",
+  "wcExpiresInLessThanDay": "Phiên hết hạn ít hơn ngày",
+  "pasteURLHere": "Dán URL",
+  "approvingConnection": "Phê duyệt kết nối",
+  "pleaseWait": "Vui lòng chờ",
+  "wcApproveSignTransferOf": "Ký vào việc chuyển nhượng",
+  "wcApproveTransferOf": "Chuyển giao",
+  "wcApproveSignOf": "Ký thông báo sau",
+  "wcApprovedSignedTransaction": "Giao dịch đã ký và được gửi thành công đến __crypto_term_9__",
+  "wcApprovedSignedMessage": "Tin nhắn đã ký và được gửi thành công đến __crypto_term_9__",
+  "wcDisconnectAll": "Ngắt kết nối tất cả các ứng dụng",
+  "wcDisconnectAllConfirm": "Ngắt kết nối các ứng dụng sẽ xóa tất cả quyền truy cập vào Wallet của bạn",
+  "wcDisconnect": "Ngắt kết nối",
+  "wcDisconnectConfirm": "Ngắt kết nối ứng dụng này sẽ xóa quyền truy cập vào Wallet của bạn",
+  "wcSmartContractUnknown": "Không xác định",
+  "wcSmartContractWarningTitle": "\"{smartContractName}\" __crypto_term_8__ Giao dịch",
+  "@wcSmartContractWarningTitle": {
+    "placeholders": {
+      "smartContractName": {
+        "type": "String"
+      }
+    }
+  },
+  "wcSmartContractWarningDescription": "Hãy chắc chắn rằng bạn tin tưởng __crypto_term_9__ này. Bằng cách phê duyệt giao dịch, bạn có thể ủy quyền chuyển đổi qubics và/hoặc tài sản",
+  "wcAddConnection": "Thêm kết nối mới",
+  "signBase64GenericError": "Lỗi khi cố gắng ký vào chuỗi cơ sở64: {errorDescription}",
+  "@signBase64GenericError": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "signUTF8GenericError": "Lỗi khi cố gắng ký vào chuỗi UTF-8: {errorDescription}",
+  "@signUTF8GenericError": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "signASCIIGenericError": "Lỗi khi cố gắng ký vào chuỗi ASCII: {errorDescription}",
+  "@signASCIIGenericError": {
+    "placeholders": {
+      "errorDescription": {
+        "type": "String"
+      }
+    }
+  },
+  "uriIsEmpty": "Uri trống",
+  "uriSchemeUnknown": "Sơ đồ URI không xác định",
+  "uriInvalidFormat": "Định dạng URI không hợp lệ",
+  "uriUnknownAction": "Hành động URI không xác định",
+  "uriInvalidWCPairUrl": "URL kết nối WC không hợp lệ. Nên bắt đầu với WC:",
+  "wcDomainScamTitle": "Rủi ro bảo mật đã biết",
+  "wcDomainScamDescription": "Tên miền này được gắn cờ là không an toàn bởi nhiều nhà cung cấp bảo mật. Để nó ngay lập tức để bảo vệ tài sản của bạn",
+  "wcDomainMismatchTitle": "Không phù hợp miền",
+  "wcDomainMismatchDescription": "Trang web này có một tên miền không khớp với người gửi yêu cầu này. Phê duyệt có thể dẫn đến mất tiền",
+  "wcDomainUnkownTitle": "Miền không xác định",
+  "wcDomainUnkownDescription": "Miền này không thể được xác minh. Kiểm tra yêu cầu một cách cẩn thận trước khi phê duyệt",
+  "wcApproveTransaction": "Phê duyệt giao dịch",
+  "wcApproveTransfer": "Phê duyệt chuyển nhượng",
+  "wcSendAssets": "Gửi tài sản",
+  "wcSignMessage": "ĐĂNG KÝ THÔNG ĐIỆP",
+  "wcSignTransaction": "Ký giao dịch",
+  "dAppOpenButton": "Mở",
+  "dAppFeaturedApp": "Ứng dụng nổi bật",
+  "dAppPopularApps": "DApps phổ biến",
+  "assetButtonIssuerIdentity": "Nhận dạng nhà phát hành",
+  "networksTitle": "Mạng",
+  "networksButtonAddNetwork": "Thêm mạng",
+  "networksConfirmationDialogTitleDeleteNetwork": "Xóa {networkName}?",
+  "@networksConfirmationDialogTitleDeleteNetwork": {
+    "placeholders": {
+      "networkName": {
+        "type": "String"
+      }
+    }
+  },
+  "networksConfirmationDialogContentDeleteNetwork": "Bạn có chắc chắn bạn muốn xóa mạng tùy chỉnh của mình {networkName}?",
+  "@networksConfirmationDialogContentDeleteNetwork": {
+    "placeholders": {
+      "networkName": {
+        "type": "String"
+      }
+    }
+  },
+  "networksLabelDefault": "Mặc định",
+  "networksButtonSetAsDefault": "Đặt làm mặc định",
+  "addNetworkTitle": "Thêm mạng tùy chỉnh",
+  "addNetworkLabelNetworkName": "Tên mạng",
+  "addNetworkTextFieldHintNetworkName": "Ví dụ: Qubic mainnet",
+  "addNetworkLabelRPCURL": "URL RPC",
+  "addNetworkLabelQubicExplorerURL": "URL Explorer",
+  "networksWarningBannerCurrentNetwork": "Bạn hiện đang ở {networkName}",
+  "@networksWarningBannerCurrentNetwork": {
+    "placeholders": {
+      "networkName": {
+        "type": "String"
+      }
+    }
+  },
+  "webviewAddressBarLabelRefresh": "Làm cho khỏe lại",
+  "webviewAddressBarLabelShareURL": "Chia sẻ URL",
+  "rootJailbreakDialogTitleWarning": "Thiết bị bị xâm phạm",
+  "rootJailbreakDialogMessageWarning": "Thiết bị của bạn dường như được root hoặc jailbroken. Một số tính năng có thể được tiếp xúc với rủi ro bảo mật. Chúng tôi thực sự khuyên bạn nên sử dụng Wallet này chỉ trên các thiết bị an toàn, không biến đổi. Bạn vẫn có thể sử dụng ứng dụng dưới rủi ro của riêng bạn.",
+  "rootJailbreakDialogButtonWarning": "Tôi hiểu",
+  "rootJailbreakDialogTitleRestrict": "Truy cập bị hạn chế",
+  "rootJailbreakDialogMessageRestrict": "Thiết bị của bạn dường như được root hoặc jailbroken. Vì lý do bảo mật, một số tính năng bị vô hiệu hóa.",
+  "rootJailbreakDialogButtonRestrict": "Được rồi",
+  "rootJailbreakDialogTitleRestrictFeature": "Hạn chế bảo mật",
+  "rootJailbreakDialogMessageRestrictFeature": "Tính năng này có thể được sử dụng trên các thiết bị đã được root hoặc jailbroken, vì nó có thể thỏa hiệp bảo mật dữ liệu của bạn.",
+  "rootJailbreakDialogButtonRestrictFeature": "Được rồi",
+  "revealSeedCopiedToClipboardMessage": "Hạt nhân riêng tạm thời được sao chép vào bảng tạm (được lưu trữ trong 1 phút)",
+  "revealSeedWarningTitle": "Đừng chia sẻ hạt giống riêng tư của bạn!",
+  "revealSeedWarningDescription": "Nếu ai đó có hạt giống riêng tư của bạn, họ sẽ có toàn quyền kiểm soát tài khoản của bạn",
+  "blockedScreenshotWarning": "Ảnh chụp màn hình được bảo vệ - màn hình này là riêng tư."
+}
