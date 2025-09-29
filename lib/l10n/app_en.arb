@@ -308,7 +308,7 @@
     "generalButtonUnlockWithIris": "Unlock with Iris",
     "generalButtonUnlockWithOS": "Unlock with OS",
     "generalButtonAlternativeUnlock": "Alternative Unlock",
-    "generalErrorPasswordMinLength": "Password must be at least 8 characters long",
+    "generalErrorPasswordMinLength": "Password must be at least 12 characters long",
     "signUpTextFieldHintPassword": "Enter password",
     "generalErrorSetPasswordNotMatching": "Passwords do not match",
     "signUpTextFieldHintRepeatPassword": "Repeat password",

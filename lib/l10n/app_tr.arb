@@ -280,7 +280,7 @@
     "generalButtonUnlockWithIris": "İris taraması ile aç",
     "generalButtonUnlockWithOS": "İşletim Sistemi ile aç",
     "generalButtonAlternativeUnlock": "Alternatif kilit açma",
-    "generalErrorPasswordMinLength": "Parolanız en az 8 karaket uzunluğunda olmalıdır",
+    "generalErrorPasswordMinLength": "Parolanız en az 12 karaket uzunluğunda olmalıdır",
     "signUpTextFieldHintPassword": "Parola Girin",
     "generalErrorSetPasswordNotMatching": "Parolar Eşleşmiyor",
     "signUpTextFieldHintRepeatPassword": "Parolayı yeniden girin",

@@ -280,7 +280,7 @@
     "generalButtonUnlockWithIris": "使用虹膜解锁",
     "generalButtonUnlockWithOS": "使用操作系统解锁",
     "generalButtonAlternativeUnlock": "备用解锁方式",
-    "generalErrorPasswordMinLength": "密码至少需要包含8个字符。",
+    "generalErrorPasswordMinLength": "密码至少需要包含12个字符。",
     "signUpTextFieldHintPassword": "输入密码",
     "generalErrorSetPasswordNotMatching": "密码不匹配",
     "signUpTextFieldHintRepeatPassword": "重复密码",

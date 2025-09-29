@@ -280,7 +280,7 @@
     "generalButtonUnlockWithIris": "Разблокировка с помощью глаза",
     "generalButtonUnlockWithOS": "Разблокировка с помощью ОС",
     "generalButtonAlternativeUnlock": "Альтернативная разблокировка",
-    "generalErrorPasswordMinLength": "Пароль должен состоять не менее чем из 8 символов",
+    "generalErrorPasswordMinLength": "Пароль должен состоять не менее чем из 12 символов",
     "signUpTextFieldHintPassword": "Введите пароль",
     "generalErrorSetPasswordNotMatching": "Пароли не совпадают",
     "signUpTextFieldHintRepeatPassword": "Повторите пароль",
