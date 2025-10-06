@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class PrivateSeedWarning extends StatelessWidget {
   final String title;
@@ -10,28 +13,23 @@ class PrivateSeedWarning extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: LightThemeColors.cardBackground,
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: LightThemeColors.warning40),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title,
-              style: TextStyles.alertHeader
-                  .copyWith(color: LightThemeColors.warning40)),
-          const SizedBox(height: 4),
+    return ThemedControls.card(
+        borderColor: LightThemeColors.warning40,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Row(children: [
+            SvgPicture.asset(AppIcons.warning, height: 20),
+            ThemedControls.spacerHorizontalSmall(),
+            Text(
+              title,
+              style: TextStyles.labelText
+                  .copyWith(color: LightThemeColors.warning40),
+            )
+          ]),
+          ThemedControls.spacerVerticalSmall(),
           Text(
             description,
-            style: TextStyles.alertText
-                .copyWith(color: LightThemeColors.warning40),
-          ),
-        ],
-      ),
-    );
+            style: TextStyles.secondaryText,
+          )
+        ]));
   }
 }
