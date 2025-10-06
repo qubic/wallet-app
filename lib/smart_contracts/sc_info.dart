@@ -176,6 +176,33 @@ class QubicSCStore {
           7: 'Claim Token',
           8: 'Upgrade Tier',
           9: 'Transfer Share Management Rights',
+        }),
+    QubicSCModel(
+        contractIndex: 15,
+        name: "QDRAW",
+        contractId:
+            "PAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYVRC",
+        procedures: {1: 'Buy Ticket'}),
+    QubicSCModel(
+        contractIndex: 16,
+        name: "Random Lottery",
+        contractId:
+            "QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPIYE",
+        procedures: {1: 'Buy Ticket'}),
+    QubicSCModel(
+        contractIndex: 17,
+        name: "QBond",
+        contractId:
+            "RAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADKAH",
+        procedures: {
+          1: 'Stake',
+          2: 'Transfer MBond Ownership And Possession',
+          3: 'Add Ask Order',
+          4: 'Remove Ask Order',
+          5: 'Add Bid Order',
+          6: 'Remove Bid Order',
+          7: 'Burn QU',
+          8: 'Update CFA',
         })
   ];
 
