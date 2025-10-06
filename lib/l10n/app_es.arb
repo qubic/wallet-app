@@ -279,7 +279,7 @@
     "generalButtonUnlockWithIris": "Desbloquear con Iris",
     "generalButtonUnlockWithOS": "Desbloquear con el sistema operativo",
     "generalButtonAlternativeUnlock": "Desboqueo Alternativo",
-    "generalErrorPasswordMinLength": "La contraseña debe tener al menos 8 caracteres",
+    "generalErrorPasswordMinLength": "La contraseña debe tener al menos 12 caracteres",
     "signUpTextFieldHintPassword": "Ingresar contraseña",
     "generalErrorSetPasswordNotMatching": "Las contraseñas no coinciden",
     "signUpTextFieldHintRepeatPassword": "Repetir contraseña",

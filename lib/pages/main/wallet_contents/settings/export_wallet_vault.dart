@@ -237,9 +237,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(
                         errorText: l10n.exportWalletVaultErrorEmptyPassword),
-                    FormBuilderValidators.minLength(8,
+                    FormBuilderValidators.minLength(12,
                         errorText:
-                            l10n.exportWalletVaultErrorPasswordMinLength(8))
+                            l10n.exportWalletVaultErrorPasswordMinLength(12))
                   ]),
                   onChanged: (value) => currentPassword = value ?? "",
                   onSubmitted: (String? text) {
