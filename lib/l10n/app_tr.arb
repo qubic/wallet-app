@@ -283,6 +283,7 @@
     "generalErrorPasswordMinLength": "Parolanız en az 12 karaket uzunluğunda olmalıdır",
     "signUpTextFieldHintPassword": "Parola Girin",
     "generalErrorSetPasswordNotMatching": "Parolar Eşleşmiyor",
+    "generalErrorPasscodeNotSet": "Cüzdanınızı korumak için bir cihaz parola kodu gereklidir. Devam etmeden önce cihaz ayarlarından bir parola kodu etkinleştirin",
     "signUpTextFieldHintRepeatPassword": "Parolayı yeniden girin",
     "generalErrorContactingQubicNetwork": "Qubic Ağı ile bağlantı hatası",
     "signUpErrorStoringBiometricInfo": "Biyometrik bilgisi saklama hatası",

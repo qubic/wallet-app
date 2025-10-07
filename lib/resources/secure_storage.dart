@@ -9,9 +9,11 @@ import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/settings.dart';
+import 'package:qubic_wallet/resources/keychain_migration.dart';
 import 'dart:convert';
 import 'dart:developer' as dev;
 import 'package:cryptography/cryptography.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class SecureStorageKeys {
   static const prepend = kReleaseMode
@@ -46,7 +48,20 @@ class SecureStorage {
   late final FlutterSecureStorage storage;
   late String prepend;
   SecureStorage() {
-    storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+    storage = const FlutterSecureStorage(
+        aOptions: AndroidOptions(
+          encryptedSharedPreferences: true,
+        ),
+        iOptions: IOSOptions(
+          synchronizable: false,
+          accessibility: KeychainAccessibility.passcode,
+        ));
+  }
+
+  Future<void> initialize() async {
+    if (UniversalPlatform.isIOS) {
+      await KeychainMigration.migrateKeychain();
+    }
   }
 
   final _argon2idAlgorithm = Argon2id(
@@ -80,10 +95,6 @@ class SecureStorage {
   Future<void> deleteHiveEncryptionKey() async {
     await storage.delete(key: SecureStorageKeys.hiveEncryptionKey);
   }
-
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
-        encryptedSharedPreferences: true,
-      );
 
   Uint8List generateSalt(int length) {
     final random = Random.secure();
@@ -316,9 +327,7 @@ class SecureStorage {
   }
 
   Future<bool> deleteWallet() async {
-    //Note The current implementation of flutter_secure_storage does not support readAll and deleteAll .
-    await storage.delete(key: SecureStorageKeys.criticalSettings);
-    await storage.delete(key: SecureStorageKeys.settings);
+    await storage.deleteAll();
     return true;
   }
 
