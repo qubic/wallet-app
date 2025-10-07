@@ -54,11 +54,10 @@ class SecureStorage {
         ),
         iOptions: IOSOptions(
           synchronizable: false,
-          accessibility: KeychainAccessibility.unlocked_this_device,
+          accessibility: KeychainAccessibility.passcode,
         ));
   }
 
-  // TODO: Remove this when the issue is fixed in the next version
   Future<void> initialize() async {
     if (UniversalPlatform.isIOS) {
       await KeychainMigration.migrateKeychain();
