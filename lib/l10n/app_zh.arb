@@ -285,6 +285,7 @@
     "generalErrorPasswordMinLength": "密码至少需要包含8个字符。",
     "signUpTextFieldHintPassword": "输入密码",
     "generalErrorSetPasswordNotMatching": "密码不匹配",
+    "generalErrorPasscodeNotSet": "為了保護您的錢包，需要設定裝置密碼。請在裝置設定中啟用密碼後再繼續",
     "signUpTextFieldHintRepeatPassword": "重复密码",
     "generalErrorContactingQubicNetwork": "无法连接 Qubic 网络",
     "signUpErrorStoringBiometricInfo": "错误存储生物识别信息",

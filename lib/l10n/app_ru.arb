@@ -285,6 +285,7 @@
     "generalErrorPasswordMinLength": "Пароль должен состоять не менее чем из 8 символов",
     "signUpTextFieldHintPassword": "Введите пароль",
     "generalErrorSetPasswordNotMatching": "Пароли не совпадают",
+    "generalErrorPasscodeNotSet": "Для защиты вашего кошелька требуется код-пароль устройства. Включите код-пароль в настройках устройства, прежде чем продолжить",
     "signUpTextFieldHintRepeatPassword": "Повторите пароль",
     "generalErrorContactingQubicNetwork": "Ошибка соединения с сетью Qubic",
     "signUpErrorStoringBiometricInfo": "Ошибка при сохранении биометрической информации",

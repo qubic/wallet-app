@@ -285,6 +285,7 @@
     "generalErrorPasswordMinLength": "Le mot de passe doit contenir au moins 8 caractères",
     "signUpTextFieldHintPassword": "Entrer le mot de passe",
     "generalErrorSetPasswordNotMatching": "Les mots de passe ne correspondent pas",
+    "generalErrorPasscodeNotSet": "Un code d’accès de l’appareil est requis pour sécuriser votre portefeuille. Activez un code d’accès dans les réglages de l’appareil avant de continuer",
     "signUpTextFieldHintRepeatPassword": "Répétez le mot de passe",
     "generalErrorContactingQubicNetwork": "Erreur de connexion au réseau Qubic",
     "signUpErrorStoringBiometricInfo": "Erreur lors de l'enregistrement des informations biométriques",
