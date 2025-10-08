@@ -195,7 +195,6 @@ class _AddWalletConnectMobileViewState
                                       ),
                                       const SizedBox(
                                           width: ThemePaddings.smallPadding),
-                                      const BetaBadge(),
                                     ],
                                   )
                                 : Row(
@@ -209,8 +208,7 @@ class _AddWalletConnectMobileViewState
                                           textAlign: TextAlign.center,
                                         ),
                                       ),
-                                      ThemedControls.spacerHorizontalMini(),
-                                      const BetaBadge(),
+                                      ThemedControls.spacerHorizontalMini()
                                     ],
                                   );
                           },
