@@ -3,14 +3,12 @@
 // ignore: depend_on_referenced_packages
 
 import 'package:collection/collection.dart';
-import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
@@ -264,13 +262,7 @@ abstract class _ApplicationStore with Store {
       appLogger.d('[QubicWallet] Signed up');
       return isSignedIn;
     } catch (e) {
-      if (e is PlatformException &&
-          e.details == -25291 &&
-          l10nWrapper.l10n != null) {
-        reportGlobalError(l10nWrapper.l10n!.generalErrorPasscodeNotSet);
-      } else {
-        reportGlobalError(e.toString());
-      }
+      reportGlobalError(e.toString());
       return false;
     }
   }

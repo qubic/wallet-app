@@ -54,7 +54,7 @@ class SecureStorage {
         ),
         iOptions: IOSOptions(
           synchronizable: false,
-          accessibility: KeychainAccessibility.passcode,
+          accessibility: KeychainAccessibility.unlocked_this_device,
         ));
   }
 

@@ -311,7 +311,6 @@
     "generalErrorPasswordMinLength": "Password must be at least 12 characters long",
     "signUpTextFieldHintPassword": "Enter password",
     "generalErrorSetPasswordNotMatching": "Passwords do not match",
-    "generalErrorPasscodeNotSet": "A device passcode is required to secure your wallet. Please enable a passcode in device Settings before continuing",
     "signUpTextFieldHintRepeatPassword": "Repeat password",
     "generalErrorContactingQubicNetwork": "Error contacting Qubic Network",
     "signUpErrorStoringBiometricInfo": "Error storing biometric info",

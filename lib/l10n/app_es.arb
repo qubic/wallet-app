@@ -282,7 +282,6 @@
     "generalErrorPasswordMinLength": "La contraseña debe tener al menos 12 caracteres",
     "signUpTextFieldHintPassword": "Ingresar contraseña",
     "generalErrorSetPasswordNotMatching": "Las contraseñas no coinciden",
-    "generalErrorPasscodeNotSet": "Se requiere un código de acceso del dispositivo para proteger su wallet. Active un código de acceso en la configuración del dispositivo antes de continuar",
     "signUpTextFieldHintRepeatPassword": "Repetir contraseña",
     "generalErrorContactingQubicNetwork": "Error al contactar a la red de Qubic",
     "signUpErrorStoringBiometricInfo": "Error al guardar la información biométrica",
