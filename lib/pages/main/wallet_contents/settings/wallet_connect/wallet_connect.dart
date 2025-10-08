@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qubic_wallet/components/beta_badge.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
@@ -298,8 +297,7 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
               const SizedBox(width: ThemePaddings.hugePadding),
               Text(l10n.settingsLabelWalletConnect,
                   style: TextStyles.textExtraLargeBold),
-              const SizedBox(width: ThemePaddings.smallPadding),
-              const BetaBadge(),
+              const SizedBox(width: ThemePaddings.smallPadding)
             ],
           ),
           centerTitle: true,
