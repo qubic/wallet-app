@@ -166,53 +166,16 @@ class _AddWalletConnectMobileViewState
                         onPressed: () => Navigator.pop(context),
                       ),
                       Expanded(
-                        child: LayoutBuilder(
-                          builder: (context, constraints) {
-                            // Measure text width using TextPainter
-                            final textPainter = TextPainter(
-                              text: TextSpan(
-                                text: l10n.wcAddConnection,
-                                style: TextStyles.textExtraLargeBold,
-                              ),
-                              maxLines: 2,
-                              textDirection: TextDirection.ltr,
-                            )..layout(maxWidth: constraints.maxWidth);
-                            const betaBadgeWidth = 24.0;
-                            final totalRequiredWidth =
-                                ThemePaddings.hugePadding +
-                                    textPainter.width +
-                                    ThemePaddings.smallPadding +
-                                    betaBadgeWidth;
-                            return totalRequiredWidth <= constraints.maxWidth
-                                ? Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        l10n.wcAddConnection,
-                                        maxLines: 2,
-                                        style: TextStyles.textExtraLargeBold,
-                                      ),
-                                      const SizedBox(
-                                          width: ThemePaddings.smallPadding),
-                                    ],
-                                  )
-                                : Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          l10n.wcAddConnection,
-                                          maxLines: 2,
-                                          style: TextStyles.textExtraLargeBold,
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ),
-                                      ThemedControls.spacerHorizontalMini()
-                                    ],
-                                  );
-                          },
+                        child: Text(
+                          l10n.wcAddConnection,
+                          maxLines: 2,
+                          style: TextStyles.textExtraLargeBold,
+                          textAlign: TextAlign.center,
                         ),
+                      ),
+                      const IconButton(
+                        icon: SizedBox.shrink(),
+                        onPressed: null,
                       ),
                     ],
                   ),
