@@ -16,9 +16,9 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/tab_dapps.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/tab_settings.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
-import 'package:qubic_wallet/pages/main/tab_dapps/tab_dapps.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -28,6 +28,8 @@ import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:upgrader/upgrader.dart';
+import 'package:version/version.dart';
 
 class MainScreen extends StatefulWidget {
   final int initialTabIndex;
@@ -292,34 +294,59 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     ];
   }
 
+  UpgraderStore _buildAppCastStore() {
+    const url =
+        'https://raw.githubusercontent.com/ahmed-tarek-salem/qubic-appcast-test/refs/heads/main/appcast.xml?v=2';
+    final version = getIt.get<SettingsStore>().versionInfo ?? '1.0.0';
+    return UpgraderAppcastStore(
+      appcastURL: url,
+      osVersion: Version.parse(version),
+    );
+  }
+
   Widget getMain() {
+    final upgrader = Upgrader(
+      //TODO remove debugDisplayAlways and debugLogging when done
+      debugDisplayAlways: true,
+      debugLogging: true,
+      storeController: UpgraderStoreController(
+        onAndroid: _buildAppCastStore,
+        oniOS: _buildAppCastStore,
+      ),
+    );
     if (applicationStore.hasStoredWalletSettings) {
       _controller.jumpToTab(applicationStore.currentTabIndex);
     } else {
       _controller.jumpToTab(0);
     }
-    // _controller.jumpToPreviousTab();
-    return PersistentTabView(
-      controller: _controller,
-      navBarHeight: 60,
-      navBarBuilder: (navBarConfig) => Style1BottomNavBar(
-          navBarConfig: navBarConfig,
-          navBarDecoration: const NavBarDecoration(
-              border: Border(
-                top: BorderSide(width: 1, color: LightThemeColors.navBorder),
-              ),
-              color: LightThemeColors.navBg)),
+    return UpgradeAlert(
+      upgrader: upgrader,
+      showIgnore: false,
+      dialogStyle: UniversalPlatform.isIOS
+          ? UpgradeDialogStyle.cupertino
+          : UpgradeDialogStyle.material,
+      child: PersistentTabView(
+        controller: _controller,
+        navBarHeight: 60,
+        navBarBuilder: (navBarConfig) => Style1BottomNavBar(
+            navBarConfig: navBarConfig,
+            navBarDecoration: const NavBarDecoration(
+                border: Border(
+                  top: BorderSide(width: 1, color: LightThemeColors.navBorder),
+                ),
+                color: LightThemeColors.navBg)),
 
-      tabs: _tabs(),
+        tabs: _tabs(),
 
-      backgroundColor: LightThemeColors.navBg,
+        backgroundColor: LightThemeColors.navBg,
 
-      // Default is Colors.white.
-      handleAndroidBackButtonPress: true, // Default is true.
-      navBarOverlap: const NavBarOverlap.none(),
-      resizeToAvoidBottomInset:
-          true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
-      stateManagement: true, // Default is true.
+        // Default is Colors.white.
+        handleAndroidBackButtonPress: true, // Default is true.
+        navBarOverlap: const NavBarOverlap.none(),
+        resizeToAvoidBottomInset:
+            true, // This needs to be true if you want to move up the screen when keyboard appears. Default is true.
+        stateManagement: true, // Default is true.
+      ),
     );
   }
 

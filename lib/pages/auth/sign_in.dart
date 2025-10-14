@@ -26,6 +26,7 @@ import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
+import 'package:upgrader/upgrader.dart';
 
 class SignIn extends StatefulWidget {
   final bool disableLocalAuth;
