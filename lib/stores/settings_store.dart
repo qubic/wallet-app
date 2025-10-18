@@ -65,20 +65,6 @@ abstract class _SettingsStore with Store {
   }
 
   @action
-  Future<void> setTOTPKey(String key) async {
-    settings.TOTPKey = key;
-    settings = Settings.clone(settings);
-    await secureStorage.setWalletSettings(settings);
-  }
-
-  @action
-  Future<void> clearTOTPKey() async {
-    settings.TOTPKey = null;
-    settings = Settings.clone(settings);
-    await secureStorage.setWalletSettings(settings);
-  }
-
-  @action
   Future<void> setAutoLockTimeout(int value) async {
     settings.autoLockTimeout = value;
     settings = Settings.clone(settings);
