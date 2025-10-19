@@ -35,4 +35,5 @@ abstract class AppIcons {
   static const String support = '${_path}support.svg';
   static const String google = '${_path}google.svg';
   static const String pendingAndFailedTrx = '${_path}clock-alert-outline.svg';
+  static const String maintenance = '${_path}maintenance.svg';
 }
