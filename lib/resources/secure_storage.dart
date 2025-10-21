@@ -177,8 +177,6 @@ class SecureStorage {
         settings.storedPasswordHash!.trim().isEmpty) {
       return false;
     }
-    dev.log('password: $password');
-    dev.log('hash: ${settings.storedPasswordHash}');
     var result = await verifyArgon2Hash(
       password: password,
       hashString: settings.storedPasswordHash!,
@@ -267,7 +265,6 @@ class SecureStorage {
       return false;
     }
     var result = await hashPasswordWithArgon2id(password);
-    dev.log("The new hash after creating the wallet is: $result");
     CriticalSettings csettings = CriticalSettings(
         storedPasswordHash: result, publicIds: [], privateSeeds: [], names: []);
 
