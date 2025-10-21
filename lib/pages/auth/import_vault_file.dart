@@ -314,6 +314,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
           vaultPassword, selectedPath, selectedFileBytes);
     } catch (e) {
       if (e is AppError && e.type == ErrorType.tamperedWallet) {
+        if (!mounted) return false;
         showTamperedWalletAlert(context);
         setState(() {
           isLoading = false;
