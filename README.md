@@ -81,10 +81,22 @@ You can add accounts to a wallet by:
 ### 4. Vault Import & Export
 - Vault files contain **encrypted wallets and keys** for backup/migration  
 - Encrypted with **AES-256** using a password provided by the user  
-- **Minimum password length:** 8 characters (no recovery possible if forgotten)  
+- **Minimum password length:** 12 characters (no recovery possible if forgotten)  
 - When exporting, the vault password can be the same as or different from the wallet password  
 - Vaults can also be imported into the **[Qubic Web Wallet](https://qubic.wallet.org)**  
 
+---
+
+### 5. App Message
+- Displays static messages fetched from the backend to inform users about maintenance periods, updates, or other announcements.
+- The message can be of two types:
+  - Blocking: Shows a maintenance screen that prevents app use until the period ends.
+  - Non-blocking: Shows a one-time informational dialog that can be dismissed.
+- Each message includes metadata such as:
+  - Target platform (ios, android, macos, or all)
+  - Validity period (startDate, endDate)
+  - Blocking flag (true or false)
+  
 ---
 
 ## RPC Communication
