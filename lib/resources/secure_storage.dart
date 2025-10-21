@@ -11,7 +11,6 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/settings.dart';
 import 'package:qubic_wallet/resources/keychain_migration.dart';
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'package:cryptography/cryptography.dart';
 import 'package:universal_platform/universal_platform.dart';
 
