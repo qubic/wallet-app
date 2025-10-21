@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/app_message_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/stores/app_message_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -15,6 +16,7 @@ class MaintenanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = l10nOf(context);
     return PopScope(
       canPop: false,
       child: Scaffold(
@@ -49,7 +51,7 @@ class MaintenanceScreen extends StatelessWidget {
                         navigator.pop();
                       }
                     },
-                    text: isLoading ? "" : "Refresh",
+                    text: isLoading ? "" : l10n.maintenanceRefreshButton,
                     icon: isLoading
                         ? const SizedBox(
                             height: 20,

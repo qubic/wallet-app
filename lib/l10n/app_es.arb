@@ -837,5 +837,6 @@
     "revealSeedCopiedToClipboardMessage": "La semilla privada se copió temporalmente (por 1 minuto) al portapapeles",
     "revealSeedWarningTitle": "¡No compartas tu semilla privada!",
     "revealSeedWarningDescription": "Si alguien tiene tu semilla privada, tendrá control total de tu cuenta",
-    "blockedScreenshotWarning": "Captura protegida: esta pantalla es privada."
+    "blockedScreenshotWarning": "Captura protegida: esta pantalla es privada.",
+    "maintenanceRefreshButton": "Actualizar"
 }
