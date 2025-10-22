@@ -39,7 +39,6 @@ Future<void> main() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     getIt.get<SettingsStore>().setVersion(packageInfo.version);
     getIt.get<SettingsStore>().setBuildNumber(packageInfo.buildNumber);
-
     getIt.get<ApplicationStore>().checkWalletIsInitialized();
   } catch (e) {
     appLogger.e(e.toString());
