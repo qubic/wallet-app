@@ -71,26 +71,38 @@ class WalletConnectService {
   StreamController<SessionProposalErrorEvent?> onSessionProposalError =
       StreamController<SessionProposalErrorEvent?>.broadcast();
 
-  /// Sets the handler for the requestSendQubic event
-  void setRequestSendQubicHandler(
-      {required RequestSendTransactionResult Function(
-              RequestHandleTransactionEvent event)
-          handler}) {}
-
   WalletConnectService();
 
+  /// Dispose of resources when service is no longer needed
+  void dispose() {
+    onSessionConnect.close();
+    onSessionProposal.close();
+    onSessionDisconnect.close();
+    onSessionExpire.close();
+    onProposalExpire.close();
+    onSessionProposalError.close();
+  }
+
   void disconnect() {
+    if (web3Wallet == null) {
+      appLogger.w("Attempted to disconnect but web3Wallet is not initialized");
+      return;
+    }
+
     web3Wallet!
         .getActiveSessions()
         .forEach(((String session, SessionData sessionData) {
-      //web3Wallet!.sessions.delete(session);
       web3Wallet!.disconnectSession(
           reason: const ReownSignError(
               code: -1, message: "User forcefully disconnected"),
           topic: sessionData.topic);
     }));
 
-    web3Wallet!.core.relayClient.disconnect();
+    try {
+      web3Wallet!.core.relayClient.disconnect();
+    } catch (e) {
+      appLogger.e("Error disconnecting relay client: $e");
+    }
   }
 
   /// Checks that walletconnect is initialized before trying to trigger an event
@@ -133,12 +145,16 @@ class WalletConnectService {
           .contains(WcEvents.amountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
+          final account = appStore.findAccountById(id.key);
+          if (account == null) {
+            appLogger.w(
+                "Account ${id.key} not found in wallet for amountChanged event");
+            continue;
+          }
           dynamic item = {};
           item["address"] = id.key;
           item["amount"] = id.value;
-          item["name"] = appStore.currentQubicIDs
-              .firstWhere((element) => element.publicId == id.key)
-              .name;
+          item["name"] = account.name;
           data.add(item);
         }
 
@@ -166,6 +182,12 @@ class WalletConnectService {
           .contains(WcEvents.assetAmountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
+          final account = appStore.findAccountById(id.key);
+          if (account == null) {
+            appLogger.w(
+                "Account ${id.key} not found in wallet for assetAmountChanged event");
+            continue;
+          }
           dynamic item = {};
           List<dynamic> assetsList = [];
           for (var element in id.value) {
@@ -173,9 +195,7 @@ class WalletConnectService {
             assetsList.add(assetItem);
           }
           item["address"] = id.key;
-          item["name"] = appStore.currentQubicIDs
-              .firstWhere((element) => element.publicId == id.key)
-              .name;
+          item["name"] = account.name;
           item["assets"] = assetsList; // Assign the list
           data.add(item);
         }
@@ -265,8 +285,6 @@ class WalletConnectService {
 
     web3Wallet!.onSessionPing.subscribe((args) {
       appLogger.d("Session ping: $args");
-      Config.walletConnectChainId;
-      WcMethods.wRequestAccounts;
     });
 
     web3Wallet!.onSessionRequest.subscribe((args) {
@@ -307,21 +325,21 @@ class WalletConnectService {
           final sessionId = getLastSessionId(WcMethods.wRequestAccounts, topic);
 
           List<dynamic> data = [];
-          appStore.currentQubicIDs.forEach(((id) {
+          for (var id in appStore.currentQubicIDs) {
             if (id.watchOnly == false) {
               dynamic item = {};
-              List<dynamic> assetsList = []; // Changed to a list
-              id.assets.forEach((key, value) {
-                dynamic assetItem = value.toWalletConnectJson();
+              List<dynamic> assetsList = [];
+              for (var entry in id.assets.entries) {
+                dynamic assetItem = entry.value.toWalletConnectJson();
                 assetsList.add(assetItem);
-              });
+              }
               item["address"] = id.publicId;
               item["name"] = id.name;
               item["amount"] = id.amount ?? -1;
-              item["assets"] = assetsList; // Assign the list
+              item["assets"] = assetsList;
               data.add(item);
             }
-          }));
+          }
 
           return web3Wallet!.respondSessionRequest(
               topic: topic,
@@ -477,11 +495,11 @@ class WalletConnectService {
 
     // -------------------------------------------------------- END OF METHODS ---------------------------------------------------------
 
-    appStore.currentQubicIDs.forEach(((id) {
+    for (var id in appStore.currentQubicIDs) {
       if (id.watchOnly == false) {
         registerAccount(id.publicId);
       }
-    }));
+    }
   }
 
   /// Pairs WC with a URL
@@ -490,6 +508,7 @@ class WalletConnectService {
       pairingInfo = await web3Wallet!.pair(uri: uri);
       return pairingInfo!;
     } catch (e) {
+      appLogger.e("Failed to pair with WalletConnect URI: $e");
       rethrow;
     }
   }
