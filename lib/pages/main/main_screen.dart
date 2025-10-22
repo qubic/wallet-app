@@ -322,9 +322,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     return UpgradeAlert(
       upgrader: upgrader,
       showIgnore: false,
-      dialogStyle: UniversalPlatform.isIOS
-          ? UpgradeDialogStyle.cupertino
-          : UpgradeDialogStyle.material,
+      dialogStyle: UpgradeDialogStyle.material,
       child: PersistentTabView(
         controller: _controller,
         navBarHeight: 60,
