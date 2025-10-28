@@ -24,8 +24,8 @@ class AppMessageDto {
       message: json['message'] ?? '',
       blocking: json['blocking'] ?? false,
       platform: json['platform'] ?? 'all',
-      startDate: _parseDate(json['start_date']),
-      endDate: _parseDate(json['end_date']),
+      startDate: _parseDate(json['startDate']),
+      endDate: _parseDate(json['endDate']),
     );
   }
 
