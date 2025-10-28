@@ -15,7 +15,7 @@ abstract class _AppMessageStore with Store {
   bool isLoading = false;
 
   @action
-  Future<AppMessageModel?> getAppMessage() async {
+  Future<AppMessageDto?> getAppMessage() async {
     isLoading = true;
     try {
       final message = await getIt<QubicStaticApi>().getAppMessage();

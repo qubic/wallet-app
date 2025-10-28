@@ -1,4 +1,4 @@
-class AppMessageModel {
+class AppMessageDto {
   final String? id;
   final String title;
   final String message;
@@ -7,7 +7,7 @@ class AppMessageModel {
   final DateTime? startDate;
   final DateTime? endDate;
 
-  AppMessageModel({
+  AppMessageDto({
     required this.id,
     required this.title,
     required this.message,
@@ -17,8 +17,8 @@ class AppMessageModel {
     this.endDate,
   });
 
-  factory AppMessageModel.fromJson(Map<String, dynamic> json) {
-    return AppMessageModel(
+  factory AppMessageDto.fromJson(Map<String, dynamic> json) {
+    return AppMessageDto(
       id: json['id'],
       title: json['title'] ?? '',
       message: json['message'] ?? '',

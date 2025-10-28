@@ -13,13 +13,13 @@ class QubicStaticApi {
     _dio = DioClient.getDio(baseUrl: Config.qubicStaticApiUrl);
   }
 
-  Future<AppMessageModel?> getAppMessage() async {
+  Future<AppMessageDto?> getAppMessage() async {
     try {
       final response = await _dio.get(Config.qubicStaticMessages);
       final decodedResponse = json.decode(response.data);
       return decodedResponse["id"] == null
           ? null
-          : AppMessageModel.fromJson(decodedResponse);
+          : AppMessageDto.fromJson(decodedResponse);
     } catch (error) {
       throw ErrorHandler.handleError(error);
     }

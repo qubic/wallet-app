@@ -11,7 +11,7 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class MaintenanceScreen extends StatelessWidget {
-  final AppMessageModel? appMessage;
+  final AppMessageDto? appMessage;
   const MaintenanceScreen({super.key, this.appMessage});
 
   @override

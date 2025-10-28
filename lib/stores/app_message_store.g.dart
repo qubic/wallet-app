@@ -29,7 +29,7 @@ mixin _$AppMessageStore on _AppMessageStore, Store {
       AsyncAction('_AppMessageStore.getAppMessage', context: context);
 
   @override
-  Future<AppMessageModel?> getAppMessage() {
+  Future<AppMessageDto?> getAppMessage() {
     return _$getAppMessageAsyncAction.run(() => super.getAppMessage());
   }
 
