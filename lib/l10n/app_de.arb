@@ -838,5 +838,6 @@
     "revealSeedCopiedToClipboardMessage": "Privater Seed wurde vorübergehend in die Zwischenablage kopiert (für 1 Minute gespeichert)",
     "revealSeedWarningTitle": "Teile deinen privaten Seed nicht!",
     "revealSeedWarningDescription": "Wenn jemand deinen privaten Seed hat, hat er vollständige Kontrolle über dein Konto",
-    "blockedScreenshotWarning": "Screenshot geschützt — dieser Bildschirm bleibt privat."
+    "blockedScreenshotWarning": "Screenshot geschützt — dieser Bildschirm bleibt privat.",
+    "maintenanceRefreshButton": "Aktualisieren"
 }

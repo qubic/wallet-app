@@ -35,8 +35,11 @@ abstract class Config {
   static const useNativeSnackbar = false;
 
   static const URL_WebExplorer = "https://explorer.qubic.org";
-
   static const networkQubicMainnet = "Qubic Mainnet";
+
+  static const qubicStaticApiUrl =
+      "https://raw.githubusercontent.com/ahmed-tarek-salem/qubic-appcast-test/refs/heads/main";
+  static const qubicStaticMessages = "/message.json";
 
   //Qubic Helper Utilities
   static final qubicHelper = QubicHelperConfig(

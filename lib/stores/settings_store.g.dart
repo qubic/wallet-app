@@ -108,22 +108,6 @@ mixin _$SettingsStore on _SettingsStore, Store {
     return _$setBiometricsAsyncAction.run(() => super.setBiometrics(value));
   }
 
-  late final _$setTOTPKeyAsyncAction =
-      AsyncAction('_SettingsStore.setTOTPKey', context: context);
-
-  @override
-  Future<void> setTOTPKey(String key) {
-    return _$setTOTPKeyAsyncAction.run(() => super.setTOTPKey(key));
-  }
-
-  late final _$clearTOTPKeyAsyncAction =
-      AsyncAction('_SettingsStore.clearTOTPKey', context: context);
-
-  @override
-  Future<void> clearTOTPKey() {
-    return _$clearTOTPKeyAsyncAction.run(() => super.clearTOTPKey());
-  }
-
   late final _$setAutoLockTimeoutAsyncAction =
       AsyncAction('_SettingsStore.setAutoLockTimeout', context: context);
 

@@ -901,5 +901,6 @@
     "revealSeedCopiedToClipboardMessage": "Private seed temporarily copied to clipboard (stored for 1 minute)",
     "revealSeedWarningTitle": "Do not share your Private Seed!",
     "revealSeedWarningDescription": "If someone has your private seed, they will have full control of your account",
-    "blockedScreenshotWarning": "Screenshot protected — this screen is private."
+    "blockedScreenshotWarning": "Screenshot protected — this screen is private.",
+    "maintenanceRefreshButton": "Refresh"
 }

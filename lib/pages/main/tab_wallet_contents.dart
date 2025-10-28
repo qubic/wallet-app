@@ -18,8 +18,10 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/pages/main/maintenance_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
+import 'package:qubic_wallet/stores/app_message_store.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
@@ -67,6 +69,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
         }
       }
     });
+    checkAppMessage();
 
     _scrollController.addListener(() {
       if (_scrollController.offset > sliverExpanded) {
@@ -150,6 +153,30 @@ class _TabWalletContentsState extends State<TabWalletContents> {
     appStore.triggerAddAccountModal();
   }
 
+  void checkAppMessage() async {
+    final message = await getIt<AppMessageStore>().getAppMessage();
+    if (message == null || !mounted) return;
+    if (message.blocking) {
+      Future.delayed(const Duration(seconds: 1), () {
+        if (mounted) {
+          pushScreenWithoutNavBar(
+              context, MaintenanceScreen(appMessage: message));
+        }
+      });
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return getAlertDialog(
+              message.title,
+              message.message,
+              primaryButtonLabel: l10nWrapper.l10n!.generalButtonOK,
+              primaryButtonFunction: () => Navigator.of(context).pop(),
+            );
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
@@ -159,6 +186,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
             edgeOffset: kToolbarHeight,
             onRefresh: () async {
               await _timedController.interruptFetchTimer();
+              checkAppMessage();
             },
             backgroundColor: LightThemeColors.refreshIndicatorBackground,
             child: Container(

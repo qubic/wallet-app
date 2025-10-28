@@ -843,5 +843,6 @@
     "revealSeedCopiedToClipboardMessage": "La phrase secrète a été copiée temporairement (pendant 1 minute) dans le presse-papiers ",
     "revealSeedWarningTitle": "Ne partagez pas votre phrase secrète!",
     "revealSeedWarningDescription": "Si quelqu’un possède votre phrase secrète, il aura un contrôle total sur votre compte",
-    "blockedScreenshotWarning": "Capture protégée — cet écran reste privé."
+    "blockedScreenshotWarning": "Capture protégée — cet écran reste privé.",
+    "maintenanceRefreshButton": "Rafraîchir"
 }
