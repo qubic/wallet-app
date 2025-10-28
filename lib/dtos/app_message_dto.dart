@@ -6,6 +6,7 @@ class AppMessageDto {
   final String platform; // e.g. "all", "ios", "android"
   final DateTime? startDate;
   final DateTime? endDate;
+  final bool disabled;
 
   AppMessageDto({
     required this.id,
@@ -15,6 +16,7 @@ class AppMessageDto {
     required this.platform,
     this.startDate,
     this.endDate,
+    this.disabled = false,
   });
 
   factory AppMessageDto.fromJson(Map<String, dynamic> json) {
@@ -24,8 +26,10 @@ class AppMessageDto {
       message: json['message'] ?? '',
       blocking: json['blocking'] ?? false,
       platform: json['platform'] ?? 'all',
-      startDate: _parseDate(json['startDate']),
-      endDate: _parseDate(json['endDate']),
+      startDate:
+          json['startDate'] == null ? null : _parseDate(json['startDate']),
+      endDate: json['endDate'] == null ? null : _parseDate(json['endDate']),
+      disabled: json['disabled'] ?? false,
     );
   }
 
@@ -45,7 +49,7 @@ class AppMessageDto {
   }
 
   bool isValid(String currentPlatform) {
-    return isActive && appliesToPlatform(currentPlatform);
+    return isActive && appliesToPlatform(currentPlatform) && !disabled;
   }
 
   static DateTime? _parseDate(dynamic value) {
