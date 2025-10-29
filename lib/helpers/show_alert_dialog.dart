@@ -3,9 +3,10 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/helpers/platform_helpers.dart';
 
 getAlertDialog(String title, String message,
-    {String primaryButtonLabel = "OK",
+    {required String primaryButtonLabel,
     Function? primaryButtonFunction,
     String? secondaryButtonLabel,
     Function? secondaryButtonFunction}) {
@@ -75,5 +76,18 @@ showAlertDialog(BuildContext context, String title, String message,
     builder: (BuildContext context) {
       return alert;
     },
+  );
+}
+
+void showTamperedWalletAlert(BuildContext context) {
+  final l10n = l10nOf(context);
+  showAlertDialog(
+    context,
+    l10n.addAccountErrorTamperedWalletTitle,
+    isAndroid
+        ? l10n.addAccountErrorTamperedAndroidWalletMessage
+        : isIOS
+            ? l10n.addAccountErrorTamperediOSWalletMessage
+            : l10n.addAccountErrorTamperedWalletMessage,
   );
 }

@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'dart:io' as io;
 import 'dart:io';
-import 'dart:math';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:local_auth/local_auth.dart';
@@ -14,9 +12,12 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
+import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -148,19 +149,19 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
   Widget getSelectedPathSelector() {
     return Container(
         decoration: BoxDecoration(
-            color: LightThemeColors.primary.withOpacity(0.02),
+            color: LightThemeColors.primary.withValues(alpha: 0.02),
             border: Border(
                 top: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 left: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 right: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 bottom: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0)),
             borderRadius: BorderRadius.circular(8.0)),
         child: Padding(
@@ -236,9 +237,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(
                         errorText: l10n.exportWalletVaultErrorEmptyPassword),
-                    FormBuilderValidators.minLength(8,
+                    FormBuilderValidators.minLength(12,
                         errorText:
-                            l10n.exportWalletVaultErrorPasswordMinLength(8))
+                            l10n.exportWalletVaultErrorPasswordMinLength(12))
                   ]),
                   onChanged: (value) => currentPassword = value ?? "",
                   onSubmitted: (String? text) {
@@ -262,6 +263,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                         )),
                   ),
                   obscureText: !showingPassword,
+                  enableSuggestions: false,
                   autocorrect: false,
                   autofillHints: null,
                 ),
@@ -300,6 +302,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                         )),
                   ),
                   obscureText: !showingRepeatPassword,
+                  enableSuggestions: false,
                   autocorrect: false,
                   autofillHints: null,
                 ),
@@ -335,6 +338,10 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                     ),
             ),
             onPressed: () async {
+              if (getIt<RootJailbreakFlagStore>()
+                  .restrictFeatureIfDeviceCompromised()) {
+                return;
+              }
               await exportButtonHandler(buttonContext);
             },
           ),
@@ -430,7 +437,12 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
         File(path).writeAsBytes([], flush: true);
       });
     } catch (e) {
-      showErrorDialog(l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
+      if (e is AppError && e.type == ErrorType.tamperedWallet) {
+        showTamperedWalletAlert(context);
+      } else {
+        showErrorDialog(
+            l10n.exportWalletVaultErrorGeneralMessage(e.toString()));
+      }
       setState(() {
         isLoading = false;
       });
@@ -467,7 +479,11 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
         isLoading = false;
       });
     } catch (e) {
-      showErrorDialog(e.toString());
+      if (e.toString().startsWith("Exception: CRITICAL:")) {
+        showTamperedWalletAlert(context);
+      } else {
+        showErrorDialog(e.toString());
+      }
       setState(() {
         isLoading = false;
       });

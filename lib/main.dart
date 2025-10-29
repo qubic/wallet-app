@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app_links/app_links.dart';
 import 'package:blur/blur.dart';
-import 'package:dargon2_flutter/dargon2_flutter.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,40 +10,40 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
-import 'package:qubic_wallet/helpers/win_registry_helper.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
+import 'package:qubic_wallet/stores/dapp_store.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {
-  registerAppSchemeIfNeeded();
-  DArgon2Flutter.init(); //Initialize DArgon 2
   WidgetsFlutterBinding.ensureInitialized();
-  setupDI(); //Dependency injection
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarBrightness: Brightness.dark,
-    statusBarIconBrightness: Brightness.light,
-    systemNavigationBarColor: Colors.transparent,
-  ));
+  try {
+    await setupDI(); //Dependency injection
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.transparent,
+    ));
 
-  await PlatformSpecificInitilization().run();
+    await PlatformSpecificInitilization().run();
+    getIt.get<SettingsStore>().loadSettings();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    getIt.get<SettingsStore>().setVersion(packageInfo.version);
+    getIt.get<SettingsStore>().setBuildNumber(packageInfo.buildNumber);
 
-  getIt.get<SettingsStore>().loadSettings();
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  getIt.get<QubicHubStore>().setVersion(packageInfo.version);
-  getIt.get<QubicHubStore>().setBuildNumber(packageInfo.buildNumber);
-
-  getIt.get<ApplicationStore>().checkWalletIsInitialized();
-
-  getIt.get<QubicCmd>().initialize();
+    getIt.get<ApplicationStore>().checkWalletIsInitialized();
+  } catch (e) {
+    appLogger.e(e.toString());
+  }
 
   runApp(const WalletApp());
 }
@@ -78,6 +77,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
       });
     } else if (state == AppLifecycleState.resumed) {
       qubicCmd.reinitialize();
+      getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded();
       setState(() {
         _isInBackground = false;
       });
@@ -89,12 +89,15 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     super.initState();
     initDeepLinks();
     WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded();
+      getIt<DappStore>().loadDapps();
+    });
   }
 
   @override
   void dispose() {
     _linkSubscription?.cancel();
-
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -125,8 +128,6 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
           onSecondary: LightThemeColors.surface,
           error: LightThemeColors.error,
           onError: LightThemeColors.extraStrongBackground,
-          background: LightThemeColors.background,
-          onBackground: LightThemeColors.primary,
           surface: LightThemeColors.surface,
           onSurface: LightThemeColors.primary,
           seedColor: LightThemeColors.panelBackground,
@@ -149,7 +150,6 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
           LocalizationManager.instance.setLocalizations(localizations);
           l10nWrapper.setL10n(localizations);
         }
-
         return Stack(
           children: [
             child ?? const SizedBox.shrink(),
@@ -160,7 +160,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
                   colorOpacity: 0.5,
                   blurColor: Colors.black,
                   child: Container(
-                    color: Colors.black.withOpacity(0.2),
+                    color: Colors.black.withValues(alpha: 0.2),
                   ),
                 ),
               ),

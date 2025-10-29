@@ -140,23 +140,32 @@
     "generalStatusCode": "Status Code",
     "generalCode": "Code",
     "appTabHome": "Home",
-    "appTabTransfers": "Transfers",
-    "appTabExplorer": "Explorer",
+    "appTabExplore": "Explore",
     "appTabSettings": "Settings",
     "homeLabelTotalBalance": "Total Balance",
     "homeHeader": "Accounts in Wallet",
+    "homeHeaderQubicPrice": "QUBIC Price",
     "homeLabelNoAccountsInWallet": "You don't have any Qubic Accounts in your wallet yet",
     "homeButtonAddAccount": "Add Account",
-    "transfersTitle": "Epoch Transfers",
     "transfersLabelAllTransactions": "All Transactions",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "No transactions in this epoch for your accounts match your filters",
     "transfersLabelNoTransactionsFoundInWallet": "No transactions in this epoch for your accounts",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "No transactions in this epoch match your filters",
-    "transfersLabelNoTransactionsFoundInAccount": "No transactions in this epoch",
+    "transfersLabelNoTransactionsFoundInAccount": "No transactions found.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
-    "transfersLabelFor": "Transfers for",
-    "transfersLabelForAccount": "Transfers for \"{accountName}\"",
+    "transfersLabelFor": "Transactions for",
+    "storedTransfersLabel": "View Incomplete Transactions",
+    "transactionsCount": "{count, plural, =1{1 transaction} other{Showing {count} transactions}}",
+    "transfersLabelForAccount": "Transactions for \"{accountName}\"",
     "@transfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "storedTransfersLabelForAccount": "Incomplete Transactions for \"{accountName}\"",
+    "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
                 "type": "String"
@@ -173,40 +182,6 @@
     "filterTransfersFieldHintByDirection": "By Direction",
     "generalLabelAnyDirection": "Any Direction",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Clear 1 Active Filter} other{Clear {filtersCount} Active Filters}}",
-    "explorerTitle": "Epoch Explorer",
-    "explorerLabelEpoch": "Epoch {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Overview",
-    "explorerHeaderTicks": "Tick Overview",
-    "explorerSubHeaderTicks": "Latest Ticks",
-    "explorerLabelTotalTicks": "Total Ticks",
-    "explorerLabelEmptyTicks": "Empty Ticks",
-    "explorerLabelTickQuality": "Tick Quality",
-    "explorerLabelTotalSupply": "Total Supply (QUBIC)",
-    "explorerLabelTotalAddresses": "Total Addresses",
-    "explorerButtonRefreshData": "Refresh Data",
-    "explorerLabelLoadingData": "Loading explorer data for this epoch",
-    "explorerSearchTitle": "Explorer Search",
-    "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
-    "explorerSearchLabelNoResults": "No results found matching",
-    "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
-    "explorerTickResultLabelBlockStatus": "Tick Status",
-    "explorerTickResultLabelBlockStatusEmpty": "Empty / Unexecuted",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Non-empty / Executed",
-    "explorerTickResultLabelBlockStatusUnknown": "Unknown",
-    "explorerTickResultLabelDataStatus": "Data Status",
-    "explorerTickResultLabelInfoCompleted": "Completed",
-    "explorerTickResultLabelInfoNotValidated": "Not Validated",
-    "explorerTickResultLabelTickLeader": "Tick Leader",
-    "explorerTickResultLabelNoTransactionsFound": "No transactions in this tick",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}",
     "settingsTitle": "Settings",
     "settingsHeaderAccountsAndData": "Accounts and Data",
     "settingsLockWallet": "Lock Wallet",
@@ -259,7 +234,7 @@
     "manageBiometricsLabelInstructionsForGeneric": "You can enable authentication with biometrics.",
     "manageBiometricsLabelInstructionsForIris": "You can enable authentication with your iris.",
     "manageBiometricsLabelInstructionsForOS": "You can enable authentication through your OS.",
-    "manageBiometricsLabelAdditionalInstructions": "If you enable this, you can sign in to your wallet and issue transfers without using your password.",
+    "manageBiometricsLabelAdditionalInstructions": "If you enable this, you can sign in to your wallet and issue transactions without using your password.",
     "manageBiometricsErrorOSAuthNotAvailableTitle": "OS authentication not available",
     "manageBiometricsErrorNotAvailableTitle": "Biometric authentication not available",
     "manageBiometricsErrorOSAuthNotAvailableMessage": "Your OS does not support OS authentication",
@@ -281,7 +256,7 @@
     "welcomeTitle": "Welcome back!",
     "welcomeButtonUnlockWallet": "Unlock Wallet",
     "welcomeButtonCreateWallet": "Create a New Wallet",
-    "accountButtonViewTransfer": "View Transfers",
+    "accountButtonViewTransfer": "View Transactions",
     "accountButtonViewInExplorer": "View in Explorer",
     "accountButtonRevealPrivateSeed": "Reveal Private Seed",
     "accountButtonReceive": "Receive",
@@ -333,16 +308,16 @@
     "generalButtonUnlockWithIris": "Unlock with Iris",
     "generalButtonUnlockWithOS": "Unlock with OS",
     "generalButtonAlternativeUnlock": "Alternative Unlock",
-    "generalErrorPasswordMinLength": "Password must be at least 8 characters long",
+    "generalErrorPasswordMinLength": "Password must be at least 12 characters long",
     "signUpTextFieldHintPassword": "Enter password",
     "generalErrorSetPasswordNotMatching": "Passwords do not match",
     "signUpTextFieldHintRepeatPassword": "Repeat password",
     "generalErrorContactingQubicNetwork": "Error contacting Qubic Network",
     "signUpErrorStoringBiometricInfo": "Error storing biometric info",
     "signUpStepTwoHeader": "Biometric Unlock",
-    "signUpStepTwoSubHeader": "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password.",
+    "signUpStepTwoSubHeader": "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transactions without using your password.",
     "signUpStepTwoHeaderForDesktop": "OS Unlock",
-    "signUpStepTwoSubHeaderForDesktop": "You can enable authentication via your OS. If you enable this, you can sign in to your wallet and issue transfers without using your password.",
+    "signUpStepTwoSubHeaderForDesktop": "You can enable authentication via your OS. If you enable this, you can sign in to your wallet and issue transactions without using your password.",
     "signUpStepOneHeader": "Create New Wallet",
     "signUpStepOneSubHeader": "Fill in a password that will be used to unlock your new wallet",
     "signUpSwitchLabelBiometricUnlock": "Use Biometric Unlock",
@@ -382,25 +357,17 @@
     "authenticateButtonAuthenticate": "Authenticate",
     "authenticateErrorInvalidPassword": "You provided an invalid password.",
     "authenticateErrorGeneral": "An error has occurred while trying to authenticate you. Please try again.",
-    "authenticateErrorTooManyAttempts": "Too many failed attempts to authenticate you. Please lock and unlock your phone via PIN / pattern and try again.",
+    "biometricErrorPasscodeNotSet": "You have not set a device passcode, PIN, or password. Please set one in your device settings to enable biometric authentication.",
+    "biometricErrorNotEnrolled": "No biometric data is enrolled on your device. Please register your biometrics in your device settings.",
+    "biometricErrorNotAvailable": "Biometric authentication is not available on this device.",
+    "biometricErrorOtherOperatingSystem": "Your operating system does not support biometric authentication.",
+    "biometricErrorLockedOut": "Too many failed attempts to authenticate you. Please lock and unlock your phone via PIN / pattern or password and try again.",
+    "biometricErrorPermanentlyLockedOut": "Biometric authentication is permanently locked. Please unlock your device using your PIN, pattern, or password and try again.",
+    "biometricErrorBiometricOnlyNotSupported": "Biometric-only authentication is not supported on this platform.",
     "eraseDataSheetHeader": "Are you sure you want to erase existing wallet data?",
     "eraseDataSheetLabelOne": "This action cannot be undone. All your accounts will be removed from your device.",
     "eraseDataSheetLabelTwo": "You will only be able to recover your accounts if you have a backup of your private seeds.",
     "eraseDataSheetCheckboxLabel": "Yes, erase my wallet data.",
-    "accountExplorerTitle": "Qubic Address",
-    "accountExplorerLabelCurrentValue": "Current Value",
-    "accountExplorerLabelValueReportedBy": "Value reported by {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Total Incoming",
-    "accountExplorerLabelTotalOutgoing": "Total Outgoing",
-    "accountExplorerLabelReportedBy": "Reported by",
-    "accountExplorerLabelNoResultsFound": "No transactions for this ID in this epoch",
     "transactionItemLabelTransactionId": "Transaction ID",
     "transactionItemLabelTransactionType": "Type",
     "generalLabelTickAndValue": "Tick {tick}",
@@ -415,7 +382,6 @@
     "transactionItemButtonCopyToClipboard": "Copy to Clipboard",
     "transactionItemButtonViewDetails": "View Details",
     "transactionItemButtonResend": "Resend",
-    "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
     "transactionItemLabelConfirmedDate": "Timestamp",
     "transactionItemLabelDetails": "Transfer Details",
     "sendItemLabelTargetTick": "Target Tick",
@@ -767,9 +733,6 @@
     "generalErrorFileRequired": "Please select a file",
     "generalErrorPathRequired": "Please select a path",
     "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
-    "explorerLabelPrice": "Price",
-    "explorerLabelMarketCap": "Market Cap",
-    "accountExplorerLabelLatestTransactions": "Latest Transactions",
     "cmdErrorVerifyingIdentityGeneric": "Error verifying the identity.",
     "cmdErrorVerifyingIdentity": "Cannot verify your identity: {errorDescription}",
     "@cmdErrorVerifyingIdentity": {
@@ -887,5 +850,56 @@
     "wcSendAssets": "Send Assets",
     "wcSignMessage": "Sign Message",
     "wcSignTransaction": "Sign Transaction",
-    "assetButtonIssuerIdentity": "Issuer Identity"
+    "dAppOpenButton": "Open",
+    "dAppFeaturedApp": "Featured App",
+    "dAppPopularApps": "Popular dApps",
+    "assetButtonIssuerIdentity": "Issuer Identity",
+    "networksTitle": "Networks",
+    "networksButtonAddNetwork": "Add Network",
+    "networksConfirmationDialogTitleDeleteNetwork": "Delete {networkName}?",
+    "@networksConfirmationDialogTitleDeleteNetwork": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "networksConfirmationDialogContentDeleteNetwork": "Are you sure you want to delete your custom network {networkName}?",
+    "@networksConfirmationDialogContentDeleteNetwork": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "networksLabelDefault": "Default",
+    "networksButtonSetAsDefault": "Set as Default",
+    "addNetworkTitle": "Add Custom Network",
+    "addNetworkLabelNetworkName": "Network Name",
+    "addNetworkTextFieldHintNetworkName": "Eg: Qubic Mainnet",
+    "addNetworkLabelRPCURL": "RPC URL",
+    "addNetworkLabelQubicExplorerURL": "Explorer URL",
+    "networksWarningBannerCurrentNetwork": "You are currently in {networkName}",
+    "@networksWarningBannerCurrentNetwork": {
+        "placeholders": {
+            "networkName": {
+                "type": "String"
+            }
+        }
+    },
+    "webviewAddressBarLabelRefresh": "Refresh",
+    "webviewAddressBarLabelShareURL": "Share URL",
+    "rootJailbreakDialogTitleWarning": "Device Compromised",
+    "rootJailbreakDialogMessageWarning": "Your device appears to be rooted or jailbroken. Some features may be exposed to security risks. We strongly recommend using this wallet only on secure, unmodified devices. You can still use the app under your own risk.",
+    "rootJailbreakDialogButtonWarning": "I understand",
+    "rootJailbreakDialogTitleRestrict": "Access Restricted",
+    "rootJailbreakDialogMessageRestrict": "Your device appears to be rooted or jailbroken. For security reasons, some features are disabled.",
+    "rootJailbreakDialogButtonRestrict": "Ok",
+    "rootJailbreakDialogTitleRestrictFeature": "Security Restriction",
+    "rootJailbreakDialogMessageRestrictFeature": "This feature can’t be used on devices that have been rooted or jailbroken, as it may compromise your data security.",
+    "rootJailbreakDialogButtonRestrictFeature": "Ok",
+    "revealSeedCopiedToClipboardMessage": "Private seed temporarily copied to clipboard (stored for 1 minute)",
+    "revealSeedWarningTitle": "Do not share your Private Seed!",
+    "revealSeedWarningDescription": "If someone has your private seed, they will have full control of your account",
+    "blockedScreenshotWarning": "Screenshot protected — this screen is private."
 }

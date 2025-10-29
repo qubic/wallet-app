@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -106,12 +105,13 @@ class WalletConnectService {
   }
 
   bool sessionPairingTopicAlreadyExists(String sessionPairingTopic) {
-    //TODO REMOVE THIS
     if (web3Wallet!
         .getActiveSessions()
         .values
         .where((e) => e.pairingTopic == sessionPairingTopic)
-        .isNotEmpty) return true;
+        .isNotEmpty) {
+      return true;
+    }
 
     if (web3Wallet!.pairings.get(sessionPairingTopic) != null) return true;
 
@@ -167,11 +167,11 @@ class WalletConnectService {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
-          List<dynamic> assetsList = []; // Changed to a list
-          id.value.forEach((element) {
+          List<dynamic> assetsList = [];
+          for (var element in id.value) {
             dynamic assetItem = element.toWalletConnectJson();
             assetsList.add(assetItem);
-          });
+          }
           item["address"] = id.key;
           item["name"] = appStore.currentQubicIDs
               .firstWhere((element) => element.publicId == id.key)
@@ -479,8 +479,7 @@ class WalletConnectService {
 
     appStore.currentQubicIDs.forEach(((id) {
       if (id.watchOnly == false) {
-        web3Wallet!.registerAccount(
-            accountAddress: id.publicId, chainId: Config.walletConnectChainId);
+        registerAccount(id.publicId);
       }
     }));
   }
@@ -492,6 +491,15 @@ class WalletConnectService {
       return pairingInfo!;
     } catch (e) {
       rethrow;
+    }
+  }
+
+  void registerAccount(String accountAddress) {
+    if (web3Wallet != null) {
+      web3Wallet!.registerAccount(
+        accountAddress: accountAddress,
+        chainId: Config.walletConnectChainId,
+      );
     }
   }
 

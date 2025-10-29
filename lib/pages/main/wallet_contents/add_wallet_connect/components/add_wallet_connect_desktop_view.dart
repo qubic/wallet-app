@@ -5,8 +5,7 @@ class _AddWalletConnectDesktopView extends StatefulWidget {
   final Function(String?) proceedHandler;
   final String? connectionUrl;
   const _AddWalletConnectDesktopView(
-      {super.key,
-      required this.isLoading,
+      {required this.isLoading,
       required this.proceedHandler,
       this.connectionUrl});
 
@@ -17,7 +16,6 @@ class _AddWalletConnectDesktopView extends StatefulWidget {
 
 class _AddWalletConnectDesktopViewState
     extends State<_AddWalletConnectDesktopView> {
-  final _globalSnackBar = getIt<GlobalSnackBar>();
   late final TextEditingController
       urlController; //= TextEditingController(text: widget.connectionUrl),
   bool canConnect = false;

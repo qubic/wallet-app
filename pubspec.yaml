@@ -1,7 +1,7 @@
 name: qubic_wallet
 description: A Wallet for the Qubic Network created by https://qubic.org/
 publish_to: "none"
-version: 1.4.1+70
+version: 2.0.0+71
 environment:
   sdk: ">=3.0.0 <4.0.0"
 
@@ -29,7 +29,12 @@ dependencies:
   get_it: ^7.6.0
   form_builder_validators: ^11.0.0
   flex_color_scheme: null
-  dargon2_flutter: ^3.3.0
+  # dargon2_flutter: ^3.3.0
+  cryptography_flutter:
+    git:
+      url: https://github.com/mvarendorff/cryptography
+      ref: fix/compatibility-agp-8x
+      path: cryptography_flutter
   flutter_form_builder: ^9.1.0
   persistent_bottom_nav_bar_v2: ^5.2.3
   dotted_border: ^2.0.0+3
@@ -56,7 +61,7 @@ dependencies:
   file_picker: ^8.0.6
   downloadsfolder: ^1.1.0
   privacy_screen: ^0.0.6
-  reown_walletkit: ^1.0.1
+  reown_walletkit: 1.1.3
   blur: ^4.0.0
   http_interceptor: ^2.0.0
   flutter_svg: ^2.0.10+1
@@ -65,6 +70,12 @@ dependencies:
   logger: ^2.5.0
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  infinite_scroll_pagination: ^5.0.0
+  collection: ^1.19.0
+  path: ^1.9.0
+  safe_device: ^1.2.1
+  cryptography: ^2.7.0
+  no_screenshot: ^0.3.1
 
 dev_dependencies:
   flutter_test:

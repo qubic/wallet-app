@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:qubic_wallet/components/beta_badge.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -12,11 +11,12 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/change_password
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/export_wallet_vault.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/join_community.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/networks/networks_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/support/support_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/wallet_connect.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
+import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -33,7 +33,7 @@ class TabSettings extends StatefulWidget {
 
 class _TabSettingsState extends State<TabSettings> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
+  final SettingsStore settingsStore = getIt<SettingsStore>();
   final BiometricService biometricService = getIt<BiometricService>();
   final TimedController timedController = getIt<TimedController>();
 
@@ -125,7 +125,9 @@ class _TabSettingsState extends State<TabSettings> {
                               prefix: SvgPicture.asset(
                                 settingsUnlockIconPath,
                                 height: defaultIconHeight,
-                                color: LightThemeColors.textColorSecondary,
+                                colorFilter: const ColorFilter.mode(
+                                    LightThemeColors.textColorSecondary,
+                                    BlendMode.srcIn),
                               ),
                               title: settingsUnlockLabel,
                               path: const ManageBiometrics(),
@@ -134,8 +136,13 @@ class _TabSettingsState extends State<TabSettings> {
                                 prefix: SvgPicture.asset(AppIcons.walletConnect,
                                     height: defaultIconHeight),
                                 title: l10n.settingsLabelWalletConnect,
-                                afterText: const BetaBadge(),
                                 path: const WalletConnectSettings()),
+                            SettingsListTile(
+                              prefix: SvgPicture.asset(AppIcons.network,
+                                  height: defaultIconHeight),
+                              title: l10n.networksTitle,
+                              path: NetworksScreen(),
+                            ),
                             SettingsListTile(
                               prefix: SvgPicture.asset(AppIcons.support,
                                   height: defaultIconHeight),
@@ -169,7 +176,7 @@ class _TabSettingsState extends State<TabSettings> {
                       padding: const EdgeInsets.only(
                           bottom: ThemePaddings.bigPadding),
                       child: Text(
-                        "Qubic Wallet v.${qubicHubStore.versionInfo!}${qubicHubStore.buildNumber!.isNotEmpty ? " (${qubicHubStore.buildNumber!})" : ""}",
+                        "Qubic Wallet v.${settingsStore.versionInfo!}${settingsStore.buildNumber!.isNotEmpty ? " (${settingsStore.buildNumber!})" : ""}",
                         textAlign: TextAlign.center,
                         style: TextStyles.secondaryTextSmall,
                       ),

@@ -13,6 +13,13 @@ class AppError {
 
   AppError(this.message, this.type, {this.statusCode, this.code});
 
+  static AppError tamperedWallet() {
+    return AppError(
+      "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN",
+      ErrorType.tamperedWallet
+    );
+  }
+
   @override
   String toString() {
     String errorMessage = message;
@@ -64,6 +71,7 @@ enum ErrorType {
   validation,
   format,
   unknown,
+  tamperedWallet,
 }
 
 class ErrorHandler {

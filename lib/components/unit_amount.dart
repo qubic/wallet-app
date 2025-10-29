@@ -50,8 +50,11 @@ class UnitAmount extends StatelessWidget {
       List<Widget> output = [];
       output.add(SkeletonAnimation(
           borderRadius: BorderRadius.circular(2.0),
-          shimmerColor:
-              Theme.of(context).textTheme.titleMedium!.color!.withOpacity(0.3),
+          shimmerColor: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .color!
+              .withValues(alpha: 0.3),
           shimmerDuration: 3000,
           curve: Curves.easeInOutCirc,
           child: Container(
@@ -63,7 +66,7 @@ class UnitAmount extends StatelessWidget {
                     .textTheme
                     .titleMedium
                     ?.color!
-                    .withOpacity(0.1)),
+                    .withValues(alpha: 0.1)),
           )));
 
       return Row(mainAxisAlignment: MainAxisAlignment.center, children: output);

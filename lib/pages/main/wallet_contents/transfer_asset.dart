@@ -4,24 +4,24 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
+import 'package:qubic_wallet/components/scan_code_button.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
-import 'package:qubic_wallet/helpers/sendTransaction.dart';
+import 'package:qubic_wallet/helpers/send_transaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -43,7 +43,6 @@ class TransferAsset extends StatefulWidget {
 class _TransferAssetState extends State<TransferAsset> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  final QubicLi apiService = getIt<QubicLi>();
   final _liveApi = getIt<QubicLiveApi>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();
@@ -93,7 +92,7 @@ class _TransferAssetState extends State<TransferAsset> {
 
     return CurrencyInputFormatter(
         trailingSymbol:
-            "${widget.asset.assetName} ${QubicAssetDto.isSmartContractShare(widget.asset) ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
+            "${widget.asset.issuedAsset.name} ${widget.asset.isSmartContractShare ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
         useSymbolPadding: true,
         maxTextLength: 3,
         thousandSeparator: ThousandSeparator.Comma,
@@ -140,67 +139,6 @@ class _TransferAssetState extends State<TransferAsset> {
     );
   }
 
-  void showQRScanner() {
-    final l10n = l10nOf(context);
-    showModalBottomSheet<void>(
-        context: context,
-        useSafeArea: true,
-        builder: (BuildContext context) {
-          return Stack(children: [
-            MobileScanner(
-              // fit: BoxFit.contain,
-              controller: MobileScannerController(
-                detectionSpeed: DetectionSpeed.normal,
-                facing: CameraFacing.back,
-                torchEnabled: false,
-              ),
-
-              onDetect: (capture) {
-                final List<Barcode> barcodes = capture.barcodes;
-                bool foundSuccess = false;
-                for (final barcode in barcodes) {
-                  if (barcode.rawValue != null) {
-                    var value = destinationID.text;
-                    value = barcode.rawValue!
-                        .replaceAll("https://wallet.qubic.org/payment/", "");
-                    var validator =
-                        CustomFormFieldValidators.isPublicID(context: context);
-                    if (validator(value) == null) {
-                      if (foundSuccess == true) {
-                        break;
-                      }
-                      destinationID.text = value;
-                      foundSuccess = true;
-                    }
-                  }
-                }
-                if (foundSuccess) {
-                  Navigator.pop(context);
-                  _globalSnackBar
-                      .show(l10n.generalSnackBarMessageQRScannedWithSuccess);
-                }
-              },
-            ),
-            Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                    color: Colors.white60,
-                    width: double.infinity,
-                    child: Padding(
-                        padding:
-                            const EdgeInsets.all(ThemePaddings.normalPadding),
-                        child: Text(l10n.sendItemLabelQRScannerInstructions,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic,
-                            ),
-                            textAlign: TextAlign.center))))
-          ]);
-        });
-  }
-
   //Shows the bottom sheet allowing to select a Public ID from the wallet
   void showPickerBottomSheet() {
     final l10n = l10nOf(context);
@@ -210,7 +148,7 @@ class _TransferAssetState extends State<TransferAsset> {
         isScrollControlled: true,
         builder: (BuildContext context) {
           return SafeArea(
-              child: Container(
+              child: SizedBox(
             height: 400,
             child: Center(
                 child: Padding(
@@ -387,30 +325,24 @@ class _TransferAssetState extends State<TransferAsset> {
         ThemedControls.transparentButtonSmall(
             text: l10n.accountSendButtonMax,
             onPressed: () {
-              if (widget.asset.ownedAmount == null) {
-                return;
-              }
-              if (widget.asset.ownedAmount! > 0) {
+              if (widget.asset.numberOfUnits > 0) {
                 numberOfSharesCtrl.value = getInputFormatter(context)
                     .formatEditUpdate(
                         const TextEditingValue(text: ''),
                         TextEditingValue(
-                            text: (widget.asset.ownedAmount).toString()));
+                            text: (widget.asset.numberOfUnits).toString()));
               }
             }),
-        (widget.asset.ownedAmount != null && widget.asset.ownedAmount! > 1)
+        (widget.asset.numberOfUnits > 1)
             ? ThemedControls.transparentButtonSmall(
                 text: l10n.accountSendButtonMaxMinusOne,
                 onPressed: () {
-                  if (widget.asset.ownedAmount == null) {
-                    return;
-                  }
-                  if (widget.asset.ownedAmount! > 1) {
+                  if (widget.asset.numberOfUnits > 1) {
                     numberOfSharesCtrl.value = getInputFormatter(context)
                         .formatEditUpdate(
                             const TextEditingValue(text: ''),
                             TextEditingValue(
-                                text: (widget.asset.ownedAmount! - 1)
+                                text: (widget.asset.numberOfUnits - 1)
                                     .toString()));
                   }
                 })
@@ -438,8 +370,7 @@ class _TransferAssetState extends State<TransferAsset> {
             errorText: l10n.generalErrorRequiredField),
         CustomFormFieldValidators.isLessThanParsedAsset(
           context: context,
-          lessThan:
-              widget.asset.ownedAmount != null ? widget.asset.ownedAmount! : 0,
+          lessThan: widget.asset.numberOfUnits,
         ),
       ]),
       inputFormatters: [getInputFormatter(context)],
@@ -456,11 +387,13 @@ class _TransferAssetState extends State<TransferAsset> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              QubicAssetDto.isSmartContractShare(widget.asset)
-                  ? l10n.transferAssetLabelOwnedShares(widget.asset.assetName,
-                      formatter.format(widget.asset.ownedAmount))
-                  : l10n.transferAssetLabelOwnedTokens(widget.asset.assetName,
-                      formatter.format(widget.asset.ownedAmount)),
+              widget.asset.isSmartContractShare
+                  ? l10n.transferAssetLabelOwnedShares(
+                      widget.asset.issuedAsset.name,
+                      formatter.format(widget.asset.numberOfUnits))
+                  : l10n.transferAssetLabelOwnedTokens(
+                      widget.asset.issuedAsset.name,
+                      formatter.format(widget.asset.numberOfUnits)),
               style: TextStyles.secondaryText),
         ]);
   }
@@ -507,17 +440,16 @@ class _TransferAssetState extends State<TransferAsset> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: (QubicAssetDto.isSmartContractShare(widget.asset)
-                      ? l10n
-                          .transferAssetHeaderForShares(widget.asset.assetName)
+                  headerText: (widget.asset.isSmartContractShare
+                      ? l10n.transferAssetHeaderForShares(
+                          widget.asset.issuedAsset.name)
                       : l10n.transferAssetHeaderForTokens(
-                          widget.asset.assetName)),
+                          widget.asset.issuedAsset.name)),
                   subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalSmall(),
               Text(l10n.accountSendLabelDestinationAddress,
@@ -529,19 +461,12 @@ class _TransferAssetState extends State<TransferAsset> {
                     children: [
                       getDestinationQubicId(),
                       if (isMobile)
-                        Align(
-                            alignment: Alignment.topLeft,
-                            child: ThemedControls.primaryButtonNormal(
-                                onPressed: () {
-                                  showQRScanner();
-                                },
-                                text: l10n.generalButtonUseQRCode,
-                                icon: !LightThemeColors.shouldInvertIcon
-                                    ? ThemedControls.invertedColors(
-                                        child: Image.asset(
-                                            "assets/images/Group 2294.png"))
-                                    : Image.asset(
-                                        "assets/images/Group 2294.png"))),
+                        ScanCodeButton(onPressed: () {
+                          getIt<QrScannerService>().scanAndSetPublicId(
+                            context: context,
+                            controller: destinationID,
+                          );
+                        }),
                       ThemedControls.spacerVerticalMini(),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         Expanded(
@@ -596,7 +521,7 @@ class _TransferAssetState extends State<TransferAsset> {
                   )),
               const SizedBox(height: ThemePaddings.normalPadding),
             ],
-          )))
+          ))
         ]));
   }
 
@@ -659,7 +584,7 @@ class _TransferAssetState extends State<TransferAsset> {
       _formKey.currentState?.validate();
       return;
     }
-
+    if (!mounted) return;
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
       return;
@@ -678,13 +603,13 @@ class _TransferAssetState extends State<TransferAsset> {
       int latestTick = (await _liveApi.getCurrentTick()).tick;
       targetTick = latestTick + targetTickType.value;
     }
-
+    if (!mounted) return;
     var result = await sendAssetTransferTransactionDialog(
         context,
         widget.item.publicId,
         destinationID.text,
-        widget.asset.assetName,
-        widget.asset.issuerIdentity,
+        widget.asset.issuedAsset.name,
+        widget.asset.issuedAsset.issuerIdentity,
         getAssetAmount(),
         targetTick!);
 
@@ -699,13 +624,17 @@ class _TransferAssetState extends State<TransferAsset> {
     //Clear the state
     setState(() {
       isLoading = false;
-      getIt.get<PersistentTabController>().jumpToTab(1);
     });
-
+    if (!mounted) return;
     Navigator.pop(context);
-
     _globalSnackBar.show(l10n
-        .generalSnackBarMessageTransactionSubmitted(targetTick!.asThousands()));
+        .generalSnackBarMessageTransactionSubmitted(targetTick.asThousands()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return TransactionsForId(
+        publicQubicId: widget.item.publicId,
+        item: widget.item,
+      );
+    }));
   }
 
   TextEditingController destinationID = TextEditingController();

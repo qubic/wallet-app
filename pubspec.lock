@@ -271,7 +271,7 @@ packages:
     source: hosted
     version: "4.10.1"
   collection:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: collection
       sha256: a1ace0a119f20aabc852d165077c036cd864315bd99b7eaa10a60100341941bf
@@ -282,10 +282,10 @@ packages:
     dependency: transitive
     description:
       name: connectivity_plus
-      sha256: e0817759ec6d2d8e57eb234e6e57d2173931367a865850c7acea40d4b4f9c27d
+      sha256: "051849e2bd7c7b3bc5844ea0d096609ddc3a859890ec3a9ac4a65a2620cc1f99"
       url: "https://pub.dev"
     source: hosted
-    version: "6.1.1"
+    version: "6.1.4"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
@@ -314,82 +314,35 @@ packages:
     dependency: transitive
     description:
       name: crypto
-      sha256: "1e445881f28f22d6140f181e07737b22f1e099a5e1ff94b0af2f9e4a463f4855"
+      sha256: ff625774173754681d66daaf4a448684fb04b78f902da9cb3d308c19cc5e8bab
       url: "https://pub.dev"
     source: hosted
-    version: "3.0.6"
+    version: "3.0.3"
   cryptography:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: cryptography
       sha256: d146b76d33d94548cf035233fbc2f4338c1242fa119013bead807d033fc4ae05
       url: "https://pub.dev"
     source: hosted
     version: "2.7.0"
+  cryptography_flutter:
+    dependency: "direct main"
+    description:
+      path: cryptography_flutter
+      ref: "fix/compatibility-agp-8x"
+      resolved-ref: "666e4c20a87097f0fc69596dab366c53eea8899d"
+      url: "https://github.com/mvarendorff/cryptography"
+    source: git
+    version: "2.3.2"
   csslib:
     dependency: transitive
     description:
       name: csslib
-      sha256: "09bad715f418841f976c77db72d5398dc1253c21fb9c0c7f0b0b985860b2d58e"
+      sha256: "706b5707578e0c1b4b7550f64078f0a0f19dec3f50a178ffae7006b0a9ca58fb"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
-  dargon2_core:
-    dependency: transitive
-    description:
-      name: dargon2_core
-      sha256: a105fc3837782d02fff09a4aa355181c882962bf2a31c58f1905c401a6d1d6e5
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.1"
-  dargon2_flutter:
-    dependency: "direct main"
-    description:
-      name: dargon2_flutter
-      sha256: "2ec4ed0cf5d80f92758ba2b2c600f237c35849aa723563ffe4c73e02d1904c0c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.0"
-  dargon2_flutter_desktop:
-    dependency: transitive
-    description:
-      name: dargon2_flutter_desktop
-      sha256: ca4a064f5b8e1fa1be62e5be50599567e13b68dca26eec31cbbc0928a276e777
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
-  dargon2_flutter_mobile:
-    dependency: transitive
-    description:
-      name: dargon2_flutter_mobile
-      sha256: "22b1b5229371c229cb55ca214262c6cb2189d40f7ef4ab87c1bea75bc2c582bf"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.3.0"
-  dargon2_flutter_platform_interface:
-    dependency: transitive
-    description:
-      name: dargon2_flutter_platform_interface
-      sha256: d9fa9193c7c263a57d53411ccac0339e353e5b199426d861f8649f31564eeef7
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
-  dargon2_flutter_web:
-    dependency: transitive
-    description:
-      name: dargon2_flutter_web
-      sha256: c2607b07047f2937fc8ee0845b7b19fd80c26bf87f122473ee3cf307b8bc3249
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
-  dargon2_interface:
-    dependency: transitive
-    description:
-      name: dargon2_interface
-      sha256: e352efec19afac3fba5b4c1d4833bec7825ac43bdec88f33117cd68dfccfca40
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.1"
+    version: "1.0.0"
   dart_style:
     dependency: transitive
     description:
@@ -498,10 +451,10 @@ packages:
     dependency: transitive
     description:
       name: event
-      sha256: eb4814de94cbf6a10da9c4f652bc654087d7066e33566b5036822e6c0b24befb
+      sha256: "5809a742e6274146a23d9cba63c24caf2f4c87a9a781fdf16ef07f052becaf72"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.2"
+    version: "3.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -752,6 +705,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.3"
+  flutter_staggered_grid_view:
+    dependency: transitive
+    description:
+      name: flutter_staggered_grid_view
+      sha256: "19e7abb550c96fbfeb546b23f3ff356ee7c59a019a651f8f102a4ba9b7349395"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.0"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -922,6 +883,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.5.2"
+  infinite_scroll_pagination:
+    dependency: "direct main"
+    description:
+      name: infinite_scroll_pagination
+      sha256: ff5232d9066f664d31eee1b7dd0dedf79c71e7d8874567a7af5a51630e38b234
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   intl:
     dependency: "direct main"
     description:
@@ -1154,6 +1123,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.0"
+  no_screenshot:
+    dependency: "direct main"
+    description:
+      name: no_screenshot
+      sha256: ec3d86d7ee89a09c3a3939c1003012536ba4b3fcb4f8cbd23d87ada595c99258
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   package_config:
     dependency: transitive
     description:
@@ -1195,7 +1172,7 @@ packages:
     source: hosted
     version: "0.0.8"
   path:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path
       sha256: "087ce49c3f0dc39180befefc60fdb4acd8f8620e5682fe2476afd0b3688bb4af"
@@ -1390,26 +1367,26 @@ packages:
     dependency: transitive
     description:
       name: reown_core
-      sha256: e21ad9ca211ecd5221f027a76f978105eaf2335edb0687ddcebda1da53417d20
+      sha256: "171ce977b563b7b2fe0a17393517a4743ab758152d6c0c5158921a7ed3746326"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.1.5"
   reown_sign:
     dependency: transitive
     description:
       name: reown_sign
-      sha256: ef2493a3992772d9495b9232b4ece7e7be0e0893f88d34f80aa6eda2e49b3e6e
+      sha256: eb24d5b201635b0adbe15182c4cd2f831642dde05f59f033dac8de3bd423495d
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.4"
+    version: "1.1.6"
   reown_walletkit:
     dependency: "direct main"
     description:
       name: reown_walletkit
-      sha256: "1fba5538db1b595f3b7ba09a4ac6ae5cc09a8488749bd27df7bdc7535ffc3c49"
+      sha256: d5173b0712b757cfd02b452a0e080abd52526646e602cc0fce9038f420c3d790
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.3"
+    version: "1.1.3"
   rfc_6901:
     dependency: transitive
     description:
@@ -1418,6 +1395,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.0"
+  safe_device:
+    dependency: "direct main"
+    description:
+      name: safe_device
+      sha256: f4930fe80ef28d047d3e600a318d1549732a8910d2b4342e7fd785aea2b1453e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   screen_retriever:
     dependency: transitive
     description:
@@ -1543,6 +1528,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  sliver_tools:
+    dependency: transitive
+    description:
+      name: sliver_tools
+      sha256: eae28220badfb9d0559207badcbbc9ad5331aac829a88cb0964d330d2a4636a6
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.12"
   source_gen:
     dependency: transitive
     description:

@@ -76,7 +76,7 @@ class _CreatePasswordState extends State<CreatePassword> {
         validator: FormBuilderValidators.compose([
           FormBuilderValidators.required(
               errorText: l10n.generalErrorSetWalletPasswordEmpty),
-          FormBuilderValidators.minLength(8,
+          FormBuilderValidators.minLength(12,
               errorText: l10n.generalErrorPasswordMinLength)
         ]),
         onSubmitted: (value) => handleProceed(),
@@ -99,6 +99,7 @@ class _CreatePasswordState extends State<CreatePassword> {
         ),
         enabled: !isLoading,
         obscureText: obscuringTextPass,
+        enableSuggestions: false,
         autocorrect: false,
         autofillHints: null,
       ),
@@ -132,6 +133,7 @@ class _CreatePasswordState extends State<CreatePassword> {
         ),
         enabled: !isLoading,
         obscureText: obscuringTextPassRepeat,
+        enableSuggestions: false,
         autocorrect: false,
         autofillHints: null,
       ),

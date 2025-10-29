@@ -40,6 +40,7 @@ bool isSignedIn() {
 
 // GoRouter configuration
 final appRouter = GoRouter(
+  navigatorKey: rootNavigatorKey,
   routes: [
     GoRoute(
       path: '/signIn',
@@ -50,9 +51,9 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/signInNoAuth',
       name: 'signInNoAuth',
-      builder: (context, state) =>
-          SignIn(disableLocalAuth: state.pathParameters['disableLocalAuth']),
-      pageBuilder: defaultPageBuilder(const SignIn(disableLocalAuth: "true")),
+      builder: (context, state) => SignIn(
+          disableLocalAuth: state.pathParameters['disableLocalAuth'] == 'true'),
+      pageBuilder: defaultPageBuilder(const SignIn(disableLocalAuth: true)),
     ),
     GoRoute(
       path: '/',
@@ -68,3 +69,4 @@ final appRouter = GoRouter(
     ),
   ],
 );
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>();

@@ -7,6 +7,7 @@ import 'package:qubic_wallet/pages/auth/import_private_seed.dart';
 import 'package:qubic_wallet/pages/auth/import_vault_file.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -64,7 +65,7 @@ class _ImportSelectorState extends State<ImportSelector> {
                         children: [
                           Text(title, style: TextStyles.textBold),
                           ThemedControls.spacerVerticalSmall(),
-                          Container(
+                          SizedBox(
                               child: Text(subtitle,
                                   style: TextStyles.secondaryText))
                         ]),
@@ -88,6 +89,10 @@ class _ImportSelectorState extends State<ImportSelector> {
               Text(l10n.importWalletSubHeader, style: TextStyles.secondaryText),
               ThemedControls.spacerVerticalNormal(),
               getSelectionButton(() {
+                if (getIt<RootJailbreakFlagStore>()
+                    .restrictFeatureIfDeviceCompromised()) {
+                  return;
+                }
                 pushScreen(
                   context,
                   screen: const ImportVaultFile(),

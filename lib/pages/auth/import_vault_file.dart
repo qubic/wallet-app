@@ -22,9 +22,9 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/pages/auth/add_biometrics_password.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -103,19 +103,19 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
   Widget getSelectedPathSelector() {
     return Container(
         decoration: BoxDecoration(
-            color: LightThemeColors.primary.withOpacity(0.02),
+            color: LightThemeColors.primary.withValues(alpha: 0.02),
             border: Border(
                 top: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 left: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 right: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0),
                 bottom: BorderSide(
-                    color: LightThemeColors.primary.withOpacity(0.03),
+                    color: LightThemeColors.primary.withValues(alpha: 0.03),
                     width: 1.0)),
             borderRadius: BorderRadius.circular(8.0)),
         child: Padding(
@@ -168,14 +168,12 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
                 try {
                   directory = await getDownloadsDirectory();
                 } catch (e) {
-                  appLogger.e(
-                      "Error getting application documents directory: $e");
+                  appLogger
+                      .e("Error getting application documents directory: $e");
                 }
                 FilePickerResult? result = await FilePicker.platform.pickFiles(
                     dialogTitle: l10n.importVaultFilePickerLabel,
-                    withData: isMobile ||
-                        isWindows ||
-                        isMacOS, //TODO Sally check this in MacOS
+                    withData: isMobile || isWindows || isMacOS,
                     initialDirectory: directory?.path,
                     //allowedExtensions: ['qubic-vault'],
                     lockParentWindow: true);
@@ -315,6 +313,13 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
       importedSeeds = await qubicCmd.importVaultFile(
           vaultPassword, selectedPath, selectedFileBytes);
     } catch (e) {
+      if (e is AppError && e.type == ErrorType.tamperedWallet) {
+        showTamperedWalletAlert(context);
+        setState(() {
+          isLoading = false;
+        });
+        return false;
+      }
       setState(() {
         importError = e.toString().replaceAll("Exception: ", "");
       });
@@ -355,7 +360,6 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
               importedSeed.getAlias()!, 0));
         }
         await appStore.addManyIds(ids);
-        await getIt<QubicLi>().authenticate();
       } catch (e) {
         if (context.mounted) {
           showAlertDialog(
@@ -446,8 +450,6 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(
                   errorText: l10n.generalErrorRequiredField),
-              FormBuilderValidators.minLength(8,
-                  errorText: l10n.generalErrorPasswordMinLength)
             ]),
             onSubmitted: (value) => handleProceed(),
             onChanged: (value) => vaultPassword = value ?? "",
@@ -470,6 +472,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
             ),
             enabled: !isLoading,
             obscureText: obscuringTextPass,
+            enableSuggestions: false,
             autocorrect: false,
             autofillHints: null,
           )

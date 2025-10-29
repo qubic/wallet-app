@@ -1,37 +1,24 @@
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/computors_dto.dart';
-import 'package:qubic_wallet/dtos/explorer_tick_info_dto.dart';
-import 'package:qubic_wallet/dtos/explorer_transaction_info_dto.dart';
+import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/pagination_request_model.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
+import 'package:qubic_wallet/stores/network_store.dart';
 
 class QubicArchiveApi {
-  final Dio _dio = DioClient.getDio(baseUrl: _baseUrl);
-  static const String _baseUrl = Config.archiveDomain;
-  Future<ExplorerTickDto?> getExplorerTick(int tick) async {
-    try {
-      final response = await _dio.get('$_baseUrl${Config.tickData(tick)}');
-      return response.data["tickData"] == null
-          ? ExplorerTickDto(tickNumber: tick)
-          : ExplorerTickDto.fromJson(response.data["tickData"]);
-    } catch (error) {
-      throw ErrorHandler.handleError(error);
-    }
-  }
+  Dio _dio;
+  final NetworkStore _networkStore;
 
-  Future<List<ExplorerTransactionDto>> getExplorerTickTransactions(
-      int tick) async {
-    try {
-      final response =
-          await _dio.get('$_baseUrl${Config.tickTransactions(tick)}');
-      return List<ExplorerTransactionDto>.from(response.data["transactions"]
-          .map((e) => ExplorerTransactionDto.fromJson(e)));
-    } catch (error) {
-      throw ErrorHandler.handleError(error);
-    }
+  QubicArchiveApi(this._networkStore)
+      : _dio = DioClient.getDio(baseUrl: _networkStore.rpcUrl);
+
+  String get _baseUrl => _networkStore.rpcUrl;
+
+  void updateDio() {
+    _dio = DioClient.getDio(baseUrl: _networkStore.currentNetwork.rpcUrl);
   }
 
   Future<ComputorsDto> getComputors(int epoch) async {
@@ -43,11 +30,26 @@ class QubicArchiveApi {
     }
   }
 
-  Future<ExplorerTransactionDto> getTransaction(String transaction) async {
+  Future<List<TransactionDto>> getAddressTransfers(
+      String publicId, PaginationRequestModel pagination) async {
     try {
-      final response =
-          await _dio.get('$_baseUrl${Config.transaction(transaction)}');
-      return ExplorerTransactionDto.fromJson(response.data);
+      final response = await _dio.get(
+        '$_baseUrl${Config.addressTransfers(publicId)}',
+        queryParameters: {
+          ...pagination.toJson(),
+          "startTick": 1,
+          "endTick": 999999999,
+        },
+      );
+
+      TransactionsDto transactionResponse =
+          TransactionsDto.fromJson(response.data);
+      List<TransactionDto> allTransfers = [];
+      for (var group in transactionResponse.transactions) {
+        allTransfers.addAll(group.transactions);
+      }
+
+      return allTransfers;
     } catch (error) {
       throw ErrorHandler.handleError(error);
     }
@@ -59,6 +61,30 @@ class QubicArchiveApi {
       final response = await _dio.get('$_baseUrl${Config.networkTicks(epoch)}',
           queryParameters: pagination.toJson());
       return NetworkTicksDto.fromJson(response.data);
+    } catch (error) {
+      throw ErrorHandler.handleError(error);
+    }
+  }
+
+  Future<TransactionDto?> getTransaction(String txId) async {
+    try {
+      final response = await _dio.get('$_baseUrl${Config.transaction(txId)}');
+      return TransactionDto.fromJson(response.data);
+    } on DioException catch (error) {
+      if (error.response?.statusCode == Config.notFoundStatusCode) {
+        return null;
+      }
+      throw ErrorHandler.handleError(error);
+    } catch (error) {
+      throw ErrorHandler.handleError(error);
+    }
+  }
+
+  Future<int> getLatestTickProcessed() async {
+    try {
+      final response = await _dio.get(
+          '${_networkStore.currentNetwork.rpcUrl}${Config.latestTickProcessed}');
+      return response.data["latestTick"];
     } catch (error) {
       throw ErrorHandler.handleError(error);
     }
