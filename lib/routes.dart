@@ -31,11 +31,7 @@ Page<dynamic> Function(BuildContext, GoRouterState) defaultPageBuilder<T>(
     };
 
 bool isSignedIn() {
-  ApplicationStore appStore = getIt<ApplicationStore>();
-  if (appStore.isSignedIn) {
-    return true;
-  }
-  return false;
+  return getIt<ApplicationStore>().isSignedIn;
 }
 
 // GoRouter configuration
