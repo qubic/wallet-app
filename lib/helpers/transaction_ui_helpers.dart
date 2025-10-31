@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/smart_contracts/special_addresses.dart';
+import 'package:qubic_wallet/stores/smart_contract_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -66,7 +67,7 @@ class TransactionUIHelpers {
   }
 
   static String getTransactionType(int type, String destination) {
-    return QubicSCStore.getProcedureName(destination, type) ??
+    return getIt<SmartContractStore>().getProcedureName(destination, type) ??
         "$type ${(type == 0 || SpecialAddresses.empty == destination) ? "Standard" : "SC"}";
   }
 

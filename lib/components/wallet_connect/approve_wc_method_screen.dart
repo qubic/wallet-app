@@ -22,8 +22,8 @@ import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_control
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/smart_contract_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -239,9 +239,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         if (widget.data.inputType != null &&
             widget.data.inputType! > 0 &&
             widget.data.toID != null &&
-            QubicSCStore.isSC(widget.data.toID!)) ...[
+            getIt<SmartContractStore>().isSC(widget.data.toID!)) ...[
           _SmartContractWarningCard(
-              QubicSCStore.fromContractId(widget.data.toID!) ??
+              getIt<SmartContractStore>().fromContractId(widget.data.toID!) ??
                   l10n.wcSmartContractUnknown),
           ThemedControls.spacerVerticalBig(),
         ],

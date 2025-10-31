@@ -20,8 +20,8 @@ import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/smart_contract_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -149,8 +149,8 @@ class _TransactionItemState extends State<TransactionItem> {
                   textAlign: TextAlign.start, style: TextStyles.secondaryText)
             ]);
           }),
-          if (QubicSCStore.isSC(accountId))
-            Text(QubicSCStore.fromContractId(accountId)!),
+          if (getIt<SmartContractStore>().isSC(accountId))
+            Text(getIt<SmartContractStore>().fromContractId(accountId)!),
           TextWithMidEllipsis(accountId,
               style: TextStyles.textNormal, textAlign: TextAlign.start),
         ]);
