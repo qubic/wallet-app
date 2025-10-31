@@ -144,6 +144,27 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
+  late final _$accountsSortingModeAtom =
+      Atom(name: '_ApplicationStore.accountsSortingMode', context: context);
+
+  @override
+  AccountSortMode get accountsSortingMode {
+    _$accountsSortingModeAtom.reportRead();
+    return super.accountsSortingMode;
+  }
+
+  bool _accountsSortingModeIsInitialized = false;
+
+  @override
+  set accountsSortingMode(AccountSortMode value) {
+    _$accountsSortingModeAtom.reportWrite(value,
+        _accountsSortingModeIsInitialized ? super.accountsSortingMode : null,
+        () {
+      super.accountsSortingMode = value;
+      _accountsSortingModeIsInitialized = true;
+    });
+  }
+
   late final _$showAddAccountModalAtom =
       Atom(name: '_ApplicationStore.showAddAccountModal', context: context);
 
@@ -350,6 +371,28 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  void setAccountsSortingMode(AccountSortMode mode) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.setAccountsSortingMode');
+    try {
+      return super.setAccountsSortingMode(mode);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void sortAccounts() {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.sortAccounts');
+    try {
+      return super.sortAccounts();
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setCurrentTabIndex(int index) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.setCurrentTabIndex');
@@ -547,6 +590,7 @@ currentTick: ${currentTick},
 isSignedIn: ${isSignedIn},
 currentTabIndex: ${currentTabIndex},
 currentInboundUri: ${currentInboundUri},
+accountsSortingMode: ${accountsSortingMode},
 showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
