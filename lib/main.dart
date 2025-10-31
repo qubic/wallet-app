@@ -19,6 +19,7 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/dapp_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
+import 'package:qubic_wallet/stores/smart_contract_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -92,6 +93,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded();
       getIt<DappStore>().loadDapps();
+      getIt<SmartContractStore>().loadSmartContracts();
     });
   }
 

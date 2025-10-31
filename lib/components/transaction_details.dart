@@ -19,8 +19,8 @@ import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/smart_contract_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -113,8 +113,8 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                       textAlign: TextAlign.start,
                       style: TextStyles.lightGreyTextNormal));
             }),
-            if (QubicSCStore.isSC(accountId))
-              Text(QubicSCStore.fromContractId(accountId)!,
+            if (getIt<SmartContractStore>().isSC(accountId))
+              Text(getIt<SmartContractStore>().fromContractId(accountId)!,
                   style: TextStyles.textNormal),
             Text(accountId, style: TextStyles.textNormal),
           ])),

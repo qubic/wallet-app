@@ -1,3 +1,4 @@
+import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 
@@ -13,6 +14,17 @@ class QubicSCModel {
     required this.contractId,
     required this.procedures,
   });
+
+  factory QubicSCModel.fromDto(SmartContractDto dto) {
+    return QubicSCModel(
+      contractIndex: dto.contractIndex,
+      name: dto.name,
+      contractId: dto.address,
+      procedures: {
+        for (var proc in dto.procedures) proc.id: proc.name,
+      },
+    );
+  }
 
   String? getProcedureName(int type) {
     return procedures[type];
