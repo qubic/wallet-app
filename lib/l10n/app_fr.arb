@@ -842,6 +842,9 @@
     "homeHeaderQubicPrice": "QUBIC Prix",
     "revealSeedCopiedToClipboardMessage": "La phrase secrète a été copiée temporairement (pendant 1 minute) dans le presse-papiers ",
     "revealSeedWarningTitle": "Ne partagez pas votre phrase secrète!",
-    "revealSeedWarningDescription": "Si quelqu’un possède votre phrase secrète, il aura un contrôle total sur votre compte",
-    "blockedScreenshotWarning": "Capture protégée — cet écran reste privé."
+    "revealSeedWarningDescription": "Si quelqu'un possède votre phrase secrète, il aura un contrôle total sur votre compte",
+    "blockedScreenshotWarning": "Capture protégée — cet écran reste privé.",
+    "accountSortModeName": "Nom (A-Z)",
+    "accountSortModeBalance": "Solde (Élevé → Bas)",
+    "accountSortModeCreation": "Création (Plus ancien → Plus récent)"
 }

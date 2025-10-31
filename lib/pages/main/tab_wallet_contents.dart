@@ -345,15 +345,15 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           itemBuilder: (BuildContext context) {
                             return [
                               _buildSortMenuItem(AccountSortMode.name,
-                                  Icons.sort_by_alpha, "Name (A-Z)"),
+                                  Icons.sort_by_alpha, l10n.accountSortModeName),
                               _buildSortMenuItem(
                                   AccountSortMode.balance,
                                   Icons.account_balance_wallet,
-                                  "Balance (High → Low)"),
+                                  l10n.accountSortModeBalance),
                               _buildSortMenuItem(
                                   AccountSortMode.creationOrder,
                                   Icons.access_time,
-                                  "Creation (Oldest → Newest)"),
+                                  l10n.accountSortModeCreation),
                             ];
                           },
                         ),

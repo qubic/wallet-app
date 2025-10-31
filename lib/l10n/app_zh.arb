@@ -838,5 +838,8 @@
     "revealSeedCopiedToClipboardMessage": "私密助记词已临时复制到剪贴板（保存 1 分钟）",
     "revealSeedWarningTitle": "请勿泄露您的私密助记词！",
     "revealSeedWarningDescription": "如果他人获取了您的私密助记词，他们将完全控制您的账户",
-    "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。"
+    "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。",
+    "accountSortModeName": "名稱 (A-Z)",
+    "accountSortModeBalance": "餘額 (高 → 低)",
+    "accountSortModeCreation": "建立時間 (最舊 → 最新)"
 }
