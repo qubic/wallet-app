@@ -238,9 +238,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
                   validator: FormBuilderValidators.compose([
                     FormBuilderValidators.required(
                         errorText: l10n.exportWalletVaultErrorEmptyPassword),
-                    FormBuilderValidators.minLength(8,
+                    FormBuilderValidators.minLength(12,
                         errorText:
-                            l10n.exportWalletVaultErrorPasswordMinLength(8))
+                            l10n.exportWalletVaultErrorPasswordMinLength(12))
                   ]),
                   onChanged: (value) => currentPassword = value ?? "",
                   onSubmitted: (String? text) {
@@ -438,6 +438,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
         File(path).writeAsBytes([], flush: true);
       });
     } catch (e) {
+      if (!mounted) return;
       if (e is AppError && e.type == ErrorType.tamperedWallet) {
         showTamperedWalletAlert(context);
       } else {
@@ -480,6 +481,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
         isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       if (e.toString().startsWith("Exception: CRITICAL:")) {
         showTamperedWalletAlert(context);
       } else {

@@ -123,21 +123,19 @@
     "generalErrorSetWalletPasswordEmpty": "Пожалуйста, введите пароль.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Пожалуйста, введите пароль еще раз.",
     "appTabHome": "Главная",
-    "appTabTransfers": "Транзакции",
     "appTabSettings": "Настройки",
     "homeLabelTotalBalance": "Общий балланс",
     "homeHeader": "Аккаунты в кошельке",
     "homeLabelNoAccountsInWallet": "У вас пока что нет аккаунтов в кошельке Qubic",
     "homeButtonAddAccount": "Добавить аккаунт",
-    "transfersTitle": "Транзакции в пределах эпохи",
     "transfersLabelAllTransactions": "Все транзакции",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Ни одна транзакция в этой эпохе для ваших счетов не соответствует вашим фильтрам",
     "transfersLabelNoTransactionsFoundInWallet": "В эту эпоху нет операций по вашим счетам",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Ни одна транзакция в этой эпохе не соответствует вашим фильтрам",
     "transfersLabelNoTransactionsFoundInAccount": "Транзакции не найдены.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Показать 1 транзакцию в тике} other{Показать {count} транзакций(и)}}",
-    "transfersLabelFor": "Транзакция к",
-    "transfersLabelForAccount": "Транзакция к \"{accountName}\"",
+    "transfersLabelFor": "Транзакции для",
+    "transfersLabelForAccount": "Транзакции для \"{accountName}\"",
     "@transfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -145,7 +143,7 @@
             }
         }
     },
-    "storedTransfersLabelForAccount": "Незавершённые переводы для \"{accountName}\"",
+    "storedTransfersLabelForAccount": "Незавершённые транзакции для \"{accountName}\"",
     "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -209,7 +207,7 @@
     "manageBiometricsLabelInstructionsForGeneric": "Вы можете включить аутентификацию с помощью биометрических данных.",
     "manageBiometricsLabelInstructionsForIris": "Вы можете включить аутентификацию с помощью глаза.",
     "manageBiometricsLabelInstructionsForOS": "Вы можете включить аутентификацию через свою ОС.",
-    "manageBiometricsLabelAdditionalInstructions": "Если вы включите эту функцию, то сможете входить в свой кошелек и осуществлять переводы без использования пароля.",
+    "manageBiometricsLabelAdditionalInstructions": "Если вы включите эту функцию, то сможете входить в свой кошелек и осуществлять транзакции без использования пароля.",
     "manageBiometricsErrorOSAuthNotAvailableTitle": "Аутентификация ОС недоступна",
     "manageBiometricsErrorNotAvailableTitle": "Биометрическая аутентификация недоступна",
     "manageBiometricsErrorOSAuthNotAvailableMessage": "Ваша ОС не поддерживает аутентификацию ОС",
@@ -231,7 +229,7 @@
     "welcomeTitle": "Рады видеть Вас снова!",
     "welcomeButtonUnlockWallet": "Разблокировать кошелек",
     "welcomeButtonCreateWallet": "Создать новый кошелек",
-    "accountButtonViewTransfer": "Посмотреть переводы",
+    "accountButtonViewTransfer": "Просмотр транзакций",
     "accountButtonViewInExplorer": "Посмотреть в обозревателе",
     "accountButtonRevealPrivateSeed": "Открыть секретный сид",
     "accountButtonReceive": "Получить",
@@ -282,16 +280,16 @@
     "generalButtonUnlockWithIris": "Разблокировка с помощью глаза",
     "generalButtonUnlockWithOS": "Разблокировка с помощью ОС",
     "generalButtonAlternativeUnlock": "Альтернативная разблокировка",
-    "generalErrorPasswordMinLength": "Пароль должен состоять не менее чем из 8 символов",
+    "generalErrorPasswordMinLength": "Пароль должен состоять не менее чем из 12 символов",
     "signUpTextFieldHintPassword": "Введите пароль",
     "generalErrorSetPasswordNotMatching": "Пароли не совпадают",
     "signUpTextFieldHintRepeatPassword": "Повторите пароль",
     "generalErrorContactingQubicNetwork": "Ошибка соединения с сетью Qubic",
     "signUpErrorStoringBiometricInfo": "Ошибка при сохранении биометрической информации",
     "signUpStepTwoHeader": "Биометрическая разблокировка",
-    "signUpStepTwoSubHeader": "Вы можете включить аутентификацию с помощью биометрии. Если эта функция включена, вы сможете входить в свой кошелек и осуществлять переводы без использования пароля.",
+    "signUpStepTwoSubHeader": "Вы можете включить аутентификацию с помощью биометрии. Если эта функция включена, то сможете входить в свой кошелек и осуществлять транзакции без использования пароля.",
     "signUpStepTwoHeaderForDesktop": "Разблокировка с помощью ОС",
-    "signUpStepTwoSubHeaderForDesktop": "Вы можете включить аутентификацию через свою ОС. Если вы включите эту функцию, то сможете входить в кошелек и осуществлять переводы без использования пароля.",
+    "signUpStepTwoSubHeaderForDesktop": "Вы можете включить аутентификацию через свою ОС. Если вы включите эту функцию, то сможете входить в свой кошелек и осуществлять транзакции без использования пароля.",
     "signUpStepOneHeader": "Создать новый кошелек",
     "signUpStepOneSubHeader": "Введите пароль, который будет использоваться для разблокировки вашего нового кошелька",
     "signUpSwitchLabelBiometricUnlock": "Используйте биометрическую разблокировку",
@@ -796,7 +794,6 @@
     "settingsLabelSupport": "Поддержка",
     "settingsSupportGithub": "GitHub (Создать обращение)",
     "settingsSupportDiscord": "Discord (Канал поддержки)",
-    "assetButtonIssuerIdentity": "Идентификатор владельца",
     "generalLabelFee": "Комиссия",
     "generalLabelMultipleReceivers": "Несколько получателей",
     "qxTransferSharesWarning": "Эта запись о транзакции в данный момент видна только отправителю.",
@@ -840,5 +837,6 @@
     "homeHeaderQubicPrice": "QUBIC Цена",
     "revealSeedCopiedToClipboardMessage": "Приватная сид-фраза временно скопирована в буфер обмена (хранится 1 минуту)",
     "revealSeedWarningTitle": "Никогда не делитесь своей приватной сид-фразой!",
-    "revealSeedWarningDescription": "Если кто-то получит вашу приватную сид-фразу, он получит полный доступ к вашему аккаунту"
+    "revealSeedWarningDescription": "Если кто-то получит вашу приватную сид-фразу, он получит полный доступ к вашему аккаунту",
+    "blockedScreenshotWarning": "Скриншот защищён — экран остаётся приватным."
 }

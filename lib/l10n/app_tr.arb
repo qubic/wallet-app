@@ -123,21 +123,19 @@
     "generalErrorSetWalletPasswordEmpty": "Lütfen bir parolanızı giriniz.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Lütfen parolanızı tekrar giriniz.",
     "appTabHome": "Ana Menü",
-    "appTabTransfers": "Hesap Hareketleri",
     "appTabSettings": "Ayarlar",
     "homeLabelTotalBalance": "Toplam Bakiye",
     "homeHeader": "Cüzdandaki Hesaplar",
     "homeLabelNoAccountsInWallet": "Cüzdanınızda henüz herhangi bir Qubic hesabınız yok",
     "homeButtonAddAccount": "Hesap Ekle",
-    "transfersTitle": "Dönem Transferleri",
-    "transfersLabelAllTransactions": "Bütün Transferler",
+    "transfersLabelAllTransactions": "Bütün İşlemleri",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Hesaplarınız için bu dönemde filtrelerinize uyan hiçbir işlem bulunmuyor",
     "transfersLabelNoTransactionsFoundInWallet": "Bu dönem içerisinde hesabınızda herhangi bir transfer yapılmamıştır",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Bu dönem içerisinde filtreleriniz uyan hiçbir işlem bulunmamaktadır",
     "transfersLabelNoTransactionsFoundInAccount": "Hiçbir işlem bulunamadı.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
-    "transfersLabelFor": "Transferler",
-    "transfersLabelForAccount": "\"{accountName}\" Transferleri",
+    "transfersLabelFor": "İşlemleri",
+    "transfersLabelForAccount": "\"{accountName}\" İşlemleri",
     "@transfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -145,7 +143,7 @@
             }
         }
     },
-    "storedTransfersLabelForAccount": "\"{accountName}\" için tamamlanmamış transferleri",
+    "storedTransfersLabelForAccount": "\"{accountName}\" için tamamlanmamış işlemler",
     "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -153,7 +151,7 @@
             }
         }
     },
-    "filterTransfersTitle": "Transferleri Filtrele",
+    "filterTransfersTitle": "İşlemleri Filtrele",
     "filterTransfersLabelAnyQubicID": "Herhangi bir qubic ID'si",
     "filterTransfersLabelByQubicID": "Qubic ID'sine Göre",
     "filterTransfersLabelAnyStatus": "Herhangi Bir Durum",
@@ -231,7 +229,7 @@
     "welcomeTitle": "Hoşgeldiniz!",
     "welcomeButtonUnlockWallet": "Cüzdanı Aç",
     "welcomeButtonCreateWallet": "Yeni Bir Cüzdan Oluştur",
-    "accountButtonViewTransfer": "Transferleri Göster",
+    "accountButtonViewTransfer": "İşlemleri Göster",
     "accountButtonViewInExplorer": "Gezginde Göster",
     "accountButtonRevealPrivateSeed": "Özel Anahtarı Göster",
     "accountButtonReceive": "Al",
@@ -282,7 +280,7 @@
     "generalButtonUnlockWithIris": "İris taraması ile aç",
     "generalButtonUnlockWithOS": "İşletim Sistemi ile aç",
     "generalButtonAlternativeUnlock": "Alternatif kilit açma",
-    "generalErrorPasswordMinLength": "Parolanız en az 8 karaket uzunluğunda olmalıdır",
+    "generalErrorPasswordMinLength": "Parolanız en az 12 karaket uzunluğunda olmalıdır",
     "signUpTextFieldHintPassword": "Parola Girin",
     "generalErrorSetPasswordNotMatching": "Parolar Eşleşmiyor",
     "signUpTextFieldHintRepeatPassword": "Parolayı yeniden girin",
@@ -839,5 +837,6 @@
     "homeHeaderQubicPrice": "QUBIC Fiyat",
     "revealSeedCopiedToClipboardMessage": "Özel anahtar geçici olarak panoya kopyalandı (1 dakika saklanır)",
     "revealSeedWarningTitle": "Özel Anahtarınızı Paylaşmayın!",
-    "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur"
+    "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur",
+    "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır."
 }

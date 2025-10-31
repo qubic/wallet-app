@@ -140,7 +140,6 @@
     "generalStatusCode": "Status Code",
     "generalCode": "Code",
     "appTabHome": "Home",
-    "appTabTransfers": "Transfers",
     "appTabExplore": "Explore",
     "appTabSettings": "Settings",
     "homeLabelTotalBalance": "Total Balance",
@@ -148,17 +147,16 @@
     "homeHeaderQubicPrice": "QUBIC Price",
     "homeLabelNoAccountsInWallet": "You don't have any Qubic Accounts in your wallet yet",
     "homeButtonAddAccount": "Add Account",
-    "transfersTitle": "Epoch Transfers",
     "transfersLabelAllTransactions": "All Transactions",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "No transactions in this epoch for your accounts match your filters",
     "transfersLabelNoTransactionsFoundInWallet": "No transactions in this epoch for your accounts",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "No transactions in this epoch match your filters",
     "transfersLabelNoTransactionsFoundInAccount": "No transactions found.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
-    "transfersLabelFor": "Transfers for",
+    "transfersLabelFor": "Transactions for",
     "storedTransfersLabel": "View Incomplete Transactions",
     "transactionsCount": "{count, plural, =1{1 transaction} other{Showing {count} transactions}}",
-    "transfersLabelForAccount": "Transfers for \"{accountName}\"",
+    "transfersLabelForAccount": "Transactions for \"{accountName}\"",
     "@transfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -166,7 +164,7 @@
             }
         }
     },
-    "storedTransfersLabelForAccount": "Incomplete Transfers for \"{accountName}\"",
+    "storedTransfersLabelForAccount": "Incomplete Transactions for \"{accountName}\"",
     "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -236,7 +234,7 @@
     "manageBiometricsLabelInstructionsForGeneric": "You can enable authentication with biometrics.",
     "manageBiometricsLabelInstructionsForIris": "You can enable authentication with your iris.",
     "manageBiometricsLabelInstructionsForOS": "You can enable authentication through your OS.",
-    "manageBiometricsLabelAdditionalInstructions": "If you enable this, you can sign in to your wallet and issue transfers without using your password.",
+    "manageBiometricsLabelAdditionalInstructions": "If you enable this, you can sign in to your wallet and issue transactions without using your password.",
     "manageBiometricsErrorOSAuthNotAvailableTitle": "OS authentication not available",
     "manageBiometricsErrorNotAvailableTitle": "Biometric authentication not available",
     "manageBiometricsErrorOSAuthNotAvailableMessage": "Your OS does not support OS authentication",
@@ -258,7 +256,7 @@
     "welcomeTitle": "Welcome back!",
     "welcomeButtonUnlockWallet": "Unlock Wallet",
     "welcomeButtonCreateWallet": "Create a New Wallet",
-    "accountButtonViewTransfer": "View Transfers",
+    "accountButtonViewTransfer": "View Transactions",
     "accountButtonViewInExplorer": "View in Explorer",
     "accountButtonRevealPrivateSeed": "Reveal Private Seed",
     "accountButtonReceive": "Receive",
@@ -310,16 +308,16 @@
     "generalButtonUnlockWithIris": "Unlock with Iris",
     "generalButtonUnlockWithOS": "Unlock with OS",
     "generalButtonAlternativeUnlock": "Alternative Unlock",
-    "generalErrorPasswordMinLength": "Password must be at least 8 characters long",
+    "generalErrorPasswordMinLength": "Password must be at least 12 characters long",
     "signUpTextFieldHintPassword": "Enter password",
     "generalErrorSetPasswordNotMatching": "Passwords do not match",
     "signUpTextFieldHintRepeatPassword": "Repeat password",
     "generalErrorContactingQubicNetwork": "Error contacting Qubic Network",
     "signUpErrorStoringBiometricInfo": "Error storing biometric info",
     "signUpStepTwoHeader": "Biometric Unlock",
-    "signUpStepTwoSubHeader": "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transfers without using your password.",
+    "signUpStepTwoSubHeader": "You can enable authentication via biometrics. If enabled, you can sign in to your wallet and issue transactions without using your password.",
     "signUpStepTwoHeaderForDesktop": "OS Unlock",
-    "signUpStepTwoSubHeaderForDesktop": "You can enable authentication via your OS. If you enable this, you can sign in to your wallet and issue transfers without using your password.",
+    "signUpStepTwoSubHeaderForDesktop": "You can enable authentication via your OS. If you enable this, you can sign in to your wallet and issue transactions without using your password.",
     "signUpStepOneHeader": "Create New Wallet",
     "signUpStepOneSubHeader": "Fill in a password that will be used to unlock your new wallet",
     "signUpSwitchLabelBiometricUnlock": "Use Biometric Unlock",
@@ -902,5 +900,6 @@
     "rootJailbreakDialogButtonRestrictFeature": "Ok",
     "revealSeedCopiedToClipboardMessage": "Private seed temporarily copied to clipboard (stored for 1 minute)",
     "revealSeedWarningTitle": "Do not share your Private Seed!",
-    "revealSeedWarningDescription": "If someone has your private seed, they will have full control of your account"
+    "revealSeedWarningDescription": "If someone has your private seed, they will have full control of your account",
+    "blockedScreenshotWarning": "Screenshot protected — this screen is private."
 }

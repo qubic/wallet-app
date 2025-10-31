@@ -314,6 +314,7 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
           vaultPassword, selectedPath, selectedFileBytes);
     } catch (e) {
       if (e is AppError && e.type == ErrorType.tamperedWallet) {
+        if (!mounted) return false;
         showTamperedWalletAlert(context);
         setState(() {
           isLoading = false;
@@ -450,8 +451,6 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(
                   errorText: l10n.generalErrorRequiredField),
-              FormBuilderValidators.minLength(8,
-                  errorText: l10n.generalErrorPasswordMinLength)
             ]),
             onSubmitted: (value) => handleProceed(),
             onChanged: (value) => vaultPassword = value ?? "",

@@ -10,6 +10,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/globals.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -23,25 +24,26 @@ import 'package:universal_platform/universal_platform.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  setupDI(); //Dependency injection
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Colors.transparent,
-    statusBarBrightness: Brightness.dark,
-    statusBarIconBrightness: Brightness.light,
-    systemNavigationBarColor: Colors.transparent,
-  ));
+  try {
+    await setupDI(); //Dependency injection
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
+      systemNavigationBarColor: Colors.transparent,
+    ));
 
-  await PlatformSpecificInitilization().run();
+    await PlatformSpecificInitilization().run();
+    getIt.get<SettingsStore>().loadSettings();
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    getIt.get<SettingsStore>().setVersion(packageInfo.version);
+    getIt.get<SettingsStore>().setBuildNumber(packageInfo.buildNumber);
 
-  getIt.get<SettingsStore>().loadSettings();
-  PackageInfo packageInfo = await PackageInfo.fromPlatform();
-  getIt.get<SettingsStore>().setVersion(packageInfo.version);
-  getIt.get<SettingsStore>().setBuildNumber(packageInfo.buildNumber);
-
-  getIt.get<ApplicationStore>().checkWalletIsInitialized();
-
-  getIt.get<QubicCmd>().initialize();
+    getIt.get<ApplicationStore>().checkWalletIsInitialized();
+  } catch (e) {
+    appLogger.e(e.toString());
+  }
 
   runApp(const WalletApp());
 }

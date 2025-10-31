@@ -31,6 +31,7 @@ class TransactionVm {
   final String sourceId;
   final String destId;
   final int amount;
+  final String status;
   final int targetTick;
   bool isPending;
   final bool moneyFlow;
@@ -43,6 +44,7 @@ class TransactionVm {
     required this.sourceId,
     required this.destId,
     required this.amount,
+    this.status = "",
     required this.targetTick,
     required this.isPending,
     required this.moneyFlow,
@@ -73,7 +75,7 @@ class TransactionVm {
 
   @override
   String toString() {
-    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount, Moneyflow: $moneyFlow Type: $type, Timestamp: $timestamp";
+    return "TransactionVm: $id, Source: $sourceId, Dest: $destId, Amount: $amount, Moneyflow: $moneyFlow Type: $type, Timestamp: $timestamp Tick: $targetTick";
   }
 
   factory TransactionVm.fromTransactionDto(TransactionDto original) {
@@ -105,6 +107,7 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
       sourceId: reader.readString(),
       destId: reader.readString(),
       amount: reader.readInt(),
+      status: reader.readString(),
       targetTick: reader.readInt(),
       isPending: reader.readBool(),
       moneyFlow: reader.readBool(),
@@ -121,6 +124,7 @@ class TransactionVmAdapter extends TypeAdapter<TransactionVm> {
     writer.writeString(obj.sourceId);
     writer.writeString(obj.destId);
     writer.writeInt(obj.amount);
+    writer.writeString(obj.status);
     writer.writeInt(obj.targetTick);
     writer.writeBool(obj.isPending);
     writer.writeBool(obj.moneyFlow);

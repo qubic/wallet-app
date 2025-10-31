@@ -122,21 +122,19 @@
     "generalErrorSetWalletPasswordEmpty": "Por favor, ingresa tu contraseña.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Por favor, ingresa tu contraseña nuevamente.",
     "appTabHome": "Inicio",
-    "appTabTransfers": "Transferencias",
     "appTabSettings": "Configuraciones",
     "homeLabelTotalBalance": "Balance Total",
     "homeHeader": "Cuentas en el Wallet",
     "homeLabelNoAccountsInWallet": "Aún no tienes cuentas en este Wallet.",
     "homeButtonAddAccount": "Agregar Cuenta",
-    "transfersTitle": "Transferencias de la Época",
     "transfersLabelAllTransactions": "Todas las transacciones",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "No se encontraron transacciones en esta época que coincidan los filtros seleccionados",
     "transfersLabelNoTransactionsFoundInWallet": "No se encontraron transacciones en esta época para tus cuentas",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "No se encontraron transacciones en esta época que coincidan con tus filtros",
     "transfersLabelNoTransactionsFoundInAccount": "No se encontraron transacciones.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Mostrando 1 transacción del Tick} other{Mostrando {count} transacciones}}",
-    "transfersLabelFor": "Transferencias de",
-    "transfersLabelForAccount": "Transferencias de \"{accountName}\"",
+    "transfersLabelFor": "Transacciones de",
+    "transfersLabelForAccount": "Transacciones de \"{accountName}\"",
     "@transfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -144,7 +142,7 @@
             }
         }
     },
-    "storedTransfersLabelForAccount": "Transferencias Incompletas de \"{accountName}\"",
+    "storedTransfersLabelForAccount": "Transacciones Incompletas de \"{accountName}\"",
     "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -152,7 +150,7 @@
             }
         }
     },
-    "filterTransfersTitle": "Filtrar Transferencias",
+    "filterTransfersTitle": "Filtrar Transacciones",
     "filterTransfersLabelAnyQubicID": "Cualquier Qubic ID",
     "filterTransfersLabelByQubicID": "Cualquier Qubic ID",
     "filterTransfersLabelAnyStatus": "Cualquier Estado",
@@ -208,7 +206,7 @@
     "manageBiometricsLabelInstructionsForGeneric": "Puedes habilitar la autenticación con datos biométricos.",
     "manageBiometricsLabelInstructionsForIris": "Puedes habilitar la autenticación con tu iris.",
     "manageBiometricsLabelInstructionsForOS": "Puedes habilitar la autenticación con el sistema operativo.",
-    "manageBiometricsLabelAdditionalInstructions": "Si habilitas esto, podrás desbloquear tu Wallet y realizar transferencias sin ingresar tu contraseña.",
+    "manageBiometricsLabelAdditionalInstructions": "Si habilitas esto, podrás desbloquear tu Wallet y ejecutar transacciones sin ingresar tu contraseña.",
     "manageBiometricsErrorOSAuthNotAvailableTitle": "Autenticación con el sistema no disponible",
     "manageBiometricsErrorNotAvailableTitle": "Autenticación con Datos Biométricos no disponible",
     "manageBiometricsErrorOSAuthNotAvailableMessage": "Tu sistema operativo no soporta la autenticación con el sistema",
@@ -230,7 +228,7 @@
     "welcomeTitle": "Bienvenido de vuelta!",
     "welcomeButtonUnlockWallet": "Desbloquear Wallet",
     "welcomeButtonCreateWallet": "Crear un Nuevo Wallet",
-    "accountButtonViewTransfer": "Ver Transferencias",
+    "accountButtonViewTransfer": "Ver Transacciones",
     "accountButtonViewInExplorer": "Ver en el Explorador",
     "accountButtonRevealPrivateSeed": "Revelar Semilla Privada",
     "accountButtonReceive": "Recibir",
@@ -281,16 +279,16 @@
     "generalButtonUnlockWithIris": "Desbloquear con Iris",
     "generalButtonUnlockWithOS": "Desbloquear con el sistema operativo",
     "generalButtonAlternativeUnlock": "Desboqueo Alternativo",
-    "generalErrorPasswordMinLength": "La contraseña debe tener al menos 8 caracteres",
+    "generalErrorPasswordMinLength": "La contraseña debe tener al menos 12 caracteres",
     "signUpTextFieldHintPassword": "Ingresar contraseña",
     "generalErrorSetPasswordNotMatching": "Las contraseñas no coinciden",
     "signUpTextFieldHintRepeatPassword": "Repetir contraseña",
     "generalErrorContactingQubicNetwork": "Error al contactar a la red de Qubic",
     "signUpErrorStoringBiometricInfo": "Error al guardar la información biométrica",
     "signUpStepTwoHeader": "Desbloquar con Datos Biométricos",
-    "signUpStepTwoSubHeader": "Puedes habilitar la autenticación con datos biométricos. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transferencias sin utilizar password.",
+    "signUpStepTwoSubHeader": "Puedes habilitar la autenticación con datos biométricos. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transacciones sin utilizar password.",
     "signUpStepTwoHeaderForDesktop": "Desbloquar con el OS",
-    "signUpStepTwoSubHeaderForDesktop": "Puedes habilitar la autenticación con el sistema operativo. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transferencias sin utilizar password.",
+    "signUpStepTwoSubHeaderForDesktop": "Puedes habilitar la autenticación con el sistema operativo. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transacciones sin utilizar password.",
     "signUpStepOneHeader": "Crear Nuevo Wallet",
     "signUpStepOneSubHeader": "Ingresa una contraseña que utilizarás para deesbloquer tu nuevo Wallet",
     "signUpSwitchLabelBiometricUnlock": "Usar Desbloqueo con Datos Biométricos",
@@ -350,7 +348,7 @@
     "transactionItemButtonViewDetails": "Ver Detalles",
     "transactionItemButtonResend": "Reenviar",
     "transactionItemLabelConfirmedDate": "Fecha y hora",
-    "transactionItemLabelDetails": "Detalles de la Transferencia",
+    "transactionItemLabelDetails": "Detalles de la Transacción",
     "sendItemLabelTargetTick": "Tick de Ejecución",
     "sendItemLabelTargetTickAutomatic": "Automáticamente: Actual + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
@@ -838,5 +836,6 @@
     "homeHeaderQubicPrice": "QUBIC Precio",
     "revealSeedCopiedToClipboardMessage": "La semilla privada se copió temporalmente (por 1 minuto) al portapapeles",
     "revealSeedWarningTitle": "¡No compartas tu semilla privada!",
-    "revealSeedWarningDescription": "Si alguien tiene tu semilla privada, tendrá control total de tu cuenta"
+    "revealSeedWarningDescription": "Si alguien tiene tu semilla privada, tendrá control total de tu cuenta",
+    "blockedScreenshotWarning": "Captura protegida: esta pantalla es privada."
 }

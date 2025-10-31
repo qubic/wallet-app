@@ -20,10 +20,6 @@ enum HiveBoxesNames {
 }
 
 class HiveStorage {
-  HiveStorage() {
-    _init();
-  }
-
   final _secureStorage = getIt<SecureStorage>();
   late Box<TransactionVm> _storedTransactions;
   late Box<NetworkModel> _storedNetworks;
@@ -34,7 +30,7 @@ class HiveStorage {
   final accountsSortingKey = "accounts_sorting_mode";
   late HiveAesCipher _encryptionCipher;
 
-  Future<void> _init() async {
+  Future<void> initialize() async {
     appLogger.i('[HiveStorage] Initializing Hive...');
     await Hive.initFlutter();
     Hive.registerAdapter(TransactionVmAdapter());
@@ -43,15 +39,15 @@ class HiveStorage {
     initEncryptedBoxes();
   }
 
-  initEncryptedBoxes() async {
-    await _loadEncryptionKey();
-    await Future.wait([
-      openTransactionsBox(),
-      openNetworksBox(),
-      openCurrentNetworkBox(),
-      openAccountsBox(),
-      openAccountsSortingModeBox(),
-    ]);
+  Future<void> initEncryptedBoxes() async {
+    try {
+      await _loadEncryptionKey();
+      await openTransactionsBox();
+      await openNetworksBox();
+      await openCurrentNetworkBox();
+    } catch (e) {
+      appLogger.e("[HiveStorage] Error initializing hive storage: $e");
+    }
   }
 
   /// Loads or generates a new encryption key and stores it securely.
@@ -96,12 +92,15 @@ class HiveStorage {
       HiveBoxesNames.storedNetworks.name,
       encryptionCipher: _encryptionCipher,
     );
+    appLogger.d(
+        '[HiveStorage] Networks box opened with ${_storedNetworks.length} items.');
   }
 
   Future<void> openCurrentNetworkBox() async {
     _currentNetworkBox = await Hive.openBox<String>(
         HiveBoxesNames.currentNetworkName.name,
         encryptionCipher: _encryptionCipher);
+    appLogger.d('[HiveStorage] Current network box opened.');
   }
 
   Future<void> openAccountsBox() async {

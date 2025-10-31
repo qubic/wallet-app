@@ -75,7 +75,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             FormBuilderValidators.required(
                                 errorText:
                                     l10n.generalErrorSetWalletPasswordEmpty),
-                            FormBuilderValidators.minLength(8,
+                            FormBuilderValidators.minLength(12,
                                 errorText: l10n.generalErrorPasswordMinLength)
                           ]),
                           onChanged: (value) => currentPassword = value ?? "",

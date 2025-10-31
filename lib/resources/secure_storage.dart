@@ -1,7 +1,7 @@
-// ignore_for_file: non_constant_identifier_names
-
+import 'dart:convert';
 import 'dart:math';
 
+import 'package:cryptography/cryptography.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -9,9 +9,8 @@ import 'package:qubic_wallet/models/critical_settings.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/settings.dart';
-import 'dart:convert';
-import 'dart:developer' as dev;
-import 'package:cryptography/cryptography.dart';
+import 'package:qubic_wallet/resources/keychain_migration.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class SecureStorageKeys {
   static const prepend = kReleaseMode
@@ -46,7 +45,20 @@ class SecureStorage {
   late final FlutterSecureStorage storage;
   late String prepend;
   SecureStorage() {
-    storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+    storage = const FlutterSecureStorage(
+        aOptions: AndroidOptions(
+          encryptedSharedPreferences: true,
+        ),
+        iOptions: IOSOptions(
+          synchronizable: false,
+          accessibility: KeychainAccessibility.unlocked_this_device,
+        ));
+  }
+
+  Future<void> initialize() async {
+    if (UniversalPlatform.isIOS) {
+      await KeychainMigration.migrateKeychain();
+    }
   }
 
   final _argon2idAlgorithm = Argon2id(
@@ -80,10 +92,6 @@ class SecureStorage {
   Future<void> deleteHiveEncryptionKey() async {
     await storage.delete(key: SecureStorageKeys.hiveEncryptionKey);
   }
-
-  AndroidOptions _getAndroidOptions() => const AndroidOptions(
-        encryptedSharedPreferences: true,
-      );
 
   Uint8List generateSalt(int length) {
     final random = Random.secure();
@@ -138,12 +146,12 @@ class SecureStorage {
     final hashBase64 = parts[5];
     final salt = decodeBase64WithPadding(saltBase64);
     final expectedHash = decodeBase64WithPadding(hashBase64);
-    dev.log("Started verifying the hash");
+    appLogger.d("Started verifying the hash");
     final newHash = await _argon2idAlgorithm.deriveKeyFromPassword(
         password: password, nonce: salt);
-    dev.log("Hash generated");
+    appLogger.d("Hash generated");
     final newHashBytes = await newHash.extractBytes();
-    dev.log("Extract bytes");
+    appLogger.d("Extract bytes");
     return _constantTimeBytesEqual(newHashBytes, expectedHash);
   }
 
@@ -167,13 +175,11 @@ class SecureStorage {
         settings.storedPasswordHash!.trim().isEmpty) {
       return false;
     }
-    dev.log('password: $password');
-    dev.log('hash: ${settings.storedPasswordHash}');
     var result = await verifyArgon2Hash(
       password: password,
       hashString: settings.storedPasswordHash!,
     );
-    dev.log('result: $result');
+    appLogger.d('result: $result');
     if (result) {
       Settings s = await getWalletSettings();
       s.padding = settings.padding;
@@ -233,15 +239,15 @@ class SecureStorage {
   /// This optimized version reduces async operations and reuses the algorithm instance
   Future<String> hashPasswordWithArgon2id(String password) async {
     final salt = generateSecureSalt(argon2SaltSizeBytes);
-    dev.log('Generating key');
+    appLogger.d('Generating key');
     final secretKey = await _argon2idAlgorithm.deriveKeyFromPassword(
       password: password,
       nonce: salt,
     );
-    dev.log('Key generated');
-    dev.log('Extracting bytes');
+    appLogger.d('Key generated');
+    appLogger.d('Extracting bytes');
     final hashBytes = await secretKey.extractBytes();
-    dev.log('Bytes extracted');
+    appLogger.d('Bytes extracted');
     // Convert salt and hash to base64 without padding for PHC format
     final saltBase64 = encodeBase64WithoutPadding(salt);
     final hashBase64 =
@@ -257,7 +263,6 @@ class SecureStorage {
       return false;
     }
     var result = await hashPasswordWithArgon2id(password);
-    dev.log("The new hash after creating the wallet is: $result");
     CriticalSettings csettings = CriticalSettings(
         storedPasswordHash: result, publicIds: [], privateSeeds: [], names: []);
 
@@ -316,9 +321,7 @@ class SecureStorage {
   }
 
   Future<bool> deleteWallet() async {
-    //Note The current implementation of flutter_secure_storage does not support readAll and deleteAll .
-    await storage.delete(key: SecureStorageKeys.criticalSettings);
-    await storage.delete(key: SecureStorageKeys.settings);
+    await storage.deleteAll();
     return true;
   }
 

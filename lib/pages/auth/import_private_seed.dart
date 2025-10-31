@@ -241,6 +241,7 @@ class _ImportPrivateSeedState extends State<ImportPrivateSeed> {
         }
         // Wait for the current frame to complete before proceeding
         await Future.delayed(Duration.zero);
+        if (!mounted) return;
         if (authFlow == AuthFlow.biometric) {
           // Device supports biometric authentication
           // Show biometrics setup panel since device supports and requires biometric authentication

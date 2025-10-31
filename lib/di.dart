@@ -1,5 +1,6 @@
 import 'package:app_links/app_links.dart';
 import 'package:get_it/get_it.dart';
+import 'package:qubic_wallet/services/screenshot_service.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
@@ -22,7 +23,7 @@ import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
 final GetIt getIt = GetIt.instance;
 
 /// Setups Dependency injection
-void setupDI() {
+Future<void> setupDI() async {
   getIt.registerSingleton<NetworkStore>(NetworkStore());
   getIt.registerSingleton<RootJailbreakFlagStore>(RootJailbreakFlagStore());
 
@@ -36,7 +37,9 @@ void setupDI() {
   getIt.registerSingleton<SettingsStore>(SettingsStore());
   getIt.registerSingleton<DappStore>(DappStore());
   getIt.registerSingleton<SecureStorage>(SecureStorage());
+  await getIt<SecureStorage>().initialize();
   getIt.registerSingleton<HiveStorage>(HiveStorage());
+  await getIt<HiveStorage>().initialize();
 
 //Providers
   getIt.registerSingleton<GlobalSnackBar>(GlobalSnackBar());
@@ -57,7 +60,9 @@ void setupDI() {
   getIt.registerSingleton<BiometricService>(BiometricService());
 
   getIt.registerSingleton<QubicCmd>(QubicCmd());
+  getIt.get<QubicCmd>().initialize();
 
   getIt.registerSingleton<AppLinks>(AppLinks());
   getIt.registerLazySingleton(() => QrScannerService(getIt<GlobalSnackBar>()));
+  getIt.registerLazySingleton<ScreenshotService>(() => ScreenshotService());
 }
