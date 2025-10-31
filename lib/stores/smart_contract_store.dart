@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 
@@ -13,12 +14,6 @@ abstract class SmartContractStoreBase with Store {
 
   @observable
   List<QubicSCModel> contracts = [];
-
-  @observable
-  String? error;
-
-  @observable
-  bool isLoading = false;
 
   @computed
   Map<String, QubicSCModel> get _byId => {
@@ -39,23 +34,21 @@ abstract class SmartContractStoreBase with Store {
   @action
   Future<void> loadSmartContracts() async {
     try {
-      isLoading = true;
-      error = null;
-
       final response = await _qubicHelpersApi.getSmartContracts();
 
       contracts = response.smartContracts
           .map((dto) => QubicSCModel.fromDto(dto))
           .toList();
-
-      appLogger.d("Successfully loaded ${contracts.length} smart contracts");
+      appLogger.e("Successfully loaded ${contracts.length} smart contracts");
     } catch (e) {
-      appLogger.e("Failed to load smart contracts from API: $e");
-      error = e.toString();
-      appLogger.d("Falling back to static smart contracts data");
-      contracts = QubicSCStore.contracts;
-    } finally {
-      isLoading = false;
+      appLogger.e("Failed to load smart contracts from API: ${e.toString()}");
+      getIt<GlobalSnackBar>().showError(e.toString());
+    }
+  }
+
+  Future<void> refreshIfAbsent() async {
+    if (!hasData) {
+      await loadSmartContracts();
     }
   }
 }

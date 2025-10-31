@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
-import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 
@@ -19,7 +18,7 @@ class QubicHelpersApi {
       final response = await _dio.get('/dapps/dapps.json');
       return DappsResponse.fromJson(response.data);
     } catch (e) {
-      throw Exception('Failed to fetch dapps: $e');
+      throw Exception('Failed to fetch dapps');
     }
   }
 
@@ -28,7 +27,7 @@ class QubicHelpersApi {
       final response = await _dio.get('/dapps/locales/$locale.json');
       return response.data;
     } catch (e) {
-      throw Exception('Failed to fetch localized dapp: $e');
+      throw Exception('Failed to fetch localized dapp');
     }
   }
 
@@ -37,7 +36,7 @@ class QubicHelpersApi {
       final response = await _generalDio.get('/data/smart_contracts.json');
       return SmartContractsResponse.fromJson(response.data);
     } catch (error) {
-      throw ErrorHandler.handleError(error);
+      throw Exception('Failed to fetch smart contracts data');
     }
   }
 }

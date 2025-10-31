@@ -39,38 +39,6 @@ mixin _$SmartContractStore on SmartContractStoreBase, Store {
     });
   }
 
-  late final _$errorAtom =
-      Atom(name: 'SmartContractStoreBase.error', context: context);
-
-  @override
-  String? get error {
-    _$errorAtom.reportRead();
-    return super.error;
-  }
-
-  @override
-  set error(String? value) {
-    _$errorAtom.reportWrite(value, super.error, () {
-      super.error = value;
-    });
-  }
-
-  late final _$isLoadingAtom =
-      Atom(name: 'SmartContractStoreBase.isLoading', context: context);
-
-  @override
-  bool get isLoading {
-    _$isLoadingAtom.reportRead();
-    return super.isLoading;
-  }
-
-  @override
-  set isLoading(bool value) {
-    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
-      super.isLoading = value;
-    });
-  }
-
   late final _$loadSmartContractsAsyncAction = AsyncAction(
       'SmartContractStoreBase.loadSmartContracts',
       context: context);
@@ -85,8 +53,6 @@ mixin _$SmartContractStore on SmartContractStoreBase, Store {
   String toString() {
     return '''
 contracts: ${contracts},
-error: ${error},
-isLoading: ${isLoading},
 hasData: ${hasData}
     ''';
   }
