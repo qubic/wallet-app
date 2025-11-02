@@ -60,8 +60,7 @@ abstract class _ApplicationStore with Store {
   }
 
   @observable
-  late AccountSortMode accountsSortingMode =
-      _hiveStorage.getAccountsSortingMode() ?? AccountSortMode.creationOrder;
+  AccountSortMode accountsSortingMode = AccountSortMode.creationOrder;
 
   @action
   void setAccountsSortingMode(AccountSortMode mode) {
@@ -72,30 +71,29 @@ abstract class _ApplicationStore with Store {
   }
 
   void initStoredAccountsIfAbsent() {
-    if (_hiveStorage.getAccountsSortingMode() == null &&
-        currentQubicIDs.isNotEmpty) {
+    // Load sorting mode from storage
+    final storedMode = _hiveStorage.getAccountsSortingMode();
+    if (storedMode != null) {
+      accountsSortingMode = storedMode;
+    } else if (currentQubicIDs.isNotEmpty) {
+      // Initialize default sorting mode if absent
       appLogger.i('Setting accounts by creation order');
-      _hiveStorage.setAccounts(currentQubicIDs);
+      accountsSortingMode = AccountSortMode.creationOrder;
       _hiveStorage.setAccountsSortingMode(AccountSortMode.creationOrder);
     }
   }
 
   @action
   void sortAccounts() {
+    // Early return for creation order - no sorting needed
+    if (accountsSortingMode == AccountSortMode.creationOrder) {
+      return;
+    }
+
     if (accountsSortingMode == AccountSortMode.name) {
-      currentQubicIDs.sort((a, b) => a.name.compareTo(b.name));
+      currentQubicIDs.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     } else if (accountsSortingMode == AccountSortMode.balance) {
       currentQubicIDs.sort((b, a) => (a.amount ?? 0).compareTo(b.amount ?? 0));
-    } else {
-      //Arrange currentQubicIDs based on the accountsSorted
-      final accountsSorted = _hiveStorage.getAccounts();
-      currentQubicIDs.sort((a, b) {
-        final aIndex =
-            accountsSorted.indexWhere((acc) => acc.publicId == a.publicId);
-        final bIndex =
-            accountsSorted.indexWhere((acc) => acc.publicId == b.publicId);
-        return aIndex.compareTo(bIndex);
-      });
     }
   }
 
@@ -330,9 +328,6 @@ abstract class _ApplicationStore with Store {
     await secureStorage.addID(QubicId(privateSeed, publicId, name, null));
     currentQubicIDs.add(QubicListVm(
         publicId, name, null, null, null, privateSeed == '' ? true : false));
-    // Add to stored by creation order accounts
-    _hiveStorage.addAccount(QubicListVm(
-        publicId, name, null, null, null, privateSeed == '' ? true : false));
     sortAccounts();
   }
 
@@ -349,11 +344,13 @@ abstract class _ApplicationStore with Store {
         item.name = name;
         currentQubicIDs[i] = item;
         await secureStorage.renameId(publicId, name);
+        // Re-sort if in name mode to update account position
+        if (accountsSortingMode == AccountSortMode.name) {
+          sortAccounts();
+        }
         return;
       }
     }
-    // Rename stored by creation order accounts
-    _hiveStorage.renameAccount(publicId, name);
   }
 
   @action
@@ -543,8 +540,6 @@ abstract class _ApplicationStore with Store {
         currentQubicIDs.any(
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
-    // Remove from stored by creation order accounts
-    _hiveStorage.deleteAccount(publicId);
   }
 }
 

@@ -76,7 +76,10 @@ class TimedController extends WidgetsBindingObserver {
           if (changedIdsWithSeed.isNotEmpty) {
             _walletConnectService.triggerAmountChangedEvent(changedIdsWithSeed);
           }
-          appStore.sortAccounts();
+          // Only sort if in balance mode since balance changes don't affect other sort orders
+          if (appStore.accountsSortingMode == AccountSortMode.balance) {
+            appStore.sortAccounts();
+          }
         }
       }, onError: (e) {
         appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));

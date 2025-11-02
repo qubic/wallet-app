@@ -839,6 +839,7 @@
     "revealSeedWarningTitle": "Никогда не делитесь своей приватной сид-фразой!",
     "revealSeedWarningDescription": "Если кто-то получит вашу приватную сид-фразу, он получит полный доступ к вашему аккаунту",
     "blockedScreenshotWarning": "Скриншот защищён — экран остаётся приватным.",
+    "accountSortByLabel": "Сортировать по",
     "accountSortModeName": "Имя (А-Я)",
     "accountSortModeBalance": "Баланс (Высокий → Низкий)",
     "accountSortModeCreation": "Создание (Старые → Новые)"

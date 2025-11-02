@@ -839,6 +839,7 @@
     "revealSeedWarningTitle": "Özel Anahtarınızı Paylaşmayın!",
     "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur",
     "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır.",
+    "accountSortByLabel": "Sıralama",
     "accountSortModeName": "Ad (A-Z)",
     "accountSortModeBalance": "Bakiye (Yüksek → Düşük)",
     "accountSortModeCreation": "Oluşturma (En Eski → En Yeni)"

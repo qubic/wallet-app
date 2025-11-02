@@ -6,7 +6,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/network_model.dart';
-import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -15,7 +14,6 @@ enum HiveBoxesNames {
   storedTransactions,
   storedNetworks,
   currentNetworkName,
-  accounts,
   accountsSortingMode,
 }
 
@@ -25,7 +23,6 @@ class HiveStorage {
   late Box<NetworkModel> _storedNetworks;
   late Box<String> _currentNetworkBox;
   final currentNetworkKey = "current_network";
-  late Box<QubicListVm> _accounts;
   late Box<String> _accountsSortingMode;
   final accountsSortingKey = "accounts_sorting_mode";
   late HiveAesCipher _encryptionCipher;
@@ -35,7 +32,6 @@ class HiveStorage {
     await Hive.initFlutter();
     Hive.registerAdapter(TransactionVmAdapter());
     Hive.registerAdapter(NetworkAdapter());
-    Hive.registerAdapter(QubicListVmAdapter());
     initEncryptedBoxes();
   }
 
@@ -45,6 +41,7 @@ class HiveStorage {
       await openTransactionsBox();
       await openNetworksBox();
       await openCurrentNetworkBox();
+      await openAccountsSortingModeBox();
     } catch (e) {
       appLogger.e("[HiveStorage] Error initializing hive storage: $e");
     }
@@ -103,11 +100,6 @@ class HiveStorage {
     appLogger.d('[HiveStorage] Current network box opened.');
   }
 
-  Future<void> openAccountsBox() async {
-    _accounts = await Hive.openBox<QubicListVm>(HiveBoxesNames.accounts.name,
-        encryptionCipher: _encryptionCipher);
-  }
-
   Future<void> openAccountsSortingModeBox() async {
     _accountsSortingMode = await Hive.openBox<String>(
         HiveBoxesNames.accountsSortingMode.name,
@@ -162,40 +154,6 @@ class HiveStorage {
     return null;
   }
 
-  List<QubicListVm> getAccounts() {
-    return _accounts.values.toList();
-  }
-
-  void setAccounts(List<QubicListVm> accounts) {
-    for (var account in accounts) {
-      _accounts.add(account);
-    }
-  }
-
-  void addAccount(QubicListVm account) {
-    _accounts.add(account);
-  }
-
-  void renameAccount(String publicId, String newName) {
-    final index =
-        _accounts.values.toList().indexWhere((a) => a.publicId == publicId);
-    if (index != -1) {
-      final account = _accounts.getAt(index);
-      if (account != null) {
-        account.name = newName;
-        _accounts.putAt(index, account);
-      }
-    }
-  }
-
-  void deleteAccount(String publicId) {
-    final index =
-        _accounts.values.toList().indexWhere((a) => a.publicId == publicId);
-    if (index != -1) {
-      _accounts.deleteAt(index); // delete by index
-    }
-  }
-
   Future<void> clear() async {
     await _storedTransactions.clear();
     _storedTransactions.close();
@@ -205,6 +163,9 @@ class HiveStorage {
 
     await _currentNetworkBox.clear();
     _currentNetworkBox.close();
+
+    await _accountsSortingMode.clear();
+    _accountsSortingMode.close();
 
     await _secureStorage.deleteHiveEncryptionKey();
     appLogger.w(

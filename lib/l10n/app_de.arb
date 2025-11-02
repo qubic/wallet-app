@@ -839,6 +839,7 @@
     "revealSeedWarningTitle": "Teile deinen privaten Seed nicht!",
     "revealSeedWarningDescription": "Wenn jemand deinen privaten Seed hat, hat er vollständige Kontrolle über dein Konto",
     "blockedScreenshotWarning": "Screenshot geschützt — dieser Bildschirm bleibt privat.",
+    "accountSortByLabel": "Sortieren nach",
     "accountSortModeName": "Name (A-Z)",
     "accountSortModeBalance": "Guthaben (Hoch → Niedrig)",
     "accountSortModeCreation": "Erstellung (Älteste → Neueste)"

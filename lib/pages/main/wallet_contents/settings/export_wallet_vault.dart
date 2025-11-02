@@ -16,7 +16,7 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/app_error.dart';
-import 'package:qubic_wallet/resources/hive_storage.dart';
+import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -42,6 +42,7 @@ class ExportWalletVault extends StatefulWidget {
 class _ExportWalletVaultState extends State<ExportWalletVault> {
   // #region Variables
   final ApplicationStore appStore = getIt<ApplicationStore>();
+  final SecureStorage secureStorage = getIt<SecureStorage>();
   final LocalAuthentication auth = LocalAuthentication();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
@@ -388,7 +389,9 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
 
   Future<List<QubicVaultExportSeed>> getSeeds() async {
     List<QubicVaultExportSeed> seeds = [];
-    for (var element in getIt<HiveStorage>().getAccounts()) {
+    // Get accounts in creation order from secure storage
+    final accountsInCreationOrder = await secureStorage.getWalletContents();
+    for (var element in accountsInCreationOrder) {
       var seed = await appStore.getSeedById(element.publicId);
       seeds.add(QubicVaultExportSeed(
           seed: seed,
