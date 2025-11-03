@@ -123,22 +123,19 @@
     "generalErrorSetWalletPasswordEmpty": "Lütfen bir parolanızı giriniz.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Lütfen parolanızı tekrar giriniz.",
     "appTabHome": "Ana Menü",
-    "appTabTransfers": "Hesap Hareketleri",
-    "appTabExplorer": "Keşif Aracı",
     "appTabSettings": "Ayarlar",
     "homeLabelTotalBalance": "Toplam Bakiye",
     "homeHeader": "Cüzdandaki Hesaplar",
     "homeLabelNoAccountsInWallet": "Cüzdanınızda henüz herhangi bir Qubic hesabınız yok",
     "homeButtonAddAccount": "Hesap Ekle",
-    "transfersTitle": "Dönem Transferleri",
-    "transfersLabelAllTransactions": "Bütün Transferler",
+    "transfersLabelAllTransactions": "Bütün İşlemleri",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Hesaplarınız için bu dönemde filtrelerinize uyan hiçbir işlem bulunmuyor",
     "transfersLabelNoTransactionsFoundInWallet": "Bu dönem içerisinde hesabınızda herhangi bir transfer yapılmamıştır",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Bu dönem içerisinde filtreleriniz uyan hiçbir işlem bulunmamaktadır",
-    "transfersLabelNoTransactionsFoundInAccount": "Bu dönem içirinde herhangi bir işlem bulunmamaktadır",
+    "transfersLabelNoTransactionsFoundInAccount": "Hiçbir işlem bulunamadı.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Showing 1 transaction in tick} other{Showing {count} transactions}}",
-    "transfersLabelFor": "Transferler",
-    "transfersLabelForAccount": "\"{accountName}\" Transferleri",
+    "transfersLabelFor": "İşlemleri",
+    "transfersLabelForAccount": "\"{accountName}\" İşlemleri",
     "@transfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -146,7 +143,15 @@
             }
         }
     },
-    "filterTransfersTitle": "Transferleri Filtrele",
+    "storedTransfersLabelForAccount": "\"{accountName}\" için tamamlanmamış işlemler",
+    "@storedTransfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "filterTransfersTitle": "İşlemleri Filtrele",
     "filterTransfersLabelAnyQubicID": "Herhangi bir qubic ID'si",
     "filterTransfersLabelByQubicID": "Qubic ID'sine Göre",
     "filterTransfersLabelAnyStatus": "Herhangi Bir Durum",
@@ -155,40 +160,6 @@
     "filterTransfersFieldHintByDirection": "Yöne Göre",
     "generalLabelAnyDirection": "Herhangi Bir Yöne",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Clear 1 Active Filter} other{Clear {filtersCount} Active Filters}}",
-    "explorerTitle": "Dönem Gezgini",
-    "explorerLabelEpoch": "Epoch {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Özet",
-    "explorerHeaderTicks": "Tick Özeti",
-    "explorerSubHeaderTicks": "Son Tickler",
-    "explorerLabelTotalTicks": "Toplam Tickler",
-    "explorerLabelEmptyTicks": "Boş Tickler",
-    "explorerLabelTickQuality": "Tick Kalitesi",
-    "explorerLabelTotalSupply": "Toplam Arz (QUBIC)",
-    "explorerLabelTotalAddresses": "Toplam Adres Sayısı",
-    "explorerButtonRefreshData": "Verileri Güncelle",
-    "explorerLabelLoadingData": "Bu dönem için gezgin verileri güncelleniyor.",
-    "explorerSearchTitle": "Gezgin Araması",
-    "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
-    "explorerSearchLabelNoResults": "Eşleşen sonuç bulunamadı",
-    "explorerSearchLabelResults": "{count, plural, =1{Found 1 result} other{Found {count} results}}",
-    "explorerTickResultLabelBlockStatus": "Tik Durumu",
-    "explorerTickResultLabelBlockStatusEmpty": "Boş / Gerçekleştirilmemiş",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Dolu / Gerçekleştirildi",
-    "explorerTickResultLabelBlockStatusUnknown": "Bilinmeyen",
-    "explorerTickResultLabelDataStatus": "Data Durumu",
-    "explorerTickResultLabelInfoCompleted": "Tamamlanmış",
-    "explorerTickResultLabelInfoNotValidated": "Doğrulanmamış",
-    "explorerTickResultLabelTickLeader": "Tick Lideri",
-    "explorerTickResultLabelNoTransactionsFound": "Bu Tickte Hiçbir Transfer Bulunmamaktadır.",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transaction in tick} other{{count} transactions in tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Showing 1 of 1 transaction in tick} other{Showing 1 of {count} transactions in tick}}",
     "settingsTitle": "Ayarlar",
     "settingsHeaderAccountsAndData": "Hesaplar ve Veriler",
     "settingsLockWallet": "Cüzdanı Kilitle",
@@ -248,17 +219,17 @@
     "transactionLabelDirectionIncoming": "Gelen",
     "transactionLabelDirectionOutgoing": "Giden",
     "transactionLabelDirectionInWallet": "Cüzdandaki",
-    "transactionLabelStatusSuccessful": "Başarılı",
+    "transactionLabelStatusSuccessful": "Başarıyla tamamlandı",
     "transactionLabelStatusPending": "Onay Bekliyor",
-    "transactionLabelStatusConfirmed": "Onaylandı",
+    "transactionLabelStatusExecuted": "Gerçekleştirildi",
     "transactionLabelStatusFailed": "Başarısız",
     "transactionLabelStatusInvalid": "Geçersiz",
     "signInTitleOne": "Qubic Cüzdanına",
-    "siginInTitleTwo": "Hoşgeldiniz",
+    "signInTitleTwo": "Hoşgeldiniz",
     "welcomeTitle": "Hoşgeldiniz!",
     "welcomeButtonUnlockWallet": "Cüzdanı Aç",
     "welcomeButtonCreateWallet": "Yeni Bir Cüzdan Oluştur",
-    "accountButtonViewTransfer": "Transferleri Göster",
+    "accountButtonViewTransfer": "İşlemleri Göster",
     "accountButtonViewInExplorer": "Gezginde Göster",
     "accountButtonRevealPrivateSeed": "Özel Anahtarı Göster",
     "accountButtonReceive": "Al",
@@ -270,8 +241,6 @@
     "accountSendButtonMax": "Maksimum",
     "accountSendButtonMaxMinusOne": "Maksimum - 1",
     "accountSendSectionAdvanceOptionsTitle": "Gelişmiş Seçenekler",
-    "assetsLabelOwned": "Sahip Olunan",
-    "assetsLabelPossessed": "Sahip Olunan",
     "assetsLabelContractName": "Kontrakt Adı",
     "assetsLabelContractIndex": "Kontrakt İndeksi",
     "assetsLabelTick": "Valid for tick {tick}",
@@ -311,7 +280,7 @@
     "generalButtonUnlockWithIris": "İris taraması ile aç",
     "generalButtonUnlockWithOS": "İşletim Sistemi ile aç",
     "generalButtonAlternativeUnlock": "Alternatif kilit açma",
-    "generalErrorPasswordMinLength": "Parolanız en az 8 karaket uzunluğunda olmalıdır",
+    "generalErrorPasswordMinLength": "Parolanız en az 12 karaket uzunluğunda olmalıdır",
     "signUpTextFieldHintPassword": "Parola Girin",
     "generalErrorSetPasswordNotMatching": "Parolar Eşleşmiyor",
     "signUpTextFieldHintRepeatPassword": "Parolayı yeniden girin",
@@ -365,23 +334,8 @@
     "eraseDataSheetLabelOne": "Bu işlem geri alınamaz. Bütün hesaplarınız cihazınızdan silinecektir.",
     "eraseDataSheetLabelTwo": "Hesaplarınızı yalnızca özel anahtarlarınızın yedeği varsa kurtarabilirsiniz.",
     "eraseDataSheetCheckboxLabel": "Evet, cüzdan verimi sil.",
-    "accountExplorerTitle": "Qubic Adres",
-    "accountExplorerLabelCurrentValue": "Güncel Değeri",
-    "accountExplorerLabelValueReportedBy": "{ip} tarafından bildirilen değer",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Toplam Gelen",
-    "accountExplorerLabelTotalOutgoing": "Toplam Giden",
-    "accountExplorerLabelReportedBy": "Bildiren",
-    "transactionItemLabelIncludedByTickLeader": "Tick Lideri Tarafından Dahil Edilen",
-    "transactionItemLabelNotIncludedByTickLeader": "Tick Lideri Tarafından Dagil Edilmeyen",
     "transactionItemLabelTransactionId": "Transfer ID'si",
-    "transactionItemLabelTransactionDigest": "İşlem Özeti",
+    "transactionItemLabelTransactionType": "Tür",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -390,13 +344,10 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Qubic Ağı Tarafından Dahil Edildi ",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Qubic Ağı Tarafından Dahil Edilmedi",
     "transactionItemButtonViewInExplorer": "Gezginde Görüntüle",
     "transactionItemButtonCopyToClipboard": "Panoya Kopyala",
     "transactionItemButtonViewDetails": "Detayları Göster",
     "transactionItemButtonResend": "Yeniden Gönder",
-    "transactionItemLabelLeadToMoneyFlow": "Para Akışını Yönlendir",
     "transactionItemLabelConfirmedDate": "Zaman damgası",
     "transactionItemLabelDetails": "Transfer Detayları",
     "sendItemLabelTargetTick": "Hedef Tick",
@@ -441,7 +392,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Geçersiz özel anahtar girildi",
     "addAccountErrorTamperedWalletTitle": "KUSURLU CÜZDAN TESPİT EDİLDİ",
     "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nHTTPS://GITHUB.COM/QUBIC/WALLET-APP'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
-    "sendAssetLabelTransactionCost": "Trasfer Ücreti (sabit)",
+    "sendAssetLabelTransactionCost": "Ücret (sabit)",
     "sendAssetButtonTransfer": "Transfer",
     "sendAssetErrorTickIsInThePast": "Tick geçmiştedir. Mevcut Tick: {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -585,60 +536,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nDurum: {status}\nOluşturuldu: {created}\nSaklanan: {stored}\nSahnelenen: {staged}\nYayınlanan: {broadcasted}\nOnaylanan: {confirmed}\nDurum Tarihi: {statusUpdate}\nHedef Tick: {targetTick}\nBekliyor: {isPending}\nFiyat: {price} \nMiktar: {quantity}\nPara Akışı: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nTyp: {type}\nDurum: {status}\nTimestamp: {timestamp}\nHedef Tick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Mevcut Bir Cüzdanı İçe Aktar",
     "importWalletTitle": "Cüzdanı İçe Aktar",
     "importWalletSubHeader": "Mevcut cüzdanı nasıl içeri aktarmak istediğini seç",
@@ -749,8 +647,6 @@
     "generalErrorFileRequired": "Lütfen bir dosya seçin",
     "generalErrorPathRequired": "Lütfen bir yol seçin",
     "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz.",
-    "explorerLabelPrice": "Fiyat",
-    "explorerLabelMarketCap": "Piyasa Değeri",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Geçersiz yanlızca izleme adresi. Lütfen girilen adresi kontrol edin.",
     "addAccountErrorVerifyIdentityError": "Adres doğrulanamadı.",
@@ -772,8 +668,6 @@
             }
         }
     },
-    "accountExplorerLabelNoResultsFound": "Bu dönemde bu kimlik için işlem yok",
-    "accountExplorerLabelLatestTransactions": "Son İşlemler",
     "wcScopeRequestAccounts": "Cüzdan hesaplarını ve bakiyelerini görüntüle",
     "wcScopeSendQubic": "Cüzdan hesaplarından Qubic göndermenizi talep eder",
     "wcScopeSendAssets": "Cüzdan hesaplarından Qubic Varlıkları göndermenizi talep eder",
@@ -795,7 +689,7 @@
     "wcErrorUsedURL": "Bu URL ile zaten bir bağlantı kurulmuş",
     "wcErrorPairingTimeout": "Eşleştirme isteği zaman aşımına uğradı.",
     "wcErrorUnsupportedNetwork": "Desteklenmeyen ağ",
-    "wcErrorUnsupportedNetworkDescription": "Bu uygulama {networkName} ağını kullanıyor. Şu anda, Qubic Wallet sadece Qubic Ana Ağı üzerindeki uygulamaları destekliyor",
+    "wcErrorUnsupportedNetworkDescription": "Bu uygulama {networkName} ağını kullanıyor. Şu anda Qubic Wallet yalnızca Qubic Mainnet'taki uygulamaları desteklemektedir",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
@@ -817,7 +711,7 @@
     "wcOpenApp": "Uygulamayı Aç",
     "wcExpiresInDays": "{count, plural, =1{Oturum 1 gün içinde sona eriyor} other{Oturum {count} gün içinde sona eriyor}}",
     "wcExpiresInLessThanDay": "Oturum bir günden daha kısa sürede sona eriyor",
-    "pasteURLHere": "URL'yi buraya yapıştır",
+    "pasteURLHere": "URL'yi Yapıştır",
     "approvingConnection": "Bağlantı onaylanıyor",
     "pleaseWait": "Lütfen bekleyin",
     "wcApproveSignTransferOf": "Transferi imzala",
@@ -895,5 +789,54 @@
     "wcSmartContractWarningTitle": "\"{smartContractName}\" Akıllı Kontrat İşlemi",
     "wcSmartContractWarningDescription": "Bu DApp'e güvendiğinizden emin olun. İşlemi onaylayarak Qubics ve/veya varlıkların transferine izin verebilirsiniz",
     "wcApproveTransfer": "Transferi Onayla",
-    "wcSendAssets": "Varlıkları Gönder"
+    "wcSendAssets": "Varlıkları Gönder",
+    "assetButtonIssuerIdentity": "Veren Kimliği",
+    "settingsLabelSupport": "Destek",
+    "settingsSupportGithub": "GitHub (Hata bildir)",
+    "settingsSupportDiscord": "Discord (Destek kanalı)",
+    "generalLabelFee": "Ücret",
+    "generalLabelMultipleReceivers": "Birden Fazla Alıcı",
+    "qxTransferSharesWarning": "Bu işlem kaydı şu anda yalnızca gönderen tarafından görülebilir.",
+    "settingsSupportGoogleForm": "Formu Doldur",
+    "appTabExplore": "Keşfet",
+    "storedTransfersLabel": "Eksik işlemleri görüntüle",
+    "transactionsCount": "{count, plural, =1{1 işlem} other{{count} işlem gösteriliyor}}",
+    "dAppOpenButton": "Aç",
+    "dAppFeaturedApp": "Öne Çıkan Uygulama",
+    "dAppPopularApps": "Popüler dApp'ler",
+    "networksTitle": "Ağlar",
+    "networksButtonAddNetwork": "Ağ Ekle",
+    "networksConfirmationDialogTitleDeleteNetwork": "{networkName} silinsin mi?",
+    "networksConfirmationDialogContentDeleteNetwork": "{networkName} özel ağınızı silmek istediğinizden emin misiniz?",
+    "networksLabelDefault": "Varsayılan",
+    "networksButtonSetAsDefault": "Varsayılan Yap",
+    "addNetworkTitle": "Özel Ağ Ekle",
+    "addNetworkLabelNetworkName": "Ağ Adı",
+    "addNetworkTextFieldHintNetworkName": "Örn: Qubic Mainnet",
+    "addNetworkLabelRPCURL": "RPC URL",
+    "addNetworkLabelQubicExplorerURL": "Gezgin URL’si",
+    "networksWarningBannerCurrentNetwork": "Şu anda {networkName} ağındasınız",
+    "webviewAddressBarLabelRefresh": "Yenile",
+    "webviewAddressBarLabelShareURL": "URL Paylaş",
+    "rootJailbreakDialogTitleWarning": "Cihaz Tehlikede",
+    "rootJailbreakDialogMessageWarning": "Cihazınızın root'lu veya jailbreak'li olduğu tespit edildi. Bazı özellikler güvenlik riski taşıyabilir. Bu cüzdanı yalnızca güvenli ve değiştirilmemiş cihazlarda kullanmanızı şiddetle tavsiye ederiz. Uygulamayı kendi sorumluluğunuzda kullanabilirsiniz.",
+    "rootJailbreakDialogButtonWarning": "Anladım",
+    "rootJailbreakDialogTitleRestrict": "Erişim Kısıtlandı",
+    "rootJailbreakDialogMessageRestrict": "Cihazınızın root'lu veya jailbreak'li olduğu tespit edildi. Güvenlik nedeniyle bazı özellikler devre dışı bırakılmıştır.",
+    "rootJailbreakDialogButtonRestrict": "Tamam",
+    "rootJailbreakDialogTitleRestrictFeature": "Güvenlik Kısıtlaması",
+    "rootJailbreakDialogMessageRestrictFeature": "Bu özellik, root'lu veya jailbreak yapılmış cihazlarda veri güvenliğinizi tehlikeye atabileceği için kullanılamaz.",
+    "rootJailbreakDialogButtonRestrictFeature": "Tamam",
+    "biometricErrorPasscodeNotSet": "Cihazınızda bir parola, PIN veya şifre ayarlanmamış. Biyometrik kimlik doğrulamayı etkinleştirmek için lütfen cihaz ayarlarından bir tanesini ayarlayın.",
+    "biometricErrorNotEnrolled": "Cihazınızda kayıtlı biyometrik veri bulunmuyor. Lütfen cihaz ayarlarından biyometrik verinizi kaydedin.",
+    "biometricErrorNotAvailable": "Bu cihazda biyometrik kimlik doğrulama mevcut değil.",
+    "biometricErrorOtherOperatingSystem": "İşletim sisteminiz biyometrik kimlik doğrulamayı desteklemiyor.",
+    "biometricErrorLockedOut": "Çok fazla başarısız deneme yapıldı. Lütfen telefonunuzu PIN / desen veya şifre ile kilitleyip tekrar açın ve tekrar deneyin.",
+    "biometricErrorPermanentlyLockedOut": "Biyometrik kimlik doğrulama kalıcı olarak kilitlendi. Lütfen cihazınızı PIN, desen veya şifre ile açarak tekrar deneyin.",
+    "biometricErrorBiometricOnlyNotSupported": "Bu platformda yalnızca biyometrik kimlik doğrulama desteklenmiyor.",
+    "homeHeaderQubicPrice": "QUBIC Fiyat",
+    "revealSeedCopiedToClipboardMessage": "Özel anahtar geçici olarak panoya kopyalandı (1 dakika saklanır)",
+    "revealSeedWarningTitle": "Özel Anahtarınızı Paylaşmayın!",
+    "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur",
+    "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır."
 }

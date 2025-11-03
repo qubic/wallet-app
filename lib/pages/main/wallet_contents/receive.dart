@@ -3,7 +3,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/copy_to_clipboard.dart';
+import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 
@@ -58,7 +58,7 @@ class _ReceiveState extends State<Receive> {
     return [
       ThemedControls.primaryButtonNormal(
           onPressed: () {
-            copyToClipboard(widget.item.publicId, context);
+            ClipboardHelper.copyToClipboard(widget.item.publicId, context);
           },
           text: l10n.generalButtonCopyAddress,
           icon: !LightThemeColors.shouldInvertIcon
@@ -111,9 +111,8 @@ class _ReceiveState extends State<Receive> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
@@ -136,7 +135,7 @@ class _ReceiveState extends State<Receive> {
               ToggleableQRCode(
                   qRCodeData: widget.item.publicId, expanded: true),
             ],
-          )))
+          ))
         ]));
   }
 

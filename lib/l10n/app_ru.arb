@@ -123,23 +123,28 @@
     "generalErrorSetWalletPasswordEmpty": "Пожалуйста, введите пароль.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Пожалуйста, введите пароль еще раз.",
     "appTabHome": "Главная",
-    "appTabTransfers": "Транзакции",
-    "appTabExplorer": "Обозреватель",
     "appTabSettings": "Настройки",
     "homeLabelTotalBalance": "Общий балланс",
     "homeHeader": "Аккаунты в кошельке",
     "homeLabelNoAccountsInWallet": "У вас пока что нет аккаунтов в кошельке Qubic",
     "homeButtonAddAccount": "Добавить аккаунт",
-    "transfersTitle": "Транзакции в пределах эпохи",
     "transfersLabelAllTransactions": "Все транзакции",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "Ни одна транзакция в этой эпохе для ваших счетов не соответствует вашим фильтрам",
     "transfersLabelNoTransactionsFoundInWallet": "В эту эпоху нет операций по вашим счетам",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "Ни одна транзакция в этой эпохе не соответствует вашим фильтрам",
-    "transfersLabelNoTransactionsFoundInAccount": "Никаких транзакций в этой эпохе",
+    "transfersLabelNoTransactionsFoundInAccount": "Транзакции не найдены.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Показать 1 транзакцию в тике} other{Показать {count} транзакций(и)}}",
-    "transfersLabelFor": "Транзакция к",
-    "transfersLabelForAccount": "Транзакция к \"{accountName}\"",
+    "transfersLabelFor": "Транзакции для",
+    "transfersLabelForAccount": "Транзакции для \"{accountName}\"",
     "@transfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "storedTransfersLabelForAccount": "Незавершённые транзакции для \"{accountName}\"",
+    "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
                 "type": "String"
@@ -155,40 +160,6 @@
     "filterTransfersFieldHintByDirection": "По назначению",
     "generalLabelAnyDirection": "Любое назначение",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Очистить фильтр} other{Очистить {filtersCount} активных фильтра(ов)}}",
-    "explorerTitle": "Обозореватель эпохи",
-    "explorerLabelEpoch": "Эпоха {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Обзор",
-    "explorerHeaderTicks": "Обзор тиков",
-    "explorerSubHeaderTicks": "Последний тик",
-    "explorerLabelTotalTicks": "Общее кол-во тиков",
-    "explorerLabelEmptyTicks": "Пустые тики",
-    "explorerLabelTickQuality": "Качество тиков",
-    "explorerLabelTotalSupply": "Общее предложение (QUBIC)",
-    "explorerLabelTotalAddresses": "Всего адресов",
-    "explorerButtonRefreshData": "Обновить данные",
-    "explorerLabelLoadingData": "Загрузить данные обозревателя для этой эпохи",
-    "explorerSearchTitle": "Поиск в обозревателе",
-    "explorerSearchLabelCriteria": "Тик / TX ID / Публичный ID",
-    "explorerSearchLabelNoResults": "Не найдено соответствий",
-    "explorerSearchLabelResults": "{count, plural, =1{Найден 1 результат} other{Найдено {count} результата(ов))}}",
-    "explorerTickResultLabelBlockStatus": "Статус тика",
-    "explorerTickResultLabelBlockStatusEmpty": "Пусто / Не выполнено",
-    "explorerTickResultLabelBlockStatusNonEmpty": "Непустой / Выполнено",
-    "explorerTickResultLabelBlockStatusUnknown": "Неизвестно",
-    "explorerTickResultLabelDataStatus": "Статус данных",
-    "explorerTickResultLabelInfoCompleted": "Завершено",
-    "explorerTickResultLabelInfoNotValidated": "Не подтверждено",
-    "explorerTickResultLabelTickLeader": "Лидер тика",
-    "explorerTickResultLabelNoTransactionsFound": "Нет транзакций в этом тике",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 транзакция в тике} other{{count} транзакций в тике}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Показать 1 из 1 транзакций в тике} other{Показать 1 из {count} транзакций в тике}}",
     "settingsTitle": "Настройки",
     "settingsHeaderAccountsAndData": "Аккаунты и данные",
     "settingsLockWallet": "Заблокировать кошелек",
@@ -236,7 +207,7 @@
     "manageBiometricsLabelInstructionsForGeneric": "Вы можете включить аутентификацию с помощью биометрических данных.",
     "manageBiometricsLabelInstructionsForIris": "Вы можете включить аутентификацию с помощью глаза.",
     "manageBiometricsLabelInstructionsForOS": "Вы можете включить аутентификацию через свою ОС.",
-    "manageBiometricsLabelAdditionalInstructions": "Если вы включите эту функцию, то сможете входить в свой кошелек и осуществлять переводы без использования пароля.",
+    "manageBiometricsLabelAdditionalInstructions": "Если вы включите эту функцию, то сможете входить в свой кошелек и осуществлять транзакции без использования пароля.",
     "manageBiometricsErrorOSAuthNotAvailableTitle": "Аутентификация ОС недоступна",
     "manageBiometricsErrorNotAvailableTitle": "Биометрическая аутентификация недоступна",
     "manageBiometricsErrorOSAuthNotAvailableMessage": "Ваша ОС не поддерживает аутентификацию ОС",
@@ -250,15 +221,15 @@
     "transactionLabelDirectionInWallet": "В кошельке",
     "transactionLabelStatusSuccessful": "Удачно",
     "transactionLabelStatusPending": "В ожидании",
-    "transactionLabelStatusConfirmed": "Подтверждено",
+    "transactionLabelStatusExecuted": "Выполнено",
     "transactionLabelStatusFailed": "Неудачно",
     "transactionLabelStatusInvalid": "Ошибка",
     "signInTitleOne": "Добро пожаловать в",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Рады видеть Вас снова!",
     "welcomeButtonUnlockWallet": "Разблокировать кошелек",
     "welcomeButtonCreateWallet": "Создать новый кошелек",
-    "accountButtonViewTransfer": "Посмотреть переводы",
+    "accountButtonViewTransfer": "Просмотр транзакций",
     "accountButtonViewInExplorer": "Посмотреть в обозревателе",
     "accountButtonRevealPrivateSeed": "Открыть секретный сид",
     "accountButtonReceive": "Получить",
@@ -270,8 +241,6 @@
     "accountSendButtonMax": "Максимум",
     "accountSendButtonMaxMinusOne": "Максимум - 1",
     "accountSendSectionAdvanceOptionsTitle": "Дополнительные настройки",
-    "assetsLabelOwned": "Мои средства",
-    "assetsLabelPossessed": "Частичное владение",
     "assetsLabelContractName": "Имя контракта",
     "assetsLabelContractIndex": "Индекс контракта",
     "assetsLabelTick": "Действительно для тика {tick}",
@@ -311,16 +280,16 @@
     "generalButtonUnlockWithIris": "Разблокировка с помощью глаза",
     "generalButtonUnlockWithOS": "Разблокировка с помощью ОС",
     "generalButtonAlternativeUnlock": "Альтернативная разблокировка",
-    "generalErrorPasswordMinLength": "Пароль должен состоять не менее чем из 8 символов",
+    "generalErrorPasswordMinLength": "Пароль должен состоять не менее чем из 12 символов",
     "signUpTextFieldHintPassword": "Введите пароль",
     "generalErrorSetPasswordNotMatching": "Пароли не совпадают",
     "signUpTextFieldHintRepeatPassword": "Повторите пароль",
     "generalErrorContactingQubicNetwork": "Ошибка соединения с сетью Qubic",
     "signUpErrorStoringBiometricInfo": "Ошибка при сохранении биометрической информации",
     "signUpStepTwoHeader": "Биометрическая разблокировка",
-    "signUpStepTwoSubHeader": "Вы можете включить аутентификацию с помощью биометрии. Если эта функция включена, вы сможете входить в свой кошелек и осуществлять переводы без использования пароля.",
+    "signUpStepTwoSubHeader": "Вы можете включить аутентификацию с помощью биометрии. Если эта функция включена, то сможете входить в свой кошелек и осуществлять транзакции без использования пароля.",
     "signUpStepTwoHeaderForDesktop": "Разблокировка с помощью ОС",
-    "signUpStepTwoSubHeaderForDesktop": "Вы можете включить аутентификацию через свою ОС. Если вы включите эту функцию, то сможете входить в кошелек и осуществлять переводы без использования пароля.",
+    "signUpStepTwoSubHeaderForDesktop": "Вы можете включить аутентификацию через свою ОС. Если вы включите эту функцию, то сможете входить в свой кошелек и осуществлять транзакции без использования пароля.",
     "signUpStepOneHeader": "Создать новый кошелек",
     "signUpStepOneSubHeader": "Введите пароль, который будет использоваться для разблокировки вашего нового кошелька",
     "signUpSwitchLabelBiometricUnlock": "Используйте биометрическую разблокировку",
@@ -364,24 +333,8 @@
     "eraseDataSheetLabelOne": "Это действие нельзя отменить. Все ваши учетные записи будут удалены с вашего устройства.",
     "eraseDataSheetLabelTwo": "Вы сможете восстановить свои учетные записи, только если у вас есть резервная копия секретного сида.",
     "eraseDataSheetCheckboxLabel": "Да, сотрите данные моего кошелька.",
-    "accountExplorerTitle": "Адрес Qubic",
-    "accountExplorerLabelCurrentValue": "Текущая стоимость",
-    "accountExplorerLabelValueReportedBy": "Стоимость подтвержденная {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Общее кол-во вводов",
-    "accountExplorerLabelTotalOutgoing": "Общее кол-во выводов",
-    "accountExplorerLabelReportedBy": "Подтверждена",
-    "accountExplorerLabelNoResultsFound": "Нет транзакций для этого ID в эту эпоху",
-    "transactionItemLabelIncludedByTickLeader": "Включительно с лидером тика",
-    "transactionItemLabelNotIncludedByTickLeader": "Не включено в лидера тика",
     "transactionItemLabelTransactionId": "ID транзакции",
-    "transactionItemLabelTransactionDigest": "Дайджест транзакции",
+    "transactionItemLabelTransactionType": "Тип",
     "generalLabelTickAndValue": "Тик {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -390,13 +343,10 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Включено в сеть Qubic",
-    "transactionItemLabelNotIncludedByQubicNetwork": "Не включено в сеть Qubic",
     "transactionItemButtonViewInExplorer": "Посмотреть в обозревателе",
     "transactionItemButtonCopyToClipboard": "Скопировать в буфер",
     "transactionItemButtonViewDetails": "Детали",
     "transactionItemButtonResend": "Переслать",
-    "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
     "transactionItemLabelConfirmedDate": "Метка времени",
     "transactionItemLabelDetails": "Детали транзакции",
     "sendItemLabelTargetTick": "На каком тике",
@@ -441,7 +391,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Неправильный секретный сид",
     "addAccountErrorTamperedWalletTitle": "ОБНАРУЖЕН ПОДДЕЛЬНЫЙ КОШЕЛЕК",
     "addAccountErrorTamperedWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН.\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ С САЙТА HTTPS://GITHUB.COM/QUBIC/WALLET-APP ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА",
-    "sendAssetLabelTransactionCost": "Стоимость транзакции (fixed)",
+    "sendAssetLabelTransactionCost": "Комиссия (fixed)",
     "sendAssetButtonTransfer": "Транзакция",
     "sendAssetErrorTickIsInThePast": "Выбранный тик уже прошёл. Текущий тик {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -585,60 +535,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nОтправитель: {sourceId}\nПолучатель: {destId}\nКол-во: {amount}\nСтатус: {status}\nСоздано: {created}\nЗаписано: {stored}\nПоставлено: {staged}\nПередано: {broadcasted}\nПодтверждено: {confirmed}\nСтатус Обновлен: {statusUpdate}\nТик: {targetTick}\nВ процессе: {isPending}\nЦена: {price} \nКол-во: {quantity}\nДвижение: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nИсточник: {sourceId}\nПолучатель: {destId}\nТик: {amount}\nТип: {type}\nСтатус: {status}\nМетка времени: {timestamp}\nТик: {targetTick}",
     "welcomeButtonImportExistingWallet": "Импортировать существующий кошелек",
     "importWalletTitle": "Импортировать кошелек",
     "importWalletSubHeader": "Выберете каким образом вы хотите импортировать существующий кошелек",
@@ -749,8 +646,6 @@
     "generalErrorFileRequired": "Выберите файл",
     "generalErrorPathRequired": "Выберите путь",
     "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15.",
-    "explorerLabelPrice": "Цена",
-    "explorerLabelMarketCap": "Рыночная капитализация",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Неверный адрес для наблюдения. Проверьте адрес.",
     "addAccountErrorVerifyIdentityError": "Невозможно верифицировать адрес.",
@@ -773,7 +668,6 @@
         }
     },
     "joinCommunityLabelTiktok": "TikTok",
-    "accountExplorerLabelLatestTransactions": "Последние транзакции",
     "wcScopeRequestAccounts": "Просмотр ваших кошельковых аккаунтов и их баланса",
     "wcScopeSendQubic": "Запрос отправки Qubic с ваших кошельковых аккаунтов",
     "wcScopeSendAssets": "Запрос отправки активов Qubic с ваших кошельковых аккаунтов",
@@ -795,7 +689,7 @@
     "wcErrorUsedURL": "Соединение уже было установлено через этот URL",
     "wcErrorPairingTimeout": "Время ожидания подключения истекло.",
     "wcErrorUnsupportedNetwork": "Неподдерживаемая сеть",
-    "wcErrorUnsupportedNetworkDescription": "Это приложение использует сеть {networkName}. В настоящее время Qubic Wallet поддерживает только приложения в основной сети Qubic",
+    "wcErrorUnsupportedNetworkDescription": "Это приложение использует сеть {networkName}. В настоящее время Qubic Wallet поддерживает только приложения в Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
@@ -817,7 +711,7 @@
     "wcOpenApp": "Открыть приложение",
     "wcExpiresInDays": "{count, plural, =1{Сессия истекает через 1 день} other{Сессия истекает через {count} дней}}",
     "wcExpiresInLessThanDay": "Сессия истекает менее чем через день",
-    "pasteURLHere": "Вставьте URL сюда",
+    "pasteURLHere": "Вставить URL",
     "approvingConnection": "Подтверждение соединения",
     "pleaseWait": "Пожалуйста, подождите",
     "wcApproveSignTransferOf": "Подпишите передачу",
@@ -895,5 +789,54 @@
     "wcSmartContractWarningTitle": "Транзакция смарт-контракта \"{smartContractName}\"",
     "wcSmartContractWarningDescription": "Убедитесь, что вы доверяете этому DApp. Одобряя транзакцию, вы можете разрешить перевод Qubics и/или активов",
     "wcApproveTransfer": "Одобрить перевод",
-    "wcSendAssets": "Отправить активы"
+    "wcSendAssets": "Отправить активы",
+    "assetButtonIssuerIdentity": "Идентификатор владельца",
+    "settingsLabelSupport": "Поддержка",
+    "settingsSupportGithub": "GitHub (Создать обращение)",
+    "settingsSupportDiscord": "Discord (Канал поддержки)",
+    "generalLabelFee": "Комиссия",
+    "generalLabelMultipleReceivers": "Несколько получателей",
+    "qxTransferSharesWarning": "Эта запись о транзакции в данный момент видна только отправителю.",
+    "settingsSupportGoogleForm": "Заполнить форму",
+    "appTabExplore": "Исследовать",
+    "storedTransfersLabel": "Просмотреть незавершённые транзакции",
+    "transactionsCount": "{count, plural, =1{1 транзакция} other{Показано {count} транзакций}}",
+    "dAppOpenButton": "Открыть",
+    "dAppFeaturedApp": "Рекомендуемое приложение",
+    "dAppPopularApps": "Популярные dApps",
+    "networksTitle": "Сети",
+    "networksButtonAddNetwork": "Добавить сеть",
+    "networksConfirmationDialogTitleDeleteNetwork": "Удалить {networkName}?",
+    "networksConfirmationDialogContentDeleteNetwork": "Вы уверены, что хотите удалить пользовательскую сеть {networkName}?",
+    "networksLabelDefault": "По умолчанию",
+    "networksButtonSetAsDefault": "Установить по умолчанию",
+    "addNetworkTitle": "Добавить пользовательскую сеть",
+    "addNetworkLabelNetworkName": "Имя сети",
+    "addNetworkTextFieldHintNetworkName": "Напр.: Qubic Mainnet",
+    "addNetworkLabelRPCURL": "RPC URL",
+    "addNetworkLabelQubicExplorerURL": "URL обозревателя",
+    "networksWarningBannerCurrentNetwork": "Вы находитесь в сети {networkName}",
+    "webviewAddressBarLabelRefresh": "Обновить",
+    "webviewAddressBarLabelShareURL": "Поделиться URL",
+    "rootJailbreakDialogTitleWarning": "Устройство с нарушенной безопасностью",
+    "rootJailbreakDialogMessageWarning": "Похоже, ваше устройство рутировано или взломано. Некоторые функции могут подвергаться риску. Мы настоятельно рекомендуем использовать этот кошелек только на безопасных, немодифицированных устройствах. Вы можете продолжить использование на свой страх и риск.",
+    "rootJailbreakDialogButtonWarning": "Я понимаю",
+    "rootJailbreakDialogTitleRestrict": "Доступ ограничен",
+    "rootJailbreakDialogMessageRestrict": "Похоже, ваше устройство рутировано или взломано. В целях безопасности некоторые функции отключены.",
+    "rootJailbreakDialogButtonRestrict": "Ок",
+    "rootJailbreakDialogTitleRestrictFeature": "Ограничение безопасности",
+    "rootJailbreakDialogMessageRestrictFeature": "Эта функция недоступна на устройствах с root-доступом или jailbreak, так как это может поставить под угрозу безопасность ваших данных.",
+    "rootJailbreakDialogButtonRestrictFeature": "Ок",
+    "biometricErrorPasscodeNotSet": "У вас не установлен код, PIN или пароль. Пожалуйста, настройте его в параметрах устройства, чтобы включить биометрическую аутентификацию.",
+    "biometricErrorNotEnrolled": "На вашем устройстве не зарегистрированы биометрические данные. Зарегистрируйте их в настройках устройства.",
+    "biometricErrorNotAvailable": "Биометрическая аутентификация недоступна на этом устройстве.",
+    "biometricErrorOtherOperatingSystem": "Ваша операционная система не поддерживает биометрическую аутентификацию.",
+    "biometricErrorLockedOut": "Слишком много неудачных попыток. Заблокируйте и разблокируйте устройство с помощью PIN-кода, шаблона или пароля и попробуйте снова.",
+    "biometricErrorPermanentlyLockedOut": "Биометрическая аутентификация заблокирована навсегда. Разблокируйте устройство с помощью PIN-кода, шаблона или пароля и повторите попытку.",
+    "biometricErrorBiometricOnlyNotSupported": "Аутентификация только с помощью биометрии не поддерживается на этой платформе.",
+    "homeHeaderQubicPrice": "QUBIC Цена",
+    "revealSeedCopiedToClipboardMessage": "Приватная сид-фраза временно скопирована в буфер обмена (хранится 1 минуту)",
+    "revealSeedWarningTitle": "Никогда не делитесь своей приватной сид-фразой!",
+    "revealSeedWarningDescription": "Если кто-то получит вашу приватную сид-фразу, он получит полный доступ к вашему аккаунту",
+    "blockedScreenshotWarning": "Скриншот защищён — экран остаётся приватным."
 }

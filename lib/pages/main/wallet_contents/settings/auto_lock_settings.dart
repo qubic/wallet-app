@@ -38,8 +38,6 @@ class AutoLockSettings extends StatelessWidget {
   }
 
   Widget getBody(BuildContext context) {
-    final l10n = l10nOf(context);
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

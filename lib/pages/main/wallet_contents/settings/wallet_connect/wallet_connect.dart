@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
-import 'package:qubic_wallet/components/beta_badge.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
@@ -13,12 +12,12 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/components/wallet_connect_expansion_card.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
+import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:reown_sign/reown_sign.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -36,12 +35,27 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
 
   Map<String, SessionData> sessions = {};
 
+  StreamSubscription? _sessionDisconnectSubscription;
+
   @override
   void initState() {
     super.initState();
-    if (mounted) {
-      setActiveSessions();
-    }
+    setActiveSessions();
+
+    _sessionDisconnectSubscription =
+        walletConnectService.onSessionDisconnect.stream.listen((event) {
+      if (mounted) {
+        setState(() {
+          sessions.remove(event?.topic);
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sessionDisconnectSubscription?.cancel();
+    super.dispose();
   }
 
   setActiveSessions() {
@@ -252,6 +266,10 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
             width: 180,
             child: ThemedControls.primaryButtonNormal(
                 onPressed: () async {
+                  if (getIt<RootJailbreakFlagStore>()
+                      .restrictFeatureIfDeviceCompromised()) {
+                    return;
+                  }
                   await pushScreen(
                     context,
                     screen: const AddWalletConnect(),
@@ -274,20 +292,25 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(width: ThemePaddings.hugePadding),
               Text(l10n.settingsLabelWalletConnect,
                   style: TextStyles.textExtraLargeBold),
-              const SizedBox(width: ThemePaddings.smallPadding),
-              const BetaBadge(),
+              const SizedBox(width: ThemePaddings.smallPadding)
             ],
           ),
           centerTitle: true,
           actions: [
             IconButton(
               icon: SvgPicture.asset(AppIcons.walletConnect,
-                  color: LightThemeColors.primary),
+                  colorFilter: const ColorFilter.mode(
+                      LightThemeColors.primary, BlendMode.srcIn)),
               onPressed: () async {
+                if (getIt<RootJailbreakFlagStore>()
+                    .restrictFeatureIfDeviceCompromised()) {
+                  return;
+                }
                 await pushScreen(
                   context,
                   screen: const AddWalletConnect(),

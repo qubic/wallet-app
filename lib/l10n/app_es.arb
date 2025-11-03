@@ -122,22 +122,19 @@
     "generalErrorSetWalletPasswordEmpty": "Por favor, ingresa tu contraseña.",
     "generalErrorSetWalletPasswordRepeatEmpty": "Por favor, ingresa tu contraseña nuevamente.",
     "appTabHome": "Inicio",
-    "appTabTransfers": "Transferencias",
-    "appTabExplorer": "Explorador",
     "appTabSettings": "Configuraciones",
     "homeLabelTotalBalance": "Balance Total",
     "homeHeader": "Cuentas en el Wallet",
     "homeLabelNoAccountsInWallet": "Aún no tienes cuentas en este Wallet.",
     "homeButtonAddAccount": "Agregar Cuenta",
-    "transfersTitle": "Transferencias de la Época",
     "transfersLabelAllTransactions": "Todas las transacciones",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "No se encontraron transacciones en esta época que coincidan los filtros seleccionados",
     "transfersLabelNoTransactionsFoundInWallet": "No se encontraron transacciones en esta época para tus cuentas",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "No se encontraron transacciones en esta época que coincidan con tus filtros",
-    "transfersLabelNoTransactionsFoundInAccount": "No se encontraron transacciones en este época",
+    "transfersLabelNoTransactionsFoundInAccount": "No se encontraron transacciones.",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{Mostrando 1 transacción del Tick} other{Mostrando {count} transacciones}}",
-    "transfersLabelFor": "Transferencias de",
-    "transfersLabelForAccount": "Transferencias de \"{accountName}\"",
+    "transfersLabelFor": "Transacciones de",
+    "transfersLabelForAccount": "Transacciones de \"{accountName}\"",
     "@transfersLabelForAccount": {
         "placeholders": {
             "accountName": {
@@ -145,7 +142,15 @@
             }
         }
     },
-    "filterTransfersTitle": "Filtrar Transferencias",
+    "storedTransfersLabelForAccount": "Transacciones Incompletas de \"{accountName}\"",
+    "@storedTransfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "filterTransfersTitle": "Filtrar Transacciones",
     "filterTransfersLabelAnyQubicID": "Cualquier Qubic ID",
     "filterTransfersLabelByQubicID": "Cualquier Qubic ID",
     "filterTransfersLabelAnyStatus": "Cualquier Estado",
@@ -154,40 +159,6 @@
     "filterTransfersFieldHintByDirection": "Por Dirección",
     "generalLabelAnyDirection": "Cualquier Dirección",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{Limpiar 1 filtro Activo} other{Limpiar {filtersCount} Filtros Activos}}",
-    "explorerTitle": "Explorador por Época",
-    "explorerLabelEpoch": "Época {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "Resumen",
-    "explorerHeaderTicks": "Resumen de Ticks",
-    "explorerSubHeaderTicks": "Últimos Ticks",
-    "explorerLabelTotalTicks": "Total de Ticks",
-    "explorerLabelEmptyTicks": "Vacíos",
-    "explorerLabelTickQuality": "Calidad del Tick",
-    "explorerLabelTotalSupply": "Acciones en Circulación",
-    "explorerLabelTotalAddresses": "Direcciones Activas",
-    "explorerButtonRefreshData": "Refrescar Data",
-    "explorerLabelLoadingData": "Cargando la información para esta época",
-    "explorerSearchTitle": "Buscador",
-    "explorerSearchLabelCriteria": "Tick / TX ID / ID Público",
-    "explorerSearchLabelNoResults": "No se encontraron resultados que coincidan",
-    "explorerSearchLabelResults": "{count, plural, =1{Se encontró 1 resultado} other{Se encontraron {count} resultados}}",
-    "explorerTickResultLabelBlockStatus": "Estado del Tick",
-    "explorerTickResultLabelBlockStatusEmpty": "Vacío / No ejecutado",
-    "explorerTickResultLabelBlockStatusNonEmpty": "No vacío / Ejecutado",
-    "explorerTickResultLabelBlockStatusUnknown": "Desconocido",
-    "explorerTickResultLabelDataStatus": "Estado de los Datos",
-    "explorerTickResultLabelInfoCompleted": "Completado",
-    "explorerTickResultLabelInfoNotValidated": "No Validado",
-    "explorerTickResultLabelTickLeader": "Tick líder",
-    "explorerTickResultLabelNoTransactionsFound": "No se encontraron transacciones en este tick",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 transacción en el tick} other{{count} transacciones en el tick}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{Mostrando 1 de 1 transacción en el tick} other{Mostrando 1 de {count} transacciones en el tick}}",
     "settingsTitle": "Configuraciones",
     "settingsHeaderAccountsAndData": "Cuentas y datos",
     "settingsLockWallet": "Bloquear el Wallet",
@@ -235,7 +206,7 @@
     "manageBiometricsLabelInstructionsForGeneric": "Puedes habilitar la autenticación con datos biométricos.",
     "manageBiometricsLabelInstructionsForIris": "Puedes habilitar la autenticación con tu iris.",
     "manageBiometricsLabelInstructionsForOS": "Puedes habilitar la autenticación con el sistema operativo.",
-    "manageBiometricsLabelAdditionalInstructions": "Si habilitas esto, podrás desbloquear tu Wallet y realizar transferencias sin ingresar tu contraseña.",
+    "manageBiometricsLabelAdditionalInstructions": "Si habilitas esto, podrás desbloquear tu Wallet y ejecutar transacciones sin ingresar tu contraseña.",
     "manageBiometricsErrorOSAuthNotAvailableTitle": "Autenticación con el sistema no disponible",
     "manageBiometricsErrorNotAvailableTitle": "Autenticación con Datos Biométricos no disponible",
     "manageBiometricsErrorOSAuthNotAvailableMessage": "Tu sistema operativo no soporta la autenticación con el sistema",
@@ -247,17 +218,17 @@
     "transactionLabelDirectionIncoming": "Entrante",
     "transactionLabelDirectionOutgoing": "Saliente",
     "transactionLabelDirectionInWallet": "Entre cuentas del Wallet",
-    "transactionLabelStatusSuccessful": "Ejecutada",
+    "transactionLabelStatusSuccessful": "Completada",
     "transactionLabelStatusPending": "Pendiente",
-    "transactionLabelStatusConfirmed": "Confirmada",
+    "transactionLabelStatusExecuted": "Ejecutada",
     "transactionLabelStatusFailed": "Fallida",
     "transactionLabelStatusInvalid": "Inválida",
     "signInTitleOne": "Bienvenido a",
-    "siginInTitleTwo": "Qubic Wallet",
+    "signInTitleTwo": "Qubic Wallet",
     "welcomeTitle": "Bienvenido de vuelta!",
     "welcomeButtonUnlockWallet": "Desbloquear Wallet",
     "welcomeButtonCreateWallet": "Crear un Nuevo Wallet",
-    "accountButtonViewTransfer": "Ver Transferencias",
+    "accountButtonViewTransfer": "Ver Transacciones",
     "accountButtonViewInExplorer": "Ver en el Explorador",
     "accountButtonRevealPrivateSeed": "Revelar Semilla Privada",
     "accountButtonReceive": "Recibir",
@@ -269,8 +240,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Opciones Avanzadas",
-    "assetsLabelOwned": "En propiedad",
-    "assetsLabelPossessed": "En posesión",
     "assetsLabelContractName": "Nombre del Contrato",
     "assetsLabelContractIndex": "Índice del Contrato",
     "assetsLabelTick": "Válido para el Tick: {tick}",
@@ -310,16 +279,16 @@
     "generalButtonUnlockWithIris": "Desbloquear con Iris",
     "generalButtonUnlockWithOS": "Desbloquear con el sistema operativo",
     "generalButtonAlternativeUnlock": "Desboqueo Alternativo",
-    "generalErrorPasswordMinLength": "La contraseña debe tener al menos 8 caracteres",
+    "generalErrorPasswordMinLength": "La contraseña debe tener al menos 12 caracteres",
     "signUpTextFieldHintPassword": "Ingresar contraseña",
     "generalErrorSetPasswordNotMatching": "Las contraseñas no coinciden",
     "signUpTextFieldHintRepeatPassword": "Repetir contraseña",
     "generalErrorContactingQubicNetwork": "Error al contactar a la red de Qubic",
     "signUpErrorStoringBiometricInfo": "Error al guardar la información biométrica",
     "signUpStepTwoHeader": "Desbloquar con Datos Biométricos",
-    "signUpStepTwoSubHeader": "Puedes habilitar la autenticación con datos biométricos. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transferencias sin utilizar password.",
+    "signUpStepTwoSubHeader": "Puedes habilitar la autenticación con datos biométricos. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transacciones sin utilizar password.",
     "signUpStepTwoHeaderForDesktop": "Desbloquar con el OS",
-    "signUpStepTwoSubHeaderForDesktop": "Puedes habilitar la autenticación con el sistema operativo. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transferencias sin utilizar password.",
+    "signUpStepTwoSubHeaderForDesktop": "Puedes habilitar la autenticación con el sistema operativo. Si lo habilitas, podrás desbloquear tu Wallet y ejecutar transacciones sin utilizar password.",
     "signUpStepOneHeader": "Crear Nuevo Wallet",
     "signUpStepOneSubHeader": "Ingresa una contraseña que utilizarás para deesbloquer tu nuevo Wallet",
     "signUpSwitchLabelBiometricUnlock": "Usar Desbloqueo con Datos Biométricos",
@@ -364,24 +333,8 @@
     "eraseDataSheetLabelOne": "Esta acción no se puede revertir. Todas tus cuentas serán eliminadas del dispositivo.",
     "eraseDataSheetLabelTwo": "Sólo podrás recuperar tus cuentas si tienes una copia de respaldo de tus semillas públicas.",
     "eraseDataSheetCheckboxLabel": "Sí, eliminar mi Wallet.",
-    "accountExplorerTitle": "Dirección Qubic",
-    "accountExplorerLabelCurrentValue": "Valor Actual",
-    "accountExplorerLabelValueReportedBy": "Valor reportado por {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "Total Entrante",
-    "accountExplorerLabelTotalOutgoing": "Total Saliente",
-    "accountExplorerLabelReportedBy": "Reportado por",
-    "accountExplorerLabelNoResultsFound": "No se encontraron transacciones para esta dirección en esta época.",
-    "transactionItemLabelIncludedByTickLeader": "Incluído por el Tick Líder",
-    "transactionItemLabelNotIncludedByTickLeader": "No incluído por el Tick Líder",
     "transactionItemLabelTransactionId": "ID de la Transacción",
-    "transactionItemLabelTransactionDigest": "Síntesis de la Transacción",
+    "transactionItemLabelTransactionType": "Tipo",
     "generalLabelTickAndValue": "Tick {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -390,15 +343,12 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "Incluído en la red Qubic",
-    "transactionItemLabelNotIncludedByQubicNetwork": "No incluído en la red Qubic",
     "transactionItemButtonViewInExplorer": "Ver en el Explorador",
     "transactionItemButtonCopyToClipboard": "Copiar al Portapapeles",
     "transactionItemButtonViewDetails": "Ver Detalles",
     "transactionItemButtonResend": "Reenviar",
-    "transactionItemLabelLeadToMoneyFlow": "Conduce a un Flujo de Dinero",
     "transactionItemLabelConfirmedDate": "Fecha y hora",
-    "transactionItemLabelDetails": "Detalles de la Transferencia",
+    "transactionItemLabelDetails": "Detalles de la Transacción",
     "sendItemLabelTargetTick": "Tick de Ejecución",
     "sendItemLabelTargetTickAutomatic": "Automáticamente: Actual + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
@@ -441,7 +391,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "La semilla privada es inválida",
     "addAccountErrorTamperedWalletTitle": "MANIPULACIÓN DEL WALLET DETECTADA",
     "addAccountErrorTamperedWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP PARA NO ARRIESGARTE A PERDER TUS FONDOS",
-    "sendAssetLabelTransactionCost": "Costo de la Transacción (fijo)",
+    "sendAssetLabelTransactionCost": "Tarifa (fijo)",
     "sendAssetButtonTransfer": "Transferir",
     "sendAssetErrorTickIsInThePast": "El tick seleccionado es pasado. El tick actual es {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -584,60 +534,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nOrigen: {sourceId}\nDestino: {destId}\nMonto: {amount}\nStatus: {status}\nCreado: {created}\nAlmacenado: {stored}\nPreparado: {staged}\nTransmitido: {broadcasted}\nConfirmado: {confirmed}\nStatus actualizado: {statusUpdate}\nTick de Ejecución: {targetTick}\n¿Está pendiente?: {isPending}\nPrecio: {price} \nCantidad: {quantity}\nFlujo de dinero: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\nOrigen: {sourceId}\nDestino: {destId}\nnMonto: {amount}\nTipo: {type}\nStatus: {status}\nFecha: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Importar un Wallet Existente",
     "importWalletTitle": "Importar Wallet",
     "importWalletSubHeader": "Selecciona como quieres importar tu Wallet",
@@ -749,9 +646,6 @@
     "generalErrorFileRequired": "Por favor, selecciona un archivo",
     "generalErrorPathRequired": "Por favor, selecciona un directorio",
     "homeWarningTooManyAccounts": "Tienes más de 15 cuentas en tu Wallet. No podrás ver los balances o hacer transferencias hasta que no elimines algunas de ellas hasta tener 15 o menos",
-    "explorerLabelPrice": "Precio",
-    "explorerLabelMarketCap": "Capitalización de mercado",
-    "accountExplorerLabelLatestTransactions": "Últimas Transacciones",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Dirección de sólo lectura inválida. Por favor, verifica la dirección ingresada.",
     "addAccountErrorVerifyIdentityError": "No se puede verificar la dirección",
@@ -787,7 +681,7 @@
     "wcErrorUsedURL": "Ya se ha establecido una conexión mediante esta URL",
     "wcErrorPairingTimeout": "La solicitud de conexión ha caducado.",
     "wcErrorUnsupportedNetwork": "Red no compatible",
-    "wcErrorUnsupportedNetworkDescription": "Esta aplicación utiliza la red {networkName}. Actualmente, Qubic Wallet solo soporta aplicaciones en la Red Principal de Qubic",
+    "wcErrorUnsupportedNetworkDescription": "Esta aplicación utiliza la red {networkName}. Actualmente, Qubic Wallet solo soporta aplicaciones en Qubic Mainnet",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
@@ -809,7 +703,7 @@
     "wcOpenApp": "Abrir aplicación",
     "wcExpiresInDays": "{count, plural, =1{La sesión expira en 1 día} other{La sesión expira en {count} días}}",
     "wcExpiresInLessThanDay": "La sesión expira en menos de un día",
-    "pasteURLHere": "Pega la URL aquí",
+    "pasteURLHere": "Pega la URL",
     "approvingConnection": "Aprobando conexión",
     "pleaseWait": "Por favor espera",
     "wcApproveSignTransferOf": "Firmar la transferencia de",
@@ -894,5 +788,54 @@
     },
     "wcSmartContractWarningDescription": "Asegúrate que esta DApp es confiable. Al aprobar la transacción, podrías autorizar la transferencia de Qubics y/o otros activos",
     "wcApproveTransfer": "Aprobar Transferencia",
-    "wcSendAssets": "Enviar Activos"
+    "wcSendAssets": "Enviar Activos",
+    "assetButtonIssuerIdentity": "Identidad del emisor",
+    "settingsLabelSupport": "Soporte",
+    "settingsSupportGithub": "GitHub (Reportar un problema)",
+    "settingsSupportDiscord": "Discord (Canal de soporte)",
+    "generalLabelFee": "Tarifa",
+    "generalLabelMultipleReceivers": "Múltiples destinatarios",
+    "qxTransferSharesWarning": "Este registro de transacción es actualmente visible solo para el remitente.",
+    "settingsSupportGoogleForm": "Rellenar Formulario",
+    "appTabExplore": "Explorar",
+    "storedTransfersLabel": "Ver transacciones incompletas",
+    "transactionsCount": "{count, plural, =1{1 transacción} other{Mostrando {count} transacciones}}",
+    "dAppOpenButton": "Abrir",
+    "dAppFeaturedApp": "Aplicación destacada",
+    "dAppPopularApps": "dApps populares",
+    "networksTitle": "Redes",
+    "networksButtonAddNetwork": "Agregar red",
+    "networksConfirmationDialogTitleDeleteNetwork": "¿Eliminar {networkName}?",
+    "networksConfirmationDialogContentDeleteNetwork": "¿Estás seguro de que deseas eliminar tu red personalizada {networkName}?",
+    "networksLabelDefault": "Predeterminado",
+    "networksButtonSetAsDefault": "Establecer como predeterminado",
+    "addNetworkTitle": "Agregar red personalizada",
+    "addNetworkLabelNetworkName": "Nombre de la red",
+    "addNetworkTextFieldHintNetworkName": "Ej: Qubic Mainnet",
+    "addNetworkLabelRPCURL": "URL RPC",
+    "addNetworkLabelQubicExplorerURL": "URL del explorador",
+    "networksWarningBannerCurrentNetwork": "Actualmente estás en {networkName}",
+    "webviewAddressBarLabelRefresh": "Actualizar",
+    "webviewAddressBarLabelShareURL": "Compartir URL",
+    "rootJailbreakDialogTitleWarning": "Dispositivo comprometido",
+    "rootJailbreakDialogMessageWarning": "Tu dispositivo parece estar rooteado o modificado. Algunas funciones podrían estar expuestas a riesgos de seguridad. Recomendamos encarecidamente usar esta billetera solo en dispositivos seguros y sin modificaciones. Puedes seguir usando la app bajo tu propio riesgo.",
+    "rootJailbreakDialogButtonWarning": "Entiendo",
+    "rootJailbreakDialogTitleRestrict": "Acceso restringido",
+    "rootJailbreakDialogMessageRestrict": "Tu dispositivo parece estar rooteado o modificado. Por razones de seguridad, algunas funciones están deshabilitadas.",
+    "rootJailbreakDialogButtonRestrict": "Ok",
+    "rootJailbreakDialogTitleRestrictFeature": "Restricción de seguridad",
+    "rootJailbreakDialogMessageRestrictFeature": "Esta función no está disponible en dispositivos con acceso root o jailbreak, ya que puede comprometer la seguridad de sus datos.",
+    "rootJailbreakDialogButtonRestrictFeature": "Ok",
+    "biometricErrorPasscodeNotSet": "No has configurado un código, PIN o contraseña en el dispositivo. Por favor, hazlo en los ajustes del dispositivo para habilitar la autenticación biométrica.",
+    "biometricErrorNotEnrolled": "No hay datos biométricos registrados en tu dispositivo. Registra tus datos biométricos en los ajustes del dispositivo.",
+    "biometricErrorNotAvailable": "La autenticación biométrica no está disponible en este dispositivo.",
+    "biometricErrorOtherOperatingSystem": "Tu sistema operativo no admite la autenticación biométrica.",
+    "biometricErrorLockedOut": "Demasiados intentos fallidos. Bloquea y desbloquea tu teléfono con un PIN, patrón o contraseña, y vuelve a intentarlo.",
+    "biometricErrorPermanentlyLockedOut": "La autenticación biométrica se ha bloqueado permanentemente. Desbloquea el dispositivo con tu PIN, patrón o contraseña e inténtalo de nuevo.",
+    "biometricErrorBiometricOnlyNotSupported": "La autenticación solo biométrica no es compatible con esta plataforma.",
+    "homeHeaderQubicPrice": "QUBIC Precio",
+    "revealSeedCopiedToClipboardMessage": "La semilla privada se copió temporalmente (por 1 minuto) al portapapeles",
+    "revealSeedWarningTitle": "¡No compartas tu semilla privada!",
+    "revealSeedWarningDescription": "Si alguien tiene tu semilla privada, tendrá control total de tu cuenta",
+    "blockedScreenshotWarning": "Captura protegida: esta pantalla es privada."
 }

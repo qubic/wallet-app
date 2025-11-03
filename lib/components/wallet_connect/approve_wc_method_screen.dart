@@ -3,12 +3,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qubic_wallet/components/wallet_connect/components/amount_value_header.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/extensions/asThousands.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
-import 'package:qubic_wallet/helpers/sendTransaction.dart';
+import 'package:qubic_wallet/helpers/send_transaction.dart';
+import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
@@ -142,6 +144,7 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     final navigator = Navigator.of(context);
     final l10n = l10nOf(context);
     final targetTick = await wCModalsController.getTargetTick(widget.data.tick);
+    if (!mounted) return;
     final result = await sendAssetTransferTransactionDialog(
         context,
         widget.data.fromID,
@@ -198,8 +201,6 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         case WalletConnectMethod.sendAsset:
           await onApproveSendAsset();
           break;
-        default:
-          break;
       }
     } catch (e) {
       switch (widget.method) {
@@ -218,8 +219,6 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         case WalletConnectMethod.sendAsset:
           navigator.pop(
               RequestSignTransactionResult.error(errorMessage: e.toString()));
-          break;
-        default:
           break;
       }
     } finally {
@@ -240,9 +239,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         if (widget.data.inputType != null &&
             widget.data.inputType! > 0 &&
             widget.data.toID != null &&
-            QubicSCID.isSC(widget.data.toID!)) ...[
+            QubicSCStore.isSC(widget.data.toID!)) ...[
           _SmartContractWarningCard(
-              QubicSCID.fromContractId(widget.data.toID!) ??
+              QubicSCStore.fromContractId(widget.data.toID!) ??
                   l10n.wcSmartContractUnknown),
           ThemedControls.spacerVerticalBig(),
         ],

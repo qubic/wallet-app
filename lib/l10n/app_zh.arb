@@ -123,23 +123,28 @@
     "generalErrorSetWalletPasswordEmpty": "请填写密码。",
     "generalErrorSetWalletPasswordRepeatEmpty": "请再次填写密码。",
     "appTabHome": "首页",
-    "appTabTransfers": "转账",
-    "appTabExplorer": "浏览器",
     "appTabSettings": "设置",
     "homeLabelTotalBalance": "总余额",
     "homeHeader": "钱包中的账户",
     "homeLabelNoAccountsInWallet": "您当前的钱包中还没有 Qubic 账户。",
     "homeButtonAddAccount": "添加账户",
-    "transfersTitle": "纪元转账",
     "transfersLabelAllTransactions": "所有交易",
     "transfersLabelNoTransactionsFoundInWalletMatchingFilters": "在您的账户当前纪元中，没有匹配您筛选条件的任何交易。",
     "transfersLabelNoTransactionsFoundInWallet": "在您的账户当前纪元中，没有交易记录。",
     "transfersLabelNoTransactionsFoundInAccountMatchingFilters": "在当前纪元中，没有符合您过滤条件的交易。",
-    "transfersLabelNoTransactionsFoundInAccount": "在当前纪元中没有交易。",
+    "transfersLabelNoTransactionsFoundInAccount": "未找到交易。",
     "transfersLabelShowingTransactionsFound": "{count, plural, =1{正在显示 1 笔交易} other{正在显示 {count} 笔交易}}",
-    "transfersLabelFor": "转账来自",
-    "transfersLabelForAccount": "转账来自 \"{accountName}\"",
+    "transfersLabelFor": "交易來自",
+    "transfersLabelForAccount": "交易來自 \"{accountName}\"",
     "@transfersLabelForAccount": {
+        "placeholders": {
+            "accountName": {
+                "type": "String"
+            }
+        }
+    },
+    "storedTransfersLabelForAccount": "未完成的交易來自 \"{accountName}\"",
+    "@storedTransfersLabelForAccount": {
         "placeholders": {
             "accountName": {
                 "type": "String"
@@ -155,40 +160,6 @@
     "filterTransfersFieldHintByDirection": "按方向",
     "generalLabelAnyDirection": "所有转账",
     "filterTransfersClearFilters": "{filtersCount, plural, =1{清除 1 个筛选条件} other{清除 {filtersCount} 个筛选条件}}",
-    "explorerTitle": "纪元浏览器",
-    "explorerLabelEpoch": "纪元 {currentEpoch}",
-    "@explorerLabelEpoch": {
-        "placeholders": {
-            "currentEpoch": {
-                "type": "int"
-            }
-        }
-    },
-    "explorerHeaderOverview": "概览",
-    "explorerHeaderTicks": "刻度概览",
-    "explorerSubHeaderTicks": "最新刻度",
-    "explorerLabelTotalTicks": "总刻度",
-    "explorerLabelEmptyTicks": "空刻度",
-    "explorerLabelTickQuality": "刻度质量",
-    "explorerLabelTotalSupply": "总供应 (QUBIC)",
-    "explorerLabelTotalAddresses": "活跃地址",
-    "explorerButtonRefreshData": "刷新数据",
-    "explorerLabelLoadingData": "正在加载当前纪元数据",
-    "explorerSearchTitle": "浏览器搜索",
-    "explorerSearchLabelCriteria": "Tick / TX ID / Public ID",
-    "explorerSearchLabelNoResults": "没有找到匹配的结果。",
-    "explorerSearchLabelResults": "{count, plural, =1{找到 1 个结果} other{找到 {count} 个结果}}",
-    "explorerTickResultLabelBlockStatus": "滴答状态",
-    "explorerTickResultLabelBlockStatusEmpty": "空 / 未実行",
-    "explorerTickResultLabelBlockStatusNonEmpty": "非空 / 実行済み",
-    "explorerTickResultLabelBlockStatusUnknown": "未知",
-    "explorerTickResultLabelDataStatus": "数据状态",
-    "explorerTickResultLabelInfoCompleted": "完成",
-    "explorerTickResultLabelInfoNotValidated": "未验证",
-    "explorerTickResultLabelTickLeader": "刻度验证者",
-    "explorerTickResultLabelNoTransactionsFound": "此刻度中无交易",
-    "explorerTickResultLabelTransactionsFound": "{count, plural, =1{1 笔交易在此刻度} other{{count} 笔交易在此刻度}}",
-    "explorerTickResultLabelShowingOneTransaction": "{count, plural, =1{正在显示 1 of 1 笔交易在此刻度} other{正在显示 1 of {count} 笔交易在此刻度}}",
     "settingsTitle": "设置",
     "settingsHeaderAccountsAndData": "账户和数据",
     "settingsLockWallet": "锁定钱包",
@@ -236,7 +207,7 @@
     "manageBiometricsLabelInstructionsForGeneric": "你可以启用生物识别进行身份验证。",
     "manageBiometricsLabelInstructionsForIris": "你可以启用虹膜进行身份验证。",
     "manageBiometricsLabelInstructionsForOS": "你可以通过操作系统启用身份验证功能。",
-    "manageBiometricsLabelAdditionalInstructions": "如果启用此选项，您可以在不使用密码的情况下登录钱包并发起转账。",
+    "manageBiometricsLabelAdditionalInstructions": "如果啟用此選項，您可以在不使用密碼的情況下登入錢包並發起交易。",
     "manageBiometricsErrorOSAuthNotAvailableTitle": "操作系统身份验证不可用",
     "manageBiometricsErrorNotAvailableTitle": "生物识别身份验证不可用",
     "manageBiometricsErrorOSAuthNotAvailableMessage": "您的操作系统不支持操作系统身份验证。",
@@ -250,15 +221,15 @@
     "transactionLabelDirectionInWallet": "钱包内",
     "transactionLabelStatusSuccessful": "成功",
     "transactionLabelStatusPending": "等待中",
-    "transactionLabelStatusConfirmed": "确认",
+    "transactionLabelStatusExecuted": "已执行",
     "transactionLabelStatusFailed": "失败",
     "transactionLabelStatusInvalid": "无效",
     "signInTitleOne": "欢迎来到",
-    "siginInTitleTwo": "Qubic 钱包",
+    "signInTitleTwo": "Qubic 钱包",
     "welcomeTitle": "欢迎回来！",
     "welcomeButtonUnlockWallet": "解锁钱包",
     "welcomeButtonCreateWallet": "创建新钱包",
-    "accountButtonViewTransfer": "查看转账记录",
+    "accountButtonViewTransfer": "查看交易記錄",
     "accountButtonViewInExplorer": "在浏览器中查看",
     "accountButtonRevealPrivateSeed": "显示私钥种子",
     "accountButtonReceive": "接收",
@@ -270,8 +241,6 @@
     "accountSendButtonMax": "Max",
     "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "高级选项",
-    "assetsLabelOwned": "拥有",
-    "assetsLabelPossessed": "持有",
     "assetsLabelContractName": "合约名称",
     "assetsLabelContractIndex": "合约索引",
     "assetsLabelTick": "有效至刻度 {tick}",
@@ -311,16 +280,16 @@
     "generalButtonUnlockWithIris": "使用虹膜解锁",
     "generalButtonUnlockWithOS": "使用操作系统解锁",
     "generalButtonAlternativeUnlock": "备用解锁方式",
-    "generalErrorPasswordMinLength": "密码至少需要包含8个字符。",
+    "generalErrorPasswordMinLength": "密码至少需要包含12个字符。",
     "signUpTextFieldHintPassword": "输入密码",
     "generalErrorSetPasswordNotMatching": "密码不匹配",
     "signUpTextFieldHintRepeatPassword": "重复密码",
     "generalErrorContactingQubicNetwork": "无法连接 Qubic 网络",
     "signUpErrorStoringBiometricInfo": "错误存储生物识别信息",
     "signUpStepTwoHeader": "生物识别解锁",
-    "signUpStepTwoSubHeader": "您可以启用通过生物识别进行身份验证。如果已启用，您可以在不使用密码的情况下登录钱包并发起转账。",
+    "signUpStepTwoSubHeader": "您可以啟用透過生物辨識進行身分驗證。啟用後，您可以在不使用密碼的情況下登入錢包並發起交易。",
     "signUpStepTwoHeaderForDesktop": "操作系统解锁",
-    "signUpStepTwoSubHeaderForDesktop": "您可以启用通过您的操作系统进行身份验证。如果启用了此选项，您可以在不使用密码的情况下登录钱包并发起转账。",
+    "signUpStepTwoSubHeaderForDesktop": "您可以啟用透過作業系統進行身分驗證。啟用後，您可以在不使用密碼的情況下登入錢包並發起交易。",
     "signUpStepOneHeader": "创建新钱包",
     "signUpStepOneSubHeader": "填写一个用于解锁新钱包的密码",
     "signUpSwitchLabelBiometricUnlock": "使用生物识别解锁",
@@ -365,24 +334,8 @@
     "eraseDataSheetLabelOne": "此操作无法撤销，您的所有账户将从设备中删除。",
     "eraseDataSheetLabelTwo": "您仅能通过备份私有种子来恢复账户。",
     "eraseDataSheetCheckboxLabel": "是的，清除我的钱包数据。",
-    "accountExplorerTitle": "Qubic 地址",
-    "accountExplorerLabelCurrentValue": "当前数量",
-    "accountExplorerLabelValueReportedBy": "数量报告来自 {ip}",
-    "@accountExplorerLabelValueReportedBy": {
-        "placeholders": {
-            "ip": {
-                "type": "String"
-            }
-        }
-    },
-    "accountExplorerLabelTotalIncoming": "总转入",
-    "accountExplorerLabelTotalOutgoing": "总转出",
-    "accountExplorerLabelReportedBy": "报告来自",
-    "accountExplorerLabelNoResultsFound": "此 ID 在本纪元内没有交易记录",
-    "transactionItemLabelIncludedByTickLeader": "由刻度验证者包含的交易",
-    "transactionItemLabelNotIncludedByTickLeader": "不由刻度验证者包含的交易",
     "transactionItemLabelTransactionId": "交易 ID",
-    "transactionItemLabelTransactionDigest": "交易摘要",
+    "transactionItemLabelTransactionType": "类型",
     "generalLabelTickAndValue": "刻度 {tick}",
     "@generalLabelTickAndValue": {
         "placeholders": {
@@ -391,13 +344,10 @@
             }
         }
     },
-    "transactionItemLabelIncludedByQubickNetwork": "由 Qubic 网络包含的交易",
-    "transactionItemLabelNotIncludedByQubicNetwork": "不由 Qubic 网络包含的交易",
     "transactionItemButtonViewInExplorer": "在浏览器中查看",
     "transactionItemButtonCopyToClipboard": "复制到剪贴板",
     "transactionItemButtonViewDetails": "查看详情",
     "transactionItemButtonResend": "重新发送",
-    "transactionItemLabelLeadToMoneyFlow": "Lead to Money Flow",
     "transactionItemLabelConfirmedDate": "时间戳",
     "transactionItemLabelDetails": "转账详情",
     "sendItemLabelTargetTick": "目标刻度",
@@ -442,7 +392,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "提供的私钥种子无效",
     "addAccountErrorTamperedWalletTitle": "检测到篡改的钱包",
     "addAccountErrorTamperedWalletMessage": "您当前正在使用的钱包已被篡改。\n\n请从 HTTPS://GITHUB.COM/QUBIC/WALLET-APP 安装官方版本，否则有资金损失的风险。",
-    "sendAssetLabelTransactionCost": "交易成本 (fixed)",
+    "sendAssetLabelTransactionCost": "费用 (fixed)",
     "sendAssetButtonTransfer": "转账",
     "sendAssetErrorTickIsInThePast": "提供的刻度已过期，当前的刻度是 {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
@@ -586,60 +536,7 @@
             }
         }
     },
-    "generalAllTransactionDetails": "ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nStatus: {status}\nCreated: {created}\nStored: {stored}\nStaged: {staged}\nBroadcasted: {broadcasted}\nConfirmed: {confirmed}\nStatusUpdate: {statusUpdate}\nTarget Tick: {targetTick}\nIs Pending: {isPending}\nPrice: {price} \nQuantity: {quantity}\nMoney Flow: {moneyFlow}",
-    "@generalAllTransactionDetails": {
-        "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
-        "placeholders": {
-            "trxId": {
-                "type": "String"
-            },
-            "sourceId": {
-                "type": "String"
-            },
-            "destId": {
-                "type": "String"
-            },
-            "amount": {
-                "type": "String"
-            },
-            "status": {
-                "type": "String"
-            },
-            "created": {
-                "type": "String"
-            },
-            "stored": {
-                "type": "String"
-            },
-            "staged": {
-                "type": "String"
-            },
-            "broadcasted": {
-                "type": "String"
-            },
-            "confirmed": {
-                "type": "String"
-            },
-            "statusUpdate": {
-                "type": "String"
-            },
-            "targetTick": {
-                "type": "String"
-            },
-            "isPending": {
-                "type": "String"
-            },
-            "price": {
-                "type": "String"
-            },
-            "quantity": {
-                "type": "String"
-            },
-            "moneyFlow": {
-                "type": "String"
-            }
-        }
-    },
+    "generalAllTransactionDetails": "TX ID: {trxId}\n发送方: {sourceId}\n接收方: {destId}\n数量: {amount}\n类型: {type}\nStatus: {status}\n时间戳: {timestamp}\n刻度: {targetTick}",
     "welcomeButtonImportExistingWallet": "导入已有钱包",
     "importWalletTitle": "导入钱包",
     "importWalletSubHeader": "选择您想要导入钱包的方式",
@@ -750,8 +647,6 @@
     "generalErrorFileRequired": "请选择文件",
     "generalErrorPathRequired": "请选择路径",
     "homeWarningTooManyAccounts": "您钱包中有超过 15 个账户，您将无法转账或查看余额，直到您删除一些账户以使数量在 15 个或以下。",
-    "explorerLabelPrice": "价格",
-    "explorerLabelMarketCap": "市值",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "无效的观察地址。请检查输入的地址。",
     "addAccountErrorVerifyIdentityError": "无法验证地址。",
@@ -773,7 +668,6 @@
             }
         }
     },
-    "accountExplorerLabelLatestTransactions": "最新交易",
     "wcScopeRequestAccounts": "查看您的錢包帳戶及其餘額",
     "wcScopeSendQubic": "請求您從錢包帳戶發送 Qubic",
     "wcScopeSendAssets": "請求您從錢包帳戶發送 Qubic 資產",
@@ -795,7 +689,7 @@
     "wcErrorUsedURL": "該 URL 已建立連接",
     "wcErrorPairingTimeout": "配對請求超時",
     "wcErrorUnsupportedNetwork": "不支持的網絡",
-    "wcErrorUnsupportedNetworkDescription": "此應用程式使用 {networkName} 網絡。目前，Qubic Wallet 僅支持 Qubic 主網絡上的應用程式",
+    "wcErrorUnsupportedNetworkDescription": "此應用程式使用 {networkName} 網絡。目前，Qubic錢包僅支援Qubic Mainnet上的應用程式",
     "@wcErrorUnsupportedNetworkDescription": {
         "placeholders": {
             "networkName": {
@@ -817,7 +711,7 @@
     "wcOpenApp": "打開應用程式",
     "wcExpiresInDays": "{count, plural, =1{會議在 1 天內過期} other{會議在 {count} 天內過期}}",
     "wcExpiresInLessThanDay": "會議在不到一天內過期",
-    "pasteURLHere": "在此粘貼 URL",
+    "pasteURLHere": "粘貼 URL",
     "approvingConnection": "正在批准連接",
     "pleaseWait": "請稍候",
     "wcApproveSignTransferOf": "簽署轉帳",
@@ -895,5 +789,54 @@
     "wcSmartContractWarningTitle": "\"{smartContractName}\" 智能合約交易",
     "wcSmartContractWarningDescription": "請確保您信任此 DApp。批准交易後，您可能會授權轉移 Qubics 和/或資產",
     "wcApproveTransfer": "批准轉帳",
-    "wcSendAssets": "發送資產"
+    "wcSendAssets": "發送資產",
+    "assetButtonIssuerIdentity": "发行人身份",
+    "settingsLabelSupport": "支援",
+    "settingsSupportGithub": "GitHub（提交問題）",
+    "settingsSupportDiscord": "Discord（支援頻道）",
+    "generalLabelFee": "费用",
+    "generalLabelMultipleReceivers": "多個接收者",
+    "qxTransferSharesWarning": "此交易当前仅发送方可见，接收方暂时无法查看",
+    "settingsSupportGoogleForm": "填写表单",
+    "appTabExplore": "探索",
+    "storedTransfersLabel": "查看未完成的交易",
+    "transactionsCount": "{count, plural, =1{1 筆交易} other{顯示 {count} 筆交易}}",
+    "dAppOpenButton": "開啟",
+    "dAppFeaturedApp": "精選應用程式",
+    "dAppPopularApps": "熱門 dApp",
+    "networksTitle": "網路",
+    "networksButtonAddNetwork": "新增網路",
+    "networksConfirmationDialogTitleDeleteNetwork": "刪除 {networkName}？",
+    "networksConfirmationDialogContentDeleteNetwork": "確定要刪除您的自訂網路 {networkName} 嗎？",
+    "networksLabelDefault": "預設",
+    "networksButtonSetAsDefault": "設為預設",
+    "addNetworkTitle": "新增自訂網路",
+    "addNetworkLabelNetworkName": "網路名稱",
+    "addNetworkTextFieldHintNetworkName": "例如：Qubic Mainnet",
+    "addNetworkLabelRPCURL": "RPC 網址",
+    "addNetworkLabelQubicExplorerURL": "區塊鏈瀏覽器網址",
+    "networksWarningBannerCurrentNetwork": "您目前在 {networkName}",
+    "webviewAddressBarLabelRefresh": "重新整理",
+    "webviewAddressBarLabelShareURL": "分享網址",
+    "rootJailbreakDialogTitleWarning": "裝置已被破解",
+    "rootJailbreakDialogMessageWarning": "您的裝置可能已經 root 或越獄。某些功能可能存在安全風險。我們強烈建議僅在安全且未修改的裝置上使用此錢包。您仍可自行承擔風險使用本應用。",
+    "rootJailbreakDialogButtonWarning": "我了解",
+    "rootJailbreakDialogTitleRestrict": "限制存取",
+    "rootJailbreakDialogMessageRestrict": "您的裝置可能已經 root 或越獄。為了安全起見，某些功能已被停用。",
+    "rootJailbreakDialogButtonRestrict": "好",
+    "rootJailbreakDialogTitleRestrictFeature": "安全限制",
+    "rootJailbreakDialogMessageRestrictFeature": "此功能無法在已越獄或取得 root 權限的裝置上使用，因為這可能會危害您的資料安全。",
+    "rootJailbreakDialogButtonRestrictFeature": "確定",
+    "biometricErrorPasscodeNotSet": "您尚未在裝置上設定密碼、PIN 碼或解鎖密碼。請至裝置設定中設定，以啟用生物辨識驗證。",
+    "biometricErrorNotEnrolled": "您的裝置尚未註冊任何生物辨識資料。請至設定中註冊指紋或臉部辨識。",
+    "biometricErrorNotAvailable": "此裝置不支援生物辨識驗證功能。",
+    "biometricErrorOtherOperatingSystem": "您的作業系統不支援生物辨識驗證。",
+    "biometricErrorLockedOut": "驗證失敗次數過多。請使用 PIN、圖形或密碼鎖定並解鎖裝置後再試一次。",
+    "biometricErrorPermanentlyLockedOut": "生物辨識驗證已被永久鎖定。請使用 PIN、圖形或密碼解鎖裝置後再試一次。",
+    "biometricErrorBiometricOnlyNotSupported": "此平台不支援僅使用生物辨識的驗證方式。",
+    "homeHeaderQubicPrice": "QUBIC 价格",
+    "revealSeedCopiedToClipboardMessage": "私密助记词已临时复制到剪贴板（保存 1 分钟）",
+    "revealSeedWarningTitle": "请勿泄露您的私密助记词！",
+    "revealSeedWarningDescription": "如果他人获取了您的私密助记词，他们将完全控制您的账户",
+    "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。"
 }

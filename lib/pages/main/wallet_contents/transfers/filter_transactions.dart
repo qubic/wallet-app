@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
+import 'package:qubic_wallet/components/mid_text_with_ellipsis.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/transaction_UI_helpers.dart';
+import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
@@ -12,7 +14,6 @@ import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
 
 class FilterTransactions extends StatefulWidget {
   final TransactionFilter? initialFilter;
@@ -70,10 +71,11 @@ class _FilterTransactionsState extends State<FilterTransactions> {
         Text(l10n.filterTransfersLabelAnyStatus, style: TextStyles.textNormal),
       );
     } else {
-      out.add(Icon(getTransactionStatusIcon(e),
-          color: getTransactionStatusColor(e)));
+      out.add(Icon(TransactionStatusHelpers.getTransactionStatusIcon(e),
+          color: TransactionStatusHelpers.getTransactionStatusColor(e)));
       out.add(const Text(" "));
-      out.add(Text(getTransactionStatusText(e, context),
+      out.add(Text(
+          TransactionStatusHelpers.getTransactionStatusText(e, context),
           style: TextStyles.textNormal));
     }
     return out;
@@ -179,6 +181,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
       ComputedTransactionStatus.pending,
       ComputedTransactionStatus.success,
       ComputedTransactionStatus.failure,
+      ComputedTransactionStatus.executed,
       ComputedTransactionStatus.invalid,
     ];
 
@@ -286,64 +289,62 @@ class _FilterTransactionsState extends State<FilterTransactions> {
     return ClipRRect(
         borderRadius: BorderRadius.circular(12.0),
         clipBehavior: Clip.hardEdge,
-        child: Container(
-            child: FormBuilderDropdown(
-                isDense: true,
-                name: "qubicId",
-                icon: SizedBox(height: 2, child: Container()),
-                enabled: !isFilterForId(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedQubicId = value;
-                  });
-                },
-                initialValue: selectedQubicId,
-                decoration: ThemeInputDecorations.dropdownBox.copyWith(
-                    suffix: selectedQubicId == null || isFilterForId()
-                        ? const SizedBox(height: 12)
-                        : SizedBox(
-                            height: 25,
-                            width: 25,
-                            child: IconButton(
-                              padding: const EdgeInsets.all(0),
-                              icon: const Icon(Icons.close, size: 15.0),
-                              onPressed: () {
-                                _formKey.currentState!.fields['qubicId']
-                                    ?.didChange(null);
-                                setState(() {
-                                  selectedQubicId = null;
-                                });
-                              },
-                            )),
-                    hintText: l10n.filterTransfersLabelByQubicID),
-                selectedItemBuilder: (BuildContext context) {
-                  return accounts.map<Widget>((QubicListVm? item) {
-                    // This is the widget that will be shown when you select an item.
-                    // Here custom text style, alignment and layout size can be applied
-                    // to selected item string.
+        child: FormBuilderDropdown(
+            isDense: true,
+            name: "qubicId",
+            icon: SizedBox(height: 2, child: Container()),
+            enabled: !isFilterForId(),
+            onChanged: (value) {
+              setState(() {
+                selectedQubicId = value;
+              });
+            },
+            initialValue: selectedQubicId,
+            decoration: ThemeInputDecorations.dropdownBox.copyWith(
+                suffix: selectedQubicId == null || isFilterForId()
+                    ? const SizedBox(height: 12)
+                    : SizedBox(
+                        height: 25,
+                        width: 25,
+                        child: IconButton(
+                          padding: const EdgeInsets.all(0),
+                          icon: const Icon(Icons.close, size: 15.0),
+                          onPressed: () {
+                            _formKey.currentState!.fields['qubicId']
+                                ?.didChange(null);
+                            setState(() {
+                              selectedQubicId = null;
+                            });
+                          },
+                        )),
+                hintText: l10n.filterTransfersLabelByQubicID),
+            selectedItemBuilder: (BuildContext context) {
+              return accounts.map<Widget>((QubicListVm? item) {
+                // This is the widget that will be shown when you select an item.
+                // Here custom text style, alignment and layout size can be applied
+                // to selected item string.
 
-                    if (item == null) {
-                      return Text(l10n.filterTransfersLabelAnyQubicID,
-                          style: TextStyles.secondaryTextNormal);
-                    }
-                    return Container(
-                        alignment: Alignment.centerLeft,
-                        child: Flex(
-                          direction: Axis.horizontal,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Flexible(
-                                child: Text("${item.name} - ",
-                                    style: TextStyles.textNormal)),
-                            Expanded(
-                                child: Text(item.publicId,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyles.secondaryTextSmall)),
-                          ],
-                        ));
-                  }).toList();
-                },
-                items: selectableItems)));
+                if (item == null) {
+                  return Text(l10n.filterTransfersLabelAnyQubicID,
+                      style: TextStyles.secondaryTextNormal);
+                }
+                return Container(
+                    alignment: Alignment.centerLeft,
+                    child: Flex(
+                      direction: Axis.horizontal,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Flexible(
+                            child: Text("${item.name} - ",
+                                style: TextStyles.textNormal)),
+                        Expanded(
+                            child: TextWithMidEllipsis(item.publicId,
+                                style: TextStyles.secondaryTextSmall)),
+                      ],
+                    ));
+              }).toList();
+            },
+            items: selectableItems));
   }
 
   Widget getScrollView() {
@@ -351,9 +352,8 @@ class _FilterTransactionsState extends State<FilterTransactions> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(headerText: l10n.filterTransfersTitle),
@@ -386,7 +386,7 @@ class _FilterTransactionsState extends State<FilterTransactions> {
                         ],
                       )))
             ],
-          )))
+          ))
         ]));
   }
 

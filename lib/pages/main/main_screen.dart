@@ -11,21 +11,19 @@ import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
-import 'package:qubic_wallet/pages/main/tab_explorer/tab_explorer.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/tab_settings.dart';
-import 'package:qubic_wallet/pages/main/tab_transfers.dart';
 import 'package:qubic_wallet/pages/main/tab_wallet_contents.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/tab_dapps.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
+import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/timed_controller.dart';
@@ -43,7 +41,6 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   late final PersistentTabController _controller;
   final _timedController = getIt<TimedController>();
-  final QubicHubStore qubicHubStore = getIt<QubicHubStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final ApplicationStore applicationStore = getIt<ApplicationStore>();
   final QubicCmd qubicCmd = getIt<QubicCmd>();
@@ -90,6 +87,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // When the app is resumed
     if (state == AppLifecycleState.resumed ||
         (UniversalPlatform.isDesktop && state == AppLifecycleState.inactive)) {
+      // Clear the clipboard if sensitive data was copied and the timer has expired
+      ClipboardHelper.checkAndClearExpiredClipboard();
       _backgroundTimer?.cancel();
       _timedController.restartFetchTimersIfNeeded();
       _autoLockTimer?.cancel();
@@ -128,6 +127,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     _setupWalletConnect();
+    getIt<NetworkStore>().initNetworks();
+    applicationStore.initStoredTransactions();
 
     _timedController.restartFetchTimersIfNeeded();
     _controller = PersistentTabController(initialIndex: widget.initialTabIndex);
@@ -218,12 +219,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         //Need to call any extra navigation effects after the builder has finished
         Future.delayed(const Duration(seconds: 1), () {
+          if (!mounted) return;
           appLinkController.parseUriString(
               applicationStore.currentInboundUri!, context);
         });
       });
     }
     getIt<AppLinks>().uriLinkStream.listen((uri) {
+      if (!mounted) return;
       appLinkController.parseUriString(
           applicationStore.currentInboundUri!, context);
     });
@@ -261,27 +264,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       PersistentTabConfig(
           screen: Container(
               color: LightThemeColors.background,
-              child: const SafeArea(child: TabTransfers())),
-          item: ItemConfig(
-            icon: ChangeForeground(
-                color: LightThemeColors.buttonBackground,
-                child: Image.asset("assets/images/tab-transfers.png")),
-            inactiveIcon: Image.asset("assets/images/tab-transfers.png"),
-            title: (l10n.appTabTransfers),
-            textStyle: TextStyles.menuActive,
-            activeForegroundColor: LightThemeColors.menuActive,
-            inactiveForegroundColor: LightThemeColors.menuInactive,
-          )),
-      PersistentTabConfig(
-          screen: Container(
-              color: LightThemeColors.background,
-              child: const SafeArea(child: TabExplorer())),
+              child: const SafeArea(child: TabDApps())),
           item: ItemConfig(
             icon: ChangeForeground(
                 color: LightThemeColors.buttonBackground,
                 child: Image.asset("assets/images/tab-explorer.png")),
             inactiveIcon: Image.asset("assets/images/tab-explorer.png"),
-            title: (l10n.appTabExplorer),
+            title: (l10n.appTabExplore),
             textStyle: TextStyles.menuActive,
             activeForegroundColor: LightThemeColors.menuActive,
             inactiveForegroundColor: LightThemeColors.menuInactive,

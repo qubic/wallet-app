@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:qubic_wallet/di.dart';
@@ -12,6 +11,7 @@ import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/services/biometric_service.dart';
 
 class AuthenticatePassword extends StatefulWidget {
   final Function onSuccess;
@@ -36,6 +36,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final LocalAuthentication _auth = LocalAuthentication();
+  final BiometricService _biometricService = getIt<BiometricService>();
 
   String? signInError; //Error of signing in
   double formOpacity = 1; //Hide the form when biometric is shown
@@ -105,53 +106,35 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
     );
   }
 
+  void _setAuthError(String? error) {
+    setState(() {
+      isLoading = false;
+      formOpacity = 1;
+      signInError = error;
+    });
+  }
+
   Future<void> handleBiometricsAuth() async {
     if (mounted) {
-      final l10n = l10nOf(context);
-
       if (isLoading) {
         return;
       }
       setState(() {
         isLoading = true;
       });
-      try {
-        final bool didAuthenticate = await _auth.authenticate(
-            localizedReason: ' ',
-            options: AuthenticationOptions(
-                biometricOnly: UniversalPlatform.isDesktop ? false : true));
 
-        if (didAuthenticate) {
-          widget.onSuccess();
-        }
-        setState(() {
-          isLoading = false;
-          formOpacity = 1;
-        });
-      } on PlatformException catch (err) {
-        if ((err.message != null) &&
-            (err.message!
-                // TODO: can we check the error with the error code? why if the app is in another langauge?
-                .contains("API is locked out due to too many attempts"))) {
-          setState(() {
-            isLoading = false;
-            formOpacity = 1;
-            signInError = err.message ?? l10n.authenticateErrorTooManyAttempts;
-          });
-        } else if (err.message != null) {
-          setState(() {
-            isLoading = false;
-            formOpacity = 1;
-            signInError = err.message ?? l10n.authenticateErrorGeneral;
-          });
-        }
-      } catch (e) {
-        setState(() {
-          isLoading = false;
-          formOpacity = 1;
-          signInError = l10n.authenticateErrorGeneral;
-        });
+      final error = await _biometricService.handleBiometricsAuth(context);
+
+      if (error == null) {
+        widget.onSuccess();
+      } else {
+        _setAuthError(error);
       }
+
+      setState(() {
+        isLoading = false;
+        formOpacity = 1;
+      });
     }
   }
 
@@ -255,7 +238,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(child: Builder(builder: (context) {
+                  Builder(builder: (context) {
                     if (signInError == null) {
                       return Container();
                     } else {
@@ -273,7 +256,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                                             .error))),
                       );
                     }
-                  })),
+                  }),
                   FormBuilderTextField(
                     name: "password",
                     autofocus: !settingsStore.settings.biometricEnabled ||
@@ -303,6 +286,7 @@ class _AuthenticatePasswordState extends State<AuthenticatePassword> {
                     style: TextStyles.inputBoxNormalStyle,
                     enabled: !isLoading,
                     obscureText: obscuringTextPass,
+                    enableSuggestions: false,
                     autocorrect: false,
                     autofillHints: null,
                   ),

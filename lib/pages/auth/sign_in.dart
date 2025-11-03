@@ -1,6 +1,5 @@
 import 'package:animated_snack_bar/animated_snack_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -17,10 +16,8 @@ import 'package:qubic_wallet/pages/auth/import_selector.dart';
 import 'package:qubic_wallet/pages/auth/sign_up.dart';
 import 'package:qubic_wallet/pages/main/download_cmd_utils.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
-import 'package:qubic_wallet/resources/qubic_li.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_hub_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -28,11 +25,11 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/services/biometric_service.dart';
 
 class SignIn extends StatefulWidget {
-  final String?
-      disableLocalAuth; //if not null then local auth is disabled. TODO: Change this to a boolean
-  const SignIn({super.key, this.disableLocalAuth});
+  final bool disableLocalAuth;
+  const SignIn({super.key, this.disableLocalAuth = false});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -46,10 +43,10 @@ class _SignInState extends State<SignIn>
   final ApplicationStore _appStore = getIt<ApplicationStore>();
   final SettingsStore _settingsStore = getIt<SettingsStore>();
   final HiveStorage _hiveStorage = getIt<HiveStorage>();
-  final QubicHubStore _qubicHubStore = getIt<QubicHubStore>();
   final TimedController _timedController = getIt<TimedController>();
   final SecureStorage _secureStorage = getIt<SecureStorage>();
   final GlobalSnackBar _globalSnackbar = getIt<GlobalSnackBar>();
+  final BiometricService _biometricService = getIt<BiometricService>();
 
   //Unlock wallet form
   final _formKey = GlobalKey<FormBuilderState>();
@@ -70,6 +67,14 @@ class _SignInState extends State<SignIn>
   bool obscuringText = true; //Hide password or not
   int timesPressed = 0; //Number of times logo has been clicked
   BiometricType? biometricType; //The type of biometric available
+
+  void _setAuthError(String? error) {
+    setState(() {
+      isLoading = false;
+      formOpacity = 1;
+      signInError = error;
+    });
+  }
 
   @override
   void initState() {
@@ -178,7 +183,7 @@ class _SignInState extends State<SignIn>
     if (firstRun) {
       //Automatic local authentication on launch of widget
       _disposeLocalAuth = autorun((_) {
-        if (((widget.disableLocalAuth == null)) &&
+        if ((!widget.disableLocalAuth) &&
             (_settingsStore.settings.biometricEnabled)) {
           setState(() {
             formOpacity = 0;
@@ -227,70 +232,27 @@ class _SignInState extends State<SignIn>
   }
 
   Future<void> handleBiometricsAuth() async {
-    final l10n = l10nOf(context);
-
     if (isLoading || !mounted) {
       return;
     }
     setState(() {
       isLoading = true;
     });
-    try {
-      final bool didAuthenticate = await _auth.authenticate(
-          localizedReason: ' ',
-          options: AuthenticationOptions(
-              biometricOnly: UniversalPlatform.isDesktop ? false : true));
 
-      if (didAuthenticate) {
-        await _appStore.biometricSignIn();
-        await authSuccess();
-      }
-      setState(() {
-        isLoading = false;
-        formOpacity = 1;
-      });
-    } on PlatformException catch (err) {
-      if ((err.message != null) &&
-          (err.message!
-              // TODO: can we check the error with the error code? why if the app is in another langauge?
-              .contains("API is locked out due to too many attempts"))) {
-        setState(() {
-          isLoading = false;
-          formOpacity = 1;
-          signInError = err.message ?? l10n.authenticateErrorTooManyAttempts;
-        });
-      } else if (err.message != null) {
-        setState(() {
-          isLoading = false;
-          formOpacity = 1;
-          signInError = err.message ?? l10n.authenticateErrorGeneral;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        isLoading = false;
-        formOpacity = 1;
-        signInError = l10n.authenticateErrorGeneral;
-      });
-    }
-  }
+    final error = await _biometricService.handleBiometricsAuth(context);
 
-  Future<void> authSuccess() async {
-    final l10n = l10nOf(context);
-
-    try {
-      await getIt<QubicLi>().authenticate();
-      setState(() {
-        isLoading = false;
-      });
+    if (error == null) {
+      await _appStore.biometricSignIn();
+      if (!mounted) return;
       context.goNamed("mainScreen");
-    } catch (e) {
-      showAlertDialog(
-          context, l10n.generalErrorContactingQubicNetwork, e.toString());
-      setState(() {
-        isLoading = false;
-      });
+    } else {
+      _setAuthError(error);
     }
+
+    setState(() {
+      isLoading = false;
+      formOpacity = 1;
+    });
   }
 
   void signInHandler() async {
@@ -310,7 +272,12 @@ class _SignInState extends State<SignIn>
       });
       if (await _appStore
           .signIn(_formKey.currentState!.instantValue["password"])) {
-        authSuccess();
+        setState(() {
+          isLoading = false;
+        });
+        if (mounted) {
+          context.goNamed("mainScreen");
+        }
       } else {
         setState(() {
           isLoading = false;
@@ -348,6 +315,7 @@ class _SignInState extends State<SignIn>
                         _appStore.checkWalletIsInitialized();
                         _appStore.signOut();
                         _timedController.stopFetchTimers();
+                        if (!context.mounted) return;
                         Navigator.pop(context);
                         _globalSnackbar
                             .show(l10n.generalSnackBarMessageWalletDataErased);
@@ -415,11 +383,11 @@ class _SignInState extends State<SignIn>
       return Container();
     }
     return Observer(builder: (BuildContext context) {
-      if (_qubicHubStore.versionInfo == null) {
+      if (_settingsStore.versionInfo == null) {
         return Container();
       }
       return Text(
-          "${_qubicHubStore.versionInfo} (${_qubicHubStore.buildNumber})",
+          "${_settingsStore.versionInfo} (${_settingsStore.buildNumber})",
           textAlign: TextAlign.center,
           style: TextStyles.labelTextSmall
               .copyWith(color: LightThemeColors.color3));
@@ -445,7 +413,7 @@ class _SignInState extends State<SignIn>
             textAlign: TextAlign.center,
             style: TextStyles.pageTitle
                 .copyWith(fontSize: ThemeFontSizes.loginTitle.toDouble())),
-        Text(l10n.siginInTitleTwo,
+        Text(l10n.signInTitleTwo,
             textAlign: TextAlign.center,
             style: TextStyles.pageTitle.copyWith(
                 fontSize: ThemeFontSizes.loginTitle.toDouble(),
@@ -531,6 +499,7 @@ class _SignInState extends State<SignIn>
       onSubmitted: (value) => signInHandler(),
       enabled: !isLoading,
       obscureText: obscuringText,
+      enableSuggestions: false,
       autocorrect: false,
       autofillHints: null,
     );
@@ -564,7 +533,7 @@ class _SignInState extends State<SignIn>
       padding: const EdgeInsets.all(
         ThemePaddings.bigPadding,
       ),
-      child: Container(
+      child: SizedBox(
           width: double.infinity,
           child: Padding(
               padding: EdgeInsets.only(
@@ -657,7 +626,7 @@ class _SignInState extends State<SignIn>
 
   @override
   void didChangeMetrics() {
-    final value = WidgetsBinding.instance.window.viewInsets.bottom;
+    final value = View.of(context).viewInsets.bottom;
     setState(() {
       isKeyboardVisible = value > 50.0;
     });

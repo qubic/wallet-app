@@ -4,6 +4,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 class GradientForeground extends StatelessWidget {
   final Widget? child;
   const GradientForeground({
+    super.key,
     this.child,
   });
 

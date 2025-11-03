@@ -53,9 +53,8 @@ class _ChangePasswordState extends State<ChangePassword> {
     return SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Row(children: [
-          Container(
-              child: Expanded(
-                  child: Column(
+          Expanded(
+              child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
@@ -76,7 +75,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             FormBuilderValidators.required(
                                 errorText:
                                     l10n.generalErrorSetWalletPasswordEmpty),
-                            FormBuilderValidators.minLength(8,
+                            FormBuilderValidators.minLength(12,
                                 errorText: l10n.generalErrorPasswordMinLength)
                           ]),
                           onChanged: (value) => currentPassword = value ?? "",
@@ -103,6 +102,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 )),
                           ),
                           obscureText: !showingPassword,
+                          enableSuggestions: false,
                           autocorrect: false,
                           autofillHints: null,
                         ),
@@ -142,12 +142,13 @@ class _ChangePasswordState extends State<ChangePassword> {
                                 )),
                           ),
                           obscureText: !showingRepeatPassword,
+                          enableSuggestions: false,
                           autocorrect: false,
                           autofillHints: null,
                         ),
                       ]))
             ],
-          )))
+          ))
         ]));
   }
 
@@ -221,12 +222,14 @@ class _ChangePasswordState extends State<ChangePassword> {
         snackBar.show(l10n.changePasswordSnackbarPasswordChanged);
         //appStore.reportGlobalNotification("Password changed successfully");
       } else {
+        if (!mounted) return;
         showAlertDialog(context, l10n.changePasswordDialogSaveErrorTitle,
             l10n.changePasswordDialogSaveErrorMessage);
         setState(() {
           isLoading = false;
         });
       }
+      if (!mounted) return;
       Navigator.pop(context);
     }
   }
