@@ -5,6 +5,7 @@ import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/dtos/network_overview_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/pagination_request_model.dart';
+import 'package:qubic_wallet/models/token_response.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
 
@@ -85,6 +86,15 @@ class QubicArchiveApi {
       final response = await _dio.get(
           '${_networkStore.currentNetwork.rpcUrl}${Config.latestTickProcessed}');
       return response.data["latestTick"];
+    } catch (error) {
+      throw ErrorHandler.handleError(error);
+    }
+  }
+
+  Future<TokensResponse> getTokens() async {
+    try {
+      final response = await _dio.get('$_baseUrl/v1/assets/issuances');
+      return TokensResponse.fromJson(response.data);
     } catch (error) {
       throw ErrorHandler.handleError(error);
     }

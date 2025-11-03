@@ -2,6 +2,9 @@ import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/models/labeled_address_model.dart';
+import 'package:qubic_wallet/models/token_response.dart';
+import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 
@@ -11,9 +14,16 @@ class SmartContractStore = SmartContractStoreBase with _$SmartContractStore;
 
 abstract class SmartContractStoreBase with Store {
   final QubicHelpersApi _qubicHelpersApi = getIt<QubicHelpersApi>();
+  final QubicArchiveApi _qubicArchiveApi = getIt<QubicArchiveApi>();
 
   @observable
   List<QubicSCModel> contracts = [];
+
+  @observable
+  List<TokenModel> tokens = [];
+
+  @observable
+  List<LabeledAddressModel> labeledAddresses = [];
 
   @computed
   Map<String, QubicSCModel> get _byId => {
@@ -21,7 +31,14 @@ abstract class SmartContractStoreBase with Store {
       };
 
   @computed
-  bool get hasData => contracts.isNotEmpty;
+  Map<String, TokenModel> get _tokensById => {
+        for (var token in tokens) token.issuerIdentity: token,
+      };
+
+  @computed
+  Map<String, LabeledAddressModel> get _labeledAddressesById => {
+        for (var addr in labeledAddresses) addr.address: addr,
+      };
 
   String? fromContractId(String id) => _byId[id]?.name;
 
@@ -31,6 +48,14 @@ abstract class SmartContractStoreBase with Store {
     return _byId[contractId]?.getProcedureName(type);
   }
 
+  String? fromTokenId(String id) => _tokensById[id]?.name;
+
+  bool isToken(String id) => _tokensById.containsKey(id);
+
+  String? fromLabeledAddressId(String id) => _labeledAddressesById[id]?.label;
+
+  bool isLabeledAddress(String id) => _labeledAddressesById.containsKey(id);
+
   @action
   Future<void> loadSmartContracts() async {
     try {
@@ -39,16 +64,49 @@ abstract class SmartContractStoreBase with Store {
       contracts = response.smartContracts
           .map((dto) => QubicSCModel.fromDto(dto))
           .toList();
-      appLogger.e("Successfully loaded ${contracts.length} smart contracts");
+      appLogger.i("Successfully loaded ${contracts.length} smart contracts");
     } catch (e) {
       appLogger.e("Failed to load smart contracts from API: ${e.toString()}");
       getIt<GlobalSnackBar>().showError(e.toString());
     }
   }
 
+  @action
+  Future<void> loadTokens() async {
+    try {
+      final response = await _qubicArchiveApi.getTokens();
+
+      tokens = response.assets;
+      appLogger.i("Successfully loaded ${tokens.length} tokens");
+    } catch (e) {
+      appLogger.e("Failed to load tokens from API: ${e.toString()}");
+      getIt<GlobalSnackBar>().showError(e.toString());
+    }
+  }
+
+  @action
+  Future<void> loadLabeledAddresses() async {
+    try {
+      final response = await _qubicHelpersApi.getLabeledAddresses();
+
+      labeledAddresses = response.addressLabels;
+      appLogger.i(
+          "Successfully loaded ${labeledAddresses.length} labeled addresses");
+    } catch (e) {
+      appLogger.e("Failed to load labeled addresses from API: ${e.toString()}");
+      getIt<GlobalSnackBar>().showError(e.toString());
+    }
+  }
+
   Future<void> refreshIfAbsent() async {
-    if (!hasData) {
+    if (contracts.isEmpty) {
       await loadSmartContracts();
+    }
+    if (tokens.isEmpty) {
+      await loadTokens();
+    }
+    if (labeledAddresses.isEmpty) {
+      await loadLabeledAddresses();
     }
   }
 }

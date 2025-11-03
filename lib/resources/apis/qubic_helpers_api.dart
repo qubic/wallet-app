@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
+import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 
@@ -37,6 +38,15 @@ class QubicHelpersApi {
       return SmartContractsResponse.fromJson(response.data);
     } catch (error) {
       throw Exception('Failed to fetch smart contracts data');
+    }
+  }
+
+  Future<LabeledAddressesResponse> getLabeledAddresses() async {
+    try {
+      final response = await _generalDio.get('/data/address_labels.json');
+      return LabeledAddressesResponse.fromJson(response.data);
+    } catch (error) {
+      throw Exception('Failed to fetch labeled addresses data');
     }
   }
 }
