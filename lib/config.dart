@@ -24,6 +24,8 @@ abstract class Config {
   static addressTransfers(String address) =>
       "/v2/identities/$address/transfers";
 
+  static const assets = "/v1/assets/issuances";
+
   static const notFoundStatusCode = 404;
 
   static const fetchEverySeconds = 60;

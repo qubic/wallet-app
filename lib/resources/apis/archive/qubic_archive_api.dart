@@ -93,7 +93,7 @@ class QubicArchiveApi {
 
   Future<TokensResponse> getTokens() async {
     try {
-      final response = await _dio.get('$_baseUrl/v1/assets/issuances');
+      final response = await _dio.get('$_baseUrl${Config.assets}');
       return TokensResponse.fromJson(response.data);
     } catch (error) {
       throw ErrorHandler.handleError(error);
