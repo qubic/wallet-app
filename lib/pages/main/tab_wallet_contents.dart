@@ -60,6 +60,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   void initState() {
     super.initState();
     smartContractStore.loadSmartContracts();
+    smartContractStore.loadTokens();
+    smartContractStore.loadLabeledAddresses();
 
     disposeAutorun = autorun((_) {
       if (appStore.currentQubicIDs.length <= 1) {
