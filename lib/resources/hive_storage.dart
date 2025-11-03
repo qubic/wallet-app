@@ -21,8 +21,8 @@ class HiveStorage {
   late Box<TransactionVm> _storedTransactions;
   late Box<NetworkModel> _storedNetworks;
   late Box<String> _currentNetworkBox;
+  late Box<QubicListVm> _addressBook;
   final currentNetworkKey = "current_network";
-  late final Box<QubicListVm> addressBook;
   late HiveAesCipher _encryptionCipher;
 
   Future<void> initialize() async {
@@ -98,7 +98,7 @@ class HiveStorage {
   }
 
   Future<void> openAddressBookBox() async {
-    addressBook = await Hive.openBox<QubicListVm>(
+    _addressBook = await Hive.openBox<QubicListVm>(
       HiveBoxesNames.addressBook.name,
       encryptionCipher: _encryptionCipher,
     );
@@ -141,15 +141,15 @@ class HiveStorage {
   }
 
   void addAddressBookEntry(QubicListVm qubicId) {
-    addressBook.put(qubicId.publicId, qubicId);
+    _addressBook.put(qubicId.publicId, qubicId);
   }
 
   void removeAddressBookEntry(String qubicId) {
-    addressBook.delete(qubicId);
+    _addressBook.delete(qubicId);
   }
 
   List<QubicListVm> getAddressBookEntries() {
-    return addressBook.values.toList();
+    return _addressBook.values.toList();
   }
 
   Future<void> clear() async {
@@ -162,7 +162,7 @@ class HiveStorage {
     await _currentNetworkBox.clear();
     _currentNetworkBox.close();
 
-    await addressBook.clear();
+    await _addressBook.clear();
     _addressBook.close();
 
     await _secureStorage.deleteHiveEncryptionKey();

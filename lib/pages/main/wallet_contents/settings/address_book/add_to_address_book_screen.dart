@@ -98,8 +98,9 @@ class _AddToAddressBookScreenState extends State<AddToAddressBookScreen> {
                                       errorText:
                                           l10n.generalErrorRequiredField),
                                   CustomFormFieldValidators.isNameAvailable(
-                                      currentQubicIDs:
-                                          addressBookStore.addressBook,
+                                      namesList: addressBookStore.addressBook
+                                          .map((e) => e.name)
+                                          .toList(),
                                       context: context)
                                 ]),
                                 readOnly: isLoading,
