@@ -56,6 +56,17 @@ abstract class SmartContractStoreBase with Store {
 
   bool isLabeledAddress(String id) => _labeledAddressesById.containsKey(id);
 
+  /// Returns the label/name for an address if it's a known entity (smart contract, token, or labeled address).
+  /// Returns null if the address is not recognized.
+  /// Priority: Smart Contract > Token > Labeled Address
+  String? getLabel(String id) {
+    return fromContractId(id) ?? fromTokenId(id) ?? fromLabeledAddressId(id);
+  }
+
+  bool isKnownEntity(String id) {
+    return isSC(id) || isToken(id) || isLabeledAddress(id);
+  }
+
   @action
   Future<void> loadSmartContracts() async {
     try {

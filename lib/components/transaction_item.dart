@@ -149,8 +149,8 @@ class _TransactionItemState extends State<TransactionItem> {
                   textAlign: TextAlign.start, style: TextStyles.secondaryText)
             ]);
           }),
-          if (getIt<SmartContractStore>().isSC(accountId))
-            Text(getIt<SmartContractStore>().fromContractId(accountId)!),
+          if (getIt<SmartContractStore>().isKnownEntity(accountId))
+            Text(getIt<SmartContractStore>().getLabel(accountId)!),
           TextWithMidEllipsis(accountId,
               style: TextStyles.textNormal, textAlign: TextAlign.start),
         ]);

@@ -239,9 +239,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         if (widget.data.inputType != null &&
             widget.data.inputType! > 0 &&
             widget.data.toID != null &&
-            getIt<SmartContractStore>().isSC(widget.data.toID!)) ...[
+            getIt<SmartContractStore>().isKnownEntity(widget.data.toID!)) ...[
           _SmartContractWarningCard(
-              getIt<SmartContractStore>().fromContractId(widget.data.toID!) ??
+              getIt<SmartContractStore>().getLabel(widget.data.toID!) ??
                   l10n.wcSmartContractUnknown),
           ThemedControls.spacerVerticalBig(),
         ],

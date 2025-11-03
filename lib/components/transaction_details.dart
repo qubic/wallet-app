@@ -113,8 +113,8 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                       textAlign: TextAlign.start,
                       style: TextStyles.lightGreyTextNormal));
             }),
-            if (getIt<SmartContractStore>().isSC(accountId))
-              Text(getIt<SmartContractStore>().fromContractId(accountId)!,
+            if (getIt<SmartContractStore>().isKnownEntity(accountId))
+              Text(getIt<SmartContractStore>().getLabel(accountId)!,
                   style: TextStyles.textNormal),
             Text(accountId, style: TextStyles.textNormal),
           ])),
