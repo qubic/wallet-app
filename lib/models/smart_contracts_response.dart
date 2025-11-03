@@ -1,5 +1,5 @@
 class SmartContractsResponse {
-  final List<SmartContractDto> smartContracts;
+  final List<SmartContractModel> smartContracts;
 
   SmartContractsResponse({
     required this.smartContracts,
@@ -8,22 +8,22 @@ class SmartContractsResponse {
   factory SmartContractsResponse.fromJson(Map<String, dynamic> json) {
     return SmartContractsResponse(
       smartContracts: (json['smart_contracts'] as List)
-          .map((e) => SmartContractDto.fromJson(e))
+          .map((e) => SmartContractModel.fromJson(e))
           .toList(),
     );
   }
 }
 
-class SmartContractDto {
+class SmartContractModel {
   final String filename;
   final String name;
   final String label;
   final String githubUrl;
   final int contractIndex;
   final String address;
-  final List<ProcedureDto> procedures;
+  final Map<int, String> procedures;
 
-  SmartContractDto({
+  SmartContractModel({
     required this.filename,
     required this.name,
     required this.label,
@@ -33,34 +33,38 @@ class SmartContractDto {
     required this.procedures,
   });
 
-  factory SmartContractDto.fromJson(Map<String, dynamic> json) {
-    return SmartContractDto(
-      filename: json['filename'],
-      name: json['name'],
-      label: json['label'],
-      githubUrl: json['githubUrl'],
-      contractIndex: json['contractIndex'],
-      address: json['address'],
-      procedures: (json['procedures'] as List)
-          .map((e) => ProcedureDto.fromJson(e))
-          .toList(),
+  factory SmartContractModel.fromJson(Map<String, dynamic> json) {
+    final proceduresList = (json['procedures'] as List)
+        .map((e) => _ProcedureData(
+              id: e['id'] as int,
+              name: e['name'] as String,
+            ))
+        .toList();
+
+    return SmartContractModel(
+      filename: json['filename'] as String,
+      name: json['name'] as String,
+      label: json['label'] as String,
+      githubUrl: json['githubUrl'] as String,
+      contractIndex: json['contractIndex'] as int,
+      address: json['address'] as String,
+      procedures: {
+        for (var proc in proceduresList) proc.id: proc.name,
+      },
     );
+  }
+
+  String? getProcedureName(int type) {
+    return procedures[type];
   }
 }
 
-class ProcedureDto {
+class _ProcedureData {
   final int id;
   final String name;
 
-  ProcedureDto({
+  _ProcedureData({
     required this.id,
     required this.name,
   });
-
-  factory ProcedureDto.fromJson(Map<String, dynamic> json) {
-    return ProcedureDto(
-      id: json['id'],
-      name: json['name'],
-    );
-  }
 }

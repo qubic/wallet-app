@@ -3,10 +3,10 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
+import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/models/token_response.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 
 part 'qubic_data_store.g.dart';
 
@@ -17,7 +17,7 @@ abstract class QubicDataStoreBase with Store {
   final QubicArchiveApi _qubicArchiveApi = getIt<QubicArchiveApi>();
 
   @observable
-  List<QubicSCModel> smartContracts = [];
+  List<SmartContractModel> smartContracts = [];
 
   @observable
   List<TokenModel> tokens = [];
@@ -26,8 +26,8 @@ abstract class QubicDataStoreBase with Store {
   List<LabeledAddressModel> labeledAddresses = [];
 
   @computed
-  Map<String, QubicSCModel> get _byId => {
-        for (var sc in smartContracts) sc.contractId: sc,
+  Map<String, SmartContractModel> get _byId => {
+        for (var sc in smartContracts) sc.address: sc,
       };
 
   @computed
@@ -72,9 +72,7 @@ abstract class QubicDataStoreBase with Store {
     try {
       final response = await _qubicHelpersApi.getSmartContracts();
 
-      smartContracts = response.smartContracts
-          .map((dto) => QubicSCModel.fromDto(dto))
-          .toList();
+      smartContracts = response.smartContracts;
       appLogger
           .i("Successfully loaded ${smartContracts.length} smart contracts");
     } catch (e) {

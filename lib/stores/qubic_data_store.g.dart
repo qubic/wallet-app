@@ -9,11 +9,11 @@ part of 'qubic_data_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$QubicDataStore on QubicDataStoreBase, Store {
-  Computed<Map<String, QubicSCModel>>? _$_byIdComputed;
+  Computed<Map<String, SmartContractModel>>? _$_byIdComputed;
 
   @override
-  Map<String, QubicSCModel> get _byId => (_$_byIdComputed ??=
-          Computed<Map<String, QubicSCModel>>(() => super._byId,
+  Map<String, SmartContractModel> get _byId => (_$_byIdComputed ??=
+          Computed<Map<String, SmartContractModel>>(() => super._byId,
               name: 'QubicDataStoreBase._byId'))
       .value;
   Computed<Map<String, TokenModel>>? _$_tokensByIdComputed;
@@ -33,18 +33,18 @@ mixin _$QubicDataStore on QubicDataStoreBase, Store {
                   name: 'QubicDataStoreBase._labeledAddressesById'))
           .value;
 
-  late final _$contractsAtom =
-      Atom(name: 'QubicDataStoreBase.contracts', context: context);
+  late final _$smartContractsAtom =
+      Atom(name: 'QubicDataStoreBase.smartContracts', context: context);
 
   @override
-  List<QubicSCModel> get smartContracts {
-    _$contractsAtom.reportRead();
+  List<SmartContractModel> get smartContracts {
+    _$smartContractsAtom.reportRead();
     return super.smartContracts;
   }
 
   @override
-  set smartContracts(List<QubicSCModel> value) {
-    _$contractsAtom.reportWrite(value, super.smartContracts, () {
+  set smartContracts(List<SmartContractModel> value) {
+    _$smartContractsAtom.reportWrite(value, super.smartContracts, () {
       super.smartContracts = value;
     });
   }
@@ -110,7 +110,7 @@ mixin _$QubicDataStore on QubicDataStoreBase, Store {
   @override
   String toString() {
     return '''
-contracts: ${smartContracts},
+smartContracts: ${smartContracts},
 tokens: ${tokens},
 labeledAddresses: ${labeledAddresses}
     ''';
