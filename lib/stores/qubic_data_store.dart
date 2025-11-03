@@ -108,6 +108,12 @@ abstract class QubicDataStoreBase with Store {
     }
   }
 
+  Future<void> loadAllData() async {
+    loadSmartContracts();
+    loadTokens();
+    loadLabeledAddresses();
+  }
+
   Future<void> refreshIfAbsent() async {
     if (smartContracts.isEmpty) {
       await loadSmartContracts();

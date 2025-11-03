@@ -43,7 +43,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final TimedController _timedController = getIt<TimedController>();
   final NetworkStore networkStore = getIt<NetworkStore>();
-  final smartContractStore = getIt<QubicDataStore>();
+  final qubicData = getIt<QubicDataStore>();
 
   final double sliverExpanded = 185;
 
@@ -59,9 +59,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   @override
   void initState() {
     super.initState();
-    smartContractStore.loadSmartContracts();
-    smartContractStore.loadTokens();
-    smartContractStore.loadLabeledAddresses();
+    qubicData.loadAllData();
 
     disposeAutorun = autorun((_) {
       if (appStore.currentQubicIDs.length <= 1) {
@@ -164,7 +162,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
             edgeOffset: kToolbarHeight,
             onRefresh: () async {
               await _timedController.interruptFetchTimer();
-              await smartContractStore.refreshIfAbsent();
+              await qubicData.refreshIfAbsent();
             },
             backgroundColor: LightThemeColors.refreshIndicatorBackground,
             child: Container(
