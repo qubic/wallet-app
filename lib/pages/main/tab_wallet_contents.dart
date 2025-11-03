@@ -24,7 +24,7 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-import 'package:qubic_wallet/stores/smart_contract_store.dart';
+import 'package:qubic_wallet/stores/qubic_data_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -43,7 +43,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final TimedController _timedController = getIt<TimedController>();
   final NetworkStore networkStore = getIt<NetworkStore>();
-  final smartContractStore = getIt<SmartContractStore>();
+  final smartContractStore = getIt<QubicDataStore>();
 
   final double sliverExpanded = 185;
 
