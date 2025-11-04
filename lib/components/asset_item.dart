@@ -4,7 +4,6 @@ import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
-import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -75,7 +74,6 @@ class _AssetItemState extends State<AssetItem> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = l10nOf(context);
     return Container(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
         child: Card(
@@ -109,11 +107,7 @@ class _AssetItemState extends State<AssetItem> {
                             currencyName: widget.asset.issuedAsset.name,
                           )),
                           getCardMenu(context)
-                        ]),
-                        Text(
-                            l10n.assetsLabelTick(
-                                widget.asset.info.tick.asThousands()),
-                            style: TextStyles.assetSecondaryTextLabel)
+                        ])
                       ])),
               widget.account.watchOnly
                   ? ThemedControls.spacerVerticalNormal()
