@@ -243,14 +243,7 @@
     "accountSendSectionAdvanceOptionsTitle": "高级选项",
     "assetsLabelContractName": "合约名称",
     "assetsLabelContractIndex": "合约索引",
-    "assetsLabelTick": "有效至刻度 {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "管理者",
     "assetsLabelCurrentBalance": "ID 中余额： {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

@@ -243,14 +243,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Gelişmiş Seçenekler",
     "assetsLabelContractName": "Kontrakt Adı",
     "assetsLabelContractIndex": "Kontrakt İndeksi",
-    "assetsLabelTick": "Valid for tick {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "Yöneten",
     "assetsLabelCurrentBalance": "ID'deki Bakiye: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

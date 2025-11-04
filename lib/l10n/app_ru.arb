@@ -243,14 +243,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Дополнительные настройки",
     "assetsLabelContractName": "Имя контракта",
     "assetsLabelContractIndex": "Индекс контракта",
-    "assetsLabelTick": "Действительно для тика {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "Управляется",
     "assetsLabelCurrentBalance": "Балланс ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

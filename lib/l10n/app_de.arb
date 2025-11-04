@@ -243,14 +243,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Erweiterte Optionen",
     "assetsLabelContractName": "Vertragsname",
     "assetsLabelContractIndex": "Vertragsindex",
-    "assetsLabelTick": "Gültig für Tick {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "Verwaltet von",
     "assetsLabelCurrentBalance": "Guthaben in ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
