@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/smart_contracts/sc_info.dart';
@@ -24,7 +24,7 @@ class GroupedAssetItem extends StatelessWidget {
     final l10n = l10nOf(context);
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: const EdgeInsets.only(bottom: ThemePaddings.normalPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -42,7 +42,8 @@ class GroupedAssetItem extends StatelessWidget {
             String? contractName = QubicSCStore.fromContractIndex(
                 contribution.managingContractIndex);
             return Padding(
-              padding: const EdgeInsets.only(left: 16, top: 4),
+              padding: const EdgeInsets.only(
+                  left: ThemePaddings.normalPadding, top: 4),
               child: Row(
                 children: [
                   Text(
