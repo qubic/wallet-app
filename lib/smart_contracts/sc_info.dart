@@ -217,4 +217,12 @@ class QubicSCStore {
   static String? getProcedureName(String contractId, int type) {
     return _byId[contractId]?.getProcedureName(type);
   }
+
+  static String? fromContractIndex(int index) {
+    try {
+      return contracts.firstWhere((sc) => sc.contractIndex == index).name;
+    } catch (e) {
+      return null;
+    }
+  }
 }
