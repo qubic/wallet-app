@@ -85,8 +85,11 @@ abstract class _ApplicationStore with Store {
 
   @action
   void sortAccounts() {
-    // Early return for creation order - no sorting needed
     if (accountsSortingMode == AccountSortMode.creationOrder) {
+      // Restore creation order by sorting by the original index
+      // We can use the publicId order from secure storage as reference
+      // For now, trigger a reload to restore order
+      _restoreCreationOrder();
       return;
     }
 
@@ -95,6 +98,20 @@ abstract class _ApplicationStore with Store {
     } else if (accountsSortingMode == AccountSortMode.balance) {
       currentQubicIDs.sort((b, a) => (a.amount ?? 0).compareTo(b.amount ?? 0));
     }
+  }
+
+  void _restoreCreationOrder() {
+    // Sort currentQubicIDs based on the cached creation order
+    currentQubicIDs.sort((a, b) {
+      final aIndex = _creationOrderCache.indexOf(a.publicId);
+      final bIndex = _creationOrderCache.indexOf(b.publicId);
+
+      // Handle accounts not in cache (shouldn't happen, but defensive)
+      if (aIndex == -1) return 1;
+      if (bIndex == -1) return -1;
+
+      return aIndex.compareTo(bIndex);
+    });
   }
 
 // Add an action to update the tab index
@@ -121,6 +138,9 @@ abstract class _ApplicationStore with Store {
 
   @observable
   ObservableList<QubicListVm> currentQubicIDs = ObservableList<QubicListVm>();
+
+  // Cache of account public IDs in creation order (for restoring sort)
+  List<String> _creationOrderCache = [];
   @observable
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
@@ -252,6 +272,8 @@ abstract class _ApplicationStore with Store {
       isSignedIn = true;
       final results = await secureStorage.getWalletContents();
       currentQubicIDs = ObservableList.of(results);
+      // Cache the creation order
+      _creationOrderCache = results.map((e) => e.publicId).toList();
     } catch (e) {
       isSignedIn = false;
     }
@@ -283,6 +305,8 @@ abstract class _ApplicationStore with Store {
       //Populate the list
       final results = await secureStorage.getWalletContents();
       currentQubicIDs = ObservableList.of(results);
+      // Cache the creation order
+      _creationOrderCache = results.map((e) => e.publicId).toList();
       return result;
     } catch (e) {
       isSignedIn = false;
@@ -297,6 +321,7 @@ abstract class _ApplicationStore with Store {
       await _hiveStorage.initEncryptedBoxes();
       isSignedIn = result;
       currentQubicIDs = ObservableList<QubicListVm>();
+      _creationOrderCache = [];
       appLogger.d('[QubicWallet] Signed up');
       return isSignedIn;
     } catch (e) {
@@ -311,6 +336,7 @@ abstract class _ApplicationStore with Store {
     transactionFilter = TransactionFilter();
     currentQubicIDs = ObservableList<QubicListVm>();
     currentTransactions = ObservableList<TransactionVm>();
+    _creationOrderCache = [];
   }
 
   @action
@@ -319,6 +345,8 @@ abstract class _ApplicationStore with Store {
     for (var element in ids) {
       currentQubicIDs.add(QubicListVm(element.getPublicId(), element.getName(),
           null, null, null, element.getPrivateSeed() == '' ? true : false));
+      // Add to creation order cache
+      _creationOrderCache.add(element.getPublicId());
     }
     initStoredAccountsIfAbsent();
   }
@@ -328,6 +356,8 @@ abstract class _ApplicationStore with Store {
     await secureStorage.addID(QubicId(privateSeed, publicId, name, null));
     currentQubicIDs.add(QubicListVm(
         publicId, name, null, null, null, privateSeed == '' ? true : false));
+    // Add to creation order cache
+    _creationOrderCache.add(publicId);
     sortAccounts();
   }
 
@@ -527,6 +557,8 @@ abstract class _ApplicationStore with Store {
     await secureStorage.removeID(publicId);
     currentQubicIDs.removeWhere(
         (element) => element.publicId == publicId.replaceAll(",", "_"));
+    // Remove from creation order cache
+    _creationOrderCache.remove(publicId.replaceAll(",", "_"));
     //Remove all from transactions which contain this qubicId and no other wallet ids
 
     currentTransactions.removeWhere((element) =>
