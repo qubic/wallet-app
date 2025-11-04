@@ -153,15 +153,10 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     return super.accountsSortingMode;
   }
 
-  bool _accountsSortingModeIsInitialized = false;
-
   @override
   set accountsSortingMode(AccountSortMode value) {
-    _$accountsSortingModeAtom.reportWrite(value,
-        _accountsSortingModeIsInitialized ? super.accountsSortingMode : null,
-        () {
+    _$accountsSortingModeAtom.reportWrite(value, super.accountsSortingMode, () {
       super.accountsSortingMode = value;
-      _accountsSortingModeIsInitialized = true;
     });
   }
 

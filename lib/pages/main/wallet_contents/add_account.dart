@@ -204,10 +204,24 @@ class _AddAccountState extends State<AddAccount> {
                         controller: accountName,
                         readOnly: isLoading,
                         style: TextStyles.inputBoxSmallStyle,
-                        decoration: ThemeInputDecorations.normalInputbox
-                            .copyWith(hintText: l10n.addAccountHintAccountName),
+                        decoration: ThemeInputDecorations.normalInputbox.copyWith(
+                          hintText: l10n.addAccountHintAccountName,
+                          suffixIcon: accountName.text.isNotEmpty
+                              ? IconButton(
+                                  icon: const Icon(Icons.cancel, size: 20),
+                                  color: Colors.grey.shade400,
+                                  onPressed: () {
+                                    accountName.clear();
+                                    setState(() {});
+                                  },
+                                )
+                              : null,
+                        ),
                         autocorrect: false,
                         autofillHints: null,
+                        onChanged: (value) {
+                          setState(() {}); // Rebuild to show/hide clear button
+                        },
                       ),
 
                       ThemedControls.spacerVerticalNormal(),
@@ -462,8 +476,22 @@ class _AddAccountState extends State<AddAccount> {
                       ]),
                       readOnly: isLoading,
                       style: TextStyles.inputBoxSmallStyle,
-                      decoration: ThemeInputDecorations.normalInputbox
-                          .copyWith(hintText: l10n.addAccountHintAccountName),
+                      decoration: ThemeInputDecorations.normalInputbox.copyWith(
+                        hintText: l10n.addAccountHintAccountName,
+                        suffixIcon: accountName.text.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.cancel, size: 20),
+                                color: Colors.grey.shade400,
+                                onPressed: () {
+                                  accountName.clear();
+                                  setState(() {});
+                                },
+                              )
+                            : null,
+                      ),
+                      onChanged: (value) {
+                        setState(() {}); // Rebuild to show/hide clear button
+                      },
                       autocorrect: false,
                       autofillHints: null,
                     ),

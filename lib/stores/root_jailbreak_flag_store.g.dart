@@ -10,7 +10,8 @@ part of 'root_jailbreak_flag_store.dart';
 
 mixin _$RootJailbreakFlagStore on RootJailbreakFlagStoreBase, Store {
   late final _$isRootedOrJailbrokenAtom = Atom(
-      name: '_RootJailbreakFlagStore.isRootedOrJailbroken', context: context);
+      name: 'RootJailbreakFlagStoreBase.isRootedOrJailbroken',
+      context: context);
 
   @override
   bool get isRootedOrJailbroken {
@@ -26,14 +27,13 @@ mixin _$RootJailbreakFlagStore on RootJailbreakFlagStoreBase, Store {
     });
   }
 
-  late final _$setRootedOrJailbrokenAsyncAction = AsyncAction(
-      '_RootJailbreakFlagStore.setRootedOrJailbroken',
+  late final _$checkDeviceStateAsyncAction = AsyncAction(
+      'RootJailbreakFlagStoreBase.checkDeviceState',
       context: context);
 
   @override
   Future<void> checkDeviceState() {
-    return _$setRootedOrJailbrokenAsyncAction
-        .run(() => super.checkDeviceState());
+    return _$checkDeviceStateAsyncAction.run(() => super.checkDeviceState());
   }
 
   @override
