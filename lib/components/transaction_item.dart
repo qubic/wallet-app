@@ -10,6 +10,7 @@ import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/address_ui_helper.dart';
 import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
@@ -19,7 +20,6 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/services/qubic_label_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -149,8 +149,8 @@ class _TransactionItemState extends State<TransactionItem> {
                   textAlign: TextAlign.start, style: TextStyles.secondaryText)
             ]);
           }),
-          if (getIt<QubicLabelService>().isKnownEntity(accountId))
-            Text(getIt<QubicLabelService>().getLabel(accountId)!),
+          if (AddressUIHelper.getLabel(accountId) case String label)
+            Text(label),
           TextWithMidEllipsis(accountId,
               style: TextStyles.textNormal, textAlign: TextAlign.start),
         ]);

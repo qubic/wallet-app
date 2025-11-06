@@ -76,9 +76,9 @@ class _ApprovalCardState extends State<_ApprovalCard> {
                   l10n.generalLabelToFromAddress(l10n.generalLabelTo),
                   style: TextStyles.lightGreyTextSmall,
                 ),
-          if (getIt<QubicLabelService>().isKnownEntity(widget.data.toID!)) ...[
+          if (AddressUIHelper.getLabel(widget.data.toID!) case String label) ...[
             ThemedControls.spacerVerticalMini(),
-            Text(getIt<QubicLabelService>().getLabel(widget.data.toID!)!)
+            Text(label)
           ],
           ThemedControls.spacerVerticalMini(),
           Text(widget.data.toID ?? "-", style: TextStyles.textNormal),

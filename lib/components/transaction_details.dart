@@ -8,6 +8,7 @@ import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/address_ui_helper.dart';
 import 'package:qubic_wallet/helpers/date_formatter.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
@@ -18,7 +19,6 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/services/qubic_label_service.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -113,9 +113,8 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                       textAlign: TextAlign.start,
                       style: TextStyles.lightGreyTextNormal));
             }),
-            if (getIt<QubicLabelService>().isKnownEntity(accountId))
-              Text(getIt<QubicLabelService>().getLabel(accountId)!,
-                  style: TextStyles.textNormal),
+            if (AddressUIHelper.getLabel(accountId) case String label)
+              Text(label, style: TextStyles.textNormal),
             Text(accountId, style: TextStyles.textNormal),
           ])),
       CopyButton(copiedText: accountId)
