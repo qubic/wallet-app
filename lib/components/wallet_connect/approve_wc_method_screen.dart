@@ -20,10 +20,10 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.d
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/services/qubic_label_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_data_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -239,9 +239,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         if (widget.data.inputType != null &&
             widget.data.inputType! > 0 &&
             widget.data.toID != null &&
-            getIt<QubicDataStore>().isKnownEntity(widget.data.toID!)) ...[
+            getIt<QubicLabelService>().isKnownEntity(widget.data.toID!)) ...[
           _SmartContractWarningCard(
-              getIt<QubicDataStore>().getLabel(widget.data.toID!) ??
+              getIt<QubicLabelService>().getLabel(widget.data.toID!) ??
                   l10n.wcSmartContractUnknown),
           ThemedControls.spacerVerticalBig(),
         ],

@@ -76,9 +76,9 @@ class _ApprovalCardState extends State<_ApprovalCard> {
                   l10n.generalLabelToFromAddress(l10n.generalLabelTo),
                   style: TextStyles.lightGreyTextSmall,
                 ),
-          if (getIt<QubicDataStore>().isKnownEntity(widget.data.toID!)) ...[
+          if (getIt<QubicLabelService>().isKnownEntity(widget.data.toID!)) ...[
             ThemedControls.spacerVerticalMini(),
-            Text(getIt<QubicDataStore>().getLabel(widget.data.toID!)!)
+            Text(getIt<QubicLabelService>().getLabel(widget.data.toID!)!)
           ],
           ThemedControls.spacerVerticalMini(),
           Text(widget.data.toID ?? "-", style: TextStyles.textNormal),
