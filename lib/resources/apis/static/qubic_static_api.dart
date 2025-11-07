@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
@@ -9,10 +10,8 @@ class QubicStaticApi {
   final Dio _generalDio;
 
   QubicStaticApi()
-      : _dio =
-            DioClient.getDio(baseUrl: "https://static.qubic.org/v1/wallet-app"),
-        _generalDio =
-            DioClient.getDio(baseUrl: "https://static.qubic.org/v1/general");
+      : _dio = DioClient.getDio(baseUrl: "${Config.qubicStaticApiBaseUrl}/wallet-app"),
+        _generalDio = DioClient.getDio(baseUrl: "${Config.qubicStaticApiBaseUrl}/general");
 
   Future<DappsResponse> getDapps() async {
     try {

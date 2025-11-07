@@ -7,6 +7,9 @@ abstract class Config {
   // Qubic RPC backend related config
   static const qubicMainnetRpcDomain = "https://rpc.qubic.org";
 
+  // Qubic static API related config
+  static const qubicStaticApiBaseUrl = "https://static.qubic.org/v1";
+
   static tickData(int tick) => "/v1/ticks/$tick/tick-data";
   static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
   static computors(int epoch) => "/v1/epochs/$epoch/computors";
