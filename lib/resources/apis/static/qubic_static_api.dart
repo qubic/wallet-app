@@ -7,15 +7,13 @@ import 'package:qubic_wallet/services/dio_client.dart';
 
 class QubicStaticApi {
   final Dio _dio;
-  final Dio _generalDio;
 
   QubicStaticApi()
-      : _dio = DioClient.getDio(baseUrl: "${Config.qubicStaticApiBaseUrl}/wallet-app"),
-        _generalDio = DioClient.getDio(baseUrl: "${Config.qubicStaticApiBaseUrl}/general");
+      : _dio = DioClient.getDio(baseUrl: Config.qubicStaticApiBaseUrl);
 
   Future<DappsResponse> getDapps() async {
     try {
-      final response = await _dio.get('/dapps/dapps.json');
+      final response = await _dio.get(Config.dapps);
       return DappsResponse.fromJson(response.data);
     } catch (e) {
       throw Exception('Failed to fetch dapps');
@@ -24,7 +22,7 @@ class QubicStaticApi {
 
   Future<Map<String, dynamic>> getLocalizedDappData(String locale) async {
     try {
-      final response = await _dio.get('/dapps/locales/$locale.json');
+      final response = await _dio.get(Config.dappLocale(locale));
       return response.data;
     } catch (e) {
       throw Exception('Failed to fetch localized dapp');
@@ -33,7 +31,7 @@ class QubicStaticApi {
 
   Future<SmartContractsResponse> getSmartContracts() async {
     try {
-      final response = await _generalDio.get('/data/smart_contracts.json');
+      final response = await _dio.get(Config.smartContracts);
       return SmartContractsResponse.fromJson(response.data);
     } catch (error) {
       throw Exception('Failed to fetch smart contracts data');
@@ -42,7 +40,7 @@ class QubicStaticApi {
 
   Future<LabeledAddressesResponse> getLabeledAddresses() async {
     try {
-      final response = await _generalDio.get('/data/address_labels.json');
+      final response = await _dio.get(Config.labeledAddresses);
       return LabeledAddressesResponse.fromJson(response.data);
     } catch (error) {
       throw Exception('Failed to fetch labeled addresses data');

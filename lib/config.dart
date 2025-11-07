@@ -10,6 +10,12 @@ abstract class Config {
   // Qubic static API related config
   static const qubicStaticApiBaseUrl = "https://static.qubic.org/v1";
 
+  // Qubic static API endpoints
+  static const dapps = "/wallet-app/dapps/dapps.json";
+  static dappLocale(String locale) => "/wallet-app/dapps/locales/$locale.json";
+  static const smartContracts = "/general/data/smart_contracts.json";
+  static const labeledAddresses = "/general/data/address_labels.json";
+
   static tickData(int tick) => "/v1/ticks/$tick/tick-data";
   static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
   static computors(int epoch) => "/v1/epochs/$epoch/computors";
