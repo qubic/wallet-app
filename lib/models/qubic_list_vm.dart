@@ -86,22 +86,24 @@ class QubicListVm {
     return newShares;
   }
 
-  /// Groups assets by token name and aggregates balances across managing contracts
+  /// Groups assets by token name AND issuer ID, aggregating balances across managing contracts
+  /// Assets are uniquely identified by the combination of issuer ID and asset name
   List<GroupedAssetDto> getGroupedAssets() {
     Map<String, List<QubicAssetDto>> groupedByToken = {};
 
-    // Group assets by token name only
+    // Group assets by token name AND issuer ID
     assets.forEach((key, asset) {
-      String tokenName = asset.issuedAsset.name;
-      if (!groupedByToken.containsKey(tokenName)) {
-        groupedByToken[tokenName] = [];
+      // Create a unique key combining issuer ID and token name
+      String groupKey = '${asset.issuedAsset.issuerIdentity}_${asset.issuedAsset.name}';
+      if (!groupedByToken.containsKey(groupKey)) {
+        groupedByToken[groupKey] = [];
       }
-      groupedByToken[tokenName]!.add(asset);
+      groupedByToken[groupKey]!.add(asset);
     });
 
-    // Create GroupedAssetDto for each token
+    // Create GroupedAssetDto for each unique token (by issuer + name)
     List<GroupedAssetDto> result = [];
-    groupedByToken.forEach((tokenName, assetList) {
+    groupedByToken.forEach((groupKey, assetList) {
       int totalUnits = 0;
       List<AssetContractContribution> contributions = [];
 
@@ -115,7 +117,7 @@ class QubicListVm {
       }
 
       result.add(GroupedAssetDto(
-        tokenName: tokenName,
+        tokenName: assetList.first.issuedAsset.name,
         issuedAsset: assetList.first.issuedAsset,
         totalUnits: totalUnits,
         contractContributions: contributions,
