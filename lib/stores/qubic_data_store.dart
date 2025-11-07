@@ -6,14 +6,14 @@ import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/models/token_response.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
-import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
+import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 
 part 'qubic_data_store.g.dart';
 
 class QubicDataStore = QubicDataStoreBase with _$QubicDataStore;
 
 abstract class QubicDataStoreBase with Store {
-  final QubicHelpersApi _qubicHelpersApi = getIt<QubicHelpersApi>();
+  final QubicStaticApi _qubicHelpersApi = getIt<QubicStaticApi>();
   final QubicArchiveApi _qubicArchiveApi = getIt<QubicArchiveApi>();
 
   @observable

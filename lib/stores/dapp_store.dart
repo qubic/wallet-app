@@ -4,14 +4,14 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
+import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 
 part 'dapp_store.g.dart';
 
 class DappStore = DappStoreBase with _$DappStore;
 
 abstract class DappStoreBase with Store {
-  final QubicHelpersApi _qubicHelpersApi = getIt<QubicHelpersApi>();
+  final QubicStaticApi _qubicHelpersApi = getIt<QubicStaticApi>();
 
   @observable
   DappsResponse? dappsResponse;

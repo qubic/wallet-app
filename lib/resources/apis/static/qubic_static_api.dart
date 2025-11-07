@@ -4,11 +4,11 @@ import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 
-class QubicHelpersApi {
+class QubicStaticApi {
   final Dio _dio;
   final Dio _generalDio;
 
-  QubicHelpersApi()
+  QubicStaticApi()
       : _dio =
             DioClient.getDio(baseUrl: "https://static.qubic.org/v1/wallet-app"),
         _generalDio =
