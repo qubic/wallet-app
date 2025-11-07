@@ -30,6 +30,10 @@ class _AssetItemState extends State<AssetItem> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
 
   String? generatedPublicId;
+
+  static const double _menuIconSize = 20;
+  static const double _menuIconSpacing = 12;
+
   @override
   void initState() {
     super.initState();
@@ -142,7 +146,13 @@ class _AssetItemState extends State<AssetItem> {
         itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
               PopupMenuItem<CardItem>(
                 value: CardItem.issuerIdentity,
-                child: Text(l10n.assetButtonIssuerIdentity),
+                child: Row(
+                  children: [
+                    const Icon(Icons.verified_user, size: _menuIconSize),
+                    const SizedBox(width: _menuIconSpacing),
+                    Text(l10n.assetButtonIssuerIdentity),
+                  ],
+                ),
               )
             ]);
   }

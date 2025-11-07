@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
@@ -24,6 +25,7 @@ import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -47,6 +49,9 @@ class _AccountListItemState extends State<AccountListItem> {
 
   bool totalBalanceVisible = true;
   late ReactionDisposer _disposer;
+
+  static const double _menuIconSize = 20;
+  static const double _menuIconSpacing = 12;
 
   bool isItemWatchOnly() => widget.item.watchOnly;
 
@@ -262,24 +267,65 @@ class _AccountListItemState extends State<AccountListItem> {
             itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewTransactions,
-                    child: Text(l10n.accountButtonViewTransfer),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.history, size: _menuIconSize),
+                        const SizedBox(width: _menuIconSpacing),
+                        Text(l10n.accountButtonViewTransfer),
+                      ],
+                    ),
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewInExplorer,
-                    child: Text(l10n.accountButtonViewInExplorer),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.explore, size: _menuIconSize),
+                        const SizedBox(width: _menuIconSpacing),
+                        Text(l10n.accountButtonViewInExplorer),
+                      ],
+                    ),
                   ),
                   if (!isItemWatchOnly()) // Check if item is not watch-only
                     PopupMenuItem<CardItem>(
                       value: CardItem.reveal,
-                      child: Text(l10n.accountButtonRevealPrivateSeed),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(
+                            AppIcons.keyVertical,
+                            width: _menuIconSize,
+                            height: _menuIconSize,
+                            colorFilter: const ColorFilter.mode(
+                              LightThemeColors.primary,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          const SizedBox(width: _menuIconSpacing),
+                          Text(l10n.accountButtonRevealPrivateSeed),
+                        ],
+                      ),
                     ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.rename,
-                    child: Text(l10n.generalButtonRename),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.edit_outlined, size: _menuIconSize),
+                        const SizedBox(width: _menuIconSpacing),
+                        Text(l10n.generalButtonRename),
+                      ],
+                    ),
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.delete,
-                    child: Text(l10n.generalButtonDelete),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.delete_outline,
+                            size: _menuIconSize, color: LightThemeColors.error40),
+                        const SizedBox(width: _menuIconSpacing),
+                        Text(l10n.generalButtonDelete,
+                            style:
+                                const TextStyle(color: LightThemeColors.error40)),
+                      ],
+                    ),
                   ),
                 ]));
   }

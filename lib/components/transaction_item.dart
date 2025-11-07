@@ -43,6 +43,9 @@ class _TransactionItemState extends State<TransactionItem> {
   QubicAssetTransfer? assetTransfer;
   bool get isQxTransferShares =>
       QxInfo.isQxTransferShares(widget.item.destId, widget.item.type);
+
+  static const double _menuIconSize = 20;
+  static const double _menuIconSpacing = 12;
   Future<QubicAssetTransfer> parseAssetTransferPayload() async {
     return await getIt<QubicCmd>()
         .parseAssetTransferPayload(widget.item.inputHex!);
@@ -101,26 +104,58 @@ class _TransactionItemState extends State<TransactionItem> {
         itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
               PopupMenuItem<CardItem>(
                 value: CardItem.details,
-                child: Text(l10n.transactionItemButtonViewDetails),
+                child: Row(
+                  children: [
+                    const Icon(Icons.receipt_long, size: _menuIconSize),
+                    const SizedBox(width: _menuIconSpacing),
+                    Text(l10n.transactionItemButtonViewDetails),
+                  ],
+                ),
               ),
               if (TransactionActionHelpers.canViewInExplorer(widget.item))
                 PopupMenuItem<CardItem>(
                   value: CardItem.explorer,
-                  child: Text(l10n.transactionItemButtonViewInExplorer),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.explore, size: _menuIconSize),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.transactionItemButtonViewInExplorer),
+                    ],
+                  ),
                 ),
               PopupMenuItem<CardItem>(
                 value: CardItem.clipboardCopy,
-                child: Text(l10n.transactionItemButtonCopyToClipboard),
+                child: Row(
+                  children: [
+                    const Icon(Icons.copy, size: _menuIconSize),
+                    const SizedBox(width: _menuIconSpacing),
+                    Text(l10n.transactionItemButtonCopyToClipboard),
+                  ],
+                ),
               ),
               if (TransactionActionHelpers.canResend(widget.item))
                 PopupMenuItem<CardItem>(
                   value: CardItem.resend,
-                  child: Text(l10n.transactionItemButtonResend),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.send, size: _menuIconSize),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.transactionItemButtonResend),
+                    ],
+                  ),
                 ),
               if (TransactionActionHelpers.canDelete(widget.item))
                 PopupMenuItem<CardItem>(
                   value: CardItem.delete,
-                  child: Text(l10n.generalButtonDelete),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.delete_outline,
+                          size: _menuIconSize, color: LightThemeColors.error40),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.generalButtonDelete,
+                          style: const TextStyle(color: LightThemeColors.error40)),
+                    ],
+                  ),
                 )
             ]);
   }
