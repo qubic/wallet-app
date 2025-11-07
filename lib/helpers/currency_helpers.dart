@@ -6,4 +6,19 @@ class CurrencyHelpers {
     return NumberFormat.currency(symbol: '\$', decimalDigits: decimalDigits)
         .format(amount);
   }
+
+  /// Formats a Qubic price value to display as "price per billion"
+  /// @param price - The price value (e.g., 0.000000978)
+  /// @returns Formatted string like "$978 / bQUBIC"
+  static String formatQubicPrice(num? price) {
+    if (price == null) return '\$0';
+
+    final pricePerBillion = price * 1000000000;
+
+    // Format the number with commas and appropriate decimal places
+    final formatter = NumberFormat('#,##0.##', 'en_US');
+    final formattedPrice = formatter.format(pricePerBillion);
+
+    return '\$$formattedPrice / bQUBIC';
+  }
 }
