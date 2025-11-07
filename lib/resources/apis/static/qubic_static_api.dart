@@ -23,7 +23,7 @@ class QubicStaticApi {
     }
   }
 
-  Future<Map<String, dynamic>> getLocalizedJson(String locale) async {
+  Future<Map<String, dynamic>> getLocalizedDappData(String locale) async {
     try {
       final response = await _dio.get('/dapps/locales/$locale.json');
       return response.data;

@@ -63,7 +63,7 @@ abstract class DappStoreBase with Store {
       error = null;
       final response = await _qubicHelpersApi.getDapps();
       final dappsLocalized =
-          await _qubicHelpersApi.getLocalizedJson(getCurrentLocale());
+          await _qubicHelpersApi.getLocalizedDappData(getCurrentLocale());
 
       // Create the localized dapps list
       final localizedDapps = response.dapps.map((dapp) {
