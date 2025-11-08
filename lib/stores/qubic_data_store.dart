@@ -13,8 +13,8 @@ part 'qubic_data_store.g.dart';
 class QubicDataStore = QubicDataStoreBase with _$QubicDataStore;
 
 abstract class QubicDataStoreBase with Store {
-  final QubicStaticApi _qubicHelpersApi = getIt<QubicStaticApi>();
-  final QubicArchiveApi _qubicArchiveApi = getIt<QubicArchiveApi>();
+  final QubicStaticApi _staticApi = getIt<QubicStaticApi>();
+  final QubicArchiveApi _archiveApi = getIt<QubicArchiveApi>();
 
   @observable
   List<SmartContractModel> smartContracts = [];
@@ -70,7 +70,7 @@ abstract class QubicDataStoreBase with Store {
   @action
   Future<void> loadSmartContracts() async {
     try {
-      final response = await _qubicHelpersApi.getSmartContracts();
+      final response = await _staticApi.getSmartContracts();
 
       smartContracts = response.smartContracts;
       appLogger
@@ -84,7 +84,7 @@ abstract class QubicDataStoreBase with Store {
   @action
   Future<void> loadTokens() async {
     try {
-      final response = await _qubicArchiveApi.getTokens();
+      final response = await _archiveApi.getTokens();
 
       tokens = response.assets;
       appLogger.i("Successfully loaded ${tokens.length} tokens");
@@ -97,7 +97,7 @@ abstract class QubicDataStoreBase with Store {
   @action
   Future<void> loadLabeledAddresses() async {
     try {
-      final response = await _qubicHelpersApi.getLabeledAddresses();
+      final response = await _staticApi.getLabeledAddresses();
 
       labeledAddresses = response.addressLabels;
       appLogger.i(

@@ -11,7 +11,7 @@ part 'dapp_store.g.dart';
 class DappStore = DappStoreBase with _$DappStore;
 
 abstract class DappStoreBase with Store {
-  final QubicStaticApi _qubicHelpersApi = getIt<QubicStaticApi>();
+  final QubicStaticApi _staticApi = getIt<QubicStaticApi>();
 
   @observable
   DappsResponse? dappsResponse;
@@ -61,9 +61,9 @@ abstract class DappStoreBase with Store {
       appLogger.d("message");
       isLoading = true;
       error = null;
-      final response = await _qubicHelpersApi.getDapps();
+      final response = await _staticApi.getDapps();
       final dappsLocalized =
-          await _qubicHelpersApi.getLocalizedDappData(getCurrentLocale());
+          await _staticApi.getLocalizedDappData(getCurrentLocale());
 
       // Create the localized dapps list
       final localizedDapps = response.dapps.map((dapp) {
