@@ -354,10 +354,10 @@ class _AccountListItemState extends State<AccountListItem> {
     List<Widget> shares = [];
     final l10n = l10nOf(context);
 
-    for (var key in widget.item.assets.keys) {
-      var asset = widget.item.assets[key];
+    var groupedAssets = widget.item.getGroupedAssets();
 
-      if (asset!.numberOfUnits > 0) {
+    for (var groupedAsset in groupedAssets) {
+      if (groupedAsset.totalUnits > 0) {
         shares.add(AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             transitionBuilder: (Widget child, Animation<double> animation) {
@@ -365,8 +365,8 @@ class _AccountListItemState extends State<AccountListItem> {
             },
             child: AmountFormatted(
               key: ValueKey<String>(
-                  "qubicAsset${widget.item.publicId}-$key-$asset"),
-              amount: asset.numberOfUnits,
+                  "qubicAsset${widget.item.publicId}-${groupedAsset.tokenName}-${groupedAsset.totalUnits}"),
+              amount: groupedAsset.totalUnits,
               isInHeader: false,
               labelOffset: -0,
               labelHorizOffset: -6,
@@ -374,7 +374,7 @@ class _AccountListItemState extends State<AccountListItem> {
                   ? TextStyles.accountAmount.copyWith(fontSize: 16)
                   : TextStyles.accountAmount,
               labelStyle: TextStyles.accountAmountLabel,
-              currencyName: asset.issuedAsset.name,
+              currencyName: groupedAsset.tokenName,
             )));
       }
     }
