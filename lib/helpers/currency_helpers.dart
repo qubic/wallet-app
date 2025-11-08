@@ -7,9 +7,10 @@ class CurrencyHelpers {
         .format(amount);
   }
 
-  /// Formats a Qubic price value to display as "price per billion"
-  /// @param price - The price value (e.g., 0.000000978)
-  /// @returns Formatted string like "$978 / bQUBIC"
+  /// Formats a Qubic price value to display as "price per billion".
+  ///
+  /// Takes a [price] value (e.g., 0.000000978) and returns a formatted
+  /// string like "$978 / bQUBIC".
   static String formatQubicPrice(num? price) {
     if (price == null) return '\$0';
 
