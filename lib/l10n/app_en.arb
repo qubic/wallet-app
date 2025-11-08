@@ -291,7 +291,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "QX Issued Tokens",
+    "assetsLabelQXAssets": "Tokens",
     "createPasswordSheetHeader": "Please backup your password",
     "createPasswordSheetMessage": "There is no way to retrieve your password if you forget it. Please make sure you have a backup of your password before proceeding.",
     "createPasswordSheetCheckboxMessage": "Yes, I have backed up my password.",

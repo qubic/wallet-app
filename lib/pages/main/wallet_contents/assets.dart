@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:qubic_wallet/components/asset_item.dart';
 import 'package:qubic_wallet/components/grouped_asset_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -36,10 +34,6 @@ class _AssetsState extends State<Assets> {
     super.initState();
     accountItem = appStore.currentQubicIDs
         .firstWhere((element) => element.publicId == widget.publicId);
-  }
-
-  Widget getAssetLine(QubicAssetDto asset) {
-    return Text(asset.issuedAsset.name);
   }
 
   Widget getQXAssets() {
@@ -87,10 +81,6 @@ class _AssetsState extends State<Assets> {
     }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: output);
-  }
-
-  Widget getAssetEntry(QubicAssetDto asset) {
-    return AssetItem(account: accountItem, asset: asset);
   }
 
   Widget getScrollView() {

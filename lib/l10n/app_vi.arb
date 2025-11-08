@@ -291,7 +291,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "Token do QX phát hành",
+    "assetsLabelQXAssets": "Tokens",
     "createPasswordSheetHeader": "Vui lòng sao lưu mật khẩu của bạn",
     "createPasswordSheetMessage": "Không có cách nào để khôi phục mật khẩu của bạn nếu bạn quên. Vui lòng đảm bảo bạn đã sao lưu mật khẩu trước khi tiếp tục.",
     "createPasswordSheetCheckboxMessage": "Vâng, tôi đã sao lưu mật khẩu của mình.",

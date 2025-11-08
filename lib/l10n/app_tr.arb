@@ -263,7 +263,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "QX Tarafından Çıkartılmış Token'lar",
+    "assetsLabelQXAssets": "Token'lar",
     "createPasswordSheetHeader": "Lütfen parolanızı yedekleyiniz",
     "createPasswordSheetMessage": "Eğer parolanızı unutursanız hesabınızı gerı kurtaramazsınız. Devam etmeden önce şifrenizin yedeğini aldığınızdan emin olun.",
     "createPasswordSheetCheckboxMessage": "Evet, parolamın yedeğini aldım.",

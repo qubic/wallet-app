@@ -263,7 +263,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "Tokens Émis QX",
+    "assetsLabelQXAssets": "Tokens",
     "createPasswordSheetHeader": "Veuillez sauvegarder votre mot de passe",
     "createPasswordSheetMessage": "Il n'y a aucun moyen de récupérer votre mot de passe si vous l'oubliez. Veuillez vous assurer d'avoir une sauvegarde de votre mot de passe avant de continuer.",
     "createPasswordSheetCheckboxMessage": "Oui, j'ai sauvegardé mon mot de passe.",

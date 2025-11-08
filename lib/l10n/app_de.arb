@@ -263,7 +263,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "Qx ausgegebene Token",
+    "assetsLabelQXAssets": "Token",
     "createPasswordSheetHeader": "Bitte sichern Sie Ihr Passwort!",
     "createPasswordSheetMessage": "Es gibt keine Möglichkeit, Ihr Passwort wiederherzustellen, wenn Sie es vergessen. Stellen Sie sicher, dass Sie eine Sicherung Ihres Passworts haben, bevor Sie fortfahren.",
     "createPasswordSheetCheckboxMessage": "Ja, ich habe mein Passwort gesichert.",
