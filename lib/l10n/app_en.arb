@@ -271,14 +271,7 @@
     "accountSendSectionInvalidDestinationAddress": "Invalid destination address",
     "assetsLabelContractName": "Contract Name",
     "assetsLabelContractIndex": "Contract Index",
-    "assetsLabelTick": "Valid for tick {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "managed by",
     "assetsLabelCurrentBalance": "Balance in ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -298,7 +291,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "QX Issued Tokens",
+    "assetsLabelQXAssets": "Tokens",
     "createPasswordSheetHeader": "Please backup your password",
     "createPasswordSheetMessage": "There is no way to retrieve your password if you forget it. Please make sure you have a backup of your password before proceeding.",
     "createPasswordSheetCheckboxMessage": "Yes, I have backed up my password.",
