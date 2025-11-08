@@ -243,7 +243,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Дополнительные настройки",
     "assetsLabelContractName": "Имя контракта",
     "assetsLabelContractIndex": "Индекс контракта",
-    "assetsManagedBy": "Управляется",
+    "assetsManagedBy": "управляется",
     "assetsLabelCurrentBalance": "Балланс ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

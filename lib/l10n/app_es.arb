@@ -242,7 +242,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Opciones Avanzadas",
     "assetsLabelContractName": "Nombre del Contrato",
     "assetsLabelContractIndex": "Índice del Contrato",
-    "assetsManagedBy": "Gestionado por",
+    "assetsManagedBy": "gestionado por",
     "assetsLabelCurrentBalance": "Balance en la cuenta: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

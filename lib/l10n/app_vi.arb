@@ -271,7 +271,7 @@
     "accountSendSectionInvalidDestinationAddress": "Địa chỉ đích không hợp lệ",
     "assetsLabelContractName": "Tên hợp đồng",
     "assetsLabelContractIndex": "Chỉ mục hợp đồng",
-    "assetsManagedBy": "Được quản lý bởi",
+    "assetsManagedBy": "được quản lý bởi",
     "assetsLabelCurrentBalance": "Số dư trong ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

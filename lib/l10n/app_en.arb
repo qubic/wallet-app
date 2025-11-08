@@ -271,7 +271,7 @@
     "accountSendSectionInvalidDestinationAddress": "Invalid destination address",
     "assetsLabelContractName": "Contract Name",
     "assetsLabelContractIndex": "Contract Index",
-    "assetsManagedBy": "Managed by",
+    "assetsManagedBy": "managed by",
     "assetsLabelCurrentBalance": "Balance in ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
