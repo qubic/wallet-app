@@ -6,6 +6,17 @@ import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_disclaimer_she
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 
+/// Extracts the domain/host from a URL
+/// Returns the host if successful, or the full URL if parsing fails
+String extractDomain(String url) {
+  try {
+    final uri = Uri.parse(url);
+    return uri.host;
+  } catch (e) {
+    return url;
+  }
+}
+
 bool _isQubicDomain(String url) {
   try {
     final uri = Uri.parse(url);

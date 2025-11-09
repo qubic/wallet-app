@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/dapp_helpers.dart';
@@ -7,8 +6,8 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/favorite_dapp.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/add_to_favorites_dialog.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_list_tile.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
-import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 
 class FavoritesListScreen extends StatefulWidget {
@@ -96,7 +95,7 @@ class _FavoritesListScreenState extends State<FavoritesListScreen> {
               ),
             )
           : ListView.builder(
-              padding: ThemeEdgeInsets.pageInsets,
+              padding: const EdgeInsets.only(top: ThemePaddings.smallPadding),
               itemCount: _favorites.length,
               itemBuilder: (context, index) {
                 final favorite = _favorites[index];
@@ -115,58 +114,10 @@ class _FavoritesListScreenState extends State<FavoritesListScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: ThemePaddings.normalPadding,
-                      vertical: ThemePaddings.smallPadding,
-                    ),
-                    leading: SizedBox(
-                      width: Config.dAppIconSize,
-                      height: Config.dAppIconSize,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
-                        child: favorite.iconUrl != null && favorite.iconUrl!.isNotEmpty
-                            ? Image.network(
-                                favorite.iconUrl!,
-                                width: Config.dAppIconSize,
-                                height: Config.dAppIconSize,
-                                fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return Image.asset(
-                                    Config.dAppDefaultImageName,
-                                    width: Config.dAppIconSize,
-                                    height: Config.dAppIconSize,
-                                    fit: BoxFit.cover,
-                                  );
-                                },
-                              )
-                            : Image.asset(
-                                Config.dAppDefaultImageName,
-                                width: Config.dAppIconSize,
-                                height: Config.dAppIconSize,
-                                fit: BoxFit.cover,
-                              ),
-                      ),
-                    ),
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          favorite.name,
-                          style: TextStyles.labelText.copyWith(height: 1.2),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 2),
-                        Text(
-                          favorite.url,
-                          style: TextStyles.smallInfoText.copyWith(height: 1.2),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                    trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  child: DappListTile(
+                    name: favorite.name,
+                    subtitle: favorite.url,
+                    iconUrl: favorite.iconUrl,
                     onTap: () => _openFavorite(favorite),
                   ),
                 );

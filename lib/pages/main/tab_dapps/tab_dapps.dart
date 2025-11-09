@@ -7,6 +7,8 @@ import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/dapp_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_icon.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_list_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/popular_apps_widget.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/favorites_list_screen.dart';
@@ -150,21 +152,12 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
       // Search in both name and URL
       if (favorite.name.toLowerCase().contains(query) ||
           favorite.url.toLowerCase().contains(query)) {
-        // Extract domain from URL for description
-        String description = favorite.url;
-        try {
-          final uri = Uri.parse(favorite.url);
-          description = uri.host;
-        } catch (e) {
-          // If parsing fails, use the full URL
-        }
-
         favoriteResults.add({
           'type': 'favorite',
           'name': favorite.name,
           'url': favorite.url,
           'icon': favorite.iconUrl,
-          'description': description,
+          'description': extractDomain(favorite.url),
         });
       }
     }
@@ -174,7 +167,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
 
     // Search in top dApps (Qubic Apps)
     final qubicAppResults = <Map<String, dynamic>>[];
-    for (final dapp in dappStore.topDapps) {
+    for (final dapp in walletStore.topDapps) {
       if (dapp.url != null &&
           dapp.name != null &&
           (dapp.name!.toLowerCase().contains(query) ||
@@ -194,7 +187,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
 
     // Search in popular dApps
     final popularAppResults = <Map<String, dynamic>>[];
-    for (final dapp in dappStore.popularDapps) {
+    for (final dapp in walletStore.popularDapps) {
       if (dapp.url != null &&
           dapp.name != null &&
           (dapp.name!.toLowerCase().contains(query) ||
@@ -371,69 +364,11 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   }
 
   Widget _buildResultTile(Map<String, dynamic> result) {
-    return InkWell(
+    return DappListTile(
+      name: result['name'],
+      subtitle: result['description'] ?? '',
+      iconUrl: result['icon'],
       onTap: () => _handleResultTap(result),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: ThemePaddings.normalPadding,
-          vertical: ThemePaddings.smallPadding,
-        ),
-        child: Row(
-          children: [
-            SizedBox(
-              width: Config.dAppIconSize,
-              height: Config.dAppIconSize,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: result['icon'] != null && result['icon'].isNotEmpty
-                    ? Image.network(
-                        result['icon'],
-                        width: Config.dAppIconSize,
-                        height: Config.dAppIconSize,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return Image.asset(
-                            Config.dAppDefaultImageName,
-                            width: Config.dAppIconSize,
-                            height: Config.dAppIconSize,
-                            fit: BoxFit.cover,
-                          );
-                        },
-                      )
-                    : Image.asset(
-                        Config.dAppDefaultImageName,
-                        width: Config.dAppIconSize,
-                        height: Config.dAppIconSize,
-                        fit: BoxFit.cover,
-                      ),
-              ),
-            ),
-            const SizedBox(width: ThemePaddings.normalPadding),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    result['name'],
-                    style: TextStyles.labelText.copyWith(height: 1.2),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (result['description'] != null) ...[
-                    const SizedBox(height: 2),
-                    Text(
-                      result['description'],
-                      style: TextStyles.smallInfoText.copyWith(height: 1.2),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -478,17 +413,23 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
       return const SizedBox.shrink();
     }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: ThemePaddings.smallPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(
+            left: ThemePaddings.smallPadding + ThemePaddings.normalPadding,
+            right: ThemePaddings.smallPadding,
+          ),
+          child: Text(
             l10n.favoritesTitle,
             style: TextStyles.labelText,
           ),
-          const SizedBox(height: ThemePaddings.normalPadding),
-          SizedBox(
+        ),
+        const SizedBox(height: ThemePaddings.normalPadding),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: ThemePaddings.smallPadding),
+          child: SizedBox(
             height: 95,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -514,11 +455,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Center(
-                              child: Icon(
-                                Icons.arrow_forward_ios,
-                                color: LightThemeColors.primary.withValues(alpha: 0.6),
-                                size: 16,
-                              ),
+                              child: ThemedControls.chevronIcon,
                             ),
                           ),
                         ],
@@ -544,30 +481,10 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                           width: 60,
                           height: 60,
                           child: Center(
-                            child: favorite.iconUrl != null && favorite.iconUrl!.isNotEmpty
-                                ? ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.network(
-                                      favorite.iconUrl!,
-                                      width: Config.dAppIconSize,
-                                      height: Config.dAppIconSize,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (context, error, stackTrace) {
-                                        return Image.asset(
-                                          Config.dAppDefaultImageName,
-                                          width: Config.dAppIconSize,
-                                          height: Config.dAppIconSize,
-                                          fit: BoxFit.cover,
-                                        );
-                                      },
-                                    ),
-                                  )
-                                : Image.asset(
-                                    Config.dAppDefaultImageName,
-                                    width: Config.dAppIconSize,
-                                    height: Config.dAppIconSize,
-                                    fit: BoxFit.cover,
-                                  ),
+                            child: DappIcon(
+                              iconUrl: favorite.iconUrl,
+                              size: Config.dAppIconSize,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -585,8 +502,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
               },
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -630,130 +547,108 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
       ),
       body: Container(
         color: LightThemeColors.background,
+        // Observer watches walletStore for changes and rebuilds when state updates
         child: Observer(builder: (context) {
-      if (walletStore.error != null) {
-    return Scaffold(body: Observer(builder: (context) {
-      if (walletStore.error != null) {
-        return SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                l10n.generalErrorUnexpectedError,
-                style: TextStyles.secondaryText,
+          // State 1: Error state (network failure, API error, etc.)
+          // Shows error message with retry button
+          if (walletStore.error != null) {
+            return SizedBox(
+              width: double.infinity,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    l10n.generalErrorUnexpectedError,
+                    style: TextStyles.secondaryText,
+                  ),
+                  const SizedBox(height: ThemePaddings.normalPadding),
+                  ThemedControls.primaryButtonBig(
+                      onPressed: () {
+                        walletStore.loadDapps();
+                      },
+                      text: l10n.generalButtonTryAgain)
+                ],
               ),
-              const SizedBox(height: ThemePaddings.normalPadding),
-              ThemedControls.primaryButtonBig(
-                  onPressed: () {
-                    walletStore.loadDapps();
-                  },
-                  text: l10n.generalButtonTryAgain)
-            ],
-          ),
-        );
-      } else if (walletStore.isLoading) {
-        return const Center(child: CircularProgressIndicator());
-      }
-      return _isSearchActive
-          ? Column(
-              children: [
-                _buildSearchField(l10n, showCloseButton: true),
-                Expanded(child: _buildSearchResultsOverlay()),
-              ],
-            )
-          : ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                _buildSearchField(l10n, showCloseButton: false),
-                const SizedBox(height: 16),
-                // Favorites Section
-                _buildFavoritesSection(l10n),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: ThemePaddings.smallPadding),
-                  child: Text(
-                    l10n.dAppQubicApps,
-                    style: TextStyles.labelText,
-                  ),
-                ),
-                const SizedBox(height: ThemePaddings.normalPadding),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: ThemePaddings.smallPadding),
-                  child: TopDAppsWidget(
-                    topDApps: walletStore.topDapps,
-                    fadeAnimation: _fadeAnimation,
-                    slideAnimation: _featuredSlideAnimation,
-                    onDappReturn: () {
-                      setState(() {});
-                    },
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: ThemePaddings.smallPadding),
-                  child: Text(l10n.dAppPopularApps, style: TextStyles.labelText),
-                ),
-                const SizedBox(height: ThemePaddings.normalPadding),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: ThemePaddings.smallPadding),
-                  child: PopularDAppsWidget(
-                    slideAnimation: _popularSlideAnimation,
-                    fadeAnimation: _popularFadeAnimation,
-                    onDappReturn: () {
-                      setState(() {});
-                    },
-                  ),
-                ),
-                const SizedBox(height: ThemePaddings.hugePadding),
-              ],
             );
-    }),
+          }
+          // State 2: Loading state (initial load or refresh)
+          // Shows spinner while fetching dApp data from API
+          else if (walletStore.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          // State 3: Normal/Success state (data loaded, no errors)
+          // This is the primary UI state where users spend most of their time
+          // Toggles between search mode and browse mode based on _isSearchActive
+          return _isSearchActive
+              // Search mode: User has focused the search field or entered text
+              // Shows search results overlay with close button
+              ? Column(
+                  children: [
+                    _buildSearchField(l10n, showCloseButton: true),
+                    Expanded(child: _buildSearchResultsOverlay()),
+                  ],
+                )
+              // Browse mode: Default state showing all dApp categories
+              // Displays favorites, Qubic apps, and popular apps
+              : ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    _buildSearchField(l10n, showCloseButton: false),
+                    const SizedBox(height: 16),
+                    // Favorites Section
+                    _buildFavoritesSection(l10n),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: ThemePaddings.smallPadding + ThemePaddings.normalPadding,
+                        right: ThemePaddings.smallPadding,
+                      ),
+                      child: Text(
+                        l10n.dAppQubicApps,
+                        style: TextStyles.labelText,
+                      ),
+                    ),
+                    const SizedBox(height: ThemePaddings.normalPadding),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: ThemePaddings.smallPadding),
+                      child: TopDAppsWidget(
+                        topDApps: walletStore.topDapps,
+                        fadeAnimation: _fadeAnimation,
+                        slideAnimation: _featuredSlideAnimation,
+                        onDappReturn: () {
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        left: ThemePaddings.smallPadding + ThemePaddings.normalPadding,
+                        right: ThemePaddings.smallPadding,
+                      ),
+                      child: Text(l10n.dAppPopularApps, style: TextStyles.labelText),
+                    ),
+                    const SizedBox(height: ThemePaddings.normalPadding),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: ThemePaddings.smallPadding),
+                      child: PopularDAppsWidget(
+                        slideAnimation: _popularSlideAnimation,
+                        fadeAnimation: _popularFadeAnimation,
+                        onDappReturn: () {
+                          setState(() {});
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: ThemePaddings.hugePadding),
+                  ],
+                );
+        }),
       ),
     );
-/*
-      return ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          FeaturedAppWidget(
-            slideAnimation: _featuredSlideAnimation,
-            fadeAnimation: _fadeAnimation,
-            featuredApp: walletStore.featuredDapp,
-          ),
-          if (walletStore.featuredDapp != null) const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: ThemePaddings.normalPadding),
-            child: TopDAppsWidget(
-              topDApps: walletStore.topDapps,
-              fadeAnimation: _fadeAnimation,
-              slideAnimation: _featuredSlideAnimation,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: ThemePaddings.hugePadding),
-            child: Text(l10n.dAppPopularApps,
-                style: TextStyles.pageTitle
-                    .copyWith(fontSize: ThemeFontSizes.sectionTitle)),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: ThemePaddings.normalPadding),
-            child: PopularDAppsWidget(
-              slideAnimation: _popularSlideAnimation,
-              fadeAnimation: _popularFadeAnimation,
-            ),
-          ),
-          const SizedBox(height: 16),
-        ],
-      );
-    }));*/
   }
 }
 
