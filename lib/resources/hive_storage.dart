@@ -3,7 +3,9 @@ import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/models/favorite_dapp.dart';
 import 'package:qubic_wallet/models/network_model.dart';
+import 'package:qubic_wallet/models/terms_acceptance.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
@@ -12,6 +14,8 @@ enum HiveBoxesNames {
   storedTransactions,
   storedNetworks,
   currentNetworkName,
+  favoriteDapps,
+  termsAcceptance,
 }
 
 class HiveStorage {
@@ -19,7 +23,10 @@ class HiveStorage {
   late Box<TransactionVm> _storedTransactions;
   late Box<NetworkModel> _storedNetworks;
   late Box<String> _currentNetworkBox;
+  late Box<FavoriteDapp> _favoriteDapps;
+  late Box<TermsAcceptance> _termsAcceptanceBox;
   final currentNetworkKey = "current_network";
+  final termsAcceptanceKey = "terms_acceptance";
   late HiveAesCipher _encryptionCipher;
 
   Future<void> initialize() async {
@@ -27,6 +34,8 @@ class HiveStorage {
     await Hive.initFlutter();
     Hive.registerAdapter(TransactionVmAdapter());
     Hive.registerAdapter(NetworkAdapter());
+    Hive.registerAdapter(FavoriteDappAdapter());
+    Hive.registerAdapter(TermsAcceptanceAdapter());
     await initEncryptedBoxes();
   }
 
@@ -36,6 +45,8 @@ class HiveStorage {
       await openTransactionsBox();
       await openNetworksBox();
       await openCurrentNetworkBox();
+      await openFavoriteDappsBox();
+      await openTermsAcceptanceBox();
     } catch (e) {
       appLogger.e("[HiveStorage] Error initializing hive storage: $e");
     }
@@ -94,6 +105,23 @@ class HiveStorage {
     appLogger.d('[HiveStorage] Current network box opened.');
   }
 
+  Future<void> openFavoriteDappsBox() async {
+    _favoriteDapps = await Hive.openBox<FavoriteDapp>(
+      HiveBoxesNames.favoriteDapps.name,
+      encryptionCipher: _encryptionCipher,
+    );
+    appLogger.d(
+        '[HiveStorage] Favorite dApps box opened with ${_favoriteDapps.length} items.');
+  }
+
+  Future<void> openTermsAcceptanceBox() async {
+    _termsAcceptanceBox = await Hive.openBox<TermsAcceptance>(
+      HiveBoxesNames.termsAcceptance.name,
+      encryptionCipher: _encryptionCipher,
+    );
+    appLogger.d('[HiveStorage] Terms acceptance box opened.');
+  }
+
   void addStoredTransaction(TransactionVm transactionVm) {
     appLogger.d('[HiveStorage] Adding transaction: ${transactionVm.id}');
     _storedTransactions.put(transactionVm.id, transactionVm);
@@ -130,6 +158,110 @@ class HiveStorage {
     return _currentNetworkBox.get(currentNetworkKey);
   }
 
+  // Terms acceptance methods
+  TermsAcceptance? getTermsAcceptance() {
+    return _termsAcceptanceBox.get(termsAcceptanceKey);
+  }
+
+  void setTermsAcceptance(TermsAcceptance acceptance) {
+    appLogger.d('[HiveStorage] Setting terms acceptance: ${acceptance.version} at ${acceptance.acceptedAt}');
+    _termsAcceptanceBox.put(termsAcceptanceKey, acceptance);
+  }
+
+  bool isTermsAccepted(String requiredVersion) {
+    final acceptance = getTermsAcceptance();
+    if (acceptance == null) return false;
+    return acceptance.version == requiredVersion;
+  }
+
+  // Favorite dApps methods
+  void addFavoriteDapp(FavoriteDapp favorite) {
+    appLogger.d('[HiveStorage] Adding favorite: ${favorite.name}');
+    final normalizedUrl = _normalizeUrl(favorite.url);
+    // Create a new FavoriteDapp with normalized URL to ensure consistency
+    final normalizedFavorite = FavoriteDapp(
+      name: favorite.name,
+      url: normalizedUrl,
+      createdAt: favorite.createdAt,
+      iconUrl: favorite.iconUrl,
+    );
+    _favoriteDapps.put(normalizedUrl, normalizedFavorite);
+  }
+
+  void removeFavoriteDapp(String url) {
+    appLogger.d('[HiveStorage] Removing favorite: $url');
+    final normalizedUrl = _normalizeUrl(url);
+
+    // Try to delete by normalized URL first
+    if (_favoriteDapps.containsKey(normalizedUrl)) {
+      _favoriteDapps.delete(normalizedUrl);
+      appLogger.d('[HiveStorage] Removed favorite by normalized URL');
+    } else if (_favoriteDapps.containsKey(url)) {
+      // Fallback: try original URL for backward compatibility
+      _favoriteDapps.delete(url);
+      appLogger.d('[HiveStorage] Removed favorite by original URL');
+    } else {
+      appLogger.w('[HiveStorage] Favorite not found for removal: $url');
+    }
+  }
+
+  List<FavoriteDapp> getFavoriteDapps() {
+    appLogger.d(
+        '[HiveStorage] Getting favorite dApps (${_favoriteDapps.length})');
+    final favorites = _favoriteDapps.values.toList();
+    // Sort by createdAt to show in the order they were added
+    favorites.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    return favorites;
+  }
+
+  String _normalizeUrl(String url) {
+    try {
+      final uri = Uri.parse(url);
+      // Normalize: remove trailing slash, ensure lowercase host, remove www
+      String normalizedHost = uri.host.toLowerCase().replaceFirst(RegExp(r'^www\.'), '');
+      String normalizedPath = uri.path.replaceAll(RegExp(r'\/$'), '');
+
+      // Reconstruct normalized URL
+      return '${uri.scheme}://$normalizedHost$normalizedPath${uri.query.isNotEmpty ? '?${uri.query}' : ''}';
+    } catch (e) {
+      appLogger.w('[HiveStorage] Error normalizing URL: $e');
+      return url;
+    }
+  }
+
+  bool isFavorite(String url) {
+    final normalizedUrl = _normalizeUrl(url);
+    appLogger.d('[HiveStorage] Checking if favorite - Original: $url, Normalized: $normalizedUrl');
+
+    // Check normalized URL first
+    if (_favoriteDapps.containsKey(normalizedUrl)) {
+      appLogger.d('[HiveStorage] Found by normalized URL');
+      return true;
+    }
+
+    // Fallback: check original URL for backward compatibility
+    if (_favoriteDapps.containsKey(url)) {
+      appLogger.d('[HiveStorage] Found by original URL (will migrate)');
+      // Migrate this favorite to use normalized URL
+      final favorite = _favoriteDapps.get(url);
+      if (favorite != null) {
+        _favoriteDapps.delete(url);
+        final normalizedFavorite = FavoriteDapp(
+          name: favorite.name,
+          url: normalizedUrl,
+          createdAt: favorite.createdAt,
+          iconUrl: favorite.iconUrl,
+        );
+        _favoriteDapps.put(normalizedUrl, normalizedFavorite);
+        appLogger.d('[HiveStorage] Migrated favorite to normalized URL');
+      }
+      return true;
+    }
+
+    appLogger.d('[HiveStorage] Not a favorite');
+    return false;
+  }
+
   Future<void> clear() async {
     await _storedTransactions.clear();
     _storedTransactions.close();
@@ -139,6 +271,12 @@ class HiveStorage {
 
     await _currentNetworkBox.clear();
     _currentNetworkBox.close();
+
+    await _favoriteDapps.clear();
+    _favoriteDapps.close();
+
+    await _termsAcceptanceBox.clear();
+    _termsAcceptanceBox.close();
 
     await _secureStorage.deleteHiveEncryptionKey();
     appLogger.w(

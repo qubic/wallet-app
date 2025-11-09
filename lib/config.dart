@@ -85,4 +85,5 @@ abstract class Config {
   static const CustomURLScheme = "qubic-wallet";
 
   static const dAppDefaultImageName = "assets/images/dapp-default.png";
+  static const double dAppIconSize = 45.0;
 }
