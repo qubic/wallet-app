@@ -243,14 +243,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Дополнительные настройки",
     "assetsLabelContractName": "Имя контракта",
     "assetsLabelContractIndex": "Индекс контракта",
-    "assetsLabelTick": "Действительно для тика {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "управляется",
     "assetsLabelCurrentBalance": "Балланс ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -270,7 +263,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "Выпущенные токены QX",
+    "assetsLabelQXAssets": "Токены",
     "createPasswordSheetHeader": "Пожалуйста, создайте резервную копию пароля",
     "createPasswordSheetMessage": "Если вы забудете свой пароль, восстановить его будет невозможно. Пожалуйста, убедитесь, что у вас есть резервная копия пароля, прежде чем приступать к работе.",
     "createPasswordSheetCheckboxMessage": "Да, я создал резервную копию своего пароля.",

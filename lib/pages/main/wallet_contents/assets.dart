@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:qubic_wallet/components/asset_item.dart';
+import 'package:qubic_wallet/components/grouped_asset_item.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -36,14 +36,10 @@ class _AssetsState extends State<Assets> {
         .firstWhere((element) => element.publicId == widget.publicId);
   }
 
-  Widget getAssetLine(QubicAssetDto asset) {
-    return Text(asset.issuedAsset.name);
-  }
-
   Widget getQXAssets() {
     final l10n = l10nOf(context);
 
-    List<QubicAssetDto> qxAssets = accountItem.assets.values
+    List<GroupedAssetDto> qxAssets = accountItem.getGroupedAssets()
         .where((element) => !element.isSmartContractShare)
         .toList();
     if (qxAssets.isEmpty) {
@@ -55,8 +51,8 @@ class _AssetsState extends State<Assets> {
         Text(l10n.assetsLabelQXAssets, style: TextStyles.sliverCardPreLabel));
     output.add(const SizedBox(height: ThemePaddings.mediumPadding));
     for (var element in qxAssets) {
-      if (element.numberOfUnits > 0) {
-        output.add(getAssetEntry(element));
+      if (element.totalUnits > 0) {
+        output.add(GroupedAssetItem(account: accountItem, groupedAsset: element));
       }
     }
     return Column(
@@ -66,7 +62,7 @@ class _AssetsState extends State<Assets> {
   Widget getSCAssets() {
     final l10n = l10nOf(context);
 
-    List<QubicAssetDto> scAssets = accountItem.assets.values
+    List<GroupedAssetDto> scAssets = accountItem.getGroupedAssets()
         .where((element) => element.isSmartContractShare)
         .toList();
     if (scAssets.isEmpty) {
@@ -79,16 +75,12 @@ class _AssetsState extends State<Assets> {
         style: TextStyles.sliverCardPreLabel));
     output.add(const SizedBox(height: ThemePaddings.mediumPadding));
     for (var element in scAssets) {
-      if (element.numberOfUnits > 0) {
-        output.add(getAssetEntry(element));
+      if (element.totalUnits > 0) {
+        output.add(GroupedAssetItem(account: accountItem, groupedAsset: element));
       }
     }
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start, children: output);
-  }
-
-  Widget getAssetEntry(QubicAssetDto asset) {
-    return AssetItem(account: accountItem, asset: asset);
   }
 
   Widget getScrollView() {

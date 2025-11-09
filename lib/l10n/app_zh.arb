@@ -243,14 +243,7 @@
     "accountSendSectionAdvanceOptionsTitle": "高级选项",
     "assetsLabelContractName": "合约名称",
     "assetsLabelContractIndex": "合约索引",
-    "assetsLabelTick": "有效至刻度 {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "管理者",
     "assetsLabelCurrentBalance": "ID 中余额： {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -270,7 +263,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "QX 发行 Tokens",
+    "assetsLabelQXAssets": "Tokens",
     "createPasswordSheetHeader": "请备份您的密码。",
     "createPasswordSheetMessage": "如果您忘记了密码，就无法找回。在继续之前，请确保您已经备份了密码。",
     "createPasswordSheetCheckboxMessage": "是的，我已经备份了我的密码。",

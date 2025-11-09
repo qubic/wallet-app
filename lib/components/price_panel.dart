@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/currency_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -30,7 +31,7 @@ class PricePanel extends StatelessWidget {
                     children: [
                       Text(l10n.homeHeaderQubicPrice,
                           style: TextStyles.secondaryTextSmall),
-                      Text(" \$${price.toString()}",
+                      Text(" ${CurrencyHelpers.formatQubicPrice(price)}",
                           style: TextStyles.textSmall.copyWith(
                             color: LightThemeColors.primary40,
                           ))

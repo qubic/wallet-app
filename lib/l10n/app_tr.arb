@@ -243,14 +243,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Gelişmiş Seçenekler",
     "assetsLabelContractName": "Kontrakt Adı",
     "assetsLabelContractIndex": "Kontrakt İndeksi",
-    "assetsLabelTick": "Valid for tick {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "yöneten",
     "assetsLabelCurrentBalance": "ID'deki Bakiye: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -270,7 +263,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "QX Tarafından Çıkartılmış Token'lar",
+    "assetsLabelQXAssets": "Token'lar",
     "createPasswordSheetHeader": "Lütfen parolanızı yedekleyiniz",
     "createPasswordSheetMessage": "Eğer parolanızı unutursanız hesabınızı gerı kurtaramazsınız. Devam etmeden önce şifrenizin yedeğini aldığınızdan emin olun.",
     "createPasswordSheetCheckboxMessage": "Evet, parolamın yedeğini aldım.",

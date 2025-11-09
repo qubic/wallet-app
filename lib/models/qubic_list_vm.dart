@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
 
 @observable
 class QubicListVm {
@@ -83,6 +84,47 @@ class QubicListVm {
       newShares[key] = value;
     });
     return newShares;
+  }
+
+  /// Groups assets by token name AND issuer ID, aggregating balances across managing contracts
+  /// Assets are uniquely identified by the combination of issuer ID and asset name
+  List<GroupedAssetDto> getGroupedAssets() {
+    Map<String, List<QubicAssetDto>> groupedByToken = {};
+
+    // Group assets by token name AND issuer ID
+    assets.forEach((key, asset) {
+      // Create a unique key combining issuer ID and token name
+      String groupKey = '${asset.issuedAsset.issuerIdentity}_${asset.issuedAsset.name}';
+      if (!groupedByToken.containsKey(groupKey)) {
+        groupedByToken[groupKey] = [];
+      }
+      groupedByToken[groupKey]!.add(asset);
+    });
+
+    // Create GroupedAssetDto for each unique token (by issuer + name)
+    List<GroupedAssetDto> result = [];
+    groupedByToken.forEach((groupKey, assetList) {
+      int totalUnits = 0;
+      List<AssetContractContribution> contributions = [];
+
+      for (var asset in assetList) {
+        totalUnits += asset.numberOfUnits;
+        contributions.add(AssetContractContribution(
+          managingContractIndex: asset.managingContractIndex,
+          numberOfUnits: asset.numberOfUnits,
+          sourceAsset: asset,
+        ));
+      }
+
+      result.add(GroupedAssetDto(
+        tokenName: assetList.first.issuedAsset.name,
+        issuedAsset: assetList.first.issuedAsset,
+        totalUnits: totalUnits,
+        contractContributions: contributions,
+      ));
+    });
+
+    return result;
   }
 
   factory QubicListVm.clone(QubicListVm original) {

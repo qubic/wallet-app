@@ -242,14 +242,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Opciones Avanzadas",
     "assetsLabelContractName": "Nombre del Contrato",
     "assetsLabelContractIndex": "Índice del Contrato",
-    "assetsLabelTick": "Válido para el Tick: {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "gestionado por",
     "assetsLabelCurrentBalance": "Balance en la cuenta: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -269,7 +262,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "Tokens QX Emitidos",
+    "assetsLabelQXAssets": "Tokens",
     "createPasswordSheetHeader": "Por favor, haz una copia segura de tu contraseña",
     "createPasswordSheetMessage": "Si olvidas tu contraseña, no habrá manera de recuperarla. Por favor, asegúrate de guardar una copia de respaldo de tu contraseña antes de continuar.",
     "createPasswordSheetCheckboxMessage": "Sí, tengo una copia de seguridad de mi contraseña.",
