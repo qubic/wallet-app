@@ -137,20 +137,20 @@ class DappDisclaimerSheetState extends State<DappDisclaimerSheet> {
                 ThemedControls.spacerVerticalNormal(),
                 const Divider(),
                 ThemedControls.spacerVerticalNormal(),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Checkbox(
-                      value: hasAccepted,
-                      onChanged: _toggleCheckbox,
-                    ),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          _toggleCheckbox(!hasAccepted);
-                        },
+                InkWell(
+                  onTap: () {
+                    _toggleCheckbox(!hasAccepted);
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Checkbox(
+                        value: hasAccepted,
+                        onChanged: _toggleCheckbox,
+                      ),
+                      Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 8.0, top: 12.0),
+                          padding: const EdgeInsets.only(left: 8.0),
                           child: RichText(
                             text: TextSpan(
                               style: TextStyles.textNormal,
@@ -184,8 +184,8 @@ class DappDisclaimerSheetState extends State<DappDisclaimerSheet> {
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const SizedBox(height: ThemePaddings.normalPadding),
                 Row(
