@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/dapp_helpers.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/favorite_dapp.dart';
@@ -53,11 +54,17 @@ class _AddToFavoritesDialogState extends State<AddToFavoritesDialog> {
       final name = values['name'] as String;
       final url = values['url'] as String;
 
+      // Find the best icon based on priority:
+      // 1. Same host as existing app in wallet store
+      // 2. Page icon if available
+      // 3. Default icon (null)
+      final iconUrl = findFavoriteIcon(url.trim(), widget.iconUrl);
+
       final favorite = FavoriteDapp(
         name: name.trim(),
         url: url.trim(),
         createdAt: DateTime.now(),
-        iconUrl: widget.iconUrl,
+        iconUrl: iconUrl,
       );
 
       _hiveStorage.addFavoriteDapp(favorite);

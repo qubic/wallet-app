@@ -5,6 +5,7 @@ import 'package:qubic_wallet/models/terms_acceptance.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_disclaimer_sheet.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 
 /// Extracts the domain/host from a URL
 /// Returns the host if successful, or the full URL if parsing fails
@@ -15,6 +16,61 @@ String extractDomain(String url) {
   } catch (e) {
     return url;
   }
+}
+
+/// Normalizes a host by removing 'www.' prefix for comparison
+String _normalizeHost(String host) {
+  final normalized = host.toLowerCase();
+  if (normalized.startsWith('www.')) {
+    return normalized.substring(4);
+  }
+  return normalized;
+}
+
+/// Finds an icon for a favorite dApp based on priority:
+/// 1. If URL host matches an existing app in wallet store, use its icon
+/// 2. If pageIconUrl is provided, use it
+/// 3. Otherwise, return null (will use default icon)
+String? findFavoriteIcon(String url, String? pageIconUrl) {
+  final walletStore = getIt<WalletContentStore>();
+
+  try {
+    final uri = Uri.parse(url);
+    final normalizedHost = _normalizeHost(uri.host);
+
+    // Check topDapps for matching host
+    for (final dapp in walletStore.topDapps) {
+      if (dapp.url != null) {
+        try {
+          final dappUri = Uri.parse(dapp.url!);
+          if (_normalizeHost(dappUri.host) == normalizedHost && dapp.icon != null) {
+            return dapp.icon;
+          }
+        } catch (e) {
+          // Skip if URL parsing fails
+        }
+      }
+    }
+
+    // Check popularDapps for matching host
+    for (final dapp in walletStore.popularDapps) {
+      if (dapp.url != null) {
+        try {
+          final dappUri = Uri.parse(dapp.url!);
+          if (_normalizeHost(dappUri.host) == normalizedHost && dapp.icon != null) {
+            return dapp.icon;
+          }
+        } catch (e) {
+          // Skip if URL parsing fails
+        }
+      }
+    }
+  } catch (e) {
+    // If URL parsing fails, fall through to pageIconUrl
+  }
+
+  // Return pageIconUrl if available, otherwise null
+  return pageIconUrl;
 }
 
 bool _isQubicDomain(String url) {
