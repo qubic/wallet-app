@@ -22,6 +22,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -42,6 +43,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final TimedController _timedController = getIt<TimedController>();
   final NetworkStore networkStore = getIt<NetworkStore>();
+  final QubicEcosystemStore ecosystemStore = getIt<QubicEcosystemStore>();
 
   final double sliverExpanded = 185;
 
@@ -57,6 +59,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   @override
   void initState() {
     super.initState();
+    ecosystemStore.loadAllData();
 
     disposeAutorun = autorun((_) {
       if (appStore.currentQubicIDs.length <= 1) {
@@ -159,6 +162,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
             edgeOffset: kToolbarHeight,
             onRefresh: () async {
               await _timedController.interruptFetchTimer();
+              await ecosystemStore.refreshIfAbsent();
             },
             backgroundColor: LightThemeColors.refreshIndicatorBackground,
             child: Container(
