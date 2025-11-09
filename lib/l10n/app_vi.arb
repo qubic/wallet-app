@@ -526,16 +526,8 @@
     "transfersListLabelReceiveIn": "Nhận trong",
     "transfersListLabelSharePublicIdInstructionsOne": "Vui lòng chia sẻ ID công khai sau đây với người gửi:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Hoặc hiển thị mã QR sau đây",
-    "transferAssetHeaderForShares": "Chuyển cổ phần {assetName}",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Chuyển token {assetName}",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Chuyển {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -550,8 +542,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "Cổ phần {assetName} thuộc sở hữu của ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Số dư tài sản trong ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -561,17 +553,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "Token {assetName} thuộc sở hữu của ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetLabelAvailableBalance": "Số dư khả dụng",
+    "transferAssetNoticeQxOnly": "* Chỉ có thể chuyển các tài sản được quản lý bởi Qx",
     "generalAllTransactionDetails": "ID GD: {trxId}\nNguồn: {sourceId}\nĐích: {destId}\nSố lượng: {amount}\nLoại: {type}\nTrạng thái: {status}\nDấu thời gian: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",

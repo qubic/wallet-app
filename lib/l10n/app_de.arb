@@ -483,16 +483,8 @@
     "transfersListLabelReceiveIn": "Empfangen in",
     "transfersListLabelSharePublicIdInstructionsOne": "Bitte teilen Sie dem Absender die folgende öffentliche ID mit:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Oder zeigen Sie den folgenden QR-Code",
-    "transferAssetHeaderForShares": "Übertragen Sie {assetName}-Anteile",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Übertragen Sie {assetName}-Token",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Übertragen Sie {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -507,8 +499,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "{assetName}-Anteile im Besitz der ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Asset-Guthaben in ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -518,17 +510,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "{assetName}-Token im Besitz der ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetLabelAvailableBalance": "Verfügbares Guthaben",
+    "transferAssetNoticeQxOnly": "* Nur von Qx verwaltete Assets können übertragen werden",
     "generalAllTransactionDetails": "TX ID: {trxId}\nQuelle: {sourceId}\nZiel: {destId}\nBetrag: {amount}\nTyp: {type}\nStatus: {status}\nZeitstempel: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Vorhandene Wallet importieren",
     "importWalletTitle": "Wallet importieren",

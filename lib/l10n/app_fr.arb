@@ -483,16 +483,8 @@
     "transfersListLabelReceiveIn": "Recevoir dans",
     "transfersListLabelSharePublicIdInstructionsOne": "Veuillez partager l'ID Public suivant avec l'expéditeur :",
     "transfersListLabelSharePublicIdInstructionsTwo": "Ou montrez le QR Code suivant",
-    "transferAssetHeaderForShares": "Transférer des parts {assetName}",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Transférer des Tokens {assetName}",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Transférer {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -507,8 +499,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "Parts {assetName} détenues par l'ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Solde d'actifs en ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -518,17 +510,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "Tokens {assetName} détenus par l'ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetLabelAvailableBalance": "Solde disponible",
+    "transferAssetNoticeQxOnly": "* Seuls les actifs gérés par Qx peuvent être transférés",
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestinataire: {destId}\nMontant: {amount}\nType: {type}\nStatut: {status}\nHorodatage: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Importer un Portefeuille Existant",
     "importWalletTitle": "Importer Votre Portefeuille",

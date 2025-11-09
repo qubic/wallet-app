@@ -481,16 +481,8 @@
     "transfersListLabelReceiveIn": "Recibir en",
     "transfersListLabelSharePublicIdInstructionsOne": "Por favor, comparte el siguiente ID Público con el remitente:",
     "transfersListLabelSharePublicIdInstructionsTwo": "O muéstrale el siguiente código QR",
-    "transferAssetHeaderForShares": "Transferir {assetName} acciones",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Transferir {assetName} tokens",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Transferir {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -505,8 +497,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "{assetName} acciones en propiedad del ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Saldo de activos en ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -516,17 +508,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "{assetName} tokens en propiedad del ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetLabelAvailableBalance": "Saldo disponible",
+    "transferAssetNoticeQxOnly": "* Solo se pueden transferir activos gestionados por Qx",
     "generalAllTransactionDetails": "TX ID: {trxId}\nOrigen: {sourceId}\nDestino: {destId}\nnMonto: {amount}\nTipo: {type}\nStatus: {status}\nFecha: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Importar un Wallet Existente",
     "importWalletTitle": "Importar Wallet",
