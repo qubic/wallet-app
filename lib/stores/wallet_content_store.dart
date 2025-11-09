@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
+import 'package:qubic_wallet/dtos/wallet_metadata_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
@@ -31,6 +32,9 @@ class WalletContentStore = WalletContentStoreBase with _$WalletContentStore;
 
 abstract class WalletContentStoreBase with Store {
   final QubicStaticApi _staticApi = getIt<QubicStaticApi>();
+
+  @observable
+  WalletMetadataDto? metadata;
 
   @observable
   DappsResponse? dappsResponse;
@@ -66,12 +70,29 @@ abstract class WalletContentStoreBase with Store {
         .toList();
   }
 
+  @computed
+  TermsMetadataDto? get termsMetadata => metadata?.terms;
+
   String getCurrentLocale() {
     String currentLocale = l10nWrapper.l10n?.localeName ?? "en";
     if (!["de", "es", "fr", "ru", "tr", "zh"].contains(currentLocale)) {
       currentLocale = "en";
     }
     return currentLocale;
+  }
+
+  @action
+  Future<void> loadMetadata() async {
+    try {
+      appLogger.d("[WalletContentStore] Loading wallet metadata...");
+      final response = await _staticApi.getMetadata();
+      metadata = response;
+      appLogger.d("[WalletContentStore] Metadata loaded: ${metadata?.terms}");
+    } catch (e) {
+      appLogger.e("[WalletContentStore] Failed to load metadata: $e");
+      // Don't set error here - metadata fetch failure shouldn't block the app
+      // We'll use fallback values when needed
+    }
   }
 
   @action

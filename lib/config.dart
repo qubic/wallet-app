@@ -11,8 +11,12 @@ abstract class Config {
   static const qubicStaticApiBaseUrl = "https://static.qubic.org/v1";
 
   // Qubic static API endpoints
+  // Wallet-app specific endpoints (can be versioned independently in future)
+  static const walletMetadata = "/wallet-app/metadata.json";
   static const dapps = "/wallet-app/dapps/dapps.json";
   static dappLocale(String locale) => "/wallet-app/dapps/locales/$locale.json";
+
+  // General/ecosystem endpoints (shared across Qubic ecosystem)
   static const smartContracts = "/general/data/smart_contracts.json";
   static const labeledAddresses = "/general/data/address_labels.json";
 

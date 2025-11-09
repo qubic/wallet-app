@@ -5,6 +5,7 @@ import 'package:qubic_wallet/models/terms_acceptance.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_disclaimer_sheet.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
+import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/stores/wallet_content_store.dart';
 
 /// Extracts the domain/host from a URL
@@ -82,6 +83,39 @@ bool _isQubicDomain(String url) {
   }
 }
 
+bool _shouldShowDisclaimer(String url) {
+  final hiveStorage = getIt<HiveStorage>();
+  final walletStore = getIt<WalletContentStore>();
+
+  // Never show disclaimer for qubic.org domains
+  if (_isQubicDomain(url)) {
+    return false;
+  }
+
+  final termsMetadata = walletStore.termsMetadata;
+  final acceptance = hiveStorage.getTermsAcceptance();
+
+  // If metadata not loaded or no terms metadata, use fallback logic
+  if (termsMetadata == null) {
+    // Fallback: show disclaimer if never accepted
+    return acceptance == null;
+  }
+
+  // Never accepted any version - show disclaimer
+  if (acceptance == null) {
+    return true;
+  }
+
+  // User already accepted this exact version - skip disclaimer
+  if (acceptance.version == termsMetadata.version) {
+    return false;
+  }
+
+  // User accepted a different version
+  // Show disclaimer only if this version requires acceptance
+  return termsMetadata.requiresAcceptance;
+}
+
 Future<bool> openDappUrl(
   BuildContext context,
   String url, {
@@ -90,10 +124,10 @@ Future<bool> openDappUrl(
   bool withNavBar = true,
 }) async {
   final hiveStorage = getIt<HiveStorage>();
+  final walletStore = getIt<WalletContentStore>();
 
-  // Check if URL is from qubic.org domain or if terms already accepted
-  // For now, just check if any terms have been accepted (we'll add version checking later)
-  if (_isQubicDomain(url) || hiveStorage.getTermsAcceptance() != null) {
+  // Check if we should show disclaimer
+  if (!_shouldShowDisclaimer(url)) {
     // Open directly without disclaimer
     await pushScreen(
       context,
@@ -107,6 +141,17 @@ Future<bool> openDappUrl(
     return true;
   }
 
+  // Get terms metadata for version and contentUrl
+  final termsMetadata = walletStore.termsMetadata;
+
+  // If metadata is not available, we cannot proceed with acceptance
+  // This should not happen as metadata is fetched on app startup
+  if (termsMetadata == null) {
+    // Metadata not loaded - should have been loaded on startup
+    // Block dApp access until metadata is available
+    return false;
+  }
+
   // Show disclaimer first
   final rootContext = Navigator.of(context, rootNavigator: true).context;
   final result = await showModalBottomSheet<bool>(
@@ -116,13 +161,16 @@ Future<bool> openDappUrl(
     isScrollControlled: true,
     useRootNavigator: true,
     builder: (modalContext) => DappDisclaimerSheet(
+      termsMetadata: termsMetadata,
       onAccept: () {
-        // Store terms acceptance with version 1.0 (temporary - will be replaced with server version)
+        final settingsStore = getIt<SettingsStore>();
+
+        // Store terms acceptance with version from metadata
         hiveStorage.setTermsAcceptance(
           TermsAcceptance(
-            version: '1.0',
+            version: termsMetadata.version,
             acceptedAt: DateTime.now(),
-            appVersion: '1.0.0', // This will be replaced with actual app version later
+            appVersion: settingsStore.versionInfo ?? 'unknown',
           ),
         );
         Navigator.pop(modalContext, true);

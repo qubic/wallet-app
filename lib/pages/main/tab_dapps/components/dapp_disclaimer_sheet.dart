@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/config.dart';
+import 'package:qubic_wallet/dtos/wallet_metadata_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
@@ -11,11 +13,13 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 class DappDisclaimerSheet extends StatefulWidget {
   final Function() onAccept;
   final Function() onReject;
+  final TermsMetadataDto termsMetadata;
 
   const DappDisclaimerSheet({
     super.key,
     required this.onAccept,
     required this.onReject,
+    required this.termsMetadata,
   });
 
   @override
@@ -164,12 +168,15 @@ class DappDisclaimerSheetState extends State<DappDisclaimerSheet> {
                                   ),
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
+                                      // Construct full URL from metadata
+                                      final termsUrl = widget.termsMetadata.getFullUrl(Config.qubicStaticApiBaseUrl);
+
                                       pushScreen(
                                         context,
                                         screen: SafeArea(
                                           top: false,
                                           child: WebviewScreen(
-                                            initialUrl: 'https://static.qubic.org/products/wallet-app/legal/terms-of-service.md',
+                                            initialUrl: termsUrl,
                                             hideFavorites: true,
                                             customTitle: l10n.generalLabelTermsOfService,
                                           ),
