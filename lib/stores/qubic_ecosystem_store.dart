@@ -8,11 +8,11 @@ import 'package:qubic_wallet/models/token_response.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 
-part 'qubic_data_store.g.dart';
+part 'qubic_ecosystem_store.g.dart';
 
-class QubicDataStore = QubicDataStoreBase with _$QubicDataStore;
+class QubicEcosystemStore = QubicEcosystemStoreBase with _$QubicEcosystemStore;
 
-abstract class QubicDataStoreBase with Store {
+abstract class QubicEcosystemStoreBase with Store {
   final QubicStaticApi _staticApi = getIt<QubicStaticApi>();
   final QubicArchiveApi _archiveApi = getIt<QubicArchiveApi>();
 

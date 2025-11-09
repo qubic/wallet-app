@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'qubic_data_store.dart';
+part of 'qubic_ecosystem_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,20 +8,20 @@ part of 'qubic_data_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$QubicDataStore on QubicDataStoreBase, Store {
+mixin _$QubicEcosystemStore on QubicEcosystemStoreBase, Store {
   Computed<Map<String, SmartContractModel>>? _$_byIdComputed;
 
   @override
   Map<String, SmartContractModel> get _byId => (_$_byIdComputed ??=
           Computed<Map<String, SmartContractModel>>(() => super._byId,
-              name: 'QubicDataStoreBase._byId'))
+              name: 'QubicEcosystemStoreBase._byId'))
       .value;
   Computed<Map<String, TokenModel>>? _$_tokensByIdComputed;
 
   @override
   Map<String, TokenModel> get _tokensById => (_$_tokensByIdComputed ??=
           Computed<Map<String, TokenModel>>(() => super._tokensById,
-              name: 'QubicDataStoreBase._tokensById'))
+              name: 'QubicEcosystemStoreBase._tokensById'))
       .value;
   Computed<Map<String, LabeledAddressModel>>? _$_labeledAddressesByIdComputed;
 
@@ -30,11 +30,11 @@ mixin _$QubicDataStore on QubicDataStoreBase, Store {
       (_$_labeledAddressesByIdComputed ??=
               Computed<Map<String, LabeledAddressModel>>(
                   () => super._labeledAddressesById,
-                  name: 'QubicDataStoreBase._labeledAddressesById'))
+                  name: 'QubicEcosystemStoreBase._labeledAddressesById'))
           .value;
 
   late final _$smartContractsAtom =
-      Atom(name: 'QubicDataStoreBase.smartContracts', context: context);
+      Atom(name: 'QubicEcosystemStoreBase.smartContracts', context: context);
 
   @override
   List<SmartContractModel> get smartContracts {
@@ -50,7 +50,7 @@ mixin _$QubicDataStore on QubicDataStoreBase, Store {
   }
 
   late final _$tokensAtom =
-      Atom(name: 'QubicDataStoreBase.tokens', context: context);
+      Atom(name: 'QubicEcosystemStoreBase.tokens', context: context);
 
   @override
   List<TokenModel> get tokens {
@@ -66,7 +66,7 @@ mixin _$QubicDataStore on QubicDataStoreBase, Store {
   }
 
   late final _$labeledAddressesAtom =
-      Atom(name: 'QubicDataStoreBase.labeledAddresses', context: context);
+      Atom(name: 'QubicEcosystemStoreBase.labeledAddresses', context: context);
 
   @override
   List<LabeledAddressModel> get labeledAddresses {
@@ -81,8 +81,9 @@ mixin _$QubicDataStore on QubicDataStoreBase, Store {
     });
   }
 
-  late final _$loadSmartContractsAsyncAction =
-      AsyncAction('QubicDataStoreBase.loadSmartContracts', context: context);
+  late final _$loadSmartContractsAsyncAction = AsyncAction(
+      'QubicEcosystemStoreBase.loadSmartContracts',
+      context: context);
 
   @override
   Future<void> loadSmartContracts() {
@@ -91,15 +92,16 @@ mixin _$QubicDataStore on QubicDataStoreBase, Store {
   }
 
   late final _$loadTokensAsyncAction =
-      AsyncAction('QubicDataStoreBase.loadTokens', context: context);
+      AsyncAction('QubicEcosystemStoreBase.loadTokens', context: context);
 
   @override
   Future<void> loadTokens() {
     return _$loadTokensAsyncAction.run(() => super.loadTokens());
   }
 
-  late final _$loadLabeledAddressesAsyncAction =
-      AsyncAction('QubicDataStoreBase.loadLabeledAddresses', context: context);
+  late final _$loadLabeledAddressesAsyncAction = AsyncAction(
+      'QubicEcosystemStoreBase.loadLabeledAddresses',
+      context: context);
 
   @override
   Future<void> loadLabeledAddresses() {

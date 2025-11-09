@@ -3,12 +3,13 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/smart_contracts/special_addresses.dart';
-import 'package:qubic_wallet/stores/qubic_data_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class TransactionUIHelpers {
-  static final QubicDataStore _dataStore = getIt<QubicDataStore>();
+  static final QubicEcosystemStore _ecosystemStore =
+      getIt<QubicEcosystemStore>();
 
   static Widget getEmptyTransactions(
       {required BuildContext context,
@@ -69,7 +70,7 @@ class TransactionUIHelpers {
   }
 
   static String getTransactionType(int type, String destination) {
-    return _dataStore.getProcedureName(destination, type) ??
+    return _ecosystemStore.getProcedureName(destination, type) ??
         "$type ${(type == 0 || SpecialAddresses.empty == destination) ? "Standard" : "SC"}";
   }
 
