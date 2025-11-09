@@ -10,6 +10,24 @@ import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 
 part 'qubic_ecosystem_store.g.dart';
 
+/// MobX store for Qubic ecosystem-wide reference data.
+///
+/// **Data Scope:**
+/// Manages shared, ecosystem-wide data from `/general/data/` APIs that is
+/// common across all Qubic applications (wallets, explorers, tools):
+/// - Smart contracts and their procedures
+/// - Tokens (Qubic assets)
+/// - Labeled addresses (known entities)
+///
+/// **vs WalletContentStore:**
+/// - QubicEcosystemStore = Ecosystem reference data (used by any Qubic app)
+/// - WalletContentStore = Wallet-specific content (dapps, terms, privacy)
+///
+/// **Architecture:**
+/// This store combines state management and data fetching. For simple static
+/// reference data, extracting a repository layer is unnecessary. If future
+/// requirements demand caching, retry logic, or offline support, consider
+/// separating data fetching into repository classes.
 class QubicEcosystemStore = QubicEcosystemStoreBase with _$QubicEcosystemStore;
 
 abstract class QubicEcosystemStoreBase with Store {

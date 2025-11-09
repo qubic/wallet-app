@@ -8,6 +8,25 @@ import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 
 part 'wallet_content_store.g.dart';
 
+/// MobX store for wallet-app-specific content and configuration.
+///
+/// **Data Scope:**
+/// Manages wallet-specific content from `/wallet-app/` APIs that is unique
+/// to this wallet application:
+/// - Dapps directory (featured, top, popular apps)
+/// - Terms of use (future)
+/// - Privacy policy (future)
+/// - Version metadata (future)
+///
+/// **vs QubicEcosystemStore:**
+/// - WalletContentStore = Wallet-specific content (dapps, terms, privacy)
+/// - QubicEcosystemStore = Ecosystem reference data (used by any Qubic app)
+///
+/// **Architecture:**
+/// This store combines state management and data fetching. For simple static
+/// reference data, extracting a repository layer is unnecessary. If future
+/// requirements demand caching, retry logic, or offline support, consider
+/// separating data fetching into repository classes.
 class WalletContentStore = WalletContentStoreBase with _$WalletContentStore;
 
 abstract class WalletContentStoreBase with Store {
