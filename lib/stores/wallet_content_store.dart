@@ -6,11 +6,11 @@ import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 
-part 'dapp_store.g.dart';
+part 'wallet_content_store.g.dart';
 
-class DappStore = DappStoreBase with _$DappStore;
+class WalletContentStore = WalletContentStoreBase with _$WalletContentStore;
 
-abstract class DappStoreBase with Store {
+abstract class WalletContentStoreBase with Store {
   final QubicStaticApi _staticApi = getIt<QubicStaticApi>();
 
   @observable

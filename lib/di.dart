@@ -16,7 +16,7 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
-import 'package:qubic_wallet/stores/dapp_store.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/timed_controller.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
@@ -36,7 +36,7 @@ Future<void> setupDI() async {
   //Stores
   getIt.registerSingleton<ApplicationStore>(ApplicationStore());
   getIt.registerSingleton<SettingsStore>(SettingsStore());
-  getIt.registerSingleton<DappStore>(DappStore());
+  getIt.registerSingleton<WalletContentStore>(WalletContentStore());
   getIt.registerSingleton<QubicEcosystemStore>(QubicEcosystemStore());
   getIt.registerSingleton<SecureStorage>(SecureStorage());
   await getIt<SecureStorage>().initialize();

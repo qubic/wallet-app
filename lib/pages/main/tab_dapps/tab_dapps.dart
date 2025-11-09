@@ -7,7 +7,7 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/featured_app_widget.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/popular_apps_widget.dart';
-import 'package:qubic_wallet/stores/dapp_store.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -20,7 +20,7 @@ class TabDApps extends StatefulWidget {
 
 class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   bool _isFirst = true;
-  final dappStore = getIt<DappStore>();
+  final walletStore = getIt<WalletContentStore>();
 
   late AnimationController _featuredController;
   late Animation<Offset> _featuredSlideAnimation;
@@ -104,7 +104,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
     return Scaffold(body: Observer(builder: (context) {
-      if (dappStore.error != null) {
+      if (walletStore.error != null) {
         return SizedBox(
           width: double.infinity,
           child: Column(
@@ -118,13 +118,13 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
               const SizedBox(height: ThemePaddings.normalPadding),
               ThemedControls.primaryButtonBig(
                   onPressed: () {
-                    getIt<DappStore>().loadDapps();
+                    walletStore.loadDapps();
                   },
                   text: l10n.generalButtonTryAgain)
             ],
           ),
         );
-      } else if (dappStore.isLoading) {
+      } else if (walletStore.isLoading) {
         return const Center(child: CircularProgressIndicator());
       }
       return ListView(
@@ -133,14 +133,14 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
           FeaturedAppWidget(
             slideAnimation: _featuredSlideAnimation,
             fadeAnimation: _fadeAnimation,
-            featuredApp: dappStore.featuredDapp,
+            featuredApp: walletStore.featuredDapp,
           ),
-          if (dappStore.featuredDapp != null) const SizedBox(height: 16),
+          if (walletStore.featuredDapp != null) const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.symmetric(
                 horizontal: ThemePaddings.normalPadding),
             child: TopDAppsWidget(
-              topDApps: dappStore.topDapps,
+              topDApps: walletStore.topDapps,
               fadeAnimation: _fadeAnimation,
               slideAnimation: _featuredSlideAnimation,
             ),
