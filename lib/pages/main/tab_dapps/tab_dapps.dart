@@ -11,8 +11,8 @@ import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/popular_apps_widget.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/favorites_list_screen.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
-import 'package:qubic_wallet/stores/dapp_store.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -25,12 +25,14 @@ class TabDApps extends StatefulWidget {
 
 class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
   bool _isFirst = true;
-  final dappStore = getIt<DappStore>();
+
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
   final GlobalKey _searchFieldKey = GlobalKey();
   bool _isSearchActive = false;
   String _searchQuery = '';
+
+  final walletStore = getIt<WalletContentStore>();
 
   late AnimationController _featuredController;
   late Animation<Offset> _featuredSlideAnimation;
@@ -629,7 +631,9 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
       body: Container(
         color: LightThemeColors.background,
         child: Observer(builder: (context) {
-      if (dappStore.error != null) {
+      if (walletStore.error != null) {
+    return Scaffold(body: Observer(builder: (context) {
+      if (walletStore.error != null) {
         return SizedBox(
           width: double.infinity,
           child: Column(
@@ -643,13 +647,13 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
               const SizedBox(height: ThemePaddings.normalPadding),
               ThemedControls.primaryButtonBig(
                   onPressed: () {
-                    getIt<DappStore>().loadDapps();
+                    walletStore.loadDapps();
                   },
                   text: l10n.generalButtonTryAgain)
             ],
           ),
         );
-      } else if (dappStore.isLoading) {
+      } else if (walletStore.isLoading) {
         return const Center(child: CircularProgressIndicator());
       }
       return _isSearchActive
@@ -679,7 +683,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                   padding: const EdgeInsets.symmetric(
                       horizontal: ThemePaddings.smallPadding),
                   child: TopDAppsWidget(
-                    topDApps: dappStore.topDapps,
+                    topDApps: walletStore.topDapps,
                     fadeAnimation: _fadeAnimation,
                     slideAnimation: _featuredSlideAnimation,
                     onDappReturn: () {
@@ -711,6 +715,45 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
     }),
       ),
     );
+/*
+      return ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          FeaturedAppWidget(
+            slideAnimation: _featuredSlideAnimation,
+            fadeAnimation: _fadeAnimation,
+            featuredApp: walletStore.featuredDapp,
+          ),
+          if (walletStore.featuredDapp != null) const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: ThemePaddings.normalPadding),
+            child: TopDAppsWidget(
+              topDApps: walletStore.topDapps,
+              fadeAnimation: _fadeAnimation,
+              slideAnimation: _featuredSlideAnimation,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: ThemePaddings.hugePadding),
+            child: Text(l10n.dAppPopularApps,
+                style: TextStyles.pageTitle
+                    .copyWith(fontSize: ThemeFontSizes.sectionTitle)),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: ThemePaddings.normalPadding),
+            child: PopularDAppsWidget(
+              slideAnimation: _popularSlideAnimation,
+              fadeAnimation: _popularFadeAnimation,
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+      );
+    }));*/
   }
 }
 

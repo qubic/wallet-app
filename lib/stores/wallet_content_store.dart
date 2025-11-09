@@ -4,14 +4,33 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/resources/apis/qubic_helpers_api.dart';
+import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 
-part 'dapp_store.g.dart';
+part 'wallet_content_store.g.dart';
 
-class DappStore = DappStoreBase with _$DappStore;
+/// MobX store for wallet-app-specific content and configuration.
+///
+/// **Data Scope:**
+/// Manages wallet-specific content from `/wallet-app/` APIs that is unique
+/// to this wallet application:
+/// - Dapps directory (featured, top, popular apps)
+/// - Terms of use (future)
+/// - Privacy policy (future)
+/// - Version metadata (future)
+///
+/// **vs QubicEcosystemStore:**
+/// - WalletContentStore = Wallet-specific content (dapps, terms, privacy)
+/// - QubicEcosystemStore = Ecosystem reference data (used by any Qubic app)
+///
+/// **Architecture:**
+/// This store combines state management and data fetching. For simple static
+/// reference data, extracting a repository layer is unnecessary. If future
+/// requirements demand caching, retry logic, or offline support, consider
+/// separating data fetching into repository classes.
+class WalletContentStore = WalletContentStoreBase with _$WalletContentStore;
 
-abstract class DappStoreBase with Store {
-  final QubicHelpersApi _qubicHelpersApi = getIt<QubicHelpersApi>();
+abstract class WalletContentStoreBase with Store {
+  final QubicStaticApi _staticApi = getIt<QubicStaticApi>();
 
   @observable
   DappsResponse? dappsResponse;
@@ -61,9 +80,9 @@ abstract class DappStoreBase with Store {
       appLogger.d("message");
       isLoading = true;
       error = null;
-      final response = await _qubicHelpersApi.getDapps();
+      final response = await _staticApi.getDapps();
       final dappsLocalized =
-          await _qubicHelpersApi.getLocalizedJson(getCurrentLocale());
+          await _staticApi.getLocalizedDappData(getCurrentLocale());
 
       // Create the localized dapps list
       final localizedDapps = response.dapps.map((dapp) {

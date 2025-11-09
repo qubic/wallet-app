@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
-import 'package:qubic_wallet/stores/dapp_store.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class PopularDAppsWidget extends StatelessWidget {
@@ -19,11 +19,12 @@ class PopularDAppsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final dappStore = getIt<DappStore>();
+    final walletStore = getIt<WalletContentStore>();
 
     return ThemedControls.card(
       child: Column(
-        children: List.generate(dappStore.popularDapps.length * 2 - 1, (index) {
+        children:
+            List.generate(walletStore.popularDapps.length * 2 - 1, (index) {
           if (index.isOdd) {
             // Add spacing between items to match card padding
             return const SizedBox(height: ThemePaddings.smallPadding);
@@ -34,7 +35,7 @@ class PopularDAppsWidget extends StatelessWidget {
             child: FadeTransition(
               opacity: fadeAnimation,
               child: DAppTile(
-                dApp: dappStore.popularDapps[itemIndex],
+                dApp: walletStore.popularDapps[itemIndex],
                 onReturn: onDappReturn,
               ),
             ),
