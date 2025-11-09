@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
+import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -8,7 +9,7 @@ import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfer_asset.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -120,8 +121,8 @@ class GroupedAssetItem extends StatelessWidget {
                 ),
                 ThemedControls.spacerVerticalSmall(),
                 ...groupedAsset.contractContributions.map((contribution) {
-                  String? contractName = QubicSCStore.fromContractIndex(
-                      contribution.managingContractIndex);
+                  String? contractName = getIt<QubicEcosystemStore>()
+                      .fromContractIndex(contribution.managingContractIndex);
                   return Padding(
                     padding: const EdgeInsets.only(
                         left: ThemePaddings.normalPadding, top: 4),

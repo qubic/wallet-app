@@ -75,6 +75,14 @@ abstract class QubicEcosystemStoreBase with Store {
     return fromContractId(id) ?? fromTokenId(id) ?? fromLabeledAddressId(id);
   }
 
+  String? fromContractIndex(int index) {
+    try {
+      return smartContracts.firstWhere((sc) => sc.contractIndex == index).name;
+    } catch (e) {
+      return null;
+    }
+  }
+
   @action
   Future<void> loadSmartContracts() async {
     try {
