@@ -42,29 +42,19 @@ abstract class QubicDataStoreBase with Store {
 
   String? fromContractId(String id) => _byId[id]?.name;
 
-  bool isSC(String id) => _byId.containsKey(id);
-
   String? getProcedureName(String contractId, int type) {
     return _byId[contractId]?.getProcedureName(type);
   }
 
   String? fromTokenId(String id) => _tokensById[id]?.name;
 
-  bool isToken(String id) => _tokensById.containsKey(id);
-
   String? fromLabeledAddressId(String id) => _labeledAddressesById[id]?.label;
-
-  bool isLabeledAddress(String id) => _labeledAddressesById.containsKey(id);
 
   /// Returns the label/name for an address if it's a known entity (smart contract, token, or labeled address).
   /// Returns null if the address is not recognized.
   /// Priority: Smart Contract > Token > Labeled Address
   String? getLabel(String id) {
     return fromContractId(id) ?? fromTokenId(id) ?? fromLabeledAddressId(id);
-  }
-
-  bool isKnownEntity(String id) {
-    return isSC(id) || isToken(id) || isLabeledAddress(id);
   }
 
   @action

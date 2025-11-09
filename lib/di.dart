@@ -11,7 +11,6 @@ import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
-import 'package:qubic_wallet/services/qubic_label_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
@@ -53,7 +52,6 @@ Future<void> setupDI() async {
 
   //Services
   //getIt.registerSingleton<QubicHubService>(QubicHubService());
-  getIt.registerSingleton<QubicLabelService>(QubicLabelService());
 
   //WalletConnect
   getIt.registerSingleton<WalletConnectService>(WalletConnectService());

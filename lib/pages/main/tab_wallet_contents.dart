@@ -20,9 +20,9 @@ import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
-import 'package:qubic_wallet/services/qubic_label_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
+import 'package:qubic_wallet/stores/qubic_data_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -43,7 +43,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final TimedController _timedController = getIt<TimedController>();
   final NetworkStore networkStore = getIt<NetworkStore>();
-  final QubicLabelService qubicLabelService = getIt<QubicLabelService>();
+  final QubicDataStore qubicDataStore = getIt<QubicDataStore>();
 
   final double sliverExpanded = 185;
 
@@ -59,7 +59,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   @override
   void initState() {
     super.initState();
-    qubicLabelService.loadAllData();
+    qubicDataStore.loadAllData();
 
     disposeAutorun = autorun((_) {
       if (appStore.currentQubicIDs.length <= 1) {
@@ -162,7 +162,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
             edgeOffset: kToolbarHeight,
             onRefresh: () async {
               await _timedController.interruptFetchTimer();
-              await qubicLabelService.refreshIfAbsent();
+              await qubicDataStore.refreshIfAbsent();
             },
             backgroundColor: LightThemeColors.refreshIndicatorBackground,
             child: Container(
