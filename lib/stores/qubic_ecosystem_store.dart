@@ -58,24 +58,28 @@ abstract class QubicEcosystemStoreBase with Store {
         for (var addr in labeledAddresses) addr.address: addr,
       };
 
-  String? fromContractId(String id) => _byId[id]?.name;
+  String? getContractName(String address) => _byId[address]?.name;
 
   String? getProcedureName(String contractId, int type) {
     return _byId[contractId]?.getProcedureName(type);
   }
 
-  String? fromTokenId(String id) => _tokensById[id]?.name;
+  String? getTokenName(String issuerIdentityAddress) =>
+      _tokensById[issuerIdentityAddress]?.name;
 
-  String? fromLabeledAddressId(String id) => _labeledAddressesById[id]?.label;
+  String? getAddressLabel(String address) =>
+      _labeledAddressesById[address]?.label;
 
   /// Returns the label/name for an address if it's a known entity (smart contract, token, or labeled address).
   /// Returns null if the address is not recognized.
   /// Priority: Smart Contract > Token > Labeled Address
-  String? getLabel(String id) {
-    return fromContractId(id) ?? fromTokenId(id) ?? fromLabeledAddressId(id);
+  String? getEntityLabel(String address) {
+    return getContractName(address) ??
+        getTokenName(address) ??
+        getAddressLabel(address);
   }
 
-  String? fromContractIndex(int index) {
+  String? getContractNameByIndex(int index) {
     try {
       return smartContracts.firstWhere((sc) => sc.contractIndex == index).name;
     } catch (e) {

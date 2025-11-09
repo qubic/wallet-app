@@ -122,7 +122,8 @@ class GroupedAssetItem extends StatelessWidget {
                 ThemedControls.spacerVerticalSmall(),
                 ...groupedAsset.contractContributions.map((contribution) {
                   String? contractName = getIt<QubicEcosystemStore>()
-                      .fromContractIndex(contribution.managingContractIndex);
+                      .getContractNameByIndex(
+                          contribution.managingContractIndex);
                   return Padding(
                     padding: const EdgeInsets.only(
                         left: ThemePaddings.normalPadding, top: 4),

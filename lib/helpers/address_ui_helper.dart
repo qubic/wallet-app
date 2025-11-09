@@ -10,6 +10,6 @@ class AddressUIHelper {
   ///
   /// Returns null if the address is not recognized.
   static String? getLabel(String address) {
-    return _ecosystemStore.getLabel(address);
+    return _ecosystemStore.getEntityLabel(address);
   }
 }
