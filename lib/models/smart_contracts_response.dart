@@ -38,6 +38,7 @@ class SmartContractModel {
         .map((e) => _ProcedureData(
               id: e['id'] as int,
               name: e['name'] as String,
+              fee: e['fee'] ?? 0,
             ))
         .toList();
 
@@ -57,14 +58,37 @@ class SmartContractModel {
   String? getProcedureName(int type) {
     return procedures[type];
   }
+
+  /// Check if this contract supports a specific procedure by name
+  bool supportsProcedure(String procedureName) {
+    return procedures.values
+        .any((name) => name.toLowerCase() == procedureName.toLowerCase());
+  }
+
+  /// Get procedure ID by procedure name (case-insensitive)
+  int? getProcedureId(String procedureName) {
+    for (var entry in procedures.entries) {
+      if (entry.value.toLowerCase() == procedureName.toLowerCase()) {
+        return entry.key;
+      }
+    }
+    return null;
+  }
+
+  /// Check if this contract supports Transfer Share Management Rights
+  bool supportsTransferShareManagementRights() {
+    return supportsProcedure("Transfer Share Management Rights");
+  }
 }
 
 class _ProcedureData {
   final int id;
   final String name;
+  final int fee;
 
   _ProcedureData({
     required this.id,
     required this.name,
+    this.fee = 0,
   });
 }
