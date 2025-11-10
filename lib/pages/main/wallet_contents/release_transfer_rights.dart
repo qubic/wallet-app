@@ -1,0 +1,707 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:intl/intl.dart';
+import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
+import 'package:qubic_wallet/extensions/as_thousands.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/helpers/id_validators.dart';
+import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
+import 'package:qubic_wallet/helpers/send_transaction.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
+import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
+import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
+import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/styles/input_decorations.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/timed_controller.dart';
+
+class ReleaseTransferRights extends StatefulWidget {
+  final QubicListVm item;
+  final GroupedAssetDto groupedAsset;
+
+  const ReleaseTransferRights({
+    super.key,
+    required this.item,
+    required this.groupedAsset,
+  });
+
+  @override
+  // ignore: library_private_types_in_public_api
+  _ReleaseTransferRightsState createState() => _ReleaseTransferRightsState();
+}
+
+class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
+  final _formKey = GlobalKey<FormBuilderState>();
+  final ApplicationStore appStore = getIt<ApplicationStore>();
+  final QubicEcosystemStore ecosystemStore = getIt<QubicEcosystemStore>();
+  final _liveApi = getIt<QubicLiveApi>();
+  final TimedController _timedController = getIt<TimedController>();
+  final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
+
+  final NumberFormat formatter = NumberFormat.decimalPatternDigits(
+    locale: 'en_us',
+    decimalDigits: 0,
+  );
+
+  List<bool> expanded = [false];
+  TargetTickTypeEnum targetTickType = defaultTargetTickType;
+
+  // Selected contract indices
+  int? selectedSourceContractIndex;
+  int? selectedDestinationContractIndex;
+
+  // Available units for selected source
+  int availableUnits = 0;
+
+  // Fee (default to 0, will be loaded from API or use defaults)
+  int currentFee = 0;
+
+  // Controllers
+  TextEditingController numberOfSharesCtrl = TextEditingController();
+  TextEditingController tickController = TextEditingController();
+
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeForm();
+  }
+
+  void _initializeForm() {
+    // Auto-select source contract if only one available
+    final contractsWithBalance = widget.groupedAsset.contractContributions
+        .where((c) => c.numberOfUnits > 0)
+        .toList();
+
+    if (contractsWithBalance.length == 1) {
+      selectedSourceContractIndex =
+          contractsWithBalance.first.managingContractIndex;
+      availableUnits = contractsWithBalance.first.numberOfUnits;
+      _updateDestinationDefault();
+      _updateFee();
+    }
+  }
+
+  void _updateDestinationDefault() {
+    // If source is not Qx, default destination to Qx (contract index 1)
+    // Find Qx contract dynamically
+    final qxContract = ecosystemStore.smartContracts
+        .where((c) => c.name.toUpperCase() == "QX")
+        .firstOrNull;
+
+    if (selectedSourceContractIndex != null &&
+        qxContract != null &&
+        selectedSourceContractIndex != qxContract.contractIndex) {
+      selectedDestinationContractIndex = qxContract.contractIndex;
+    }
+  }
+
+  void _updateFee() {
+    if (selectedSourceContractIndex == null) {
+      currentFee = ReleaseTransferRightsInfo.defaultReleaseFee;
+      return;
+    }
+
+    // Get procedure number for source contract dynamically
+    final procedureNumber = ecosystemStore
+        .getTransferShareManagementRightsProcedureId(selectedSourceContractIndex!);
+
+    if (procedureNumber == null) {
+      currentFee = ReleaseTransferRightsInfo.defaultReleaseFee;
+      return;
+    }
+
+    // Try to get fee from ecosystem store (will be available when smart_contracts.json includes fee data)
+    final fee = ecosystemStore.getFeeForProcedure(
+        selectedSourceContractIndex!, procedureNumber);
+
+    // Use default fee (0 QUBIC based on contract code analysis)
+    currentFee = fee ?? ReleaseTransferRightsInfo.defaultReleaseFee;
+  }
+
+  @override
+  void dispose() {
+    numberOfSharesCtrl.dispose();
+    tickController.dispose();
+    super.dispose();
+  }
+
+  int getAssetAmount() {
+    final text = numberOfSharesCtrl.text;
+    if (text.isEmpty) return 0;
+
+    final spaceIndex = text.indexOf(" ");
+    final cleanText = spaceIndex > 0
+        ? text.substring(0, spaceIndex)
+        : text;
+
+    return int.parse(cleanText.replaceAll(" ", "").replaceAll(",", ""));
+  }
+
+  List<DropdownMenuItem<int>> getSourceContractList() {
+    return widget.groupedAsset.contractContributions
+        .where((c) => c.numberOfUnits > 0)
+        .map((contribution) {
+      final contractName = ecosystemStore.getContractNameByIndex(
+              contribution.managingContractIndex) ??
+          "Contract ${contribution.managingContractIndex}";
+
+      return DropdownMenuItem<int>(
+        value: contribution.managingContractIndex,
+        child: Text(
+          "$contractName (${formatter.format(contribution.numberOfUnits)} available)",
+          style: TextStyles.inputBoxSmallStyle,
+        ),
+      );
+    }).toList();
+  }
+
+  List<DropdownMenuItem<int>> getDestinationContractList() {
+    // Get all contracts that support "Transfer Share Management Rights" procedure
+    final supportedContracts = ecosystemStore.smartContracts
+        .where((contract) =>
+            contract.supportsTransferShareManagementRights() &&
+            contract.contractIndex != selectedSourceContractIndex)
+        .toList();
+
+    // Sort alphabetically by name (case-insensitive)
+    supportedContracts.sort((a, b) =>
+        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+    return supportedContracts.map((contract) {
+      return DropdownMenuItem<int>(
+        value: contract.contractIndex,
+        child: Text(
+          contract.name,
+          style: TextStyles.inputBoxSmallStyle,
+        ),
+      );
+    }).toList();
+  }
+
+  List<DropdownMenuItem<TargetTickTypeEnum>> getTickList() {
+    final l10n = l10nOf(context);
+
+    return TargetTickTypeEnum.values.map((targetTickType) {
+      return DropdownMenuItem<TargetTickTypeEnum>(
+        value: targetTickType,
+        child: Text(
+          targetTickType == TargetTickTypeEnum.manual
+              ? l10n.sendItemLabelTargetTickManual
+              : l10n.sendItemLabelTargetTickAutomatic(targetTickType.value),
+          style: TextStyles.inputBoxSmallStyle,
+        ),
+      );
+    }).toList();
+  }
+
+  CurrencyInputFormatter getInputFormatter(BuildContext context) {
+    final l10n = l10nOf(context);
+
+    return CurrencyInputFormatter(
+      trailingSymbol:
+          "${widget.groupedAsset.issuedAsset.name} ${widget.groupedAsset.isSmartContractShare ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
+      useSymbolPadding: true,
+      maxTextLength: 3,
+      thousandSeparator: ThousandSeparator.Comma,
+      mantissaLength: 0,
+    );
+  }
+
+  Widget getAssetInfo() {
+    final l10n = l10nOf(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.releaseTransferRightsLabelAsset,
+          style: TextStyles.labelTextNormal,
+        ),
+        ThemedControls.spacerVerticalMini(),
+        FormBuilderTextField(
+          name: "assetName",
+          readOnly: true,
+          initialValue: widget.groupedAsset.issuedAsset.name,
+          decoration: ThemeInputDecorations.normalInputbox,
+        ),
+        ThemedControls.spacerVerticalMini(),
+        Text(
+          l10n.releaseTransferRightsLabelTotalUnits(
+              formatter.format(widget.groupedAsset.totalUnits)),
+          style: TextStyles.secondaryText,
+        ),
+      ],
+    );
+  }
+
+  Widget getSourceContractField() {
+    final l10n = l10nOf(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.releaseTransferRightsLabelSourceContract,
+          style: TextStyles.labelTextNormal,
+        ),
+        ThemedControls.spacerVerticalMini(),
+        ThemedControls.dropdown<int>(
+          value: selectedSourceContractIndex,
+          onChanged: (int? value) {
+            setState(() {
+              selectedSourceContractIndex = value;
+              // Update available units
+              if (value != null) {
+                final contribution = widget.groupedAsset.contractContributions
+                    .firstWhere((c) => c.managingContractIndex == value);
+                availableUnits = contribution.numberOfUnits;
+
+                // Clear destination if same as source
+                if (selectedDestinationContractIndex == value) {
+                  selectedDestinationContractIndex = null;
+                }
+
+                // Update default destination
+                _updateDestinationDefault();
+
+                // Update fee
+                _updateFee();
+              } else {
+                availableUnits = 0;
+              }
+            });
+          },
+          items: getSourceContractList(),
+        ),
+      ],
+    );
+  }
+
+  Widget getAvailableAmountInfo() {
+    final l10n = l10nOf(context);
+    if (selectedSourceContractIndex == null) {
+      return Container();
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ThemedControls.spacerVerticalMini(),
+        Text(
+          l10n.releaseTransferRightsLabelAvailableAmount(
+              formatter.format(availableUnits)),
+          style: TextStyles.secondaryText,
+        ),
+      ],
+    );
+  }
+
+  Widget getAmountField() {
+    final l10n = l10nOf(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.releaseTransferRightsLabelAmount,
+          style: TextStyles.labelTextNormal,
+        ),
+        ThemedControls.spacerVerticalMini(),
+        FormBuilderTextField(
+          name: "amount",
+          controller: numberOfSharesCtrl,
+          enabled: !isLoading && selectedSourceContractIndex != null,
+          textAlign: TextAlign.end,
+          keyboardType: const TextInputType.numberWithOptions(decimal: false),
+          decoration: ThemeInputDecorations.normalInputbox,
+          validator: FormBuilderValidators.compose([
+            FormBuilderValidators.required(
+                errorText: l10n.generalErrorRequiredField),
+            CustomFormFieldValidators.isLessThanParsedAsset(
+              context: context,
+              lessThan: availableUnits,
+            ),
+          ]),
+          inputFormatters: [getInputFormatter(context)],
+          maxLines: 1,
+          autocorrect: false,
+          autofillHints: null,
+        ),
+      ],
+    );
+  }
+
+  Widget getDestinationContractField() {
+    final l10n = l10nOf(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.releaseTransferRightsLabelDestinationContract,
+          style: TextStyles.labelTextNormal,
+        ),
+        ThemedControls.spacerVerticalMini(),
+        ThemedControls.dropdown<int>(
+          value: selectedDestinationContractIndex,
+          onChanged: (int? value) {
+            setState(() {
+              selectedDestinationContractIndex = value;
+            });
+          },
+          items: getDestinationContractList(),
+        ),
+      ],
+    );
+  }
+
+  Widget getFeeInfo() {
+    final l10n = l10nOf(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          l10n.releaseTransferRightsLabelFee,
+          style: TextStyles.labelTextNormal,
+        ),
+        ThemedControls.spacerVerticalMini(),
+        FormBuilderTextField(
+          name: "fee",
+          readOnly: true,
+          textAlign: TextAlign.center,
+          controller: TextEditingController(
+              text: "${currentFee.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
+          validator: FormBuilderValidators.compose([
+            CustomFormFieldValidators.isLessThanParsed(
+                lessThan: widget.item.amount!, context: context),
+          ]),
+          decoration: ThemeInputDecorations.normalInputbox,
+        ),
+        ThemedControls.spacerVerticalMini(),
+        Text(
+          l10n.assetsLabelCurrentBalance(formatter.format(widget.item.amount)),
+          style: TextStyles.secondaryText,
+        ),
+      ],
+    );
+  }
+
+  List<Widget> getOverrideTick() {
+    final l10n = l10nOf(context);
+    if ((targetTickType == TargetTickTypeEnum.manual) && (expanded[0] == true)) {
+      return [
+        ThemedControls.spacerVerticalSmall(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+                child: Text(l10n.generalLabelTick,
+                    style: TextStyles.labelTextNormal)),
+            ThemedControls.transparentButtonBigWithChild(
+                child: Observer(builder: (context) {
+                  return Text(
+                      l10n.sendItemButtonSetCurrentTick(
+                          appStore.currentTick.asThousands()),
+                      style: TextStyles.transparentButtonTextSmall);
+                }),
+                onPressed: () {
+                  if (appStore.currentTick > 0) {
+                    tickController.text = appStore.currentTick.toString();
+                  }
+                }),
+          ],
+        ),
+        FormBuilderTextField(
+          decoration: ThemeInputDecorations.normalInputbox,
+          name: l10n.generalLabelTick,
+          readOnly: isLoading,
+          controller: tickController,
+          enableSuggestions: false,
+          validator: FormBuilderValidators.compose([
+            FormBuilderValidators.required(
+                errorText: l10n.generalErrorRequiredField),
+            FormBuilderValidators.numeric(),
+          ]),
+          maxLines: 1,
+          autocorrect: false,
+          autofillHints: null,
+        )
+      ];
+    }
+    return [Container()];
+  }
+
+  Widget getAdvancedOptions() {
+    final l10n = l10nOf(context);
+    return Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(l10n.sendItemLabelDetermineTargetTick,
+              style: TextStyles.labelTextNormal),
+          ThemedControls.spacerVerticalMini(),
+          ThemedControls.dropdown<TargetTickTypeEnum>(
+              value: targetTickType,
+              onChanged: (TargetTickTypeEnum? value) {
+                setState(() {
+                  targetTickType = value!;
+                });
+              },
+              items: getTickList()),
+          Column(children: getOverrideTick())
+        ]);
+  }
+
+  Widget getScrollView() {
+    final l10n = l10nOf(context);
+    return SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Row(children: [
+          Expanded(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              ThemedControls.pageHeader(
+                  headerText: l10n.releaseTransferRightsTitle,
+                  subheaderText: widget.item.name),
+              ThemedControls.spacerVerticalSmall(),
+              FormBuilder(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      getAssetInfo(),
+                      ThemedControls.spacerVerticalNormal(),
+                      getSourceContractField(),
+                      getAvailableAmountInfo(),
+                      ThemedControls.spacerVerticalNormal(),
+                      getAmountField(),
+                      ThemedControls.spacerVerticalNormal(),
+                      getDestinationContractField(),
+                      ThemedControls.spacerVerticalNormal(),
+                      getFeeInfo(),
+                      ThemedControls.spacerVerticalBig(),
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Material(
+                              elevation: 0,
+                              borderOnForeground: false,
+                              shadowColor: Colors.transparent,
+                              child: ExpansionPanelList(
+                                  elevation: 0,
+                                  expansionCallback:
+                                      (int index, bool isExpanded) {
+                                    setState(() {
+                                      expanded[index] = !expanded[index];
+                                    });
+                                  },
+                                  children: [
+                                    ExpansionPanel(
+                                      canTapOnHeader: true,
+                                      backgroundColor:
+                                          LightThemeColors.cardBackground,
+                                      headerBuilder: (BuildContext context,
+                                          bool isExpanded) {
+                                        return ListTile(
+                                          title: Text(l10n
+                                              .accountSendSectionAdvanceOptionsTitle),
+                                        );
+                                      },
+                                      body: Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                            ThemePaddings.normalPadding,
+                                            0,
+                                            ThemePaddings.normalPadding,
+                                            ThemePaddings.normalPadding,
+                                          ),
+                                          child: getAdvancedOptions()),
+                                      isExpanded: expanded[0],
+                                    )
+                                  ]))),
+                    ],
+                  )),
+              const SizedBox(height: ThemePaddings.normalPadding),
+            ],
+          ))
+        ]));
+  }
+
+  List<Widget> getButtons() {
+    final l10n = l10nOf(context);
+
+    return [
+      !isLoading
+          ? Expanded(
+              child: ThemedControls.transparentButtonBigWithChild(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                    child: Text(l10n.generalButtonCancel,
+                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                            )),
+                  )))
+          : Container(),
+      ThemedControls.spacerHorizontalNormal(),
+      Expanded(
+          child: ThemedControls.primaryButtonBigWithChild(
+              onPressed: releaseTransferRightsHandler,
+              child: Padding(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding + 3),
+                  child: !isLoading
+                      ? SizedBox(
+                          width: double.infinity,
+                          child: Text(l10n.releaseTransferRightsButtonSubmit,
+                              textAlign: TextAlign.center,
+                              style: TextStyles.primaryButtonText))
+                      : Padding(
+                          padding: const EdgeInsets.fromLTRB(57, 0, 57, 0),
+                          child: SizedBox(
+                              height: 23,
+                              width: 23,
+                              child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .inversePrimary))))))
+    ];
+  }
+
+  void releaseTransferRightsHandler() async {
+    final l10n = l10nOf(context);
+
+    _formKey.currentState?.validate();
+    if (!_formKey.currentState!.isValid) {
+      return;
+    }
+
+    // Validate source and destination are selected and different
+    if (selectedSourceContractIndex == null) {
+      _globalSnackBar.show(l10n.releaseTransferRightsErrorNoSourceContract);
+      return;
+    }
+
+    if (selectedDestinationContractIndex == null) {
+      _globalSnackBar.show(l10n.releaseTransferRightsErrorNoDestinationContract);
+      return;
+    }
+
+    if (selectedSourceContractIndex == selectedDestinationContractIndex) {
+      _globalSnackBar.show(l10n.releaseTransferRightsErrorSameContract);
+      return;
+    }
+
+    if (!mounted) return;
+    bool authenticated = await reAuthDialog(context);
+    if (!authenticated) {
+      return;
+    }
+
+    setState(() {
+      isLoading = true;
+    });
+
+    int? targetTick;
+
+    if (targetTickType == TargetTickTypeEnum.manual) {
+      targetTick = int.tryParse(tickController.text);
+    } else {
+      // fetch latest tick
+      int latestTick = (await _liveApi.getCurrentTick()).tick;
+      targetTick = latestTick + targetTickType.value;
+    }
+
+    // Get contract address and procedure number dynamically from ecosystem store
+    final sourceContract = ecosystemStore.getContractByIndex(selectedSourceContractIndex!);
+    final procedureNumber = ecosystemStore
+        .getTransferShareManagementRightsProcedureId(selectedSourceContractIndex!);
+
+    if (sourceContract == null || procedureNumber == null) {
+      _globalSnackBar.show(l10n.releaseTransferRightsErrorInvalidContract);
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
+
+    final contractAddress = sourceContract.address;
+
+    if (!mounted) return;
+    var result = await sendReleaseTransferRightsTransactionDialog(
+      context,
+      sourceId: widget.item.publicId,
+      issuerIdentity: widget.groupedAsset.issuedAsset.issuerIdentity,
+      assetName: widget.groupedAsset.issuedAsset.name,
+      numberOfShares: getAssetAmount(),
+      sourceContractIndex: selectedSourceContractIndex!,
+      destinationContractIndex: selectedDestinationContractIndex!,
+      contractAddress: contractAddress,
+      procedureNumber: procedureNumber,
+      fee: currentFee,
+      destinationTick: targetTick!,
+    );
+
+    if (result == null) {
+      setState(() {
+        isLoading = false;
+      });
+      return;
+    }
+    await _timedController.interruptFetchTimer();
+
+    //Clear the state
+    setState(() {
+      isLoading = false;
+    });
+    if (!mounted) return;
+    Navigator.pop(context);
+    // Get destination contract name dynamically
+    final destinationContractName =
+        ecosystemStore.getContractNameByIndex(selectedDestinationContractIndex!) ??
+            "Contract $selectedDestinationContractIndex";
+
+    _globalSnackBar.show(l10n.releaseTransferRightsSuccessMessage(
+        formatter.format(getAssetAmount()),
+        widget.groupedAsset.issuedAsset.name,
+        destinationContractName,
+        targetTick.asThousands()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return TransactionsForId(
+        publicQubicId: widget.item.publicId,
+        item: widget.item,
+      );
+    }));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+        canPop: !isLoading,
+        child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+            ),
+            body: SafeArea(
+                minimum: ThemeEdgeInsets.pageInsets
+                    .copyWith(bottom: ThemePaddings.normalPadding),
+                child: Column(children: [
+                  Expanded(child: getScrollView()),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: getButtons())
+                ]))));
+  }
+}
