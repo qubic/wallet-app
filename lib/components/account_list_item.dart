@@ -293,7 +293,8 @@ class _AccountListItemState extends State<AccountListItem> {
         alignment: MainAxisAlignment.start,
         spacing: ThemePaddings.normalPadding,
         children: isItemWatchOnly()
-            ? []
+            //TODO: Remove after testing
+            ? [getAssetsButton(context)]
             : [
                 widget.item.amount != null
                     ? ThemedControls.primaryButtonBig(
