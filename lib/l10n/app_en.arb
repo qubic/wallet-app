@@ -553,7 +553,6 @@
             }
         }
     },
-    "transferAssetLabelAvailableBalance": "Available balance",
     "transferAssetNoticeQxOnly": "* Only assets managed by Qx can be transferred",
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nType: {type}\nStatus: {status}\nTimestamp: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {

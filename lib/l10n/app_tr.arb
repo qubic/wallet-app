@@ -510,7 +510,6 @@
             }
         }
     },
-    "transferAssetLabelAvailableBalance": "Kullanılabilir bakiye",
     "transferAssetNoticeQxOnly": "* Yalnızca Qx tarafından yönetilen varlıklar aktarılabilir",
     "generalAllTransactionDetails": "TX ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nTyp: {type}\nDurum: {status}\nTimestamp: {timestamp}\nHedef Tick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Mevcut Bir Cüzdanı İçe Aktar",

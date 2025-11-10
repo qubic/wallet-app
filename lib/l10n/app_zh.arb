@@ -510,7 +510,6 @@
             }
         }
     },
-    "transferAssetLabelAvailableBalance": "可用余额",
     "transferAssetNoticeQxOnly": "* 只能转移由 Qx 管理的资产",
     "generalAllTransactionDetails": "TX ID: {trxId}\n发送方: {sourceId}\n接收方: {destId}\n数量: {amount}\n类型: {type}\nStatus: {status}\n时间戳: {timestamp}\n刻度: {targetTick}",
     "welcomeButtonImportExistingWallet": "导入已有钱包",

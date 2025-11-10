@@ -509,7 +509,6 @@
             }
         }
     },
-    "transferAssetLabelAvailableBalance": "Доступный баланс",
     "transferAssetNoticeQxOnly": "* Можно переводить только активы, управляемые Qx",
     "generalAllTransactionDetails": "TX ID: {trxId}\nИсточник: {sourceId}\nПолучатель: {destId}\nТик: {amount}\nТип: {type}\nСтатус: {status}\nМетка времени: {timestamp}\nТик: {targetTick}",
     "welcomeButtonImportExistingWallet": "Импортировать существующий кошелек",

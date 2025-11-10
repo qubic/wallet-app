@@ -510,7 +510,6 @@
             }
         }
     },
-    "transferAssetLabelAvailableBalance": "Solde disponible",
     "transferAssetNoticeQxOnly": "* Seuls les actifs gérés par Qx peuvent être transférés",
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestinataire: {destId}\nMontant: {amount}\nType: {type}\nStatut: {status}\nHorodatage: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Importer un Portefeuille Existant",
