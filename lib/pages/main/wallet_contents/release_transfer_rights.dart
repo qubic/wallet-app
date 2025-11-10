@@ -115,8 +115,9 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     }
 
     // Get procedure number for source contract dynamically
-    final procedureNumber = ecosystemStore
-        .getTransferShareManagementRightsProcedureId(selectedSourceContractIndex!);
+    final procedureNumber =
+        ecosystemStore.getTransferShareManagementRightsProcedureId(
+            selectedSourceContractIndex!);
 
     if (procedureNumber == null) {
       currentFee = ReleaseTransferRightsInfo.defaultReleaseFee;
@@ -143,9 +144,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     if (text.isEmpty) return 0;
 
     final spaceIndex = text.indexOf(" ");
-    final cleanText = spaceIndex > 0
-        ? text.substring(0, spaceIndex)
-        : text;
+    final cleanText = spaceIndex > 0 ? text.substring(0, spaceIndex) : text;
 
     return int.parse(cleanText.replaceAll(" ", "").replaceAll(",", ""));
   }
@@ -154,8 +153,8 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     return widget.groupedAsset.contractContributions
         .where((c) => c.numberOfUnits > 0)
         .map((contribution) {
-      final contractName = ecosystemStore.getContractNameByIndex(
-              contribution.managingContractIndex) ??
+      final contractName = ecosystemStore
+              .getContractNameByIndex(contribution.managingContractIndex) ??
           "Contract ${contribution.managingContractIndex}";
 
       return DropdownMenuItem<int>(
@@ -177,8 +176,8 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
         .toList();
 
     // Sort alphabetically by name (case-insensitive)
-    supportedContracts.sort((a, b) =>
-        a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    supportedContracts
+        .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
 
     return supportedContracts.map((contract) {
       return DropdownMenuItem<int>(
@@ -217,32 +216,6 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       maxTextLength: 3,
       thousandSeparator: ThousandSeparator.Comma,
       mantissaLength: 0,
-    );
-  }
-
-  Widget getAssetInfo() {
-    final l10n = l10nOf(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          l10n.releaseTransferRightsLabelAsset,
-          style: TextStyles.labelTextNormal,
-        ),
-        ThemedControls.spacerVerticalMini(),
-        FormBuilderTextField(
-          name: "assetName",
-          readOnly: true,
-          initialValue: widget.groupedAsset.issuedAsset.name,
-          decoration: ThemeInputDecorations.normalInputbox,
-        ),
-        ThemedControls.spacerVerticalMini(),
-        Text(
-          l10n.releaseTransferRightsLabelTotalUnits(
-              formatter.format(widget.groupedAsset.totalUnits)),
-          style: TextStyles.secondaryText,
-        ),
-      ],
     );
   }
 
@@ -379,7 +352,8 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
           readOnly: true,
           textAlign: TextAlign.center,
           controller: TextEditingController(
-              text: "${currentFee.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
+              text:
+                  "${currentFee.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
           validator: FormBuilderValidators.compose([
             CustomFormFieldValidators.isLessThanParsed(
                 lessThan: widget.item.amount!, context: context),
@@ -397,7 +371,8 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
 
   List<Widget> getOverrideTick() {
     final l10n = l10nOf(context);
-    if ((targetTickType == TargetTickTypeEnum.manual) && (expanded[0] == true)) {
+    if ((targetTickType == TargetTickTypeEnum.manual) &&
+        (expanded[0] == true)) {
       return [
         ThemedControls.spacerVerticalSmall(),
         Row(
@@ -408,16 +383,15 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
                     style: TextStyles.labelTextNormal)),
             ThemedControls.transparentButtonBigWithChild(
                 child: Observer(builder: (context) {
-                  return Text(
-                      l10n.sendItemButtonSetCurrentTick(
-                          appStore.currentTick.asThousands()),
-                      style: TextStyles.transparentButtonTextSmall);
-                }),
-                onPressed: () {
-                  if (appStore.currentTick > 0) {
-                    tickController.text = appStore.currentTick.toString();
-                  }
-                }),
+              return Text(
+                  l10n.sendItemButtonSetCurrentTick(
+                      appStore.currentTick.asThousands()),
+                  style: TextStyles.transparentButtonTextSmall);
+            }), onPressed: () {
+              if (appStore.currentTick > 0) {
+                tickController.text = appStore.currentTick.toString();
+              }
+            }),
           ],
         ),
         FormBuilderTextField(
@@ -471,17 +445,43 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              ThemedControls.pageHeader(
-                  headerText: l10n.releaseTransferRightsTitle,
-                  subheaderText: widget.item.name),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    l10n.releaseTransferRightsTitle,
+                    style: TextStyles.pageTitle,
+                  ),
+                  ThemedControls.spacerVerticalMini(),
+                  Text(
+                    widget.item.name,
+                    style: TextStyles.pageSubtitle,
+                  ),
+                  ThemedControls.spacerVerticalMini(),
+                  Row(
+                    children: [
+                      Text(
+                        widget.groupedAsset.issuedAsset.name,
+                        style: TextStyles.secondaryText.copyWith(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      ThemedControls.spacerHorizontalMini(),
+                      Text(
+                        "(${formatter.format(widget.groupedAsset.totalUnits)} ${widget.groupedAsset.isSmartContractShare ? l10n.generalUnitShares(widget.groupedAsset.totalUnits) : l10n.generalUnitTokens(widget.groupedAsset.totalUnits)})",
+                        style: TextStyles.secondaryText,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
               ThemedControls.spacerVerticalSmall(),
               FormBuilder(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      getAssetInfo(),
-                      ThemedControls.spacerVerticalNormal(),
                       getSourceContractField(),
                       getAvailableAmountInfo(),
                       ThemedControls.spacerVerticalNormal(),
@@ -595,7 +595,8 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     }
 
     if (selectedDestinationContractIndex == null) {
-      _globalSnackBar.show(l10n.releaseTransferRightsErrorNoDestinationContract);
+      _globalSnackBar
+          .show(l10n.releaseTransferRightsErrorNoDestinationContract);
       return;
     }
 
@@ -625,9 +626,11 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     }
 
     // Get contract address and procedure number dynamically from ecosystem store
-    final sourceContract = ecosystemStore.getContractByIndex(selectedSourceContractIndex!);
-    final procedureNumber = ecosystemStore
-        .getTransferShareManagementRightsProcedureId(selectedSourceContractIndex!);
+    final sourceContract =
+        ecosystemStore.getContractByIndex(selectedSourceContractIndex!);
+    final procedureNumber =
+        ecosystemStore.getTransferShareManagementRightsProcedureId(
+            selectedSourceContractIndex!);
 
     if (sourceContract == null || procedureNumber == null) {
       _globalSnackBar.show(l10n.releaseTransferRightsErrorInvalidContract);
@@ -669,9 +672,9 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     if (!mounted) return;
     Navigator.pop(context);
     // Get destination contract name dynamically
-    final destinationContractName =
-        ecosystemStore.getContractNameByIndex(selectedDestinationContractIndex!) ??
-            "Contract $selectedDestinationContractIndex";
+    final destinationContractName = ecosystemStore
+            .getContractNameByIndex(selectedDestinationContractIndex!) ??
+        "Contract $selectedDestinationContractIndex";
 
     _globalSnackBar.show(l10n.releaseTransferRightsSuccessMessage(
         formatter.format(getAssetAmount()),
