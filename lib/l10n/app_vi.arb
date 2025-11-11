@@ -894,5 +894,53 @@
     "revealSeedCopiedToClipboardMessage": "Seed riêng tư đã được sao chép tạm thời vào clipboard (được lưu trong 1 phút)",
     "revealSeedWarningTitle": "Đừng chia sẻ seed riêng tư của bạn!",
     "revealSeedWarningDescription": "Nếu ai đó có seed riêng tư của bạn, họ sẽ có toàn quyền kiểm soát tài khoản của bạn",
-    "blockedScreenshotWarning": "Chụp màn hình được bảo vệ — màn hình này là riêng tư."
+    "blockedScreenshotWarning": "Chụp màn hình được bảo vệ — màn hình này là riêng tư.",
+    "releaseTransferRightsTitle": "Release Transfer Rights",
+    "releaseTransferRightsLabelAsset": "Asset",
+    "releaseTransferRightsLabelTotalUnits": "Total units: {formattedAmount}",
+    "@releaseTransferRightsLabelTotalUnits": {
+        "description": "Label showing total units of asset",
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelSourceContract": "Source Contract",
+    "releaseTransferRightsLabelAvailableAmount": "Available: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "description": "Label showing available units in selected source contract",
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Amount",
+    "releaseTransferRightsLabelDestinationContract": "Destination Contract",
+    "releaseTransferRightsLabelFee": "Transaction Fee",
+    "releaseTransferRightsButtonSubmit": "Release Rights",
+    "releaseTransferRightsErrorNoSourceContract": "Please select a source contract",
+    "releaseTransferRightsErrorNoDestinationContract": "Please select a destination contract",
+    "releaseTransferRightsErrorSameContract": "Source and destination contracts must be different",
+    "releaseTransferRightsErrorInvalidContract": "Invalid contract configuration",
+    "releaseTransferRightsSuccessMessage": "Successfully released {amount} {assetName} management rights to {contractName} at tick {tick}",
+    "@releaseTransferRightsSuccessMessage": {
+        "description": "Success message after releasing transfer rights",
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            },
+            "contractName": {
+                "type": "String"
+            },
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsMenuOption": "Release Transfer Rights"
 }

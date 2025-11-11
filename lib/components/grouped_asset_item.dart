@@ -36,6 +36,7 @@ class GroupedAssetItem extends StatelessWidget {
       ),
     ];
 
+    // Add Issuer Identity option only for non-smart-contract shares
     if (!groupedAsset.isSmartContractShare) {
       menuItems.add(
         PopupMenuItem<CardItem>(

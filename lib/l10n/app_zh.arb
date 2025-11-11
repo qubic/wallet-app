@@ -831,5 +831,53 @@
     "revealSeedCopiedToClipboardMessage": "私密助记词已临时复制到剪贴板（保存 1 分钟）",
     "revealSeedWarningTitle": "请勿泄露您的私密助记词！",
     "revealSeedWarningDescription": "如果他人获取了您的私密助记词，他们将完全控制您的账户",
-    "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。"
+    "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。",
+    "releaseTransferRightsTitle": "Release Transfer Rights",
+    "releaseTransferRightsLabelAsset": "Asset",
+    "releaseTransferRightsLabelTotalUnits": "Total units: {formattedAmount}",
+    "@releaseTransferRightsLabelTotalUnits": {
+        "description": "Label showing total units of asset",
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelSourceContract": "Source Contract",
+    "releaseTransferRightsLabelAvailableAmount": "Available: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "description": "Label showing available units in selected source contract",
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Amount",
+    "releaseTransferRightsLabelDestinationContract": "Destination Contract",
+    "releaseTransferRightsLabelFee": "Transaction Fee",
+    "releaseTransferRightsButtonSubmit": "Release Rights",
+    "releaseTransferRightsErrorNoSourceContract": "Please select a source contract",
+    "releaseTransferRightsErrorNoDestinationContract": "Please select a destination contract",
+    "releaseTransferRightsErrorSameContract": "Source and destination contracts must be different",
+    "releaseTransferRightsErrorInvalidContract": "Invalid contract configuration",
+    "releaseTransferRightsSuccessMessage": "Successfully released {amount} {assetName} management rights to {contractName} at tick {tick}",
+    "@releaseTransferRightsSuccessMessage": {
+        "description": "Success message after releasing transfer rights",
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            },
+            "contractName": {
+                "type": "String"
+            },
+            "tick": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsMenuOption": "Release Transfer Rights"
 }
