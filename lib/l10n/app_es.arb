@@ -5,7 +5,6 @@
     "generalLabelNo": "No",
     "generalButtonConfirm": "Confirmar",
     "generalButtonDelete": "Eliminar",
-    "generalButtonAdd": "Agregar",
     "generalButtonCopy": "Copiar",
     "generalButtonRename": "Renombrar",
     "generalButtonSave": "Guardar",
@@ -18,7 +17,6 @@
     "generalButtonApply": "Aplicar",
     "generalButtonEraseWalletData": "Eliminar el Wallet",
     "generalButtonClearAll": "Limpiar Todo",
-    "generalButtonShowAll": "Mostrar Todo",
     "generalButtonUseQRCode": "Usar Código QR",
     "generalButtonCopyAddress": "Copiar Dirección",
     "generalLabelHidden": "******",
@@ -26,9 +24,6 @@
     "generalLabelCurrencyQubic": "QUBIC",
     "generalLabelCurrencyUSD": "USD",
     "generalLabelTick": "Tick",
-    "generalLabelInfo": "Información",
-    "generalLabelDate": "Fecha",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Cuenta {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -44,14 +39,6 @@
     "generalLabelTo": "Hacia",
     "generalLabeQubicAddress": "Dirección Qubic",
     "generalLabeQubicAddressAndPublicID": "Dirección Qubic (ID Público)",
-    "generalLabelQubicAddressWithAccountName": "Dirección Qubic {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} la cuenta \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -76,8 +63,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Acción} other{Acciones}}",
-    "generalLabelEnabled": "Habilitado",
-    "generalLabelDisabled": "Deshabilitado",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "Ocurrió un error",
     "generalSnackBarMessageCopiedToClipboard": "Copiado en el Portapapeles",
@@ -168,7 +153,6 @@
     "settingsLabelPrivacyPolicy": "Política de privacidad",
     "settingsHeaderAbout": "Acerca de",
     "settingsLabelJoinCommunity": "Unirse a la Comunidad",
-    "settingsLabelWalletInfo": "Información del Wallet",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "Iris",
@@ -408,7 +392,6 @@
     "reauthenticateTitle": "Autenticación Requerida",
     "reauthenticateHeader": "Por favor, reautentícate",
     "reathenticateLabelReason": "Por favor, autentícate para poder continuar.",
-    "reathenticateWithPasswordLabelReason": "Por favor, autentícate para poder continuar. La contraseña será utilizada para encriptar el Vault Wallet.",
     "receiveTitle": "Recibir Fondos y Activos",
     "receiveHeader": "en \"{accountName}\"",
     "@receiveHeader": {
@@ -441,14 +424,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Selecciona una Dirección",
     "sendItemLabelSelectSenderAddressLineTwo": "de tu Wallet",
-    "sendItemLabelCurrentTick": "(Tick Actual: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Exportar el archivo Vault",
     "exportWalletVaultLabelInstructions": "Exporta los contenidos de tu Wallet en un archivo Vault encriptado como una copia  de respaldo. Puedes importar este archivo en la Wallet Web y desbloquearlo con la contraseña asignada. Mantén siempre este archivo en un lugar seguro.",
     "exportWalletVaultButtonExport": "Exportar",
@@ -697,10 +672,7 @@
     "wcExpiresInDays": "{count, plural, =1{La sesión expira en 1 día} other{La sesión expira en {count} días}}",
     "wcExpiresInLessThanDay": "La sesión expira en menos de un día",
     "pasteURLHere": "Pega la URL",
-    "approvingConnection": "Aprobando conexión",
-    "pleaseWait": "Por favor espera",
     "wcApproveSignTransferOf": "Firmar la transferencia de",
-    "wcApproveTransferOf": "Transferencia de",
     "wcApproveSignOf": "Firmar el siguiente mensaje",
     "wcApprovedSignedTransaction": "Transacción firmada y enviada exitosamente a la dApp",
     "wcApprovedSignedMessage": "Mensaje firmado y enviado exitosamente a la dApp",

@@ -5,7 +5,6 @@
     "generalLabelNo": "Non",
     "generalButtonConfirm": "Confirmer",
     "generalButtonDelete": "Supprimer",
-    "generalButtonAdd": "Ajouter",
     "generalButtonCopy": "Copier",
     "generalButtonRename": "Renommer",
     "generalButtonSave": "Enregistrer",
@@ -18,7 +17,6 @@
     "generalButtonApply": "Appliquer",
     "generalButtonEraseWalletData": "Effacer les données du portefeuille",
     "generalButtonClearAll": "Tout effacer",
-    "generalButtonShowAll": "Tout afficher",
     "generalButtonUseQRCode": "Utiliser le QR Code",
     "generalButtonCopyAddress": "Copier l'adresse",
     "generalLabelHidden": "******",
@@ -26,9 +24,6 @@
     "generalLabelCurrencyQubic": "QUBIC",
     "generalLabelCurrencyUSD": "USD",
     "generalLabelTick": "Tick",
-    "generalLabelInfo": "Info",
-    "generalLabelDate": "Date",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Compte {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -44,14 +39,6 @@
     "generalLabelTo": "À",
     "generalLabeQubicAddress": "Adresse Qubic",
     "generalLabeQubicAddressAndPublicID": "Adresse Qubic (ID public)",
-    "generalLabelQubicAddressWithAccountName": "Adresse Qubic {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "Compte portefeuille {toFrom} \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -76,8 +63,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Part} other{Parts}}",
-    "generalLabelEnabled": "Activé",
-    "generalLabelDisabled": "Désactivé",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "Une erreur s'est produite",
     "generalSnackBarMessageCopiedToClipboard": "Copié dans le presse-papiers",
@@ -169,7 +154,6 @@
     "settingsLabelExportWalletVaultFile": "Exporter le Fichier Vault du Portefeuille",
     "settingsHeaderAbout": "À Propos",
     "settingsLabelJoinCommunity": "Rejoindre la Communauté",
-    "settingsLabelWalletInfo": "Infos sur le Portefeuille",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "Iris",
@@ -409,7 +393,6 @@
     "reauthenticateTitle": "Authentification Requise",
     "reauthenticateHeader": "Veuillez vous réauthentifier",
     "reathenticateLabelReason": "Veuillez vous authentifier à nouveau pour continuer.",
-    "reathenticateWithPasswordLabelReason": "Veuillez vous authentifier à nouveau pour continuer. Le mot de passe que vous fournissez sera celui utilisé pour chiffrer votre fichier vault de portefeuille.",
     "receiveTitle": "Recevoir des Fonds et des Actifs",
     "receiveHeader": "dans \"{accountName}\"",
     "@receiveHeader": {
@@ -442,14 +425,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Sélectionner l'Adresse",
     "sendItemLabelSelectSenderAddressLineTwo": "de vos Comptes Portefeuille",
-    "sendItemLabelCurrentTick": "(Tick Actuel: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Exporter le Fichier Vault du Portefeuille",
     "exportWalletVaultLabelInstructions": "Exportez le contenu de ce portefeuille dans un fichier vault chiffré comme sauvegarde. Ce fichier peut être importé dans le portefeuille web et ne peut être déverrouillé qu'avec le mot de passe fourni. Gardez toujours ce fichier en lieu sûr.",
     "exportWalletVaultButtonExport": "Exporter",
@@ -710,10 +685,7 @@
     "wcExpiresInDays": "{count, plural, =1{La session expire dans 1 jour} other{La session expire dans {count} jours}}",
     "wcExpiresInLessThanDay": "La session expire dans moins d'un jour",
     "pasteURLHere": "Collez l'URL",
-    "approvingConnection": "Approbation de la connexion",
-    "pleaseWait": "Veuillez patienter",
     "wcApproveSignTransferOf": "Signer le transfert de",
-    "wcApproveTransferOf": "Transfert de",
     "wcApproveSignOf": "Signer le message suivant",
     "wcApprovedSignedTransaction": "Transaction signée et envoyée avec succès à la dApp",
     "wcApprovedSignedMessage": "Message signé et envoyé avec succès à la dApp",
