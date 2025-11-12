@@ -60,6 +60,8 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   // Selected contract indices
   int? selectedSourceContractIndex;
   int? selectedDestinationContractIndex;
+  String? sourceContractError;
+  String? destinationContractError;
 
   // Available units for selected source
   int availableUnits = 0;
@@ -234,6 +236,8 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
           onChanged: (int? value) {
             setState(() {
               selectedSourceContractIndex = value;
+              sourceContractError = null; // Clear error when user selects
+
               // Update available units
               if (value != null) {
                 final contribution = widget.groupedAsset.contractContributions
@@ -257,6 +261,13 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
           },
           items: getSourceContractList(),
         ),
+        if (sourceContractError != null) ...[
+          ThemedControls.spacerVerticalMini(),
+          Text(
+            sourceContractError!,
+            style: TextStyles.labelTextNormalError,
+          ),
+        ],
       ],
     );
   }
@@ -329,10 +340,24 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
           onChanged: (int? value) {
             setState(() {
               selectedDestinationContractIndex = value;
+              destinationContractError = null; // Clear error when user selects
+
+              // Validate if same as source
+              if (value != null && value == selectedSourceContractIndex) {
+                destinationContractError =
+                    l10n.releaseTransferRightsErrorSameContract;
+              }
             });
           },
           items: getDestinationContractList(),
         ),
+        if (destinationContractError != null) ...[
+          ThemedControls.spacerVerticalMini(),
+          Text(
+            destinationContractError!,
+            style: TextStyles.labelTextNormalError,
+          ),
+        ],
       ],
     );
   }
@@ -587,19 +612,31 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     }
 
     // Validate source and destination are selected and different
+    // Validate dropdowns and set error messages
+    bool hasError = false;
+
     if (selectedSourceContractIndex == null) {
-      _globalSnackBar.show(l10n.releaseTransferRightsErrorNoSourceContract);
-      return;
+      setState(() {
+        sourceContractError = l10n.releaseTransferRightsErrorNoSourceContract;
+      });
+      hasError = true;
     }
 
     if (selectedDestinationContractIndex == null) {
-      _globalSnackBar
-          .show(l10n.releaseTransferRightsErrorNoDestinationContract);
-      return;
+      setState(() {
+        destinationContractError =
+            l10n.releaseTransferRightsErrorNoDestinationContract;
+      });
+      hasError = true;
+    } else if (selectedSourceContractIndex ==
+        selectedDestinationContractIndex) {
+      setState(() {
+        destinationContractError = l10n.releaseTransferRightsErrorSameContract;
+      });
+      hasError = true;
     }
 
-    if (selectedSourceContractIndex == selectedDestinationContractIndex) {
-      _globalSnackBar.show(l10n.releaseTransferRightsErrorSameContract);
+    if (hasError) {
       return;
     }
 

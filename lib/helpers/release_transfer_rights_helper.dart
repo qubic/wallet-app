@@ -73,29 +73,4 @@ class ReleaseTransferRightsHelper {
     final bytes = buffer.buffer.asUint8List();
     return base64Encode(bytes);
   }
-
-  /// Validate input parameters
-  static void validateInput({
-    required String issuerIdentity,
-    required String assetName,
-    required int numberOfShares,
-    required int newManagingContractIndex,
-  }) {
-    if (issuerIdentity.length != 60) {
-      throw ArgumentError('Issuer identity must be 60 characters long');
-    }
-
-    if (assetName.isEmpty || assetName.length > 8) {
-      throw ArgumentError('Asset name must be 1-8 characters long');
-    }
-
-    if (numberOfShares <= 0) {
-      throw ArgumentError('Number of shares must be positive');
-    }
-
-    if (newManagingContractIndex < 0 || newManagingContractIndex > 0xFFFFFFFF) {
-      throw ArgumentError(
-          'Contract index must be a valid 32-bit unsigned integer');
-    }
-  }
 }
