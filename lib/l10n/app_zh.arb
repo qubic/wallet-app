@@ -832,38 +832,36 @@
     "revealSeedWarningTitle": "请勿泄露您的私密助记词！",
     "revealSeedWarningDescription": "如果他人获取了您的私密助记词，他们将完全控制您的账户",
     "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。",
-    "releaseTransferRightsTitle": "Release Transfer Rights",
-    "releaseTransferRightsLabelAsset": "Asset",
-    "releaseTransferRightsLabelTotalUnits": "Total units: {formattedAmount}",
+    "releaseTransferRightsMenuOption": "释放转让权",
+    "releaseTransferRightsTitle": "释放转让权",
+    "releaseTransferRightsLabelAsset": "资产",
+    "releaseTransferRightsLabelTotalUnits": "总单位数：{formattedAmount}",
     "@releaseTransferRightsLabelTotalUnits": {
-        "description": "Label showing total units of asset",
         "placeholders": {
             "formattedAmount": {
                 "type": "String"
             }
         }
     },
-    "releaseTransferRightsLabelSourceContract": "Source Contract",
-    "releaseTransferRightsLabelAvailableAmount": "Available: {formattedAmount}",
+    "releaseTransferRightsLabelSourceContract": "源合约",
+    "releaseTransferRightsLabelAvailableAmount": "可用：{formattedAmount}",
     "@releaseTransferRightsLabelAvailableAmount": {
-        "description": "Label showing available units in selected source contract",
         "placeholders": {
             "formattedAmount": {
                 "type": "String"
             }
         }
     },
-    "releaseTransferRightsLabelAmount": "Amount",
-    "releaseTransferRightsLabelDestinationContract": "Destination Contract",
-    "releaseTransferRightsLabelFee": "Transaction Fee",
-    "releaseTransferRightsButtonSubmit": "Release Rights",
-    "releaseTransferRightsErrorNoSourceContract": "Please select a source contract",
-    "releaseTransferRightsErrorNoDestinationContract": "Please select a destination contract",
-    "releaseTransferRightsErrorSameContract": "Source and destination contracts must be different",
-    "releaseTransferRightsErrorInvalidContract": "Invalid contract configuration",
-    "releaseTransferRightsSuccessMessage": "Successfully released {amount} {assetName} management rights to {contractName} at tick {tick}",
+    "releaseTransferRightsLabelAmount": "数量",
+    "releaseTransferRightsLabelDestinationContract": "目标合约",
+    "releaseTransferRightsLabelFee": "交易费用",
+    "releaseTransferRightsButtonSubmit": "释放",
+    "releaseTransferRightsErrorNoSourceContract": "请选择源合约",
+    "releaseTransferRightsErrorNoDestinationContract": "请选择目标合约",
+    "releaseTransferRightsErrorSameContract": "源合约和目标合约必须不同",
+    "releaseTransferRightsErrorInvalidContract": "无效的合约配置",
+    "releaseTransferRightsSuccessMessage": "已成功释放 {amount} {assetName} 管理权至 {contractName}，Tick {tick}",
     "@releaseTransferRightsSuccessMessage": {
-        "description": "Success message after releasing transfer rights",
         "placeholders": {
             "amount": {
                 "type": "String"
@@ -878,6 +876,5 @@
                 "type": "String"
             }
         }
-    },
-    "releaseTransferRightsMenuOption": "Release Transfer Rights"
+    }
 }

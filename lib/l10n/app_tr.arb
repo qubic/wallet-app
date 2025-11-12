@@ -832,38 +832,36 @@
     "revealSeedWarningTitle": "Özel Anahtarınızı Paylaşmayın!",
     "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur",
     "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır.",
-    "releaseTransferRightsTitle": "Release Transfer Rights",
-    "releaseTransferRightsLabelAsset": "Asset",
-    "releaseTransferRightsLabelTotalUnits": "Total units: {formattedAmount}",
+    "releaseTransferRightsMenuOption": "Transfer Haklarını Serbest Bırak",
+    "releaseTransferRightsTitle": "Transfer Haklarını Serbest Bırak",
+    "releaseTransferRightsLabelAsset": "Varlık",
+    "releaseTransferRightsLabelTotalUnits": "Toplam birimler: {formattedAmount}",
     "@releaseTransferRightsLabelTotalUnits": {
-        "description": "Label showing total units of asset",
         "placeholders": {
             "formattedAmount": {
                 "type": "String"
             }
         }
     },
-    "releaseTransferRightsLabelSourceContract": "Source Contract",
-    "releaseTransferRightsLabelAvailableAmount": "Available: {formattedAmount}",
+    "releaseTransferRightsLabelSourceContract": "Kaynak Sözleşme",
+    "releaseTransferRightsLabelAvailableAmount": "Mevcut: {formattedAmount}",
     "@releaseTransferRightsLabelAvailableAmount": {
-        "description": "Label showing available units in selected source contract",
         "placeholders": {
             "formattedAmount": {
                 "type": "String"
             }
         }
     },
-    "releaseTransferRightsLabelAmount": "Amount",
-    "releaseTransferRightsLabelDestinationContract": "Destination Contract",
-    "releaseTransferRightsLabelFee": "Transaction Fee",
-    "releaseTransferRightsButtonSubmit": "Release Rights",
-    "releaseTransferRightsErrorNoSourceContract": "Please select a source contract",
-    "releaseTransferRightsErrorNoDestinationContract": "Please select a destination contract",
-    "releaseTransferRightsErrorSameContract": "Source and destination contracts must be different",
-    "releaseTransferRightsErrorInvalidContract": "Invalid contract configuration",
-    "releaseTransferRightsSuccessMessage": "Successfully released {amount} {assetName} management rights to {contractName} at tick {tick}",
+    "releaseTransferRightsLabelAmount": "Miktar",
+    "releaseTransferRightsLabelDestinationContract": "Hedef Sözleşme",
+    "releaseTransferRightsLabelFee": "İşlem Ücreti",
+    "releaseTransferRightsButtonSubmit": "Serbest Bırak",
+    "releaseTransferRightsErrorNoSourceContract": "Lütfen bir kaynak sözleşme seçin",
+    "releaseTransferRightsErrorNoDestinationContract": "Lütfen bir hedef sözleşme seçin",
+    "releaseTransferRightsErrorSameContract": "Kaynak ve hedef sözleşmeler farklı olmalıdır",
+    "releaseTransferRightsErrorInvalidContract": "Geçersiz sözleşme yapılandırması",
+    "releaseTransferRightsSuccessMessage": "{amount} {assetName} yönetim hakları başarıyla {contractName} kontratına {tick} tick'inde serbest bırakıldı",
     "@releaseTransferRightsSuccessMessage": {
-        "description": "Success message after releasing transfer rights",
         "placeholders": {
             "amount": {
                 "type": "String"
@@ -878,6 +876,5 @@
                 "type": "String"
             }
         }
-    },
-    "releaseTransferRightsMenuOption": "Release Transfer Rights"
+    }
 }

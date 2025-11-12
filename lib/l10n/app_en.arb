@@ -919,7 +919,7 @@
     "releaseTransferRightsLabelAmount": "Amount",
     "releaseTransferRightsLabelDestinationContract": "Destination Contract",
     "releaseTransferRightsLabelFee": "Transaction Fee",
-    "releaseTransferRightsButtonSubmit": "Release Rights",
+    "releaseTransferRightsButtonSubmit": "Release",
     "releaseTransferRightsErrorNoSourceContract": "Please select a source contract",
     "releaseTransferRightsErrorNoDestinationContract": "Please select a destination contract",
     "releaseTransferRightsErrorSameContract": "Source and destination contracts must be different",
