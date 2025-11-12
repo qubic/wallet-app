@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/resources/qubic_js.dart';
+import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
 
 /// Helper class for serializing Release Transfer Rights transaction input
@@ -42,9 +42,9 @@ class ReleaseTransferRightsHelper {
 
     // 1. Issuer Identity
     // Convert 60-character identity to bytes using ts-library-wrapper
-    final qubicJs = getIt<QubicJs>();
+    final qubicCmd = getIt<QubicCmd>();
     final issuerBytesList =
-        await qubicJs.publicKeyStringToBytes(issuerIdentity);
+        await qubicCmd.qubicJs.publicKeyStringToBytes(issuerIdentity);
     final issuerBytes = Uint8List.fromList(issuerBytesList);
 
     if (issuerBytes.length != ReleaseTransferRightsInfo.issuerIdentitySize) {
