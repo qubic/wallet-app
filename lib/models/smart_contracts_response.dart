@@ -107,6 +107,6 @@ class Procedure {
   factory Procedure.fromJson(Map<String, dynamic> json) => Procedure(
         id: json["id"],
         name: json["name"],
-        fee: json["fee"] ?? 100,
+        fee: json["fee"],
       );
 }
