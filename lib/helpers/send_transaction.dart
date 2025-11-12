@@ -225,7 +225,7 @@ Future<SignedTransaction?> sendReleaseTransferRightsTransactionDialog(
         await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
 
     // Store the transaction locally
-    if (fee > 0) {
+    if (fee >= 0) {
       final pendingTransaction = TransactionVm(
         id: transactionId,
         sourceId: sourceId,
