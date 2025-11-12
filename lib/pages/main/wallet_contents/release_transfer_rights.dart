@@ -8,6 +8,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
@@ -148,7 +149,17 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     final spaceIndex = text.indexOf(" ");
     final cleanText = spaceIndex > 0 ? text.substring(0, spaceIndex) : text;
 
-    return int.parse(cleanText.replaceAll(" ", "").replaceAll(",", ""));
+    try {
+      final amount =
+          int.parse(cleanText.replaceAll(" ", "").replaceAll(",", ""));
+      if (amount <= 0) {
+        return 0;
+      }
+      return amount;
+    } catch (e) {
+      appLogger.e('Failed to parse asset amount: $e');
+      return 0;
+    }
   }
 
   List<DropdownMenuItem<int>> getSourceContractList() {
@@ -700,7 +711,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     }
     await _timedController.interruptFetchTimer();
 
-    //Clear the state
+    // Clear the state
     setState(() {
       isLoading = false;
     });
