@@ -71,18 +71,30 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   int currentFee = 0;
 
   // Controllers
-  TextEditingController numberOfSharesCtrl = TextEditingController();
-  TextEditingController tickController = TextEditingController();
+  final numberOfSharesCtrl = TextEditingController();
+  final tickController = TextEditingController();
+  final feeController = TextEditingController();
 
   bool isLoading = false;
+  bool _isInitialized = false;
 
   @override
   void initState() {
     super.initState();
-    _initializeForm();
+    _initializeFormData();
   }
 
-  void _initializeForm() {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Complete initialization after context is available
+    if (!_isInitialized) {
+      _isInitialized = true;
+      _updateFee(); // This will also update the fee controller
+    }
+  }
+
+  void _initializeFormData() {
     // Auto-select source contract if only one available
     final contractsWithBalance = widget.groupedAsset.contractContributions
         .where((c) => c.numberOfUnits > 0)
@@ -93,7 +105,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
           contractsWithBalance.first.managingContractIndex;
       availableUnits = contractsWithBalance.first.numberOfUnits;
       _updateDestinationDefault();
-      _updateFee();
+      // Don't call _updateFee() here - it needs context, will be called in didChangeDependencies
     }
   }
 
@@ -114,6 +126,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   void _updateFee() {
     if (selectedSourceContractIndex == null) {
       currentFee = ReleaseTransferRightsInfo.defaultReleaseFee;
+      _updateFeeController();
       return;
     }
 
@@ -124,6 +137,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
 
     if (procedureNumber == null) {
       currentFee = ReleaseTransferRightsInfo.defaultReleaseFee;
+      _updateFeeController();
       return;
     }
 
@@ -133,12 +147,20 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
 
     // Use default fee (0 QUBIC based on contract code analysis)
     currentFee = fee ?? ReleaseTransferRightsInfo.defaultReleaseFee;
+    _updateFeeController();
+  }
+
+  void _updateFeeController() {
+    final l10n = l10nOf(context);
+    feeController.text =
+        "${currentFee.asThousands()} ${l10n.generalLabelCurrencyQubic}";
   }
 
   @override
   void dispose() {
     numberOfSharesCtrl.dispose();
     tickController.dispose();
+    feeController.dispose();
     super.dispose();
   }
 
@@ -387,9 +409,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
           name: "fee",
           readOnly: true,
           textAlign: TextAlign.center,
-          controller: TextEditingController(
-              text:
-                  "${currentFee.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
+          controller: feeController,
           validator: FormBuilderValidators.compose([
             CustomFormFieldValidators.isLessThanParsed(
                 lessThan: widget.item.amount!, context: context),
@@ -447,7 +467,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
         )
       ];
     }
-    return [Container()];
+    return [const SizedBox.shrink()];
   }
 
   Widget getAdvancedOptions() {
@@ -695,7 +715,6 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       issuerIdentity: widget.groupedAsset.issuedAsset.issuerIdentity,
       assetName: widget.groupedAsset.issuedAsset.name,
       numberOfShares: getAssetAmount(),
-      sourceContractIndex: selectedSourceContractIndex!,
       destinationContractIndex: selectedDestinationContractIndex!,
       contractAddress: contractAddress,
       procedureNumber: procedureNumber,
