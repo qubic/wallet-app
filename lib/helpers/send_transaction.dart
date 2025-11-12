@@ -164,7 +164,6 @@ Future<SignedTransaction?> sendTransactionDialog(BuildContext context,
 /// - [issuerIdentity]: The issuer identity of the asset
 /// - [assetName]: Name of the asset
 /// - [numberOfShares]: Number of shares to transfer management rights for
-/// - [sourceContractIndex]: Contract index that currently manages the asset
 /// - [destinationContractIndex]: Contract index to transfer management rights to
 /// - [contractAddress]: Address of the source contract (transaction destination)
 /// - [procedureNumber]: Procedure number for the source contract
@@ -176,7 +175,6 @@ Future<SignedTransaction?> sendReleaseTransferRightsTransactionDialog(
   required String issuerIdentity,
   required String assetName,
   required int numberOfShares,
-  required int sourceContractIndex,
   required int destinationContractIndex,
   required String contractAddress,
   required int procedureNumber,
@@ -200,7 +198,6 @@ Future<SignedTransaction?> sendReleaseTransferRightsTransactionDialog(
     appLogger.d('Issuer Identity: $issuerIdentity');
     appLogger.d('Asset Name: $assetName');
     appLogger.d('Number of Shares: $numberOfShares');
-    appLogger.d('Source Contract Index: $sourceContractIndex');
     appLogger.d('Destination Contract Index: $destinationContractIndex');
     appLogger.d('Contract Address: $contractAddress');
     appLogger.d('Procedure Number: $procedureNumber');
