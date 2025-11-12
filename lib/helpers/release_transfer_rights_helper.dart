@@ -37,6 +37,11 @@ class ReleaseTransferRightsHelper {
     required int numberOfShares,
     required int newManagingContractIndex,
   }) async {
+    // Validate inputs
+    if (numberOfShares <= 0) {
+      throw ArgumentError('numberOfShares must be positive, got: $numberOfShares');
+    }
+
     final buffer = ByteData(ReleaseTransferRightsInfo.inputStructureSize);
     int offset = 0;
 
@@ -57,6 +62,10 @@ class ReleaseTransferRightsHelper {
 
     // 2. Asset Name (null-padded)
     final assetNameBytes = utf8.encode(assetName.toUpperCase());
+    if (assetNameBytes.length > ReleaseTransferRightsInfo.assetNameSize) {
+      throw ArgumentError(
+          'Asset name exceeds maximum length of ${ReleaseTransferRightsInfo.assetNameSize} bytes when encoded. Got ${assetNameBytes.length} bytes.');
+    }
     for (int i = 0; i < ReleaseTransferRightsInfo.assetNameSize; i++) {
       buffer.setUint8(
           offset++, i < assetNameBytes.length ? assetNameBytes[i] : 0);
