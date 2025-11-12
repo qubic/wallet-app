@@ -1,3 +1,5 @@
+import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
+
 class SmartContractsResponse {
   final List<SmartContractModel> smartContracts;
 
@@ -75,7 +77,7 @@ class SmartContractModel {
 
   /// Check if this contract supports Transfer Share Management Rights
   bool supportsTransferShareManagementRights() {
-    return supportsProcedure("Transfer Share Management Rights");
+    return supportsProcedure(ReleaseTransferRightsInfo.procedureName);
   }
 
   /// Get procedure ID by procedure name (case-insensitive)
