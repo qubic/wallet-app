@@ -97,13 +97,12 @@ abstract class QubicEcosystemStoreBase with Store {
   }
 
   /// Get fee for a specific procedure.
-  /// Returns null if fee data is not available in smart_contracts.json
-  /// Note: Fees should be added to the procedures in smart_contracts.json format
+  /// Returns the fee for a specific procedure in a contract
+  /// Returns null if contract not found or procedure not found
   int? getFeeForProcedure(int contractIndex, int procedureId) {
-    // TODO: Once smart_contracts.json includes fee data in procedures,
-    // update SmartContractModel to parse it and return it here
-    // For now, this returns null and callers should use fallback defaults
-    return null;
+    final contract = getContractByIndex(contractIndex);
+    if (contract == null) return null;
+    return contract.getProcedureFee(procedureId);
   }
 
   /// Get the procedure ID for "Transfer Share Management Rights" for a given contract
