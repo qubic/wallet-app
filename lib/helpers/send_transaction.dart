@@ -245,6 +245,7 @@ Future<SignedTransaction?> sendReleaseTransferRightsTransactionDialog(
       transactionId: transactionId,
     );
   } catch (e) {
+    appLogger.e('Error sending Release Transfer Rights transaction: $e');
     if (e is AppError && e.type == ErrorType.tamperedWallet) {
       if (context.mounted) {
         showTamperedWalletAlert(context);
