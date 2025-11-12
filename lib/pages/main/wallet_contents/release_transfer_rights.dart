@@ -549,11 +549,9 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
                   child: Padding(
                     padding: const EdgeInsets.all(ThemePaddings.smallPadding),
                     child: Text(l10n.generalButtonCancel,
-                        style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                              color: Theme.of(context).primaryColor,
-                              fontWeight: FontWeight.bold,
-                            )),
-                  )))
+                        style: TextStyles.transparentButtonText),
+                  )),
+            )
           : Container(),
       ThemedControls.spacerHorizontalNormal(),
       Expanded(
