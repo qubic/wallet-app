@@ -483,16 +483,8 @@
     "transfersListLabelReceiveIn": "Kabul Et",
     "transfersListLabelSharePublicIdInstructionsOne": "Lütfen aşağıdaki Halka Açık ID'yi gönderen kişiyle paylaşın:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Veya QR kodu gösterin",
-    "transferAssetHeaderForShares": "{assetName} Hisse Transferi",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "{assetName} Token Transferi",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "{assetName} Transferi",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -507,8 +499,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "ID'nin {assetName} hisse sahipliği miktarı: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "ID'deki varlık bakiyesi: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -518,17 +510,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "ID'nin {assetName} token sahipliği miktarı: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Yalnızca Qx tarafından yönetilen varlıklar aktarılabilir",
     "generalAllTransactionDetails": "TX ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nTyp: {type}\nDurum: {status}\nTimestamp: {timestamp}\nHedef Tick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Mevcut Bir Cüzdanı İçe Aktar",
     "importWalletTitle": "Cüzdanı İçe Aktar",

@@ -482,16 +482,8 @@
     "transfersListLabelReceiveIn": "Передан в",
     "transfersListLabelSharePublicIdInstructionsOne": "Пожалуйста, сообщите отправителю этот ID:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Или покажите ему QR код",
-    "transferAssetHeaderForShares": "Транзакция {assetName} акций",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Транзакция {assetName} токенов",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Транзакция {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -506,8 +498,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "{assetName} владелец акций - ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Баланс активов в ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -517,17 +509,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "{assetName} владелец токенов -  ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Можно переводить только активы, управляемые Qx",
     "generalAllTransactionDetails": "TX ID: {trxId}\nИсточник: {sourceId}\nПолучатель: {destId}\nТик: {amount}\nТип: {type}\nСтатус: {status}\nМетка времени: {timestamp}\nТик: {targetTick}",
     "welcomeButtonImportExistingWallet": "Импортировать существующий кошелек",
     "importWalletTitle": "Импортировать кошелек",

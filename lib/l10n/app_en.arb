@@ -526,16 +526,8 @@
     "transfersListLabelReceiveIn": "Receive in",
     "transfersListLabelSharePublicIdInstructionsOne": "Please share the following Public ID with the sender:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Or show the following QR Code",
-    "transferAssetHeaderForShares": "Transfer {assetName} shares",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Transfer {assetName} tokens",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Transfer {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -550,8 +542,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "{assetName} shares owned by ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Asset balance in ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -561,17 +553,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "{assetName} tokens owned by ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Only assets managed by Qx can be transferred",
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nType: {type}\nStatus: {status}\nTimestamp: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
