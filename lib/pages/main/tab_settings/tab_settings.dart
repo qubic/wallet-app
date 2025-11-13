@@ -64,10 +64,14 @@ class _TabSettingsState extends State<TabSettings> {
       appBar: AppBar(
         title: Text(l10n.appTabSettings, style: TextStyles.textExtraLargeBold),
         backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
         centerTitle: true,
       ),
-      body: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+      body: Container(
+        color: LightThemeColors.background,
+        child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints viewportConstraints) {
           return SingleChildScrollView(
             child: ConstrainedBox(
               constraints: BoxConstraints(
@@ -187,6 +191,7 @@ class _TabSettingsState extends State<TabSettings> {
             ),
           );
         },
+        ),
       ),
     );
   }

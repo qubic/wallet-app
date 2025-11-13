@@ -92,8 +92,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       _backgroundTimer?.cancel();
       _timedController.restartFetchTimersIfNeeded();
       _autoLockTimer?.cancel();
-      if (!applicationStore.isSignedIn) {
-        context.go('/signIn');
+      if (!applicationStore.isSignedIn && mounted) {
+        // Use post frame callback to ensure the widget tree is ready
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            context.go('/signIn');
+          }
+        });
       }
     }
   }
@@ -308,11 +313,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               border: Border(
                 top: BorderSide(width: 1, color: LightThemeColors.navBorder),
               ),
-              color: LightThemeColors.navBg)),
+              color: LightThemeColors.background)),
 
       tabs: _tabs(),
 
-      backgroundColor: LightThemeColors.navBg,
+      backgroundColor: LightThemeColors.background,
 
       // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.

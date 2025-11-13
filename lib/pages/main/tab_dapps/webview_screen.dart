@@ -6,12 +6,20 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/webview_address_bar.dart';
+import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WebviewScreen extends StatefulWidget {
   final String initialUrl;
+  final bool hideFavorites;
+  final String? customTitle;
 
-  const WebviewScreen({super.key, required this.initialUrl});
+  const WebviewScreen({
+    super.key,
+    required this.initialUrl,
+    this.hideFavorites = false,
+    this.customTitle,
+  });
 
   @override
   State<WebviewScreen> createState() => _WebviewScreenState();
@@ -25,6 +33,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
   final AppLinkController appLinkController = AppLinkController();
   final ValueNotifier<bool> canGoBack = ValueNotifier(false);
   final ValueNotifier<bool> canGoForward = ValueNotifier(false);
+  final ValueNotifier<int> urlChangeNotifier = ValueNotifier(0);
 
   @override
   void initState() {
@@ -52,6 +61,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
   void _updateUrl(String? url) {
     if (url != null) {
       urlController.text = _cleanUrl(url);
+      // Notify that URL has changed
+      urlChangeNotifier.value++;
     }
   }
 
@@ -86,12 +97,44 @@ class _WebviewScreenState extends State<WebviewScreen> {
       body: Column(
         children: [
           SizedBox(height: statusBarHeight),
-          WebviewAddressBar(
-            urlController: urlController,
-            webViewController: webViewController,
-            canGoBack: canGoBack,
-            canGoForward: canGoForward,
-          ),
+          // Show title bar if customTitle is provided, otherwise show address bar
+          if (widget.customTitle != null)
+            Container(
+              height: 56,
+              padding: const EdgeInsets.symmetric(horizontal: ThemePaddings.normalPadding),
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: LightThemeColors.navBorder,
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      widget.customTitle!,
+                      style: TextStyles.textExtraLargeBold,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                ],
+              ),
+            )
+          else
+            WebviewAddressBar(
+              urlController: urlController,
+              webViewController: webViewController,
+              canGoBack: canGoBack,
+              canGoForward: canGoForward,
+              urlChangeNotifier: urlChangeNotifier,
+              hideFavorites: widget.hideFavorites,
+            ),
           ValueListenableBuilder(
               valueListenable: progress,
               builder: (context, value, child) {
@@ -113,8 +156,8 @@ class _WebviewScreenState extends State<WebviewScreen> {
                     useShouldOverrideUrlLoading: true,
                     safeBrowsingEnabled: true,
                   ),
-                  initialUrlRequest:
-                      URLRequest(url: WebUri.uri(Uri.parse(widget.initialUrl))),
+                  initialUrlRequest: URLRequest(
+                      url: WebUri.uri(Uri.parse(widget.initialUrl))),
                   gestureRecognizers: {
                     Factory(() => OnTapGestureRecognizer(onTapCallback: () {
                           FocusScope.of(context).unfocus();

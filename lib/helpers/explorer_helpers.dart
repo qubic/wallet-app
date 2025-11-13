@@ -18,7 +18,10 @@ void viewExplorerURL(BuildContext context, String pathToData) {
     context,
     screen: SafeArea(
         top: false,
-        child: WebviewScreen(initialUrl: "$explorerUrl/$pathToData")),
+        child: WebviewScreen(
+          initialUrl: "$explorerUrl/$pathToData",
+          hideFavorites: true,
+        )),
     pageTransitionAnimation: PageTransitionAnimation.slideUp,
     withNavBar: false,
   );

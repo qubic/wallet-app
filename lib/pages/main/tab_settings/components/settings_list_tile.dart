@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class SettingsListTile extends StatelessWidget {
   final String title;
@@ -55,8 +56,7 @@ class SettingsListTile extends StatelessWidget {
             const Spacer(),
           ],
           suffix == null
-              ? const Icon(Icons.arrow_forward_ios_outlined,
-                  size: 14, color: LightThemeColors.textLightGrey)
+              ? ThemedControls.chevronIcon
               : suffix!
         ],
       ),
