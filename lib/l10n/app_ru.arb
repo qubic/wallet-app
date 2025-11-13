@@ -5,7 +5,6 @@
     "generalLabelNo": "Нет",
     "generalButtonConfirm": "Подтвердить",
     "generalButtonDelete": "Удалить",
-    "generalButtonAdd": "Добавить",
     "generalButtonCopy": "Копировать",
     "generalButtonRename": "Переименовать",
     "generalButtonSave": "Сохранить",
@@ -18,7 +17,6 @@
     "generalButtonApply": "Применить",
     "generalButtonEraseWalletData": "Очистить данные кошелька",
     "generalButtonClearAll": "Очистить всё",
-    "generalButtonShowAll": "Показать всё",
     "generalButtonUseQRCode": "Использовать QR код",
     "generalButtonCopyAddress": "Копировать адрес",
     "generalLabelHidden": "******",
@@ -26,9 +24,6 @@
     "generalLabelCurrencyQubic": "QUBIC",
     "generalLabelCurrencyUSD": "USD",
     "generalLabelTick": "Тик",
-    "generalLabelInfo": "Информация",
-    "generalLabelDate": "Дата",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Аккаунт {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -44,14 +39,6 @@
     "generalLabelTo": "К",
     "generalLabeQubicAddress": "Qubic адрес",
     "generalLabeQubicAddressAndPublicID": "Qubic адрес (Публичный ID)",
-    "generalLabelQubicAddressWithAccountName": "Qubic адрес {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} аккаунт кошелька \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -76,8 +63,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Токен} other{Токены}}",
     "generalUnitShares": "{count, plural, =1{Акция} other{Акции}}",
-    "generalLabelEnabled": "Включено",
-    "generalLabelDisabled": "Отключено",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "Ошибка",
     "generalSnackBarMessageCopiedToClipboard": "Скопировано в буфер",
@@ -169,7 +154,6 @@
     "settingsLabelExportWalletVaultFile": "Экспортировать Vault File",
     "settingsHeaderAbout": "О нас",
     "settingsLabelJoinCommunity": "Присоединиться к сообществу",
-    "settingsLabelWalletInfo": "Информация о кошельке",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "Iris",
@@ -408,7 +392,6 @@
     "reauthenticateTitle": "Требуется аутентификация",
     "reauthenticateHeader": "Пожалуйста, пройдите повторную аутентификацию",
     "reathenticateLabelReason": "Пожалуйста, пройдите повторную аутентификацию, чтобы продолжить.",
-    "reathenticateWithPasswordLabelReason": "Пожалуйста, пройдите повторную аутентификацию, чтобы продолжить. Пароль, который вы предоставите, будет использоваться для шифрования вашего кошелька в хранилище.",
     "receiveTitle": "Получение средств и активов",
     "receiveHeader": "В \"{accountName}\"",
     "@receiveHeader": {
@@ -441,14 +424,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Выберите адрес",
     "sendItemLabelSelectSenderAddressLineTwo": "С вашего аккаунта",
-    "sendItemLabelCurrentTick": "(Текущий тик: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Экспортировать Vault File",
     "exportWalletVaultLabelInstructions": "Экспортируйте содержимое этого кошелька в зашифрованный файл vault в качестве резервной копии. Этот файл может быть импортирован в веб-кошелек и может быть разблокирован только с помощью предоставленного пароля. Всегда храните этот файл в безопасном месте.",
     "exportWalletVaultButtonExport": "Экспортировать",
@@ -687,10 +662,7 @@
     "wcExpiresInDays": "{count, plural, =1{Сессия истекает через 1 день} other{Сессия истекает через {count} дней}}",
     "wcExpiresInLessThanDay": "Сессия истекает менее чем через день",
     "pasteURLHere": "Вставить URL",
-    "approvingConnection": "Подтверждение соединения",
-    "pleaseWait": "Пожалуйста, подождите",
     "wcApproveSignTransferOf": "Подпишите передачу",
-    "wcApproveTransferOf": "Передача",
     "wcApproveSignOf": "Подпишите следующее сообщение",
     "wcApprovedSignedTransaction": "Транзакция подписана и успешно отправлена в dApp",
     "wcApprovedSignedMessage": "Сообщение подписано и успешно отправлено в dApp",

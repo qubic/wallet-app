@@ -5,7 +5,6 @@
     "generalLabelNo": "No",
     "generalButtonConfirm": "Confirm",
     "generalButtonDelete": "Delete",
-    "generalButtonAdd": "Add",
     "generalButtonCopy": "Copy",
     "generalButtonRename": "Rename",
     "generalButtonSave": "Save",
@@ -20,7 +19,6 @@
     "generalButtonApply": "Apply",
     "generalButtonEraseWalletData": "Erase Wallet Data",
     "generalButtonClearAll": "Clear All",
-    "generalButtonShowAll": "Show All",
     "generalButtonUseQRCode": "Use QR Code",
     "generalButtonCopyAddress": "Copy Address",
     "generalButtonPaste": "Paste",
@@ -33,9 +31,6 @@
     "generalLabelTick": "Tick",
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Input Type",
-    "generalLabelInfo": "Info",
-    "generalLabelDate": "Date",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Account {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -52,14 +47,6 @@
     "generalLabelFee": "Fee",
     "generalLabeQubicAddress": "Qubic Address",
     "generalLabeQubicAddressAndPublicID": "Qubic Address (Public ID)",
-    "generalLabelQubicAddressWithAccountName": "Qubic Address {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} wallet account \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -85,8 +72,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
-    "generalLabelEnabled": "Enabled",
-    "generalLabelDisabled": "Disabled",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "An error has ocurred",
     "generalSnackBarMessageCopiedToClipboard": "Copied to clipboard",
@@ -192,7 +177,6 @@
     "settingsHeaderAbout": "About",
     "settingsLabelJoinCommunity": "Join Community",
     "settingsLabelSupport": "Support",
-    "settingsLabelWalletInfo": "Wallet Info",
     "settingsLabelWalletConnect": "WalletConnect",
     "settingsSupportGithub": "GitHub (File an issue)",
     "settingsSupportDiscord": "Discord (Support channel)",
@@ -452,7 +436,6 @@
     "reauthenticateTitle": "Authentication Required",
     "reauthenticateHeader": "Please reauthenticate",
     "reathenticateLabelReason": "Please authenticate again in order to proceed.",
-    "reathenticateWithPasswordLabelReason": "Please authenticate again in order to proceed. The password you provide will be the one used to encrypt your vault wallet.",
     "receiveTitle": "Receive Funds and Assets",
     "receiveHeader": "in \"{accountName}\"",
     "@receiveHeader": {
@@ -485,14 +468,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Select Address",
     "sendItemLabelSelectSenderAddressLineTwo": "from your Wallet Accounts",
-    "sendItemLabelCurrentTick": "(Current Tick: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Export Wallet Vault File",
     "exportWalletVaultLabelInstructions": "Export the contents of this wallet in an encrypted vault file as a backup. This file can be imported in the web wallet and can only be unlocked with the provided password. Always keep this file in a safe place.",
     "exportWalletVaultButtonExport": "Export",
@@ -763,10 +738,7 @@
     "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",
     "wcExpiresInLessThanDay": "Session expires less than day",
     "pasteURLHere": "Paste URL",
-    "approvingConnection": "Approving connection",
-    "pleaseWait": "Please wait",
     "wcApproveSignTransferOf": "Sign the transfer of",
-    "wcApproveTransferOf": "Transfer of",
     "wcApproveSignOf": "Sign the following message",
     "wcApprovedSignedTransaction": "Signed transaction and successfully sent to dApp",
     "wcApprovedSignedMessage": "Signed message and successfully sent to dApp",
