@@ -242,4 +242,4 @@ You can help by:
 ---
 
 ## License
-See [LICENSE.md](LICENSE.md).
+See [LICENSE.md](license.md).
