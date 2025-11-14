@@ -785,5 +785,41 @@
     "revealSeedCopiedToClipboardMessage": "私密助记词已临时复制到剪贴板（保存 1 分钟）",
     "revealSeedWarningTitle": "请勿泄露您的私密助记词！",
     "revealSeedWarningDescription": "如果他人获取了您的私密助记词，他们将完全控制您的账户",
-    "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。"
+    "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。",
+    "releaseTransferRightsMenuOption": "释放转让权",
+    "releaseTransferRightsTitle": "释放转让权",
+    "releaseTransferRightsLabelSourceContract": "源合约",
+    "releaseTransferRightsLabelAvailableAmount": "可用：{formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "数量",
+    "releaseTransferRightsLabelDestinationContract": "目标合约",
+    "releaseTransferRightsLabelFee": "交易费用",
+    "releaseTransferRightsButtonSubmit": "释放",
+    "releaseTransferRightsErrorNoSourceContract": "请选择源合约",
+    "releaseTransferRightsErrorNoDestinationContract": "请选择目标合约",
+    "releaseTransferRightsErrorSameContract": "源合约和目标合约必须不同",
+    "releaseTransferRightsErrorInvalidContract": "无效的合约配置",
+    "releaseTransferRightsSuccessMessage": "已成功释放 {amount} {assetName} 管理权至 {contractName}，Tick {tick}",
+    "@releaseTransferRightsSuccessMessage": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            },
+            "contractName": {
+                "type": "String"
+            },
+            "tick": {
+                "type": "String"
+            }
+        }
+    }
 }

@@ -790,5 +790,41 @@
     "revealSeedCopiedToClipboardMessage": "La phrase secrète a été copiée temporairement (pendant 1 minute) dans le presse-papiers ",
     "revealSeedWarningTitle": "Ne partagez pas votre phrase secrète!",
     "revealSeedWarningDescription": "Si quelqu’un possède votre phrase secrète, il aura un contrôle total sur votre compte",
-    "blockedScreenshotWarning": "Capture protégée — cet écran reste privé."
+    "blockedScreenshotWarning": "Capture protégée — cet écran reste privé.",
+    "releaseTransferRightsMenuOption": "Libérer les Droits de Transfert",
+    "releaseTransferRightsTitle": "Libérer les Droits de Transfert",
+    "releaseTransferRightsLabelSourceContract": "Contrat Source",
+    "releaseTransferRightsLabelAvailableAmount": "Disponible : {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Montant",
+    "releaseTransferRightsLabelDestinationContract": "Contrat de Destination",
+    "releaseTransferRightsLabelFee": "Frais de Transaction",
+    "releaseTransferRightsButtonSubmit": "Libérer",
+    "releaseTransferRightsErrorNoSourceContract": "Veuillez sélectionner un contrat source",
+    "releaseTransferRightsErrorNoDestinationContract": "Veuillez sélectionner un contrat de destination",
+    "releaseTransferRightsErrorSameContract": "Les contrats source et de destination doivent être différents",
+    "releaseTransferRightsErrorInvalidContract": "Configuration de contrat invalide",
+    "releaseTransferRightsSuccessMessage": "Droits de gestion {amount} {assetName} libérés avec succès vers {contractName} au tick {tick}",
+    "@releaseTransferRightsSuccessMessage": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            },
+            "contractName": {
+                "type": "String"
+            },
+            "tick": {
+                "type": "String"
+            }
+        }
+    }
 }

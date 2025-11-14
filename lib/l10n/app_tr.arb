@@ -785,5 +785,41 @@
     "revealSeedCopiedToClipboardMessage": "Özel anahtar geçici olarak panoya kopyalandı (1 dakika saklanır)",
     "revealSeedWarningTitle": "Özel Anahtarınızı Paylaşmayın!",
     "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur",
-    "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır."
+    "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır.",
+    "releaseTransferRightsMenuOption": "Transfer Haklarını Serbest Bırak",
+    "releaseTransferRightsTitle": "Transfer Haklarını Serbest Bırak",
+    "releaseTransferRightsLabelSourceContract": "Kaynak Sözleşme",
+    "releaseTransferRightsLabelAvailableAmount": "Mevcut: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Miktar",
+    "releaseTransferRightsLabelDestinationContract": "Hedef Sözleşme",
+    "releaseTransferRightsLabelFee": "İşlem Ücreti",
+    "releaseTransferRightsButtonSubmit": "Serbest Bırak",
+    "releaseTransferRightsErrorNoSourceContract": "Lütfen bir kaynak sözleşme seçin",
+    "releaseTransferRightsErrorNoDestinationContract": "Lütfen bir hedef sözleşme seçin",
+    "releaseTransferRightsErrorSameContract": "Kaynak ve hedef sözleşmeler farklı olmalıdır",
+    "releaseTransferRightsErrorInvalidContract": "Geçersiz sözleşme yapılandırması",
+    "releaseTransferRightsSuccessMessage": "{amount} {assetName} yönetim hakları başarıyla {contractName} kontratına {tick} tick'inde serbest bırakıldı",
+    "@releaseTransferRightsSuccessMessage": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            },
+            "contractName": {
+                "type": "String"
+            },
+            "tick": {
+                "type": "String"
+            }
+        }
+    }
 }

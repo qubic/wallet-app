@@ -784,5 +784,41 @@
     "revealSeedCopiedToClipboardMessage": "La semilla privada se copió temporalmente (por 1 minuto) al portapapeles",
     "revealSeedWarningTitle": "¡No compartas tu semilla privada!",
     "revealSeedWarningDescription": "Si alguien tiene tu semilla privada, tendrá control total de tu cuenta",
-    "blockedScreenshotWarning": "Captura protegida: esta pantalla es privada."
+    "blockedScreenshotWarning": "Captura protegida: esta pantalla es privada.",
+    "releaseTransferRightsMenuOption": "Liberar Derechos de Transferencia",
+    "releaseTransferRightsTitle": "Liberar Derechos de Transferencia",
+    "releaseTransferRightsLabelSourceContract": "Contrato de Origen",
+    "releaseTransferRightsLabelAvailableAmount": "Disponible: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Cantidad",
+    "releaseTransferRightsLabelDestinationContract": "Contrato de Destino",
+    "releaseTransferRightsLabelFee": "Tarifa de Transacción",
+    "releaseTransferRightsButtonSubmit": "Liberar",
+    "releaseTransferRightsErrorNoSourceContract": "Por favor seleccione un contrato de origen",
+    "releaseTransferRightsErrorNoDestinationContract": "Por favor seleccione un contrato de destino",
+    "releaseTransferRightsErrorSameContract": "Los contratos de origen y destino deben ser diferentes",
+    "releaseTransferRightsErrorInvalidContract": "Configuración de contrato no válida",
+    "releaseTransferRightsSuccessMessage": "Se liberaron exitosamente {amount} {assetName} derechos de gestión a {contractName} en tick {tick}",
+    "@releaseTransferRightsSuccessMessage": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            },
+            "contractName": {
+                "type": "String"
+            },
+            "tick": {
+                "type": "String"
+            }
+        }
+    }
 }

@@ -848,5 +848,41 @@
     "revealSeedCopiedToClipboardMessage": "Seed riêng tư đã được sao chép tạm thời vào clipboard (được lưu trong 1 phút)",
     "revealSeedWarningTitle": "Đừng chia sẻ seed riêng tư của bạn!",
     "revealSeedWarningDescription": "Nếu ai đó có seed riêng tư của bạn, họ sẽ có toàn quyền kiểm soát tài khoản của bạn",
-    "blockedScreenshotWarning": "Chụp màn hình được bảo vệ — màn hình này là riêng tư."
+    "blockedScreenshotWarning": "Chụp màn hình được bảo vệ — màn hình này là riêng tư.",
+    "releaseTransferRightsMenuOption": "Giải Phóng Quyền Chuyển Nhượng",
+    "releaseTransferRightsTitle": "Giải Phóng Quyền Chuyển Nhượng",
+    "releaseTransferRightsLabelSourceContract": "Hợp Đồng Nguồn",
+    "releaseTransferRightsLabelAvailableAmount": "Khả dụng: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Số Lượng",
+    "releaseTransferRightsLabelDestinationContract": "Hợp Đồng Đích",
+    "releaseTransferRightsLabelFee": "Phí Giao Dịch",
+    "releaseTransferRightsButtonSubmit": "Giải Phóng",
+    "releaseTransferRightsErrorNoSourceContract": "Vui lòng chọn hợp đồng nguồn",
+    "releaseTransferRightsErrorNoDestinationContract": "Vui lòng chọn hợp đồng đích",
+    "releaseTransferRightsErrorSameContract": "Hợp đồng nguồn và đích phải khác nhau",
+    "releaseTransferRightsErrorInvalidContract": "Cấu hình hợp đồng không hợp lệ",
+    "releaseTransferRightsSuccessMessage": "Đã giải phóng thành công quyền quản lý {amount} {assetName} cho {contractName} tại tick {tick}",
+    "@releaseTransferRightsSuccessMessage": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            },
+            "contractName": {
+                "type": "String"
+            },
+            "tick": {
+                "type": "String"
+            }
+        }
+    }
 }
