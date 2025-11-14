@@ -834,14 +834,6 @@
     "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır.",
     "releaseTransferRightsMenuOption": "Transfer Haklarını Serbest Bırak",
     "releaseTransferRightsTitle": "Transfer Haklarını Serbest Bırak",
-    "releaseTransferRightsLabelTotalUnits": "Toplam birimler: {formattedAmount}",
-    "@releaseTransferRightsLabelTotalUnits": {
-        "placeholders": {
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
     "releaseTransferRightsLabelSourceContract": "Kaynak Sözleşme",
     "releaseTransferRightsLabelAvailableAmount": "Mevcut: {formattedAmount}",
     "@releaseTransferRightsLabelAvailableAmount": {

@@ -897,14 +897,6 @@
     "blockedScreenshotWarning": "Chụp màn hình được bảo vệ — màn hình này là riêng tư.",
     "releaseTransferRightsMenuOption": "Giải Phóng Quyền Chuyển Nhượng",
     "releaseTransferRightsTitle": "Giải Phóng Quyền Chuyển Nhượng",
-    "releaseTransferRightsLabelTotalUnits": "Tổng đơn vị: {formattedAmount}",
-    "@releaseTransferRightsLabelTotalUnits": {
-        "placeholders": {
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
     "releaseTransferRightsLabelSourceContract": "Hợp Đồng Nguồn",
     "releaseTransferRightsLabelAvailableAmount": "Khả dụng: {formattedAmount}",
     "@releaseTransferRightsLabelAvailableAmount": {

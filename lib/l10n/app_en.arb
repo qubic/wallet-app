@@ -896,15 +896,6 @@
     "revealSeedWarningDescription": "If someone has your private seed, they will have full control of your account",
     "blockedScreenshotWarning": "Screenshot protected — this screen is private.",
     "releaseTransferRightsTitle": "Release Transfer Rights",
-    "releaseTransferRightsLabelTotalUnits": "Total units: {formattedAmount}",
-    "@releaseTransferRightsLabelTotalUnits": {
-        "description": "Label showing total units of asset",
-        "placeholders": {
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
     "releaseTransferRightsLabelSourceContract": "Source Contract",
     "releaseTransferRightsLabelAvailableAmount": "Available: {formattedAmount}",
     "@releaseTransferRightsLabelAvailableAmount": {

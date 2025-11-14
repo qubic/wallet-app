@@ -833,14 +833,6 @@
     "blockedScreenshotWarning": "Captura protegida: esta pantalla es privada.",
     "releaseTransferRightsMenuOption": "Liberar Derechos de Transferencia",
     "releaseTransferRightsTitle": "Liberar Derechos de Transferencia",
-    "releaseTransferRightsLabelTotalUnits": "Unidades totales: {formattedAmount}",
-    "@releaseTransferRightsLabelTotalUnits": {
-        "placeholders": {
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
     "releaseTransferRightsLabelSourceContract": "Contrato de Origen",
     "releaseTransferRightsLabelAvailableAmount": "Disponible: {formattedAmount}",
     "@releaseTransferRightsLabelAvailableAmount": {
