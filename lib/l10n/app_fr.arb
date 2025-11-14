@@ -839,7 +839,6 @@
     "blockedScreenshotWarning": "Capture protégée — cet écran reste privé.",
     "releaseTransferRightsMenuOption": "Libérer les Droits de Transfert",
     "releaseTransferRightsTitle": "Libérer les Droits de Transfert",
-    "releaseTransferRightsLabelAsset": "Actif",
     "releaseTransferRightsLabelTotalUnits": "Unités totales : {formattedAmount}",
     "@releaseTransferRightsLabelTotalUnits": {
         "placeholders": {

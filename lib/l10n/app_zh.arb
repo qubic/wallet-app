@@ -834,7 +834,6 @@
     "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。",
     "releaseTransferRightsMenuOption": "释放转让权",
     "releaseTransferRightsTitle": "释放转让权",
-    "releaseTransferRightsLabelAsset": "资产",
     "releaseTransferRightsLabelTotalUnits": "总单位数：{formattedAmount}",
     "@releaseTransferRightsLabelTotalUnits": {
         "placeholders": {

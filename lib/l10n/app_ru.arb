@@ -834,7 +834,6 @@
     "blockedScreenshotWarning": "Скриншот защищён — экран остаётся приватным.",
     "releaseTransferRightsMenuOption": "Освободить Права на Передачу",
     "releaseTransferRightsTitle": "Освободить Права на Передачу",
-    "releaseTransferRightsLabelAsset": "Актив",
     "releaseTransferRightsLabelTotalUnits": "Всего единиц: {formattedAmount}",
     "@releaseTransferRightsLabelTotalUnits": {
         "placeholders": {
