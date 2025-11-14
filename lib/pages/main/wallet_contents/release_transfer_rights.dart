@@ -18,6 +18,7 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
@@ -113,7 +114,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     // If source is not Qx, default destination to Qx (contract index 1)
     // Find Qx contract dynamically
     final qxContract = ecosystemStore.smartContracts
-        .where((c) => c.name.toUpperCase() == "QX")
+        .where((c) => c.address == QxInfo.address)
         .firstOrNull;
 
     if (selectedSourceContractIndex != null &&
