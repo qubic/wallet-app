@@ -682,77 +682,80 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       isLoading = true;
     });
 
-    int? targetTick;
+    try {
+      int? targetTick;
 
-    if (targetTickType == TargetTickTypeEnum.manual) {
-      targetTick = int.tryParse(tickController.text);
-    } else {
-      // fetch latest tick
-      int latestTick = (await _liveApi.getCurrentTick()).tick;
-      targetTick = latestTick + targetTickType.value;
-    }
+      if (targetTickType == TargetTickTypeEnum.manual) {
+        targetTick = int.tryParse(tickController.text);
+      } else {
+        // fetch latest tick
+        int latestTick = (await _liveApi.getCurrentTick()).tick;
+        targetTick = latestTick + targetTickType.value;
+      }
 
-    // Get contract address and procedure number dynamically from ecosystem store
-    final sourceContract =
-        ecosystemStore.getContractByIndex(selectedSourceContractIndex!);
-    final procedureNumber =
-        ecosystemStore.getTransferShareManagementRightsProcedureId(
-            selectedSourceContractIndex!);
+      // Get contract address and procedure number dynamically from ecosystem store
+      final sourceContract =
+          ecosystemStore.getContractByIndex(selectedSourceContractIndex!);
+      final procedureNumber =
+          ecosystemStore.getTransferShareManagementRightsProcedureId(
+              selectedSourceContractIndex!);
 
-    if (sourceContract == null || procedureNumber == null) {
-      _globalSnackBar.show(l10n.releaseTransferRightsErrorInvalidContract);
-      setState(() {
-        isLoading = false;
-      });
-      return;
-    }
+      if (sourceContract == null || procedureNumber == null) {
+        _globalSnackBar.show(l10n.releaseTransferRightsErrorInvalidContract);
+        return;
+      }
 
-    final contractAddress = sourceContract.address;
+      final contractAddress = sourceContract.address;
 
-    if (!mounted) return;
-    var result = await sendReleaseTransferRightsTransactionDialog(
-      context,
-      sourceId: widget.item.publicId,
-      issuerIdentity: widget.groupedAsset.issuedAsset.issuerIdentity,
-      assetName: widget.groupedAsset.issuedAsset.name,
-      numberOfShares: getAssetAmount(),
-      destinationContractIndex: selectedDestinationContractIndex!,
-      contractAddress: contractAddress,
-      procedureNumber: procedureNumber,
-      fee: currentFee,
-      destinationTick: targetTick!,
-    );
-
-    if (result == null) {
-      setState(() {
-        isLoading = false;
-      });
-      return;
-    }
-    await _timedController.interruptFetchTimer();
-
-    // Clear the state
-    setState(() {
-      isLoading = false;
-    });
-    if (!mounted) return;
-    Navigator.pop(context);
-    // Get destination contract name dynamically
-    final destinationContractName = ecosystemStore
-            .getContractNameByIndex(selectedDestinationContractIndex!) ??
-        "Contract $selectedDestinationContractIndex";
-
-    _globalSnackBar.show(l10n.releaseTransferRightsSuccessMessage(
-        formatter.format(getAssetAmount()),
-        widget.groupedAsset.issuedAsset.name,
-        destinationContractName,
-        targetTick.asThousands()));
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return TransactionsForId(
-        publicQubicId: widget.item.publicId,
-        item: widget.item,
+      if (!mounted) return;
+      var result = await sendReleaseTransferRightsTransactionDialog(
+        context,
+        sourceId: widget.item.publicId,
+        issuerIdentity: widget.groupedAsset.issuedAsset.issuerIdentity,
+        assetName: widget.groupedAsset.issuedAsset.name,
+        numberOfShares: getAssetAmount(),
+        destinationContractIndex: selectedDestinationContractIndex!,
+        contractAddress: contractAddress,
+        procedureNumber: procedureNumber,
+        fee: currentFee,
+        destinationTick: targetTick!,
       );
-    }));
+
+      if (result == null) {
+        return;
+      }
+      await _timedController.interruptFetchTimer();
+
+      if (!mounted) return;
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.pop(context);
+      // Get destination contract name dynamically
+      final destinationContractName = ecosystemStore
+              .getContractNameByIndex(selectedDestinationContractIndex!) ??
+          "Contract $selectedDestinationContractIndex";
+
+      _globalSnackBar.show(l10n.releaseTransferRightsSuccessMessage(
+          formatter.format(getAssetAmount()),
+          widget.groupedAsset.issuedAsset.name,
+          destinationContractName,
+          targetTick.asThousands()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return TransactionsForId(
+          publicQubicId: widget.item.publicId,
+          item: widget.item,
+        );
+      }));
+    } catch (e) {
+      _globalSnackBar.showError(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    }
   }
 
   @override

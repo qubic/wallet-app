@@ -5,8 +5,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
-import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -19,8 +17,10 @@ import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -547,45 +547,51 @@ class _SendState extends State<Send> {
       isLoading = true;
     });
 
-    int? targetTick;
+    try {
+      int? targetTick;
 
-    if (targetTickType == TargetTickTypeEnum.manual) {
-      targetTick = int.tryParse(tickController.text);
-    } else {
-      // fetch latest tick
-      int latestTick = (await _liveApi.getCurrentTick()).tick;
-      targetTick = latestTick + targetTickType.value;
-    }
-    if (!mounted) return;
-    SignedTransaction? result = await sendTransactionDialog(
-        context,
-        widget.item.publicId,
-        destinationID.text,
-        getQubicAmount(),
-        targetTick!);
-    if (result == null) {
+      if (targetTickType == TargetTickTypeEnum.manual) {
+        targetTick = int.tryParse(tickController.text);
+      } else {
+        // fetch latest tick
+        int latestTick = (await _liveApi.getCurrentTick()).tick;
+        targetTick = latestTick + targetTickType.value;
+      }
+      if (!mounted) return;
+      SignedTransaction? result = await sendTransactionDialog(
+          context,
+          widget.item.publicId,
+          destinationID.text,
+          getQubicAmount(),
+          targetTick!);
+      if (result == null) {
+        return;
+      }
+      await _timedController.interruptFetchTimer();
+
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });
-      return;
+      Navigator.pop(context);
+      final l10n = l10nOf(context);
+      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
+          targetTick.toString().asThousands()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return TransactionsForId(
+          publicQubicId: widget.item.publicId,
+          item: widget.item,
+        );
+      }));
+    } catch (e) {
+      _globalSnackBar.showError(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
-    await _timedController.interruptFetchTimer();
-
-    setState(() {
-      isLoading = false;
-    });
-
-    if (!mounted) return;
-    Navigator.pop(context);
-    final l10n = l10nOf(context);
-    _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
-        targetTick.toString().asThousands()));
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return TransactionsForId(
-        publicQubicId: widget.item.publicId,
-        item: widget.item,
-      );
-    }));
   }
 
   late final TextEditingController destinationID;
