@@ -94,7 +94,6 @@ class _TransferAssetState extends State<TransferAsset> {
         trailingSymbol:
             "${widget.asset.issuedAsset.name} ${widget.asset.isSmartContractShare ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
         useSymbolPadding: true,
-        maxTextLength: 3,
         thousandSeparator: ThousandSeparator.Comma,
         mantissaLength: 0);
   }

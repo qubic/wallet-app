@@ -249,7 +249,6 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       trailingSymbol:
           "${widget.groupedAsset.issuedAsset.name} ${widget.groupedAsset.isSmartContractShare ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
       useSymbolPadding: true,
-      maxTextLength: 3,
       thousandSeparator: ThousandSeparator.Comma,
       mantissaLength: 0,
     );
