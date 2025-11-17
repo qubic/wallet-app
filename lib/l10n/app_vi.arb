@@ -875,5 +875,10 @@
     "dAppSearchInGoogle": "Tìm kiếm trên Google",
     "generalLabelNoResults": "Không tìm thấy kết quả",
     "generalLabelTermsOfService": "Điều khoản dịch vụ",
-    "dAppSearchEmptyState": "Hãy khám phá điều gì đó! Bắt đầu nhập"
+    "dAppSearchEmptyState": "Hãy khám phá điều gì đó! Bắt đầu nhập",
+    "webviewAddressBarLabelOpenInBrowser": "Mở trong trình duyệt",
+    "generalButtonContinue": "Tiếp tục",
+    "dAppExternalUrlWarningTitle": "Cảnh báo bảo mật",
+    "dAppExternalUrlWarningMessage": "Bạn sắp mở một dApp của bên thứ ba. \"Qubic Wallet\" không đưa ra bất kỳ sự xác nhận, bảo đảm hoặc cam kết nào liên quan đến tính hợp pháp, bảo mật, hiệu suất hoặc chức năng của các ứng dụng bên thứ ba được phát triển bởi những người đóng góp của hệ sinh thái Qubic.\n\nĐọc kỹ từng yêu cầu phê duyệt để bạn hiểu chính xác những gì bạn đang cho phép. Sử dụng dApp có thể liên quan đến rủi ro tài chính.\n\n\"Qubic Wallet\" không chịu trách nhiệm về bất kỳ tổn thất hoặc vấn đề nào phát sinh từ việc sử dụng dApp này.\n\nĐể biết thêm thông tin, vui lòng xem Điều khoản Dịch vụ của chúng tôi.",
+    "dAppExternalUrlWarningDoNotRemind": "Không nhắc lại"
 }

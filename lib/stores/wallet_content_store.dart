@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
-import 'package:qubic_wallet/dtos/wallet_metadata_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
@@ -15,12 +15,9 @@ part 'wallet_content_store.g.dart';
 /// Manages wallet-specific content from `/wallet-app/` APIs that is unique
 /// to this wallet application:
 /// - Dapps directory (featured, top, popular apps)
-/// - Terms of use (future)
-/// - Privacy policy (future)
-/// - Version metadata (future)
 ///
 /// **vs QubicEcosystemStore:**
-/// - WalletContentStore = Wallet-specific content (dapps, terms, privacy)
+/// - WalletContentStore = Wallet-specific content (dapps)
 /// - QubicEcosystemStore = Ecosystem reference data (used by any Qubic app)
 ///
 /// **Architecture:**
@@ -32,9 +29,6 @@ class WalletContentStore = WalletContentStoreBase with _$WalletContentStore;
 
 abstract class WalletContentStoreBase with Store {
   final QubicStaticApi _staticApi = getIt<QubicStaticApi>();
-
-  @observable
-  WalletMetadataDto? metadata;
 
   @observable
   DappsResponse? dappsResponse;
@@ -70,29 +64,9 @@ abstract class WalletContentStoreBase with Store {
         .toList();
   }
 
-  @computed
-  TermsMetadataDto? get termsMetadata => metadata?.terms;
-
   String getCurrentLocale() {
-    String currentLocale = l10nWrapper.l10n?.localeName ?? "en";
-    if (!["de", "es", "fr", "ru", "tr", "zh"].contains(currentLocale)) {
-      currentLocale = "en";
-    }
-    return currentLocale;
-  }
-
-  @action
-  Future<void> loadMetadata() async {
-    try {
-      appLogger.d("[WalletContentStore] Loading wallet metadata...");
-      final response = await _staticApi.getMetadata();
-      metadata = response;
-      appLogger.d("[WalletContentStore] Metadata loaded: ${metadata?.terms}");
-    } catch (e) {
-      appLogger.e("[WalletContentStore] Failed to load metadata: $e");
-      // Don't set error here - metadata fetch failure shouldn't block the app
-      // We'll use fallback values when needed
-    }
+    final currentLocale = l10nWrapper.l10n?.localeName ?? "en";
+    return Config.getSupportedLocale(currentLocale);
   }
 
   @action

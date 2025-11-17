@@ -13,6 +13,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/join_community/
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/manage_biometics.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/networks/networks_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/support/support_screen.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/settings/terms_of_use_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/wallet_connect.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -170,6 +171,12 @@ class _TabSettingsState extends State<TabSettings> {
                               },
                               suffix: SvgPicture.asset(AppIcons.externalLink,
                                   height: defaultIconHeight),
+                            ),
+                            SettingsListTile(
+                              prefix: SvgPicture.asset(AppIcons.privacyPolicy,
+                                  height: defaultIconHeight),
+                              title: l10n.generalLabelTermsOfService,
+                              path: const TermsOfUseScreen(),
                             ),
                             EraseWalletDataButton(),
                           ],

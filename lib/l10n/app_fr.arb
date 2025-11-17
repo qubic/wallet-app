@@ -817,5 +817,10 @@
     "dAppSearchInGoogle": "Rechercher sur Google",
     "generalLabelNoResults": "Aucun résultat trouvé",
     "generalLabelTermsOfService": "Conditions d'utilisation",
-    "dAppSearchEmptyState": "Découvrons quelque chose ! Commencez à taper"
+    "dAppSearchEmptyState": "Découvrons quelque chose ! Commencez à taper",
+    "webviewAddressBarLabelOpenInBrowser": "Ouvrir dans le navigateur",
+    "generalButtonContinue": "Continuer",
+    "dAppExternalUrlWarningTitle": "Avertissement de sécurité",
+    "dAppExternalUrlWarningMessage": "Vous êtes sur le point d'ouvrir une dApp tierce. \"Qubic Wallet\" n'offre aucun aval, garantie ou assurance concernant la légalité, la sécurité, les performances ou la fonctionnalité des applications tierces développées par les contributeurs de l'écosystème Qubic.\n\nLisez attentivement chaque demande d'approbation pour bien comprendre ce que vous autorisez. L'utilisation d'une dApp peut comporter des risques financiers.\n\n\"Qubic Wallet\" n'est pas responsable des pertes ou problèmes résultant de l'utilisation de cette dApp.\n\nPour plus d'informations, consultez nos Conditions d'utilisation.",
+    "dAppExternalUrlWarningDoNotRemind": "Ne plus me rappeler"
 }

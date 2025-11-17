@@ -876,5 +876,9 @@
     "dAppSearchInGoogle": "Search in Google",
     "generalLabelNoResults": "No results found",
     "generalLabelTermsOfService": "Terms of Service",
-    "dAppSearchEmptyState": "Let's discover something! Start typing to begin"
+    "dAppSearchEmptyState": "Let's discover something! Start typing to begin",
+    "generalButtonContinue": "Continue",
+    "dAppExternalUrlWarningTitle": "Security Warning",
+    "dAppExternalUrlWarningMessage": "You are about to open a third-party dApp. \"Qubic Wallet\" makes no endorsement, warranty, or guarantee regarding the legality, security, performance, or functionality of any third-party applications developed by Qubic ecosystem contributors.\n\nRead each approval request carefully so you understand exactly what you are allowing. Using a dApp can involve financial risk.\n\n\"Qubic Wallet\" is not responsible for any losses or issues that result from using this dApp.\n\nFor more information, see our Terms of Service.",
+    "dAppExternalUrlWarningDoNotRemind": "Don't remind me again"
 }

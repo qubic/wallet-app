@@ -812,5 +812,10 @@
     "dAppSearchInGoogle": "在 Google 中搜索",
     "generalLabelNoResults": "未找到结果",
     "generalLabelTermsOfService": "服务条款",
-    "dAppSearchEmptyState": "让我们发现一些东西吧！开始输入"
+    "dAppSearchEmptyState": "让我们发现一些东西吧！开始输入",
+    "webviewAddressBarLabelOpenInBrowser": "在浏览器中打开",
+    "generalButtonContinue": "继续",
+    "dAppExternalUrlWarningTitle": "安全警告",
+    "dAppExternalUrlWarningMessage": "您即将打开第三方 dApp。\"Qubic Wallet\" 对由 Qubic 生态系统贡献者开发的任何第三方应用程序的合法性、安全性、性能或功能不做任何背书、保证或担保。\n\n请仔细阅读每个批准请求，以便您准确了解您允许的内容。使用 dApp 可能涉及财务风险。\n\n\"Qubic Wallet\" 对使用此 dApp 导致的任何损失或问题概不负责。\n\n如需更多信息，请参阅我们的服务条款。",
+    "dAppExternalUrlWarningDoNotRemind": "不再提醒"
 }

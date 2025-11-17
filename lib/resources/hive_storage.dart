@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/models/favorite_dapp.dart';
 import 'package:qubic_wallet/models/network_model.dart';
-import 'package:qubic_wallet/models/terms_acceptance.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
@@ -15,7 +14,7 @@ enum HiveBoxesNames {
   storedNetworks,
   currentNetworkName,
   favoriteDapps,
-  termsAcceptance,
+  externalUrlWarningPreference,
 }
 
 class HiveStorage {
@@ -24,9 +23,9 @@ class HiveStorage {
   late Box<NetworkModel> _storedNetworks;
   late Box<String> _currentNetworkBox;
   late Box<FavoriteDapp> _favoriteDapps;
-  late Box<TermsAcceptance> _termsAcceptanceBox;
+  late Box<bool> _externalUrlWarningBox;
   final currentNetworkKey = "current_network";
-  final termsAcceptanceKey = "terms_acceptance";
+  final externalUrlWarningKey = "external_url_warning_dismissed";
   late HiveAesCipher _encryptionCipher;
 
   Future<void> initialize() async {
@@ -35,7 +34,6 @@ class HiveStorage {
     Hive.registerAdapter(TransactionVmAdapter());
     Hive.registerAdapter(NetworkAdapter());
     Hive.registerAdapter(FavoriteDappAdapter());
-    Hive.registerAdapter(TermsAcceptanceAdapter());
     await initEncryptedBoxes();
   }
 
@@ -46,7 +44,7 @@ class HiveStorage {
       await openNetworksBox();
       await openCurrentNetworkBox();
       await openFavoriteDappsBox();
-      await openTermsAcceptanceBox();
+      await openExternalUrlWarningBox();
     } catch (e) {
       appLogger.e("[HiveStorage] Error initializing hive storage: $e");
     }
@@ -114,12 +112,12 @@ class HiveStorage {
         '[HiveStorage] Favorite dApps box opened with ${_favoriteDapps.length} items.');
   }
 
-  Future<void> openTermsAcceptanceBox() async {
-    _termsAcceptanceBox = await Hive.openBox<TermsAcceptance>(
-      HiveBoxesNames.termsAcceptance.name,
+  Future<void> openExternalUrlWarningBox() async {
+    _externalUrlWarningBox = await Hive.openBox<bool>(
+      HiveBoxesNames.externalUrlWarningPreference.name,
       encryptionCipher: _encryptionCipher,
     );
-    appLogger.d('[HiveStorage] Terms acceptance box opened.');
+    appLogger.d('[HiveStorage] External URL warning preference box opened.');
   }
 
   void addStoredTransaction(TransactionVm transactionVm) {
@@ -158,20 +156,14 @@ class HiveStorage {
     return _currentNetworkBox.get(currentNetworkKey);
   }
 
-  // Terms acceptance methods
-  TermsAcceptance? getTermsAcceptance() {
-    return _termsAcceptanceBox.get(termsAcceptanceKey);
+  // External URL warning preference methods
+  bool getExternalUrlWarningDismissed() {
+    return _externalUrlWarningBox.get(externalUrlWarningKey) ?? false;
   }
 
-  void setTermsAcceptance(TermsAcceptance acceptance) {
-    appLogger.d('[HiveStorage] Setting terms acceptance: ${acceptance.version} at ${acceptance.acceptedAt}');
-    _termsAcceptanceBox.put(termsAcceptanceKey, acceptance);
-  }
-
-  bool isTermsAccepted(String requiredVersion) {
-    final acceptance = getTermsAcceptance();
-    if (acceptance == null) return false;
-    return acceptance.version == requiredVersion;
+  void setExternalUrlWarningDismissed(bool dismissed) {
+    appLogger.d('[HiveStorage] Setting external URL warning dismissed: $dismissed');
+    _externalUrlWarningBox.put(externalUrlWarningKey, dismissed);
   }
 
   // Favorite dApps methods
@@ -275,8 +267,8 @@ class HiveStorage {
     await _favoriteDapps.clear();
     _favoriteDapps.close();
 
-    await _termsAcceptanceBox.clear();
-    _termsAcceptanceBox.close();
+    await _externalUrlWarningBox.clear();
+    _externalUrlWarningBox.close();
 
     await _secureStorage.deleteHiveEncryptionKey();
     appLogger.w(

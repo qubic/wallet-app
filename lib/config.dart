@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:flutter/foundation.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 
@@ -8,11 +10,27 @@ abstract class Config {
   static const qubicMainnetRpcDomain = "https://rpc.qubic.org";
 
   // Qubic static API related config
-  static const qubicStaticApiBaseUrl = "https://static.qubic.org/v1";
+  // Automatically uses dev environment in debug mode, production in release mode
+  static bool get useDevEnvironment => kDebugMode;
+
+  static String get qubicStaticApiBaseUrl {
+    if (useDevEnvironment) {
+      return "https://static.qubic.org/dev/v1";
+    }
+    return "https://static.qubic.org/v1";
+  }
+
+  /// Returns a supported language code, falling back to English if not supported
+  /// Uses the app's l10n configuration automatically - no manual maintenance needed
+  static String getSupportedLocale(String locale) {
+    final supportedLocaleCodes = AppLocalizations.supportedLocales
+        .map((l) => l.languageCode)
+        .toList();
+    return supportedLocaleCodes.contains(locale) ? locale : 'en';
+  }
 
   // Qubic static API endpoints
   // Wallet-app specific endpoints (can be versioned independently in future)
-  static const walletMetadata = "/wallet-app/metadata.json";
   static const dapps = "/wallet-app/dapps/dapps.json";
   static dappLocale(String locale) => "/wallet-app/dapps/locales/$locale.json";
 

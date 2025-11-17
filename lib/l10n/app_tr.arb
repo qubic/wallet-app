@@ -812,5 +812,10 @@
     "dAppSearchInGoogle": "Google'da Ara",
     "generalLabelNoResults": "Sonuç bulunamadı",
     "generalLabelTermsOfService": "Kullanım Şartları",
-    "dAppSearchEmptyState": "Bir şeyler keşfedelim! Yazmaya başlayın"
+    "dAppSearchEmptyState": "Bir şeyler keşfedelim! Yazmaya başlayın",
+    "webviewAddressBarLabelOpenInBrowser": "Tarayıcıda aç",
+    "generalButtonContinue": "Devam et",
+    "dAppExternalUrlWarningTitle": "Güvenlik Uyarısı",
+    "dAppExternalUrlWarningMessage": "Üçüncü taraf bir dApp açmak üzeresiniz. \"Qubic Wallet\", Qubic ekosistem katkıda bulunanları tarafından geliştirilen üçüncü taraf uygulamaların yasallığı, güvenliği, performansı veya işlevselliği konusunda hiçbir onay, garanti veya güvence vermemektedir.\n\nTam olarak neye izin verdiğinizi anlamak için her onay talebini dikkatle okuyun. Bir dApp kullanmak finansal risk içerebilir.\n\n\"Qubic Wallet\", bu dApp'in kullanımından kaynaklanan herhangi bir kayıp veya sorundan sorumlu değildir.\n\nDaha fazla bilgi için Kullanım Şartlarımıza bakın.",
+    "dAppExternalUrlWarningDoNotRemind": "Bir daha hatırlatma"
 }

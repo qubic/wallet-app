@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
-import 'package:qubic_wallet/dtos/wallet_metadata_dto.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
@@ -12,13 +11,11 @@ class QubicStaticApi {
   QubicStaticApi()
       : _dio = DioClient.getDio(baseUrl: Config.qubicStaticApiBaseUrl);
 
-  Future<WalletMetadataDto> getMetadata() async {
-    try {
-      final response = await _dio.get(Config.walletMetadata);
-      return WalletMetadataDto.fromJson(response.data);
-    } catch (e) {
-      throw Exception('Failed to fetch wallet metadata');
-    }
+  /// Returns the URL for terms of service HTML for the given locale
+  /// Falls back to English if the locale is not supported
+  String getTermsUrl(String locale) {
+    final supportedLocale = Config.getSupportedLocale(locale);
+    return '${Config.qubicStaticApiBaseUrl}/wallet-app/terms/$supportedLocale.html';
   }
 
   Future<DappsResponse> getDapps() async {

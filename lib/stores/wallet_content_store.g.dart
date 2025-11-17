@@ -37,29 +37,6 @@ mixin _$WalletContentStore on WalletContentStoreBase, Store {
           Computed<List<DappDto>>(() => super.popularDapps,
               name: 'WalletContentStoreBase.popularDapps'))
       .value;
-  Computed<TermsMetadataDto?>? _$termsMetadataComputed;
-
-  @override
-  TermsMetadataDto? get termsMetadata => (_$termsMetadataComputed ??=
-          Computed<TermsMetadataDto?>(() => super.termsMetadata,
-              name: 'WalletContentStoreBase.termsMetadata'))
-      .value;
-
-  late final _$metadataAtom =
-      Atom(name: 'WalletContentStoreBase.metadata', context: context);
-
-  @override
-  WalletMetadataDto? get metadata {
-    _$metadataAtom.reportRead();
-    return super.metadata;
-  }
-
-  @override
-  set metadata(WalletMetadataDto? value) {
-    _$metadataAtom.reportWrite(value, super.metadata, () {
-      super.metadata = value;
-    });
-  }
 
   late final _$dappsResponseAtom =
       Atom(name: 'WalletContentStoreBase.dappsResponse', context: context);
@@ -109,14 +86,6 @@ mixin _$WalletContentStore on WalletContentStoreBase, Store {
     });
   }
 
-  late final _$loadMetadataAsyncAction =
-      AsyncAction('WalletContentStoreBase.loadMetadata', context: context);
-
-  @override
-  Future<void> loadMetadata() {
-    return _$loadMetadataAsyncAction.run(() => super.loadMetadata());
-  }
-
   late final _$loadDappsAsyncAction =
       AsyncAction('WalletContentStoreBase.loadDapps', context: context);
 
@@ -128,15 +97,13 @@ mixin _$WalletContentStore on WalletContentStoreBase, Store {
   @override
   String toString() {
     return '''
-metadata: ${metadata},
 dappsResponse: ${dappsResponse},
 error: ${error},
 isLoading: ${isLoading},
 allDapps: ${allDapps},
 topDapps: ${topDapps},
 featuredDapp: ${featuredDapp},
-popularDapps: ${popularDapps},
-termsMetadata: ${termsMetadata}
+popularDapps: ${popularDapps}
     ''';
   }
 }
