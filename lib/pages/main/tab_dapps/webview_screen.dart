@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/webview_address_bar.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -34,6 +35,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
   final ValueNotifier<bool> canGoBack = ValueNotifier(false);
   final ValueNotifier<bool> canGoForward = ValueNotifier(false);
   final ValueNotifier<int> urlChangeNotifier = ValueNotifier(0);
+  String? loadError;
 
   @override
   void initState() {
@@ -92,6 +94,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
   @override
   Widget build(BuildContext context) {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
+    final l10n = l10nOf(context);
 
     return Scaffold(
       body: Column(
@@ -168,6 +171,9 @@ class _WebviewScreenState extends State<WebviewScreen> {
                     setState(() {});
                   },
                   onLoadStart: (controller, url) {
+                    setState(() {
+                      loadError = null;
+                    });
                     _updateUrl(url.toString());
                   },
                   onLoadStop: (controller, url) {
@@ -179,7 +185,62 @@ class _WebviewScreenState extends State<WebviewScreen> {
                   onProgressChanged: (controller, p) {
                     progress.value = p / 100;
                   },
+                  onReceivedError: (controller, request, error) {
+                    setState(() {
+                      // Check if it's an ATS error (insecure HTTP connection)
+                      if (error.description.contains('App Transport Security') ||
+                          error.description.contains('NSURLErrorDomain') ||
+                          request.url.scheme == 'http') {
+                        loadError = l10n.webviewErrorInsecureConnection;
+                      } else {
+                        loadError = l10n.webviewErrorGeneric(error.description);
+                      }
+                      progress.value = 1.0; // Complete the progress bar on error
+                    });
+                  },
+                  onReceivedHttpError: (controller, request, response) {
+                    if (response.statusCode != null && response.statusCode! >= 400) {
+                      setState(() {
+                        loadError = l10n.webviewErrorHttp(response.statusCode.toString());
+                        progress.value = 1.0; // Complete the progress bar on error
+                      });
+                    }
+                  },
                 ),
+                // Error overlay
+                if (loadError != null)
+                  Container(
+                    color: LightThemeColors.background,
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(ThemePaddings.hugePadding),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.error_outline,
+                              size: 48,
+                              color: LightThemeColors.error,
+                            ),
+                            const SizedBox(height: ThemePaddings.bigPadding),
+                            Text(
+                              l10n.webviewErrorCannotLoad,
+                              style: TextStyles.textBold.copyWith(
+                                color: LightThemeColors.primary,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            const SizedBox(height: ThemePaddings.normalPadding),
+                            Text(
+                              loadError!,
+                              style: TextStyles.secondaryTextSmall,
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),

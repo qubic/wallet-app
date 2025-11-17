@@ -39,6 +39,17 @@ class _AddToFavoritesDialogState extends State<AddToFavoritesDialog> {
     super.initState();
     _nameController = TextEditingController(text: widget.initialName ?? '');
     _urlController = TextEditingController(text: widget.url);
+
+    // Prevent deletion of https:// prefix
+    _urlController.addListener(() {
+      final text = _urlController.text;
+      if (!text.startsWith('https://')) {
+        _urlController.value = const TextEditingValue(
+          text: 'https://',
+          selection: TextSelection.collapsed(offset: 8),
+        );
+      }
+    });
   }
 
   @override
@@ -132,15 +143,22 @@ class _AddToFavoritesDialogState extends State<AddToFavoritesDialog> {
                 name: 'url',
                 controller: _urlController,
                 decoration: ThemeInputDecorations.normalInputbox.copyWith(
-                  hintText: l10n.favoriteUrlHint,
+                  hintText: 'https://example.com',
                 ),
                 validator: FormBuilderValidators.compose([
                   FormBuilderValidators.required(
                     errorText: l10n.favoriteUrlRequired,
                   ),
-                  FormBuilderValidators.url(
-                    errorText: l10n.favoriteUrlInvalid,
-                  ),
+                  (value) {
+                    if (value == null || value.isEmpty) return null;
+                    final urlPattern = RegExp(
+                      r'^https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$',
+                    );
+                    if (!urlPattern.hasMatch(value.trim())) {
+                      return l10n.favoriteUrlInvalid;
+                    }
+                    return null;
+                  },
                 ]),
               ),
             ],

@@ -817,5 +817,9 @@
     "generalButtonContinue": "继续",
     "dAppExternalUrlWarningTitle": "安全警告",
     "dAppExternalUrlWarningMessage": "您即将打开第三方 dApp。\"Qubic Wallet\" 对由 Qubic 生态系统贡献者开发的任何第三方应用程序的合法性、安全性、性能或功能不做任何背书、保证或担保。\n\n请仔细阅读每个批准请求，以便您准确了解您允许的内容。使用 dApp 可能涉及财务风险。\n\n\"Qubic Wallet\" 对使用此 dApp 导致的任何损失或问题概不负责。\n\n如需更多信息，请参阅我们的服务条款。",
-    "dAppExternalUrlWarningDoNotRemind": "不再提醒"
+    "dAppExternalUrlWarningDoNotRemind": "不再提醒",
+    "webviewErrorCannotLoad": "无法加载该页面",
+    "webviewErrorInsecureConnection": "此页面无法加载，因为它使用不安全的连接 (HTTP)。仅允许安全连接 (HTTPS)。",
+    "webviewErrorGeneric": "加载页面失败：{error}",
+    "webviewErrorHttp": "HTTP 错误 {code}"
 }

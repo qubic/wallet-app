@@ -822,5 +822,9 @@
     "generalButtonContinue": "Continuer",
     "dAppExternalUrlWarningTitle": "Avertissement de sécurité",
     "dAppExternalUrlWarningMessage": "Vous êtes sur le point d'ouvrir une dApp tierce. \"Qubic Wallet\" n'offre aucun aval, garantie ou assurance concernant la légalité, la sécurité, les performances ou la fonctionnalité des applications tierces développées par les contributeurs de l'écosystème Qubic.\n\nLisez attentivement chaque demande d'approbation pour bien comprendre ce que vous autorisez. L'utilisation d'une dApp peut comporter des risques financiers.\n\n\"Qubic Wallet\" n'est pas responsable des pertes ou problèmes résultant de l'utilisation de cette dApp.\n\nPour plus d'informations, consultez nos Conditions d'utilisation.",
-    "dAppExternalUrlWarningDoNotRemind": "Ne plus me rappeler"
+    "dAppExternalUrlWarningDoNotRemind": "Ne plus me rappeler",
+    "webviewErrorCannotLoad": "Impossible de charger cette page",
+    "webviewErrorInsecureConnection": "Cette page ne peut pas être chargée car elle utilise une connexion non sécurisée (HTTP). Seules les connexions sécurisées (HTTPS) sont autorisées.",
+    "webviewErrorGeneric": "Échec du chargement de la page : {error}",
+    "webviewErrorHttp": "Erreur HTTP {code}"
 }
