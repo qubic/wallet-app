@@ -210,7 +210,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
       {
         'type': 'google',
         'name': _searchQuery,
-        'url': 'https://www.google.com/search?q=${Uri.encodeComponent(_searchQuery)}',
+        'url':
+            'https://www.google.com/search?q=${Uri.encodeComponent(_searchQuery)}',
       }
     ];
 
@@ -315,7 +316,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                 style: TextStyles.labelText,
               ),
             ),
-            ...results['popular_apps']!.map((result) => _buildResultTile(result)),
+            ...results['popular_apps']!
+                .map((result) => _buildResultTile(result)),
           ],
 
           // Google Search section
@@ -332,7 +334,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                 style: TextStyles.labelText,
               ),
             ),
-            ...results['google']!.map((result) => _buildGoogleSearchTile(result)),
+            ...results['google']!
+                .map((result) => _buildGoogleSearchTile(result)),
           ],
         ],
       ),
@@ -372,7 +375,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
     );
   }
 
-  Widget _buildSearchField(AppLocalizations l10n, {required bool showCloseButton}) {
+  Widget _buildSearchField(AppLocalizations l10n,
+      {required bool showCloseButton}) {
     return Padding(
       key: _searchFieldKey,
       padding: const EdgeInsets.fromLTRB(
@@ -428,7 +432,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
         ),
         const SizedBox(height: ThemePaddings.normalPadding),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: ThemePaddings.smallPadding),
+          padding: const EdgeInsets.symmetric(
+              horizontal: ThemePaddings.smallPadding),
           child: SizedBox(
             height: 95,
             child: ListView.builder(
@@ -441,7 +446,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                     onTap: _navigateToFavorites,
                     child: Container(
                       width: 60,
-                      margin: const EdgeInsets.only(right: ThemePaddings.smallPadding),
+                      margin: const EdgeInsets.only(
+                          right: ThemePaddings.smallPadding),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -450,7 +456,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                             height: 60,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                color: LightThemeColors.primary.withValues(alpha: 0.08),
+                                color: LightThemeColors.primary
+                                    .withValues(alpha: 0.08),
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
@@ -473,7 +480,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                   },
                   child: Container(
                     width: 60,
-                    margin: const EdgeInsets.only(right: ThemePaddings.smallPadding),
+                    margin: const EdgeInsets.only(
+                        right: ThemePaddings.smallPadding),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -514,7 +522,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
       appBar: AppBar(
         title: Text(l10n.appTabExplore, style: TextStyles.textExtraLargeBold),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: LightThemeColors.background,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         actions: [
@@ -602,7 +610,8 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                     const SizedBox(height: 16),
                     Padding(
                       padding: const EdgeInsets.only(
-                        left: ThemePaddings.smallPadding + ThemePaddings.normalPadding,
+                        left: ThemePaddings.smallPadding +
+                            ThemePaddings.normalPadding,
                         right: ThemePaddings.smallPadding,
                       ),
                       child: Text(
@@ -626,10 +635,12 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                     const SizedBox(height: 16),
                     Padding(
                       padding: const EdgeInsets.only(
-                        left: ThemePaddings.smallPadding + ThemePaddings.normalPadding,
+                        left: ThemePaddings.smallPadding +
+                            ThemePaddings.normalPadding,
                         right: ThemePaddings.smallPadding,
                       ),
-                      child: Text(l10n.dAppPopularApps, style: TextStyles.labelText),
+                      child: Text(l10n.dAppPopularApps,
+                          style: TextStyles.labelText),
                     ),
                     const SizedBox(height: ThemePaddings.normalPadding),
                     Padding(

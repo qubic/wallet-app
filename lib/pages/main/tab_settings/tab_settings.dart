@@ -63,8 +63,8 @@ class _TabSettingsState extends State<TabSettings> {
     final l10n = l10nOf(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.appTabSettings, style: TextStyles.textExtraLargeBold),
-        backgroundColor: Colors.transparent,
+        title: Text(l10n.settingsTitle, style: TextStyles.textExtraLargeBold),
+        backgroundColor: LightThemeColors.background,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
@@ -73,131 +73,133 @@ class _TabSettingsState extends State<TabSettings> {
         color: LightThemeColors.background,
         child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints viewportConstraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                minHeight: viewportConstraints.maxHeight,
-              ),
-              child: IntrinsicHeight(
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: ThemeEdgeInsets.pageInsets,
-                        child: Column(
-                          children: [
-                            SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.lock,
-                                  height: defaultIconHeight),
-                              title: l10n.settingsLockWallet,
-                              suffix: const SizedBox.shrink(),
-                              onPressed: () {
-                                appStore.reportGlobalError("");
-                                appStore.reportGlobalNotification("");
-                                appStore.setCurrentTabIndex(
-                                    0); // so after unlock, it goes to Home
-                                appStore.signOut();
-                                appStore.checkWalletIsInitialized();
-                                timedController.stopFetchTimers();
-                                context.go('/signInNoAuth');
-                              },
-                            ),
-                            SettingsListTile(
-                              prefix: SizedBox(
-                                width: 24,
-                                child: SvgPicture.asset(AppIcons.autoLock,
+            return SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: viewportConstraints.maxHeight,
+                ),
+                child: IntrinsicHeight(
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: ThemeEdgeInsets.pageInsets,
+                          child: Column(
+                            children: [
+                              SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.lock,
+                                    height: defaultIconHeight),
+                                title: l10n.settingsLockWallet,
+                                suffix: const SizedBox.shrink(),
+                                onPressed: () {
+                                  appStore.reportGlobalError("");
+                                  appStore.reportGlobalNotification("");
+                                  appStore.setCurrentTabIndex(
+                                      0); // so after unlock, it goes to Home
+                                  appStore.signOut();
+                                  appStore.checkWalletIsInitialized();
+                                  timedController.stopFetchTimers();
+                                  context.go('/signInNoAuth');
+                                },
+                              ),
+                              SettingsListTile(
+                                prefix: SizedBox(
+                                  width: 24,
+                                  child: SvgPicture.asset(AppIcons.autoLock,
+                                      height: defaultIconHeight),
+                                ),
+                                title: l10n.settingsLabelAutlock,
+                                path: AutoLockSettings(),
+                              ),
+                              SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.export,
+                                    height: defaultIconHeight),
+                                title: l10n.settingsLabelExportWalletVaultFile,
+                                path: const ExportWalletVault(),
+                              ),
+                              SettingsListTile(
+                                prefix: SizedBox(
+                                  width: 24,
+                                  child: SvgPicture.asset(
+                                      AppIcons.changePassword,
+                                      height: defaultIconHeight),
+                                ),
+                                title: l10n.settingsLabelChangePassword,
+                                path: const ChangePassword(),
+                              ),
+                              SettingsListTile(
+                                prefix: SvgPicture.asset(
+                                  settingsUnlockIconPath,
+                                  height: defaultIconHeight,
+                                  colorFilter: const ColorFilter.mode(
+                                      LightThemeColors.textColorSecondary,
+                                      BlendMode.srcIn),
+                                ),
+                                title: settingsUnlockLabel,
+                                path: const ManageBiometrics(),
+                              ),
+                              SettingsListTile(
+                                  prefix: SvgPicture.asset(
+                                      AppIcons.walletConnect,
+                                      height: defaultIconHeight),
+                                  title: l10n.settingsLabelWalletConnect,
+                                  path: const WalletConnectSettings()),
+                              SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.network,
+                                    height: defaultIconHeight),
+                                title: l10n.networksTitle,
+                                path: NetworksScreen(),
+                              ),
+                              SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.support,
+                                    height: defaultIconHeight),
+                                title: l10n.settingsLabelSupport,
+                                path: const SupportScreen(),
+                              ),
+                              SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.community,
+                                    height: defaultIconHeight),
+                                title: l10n.settingsLabelJoinCommunity,
+                                path: const JoinCommunity(),
+                              ),
+                              SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.privacyPolicy,
+                                    height: defaultIconHeight),
+                                title: l10n.settingsLabelPrivacyPolicy,
+                                onPressed: () {
+                                  launchUrlString(
+                                      "https://qubic.org/privacy-policy",
+                                      mode: LaunchMode.externalApplication);
+                                },
+                                suffix: SvgPicture.asset(AppIcons.externalLink,
                                     height: defaultIconHeight),
                               ),
-                              title: l10n.settingsLabelAutlock,
-                              path: AutoLockSettings(),
-                            ),
-                            SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.export,
-                                  height: defaultIconHeight),
-                              title: l10n.settingsLabelExportWalletVaultFile,
-                              path: const ExportWalletVault(),
-                            ),
-                            SettingsListTile(
-                              prefix: SizedBox(
-                                width: 24,
-                                child: SvgPicture.asset(AppIcons.changePassword,
+                              SettingsListTile(
+                                prefix: SvgPicture.asset(AppIcons.privacyPolicy,
                                     height: defaultIconHeight),
+                                title: l10n.generalLabelTermsOfService,
+                                path: const TermsOfUseScreen(),
                               ),
-                              title: l10n.settingsLabelChangePassword,
-                              path: const ChangePassword(),
-                            ),
-                            SettingsListTile(
-                              prefix: SvgPicture.asset(
-                                settingsUnlockIconPath,
-                                height: defaultIconHeight,
-                                colorFilter: const ColorFilter.mode(
-                                    LightThemeColors.textColorSecondary,
-                                    BlendMode.srcIn),
-                              ),
-                              title: settingsUnlockLabel,
-                              path: const ManageBiometrics(),
-                            ),
-                            SettingsListTile(
-                                prefix: SvgPicture.asset(AppIcons.walletConnect,
-                                    height: defaultIconHeight),
-                                title: l10n.settingsLabelWalletConnect,
-                                path: const WalletConnectSettings()),
-                            SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.network,
-                                  height: defaultIconHeight),
-                              title: l10n.networksTitle,
-                              path: NetworksScreen(),
-                            ),
-                            SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.support,
-                                  height: defaultIconHeight),
-                              title: l10n.settingsLabelSupport,
-                              path: const SupportScreen(),
-                            ),
-                            SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.community,
-                                  height: defaultIconHeight),
-                              title: l10n.settingsLabelJoinCommunity,
-                              path: const JoinCommunity(),
-                            ),
-                            SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.privacyPolicy,
-                                  height: defaultIconHeight),
-                              title: l10n.settingsLabelPrivacyPolicy,
-                              onPressed: () {
-                                launchUrlString(
-                                    "https://qubic.org/privacy-policy",
-                                    mode: LaunchMode.externalApplication);
-                              },
-                              suffix: SvgPicture.asset(AppIcons.externalLink,
-                                  height: defaultIconHeight),
-                            ),
-                            SettingsListTile(
-                              prefix: SvgPicture.asset(AppIcons.privacyPolicy,
-                                  height: defaultIconHeight),
-                              title: l10n.generalLabelTermsOfService,
-                              path: const TermsOfUseScreen(),
-                            ),
-                            EraseWalletDataButton(),
-                          ],
+                              EraseWalletDataButton(),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: ThemePaddings.bigPadding),
-                      child: Text(
-                        "Qubic Wallet v.${settingsStore.versionInfo!}${settingsStore.buildNumber!.isNotEmpty ? " (${settingsStore.buildNumber!})" : ""}",
-                        textAlign: TextAlign.center,
-                        style: TextStyles.secondaryTextSmall,
-                      ),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: ThemePaddings.bigPadding),
+                        child: Text(
+                          "Qubic Wallet v.${settingsStore.versionInfo!}${settingsStore.buildNumber!.isNotEmpty ? " (${settingsStore.buildNumber!})" : ""}",
+                          textAlign: TextAlign.center,
+                          style: TextStyles.secondaryTextSmall,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
         ),
       ),
     );
