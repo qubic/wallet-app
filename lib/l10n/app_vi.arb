@@ -5,7 +5,6 @@
     "generalLabelNo": "Không",
     "generalButtonConfirm": "Xác nhận",
     "generalButtonDelete": "Xóa",
-    "generalButtonAdd": "Thêm",
     "generalButtonCopy": "Sao chép",
     "generalButtonRename": "Đổi tên",
     "generalButtonSave": "Lưu",
@@ -20,7 +19,6 @@
     "generalButtonApply": "Áp dụng",
     "generalButtonEraseWalletData": "Xóa dữ liệu ví",
     "generalButtonClearAll": "Xóa tất cả",
-    "generalButtonShowAll": "Hiển thị tất cả",
     "generalButtonUseQRCode": "Sử dụng mã QR",
     "generalButtonCopyAddress": "Sao chép địa chỉ",
     "generalButtonPaste": "Dán",
@@ -33,9 +31,6 @@
     "generalLabelTick": "Tick",
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Loại đầu vào",
-    "generalLabelInfo": "Thông tin",
-    "generalLabelDate": "Ngày",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Tài khoản {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -52,14 +47,6 @@
     "generalLabelFee": "Phí",
     "generalLabeQubicAddress": "Địa chỉ Qubic",
     "generalLabeQubicAddressAndPublicID": "Địa chỉ Qubic (ID công khai)",
-    "generalLabelQubicAddressWithAccountName": "Địa chỉ Qubic {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} tài khoản ví \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -85,8 +72,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Cổ phần} other{Cổ phần}}",
-    "generalLabelEnabled": "Đã bật",
-    "generalLabelDisabled": "Đã tắt",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "Đã xảy ra lỗi",
     "generalSnackBarMessageCopiedToClipboard": "Đã sao chép vào clipboard",
@@ -192,7 +177,6 @@
     "settingsHeaderAbout": "Về chúng tôi",
     "settingsLabelJoinCommunity": "Tham gia cộng đồng",
     "settingsLabelSupport": "Hỗ trợ",
-    "settingsLabelWalletInfo": "Thông tin ví",
     "settingsLabelWalletConnect": "WalletConnect",
     "settingsSupportGithub": "GitHub (Báo cáo sự cố)",
     "settingsSupportDiscord": "Discord (Kênh hỗ trợ)",
@@ -452,7 +436,6 @@
     "reauthenticateTitle": "Yêu cầu xác thực",
     "reauthenticateHeader": "Vui lòng xác thực lại",
     "reathenticateLabelReason": "Vui lòng xác thực lại để tiếp tục.",
-    "reathenticateWithPasswordLabelReason": "Vui lòng xác thực lại để tiếp tục. Mật khẩu bạn cung cấp sẽ được sử dụng để mã hóa ví vault của bạn.",
     "receiveTitle": "Nhận tiền và tài sản",
     "receiveHeader": "trong \"{accountName}\"",
     "@receiveHeader": {
@@ -485,14 +468,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Chọn địa chỉ",
     "sendItemLabelSelectSenderAddressLineTwo": "từ các tài khoản ví của bạn",
-    "sendItemLabelCurrentTick": "(Tick hiện tại: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Xuất tập tin Vault ví",
     "exportWalletVaultLabelInstructions": "Xuất nội dung ví này vào một tập tin vault được mã hóa làm bản sao lưu. Tập tin này có thể được nhập vào ví web và chỉ có thể được mở khóa bằng mật khẩu được cung cấp. Luôn giữ tập tin này ở một nơi an toàn.",
     "exportWalletVaultButtonExport": "Xuất",
@@ -526,16 +501,8 @@
     "transfersListLabelReceiveIn": "Nhận trong",
     "transfersListLabelSharePublicIdInstructionsOne": "Vui lòng chia sẻ ID công khai sau đây với người gửi:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Hoặc hiển thị mã QR sau đây",
-    "transferAssetHeaderForShares": "Chuyển cổ phần {assetName}",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Chuyển token {assetName}",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Chuyển {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -550,8 +517,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "Cổ phần {assetName} thuộc sở hữu của ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Số dư tài sản trong ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -561,17 +528,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "Token {assetName} thuộc sở hữu của ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Chỉ có thể chuyển các tài sản được quản lý bởi Qx",
     "generalAllTransactionDetails": "ID GD: {trxId}\nNguồn: {sourceId}\nĐích: {destId}\nSố lượng: {amount}\nLoại: {type}\nTrạng thái: {status}\nDấu thời gian: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
@@ -781,10 +738,7 @@
     "wcExpiresInDays": "{count, plural, =1{Phiên hết hạn trong 1 ngày} other{Phiên hết hạn trong {count} ngày}}",
     "wcExpiresInLessThanDay": "Phiên hết hạn trong ít hơn một ngày",
     "pasteURLHere": "Dán URL",
-    "approvingConnection": "Đang chấp thuận kết nối",
-    "pleaseWait": "Vui lòng chờ",
     "wcApproveSignTransferOf": "Ký chuyển khoản của",
-    "wcApproveTransferOf": "Chuyển khoản của",
     "wcApproveSignOf": "Ký tin nhắn sau đây",
     "wcApprovedSignedTransaction": "Đã ký giao dịch và gửi thành công đến dApp",
     "wcApprovedSignedMessage": "Đã ký tin nhắn và gửi thành công đến dApp",

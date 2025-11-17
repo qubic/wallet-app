@@ -5,7 +5,6 @@
     "generalLabelNo": "Nein",
     "generalButtonConfirm": "Bestätigen",
     "generalButtonDelete": "Löschen",
-    "generalButtonAdd": "Hinzufügen",
     "generalButtonCopy": "Kopieren",
     "generalButtonRename": "Umbenennen",
     "generalButtonSave": "Speichern",
@@ -18,7 +17,6 @@
     "generalButtonApply": "Anwenden",
     "generalButtonEraseWalletData": "Wallet-Daten löschen",
     "generalButtonClearAll": "Alle löschen",
-    "generalButtonShowAll": "Alle anzeigen",
     "generalButtonUseQRCode": "QR-Code verwenden",
     "generalButtonCopyAddress": "Adresse kopieren",
     "generalLabelHidden": "******",
@@ -26,9 +24,6 @@
     "generalLabelCurrencyQubic": "QUBIC",
     "generalLabelCurrencyUSD": "USD",
     "generalLabelTick": "Tick",
-    "generalLabelInfo": "Information",
-    "generalLabelDate": "Datum",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Konto {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -44,14 +39,6 @@
     "generalLabelTo": "An",
     "generalLabeQubicAddress": "Qubic-Adresse",
     "generalLabeQubicAddressAndPublicID": "Qubic-Adresse (öffentliche ID)",
-    "generalLabelQubicAddressWithAccountName": "Qubic-Adresse {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} Wallet-Konto \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -76,8 +63,6 @@
     "generalLabelNotAvailable": "Nicht verfügbar",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
-    "generalLabelEnabled": "Aktiviert",
-    "generalLabelDisabled": "Deaktiviert",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "Ein Fehler ist aufgetreten",
     "generalSnackBarMessageCopiedToClipboard": "In die Zwischenablage kopiert.",
@@ -169,7 +154,6 @@
     "settingsLabelExportWalletVaultFile": "Wallet-Tresordatei exportieren",
     "settingsHeaderAbout": "Über",
     "settingsLabelJoinCommunity": "Community beitreten",
-    "settingsLabelWalletInfo": "Wallet Info",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "Iris",
@@ -409,7 +393,6 @@
     "reauthenticateTitle": "Authentifizierung erforderlich.",
     "reauthenticateHeader": "Bitte authentifizieren Sie sich erneut.",
     "reathenticateLabelReason": "Bitte authentifizieren Sie sich erneut, um fortzufahren.",
-    "reathenticateWithPasswordLabelReason": "Bitte authentifizieren Sie sich erneut, um fortzufahren. Das von Ihnen eingegebene Passwort wird verwendet, um Ihr Tresor-Wallet zu verschlüsseln.",
     "receiveTitle": "Gelder und Vermögenswerte empfangen",
     "receiveHeader": "in \"{accountName}\"",
     "@receiveHeader": {
@@ -442,14 +425,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Adresse auswählen",
     "sendItemLabelSelectSenderAddressLineTwo": "aus Ihren Wallet Konten",
-    "sendItemLabelCurrentTick": "(Aktueller Tick: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Wallet-Tresordatei exportieren",
     "exportWalletVaultLabelInstructions": "Exportieren Sie den Inhalt dieses Wallets in einer verschlüsselten Tresordatei als Sicherung. Diese Datei kann im Web-Wallet importiert werden und kann nur mit dem angegebenen Passwort entsperrt werden. Bewahren Sie diese Datei immer an einem sicheren Ort auf.",
     "exportWalletVaultButtonExport": "Exportieren",
@@ -483,16 +458,8 @@
     "transfersListLabelReceiveIn": "Empfangen in",
     "transfersListLabelSharePublicIdInstructionsOne": "Bitte teilen Sie dem Absender die folgende öffentliche ID mit:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Oder zeigen Sie den folgenden QR-Code",
-    "transferAssetHeaderForShares": "Übertragen Sie {assetName}-Anteile",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Übertragen Sie {assetName}-Token",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Übertragen Sie {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -507,8 +474,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "{assetName}-Anteile im Besitz der ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Asset-Guthaben in ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -518,17 +485,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "{assetName}-Token im Besitz der ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Nur von Qx verwaltete Assets können übertragen werden",
     "generalAllTransactionDetails": "TX ID: {trxId}\nQuelle: {sourceId}\nZiel: {destId}\nBetrag: {amount}\nTyp: {type}\nStatus: {status}\nZeitstempel: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Vorhandene Wallet importieren",
     "importWalletTitle": "Wallet importieren",
@@ -705,10 +662,7 @@
     "wcExpiresInDays": "{count, plural, =1{Die Sitzung läuft in 1 Tag ab} other{Die Sitzung läuft in {count} Tagen ab}}",
     "wcExpiresInLessThanDay": "Die Sitzung läuft in weniger als einem Tag ab",
     "pasteURLHere": "Füge die URL ein",
-    "approvingConnection": "Verbindung wird genehmigt",
-    "pleaseWait": "Bitte warte",
     "wcApproveSignTransferOf": "Signiere die Übertragung von",
-    "wcApproveTransferOf": "Übertragung von",
     "wcApproveSignOf": "Signiere die folgende Nachricht",
     "wcApprovedSignedTransaction": "Transaktion signiert und erfolgreich an dApp gesendet",
     "wcApprovedSignedMessage": "Nachricht signiert und erfolgreich an dApp gesendet",

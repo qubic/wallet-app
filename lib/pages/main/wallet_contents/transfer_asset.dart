@@ -387,13 +387,9 @@ class _TransferAssetState extends State<TransferAsset> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              widget.asset.isSmartContractShare
-                  ? l10n.transferAssetLabelOwnedShares(
-                      widget.asset.issuedAsset.name,
-                      formatter.format(widget.asset.numberOfUnits))
-                  : l10n.transferAssetLabelOwnedTokens(
-                      widget.asset.issuedAsset.name,
-                      formatter.format(widget.asset.numberOfUnits)),
+              l10n.transferAssetLabelOwned(
+                  widget.asset.issuedAsset.name,
+                  formatter.format(widget.asset.numberOfUnits)),
               style: TextStyles.secondaryText),
         ]);
   }
@@ -445,13 +441,13 @@ class _TransferAssetState extends State<TransferAsset> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: (widget.asset.isSmartContractShare
-                      ? l10n.transferAssetHeaderForShares(
-                          widget.asset.issuedAsset.name)
-                      : l10n.transferAssetHeaderForTokens(
-                          widget.asset.issuedAsset.name)),
+                  headerText: l10n.transferAssetHeader(
+                      widget.asset.issuedAsset.name),
                   subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalSmall(),
+              Text(l10n.transferAssetNoticeQxOnly,
+                  style: TextStyles.secondaryText),
+              ThemedControls.spacerVerticalNormal(),
               Text(l10n.accountSendLabelDestinationAddress,
                   style: TextStyles.labelTextNormal),
               ThemedControls.spacerVerticalMini(),
