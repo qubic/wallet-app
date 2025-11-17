@@ -243,11 +243,8 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   }
 
   CurrencyInputFormatter getInputFormatter(BuildContext context) {
-    final l10n = l10nOf(context);
-
     return CurrencyInputFormatter(
-      trailingSymbol:
-          "${widget.groupedAsset.issuedAsset.name} ${widget.groupedAsset.isSmartContractShare ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
+      trailingSymbol: widget.groupedAsset.issuedAsset.name,
       useSymbolPadding: true,
       thousandSeparator: ThousandSeparator.Comma,
       mantissaLength: 0,
