@@ -175,7 +175,7 @@ class _TabSettingsState extends State<TabSettings> {
                                     height: defaultIconHeight),
                               ),
                               SettingsListTile(
-                                prefix: SvgPicture.asset(AppIcons.privacyPolicy,
+                                prefix: SvgPicture.asset(AppIcons.terms,
                                     height: defaultIconHeight),
                                 title: l10n.generalLabelTermsOfService,
                                 path: const TermsOfUseScreen(),
