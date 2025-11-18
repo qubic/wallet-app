@@ -45,7 +45,7 @@ class _FavoritesListScreenState extends State<FavoritesListScreen> {
     await openDappUrl(context, favorite.url);
     // Refresh the favorites list when returning from webview
     if (mounted) {
-      setState(() {});
+      _loadFavorites();
     }
   }
 
