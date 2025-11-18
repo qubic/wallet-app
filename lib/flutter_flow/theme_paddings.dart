@@ -6,6 +6,9 @@ abstract class ThemePaddings {
   /// 1px
   static const minimumPadding = 1.0;
 
+  /// 2px
+  static const tinyPadding = 2.0;
+
   /// 4px
   static const miniPadding = 4.0;
 

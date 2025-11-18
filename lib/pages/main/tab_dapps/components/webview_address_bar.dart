@@ -9,6 +9,7 @@ import 'package:qubic_wallet/pages/main/tab_dapps/components/add_to_favorites_di
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -178,7 +179,7 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
       child: Row(
         children: [
           Icon(icon, size: 18, color: iconColor ?? LightThemeColors.menuInactive),
-          const SizedBox(width: 8),
+          ThemedControls.spacerHorizontalSmall(),
           Text(label, style: TextStyles.inputBoxSmallStyle.copyWith(color: textColor)),
         ],
       ),

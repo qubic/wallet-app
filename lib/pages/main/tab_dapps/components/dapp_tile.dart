@@ -60,7 +60,7 @@ class DAppTile extends StatelessWidget {
                     dApp.name ?? "-",
                     style: TextStyles.labelTextTight,
                   ),
-                  const SizedBox(height: 2),
+                  ThemedControls.spacerVerticalTiny(),
                   Text(
                     dApp.description ?? "-",
                     style: TextStyles.smallInfoTextTight,

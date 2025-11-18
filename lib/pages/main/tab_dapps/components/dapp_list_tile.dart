@@ -48,7 +48,7 @@ class DappListTile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   if (subtitle.isNotEmpty) ...[
-                    const SizedBox(height: 2),
+                    ThemedControls.spacerVerticalTiny(),
                     Text(
                       subtitle,
                       style: TextStyles.smallInfoTextTight,

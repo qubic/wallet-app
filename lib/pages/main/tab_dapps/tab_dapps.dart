@@ -495,7 +495,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 4),
+                        ThemedControls.spacerVerticalMini(),
                         Text(
                           favorite.name,
                           style: TextStyles.secondaryTextSmall,
@@ -544,7 +544,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                 child: Row(
                   children: [
                     const Icon(Icons.star_border, size: 20),
-                    const SizedBox(width: 12),
+                    ThemedControls.spacerHorizontalMedium(),
                     Text(l10n.favoritesTitle),
                   ],
                 ),
@@ -604,10 +604,10 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                   padding: EdgeInsets.zero,
                   children: [
                     _buildSearchField(l10n, showCloseButton: false),
-                    const SizedBox(height: 16),
+                    ThemedControls.spacerVerticalNormal(),
                     // Favorites Section
                     _buildFavoritesSection(l10n),
-                    const SizedBox(height: 16),
+                    ThemedControls.spacerVerticalNormal(),
                     Padding(
                       padding: const EdgeInsets.only(
                         left: ThemePaddings.smallPadding +
@@ -632,7 +632,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                         },
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    ThemedControls.spacerVerticalNormal(),
                     Padding(
                       padding: const EdgeInsets.only(
                         left: ThemePaddings.smallPadding +
