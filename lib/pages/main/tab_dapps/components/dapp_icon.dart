@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 
 /// Reusable dApp icon widget with network image loading and fallback
 /// Displays dApp icon from URL or shows default image on error/missing URL
@@ -31,15 +32,15 @@ class DappIcon extends StatelessWidget {
                 placeholder: (context, url) => Container(
                   width: size,
                   height: size,
-                  color: Colors.grey.withValues(alpha: 0.1),
+                  color: LightThemeColors.grey90,
                   child: Center(
                     child: SizedBox(
                       width: size * 0.3,
                       height: size * 0.3,
-                      child: CircularProgressIndicator(
+                      child: const CircularProgressIndicator(
                         strokeWidth: 2,
                         valueColor: AlwaysStoppedAnimation<Color>(
-                          Colors.grey.withValues(alpha: 0.3),
+                          LightThemeColors.grey60,
                         ),
                       ),
                     ),
