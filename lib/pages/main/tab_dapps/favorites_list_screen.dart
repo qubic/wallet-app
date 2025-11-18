@@ -70,7 +70,7 @@ class _FavoritesListScreenState extends State<FavoritesListScreen> {
       appBar: AppBar(
         title: Text(l10n.favoritesTitle, style: TextStyles.textExtraLargeBold),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+        backgroundColor: LightThemeColors.background,
         actions: [
           IconButton(
             icon: const Icon(Icons.add, color: LightThemeColors.primary),
