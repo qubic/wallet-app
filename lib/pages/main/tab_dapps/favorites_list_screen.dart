@@ -80,19 +80,24 @@ class _FavoritesListScreenState extends State<FavoritesListScreen> {
       ),
       body: _favorites.isEmpty
           ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    l10n.favoritesEmpty,
-                    style: TextStyles.textLarge,
-                  ),
-                  ThemedControls.spacerVerticalSmall(),
-                  Text(
-                    l10n.favoritesEmptyDescription,
-                    style: TextStyles.secondaryText,
-                  ),
-                ],
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: ThemePaddings.normalPadding),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      l10n.favoritesEmpty,
+                      style: TextStyles.textLarge,
+                    ),
+                    ThemedControls.spacerVerticalSmall(),
+                    Text(
+                      l10n.favoritesEmptyDescription,
+                      style: TextStyles.secondaryText,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
             )
           : ListView.builder(
