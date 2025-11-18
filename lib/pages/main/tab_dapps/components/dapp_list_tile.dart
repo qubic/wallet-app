@@ -3,6 +3,7 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_icon.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 
 /// Reusable list tile for displaying dApps and favorites
 /// Used in search results and favorites list
@@ -35,14 +36,14 @@ class DappListTile extends StatelessWidget {
               iconUrl: iconUrl,
               size: Config.dAppIconSize,
             ),
-            const SizedBox(width: ThemePaddings.normalPadding),
+            ThemedControls.spacerHorizontalNormal(),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
-                    style: TextStyles.labelText.copyWith(height: 1.2),
+                    style: TextStyles.labelTextTight,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -50,7 +51,7 @@ class DappListTile extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       subtitle,
-                      style: TextStyles.smallInfoText.copyWith(height: 1.2),
+                      style: TextStyles.smallInfoTextTight,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

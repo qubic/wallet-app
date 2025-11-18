@@ -58,12 +58,12 @@ class DAppTile extends StatelessWidget {
                 children: [
                   Text(
                     dApp.name ?? "-",
-                    style: TextStyles.labelText.copyWith(height: 1.2),
+                    style: TextStyles.labelTextTight,
                   ),
                   const SizedBox(height: 2),
                   Text(
                     dApp.description ?? "-",
-                    style: TextStyles.smallInfoText.copyWith(height: 1.2),
+                    style: TextStyles.smallInfoTextTight,
                   ),
                 ],
               ),
