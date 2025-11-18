@@ -209,7 +209,7 @@ class _AddAccountState extends State<AddAccount> {
                           suffixIcon: accountName.text.isNotEmpty
                               ? IconButton(
                                   icon: const Icon(Icons.cancel, size: 20),
-                                  color: Colors.grey.shade400,
+                                  color: LightThemeColors.grey50,
                                   onPressed: () {
                                     accountName.clear();
                                     setState(() {});
@@ -481,7 +481,7 @@ class _AddAccountState extends State<AddAccount> {
                         suffixIcon: accountName.text.isNotEmpty
                             ? IconButton(
                                 icon: const Icon(Icons.cancel, size: 20),
-                                color: Colors.grey.shade400,
+                                color: LightThemeColors.grey50,
                                 onPressed: () {
                                   accountName.clear();
                                   setState(() {});
