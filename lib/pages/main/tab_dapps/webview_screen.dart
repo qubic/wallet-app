@@ -88,6 +88,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
   @override
   void dispose() {
     urlController.dispose();
+    webViewController?.dispose();
     super.dispose();
   }
 
