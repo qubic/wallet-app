@@ -9,6 +9,7 @@ import 'package:qubic_wallet/pages/main/tab_dapps/components/add_to_favorites_di
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_list_tile.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class FavoritesListScreen extends StatefulWidget {
   const FavoritesListScreen({super.key});
@@ -86,7 +87,7 @@ class _FavoritesListScreenState extends State<FavoritesListScreen> {
                     l10n.favoritesEmpty,
                     style: TextStyles.textLarge,
                   ),
-                  const SizedBox(height: 8),
+                  ThemedControls.spacerVerticalSmall(),
                   Text(
                     l10n.favoritesEmptyDescription,
                     style: TextStyles.secondaryText,

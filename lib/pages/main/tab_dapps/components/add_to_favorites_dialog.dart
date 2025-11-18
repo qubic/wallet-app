@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/dapp_helpers.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -10,6 +9,7 @@ import 'package:qubic_wallet/models/favorite_dapp.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
+import 'package:qubic_wallet/styles/themed_controls.dart';
 
 class AddToFavoritesDialog extends StatefulWidget {
   final String url;
@@ -105,7 +105,7 @@ class _AddToFavoritesDialogState extends State<AddToFavoritesDialog> {
                 l10n.favoriteNameLabel,
                 style: TextStyles.labelText,
               ),
-              const SizedBox(height: ThemePaddings.miniPadding),
+              ThemedControls.spacerVerticalMini(),
               FormBuilderTextField(
                 name: 'name',
                 controller: _nameController,
@@ -133,12 +133,12 @@ class _AddToFavoritesDialogState extends State<AddToFavoritesDialog> {
                   },
                 ]),
               ),
-              const SizedBox(height: ThemePaddings.normalPadding),
+              ThemedControls.spacerVerticalNormal(),
               Text(
                 l10n.favoriteUrlLabel,
                 style: TextStyles.labelText,
               ),
-              const SizedBox(height: ThemePaddings.miniPadding),
+              ThemedControls.spacerVerticalMini(),
               FormBuilderTextField(
                 name: 'url',
                 controller: _urlController,

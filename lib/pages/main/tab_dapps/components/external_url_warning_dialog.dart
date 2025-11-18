@@ -112,7 +112,7 @@ class _ExternalUrlWarningDialogState extends State<ExternalUrlWarningDialog> {
               BlendMode.srcIn,
             ),
           ),
-          const SizedBox(width: ThemePaddings.smallPadding),
+          ThemedControls.spacerHorizontalSmall(),
           Flexible(
             child: Text(
               l10n.dAppExternalUrlWarningTitle,
@@ -130,7 +130,7 @@ class _ExternalUrlWarningDialogState extends State<ExternalUrlWarningDialog> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             _buildWarningTextWithLink(context),
-            const SizedBox(height: ThemePaddings.hugePadding),
+            ThemedControls.spacerVerticalHuge(),
             // Do not remind again checkbox
             InkWell(
               onTap: _toggleCheckbox,
@@ -150,7 +150,7 @@ class _ExternalUrlWarningDialogState extends State<ExternalUrlWarningDialog> {
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                       ),
                     ),
-                    const SizedBox(width: ThemePaddings.smallPadding),
+                    ThemedControls.spacerHorizontalSmall(),
                     Flexible(
                       child: Text(
                         l10n.dAppExternalUrlWarningDoNotRemind,
