@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/add_to_favorites_dialog.dart';
@@ -37,28 +36,62 @@ class WebviewAddressBar extends StatefulWidget {
 
 class _WebviewAddressBarState extends State<WebviewAddressBar> {
   bool _isFavorite = false;
+  String? _cachedTitle;
+  String? _cachedFaviconUrl;
 
   @override
   void initState() {
     super.initState();
-    widget.urlChangeNotifier.addListener(_checkFavoriteStatus);
-    _checkFavoriteStatus();
+    widget.urlChangeNotifier.addListener(_onUrlChanged);
+    _onUrlChanged();
   }
 
   @override
   void dispose() {
-    widget.urlChangeNotifier.removeListener(_checkFavoriteStatus);
+    widget.urlChangeNotifier.removeListener(_onUrlChanged);
     super.dispose();
   }
 
-  void _checkFavoriteStatus() async {
+  void _onUrlChanged() async {
     if (widget.webViewController != null) {
       final webUrl = await widget.webViewController!.getUrl();
       if (webUrl != null && mounted) {
         final hiveStorage = getIt<HiveStorage>();
-        setState(() {
-          _isFavorite = hiveStorage.isFavorite(webUrl.toString());
-        });
+
+        // Update favorite status
+        final isFavorite = hiveStorage.isFavorite(webUrl.toString());
+
+        // Cache title and favicon for instant access when adding to favorites
+        String? title;
+        String? faviconUrl;
+
+        try {
+          title = await widget.webViewController!.getTitle();
+          final favicons = await widget.webViewController!.getFavicons();
+          if (favicons.isNotEmpty) {
+            faviconUrl = favicons.first.url.toString();
+          }
+        } catch (_) {
+          // Silently fail - we'll use fallback later if needed
+        }
+
+        // Fallback favicon URL
+        if (faviconUrl == null || faviconUrl.isEmpty) {
+          try {
+            final uri = Uri.parse(webUrl.toString());
+            faviconUrl = '${uri.scheme}://${uri.host}/favicon.ico';
+          } catch (_) {
+            // Ignore
+          }
+        }
+
+        if (mounted) {
+          setState(() {
+            _isFavorite = isFavorite;
+            _cachedTitle = title;
+            _cachedFaviconUrl = faviconUrl;
+          });
+        }
       }
     }
   }
@@ -122,42 +155,17 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
           final globalSnackBar = getIt<GlobalSnackBar>();
           globalSnackBar.show(l10n.favoriteRemoved);
         } else {
-          // Add to favorites
-          final title = await widget.webViewController!.getTitle();
-
-          // Try to extract favicon URL
-          String? faviconUrl;
-          try {
-            final favicons = await widget.webViewController!.getFavicons();
-            if (favicons.isNotEmpty) {
-              faviconUrl = favicons.first.url.toString();
-            }
-          } catch (e) {
-            appLogger.w('[WebviewAddressBar] Could not get favicons: $e');
-          }
-
-          // Fallback to standard favicon location if not found
-          if (faviconUrl == null || faviconUrl.isEmpty) {
-            try {
-              final uri = Uri.parse(url.toString());
-              faviconUrl = '${uri.scheme}://${uri.host}/favicon.ico';
-            } catch (e) {
-              appLogger.w('[WebviewAddressBar] Could not construct favicon URL: $e');
-            }
-          }
-
-          if (context.mounted) {
-            await showDialog(
-              context: context,
-              builder: (context) => AddToFavoritesDialog(
-                url: url.toString(),
-                initialName: title,
-                iconUrl: faviconUrl,
-              ),
-            );
-          }
+          // Add to favorites - use cached values for instant display
+          await showDialog(
+            context: context,
+            builder: (context) => AddToFavoritesDialog(
+              url: url.toString(),
+              initialName: _cachedTitle,
+              iconUrl: _cachedFaviconUrl,
+            ),
+          );
         }
-        _checkFavoriteStatus();
+        _onUrlChanged();
       }
     }
   }
