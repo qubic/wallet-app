@@ -130,6 +130,19 @@ class _AddAccountState extends State<AddAccount> {
     privateSeed.text = seed;
   }
 
+  Widget? _buildAccountNameClearButton() {
+    return accountName.text.isNotEmpty
+        ? IconButton(
+            icon: const Icon(Icons.cancel, size: 20),
+            color: LightThemeColors.grey50,
+            onPressed: () {
+              accountName.clear();
+              setState(() {});
+            },
+          )
+        : null;
+  }
+
   Widget getCreateAccountView() {
     final l10n = l10nOf(context);
     return getScrollView(
@@ -206,16 +219,7 @@ class _AddAccountState extends State<AddAccount> {
                         style: TextStyles.inputBoxSmallStyle,
                         decoration: ThemeInputDecorations.normalInputbox.copyWith(
                           hintText: l10n.addAccountHintAccountName,
-                          suffixIcon: accountName.text.isNotEmpty
-                              ? IconButton(
-                                  icon: const Icon(Icons.cancel, size: 20),
-                                  color: LightThemeColors.grey50,
-                                  onPressed: () {
-                                    accountName.clear();
-                                    setState(() {});
-                                  },
-                                )
-                              : null,
+                          suffixIcon: _buildAccountNameClearButton(),
                         ),
                         autocorrect: false,
                         autofillHints: null,
@@ -478,16 +482,7 @@ class _AddAccountState extends State<AddAccount> {
                       style: TextStyles.inputBoxSmallStyle,
                       decoration: ThemeInputDecorations.normalInputbox.copyWith(
                         hintText: l10n.addAccountHintAccountName,
-                        suffixIcon: accountName.text.isNotEmpty
-                            ? IconButton(
-                                icon: const Icon(Icons.cancel, size: 20),
-                                color: LightThemeColors.grey50,
-                                onPressed: () {
-                                  accountName.clear();
-                                  setState(() {});
-                                },
-                              )
-                            : null,
+                        suffixIcon: _buildAccountNameClearButton(),
                       ),
                       onChanged: (value) {
                         setState(() {}); // Rebuild to show/hide clear button
