@@ -71,11 +71,11 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.inactive && mounted) {
       setState(() {
         _isInBackground = true;
       });
-    } else if (state == AppLifecycleState.resumed) {
+    } else if (state == AppLifecycleState.resumed && mounted) {
       qubicCmd.reinitialize();
       getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded();
       setState(() {

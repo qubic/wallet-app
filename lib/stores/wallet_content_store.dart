@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -14,12 +15,9 @@ part 'wallet_content_store.g.dart';
 /// Manages wallet-specific content from `/wallet-app/` APIs that is unique
 /// to this wallet application:
 /// - Dapps directory (featured, top, popular apps)
-/// - Terms of use (future)
-/// - Privacy policy (future)
-/// - Version metadata (future)
 ///
 /// **vs QubicEcosystemStore:**
-/// - WalletContentStore = Wallet-specific content (dapps, terms, privacy)
+/// - WalletContentStore = Wallet-specific content (dapps)
 /// - QubicEcosystemStore = Ecosystem reference data (used by any Qubic app)
 ///
 /// **Architecture:**
@@ -67,11 +65,8 @@ abstract class WalletContentStoreBase with Store {
   }
 
   String getCurrentLocale() {
-    String currentLocale = l10nWrapper.l10n?.localeName ?? "en";
-    if (!["de", "es", "fr", "ru", "tr", "zh"].contains(currentLocale)) {
-      currentLocale = "en";
-    }
-    return currentLocale;
+    final currentLocale = l10nWrapper.l10n?.localeName ?? "en";
+    return Config.getSupportedLocale(currentLocale);
   }
 
   @action

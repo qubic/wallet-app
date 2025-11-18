@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/dapp_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -62,15 +62,9 @@ class FeaturedAppWidget extends StatelessWidget {
                     ),
                     ThemedControls.spacerVerticalMini(),
                     ThemedControls.secondaryButtonWithChild(
-                      onPressed: () {
+                      onPressed: () async {
                         if (featuredApp?.url != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  WebviewScreen(initialUrl: featuredApp!.url!),
-                            ),
-                          );
+                          await openDappUrl(context, featuredApp!.url!);
                         }
                       },
                       child: Padding(
