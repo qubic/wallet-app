@@ -22,7 +22,7 @@ class HiveStorage {
   late Box<TransactionVm> _storedTransactions;
   late Box<NetworkModel> _storedNetworks;
   late Box<String> _currentNetworkBox;
-  late Box<FavoriteDapp> _favoriteDapps;
+  late Box<FavoriteDappModel> _favoriteDapps;
   late Box<bool> _externalUrlWarningBox;
   final currentNetworkKey = "current_network";
   final externalUrlWarningKey = "external_url_warning_dismissed";
@@ -104,7 +104,7 @@ class HiveStorage {
   }
 
   Future<void> openFavoriteDappsBox() async {
-    _favoriteDapps = await Hive.openBox<FavoriteDapp>(
+    _favoriteDapps = await Hive.openBox<FavoriteDappModel>(
       HiveBoxesNames.favoriteDapps.name,
       encryptionCipher: _encryptionCipher,
     );
@@ -167,11 +167,11 @@ class HiveStorage {
   }
 
   // Favorite dApps methods
-  void addFavoriteDapp(FavoriteDapp favorite) {
+  void addFavoriteDapp(FavoriteDappModel favorite) {
     appLogger.d('[HiveStorage] Adding favorite: ${favorite.name}');
     final normalizedUrl = _normalizeUrl(favorite.url);
-    // Create a new FavoriteDapp with normalized URL to ensure consistency
-    final normalizedFavorite = FavoriteDapp(
+    // Create a new FavoriteDappModel with normalized URL to ensure consistency
+    final normalizedFavorite = FavoriteDappModel(
       name: favorite.name,
       url: normalizedUrl,
       createdAt: favorite.createdAt,
@@ -197,7 +197,7 @@ class HiveStorage {
     }
   }
 
-  List<FavoriteDapp> getFavoriteDapps() {
+  List<FavoriteDappModel> getFavoriteDapps() {
     appLogger.d(
         '[HiveStorage] Getting favorite dApps (${_favoriteDapps.length})');
     final favorites = _favoriteDapps.values.toList();
@@ -238,7 +238,7 @@ class HiveStorage {
       final favorite = _favoriteDapps.get(url);
       if (favorite != null) {
         _favoriteDapps.delete(url);
-        final normalizedFavorite = FavoriteDapp(
+        final normalizedFavorite = FavoriteDappModel(
           name: favorite.name,
           url: normalizedUrl,
           createdAt: favorite.createdAt,

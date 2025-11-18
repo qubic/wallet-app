@@ -20,7 +20,7 @@ class FavoritesListScreen extends StatefulWidget {
 class _FavoritesListScreenState extends State<FavoritesListScreen> {
   final HiveStorage _hiveStorage = getIt<HiveStorage>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
-  late List<FavoriteDapp> _favorites;
+  late List<FavoriteDappModel> _favorites;
 
   @override
   void initState() {
@@ -34,13 +34,13 @@ class _FavoritesListScreenState extends State<FavoritesListScreen> {
     });
   }
 
-  void _removeFavorite(FavoriteDapp favorite) {
+  void _removeFavorite(FavoriteDappModel favorite) {
     _hiveStorage.removeFavoriteDapp(favorite.url);
     _loadFavorites();
     _globalSnackBar.show(l10nOf(context).favoriteRemoved);
   }
 
-  void _openFavorite(FavoriteDapp favorite) async {
+  void _openFavorite(FavoriteDappModel favorite) async {
     await openDappUrl(context, favorite.url);
     // Refresh the favorites list when returning from webview
     if (mounted) {

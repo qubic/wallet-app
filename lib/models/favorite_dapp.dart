@@ -1,19 +1,19 @@
 import 'package:hive/hive.dart';
 
-class FavoriteDapp {
+class FavoriteDappModel {
   String name;
   String url;
   DateTime createdAt;
   String? iconUrl;
 
-  FavoriteDapp({
+  FavoriteDappModel({
     required this.name,
     required this.url,
     required this.createdAt,
     this.iconUrl,
   });
 
-  FavoriteDapp.fromJson(Map<String, dynamic> json)
+  FavoriteDappModel.fromJson(Map<String, dynamic> json)
       : name = json['name'] as String,
         url = json['url'] as String,
         createdAt = DateTime.parse(json['createdAt'] as String),
@@ -29,7 +29,7 @@ class FavoriteDapp {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is FavoriteDapp &&
+      other is FavoriteDappModel &&
           runtimeType == other.runtimeType &&
           url == other.url;
 
@@ -37,9 +37,9 @@ class FavoriteDapp {
   int get hashCode => url.hashCode;
 }
 
-class FavoriteDappAdapter extends TypeAdapter<FavoriteDapp> {
+class FavoriteDappAdapter extends TypeAdapter<FavoriteDappModel> {
   @override
-  FavoriteDapp read(BinaryReader reader) {
+  FavoriteDappModel read(BinaryReader reader) {
     final name = reader.readString();
     final url = reader.readString();
     final createdAt = DateTime.fromMillisecondsSinceEpoch(reader.readInt());
@@ -51,7 +51,7 @@ class FavoriteDappAdapter extends TypeAdapter<FavoriteDapp> {
     } catch (e) {
       iconUrl = null;
     }
-    return FavoriteDapp(
+    return FavoriteDappModel(
       name: name,
       url: url,
       createdAt: createdAt,
@@ -60,7 +60,7 @@ class FavoriteDappAdapter extends TypeAdapter<FavoriteDapp> {
   }
 
   @override
-  void write(BinaryWriter writer, FavoriteDapp obj) {
+  void write(BinaryWriter writer, FavoriteDappModel obj) {
     writer.writeString(obj.name);
     writer.writeString(obj.url);
     writer.writeInt(obj.createdAt.millisecondsSinceEpoch);

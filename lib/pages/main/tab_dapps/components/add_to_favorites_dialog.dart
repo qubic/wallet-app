@@ -71,7 +71,7 @@ class _AddToFavoritesDialogState extends State<AddToFavoritesDialog> {
       // 3. Default icon (null)
       final iconUrl = findFavoriteIcon(url.trim(), widget.iconUrl);
 
-      final favorite = FavoriteDapp(
+      final favorite = FavoriteDappModel(
         name: name.trim(),
         url: url.trim(),
         createdAt: DateTime.now(),
