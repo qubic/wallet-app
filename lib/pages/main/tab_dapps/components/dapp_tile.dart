@@ -3,6 +3,7 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/dapp_helpers.dart';
+import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_icon.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -45,11 +46,9 @@ class DAppTile extends StatelessWidget {
             ThemePaddings.smallPadding),
         child: Row(
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: dApp.icon?.isNotEmpty == true
-                  ? Image.network(dApp.icon!, width: Config.dAppIconSize, height: Config.dAppIconSize, fit: BoxFit.cover)
-                  : Image.asset(Config.dAppDefaultImageName, width: Config.dAppIconSize, height: Config.dAppIconSize, fit: BoxFit.cover),
+            DappIcon(
+              iconUrl: dApp.icon,
+              size: Config.dAppIconSize,
             ),
             const SizedBox(width: ThemePaddings.normalPadding),
             Expanded(
