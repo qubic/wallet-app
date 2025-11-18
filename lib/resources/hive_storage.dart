@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/dapp_helpers.dart';
 import 'package:qubic_wallet/models/favorite_dapp.dart';
 import 'package:qubic_wallet/models/network_model.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -169,7 +170,7 @@ class HiveStorage {
   // Favorite dApps methods
   void addFavoriteDapp(FavoriteDappModel favorite) {
     appLogger.d('[HiveStorage] Adding favorite: ${favorite.name}');
-    final normalizedUrl = _normalizeUrl(favorite.url);
+    final normalizedUrl = normalizeUrl(favorite.url);
     // Create a new FavoriteDappModel with normalized URL to ensure consistency
     final normalizedFavorite = FavoriteDappModel(
       name: favorite.name,
@@ -182,16 +183,11 @@ class HiveStorage {
 
   void removeFavoriteDapp(String url) {
     appLogger.d('[HiveStorage] Removing favorite: $url');
-    final normalizedUrl = _normalizeUrl(url);
+    final normalizedUrl = normalizeUrl(url);
 
-    // Try to delete by normalized URL first
     if (_favoriteDapps.containsKey(normalizedUrl)) {
       _favoriteDapps.delete(normalizedUrl);
       appLogger.d('[HiveStorage] Removed favorite by normalized URL');
-    } else if (_favoriteDapps.containsKey(url)) {
-      // Fallback: try original URL for backward compatibility
-      _favoriteDapps.delete(url);
-      appLogger.d('[HiveStorage] Removed favorite by original URL');
     } else {
       appLogger.w('[HiveStorage] Favorite not found for removal: $url');
     }
@@ -206,52 +202,13 @@ class HiveStorage {
     return favorites;
   }
 
-  String _normalizeUrl(String url) {
-    try {
-      final uri = Uri.parse(url);
-      // Normalize: remove trailing slash, ensure lowercase host, remove www
-      String normalizedHost = uri.host.toLowerCase().replaceFirst(RegExp(r'^www\.'), '');
-      String normalizedPath = uri.path.replaceAll(RegExp(r'\/$'), '');
-
-      // Reconstruct normalized URL
-      return '${uri.scheme}://$normalizedHost$normalizedPath${uri.query.isNotEmpty ? '?${uri.query}' : ''}';
-    } catch (e) {
-      appLogger.w('[HiveStorage] Error normalizing URL: $e');
-      return url;
-    }
-  }
-
   bool isFavorite(String url) {
-    final normalizedUrl = _normalizeUrl(url);
+    final normalizedUrl = normalizeUrl(url);
     appLogger.d('[HiveStorage] Checking if favorite - Original: $url, Normalized: $normalizedUrl');
 
-    // Check normalized URL first
-    if (_favoriteDapps.containsKey(normalizedUrl)) {
-      appLogger.d('[HiveStorage] Found by normalized URL');
-      return true;
-    }
-
-    // Fallback: check original URL for backward compatibility
-    if (_favoriteDapps.containsKey(url)) {
-      appLogger.d('[HiveStorage] Found by original URL (will migrate)');
-      // Migrate this favorite to use normalized URL
-      final favorite = _favoriteDapps.get(url);
-      if (favorite != null) {
-        _favoriteDapps.delete(url);
-        final normalizedFavorite = FavoriteDappModel(
-          name: favorite.name,
-          url: normalizedUrl,
-          createdAt: favorite.createdAt,
-          iconUrl: favorite.iconUrl,
-        );
-        _favoriteDapps.put(normalizedUrl, normalizedFavorite);
-        appLogger.d('[HiveStorage] Migrated favorite to normalized URL');
-      }
-      return true;
-    }
-
-    appLogger.d('[HiveStorage] Not a favorite');
-    return false;
+    final isFav = _favoriteDapps.containsKey(normalizedUrl);
+    appLogger.d('[HiveStorage] Is favorite: $isFav');
+    return isFav;
   }
 
   Future<void> clear() async {

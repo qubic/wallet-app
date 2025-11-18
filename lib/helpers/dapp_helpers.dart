@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/external_url_warning_dialog.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/webview_screen.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
@@ -17,13 +18,32 @@ String extractDomain(String url) {
   }
 }
 
-/// Normalizes a host by removing 'www.' prefix for comparison
+/// Normalizes a host by removing 'www.' prefix and converting to lowercase
 String _normalizeHost(String host) {
   final normalized = host.toLowerCase();
   if (normalized.startsWith('www.')) {
     return normalized.substring(4);
   }
   return normalized;
+}
+
+/// Normalizes a URL for consistent storage and comparison
+/// - Converts host to lowercase
+/// - Removes 'www.' prefix
+/// - Removes trailing slashes from path
+/// Returns the normalized URL or the original URL if parsing fails
+String normalizeUrl(String url) {
+  try {
+    final uri = Uri.parse(url);
+    final normalizedHost = _normalizeHost(uri.host);
+    final normalizedPath = uri.path.replaceAll(RegExp(r'\/$'), '');
+
+    // Reconstruct normalized URL
+    return '${uri.scheme}://$normalizedHost$normalizedPath${uri.query.isNotEmpty ? '?${uri.query}' : ''}';
+  } catch (e) {
+    appLogger.w('[dapp_helpers] Error normalizing URL: $e');
+    return url;
+  }
 }
 
 /// Finds an icon for a favorite dApp based on priority:
