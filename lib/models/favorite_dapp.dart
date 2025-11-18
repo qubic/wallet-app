@@ -13,19 +13,6 @@ class FavoriteDappModel {
     this.iconUrl,
   });
 
-  FavoriteDappModel.fromJson(Map<String, dynamic> json)
-      : name = json['name'] as String,
-        url = json['url'] as String,
-        createdAt = DateTime.parse(json['createdAt'] as String),
-        iconUrl = json['iconUrl'] as String?;
-
-  Map<String, dynamic> toJson() => {
-        'name': name,
-        'url': url,
-        'createdAt': createdAt.toIso8601String(),
-        'iconUrl': iconUrl,
-      };
-
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -43,14 +30,8 @@ class FavoriteDappAdapter extends TypeAdapter<FavoriteDappModel> {
     final name = reader.readString();
     final url = reader.readString();
     final createdAt = DateTime.fromMillisecondsSinceEpoch(reader.readInt());
-    // Read iconUrl if available (backward compatibility)
-    String? iconUrl;
-    try {
-      iconUrl = reader.readString();
-      if (iconUrl.isEmpty) iconUrl = null;
-    } catch (e) {
-      iconUrl = null;
-    }
+    final iconUrlValue = reader.readString();
+    final iconUrl = iconUrlValue.isEmpty ? null : iconUrlValue;
     return FavoriteDappModel(
       name: name,
       url: url,
