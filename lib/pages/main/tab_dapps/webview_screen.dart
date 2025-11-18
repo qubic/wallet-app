@@ -200,7 +200,10 @@ class _WebviewScreenState extends State<WebviewScreen> {
                     });
                   },
                   onReceivedHttpError: (controller, request, response) {
-                    if (response.statusCode != null && response.statusCode! >= 400) {
+                    // Only show error overlay for main page requests, not for resources like favicons
+                    if (response.statusCode != null &&
+                        response.statusCode! >= 400 &&
+                        request.isForMainFrame == true) {
                       setState(() {
                         loadError = l10n.webviewErrorHttp(response.statusCode.toString());
                         progress.value = 1.0; // Complete the progress bar on error
