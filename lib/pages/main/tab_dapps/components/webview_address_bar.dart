@@ -110,19 +110,17 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
   }
 
   void _handleFavoriteAction(BuildContext context) async {
+    final l10n = l10nOf(context);
     if (widget.webViewController != null) {
       final url = await widget.webViewController!.getUrl();
-      if (url != null && mounted) {
+      if (url != null && context.mounted) {
         final hiveStorage = getIt<HiveStorage>();
 
         if (_isFavorite) {
           // Remove from favorites
           hiveStorage.removeFavoriteDapp(url.toString());
-          if (mounted) {
-            final globalSnackBar = getIt<GlobalSnackBar>();
-            final l10n = l10nOf(context);
-            globalSnackBar.show(l10n.favoriteRemoved);
-          }
+          final globalSnackBar = getIt<GlobalSnackBar>();
+          globalSnackBar.show(l10n.favoriteRemoved);
         } else {
           // Add to favorites
           final title = await widget.webViewController!.getTitle();
@@ -148,7 +146,7 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
             }
           }
 
-          if (mounted) {
+          if (context.mounted) {
             await showDialog(
               context: context,
               builder: (context) => AddToFavoritesDialog(
