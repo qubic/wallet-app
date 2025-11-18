@@ -42,7 +42,8 @@ String? findFavoriteIcon(String url, String? pageIconUrl) {
       if (dapp.url != null) {
         try {
           final dappUri = Uri.parse(dapp.url!);
-          if (_normalizeHost(dappUri.host) == normalizedHost && dapp.icon != null) {
+          if (_normalizeHost(dappUri.host) == normalizedHost &&
+              dapp.icon != null) {
             return dapp.icon;
           }
         } catch (e) {
@@ -56,7 +57,8 @@ String? findFavoriteIcon(String url, String? pageIconUrl) {
       if (dapp.url != null) {
         try {
           final dappUri = Uri.parse(dapp.url!);
-          if (_normalizeHost(dappUri.host) == normalizedHost && dapp.icon != null) {
+          if (_normalizeHost(dappUri.host) == normalizedHost &&
+              dapp.icon != null) {
             return dapp.icon;
           }
         } catch (e) {
@@ -118,7 +120,7 @@ Future<bool> openDappUrl(
   }
 
   // Show security warning dialog
-  final result = await showDialog<bool>(
+  final shouldContinue = await showDialog<bool>(
     context: context,
     barrierDismissible: false,
     builder: (dialogContext) => ExternalUrlWarningDialog(
@@ -128,17 +130,6 @@ Future<bool> openDappUrl(
           hiveStorage.setExternalUrlWarningDismissed(true);
         }
         Navigator.pop(dialogContext, true);
-
-        // Open the webview after user continues
-        pushScreen(
-          context,
-          screen: WebviewScreen(
-            initialUrl: url,
-            hideFavorites: hideFavorites,
-          ),
-          pageTransitionAnimation: animation,
-          withNavBar: withNavBar,
-        );
       },
       onCancel: () {
         Navigator.pop(dialogContext, false);
@@ -146,5 +137,19 @@ Future<bool> openDappUrl(
     ),
   );
 
-  return result ?? false;
+  // If user confirmed, open the webview
+  if (shouldContinue == true && context.mounted) {
+    await pushScreen(
+      context,
+      screen: WebviewScreen(
+        initialUrl: url,
+        hideFavorites: hideFavorites,
+      ),
+      pageTransitionAnimation: animation,
+      withNavBar: withNavBar,
+    );
+    return true;
+  }
+
+  return false;
 }
