@@ -25,6 +25,20 @@ class ExternalUrlWarningDialog extends StatefulWidget {
 
 class _ExternalUrlWarningDialogState extends State<ExternalUrlWarningDialog> {
   bool doNotRemindAgain = false;
+  late final TapGestureRecognizer _tapGestureRecognizer;
+
+  @override
+  void initState() {
+    super.initState();
+    _tapGestureRecognizer = TapGestureRecognizer()
+      ..onTap = () => _navigateToTerms(context);
+  }
+
+  @override
+  void dispose() {
+    _tapGestureRecognizer.dispose();
+    super.dispose();
+  }
 
   void _toggleCheckbox() {
     setState(() {
@@ -73,8 +87,7 @@ class _ExternalUrlWarningDialogState extends State<ExternalUrlWarningDialog> {
               color: LightThemeColors.primary,
               decoration: TextDecoration.underline,
             ),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => _navigateToTerms(context),
+            recognizer: _tapGestureRecognizer,
           ),
           TextSpan(text: afterTerms),
         ],
