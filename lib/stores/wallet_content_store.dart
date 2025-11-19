@@ -1,4 +1,6 @@
+import 'dart:io' show Platform;
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
@@ -40,19 +42,29 @@ abstract class WalletContentStoreBase with Store {
   bool isLoading = false;
 
   @computed
-  List<DappDto> get allDapps => dappsResponse?.dapps ?? [];
+  List<DappDto> get allDapps => (dappsResponse?.dapps ?? [])
+      .where((dapp) => isDappAvailableOnCurrentPlatform(dapp))
+      .toList();
 
   @computed
   List<DappDto> get topDapps {
     if (dappsResponse == null) return [];
     return dappsResponse!.dapps
-        .where((dapp) => dappsResponse!.topApps.contains(dapp.id))
+        .where((dapp) =>
+            dappsResponse!.topApps.contains(dapp.id) &&
+            isDappAvailableOnCurrentPlatform(dapp))
         .toList();
   }
 
   @computed
-  DappDto? get featuredDapp => dappsResponse?.dapps
-      .firstWhereOrNull((e) => e.id == dappsResponse?.featuredApp?.id);
+  DappDto? get featuredDapp {
+    final dapp = dappsResponse?.dapps
+        .firstWhereOrNull((e) => e.id == dappsResponse?.featuredApp?.id);
+    if (dapp != null && isDappAvailableOnCurrentPlatform(dapp)) {
+      return dapp;
+    }
+    return null;
+  }
 
   @computed
   List<DappDto> get popularDapps {
@@ -60,13 +72,36 @@ abstract class WalletContentStoreBase with Store {
     return dappsResponse!.dapps
         .where((dapp) =>
             !dappsResponse!.topApps.contains(dapp.id) &&
-            dapp.id != dappsResponse!.featuredApp?.id)
+            dapp.id != dappsResponse!.featuredApp?.id &&
+            isDappAvailableOnCurrentPlatform(dapp))
         .toList();
   }
 
   String getCurrentLocale() {
     final currentLocale = l10nWrapper.l10n?.localeName ?? "en";
     return Config.getSupportedLocale(currentLocale);
+  }
+
+  /// Returns the current platform identifier
+  /// Platform identifiers: 'ios', 'android', 'macos', 'windows', 'linux', 'web'
+  String getCurrentPlatform() {
+    if (kIsWeb) return 'web';
+    if (Platform.isIOS) return 'ios';
+    if (Platform.isAndroid) return 'android';
+    if (Platform.isMacOS) return 'macos';
+    if (Platform.isWindows) return 'windows';
+    if (Platform.isLinux) return 'linux';
+    return 'unknown';
+  }
+
+  /// Checks if a dApp should be shown on the current platform
+  bool isDappAvailableOnCurrentPlatform(DappDto dapp) {
+    if (dapp.excludedPlatforms == null || dapp.excludedPlatforms!.isEmpty) {
+      return true;
+    }
+    final currentPlatform = getCurrentPlatform().toLowerCase();
+    return !dapp.excludedPlatforms!
+        .any((platform) => platform.toLowerCase() == currentPlatform);
   }
 
   @action
