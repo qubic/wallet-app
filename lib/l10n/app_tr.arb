@@ -850,22 +850,5 @@
     "releaseTransferRightsErrorNoSourceContract": "Lütfen bir kaynak sözleşme seçin",
     "releaseTransferRightsErrorNoDestinationContract": "Lütfen bir hedef sözleşme seçin",
     "releaseTransferRightsErrorSameContract": "Kaynak ve hedef sözleşmeler farklı olmalıdır",
-    "releaseTransferRightsErrorInvalidContract": "Geçersiz sözleşme yapılandırması",
-    "releaseTransferRightsSuccessMessage": "{amount} {assetName} yönetim hakları başarıyla {contractName} kontratına {tick} tick'inde serbest bırakıldı",
-    "@releaseTransferRightsSuccessMessage": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "assetName": {
-                "type": "String"
-            },
-            "contractName": {
-                "type": "String"
-            },
-            "tick": {
-                "type": "String"
-            }
-        }
-    }
+    "releaseTransferRightsErrorInvalidContract": "Geçersiz sözleşme yapılandırması"
 }

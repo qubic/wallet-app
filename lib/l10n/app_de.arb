@@ -849,22 +849,5 @@
     "releaseTransferRightsErrorNoSourceContract": "Bitte wählen Sie einen Quellvertrag aus",
     "releaseTransferRightsErrorNoDestinationContract": "Bitte wählen Sie einen Zielvertrag aus",
     "releaseTransferRightsErrorSameContract": "Quell- und Zielvertrag müssen unterschiedlich sein",
-    "releaseTransferRightsErrorInvalidContract": "Ungültige Vertragskonfiguration",
-    "releaseTransferRightsSuccessMessage": "{amount} {assetName} Verwaltungsrechte erfolgreich an {contractName} bei Tick {tick} freigegeben",
-    "@releaseTransferRightsSuccessMessage": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "assetName": {
-                "type": "String"
-            },
-            "contractName": {
-                "type": "String"
-            },
-            "tick": {
-                "type": "String"
-            }
-        }
-    }
+    "releaseTransferRightsErrorInvalidContract": "Ungültige Vertragskonfiguration"
 }

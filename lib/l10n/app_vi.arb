@@ -913,22 +913,5 @@
     "releaseTransferRightsErrorNoSourceContract": "Vui lòng chọn hợp đồng nguồn",
     "releaseTransferRightsErrorNoDestinationContract": "Vui lòng chọn hợp đồng đích",
     "releaseTransferRightsErrorSameContract": "Hợp đồng nguồn và đích phải khác nhau",
-    "releaseTransferRightsErrorInvalidContract": "Cấu hình hợp đồng không hợp lệ",
-    "releaseTransferRightsSuccessMessage": "Đã giải phóng thành công quyền quản lý {amount} {assetName} cho {contractName} tại tick {tick}",
-    "@releaseTransferRightsSuccessMessage": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "assetName": {
-                "type": "String"
-            },
-            "contractName": {
-                "type": "String"
-            },
-            "tick": {
-                "type": "String"
-            }
-        }
-    }
+    "releaseTransferRightsErrorInvalidContract": "Cấu hình hợp đồng không hợp lệ"
 }

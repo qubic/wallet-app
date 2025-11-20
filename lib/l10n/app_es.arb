@@ -849,22 +849,5 @@
     "releaseTransferRightsErrorNoSourceContract": "Por favor seleccione un contrato de origen",
     "releaseTransferRightsErrorNoDestinationContract": "Por favor seleccione un contrato de destino",
     "releaseTransferRightsErrorSameContract": "Los contratos de origen y destino deben ser diferentes",
-    "releaseTransferRightsErrorInvalidContract": "Configuración de contrato no válida",
-    "releaseTransferRightsSuccessMessage": "Se liberaron exitosamente {amount} {assetName} derechos de gestión a {contractName} en tick {tick}",
-    "@releaseTransferRightsSuccessMessage": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "assetName": {
-                "type": "String"
-            },
-            "contractName": {
-                "type": "String"
-            },
-            "tick": {
-                "type": "String"
-            }
-        }
-    }
+    "releaseTransferRightsErrorInvalidContract": "Configuración de contrato no válida"
 }

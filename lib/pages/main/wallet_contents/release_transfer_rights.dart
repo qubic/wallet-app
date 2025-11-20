@@ -727,15 +727,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
         isLoading = false;
       });
       Navigator.pop(context);
-      // Get destination contract name dynamically
-      final destinationContractName = ecosystemStore
-              .getContractNameByIndex(selectedDestinationContractIndex!) ??
-          "Contract $selectedDestinationContractIndex";
-
-      _globalSnackBar.show(l10n.releaseTransferRightsSuccessMessage(
-          formatter.format(getAssetAmount()),
-          widget.groupedAsset.issuedAsset.name,
-          destinationContractName,
+      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
           targetTick.asThousands()));
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return TransactionsForId(

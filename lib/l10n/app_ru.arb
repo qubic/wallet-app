@@ -850,22 +850,5 @@
     "releaseTransferRightsErrorNoSourceContract": "Пожалуйста, выберите исходный контракт",
     "releaseTransferRightsErrorNoDestinationContract": "Пожалуйста, выберите целевой контракт",
     "releaseTransferRightsErrorSameContract": "Исходный и целевой контракты должны быть разными",
-    "releaseTransferRightsErrorInvalidContract": "Неверная конфигурация контракта",
-    "releaseTransferRightsSuccessMessage": "Успешно освобождены права управления {amount} {assetName} на {contractName} в тике {tick}",
-    "@releaseTransferRightsSuccessMessage": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "assetName": {
-                "type": "String"
-            },
-            "contractName": {
-                "type": "String"
-            },
-            "tick": {
-                "type": "String"
-            }
-        }
-    }
+    "releaseTransferRightsErrorInvalidContract": "Неверная конфигурация контракта"
 }

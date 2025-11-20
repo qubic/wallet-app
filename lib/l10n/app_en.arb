@@ -913,24 +913,5 @@
     "releaseTransferRightsErrorNoSourceContract": "Please select a source contract",
     "releaseTransferRightsErrorNoDestinationContract": "Please select a destination contract",
     "releaseTransferRightsErrorSameContract": "Source and destination contracts must be different",
-    "releaseTransferRightsErrorInvalidContract": "Invalid contract configuration",
-    "releaseTransferRightsSuccessMessage": "Successfully released {amount} {assetName} management rights to {contractName} at tick {tick}",
-    "@releaseTransferRightsSuccessMessage": {
-        "description": "Success message after releasing transfer rights",
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "assetName": {
-                "type": "String"
-            },
-            "contractName": {
-                "type": "String"
-            },
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
-    "releaseTransferRightsMenuOption": "Release Transfer Rights"
+    "releaseTransferRightsErrorInvalidContract": "Invalid contract configuration"
 }

@@ -850,22 +850,5 @@
     "releaseTransferRightsErrorNoSourceContract": "请选择源合约",
     "releaseTransferRightsErrorNoDestinationContract": "请选择目标合约",
     "releaseTransferRightsErrorSameContract": "源合约和目标合约必须不同",
-    "releaseTransferRightsErrorInvalidContract": "无效的合约配置",
-    "releaseTransferRightsSuccessMessage": "已成功释放 {amount} {assetName} 管理权至 {contractName}，Tick {tick}",
-    "@releaseTransferRightsSuccessMessage": {
-        "placeholders": {
-            "amount": {
-                "type": "String"
-            },
-            "assetName": {
-                "type": "String"
-            },
-            "contractName": {
-                "type": "String"
-            },
-            "tick": {
-                "type": "String"
-            }
-        }
-    }
+    "releaseTransferRightsErrorInvalidContract": "无效的合约配置"
 }
