@@ -11,6 +11,13 @@ class QubicStaticApi {
   QubicStaticApi()
       : _dio = DioClient.getDio(baseUrl: Config.qubicStaticApiBaseUrl);
 
+  /// Returns the URL for terms of service HTML for the given locale
+  /// Falls back to English if the locale is not supported
+  String getTermsUrl(String locale) {
+    final supportedLocale = Config.getSupportedLocale(locale);
+    return '${Config.qubicStaticApiBaseUrl}/wallet-app/terms/$supportedLocale.html';
+  }
+
   Future<DappsResponse> getDapps() async {
     try {
       final response = await _dio.get(Config.dapps);

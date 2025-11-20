@@ -5,7 +5,6 @@
     "generalLabelNo": "否",
     "generalButtonConfirm": "确认",
     "generalButtonDelete": "删除",
-    "generalButtonAdd": "添加",
     "generalButtonCopy": "复制",
     "generalButtonRename": "重命名",
     "generalButtonSave": "保存",
@@ -18,7 +17,6 @@
     "generalButtonApply": "应用",
     "generalButtonEraseWalletData": "清除钱包数据",
     "generalButtonClearAll": "清除所有",
-    "generalButtonShowAll": "全部显示",
     "generalButtonUseQRCode": "使用二维码",
     "generalButtonCopyAddress": "复制地址",
     "generalLabelHidden": "******",
@@ -26,9 +24,6 @@
     "generalLabelCurrencyQubic": "QUBIC",
     "generalLabelCurrencyUSD": "USD",
     "generalLabelTick": "刻度",
-    "generalLabelInfo": "信息",
-    "generalLabelDate": "日期",
-    "generalLabelID": "ID",
     "generalLabelAccount": "账户 {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -44,14 +39,6 @@
     "generalLabelTo": "接收方",
     "generalLabeQubicAddress": "Qubic 地址",
     "generalLabeQubicAddressAndPublicID": "Qubic 地址 (Public ID)",
-    "generalLabelQubicAddressWithAccountName": "Qubic 地址 {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} 钱包账户 \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -76,8 +63,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
-    "generalLabelEnabled": "启用",
-    "generalLabelDisabled": "禁用",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "发生了错误",
     "generalSnackBarMessageCopiedToClipboard": "已复制到剪贴板",
@@ -169,7 +154,6 @@
     "settingsLabelExportWalletVaultFile": "导出钱包 Vault 文件",
     "settingsHeaderAbout": "关于",
     "settingsLabelJoinCommunity": "加入社区",
-    "settingsLabelWalletInfo": "钱包版本",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "虹膜",
@@ -409,7 +393,6 @@
     "reauthenticateTitle": "需要身份验证",
     "reauthenticateHeader": "请重新验证",
     "reathenticateLabelReason": "为了继续操作，请再次进行身份验证。",
-    "reathenticateWithPasswordLabelReason": "为了继续操作，请再次进行身份验证。您提供的密码将用于加密您的钱包。",
     "receiveTitle": "接收",
     "receiveHeader": "由 \"{accountName}\"",
     "@receiveHeader": {
@@ -442,14 +425,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "选择地址",
     "sendItemLabelSelectSenderAddressLineTwo": "从您的钱包账户中",
-    "sendItemLabelCurrentTick": "(当前刻度：{currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "导出钱包 Vault 文件",
     "exportWalletVaultLabelInstructions": "将此钱包的内容导出到加密的 Vault 文件中作为备份。该文件可以在网页钱包中导入，并且只能使用提供的密码解锁。请始终将此文件保存在安全的地方。",
     "exportWalletVaultButtonExport": "导出",
@@ -483,16 +458,8 @@
     "transfersListLabelReceiveIn": "接收至",
     "transfersListLabelSharePublicIdInstructionsOne": "请与发送方分享以下 Public ID：",
     "transfersListLabelSharePublicIdInstructionsTwo": "或者展示以下二维码",
-    "transferAssetHeaderForShares": "转账 {assetName} 股份",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "转账 {assetName} Tokens",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "转账 {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -507,8 +474,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "{assetName} ID 持有股份数量： {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "ID 中的资产余额: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -518,17 +485,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "{assetName} ID 持有 Tokens 数量： {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* 只能转移由 Qx 管理的资产",
     "generalAllTransactionDetails": "TX ID: {trxId}\n发送方: {sourceId}\n接收方: {destId}\n数量: {amount}\n类型: {type}\nStatus: {status}\n时间戳: {timestamp}\n刻度: {targetTick}",
     "welcomeButtonImportExistingWallet": "导入已有钱包",
     "importWalletTitle": "导入钱包",
@@ -705,10 +662,7 @@
     "wcExpiresInDays": "{count, plural, =1{會議在 1 天內過期} other{會議在 {count} 天內過期}}",
     "wcExpiresInLessThanDay": "會議在不到一天內過期",
     "pasteURLHere": "粘貼 URL",
-    "approvingConnection": "正在批准連接",
-    "pleaseWait": "請稍候",
     "wcApproveSignTransferOf": "簽署轉帳",
-    "wcApproveTransferOf": "轉帳",
     "wcApproveSignOf": "簽署以下訊息",
     "wcApprovedSignedTransaction": "已簽署交易並成功發送至 dApp",
     "wcApprovedSignedMessage": "已簽署訊息並成功發送至 dApp",
@@ -791,12 +745,13 @@
     "generalLabelMultipleReceivers": "多個接收者",
     "qxTransferSharesWarning": "此交易当前仅发送方可见，接收方暂时无法查看",
     "settingsSupportGoogleForm": "填写表单",
-    "appTabExplore": "探索",
+    "appTabExplore": "发现",
     "storedTransfersLabel": "查看未完成的交易",
     "transactionsCount": "{count, plural, =1{1 筆交易} other{顯示 {count} 筆交易}}",
     "dAppOpenButton": "開啟",
     "dAppFeaturedApp": "精選應用程式",
-    "dAppPopularApps": "熱門 dApp",
+    "dAppPopularApps": "发现 dApp",
+    "dAppQubicApps": "Qubic Apps",
     "networksTitle": "網路",
     "networksButtonAddNetwork": "新增網路",
     "networksConfirmationDialogTitleDeleteNetwork": "刪除 {networkName}？",
@@ -850,5 +805,35 @@
     "releaseTransferRightsErrorNoSourceContract": "请选择源合约",
     "releaseTransferRightsErrorNoDestinationContract": "请选择目标合约",
     "releaseTransferRightsErrorSameContract": "源合约和目标合约必须不同",
-    "releaseTransferRightsErrorInvalidContract": "无效的合约配置"
+    "releaseTransferRightsErrorInvalidContract": "无效的合约配置",
+    "dAppSearchPlaceholder": "搜索或输入 dApp URL",
+    "addToFavorites": "添加收藏",
+    "favoriteNameLabel": "名称",
+    "favoriteNameHint": "输入名称",
+    "favoriteNameRequired": "名称为必填项",
+    "favoriteNameTooLong": "名称不得超过 50 个字符",
+    "favoriteNameAlreadyInUse": "此名称已被使用",
+    "favoriteUrlLabel": "Url",
+    "favoriteUrlHint": "https://example.com",
+    "favoriteUrlRequired": "URL 为必填项",
+    "favoriteUrlInvalid": "请输入有效的 URL",
+    "favoriteAddedSuccessfully": "已添加到收藏",
+    "favoritesTitle": "收藏",
+    "favoritesEmpty": "暂无收藏",
+    "favoritesEmptyDescription": "添加您喜欢的 dApp 以便快速访问",
+    "favoriteRemoved": "已从收藏中移除",
+    "removeFavorite": "移除收藏",
+    "dAppSearchInGoogle": "在 Google 中搜索",
+    "generalLabelNoResults": "未找到结果",
+    "generalLabelTermsOfService": "服务条款",
+    "dAppSearchEmptyState": "让我们发现一些东西吧！开始输入",
+    "webviewAddressBarLabelOpenInBrowser": "在浏览器中打开",
+    "generalButtonContinue": "继续",
+    "dAppExternalUrlWarningTitle": "安全警告",
+    "dAppExternalUrlWarningMessage": "您即将打开第三方 dApp。\"Qubic Wallet\" 对由 Qubic 生态系统贡献者开发的任何第三方应用程序的合法性、安全性、性能或功能不做任何背书、保证或担保。\n\n请仔细阅读每个批准请求，以便您准确了解您允许的内容。使用 dApp 可能涉及财务风险。\n\n\"Qubic Wallet\" 对使用此 dApp 导致的任何损失或问题概不负责。\n\n如需更多信息，请参阅我们的服务条款。",
+    "dAppExternalUrlWarningDoNotRemind": "不再提醒",
+    "webviewErrorCannotLoad": "无法加载该页面",
+    "webviewErrorInsecureConnection": "此页面无法加载，因为它使用不安全的连接 (HTTP)。仅允许安全连接 (HTTPS)。",
+    "webviewErrorGeneric": "加载页面失败：{error}",
+    "webviewErrorHttp": "HTTP 错误 {code}"
 }

@@ -5,7 +5,6 @@
     "generalLabelNo": "Нет",
     "generalButtonConfirm": "Подтвердить",
     "generalButtonDelete": "Удалить",
-    "generalButtonAdd": "Добавить",
     "generalButtonCopy": "Копировать",
     "generalButtonRename": "Переименовать",
     "generalButtonSave": "Сохранить",
@@ -18,7 +17,6 @@
     "generalButtonApply": "Применить",
     "generalButtonEraseWalletData": "Очистить данные кошелька",
     "generalButtonClearAll": "Очистить всё",
-    "generalButtonShowAll": "Показать всё",
     "generalButtonUseQRCode": "Использовать QR код",
     "generalButtonCopyAddress": "Копировать адрес",
     "generalLabelHidden": "******",
@@ -26,9 +24,6 @@
     "generalLabelCurrencyQubic": "QUBIC",
     "generalLabelCurrencyUSD": "USD",
     "generalLabelTick": "Тик",
-    "generalLabelInfo": "Информация",
-    "generalLabelDate": "Дата",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Аккаунт {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -44,14 +39,6 @@
     "generalLabelTo": "К",
     "generalLabeQubicAddress": "Qubic адрес",
     "generalLabeQubicAddressAndPublicID": "Qubic адрес (Публичный ID)",
-    "generalLabelQubicAddressWithAccountName": "Qubic адрес {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} аккаунт кошелька \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -76,8 +63,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Токен} other{Токены}}",
     "generalUnitShares": "{count, plural, =1{Акция} other{Акции}}",
-    "generalLabelEnabled": "Включено",
-    "generalLabelDisabled": "Отключено",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "Ошибка",
     "generalSnackBarMessageCopiedToClipboard": "Скопировано в буфер",
@@ -169,7 +154,6 @@
     "settingsLabelExportWalletVaultFile": "Экспортировать Vault File",
     "settingsHeaderAbout": "О нас",
     "settingsLabelJoinCommunity": "Присоединиться к сообществу",
-    "settingsLabelWalletInfo": "Информация о кошельке",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "Iris",
@@ -408,7 +392,6 @@
     "reauthenticateTitle": "Требуется аутентификация",
     "reauthenticateHeader": "Пожалуйста, пройдите повторную аутентификацию",
     "reathenticateLabelReason": "Пожалуйста, пройдите повторную аутентификацию, чтобы продолжить.",
-    "reathenticateWithPasswordLabelReason": "Пожалуйста, пройдите повторную аутентификацию, чтобы продолжить. Пароль, который вы предоставите, будет использоваться для шифрования вашего кошелька в хранилище.",
     "receiveTitle": "Получение средств и активов",
     "receiveHeader": "В \"{accountName}\"",
     "@receiveHeader": {
@@ -441,14 +424,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Выберите адрес",
     "sendItemLabelSelectSenderAddressLineTwo": "С вашего аккаунта",
-    "sendItemLabelCurrentTick": "(Текущий тик: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Экспортировать Vault File",
     "exportWalletVaultLabelInstructions": "Экспортируйте содержимое этого кошелька в зашифрованный файл vault в качестве резервной копии. Этот файл может быть импортирован в веб-кошелек и может быть разблокирован только с помощью предоставленного пароля. Всегда храните этот файл в безопасном месте.",
     "exportWalletVaultButtonExport": "Экспортировать",
@@ -482,16 +457,8 @@
     "transfersListLabelReceiveIn": "Передан в",
     "transfersListLabelSharePublicIdInstructionsOne": "Пожалуйста, сообщите отправителю этот ID:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Или покажите ему QR код",
-    "transferAssetHeaderForShares": "Транзакция {assetName} акций",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Транзакция {assetName} токенов",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Транзакция {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -506,8 +473,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "{assetName} владелец акций - ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Баланс активов в ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -517,17 +484,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "{assetName} владелец токенов -  ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Можно переводить только активы, управляемые Qx",
     "generalAllTransactionDetails": "TX ID: {trxId}\nИсточник: {sourceId}\nПолучатель: {destId}\nТик: {amount}\nТип: {type}\nСтатус: {status}\nМетка времени: {timestamp}\nТик: {targetTick}",
     "welcomeButtonImportExistingWallet": "Импортировать существующий кошелек",
     "importWalletTitle": "Импортировать кошелек",
@@ -705,10 +662,7 @@
     "wcExpiresInDays": "{count, plural, =1{Сессия истекает через 1 день} other{Сессия истекает через {count} дней}}",
     "wcExpiresInLessThanDay": "Сессия истекает менее чем через день",
     "pasteURLHere": "Вставить URL",
-    "approvingConnection": "Подтверждение соединения",
-    "pleaseWait": "Пожалуйста, подождите",
     "wcApproveSignTransferOf": "Подпишите передачу",
-    "wcApproveTransferOf": "Передача",
     "wcApproveSignOf": "Подпишите следующее сообщение",
     "wcApprovedSignedTransaction": "Транзакция подписана и успешно отправлена в dApp",
     "wcApprovedSignedMessage": "Сообщение подписано и успешно отправлено в dApp",
@@ -791,12 +745,13 @@
     "generalLabelMultipleReceivers": "Несколько получателей",
     "qxTransferSharesWarning": "Эта запись о транзакции в данный момент видна только отправителю.",
     "settingsSupportGoogleForm": "Заполнить форму",
-    "appTabExplore": "Исследовать",
+    "appTabExplore": "Обнаружить",
     "storedTransfersLabel": "Просмотреть незавершённые транзакции",
     "transactionsCount": "{count, plural, =1{1 транзакция} other{Показано {count} транзакций}}",
     "dAppOpenButton": "Открыть",
     "dAppFeaturedApp": "Рекомендуемое приложение",
-    "dAppPopularApps": "Популярные dApps",
+    "dAppPopularApps": "Обнаружить dApps",
+    "dAppQubicApps": "Qubic Apps",
     "networksTitle": "Сети",
     "networksButtonAddNetwork": "Добавить сеть",
     "networksConfirmationDialogTitleDeleteNetwork": "Удалить {networkName}?",
@@ -850,5 +805,35 @@
     "releaseTransferRightsErrorNoSourceContract": "Пожалуйста, выберите исходный контракт",
     "releaseTransferRightsErrorNoDestinationContract": "Пожалуйста, выберите целевой контракт",
     "releaseTransferRightsErrorSameContract": "Исходный и целевой контракты должны быть разными",
-    "releaseTransferRightsErrorInvalidContract": "Неверная конфигурация контракта"
+    "releaseTransferRightsErrorInvalidContract": "Неверная конфигурация контракта",
+    "dAppSearchPlaceholder": "Поиск или ввод URL dApp",
+    "addToFavorites": "Добавить в избранное",
+    "favoriteNameLabel": "Название",
+    "favoriteNameHint": "Введите название",
+    "favoriteNameRequired": "Название обязательно",
+    "favoriteNameTooLong": "Название не должно превышать 50 символов",
+    "favoriteNameAlreadyInUse": "Это имя уже используется",
+    "favoriteUrlLabel": "Url",
+    "favoriteUrlHint": "https://example.com",
+    "favoriteUrlRequired": "URL обязателен",
+    "favoriteUrlInvalid": "Пожалуйста, введите корректный URL",
+    "favoriteAddedSuccessfully": "Добавлено в избранное",
+    "favoritesTitle": "Избранное",
+    "favoritesEmpty": "Избранное пусто",
+    "favoritesEmptyDescription": "Добавьте любимые dApps для быстрого доступа",
+    "favoriteRemoved": "Удалено из избранного",
+    "removeFavorite": "Удалить из избранного",
+    "dAppSearchInGoogle": "Поиск в Google",
+    "generalLabelNoResults": "Результаты не найдены",
+    "generalLabelTermsOfService": "Условия использования",
+    "dAppSearchEmptyState": "Давайте что-нибудь откроем! Начните печатать",
+    "webviewAddressBarLabelOpenInBrowser": "Открыть в браузере",
+    "generalButtonContinue": "Продолжить",
+    "dAppExternalUrlWarningTitle": "Предупреждение о безопасности",
+    "dAppExternalUrlWarningMessage": "Вы собираетесь открыть стороннее dApp. \"Qubic Wallet\" не предоставляет никаких рекомендаций, гарантий или заверений относительно законности, безопасности, производительности или функциональности сторонних приложений, разработанных участниками экосистемы Qubic.\n\nВнимательно читайте каждый запрос на одобрение, чтобы точно понимать, что вы разрешаете. Использование dApp может нести финансовые риски.\n\n\"Qubic Wallet\" не несет ответственности за любые потери или проблемы, возникшие в результате использования этого dApp.\n\nДля получения дополнительной информации см. наши Условия использования.",
+    "dAppExternalUrlWarningDoNotRemind": "Больше не напоминать",
+    "webviewErrorCannotLoad": "Не удалось загрузить эту страницу",
+    "webviewErrorInsecureConnection": "Эта страница не может быть загружена, поскольку использует небезопасное соединение (HTTP). Разрешены только безопасные соединения (HTTPS).",
+    "webviewErrorGeneric": "Ошибка загрузки страницы: {error}",
+    "webviewErrorHttp": "HTTP ошибка {code}"
 }
