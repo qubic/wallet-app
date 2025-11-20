@@ -895,6 +895,7 @@
     "revealSeedWarningTitle": "Do not share your Private Seed!",
     "revealSeedWarningDescription": "If someone has your private seed, they will have full control of your account",
     "blockedScreenshotWarning": "Screenshot protected — this screen is private.",
+    "releaseTransferRightsMenuOption": "Release Transfer Rights",
     "releaseTransferRightsTitle": "Release Transfer Rights",
     "releaseTransferRightsLabelSourceContract": "Source Contract",
     "releaseTransferRightsLabelAvailableAmount": "Available: {formattedAmount}",
