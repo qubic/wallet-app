@@ -29,12 +29,16 @@ class GroupedAssetItem extends StatelessWidget {
   Widget getCardMenu(BuildContext context) {
     final l10n = l10nOf(context);
 
-    List<PopupMenuEntry<CardItem>> menuItems = [
-      PopupMenuItem<CardItem>(
-        value: CardItem.releaseTransferRights,
-        child: Text(l10n.releaseTransferRightsMenuOption),
-      ),
-    ];
+    List<PopupMenuEntry<CardItem>> menuItems = [];
+
+    if (account.amount != null) {
+      menuItems.add(
+        PopupMenuItem<CardItem>(
+          value: CardItem.releaseTransferRights,
+          child: Text(l10n.releaseTransferRightsMenuOption),
+        ),
+      );
+    }
 
     // Add Issuer Identity option only for non-smart-contract shares
     if (!groupedAsset.isSmartContractShare) {
@@ -80,20 +84,21 @@ class GroupedAssetItem extends StatelessWidget {
       child: OverflowBar(
         alignment: MainAxisAlignment.start,
         children: [
-          ThemedControls.primaryButtonBig(
-              onPressed: () {
-                pushScreen(
-                  context,
-                  screen: TransferAsset(item: account, asset: firstAsset),
-                  withNavBar: false,
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                );
-              },
-              text: l10n.assetsButtonSend,
-              icon: LightThemeColors.shouldInvertIcon
-                  ? ThemedControls.invertedColors(
-                      child: Image.asset("assets/images/send.png"))
-                  : Image.asset("assets/images/send.png")),
+          if (account.amount != null)
+            ThemedControls.primaryButtonBig(
+                onPressed: () {
+                  pushScreen(
+                    context,
+                    screen: TransferAsset(item: account, asset: firstAsset),
+                    withNavBar: false,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                },
+                text: l10n.assetsButtonSend,
+                icon: LightThemeColors.shouldInvertIcon
+                    ? ThemedControls.invertedColors(
+                        child: Image.asset("assets/images/send.png"))
+                    : Image.asset("assets/images/send.png"))
         ],
       ),
     );

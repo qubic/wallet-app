@@ -8,9 +8,16 @@ class TransactionActionHelpers {
   static bool canResend(TransactionVm item) {
     final ApplicationStore appStore = getIt<ApplicationStore>();
 
-    return (appStore.currentQubicIDs
-            .any((e) => e.publicId == item.sourceId && !e.watchOnly) &&
-        item.getStatus() != ComputedTransactionStatus.pending &&
+    final sourceAccount = appStore.currentQubicIDs
+        .where((e) => e.publicId == item.sourceId && !e.watchOnly)
+        .firstOrNull;
+
+    // Check if source account exists and has balance data loaded
+    if (sourceAccount == null || sourceAccount.amount == null) {
+      return false;
+    }
+
+    return (item.getStatus() != ComputedTransactionStatus.pending &&
         item.amount > 0 &&
         item.destId != QxInfo.mainAssetIssuer &&
         item.destId != QutilInfo.address &&
