@@ -394,6 +394,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
 
   Widget getFeeInfo() {
     final l10n = l10nOf(context);
+    final balance = widget.item.amount ?? 0;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -409,7 +410,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
           controller: feeController,
           validator: FormBuilderValidators.compose([
             CustomFormFieldValidators.isLessThanParsed(
-                lessThan: widget.item.amount!, context: context),
+                lessThan: balance, context: context),
           ]),
           decoration: ThemeInputDecorations.normalInputbox,
         ),
