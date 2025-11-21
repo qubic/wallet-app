@@ -88,11 +88,8 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   CurrencyInputFormatter getInputFormatter(BuildContext context) {
-    final l10n = l10nOf(context);
-
     return CurrencyInputFormatter(
-        trailingSymbol:
-            "${widget.asset.issuedAsset.name} ${widget.asset.isSmartContractShare ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
+        trailingSymbol: widget.asset.issuedAsset.name,
         useSymbolPadding: true,
         thousandSeparator: ThousandSeparator.Comma,
         mantissaLength: 0);
