@@ -1,7 +1,6 @@
-import 'dart:io' show Platform;
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:mobx/mobx.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
@@ -85,13 +84,7 @@ abstract class WalletContentStoreBase with Store {
   /// Returns the current platform identifier
   /// Platform identifiers: 'ios', 'android', 'macos', 'windows', 'linux', 'web'
   String getCurrentPlatform() {
-    if (kIsWeb) return 'web';
-    if (Platform.isIOS) return 'ios';
-    if (Platform.isAndroid) return 'android';
-    if (Platform.isMacOS) return 'macos';
-    if (Platform.isWindows) return 'windows';
-    if (Platform.isLinux) return 'linux';
-    return 'unknown';
+    return UniversalPlatform.operatingSystem;
   }
 
   /// Checks if a dApp should be shown on the current platform
