@@ -727,15 +727,14 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       setState(() {
         isLoading = false;
       });
-      Navigator.pop(context);
-      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
-          targetTick.asThousands()));
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
         return TransactionsForId(
           publicQubicId: widget.item.publicId,
           item: widget.item,
         );
       }));
+      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
+          targetTick.asThousands()));
     } catch (e) {
       _globalSnackBar.showError(e.toString());
     } finally {
