@@ -246,7 +246,7 @@
     "accountButtonReceive": "Nhận",
     "accountButtonSend": "Gửi",
     "accountButtonAssets": "Tài sản",
-    "accountSendTitle": "Gửi tiền",
+    "accountSendTitle": "Gửi QUBIC",
     "accountSendLabelDestinationAddress": "Địa chỉ đích",
     "accountSendLabelAmount": "Số lượng",
     "accountSendButtonMax": "Tối đa",
@@ -411,8 +411,7 @@
     "addAccountWatchOnlyHintQubicAddress": "Nhập địa chỉ Qubic",
     "addAccountCreateNewAccountModalBottomSheet": "Tạo tài khoản mới",
     "addAccountWatchOnlyAddressModalBottomSheet": "Tài khoản chỉ xem",
-    "sendAssetLabelTransactionCost": "Phí (cố định)",
-    "sendAssetButtonTransfer": "Chuyển khoản",
+    "sendAssetButtonTransfer": "Gửi",
     "sendAssetErrorTickIsInThePast": "Tick được cung cấp là trong quá khứ. Tick hiện tại là {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -501,7 +500,7 @@
     "transfersListLabelReceiveIn": "Nhận trong",
     "transfersListLabelSharePublicIdInstructionsOne": "Vui lòng chia sẻ ID công khai sau đây với người gửi:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Hoặc hiển thị mã QR sau đây",
-    "transferAssetHeader": "Chuyển {assetName}",
+    "transferAssetHeader": "Gửi {assetName}",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -850,9 +849,9 @@
     "revealSeedWarningTitle": "Đừng chia sẻ seed riêng tư của bạn!",
     "revealSeedWarningDescription": "Nếu ai đó có seed riêng tư của bạn, họ sẽ có toàn quyền kiểm soát tài khoản của bạn",
     "blockedScreenshotWarning": "Chụp màn hình được bảo vệ — màn hình này là riêng tư.",
-    "releaseTransferRightsMenuOption": "Giải Phóng Quyền Chuyển Nhượng",
-    "releaseTransferRightsTitle": "Giải Phóng Quyền Chuyển Nhượng",
-    "releaseTransferRightsLabelSourceContract": "Hợp Đồng Nguồn",
+    "releaseTransferRightsMenuOption": "Quyền Chuyển Nhượng",
+    "releaseTransferRightsTitle": "Chuyển Quyền Quản Lý",
+    "releaseTransferRightsLabelSourceContract": "Từ Smart Contract",
     "releaseTransferRightsLabelAvailableAmount": "Khả dụng: {formattedAmount}",
     "@releaseTransferRightsLabelAvailableAmount": {
         "placeholders": {
@@ -861,10 +860,23 @@
             }
         }
     },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "releaseTransferRightsLabelAmount": "Số Lượng",
-    "releaseTransferRightsLabelDestinationContract": "Hợp Đồng Đích",
-    "releaseTransferRightsLabelFee": "Phí Giao Dịch",
-    "releaseTransferRightsButtonSubmit": "Giải Phóng",
+    "releaseTransferRightsLabelDestinationContract": "Đến Smart Contract",
+    "releaseTransferRightsButtonSubmit": "Chuyển",
     "releaseTransferRightsErrorNoSourceContract": "Vui lòng chọn hợp đồng nguồn",
     "releaseTransferRightsErrorNoDestinationContract": "Vui lòng chọn hợp đồng đích",
     "releaseTransferRightsErrorSameContract": "Hợp đồng nguồn và đích phải khác nhau",

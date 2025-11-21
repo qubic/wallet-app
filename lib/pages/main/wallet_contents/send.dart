@@ -419,7 +419,7 @@ class _SendState extends State<Send> {
                     readOnly: isLoading,
                     controller: amount,
                     enableSuggestions: false,
-                    textAlign: TextAlign.start,
+                    textAlign: TextAlign.end,
                     onSubmitted: (value) => transferNowHandler(),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(

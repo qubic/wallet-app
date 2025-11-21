@@ -186,6 +186,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   }
 
   List<DropdownMenuItem<int>> getSourceContractList() {
+    final l10n = l10nOf(context);
     return widget.groupedAsset.contractContributions
         .where((c) => c.numberOfUnits > 0)
         .map((contribution) {
@@ -196,7 +197,11 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       return DropdownMenuItem<int>(
         value: contribution.managingContractIndex,
         child: Text(
-          "$contractName (${formatter.format(contribution.numberOfUnits)} available)",
+          l10n.releaseTransferRightsSourceContractOption(
+            contractName,
+            formatter.format(contribution.numberOfUnits),
+            widget.groupedAsset.issuedAsset.name,
+          ),
           style: TextStyles.inputBoxSmallStyle,
         ),
       );
@@ -326,9 +331,26 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l10n.releaseTransferRightsLabelAmount,
-          style: TextStyles.labelTextNormal,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: Text(
+                l10n.releaseTransferRightsLabelAmount,
+                style: TextStyles.labelTextNormal,
+              ),
+            ),
+            ThemedControls.transparentButtonSmall(
+              text: l10n.accountSendButtonMax,
+              onPressed: () {
+                if (availableUnits > 0) {
+                  numberOfSharesCtrl.value = getInputFormatter(context)
+                      .formatEditUpdate(const TextEditingValue(text: ''),
+                          TextEditingValue(text: availableUnits.toString()));
+                }
+              },
+            ),
+          ],
         ),
         ThemedControls.spacerVerticalMini(),
         FormBuilderTextField(
@@ -399,7 +421,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          l10n.releaseTransferRightsLabelFee,
+          l10n.generalLabelFee,
           style: TextStyles.labelTextNormal,
         ),
         ThemedControls.spacerVerticalMini(),
@@ -508,40 +530,22 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
                   ),
                   ThemedControls.spacerVerticalMini(),
                   Text(
-                    widget.item.name,
+                    "${widget.groupedAsset.issuedAsset.name} - ${widget.item.name}",
                     style: TextStyles.pageSubtitle,
-                  ),
-                  ThemedControls.spacerVerticalMini(),
-                  Row(
-                    children: [
-                      Text(
-                        widget.groupedAsset.issuedAsset.name,
-                        style: TextStyles.secondaryText.copyWith(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      ThemedControls.spacerHorizontalMini(),
-                      Text(
-                        "(${formatter.format(widget.groupedAsset.totalUnits)} ${widget.groupedAsset.isSmartContractShare ? l10n.generalUnitShares(widget.groupedAsset.totalUnits) : l10n.generalUnitTokens(widget.groupedAsset.totalUnits)})",
-                        style: TextStyles.secondaryText,
-                      ),
-                    ],
-                  ),
+                  )
                 ],
               ),
-              ThemedControls.spacerVerticalSmall(),
+              ThemedControls.spacerVerticalHuge(),
               FormBuilder(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       getSourceContractField(),
-                      getAvailableAmountInfo(),
-                      ThemedControls.spacerVerticalNormal(),
-                      getAmountField(),
                       ThemedControls.spacerVerticalNormal(),
                       getDestinationContractField(),
+                      ThemedControls.spacerVerticalNormal(),
+                      getAmountField(),
                       ThemedControls.spacerVerticalNormal(),
                       getFeeInfo(),
                       ThemedControls.spacerVerticalBig(),
@@ -635,13 +639,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   void releaseTransferRightsHandler() async {
     final l10n = l10nOf(context);
 
-    _formKey.currentState?.validate();
-    if (!_formKey.currentState!.isValid) {
-      return;
-    }
-
-    // Validate source and destination are selected and different
-    // Validate dropdowns and set error messages
+    // Validate dropdowns first and set error messages
     bool hasError = false;
 
     if (selectedSourceContractIndex == null) {
@@ -649,6 +647,10 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
         sourceContractError = l10n.releaseTransferRightsErrorNoSourceContract;
       });
       hasError = true;
+    } else {
+      setState(() {
+        sourceContractError = null;
+      });
     }
 
     if (selectedDestinationContractIndex == null) {
@@ -662,6 +664,16 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       setState(() {
         destinationContractError = l10n.releaseTransferRightsErrorSameContract;
       });
+      hasError = true;
+    } else {
+      setState(() {
+        destinationContractError = null;
+      });
+    }
+
+    // Validate form fields
+    _formKey.currentState?.validate();
+    if (!_formKey.currentState!.isValid) {
       hasError = true;
     }
 

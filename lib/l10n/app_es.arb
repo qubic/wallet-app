@@ -218,7 +218,7 @@
     "accountButtonReceive": "Recibir",
     "accountButtonSend": "Enviar",
     "accountButtonAssets": "Activos",
-    "accountSendTitle": "Enviar Fondos",
+    "accountSendTitle": "Enviar QUBIC",
     "accountSendLabelDestinationAddress": "Dirección de Destino",
     "accountSendLabelAmount": "Cantidad",
     "accountSendButtonMax": "Max",
@@ -368,8 +368,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "La semilla privada es inválida",
     "addAccountErrorTamperedWalletTitle": "MANIPULACIÓN DEL WALLET DETECTADA",
     "addAccountErrorTamperedWalletMessage": "EL WALLET QUE ESTÁS UTILIZANDO HA SIDO MANIPULADO.\n\nDESCARGA UNA VERSIÓN OFICIAL DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP PARA NO ARRIESGARTE A PERDER TUS FONDOS",
-    "sendAssetLabelTransactionCost": "Tarifa (fijo)",
-    "sendAssetButtonTransfer": "Transferir",
+    "sendAssetButtonTransfer": "Enviar",
     "sendAssetErrorTickIsInThePast": "El tick seleccionado es pasado. El tick actual es {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -456,7 +455,7 @@
     "transfersListLabelReceiveIn": "Recibir en",
     "transfersListLabelSharePublicIdInstructionsOne": "Por favor, comparte el siguiente ID Público con el remitente:",
     "transfersListLabelSharePublicIdInstructionsTwo": "O muéstrale el siguiente código QR",
-    "transferAssetHeader": "Transferir {assetName}",
+    "transferAssetHeader": "Enviar {assetName}",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -786,9 +785,9 @@
     "revealSeedWarningTitle": "¡No compartas tu semilla privada!",
     "revealSeedWarningDescription": "Si alguien tiene tu semilla privada, tendrá control total de tu cuenta",
     "blockedScreenshotWarning": "Captura protegida: esta pantalla es privada.",
-    "releaseTransferRightsMenuOption": "Liberar Derechos de Transferencia",
-    "releaseTransferRightsTitle": "Liberar Derechos de Transferencia",
-    "releaseTransferRightsLabelSourceContract": "Contrato de Origen",
+    "releaseTransferRightsMenuOption": "Derechos de Transferencia",
+    "releaseTransferRightsTitle": "Transferir Derechos de Gestión",
+    "releaseTransferRightsLabelSourceContract": "Desde Smart Contract",
     "releaseTransferRightsLabelAvailableAmount": "Disponible: {formattedAmount}",
     "@releaseTransferRightsLabelAvailableAmount": {
         "placeholders": {
@@ -797,10 +796,23 @@
             }
         }
     },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "releaseTransferRightsLabelAmount": "Cantidad",
-    "releaseTransferRightsLabelDestinationContract": "Contrato de Destino",
-    "releaseTransferRightsLabelFee": "Tarifa de Transacción",
-    "releaseTransferRightsButtonSubmit": "Liberar",
+    "releaseTransferRightsLabelDestinationContract": "Hacia Smart Contract",
+    "releaseTransferRightsButtonSubmit": "Transferir",
     "releaseTransferRightsErrorNoSourceContract": "Por favor seleccione un contrato de origen",
     "releaseTransferRightsErrorNoDestinationContract": "Por favor seleccione un contrato de destino",
     "releaseTransferRightsErrorSameContract": "Los contratos de origen y destino deben ser diferentes",
