@@ -114,7 +114,7 @@ class _ApprovalCardState extends State<_ApprovalCard> {
         if (widget.method == WalletConnectMethod.sendAsset) ...[
           ThemedControls.spacerVerticalSmall(),
           Text(
-            l10n.sendAssetLabelTransactionCost,
+            l10n.generalLabelFee,
             style: TextStyles.lightGreyTextSmall,
           ),
           Text(

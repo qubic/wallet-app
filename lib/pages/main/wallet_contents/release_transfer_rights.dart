@@ -399,7 +399,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          l10n.releaseTransferRightsLabelFee,
+          l10n.generalLabelFee,
           style: TextStyles.labelTextNormal,
         ),
         ThemedControls.spacerVerticalMini(),

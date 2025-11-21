@@ -409,7 +409,7 @@ class _TransferAssetState extends State<TransferAsset> {
   Widget getCostInfo() {
     final l10n = l10nOf(context);
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Text(l10n.sendAssetLabelTransactionCost,
+      Text(l10n.generalLabelFee,
           style: TextStyles.labelTextNormal),
       ThemedControls.spacerVerticalMini(),
       FormBuilderTextField(
