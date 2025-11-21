@@ -326,9 +326,26 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          l10n.releaseTransferRightsLabelAmount,
-          style: TextStyles.labelTextNormal,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: Text(
+                l10n.releaseTransferRightsLabelAmount,
+                style: TextStyles.labelTextNormal,
+              ),
+            ),
+            ThemedControls.transparentButtonSmall(
+              text: l10n.accountSendButtonMax,
+              onPressed: () {
+                if (availableUnits > 0) {
+                  numberOfSharesCtrl.value = getInputFormatter(context)
+                      .formatEditUpdate(const TextEditingValue(text: ''),
+                          TextEditingValue(text: availableUnits.toString()));
+                }
+              },
+            ),
+          ],
         ),
         ThemedControls.spacerVerticalMini(),
         FormBuilderTextField(
