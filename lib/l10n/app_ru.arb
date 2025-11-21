@@ -219,7 +219,7 @@
     "accountButtonReceive": "Получить",
     "accountButtonSend": "Отправить",
     "accountButtonAssets": "Ассеты",
-    "accountSendTitle": "Отправить средства",
+    "accountSendTitle": "Отправить QUBIC",
     "accountSendLabelDestinationAddress": "Адрес назначения",
     "accountSendLabelAmount": "Сумма",
     "accountSendButtonMax": "Максимум",
@@ -368,8 +368,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Неправильный секретный сид",
     "addAccountErrorTamperedWalletTitle": "ОБНАРУЖЕН ПОДДЕЛЬНЫЙ КОШЕЛЕК",
     "addAccountErrorTamperedWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН.\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ С САЙТА HTTPS://GITHUB.COM/QUBIC/WALLET-APP ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА",
-    "sendAssetLabelTransactionCost": "Комиссия (fixed)",
-    "sendAssetButtonTransfer": "Транзакция",
+    "sendAssetButtonTransfer": "Отправить",
     "sendAssetErrorTickIsInThePast": "Выбранный тик уже прошёл. Текущий тик {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -457,7 +456,7 @@
     "transfersListLabelReceiveIn": "Передан в",
     "transfersListLabelSharePublicIdInstructionsOne": "Пожалуйста, сообщите отправителю этот ID:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Или покажите ему QR код",
-    "transferAssetHeader": "Транзакция {assetName}",
+    "transferAssetHeader": "Отправить {assetName}",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -787,9 +786,9 @@
     "revealSeedWarningTitle": "Никогда не делитесь своей приватной сид-фразой!",
     "revealSeedWarningDescription": "Если кто-то получит вашу приватную сид-фразу, он получит полный доступ к вашему аккаунту",
     "blockedScreenshotWarning": "Скриншот защищён — экран остаётся приватным.",
-    "releaseTransferRightsMenuOption": "Освободить Права на Передачу",
-    "releaseTransferRightsTitle": "Освободить Права на Передачу",
-    "releaseTransferRightsLabelSourceContract": "Исходный Контракт",
+    "releaseTransferRightsMenuOption": "Права на Передачу",
+    "releaseTransferRightsTitle": "Передать Права Управления",
+    "releaseTransferRightsLabelSourceContract": "Из Смарт-Контракта",
     "releaseTransferRightsLabelAvailableAmount": "Доступно: {formattedAmount}",
     "@releaseTransferRightsLabelAvailableAmount": {
         "placeholders": {
@@ -798,10 +797,23 @@
             }
         }
     },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "releaseTransferRightsLabelAmount": "Количество",
-    "releaseTransferRightsLabelDestinationContract": "Целевой Контракт",
-    "releaseTransferRightsLabelFee": "Комиссия за Транзакцию",
-    "releaseTransferRightsButtonSubmit": "Освободить",
+    "releaseTransferRightsLabelDestinationContract": "В Смарт-Контракт",
+    "releaseTransferRightsButtonSubmit": "Передать",
     "releaseTransferRightsErrorNoSourceContract": "Пожалуйста, выберите исходный контракт",
     "releaseTransferRightsErrorNoDestinationContract": "Пожалуйста, выберите целевой контракт",
     "releaseTransferRightsErrorSameContract": "Исходный и целевой контракты должны быть разными",
