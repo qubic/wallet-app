@@ -140,7 +140,9 @@ class GroupedAssetItem extends StatelessWidget {
                   ],
                 ),
                 ThemedControls.spacerVerticalSmall(),
-                ...groupedAsset.contractContributions.map((contribution) {
+                ...groupedAsset.contractContributions
+                    .where((contribution) => contribution.numberOfUnits > 0)
+                    .map((contribution) {
                   String? contractName = getIt<QubicEcosystemStore>()
                       .getContractNameByIndex(
                           contribution.managingContractIndex);
