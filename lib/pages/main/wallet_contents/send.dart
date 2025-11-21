@@ -5,6 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
+import 'package:qubic_wallet/components/transaction/advanced_tick_options.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -55,23 +56,6 @@ class _SendState extends State<Send> {
   );
 
   bool expanded = false;
-
-  List<DropdownMenuItem<TargetTickTypeEnum>> getTickList() {
-    final l10n = l10nOf(context);
-
-    return TargetTickTypeEnum.values.map((targetTickTypeItem) {
-      return DropdownMenuItem<TargetTickTypeEnum>(
-        value: targetTickTypeItem,
-        child: Text(
-            targetTickTypeItem == TargetTickTypeEnum.manual
-                ? l10n.sendItemLabelTargetTickManual
-                : l10n
-                    .sendItemLabelTargetTickAutomatic(targetTickTypeItem.value),
-            style: TextStyles
-                .inputBoxSmallStyle), // Display name without enum prefix
-      );
-    }).toList();
-  }
 
   CurrencyInputFormatter getInputFormatter() {
     final l10n = l10nOf(context);
@@ -211,81 +195,6 @@ class _SendState extends State<Send> {
         );
       },
     );
-  }
-
-  List<Widget> getOverrideTick() {
-    final l10n = l10nOf(context);
-
-    if ((targetTickType == TargetTickTypeEnum.manual) && (expanded == true)) {
-      return [
-        ThemedControls.spacerVerticalSmall(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-                child: Text(l10n.generalLabelTick,
-                    style: TextStyles.labelTextNormal)),
-            ThemedControls.transparentButtonSmall(
-                text: l10n.sendItemButtonSetCurrentTick(
-                    appStore.currentTick.asThousands()),
-                onPressed: () {
-                  if (appStore.currentTick > 0) {
-                    tickController.text = appStore.currentTick.toString();
-                  }
-                }),
-          ],
-        ),
-        FormBuilderTextField(
-          decoration: ThemeInputDecorations.normalInputbox,
-          name: l10n.generalLabelTick,
-          readOnly: isLoading,
-          controller: tickController,
-          enableSuggestions: false,
-          keyboardType: TextInputType.number,
-          validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(
-                errorText: l10n.generalErrorRequiredField),
-            FormBuilderValidators.numeric(),
-          ]),
-          maxLines: 1,
-          autocorrect: false,
-          autofillHints: null,
-        )
-      ];
-    }
-    return [Container()];
-  }
-
-  Widget getAdvancedOptions() {
-    final l10n = l10nOf(context);
-
-    return Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(l10n.sendItemLabelDetermineTargetTick,
-              style: TextStyles.labelTextNormal),
-          ThemedControls.spacerVerticalMini(),
-          Theme(
-              data: Theme.of(context).copyWith(
-                  canvasColor: LightThemeColors.background,
-                  scaffoldBackgroundColor: LightThemeColors.background,
-                  brightness: Brightness.dark,
-                  dropdownMenuTheme: DropdownMenuThemeData(
-                    textStyle: TextStyles.inputBoxNormalStyle,
-                  )),
-              child: ThemedControls.dropdown<TargetTickTypeEnum>(
-                items: getTickList(),
-                onChanged: (TargetTickTypeEnum? value) {
-                  setState(() {
-                    targetTickType = value!;
-                  });
-                },
-                value: targetTickType,
-              )),
-          Column(children: getOverrideTick())
-        ]);
   }
 
   Widget getScrollView(BuildContext context) {
@@ -476,7 +385,18 @@ class _SendState extends State<Send> {
                                         ThemePaddings.normalPadding,
                                         ThemePaddings.normalPadding,
                                       ),
-                                      child: getAdvancedOptions()),
+                                      child: AdvancedTickOptions(
+                                        targetTickType: targetTickType,
+                                        onTargetTickTypeChanged:
+                                            (TargetTickTypeEnum? value) {
+                                          setState(() {
+                                            targetTickType = value!;
+                                          });
+                                        },
+                                        tickController: tickController,
+                                        currentTick: appStore.currentTick,
+                                        isLoading: isLoading,
+                                      )),
                                   isExpanded: expanded,
                                 )
                               ])))

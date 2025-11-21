@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
+import 'package:qubic_wallet/components/transaction/advanced_tick_options.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
@@ -57,22 +57,6 @@ class _TransferAssetState extends State<TransferAsset> {
   );
 
   List<bool> expanded = [false];
-
-  List<DropdownMenuItem<TargetTickTypeEnum>> getTickList() {
-    final l10n = l10nOf(context);
-
-    return TargetTickTypeEnum.values.map((targetTickType) {
-      return DropdownMenuItem<TargetTickTypeEnum>(
-        value: targetTickType,
-        child: Text(
-            targetTickType == TargetTickTypeEnum.manual
-                ? l10n.sendItemLabelTargetTickManual
-                : l10n.sendItemLabelTargetTickAutomatic(targetTickType.value),
-            style: TextStyles
-                .inputBoxSmallStyle), // Display name without enum prefix
-      );
-    }).toList();
-  }
 
   String? generatedPublicId;
 
@@ -203,74 +187,6 @@ class _TransferAssetState extends State<TransferAsset> {
         });
   }
 
-  List<Widget> getOverrideTick() {
-    final l10n = l10nOf(context);
-    if ((targetTickType == TargetTickTypeEnum.manual) &&
-        (expanded[0] == true)) {
-      return [
-        ThemedControls.spacerVerticalSmall(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-                child: Text(l10n.generalLabelTick,
-                    style: TextStyles.labelTextNormal)),
-            ThemedControls.transparentButtonBigWithChild(
-                child: Observer(builder: (context) {
-              return Text(
-                  l10n.sendItemButtonSetCurrentTick(
-                      appStore.currentTick.asThousands()),
-                  style: TextStyles.transparentButtonTextSmall);
-            }), onPressed: () {
-              if (appStore.currentTick > 0) {
-                tickController.text = appStore.currentTick.toString();
-              }
-            }),
-          ],
-        ),
-        FormBuilderTextField(
-          decoration: ThemeInputDecorations.normalInputbox,
-          name: l10n.generalLabelTick,
-          readOnly: isLoading,
-          controller: tickController,
-          enableSuggestions: false,
-          validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(
-                errorText: l10n.generalErrorRequiredField),
-            FormBuilderValidators.numeric(),
-          ]),
-          maxLines: 1,
-          autocorrect: false,
-          autofillHints: null,
-        )
-      ];
-    }
-    return [Container()];
-  }
-
-  Widget getAdvancedOptions() {
-    final l10n = l10nOf(context);
-    return Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(l10n.sendItemLabelDetermineTargetTick,
-              style: TextStyles.labelTextNormal),
-          ThemedControls.spacerVerticalMini(),
-          ThemedControls.dropdown<TargetTickTypeEnum>(
-              value: targetTickType,
-              onChanged: (TargetTickTypeEnum? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  targetTickType = value!;
-                });
-              },
-              items: getTickList()),
-          Column(children: getOverrideTick())
-        ]);
-  }
-
   Widget getDestinationQubicId() {
     final l10n = l10nOf(context);
     return FormBuilderTextField(
@@ -386,8 +302,7 @@ class _TransferAssetState extends State<TransferAsset> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              l10n.transferAssetLabelOwned(
-                  widget.asset.issuedAsset.name,
+              l10n.transferAssetLabelOwned(widget.asset.issuedAsset.name,
                   formatter.format(widget.asset.numberOfUnits)),
               style: TextStyles.secondaryText),
         ]);
@@ -440,8 +355,8 @@ class _TransferAssetState extends State<TransferAsset> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: l10n.transferAssetHeader(
-                      widget.asset.issuedAsset.name),
+                  headerText:
+                      l10n.transferAssetHeader(widget.asset.issuedAsset.name),
                   subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalSmall(),
               Text(l10n.transferAssetNoticeQxOnly,
@@ -508,7 +423,18 @@ class _TransferAssetState extends State<TransferAsset> {
                                             ThemePaddings.normalPadding,
                                             ThemePaddings.normalPadding,
                                           ),
-                                          child: getAdvancedOptions()),
+                                          child: AdvancedTickOptions(
+                                            targetTickType: targetTickType,
+                                            onTargetTickTypeChanged:
+                                                (TargetTickTypeEnum? value) {
+                                              setState(() {
+                                                targetTickType = value!;
+                                              });
+                                            },
+                                            tickController: tickController,
+                                            currentTick: appStore.currentTick,
+                                            isLoading: isLoading,
+                                          )),
                                       isExpanded: expanded[0],
                                     )
                                   ])))
