@@ -92,6 +92,7 @@ On success, an array of `RequestAccountsResult` objects is received:
 | assets[index].assetName | String | The name of the asset. |
 | assets[index].issuerIdentity | String | The public ID of the issuer of the asset. |
 | assets[index].ownedAmount | Number | The balance of the specified asset in the account.	|
+| assets[index].managingContractIndex | Number | The index of the smart contract managing this asset. |
 
 ### qubic_sendQubic
 
@@ -194,6 +195,8 @@ On error, a standard `JsonRpcError` is received. See the `JSON-RPC errors` secti
 
 Asks the wallet to transfer assets to a specific address (upon user confirmation).
 
+**Important:** This method only supports transferring assets managed by the QX smart contract (contract index 1). Assets managed by other contracts cannot be transferred through this method.
+
 **Method parameters:**
 
 | Param       | Type   | Description                                     |
@@ -286,7 +289,8 @@ Fires when the amount of a specific asset in one or more wallet accounts changes
       {
         "assetName": "CFB",
         "issuerIdentity": "CFBMEMZOIDEXQAUXYYSZIURADQLAPWPMNJXQSNVQZAHYVOPYUKKJBJUCTVJL",
-        "ownedAmount": 1288696
+        "ownedAmount": 1288696,
+        "managingContractIndex": 1
       }
     ]
   },
@@ -307,6 +311,7 @@ Fires when the amount of a specific asset in one or more wallet accounts changes
 | assets[index].assetName | String | The name of the asset. |
 | assets[index].issuerIdentity | String | The public ID of the issuer of the asset. |
 | assets[index].ownedAmount | Number | The balance of the specified asset in the account.	|
+| assets[index].managingContractIndex | Number | The index of the smart contract managing this asset. |
 
 ## JSON-RPC errors
 
