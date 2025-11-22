@@ -576,16 +576,15 @@ class _SendState extends State<Send> {
     });
 
     if (!mounted) return;
-    Navigator.pop(context);
-    final l10n = l10nOf(context);
-    _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
-        targetTick.toString().asThousands()));
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return TransactionsForId(
         publicQubicId: widget.item.publicId,
         item: widget.item,
       );
     }));
+    final l10n = l10nOf(context);
+    _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
+        targetTick.toString().asThousands()));
   }
 
   late final TextEditingController destinationID;

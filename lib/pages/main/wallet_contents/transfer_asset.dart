@@ -622,15 +622,14 @@ class _TransferAssetState extends State<TransferAsset> {
       isLoading = false;
     });
     if (!mounted) return;
-    Navigator.pop(context);
-    _globalSnackBar.show(l10n
-        .generalSnackBarMessageTransactionSubmitted(targetTick.asThousands()));
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
       return TransactionsForId(
         publicQubicId: widget.item.publicId,
         item: widget.item,
       );
     }));
+    _globalSnackBar.show(l10n
+        .generalSnackBarMessageTransactionSubmitted(targetTick.asThousands()));
   }
 
   TextEditingController destinationID = TextEditingController();
