@@ -246,7 +246,7 @@
     "accountButtonReceive": "Receive",
     "accountButtonSend": "Send",
     "accountButtonAssets": "Assets",
-    "accountSendTitle": "Send Funds",
+    "accountSendTitle": "Send QUBIC",
     "accountSendLabelDestinationAddress": "Destination Address",
     "accountSendLabelAmount": "Amount",
     "accountSendButtonMax": "Max",
@@ -411,8 +411,7 @@
     "addAccountWatchOnlyHintQubicAddress": "Enter a Qubic Address",
     "addAccountCreateNewAccountModalBottomSheet": "Create New Account",
     "addAccountWatchOnlyAddressModalBottomSheet": "Watch Only Account",
-    "sendAssetLabelTransactionCost": "Fee (fixed)",
-    "sendAssetButtonTransfer": "Transfer",
+    "sendAssetButtonTransfer": "Send",
     "sendAssetErrorTickIsInThePast": "Provided tick is in the past. Current tick is {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -501,7 +500,7 @@
     "transfersListLabelReceiveIn": "Receive in",
     "transfersListLabelSharePublicIdInstructionsOne": "Please share the following Public ID with the sender:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Or show the following QR Code",
-    "transferAssetHeader": "Transfer {assetName}",
+    "transferAssetHeader": "Send {assetName}",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -850,6 +849,33 @@
     "revealSeedWarningTitle": "Do not share your Private Seed!",
     "revealSeedWarningDescription": "If someone has your private seed, they will have full control of your account",
     "blockedScreenshotWarning": "Screenshot protected — this screen is private.",
+    "releaseTransferRightsMenuOption": "Transfer Rights",
+    "releaseTransferRightsTitle": "Transfer Management Rights",
+    "releaseTransferRightsLabelSourceContract": "From Smart Contract",
+    "releaseTransferRightsLabelAvailableAmount": "Available: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "description": "Label showing available units in selected source contract",
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "description": "Dropdown option format for source contract selection",
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "addToFavorites": "Add Favorite",
     "favoriteNameLabel": "Name",
     "favoriteNameHint": "Enter a name",
@@ -886,6 +912,13 @@
             }
         }
     },
+    "releaseTransferRightsLabelAmount": "Amount",
+    "releaseTransferRightsLabelDestinationContract": "To Smart Contract",
+    "releaseTransferRightsButtonSubmit": "Transfer",
+    "releaseTransferRightsErrorNoSourceContract": "Please select a source contract",
+    "releaseTransferRightsErrorNoDestinationContract": "Please select a destination contract",
+    "releaseTransferRightsErrorSameContract": "Source and destination contracts must be different",
+    "releaseTransferRightsErrorInvalidContract": "Invalid contract configuration",
     "webviewErrorHttp": "HTTP Error {code}",
     "@webviewErrorHttp": {
         "placeholders": {

@@ -219,7 +219,7 @@
     "accountButtonReceive": "Empfangen",
     "accountButtonSend": "Senden",
     "accountButtonAssets": "Vermögenswerte",
-    "accountSendTitle": "Geld senden",
+    "accountSendTitle": "QUBIC senden",
     "accountSendLabelDestinationAddress": "Zieladresse",
     "accountSendLabelAmount": "Betrag",
     "accountSendButtonMax": "Max",
@@ -369,8 +369,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Ungültigen privaten Seed angegeben.",
     "addAccountErrorTamperedWalletTitle": "MANIPULIERTES WALLET ERKANNT",
     "addAccountErrorTamperedWalletMessage": "DAS WALLET, DAS SIE DERZEIT VERWENDEN, IST MANIPULIERT.\n\nINSTALLIEREN SIE EINE OFFIZIELLE VERSION VON HTTPS://GITHUB.COM/QUBIC/WALLET-APP ODER RISIKIEREN SIE DEN VERLUST VON GELDERN.",
-    "sendAssetLabelTransactionCost": "Gebühr (fest)",
-    "sendAssetButtonTransfer": "Übertragen",
+    "sendAssetButtonTransfer": "Senden",
     "sendAssetErrorTickIsInThePast": "Der angegebene Tick liegt in der Vergangenheit. Aktueller Tick ist {currentTick}.",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -458,7 +457,7 @@
     "transfersListLabelReceiveIn": "Empfangen in",
     "transfersListLabelSharePublicIdInstructionsOne": "Bitte teilen Sie dem Absender die folgende öffentliche ID mit:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Oder zeigen Sie den folgenden QR-Code",
-    "transferAssetHeader": "Übertragen Sie {assetName}",
+    "transferAssetHeader": "{assetName} senden",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -787,6 +786,38 @@
     "revealSeedWarningTitle": "Teile deinen privaten Seed nicht!",
     "revealSeedWarningDescription": "Wenn jemand deinen privaten Seed hat, hat er vollständige Kontrolle über dein Konto",
     "blockedScreenshotWarning": "Screenshot geschützt — dieser Bildschirm bleibt privat.",
+    "releaseTransferRightsMenuOption": "Übertragungsrechte",
+    "releaseTransferRightsTitle": "Verwaltungsrechte übertragen",
+    "releaseTransferRightsLabelSourceContract": "Von Smart Contract",
+    "releaseTransferRightsLabelAvailableAmount": "Verfügbar: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Menge",
+    "releaseTransferRightsLabelDestinationContract": "Zu Smart Contract",
+    "releaseTransferRightsButtonSubmit": "Übertragen",
+    "releaseTransferRightsErrorNoSourceContract": "Bitte wählen Sie einen Quellvertrag aus",
+    "releaseTransferRightsErrorNoDestinationContract": "Bitte wählen Sie einen Zielvertrag aus",
+    "releaseTransferRightsErrorSameContract": "Quell- und Zielvertrag müssen unterschiedlich sein",
+    "releaseTransferRightsErrorInvalidContract": "Ungültige Vertragskonfiguration",
     "dAppSearchPlaceholder": "Suchen oder dApp-URL eingeben",
     "addToFavorites": "Favorit hinzufügen",
     "favoriteNameLabel": "Name",

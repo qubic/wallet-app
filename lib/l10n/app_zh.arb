@@ -219,7 +219,7 @@
     "accountButtonReceive": "接收",
     "accountButtonSend": "发送",
     "accountButtonAssets": "资产",
-    "accountSendTitle": "发送",
+    "accountSendTitle": "发送 QUBIC",
     "accountSendLabelDestinationAddress": "接收地址",
     "accountSendLabelAmount": "数量",
     "accountSendButtonMax": "Max",
@@ -369,8 +369,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "提供的私钥种子无效",
     "addAccountErrorTamperedWalletTitle": "检测到篡改的钱包",
     "addAccountErrorTamperedWalletMessage": "您当前正在使用的钱包已被篡改。\n\n请从 HTTPS://GITHUB.COM/QUBIC/WALLET-APP 安装官方版本，否则有资金损失的风险。",
-    "sendAssetLabelTransactionCost": "费用 (fixed)",
-    "sendAssetButtonTransfer": "转账",
+    "sendAssetButtonTransfer": "发送",
     "sendAssetErrorTickIsInThePast": "提供的刻度已过期，当前的刻度是 {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -458,7 +457,7 @@
     "transfersListLabelReceiveIn": "接收至",
     "transfersListLabelSharePublicIdInstructionsOne": "请与发送方分享以下 Public ID：",
     "transfersListLabelSharePublicIdInstructionsTwo": "或者展示以下二维码",
-    "transferAssetHeader": "转账 {assetName}",
+    "transferAssetHeader": "发送 {assetName}",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -786,7 +785,39 @@
     "revealSeedCopiedToClipboardMessage": "私密助记词已临时复制到剪贴板（保存 1 分钟）",
     "revealSeedWarningTitle": "请勿泄露您的私密助记词！",
     "revealSeedWarningDescription": "如果他人获取了您的私密助记词，他们将完全控制您的账户",
-    "blockedScreenshotWarning": "螢幕截圖已保護,此畫面保持隱私。",
+    "blockedScreenshotWarning": "螢幕截圖已保護，此畫面保持隱私。",
+    "releaseTransferRightsMenuOption": "转让权",
+    "releaseTransferRightsTitle": "转让管理权",
+    "releaseTransferRightsLabelSourceContract": "来自智能合约",
+    "releaseTransferRightsLabelAvailableAmount": "可用：{formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName}（{numberOfUnits} {assetName}）",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "数量",
+    "releaseTransferRightsLabelDestinationContract": "到智能合约",
+    "releaseTransferRightsButtonSubmit": "转让",
+    "releaseTransferRightsErrorNoSourceContract": "请选择源合约",
+    "releaseTransferRightsErrorNoDestinationContract": "请选择目标合约",
+    "releaseTransferRightsErrorSameContract": "源合约和目标合约必须不同",
+    "releaseTransferRightsErrorInvalidContract": "无效的合约配置",
     "dAppSearchPlaceholder": "搜索或输入 dApp URL",
     "addToFavorites": "添加收藏",
     "favoriteNameLabel": "名称",

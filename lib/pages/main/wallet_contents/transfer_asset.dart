@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
-import 'package:qubic_wallet/services/qr_scanner_service.dart';
+import 'package:qubic_wallet/components/transaction/advanced_tick_options.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
@@ -20,8 +18,10 @@ import 'package:qubic_wallet/helpers/send_transaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -58,22 +58,6 @@ class _TransferAssetState extends State<TransferAsset> {
 
   List<bool> expanded = [false];
 
-  List<DropdownMenuItem<TargetTickTypeEnum>> getTickList() {
-    final l10n = l10nOf(context);
-
-    return TargetTickTypeEnum.values.map((targetTickType) {
-      return DropdownMenuItem<TargetTickTypeEnum>(
-        value: targetTickType,
-        child: Text(
-            targetTickType == TargetTickTypeEnum.manual
-                ? l10n.sendItemLabelTargetTickManual
-                : l10n.sendItemLabelTargetTickAutomatic(targetTickType.value),
-            style: TextStyles
-                .inputBoxSmallStyle), // Display name without enum prefix
-      );
-    }).toList();
-  }
-
   String? generatedPublicId;
 
   late List<QubicListVm> knownQubicIDs;
@@ -88,13 +72,9 @@ class _TransferAssetState extends State<TransferAsset> {
   }
 
   CurrencyInputFormatter getInputFormatter(BuildContext context) {
-    final l10n = l10nOf(context);
-
     return CurrencyInputFormatter(
-        trailingSymbol:
-            "${widget.asset.issuedAsset.name} ${widget.asset.isSmartContractShare ? l10n.generalUnitShares(0) : l10n.generalUnitTokens(0)}",
+        trailingSymbol: widget.asset.issuedAsset.name,
         useSymbolPadding: true,
-        maxTextLength: 3,
         thousandSeparator: ThousandSeparator.Comma,
         mantissaLength: 0);
   }
@@ -202,74 +182,6 @@ class _TransferAssetState extends State<TransferAsset> {
             )),
           ));
         });
-  }
-
-  List<Widget> getOverrideTick() {
-    final l10n = l10nOf(context);
-    if ((targetTickType == TargetTickTypeEnum.manual) &&
-        (expanded[0] == true)) {
-      return [
-        ThemedControls.spacerVerticalSmall(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-                child: Text(l10n.generalLabelTick,
-                    style: TextStyles.labelTextNormal)),
-            ThemedControls.transparentButtonBigWithChild(
-                child: Observer(builder: (context) {
-              return Text(
-                  l10n.sendItemButtonSetCurrentTick(
-                      appStore.currentTick.asThousands()),
-                  style: TextStyles.transparentButtonTextSmall);
-            }), onPressed: () {
-              if (appStore.currentTick > 0) {
-                tickController.text = appStore.currentTick.toString();
-              }
-            }),
-          ],
-        ),
-        FormBuilderTextField(
-          decoration: ThemeInputDecorations.normalInputbox,
-          name: l10n.generalLabelTick,
-          readOnly: isLoading,
-          controller: tickController,
-          enableSuggestions: false,
-          validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(
-                errorText: l10n.generalErrorRequiredField),
-            FormBuilderValidators.numeric(),
-          ]),
-          maxLines: 1,
-          autocorrect: false,
-          autofillHints: null,
-        )
-      ];
-    }
-    return [Container()];
-  }
-
-  Widget getAdvancedOptions() {
-    final l10n = l10nOf(context);
-    return Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(l10n.sendItemLabelDetermineTargetTick,
-              style: TextStyles.labelTextNormal),
-          ThemedControls.spacerVerticalMini(),
-          ThemedControls.dropdown<TargetTickTypeEnum>(
-              value: targetTickType,
-              onChanged: (TargetTickTypeEnum? value) {
-                // This is called when the user selects an item.
-                setState(() {
-                  targetTickType = value!;
-                });
-              },
-              items: getTickList()),
-          Column(children: getOverrideTick())
-        ]);
   }
 
   Widget getDestinationQubicId() {
@@ -387,8 +299,7 @@ class _TransferAssetState extends State<TransferAsset> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              l10n.transferAssetLabelOwned(
-                  widget.asset.issuedAsset.name,
+              l10n.transferAssetLabelOwned(widget.asset.issuedAsset.name,
                   formatter.format(widget.asset.numberOfUnits)),
               style: TextStyles.secondaryText),
         ]);
@@ -410,7 +321,7 @@ class _TransferAssetState extends State<TransferAsset> {
   Widget getCostInfo() {
     final l10n = l10nOf(context);
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Text(l10n.sendAssetLabelTransactionCost,
+      Text(l10n.generalLabelFee,
           style: TextStyles.labelTextNormal),
       ThemedControls.spacerVerticalMini(),
       FormBuilderTextField(
@@ -441,8 +352,8 @@ class _TransferAssetState extends State<TransferAsset> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText: l10n.transferAssetHeader(
-                      widget.asset.issuedAsset.name),
+                  headerText:
+                      l10n.transferAssetHeader(widget.asset.issuedAsset.name),
                   subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalSmall(),
               Text(l10n.transferAssetNoticeQxOnly,
@@ -509,7 +420,18 @@ class _TransferAssetState extends State<TransferAsset> {
                                             ThemePaddings.normalPadding,
                                             ThemePaddings.normalPadding,
                                           ),
-                                          child: getAdvancedOptions()),
+                                          child: AdvancedTickOptions(
+                                            targetTickType: targetTickType,
+                                            onTargetTickTypeChanged:
+                                                (TargetTickTypeEnum? value) {
+                                              setState(() {
+                                                targetTickType = value!;
+                                              });
+                                            },
+                                            tickController: tickController,
+                                            currentTick: appStore.currentTick,
+                                            isLoading: isLoading,
+                                          )),
                                       isExpanded: expanded[0],
                                     )
                                   ])))
@@ -590,47 +512,53 @@ class _TransferAssetState extends State<TransferAsset> {
       isLoading = true;
     });
 
-    int? targetTick;
+    try {
+      int? targetTick;
 
-    if (targetTickType == TargetTickTypeEnum.manual) {
-      targetTick = int.tryParse(tickController.text);
-    } else {
-      // fetch latest tick
-      int latestTick = (await _liveApi.getCurrentTick()).tick;
-      targetTick = latestTick + targetTickType.value;
-    }
-    if (!mounted) return;
-    var result = await sendAssetTransferTransactionDialog(
-        context,
-        widget.item.publicId,
-        destinationID.text,
-        widget.asset.issuedAsset.name,
-        widget.asset.issuedAsset.issuerIdentity,
-        getAssetAmount(),
-        targetTick!);
+      if (targetTickType == TargetTickTypeEnum.manual) {
+        targetTick = int.tryParse(tickController.text);
+      } else {
+        // fetch latest tick
+        int latestTick = (await _liveApi.getCurrentTick()).tick;
+        targetTick = latestTick + targetTickType.value;
+      }
+      if (!mounted) return;
+      var result = await sendAssetTransferTransactionDialog(
+          context,
+          widget.item.publicId,
+          destinationID.text,
+          widget.asset.issuedAsset.name,
+          widget.asset.issuedAsset.issuerIdentity,
+          getAssetAmount(),
+          targetTick!);
 
-    if (result == null) {
+      if (result == null) {
+        return;
+      }
+      await _timedController.interruptFetchTimer();
+
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });
-      return;
+      Navigator.pop(context);
+      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
+          targetTick.asThousands()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return TransactionsForId(
+          publicQubicId: widget.item.publicId,
+          item: widget.item,
+        );
+      }));
+    } catch (e) {
+      _globalSnackBar.showError(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
-    await _timedController.interruptFetchTimer();
-
-    //Clear the state
-    setState(() {
-      isLoading = false;
-    });
-    if (!mounted) return;
-    Navigator.pop(context);
-    _globalSnackBar.show(l10n
-        .generalSnackBarMessageTransactionSubmitted(targetTick.asThousands()));
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return TransactionsForId(
-        publicQubicId: widget.item.publicId,
-        item: widget.item,
-      );
-    }));
   }
 
   TextEditingController destinationID = TextEditingController();

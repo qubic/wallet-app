@@ -219,7 +219,7 @@
     "accountButtonReceive": "Al",
     "accountButtonSend": "Gönder",
     "accountButtonAssets": "Varlıklar",
-    "accountSendTitle": "Para Gönder",
+    "accountSendTitle": "QUBIC Gönder",
     "accountSendLabelDestinationAddress": "Varış Adresi",
     "accountSendLabelAmount": "Miktar",
     "accountSendButtonMax": "Maksimum",
@@ -369,8 +369,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Geçersiz özel anahtar girildi",
     "addAccountErrorTamperedWalletTitle": "KUSURLU CÜZDAN TESPİT EDİLDİ",
     "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nHTTPS://GITHUB.COM/QUBIC/WALLET-APP'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
-    "sendAssetLabelTransactionCost": "Ücret (sabit)",
-    "sendAssetButtonTransfer": "Transfer",
+    "sendAssetButtonTransfer": "Gönder",
     "sendAssetErrorTickIsInThePast": "Tick geçmiştedir. Mevcut Tick: {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -458,7 +457,7 @@
     "transfersListLabelReceiveIn": "Kabul Et",
     "transfersListLabelSharePublicIdInstructionsOne": "Lütfen aşağıdaki Halka Açık ID'yi gönderen kişiyle paylaşın:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Veya QR kodu gösterin",
-    "transferAssetHeader": "{assetName} Transferi",
+    "transferAssetHeader": "{assetName} Gönder",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -787,6 +786,38 @@
     "revealSeedWarningTitle": "Özel Anahtarınızı Paylaşmayın!",
     "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur",
     "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır.",
+    "releaseTransferRightsMenuOption": "Transfer Hakları",
+    "releaseTransferRightsTitle": "Yönetim Haklarını Transfer Et",
+    "releaseTransferRightsLabelSourceContract": "Smart Contract'tan",
+    "releaseTransferRightsLabelAvailableAmount": "Mevcut: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Miktar",
+    "releaseTransferRightsLabelDestinationContract": "Smart Contract'a",
+    "releaseTransferRightsButtonSubmit": "Transfer Et",
+    "releaseTransferRightsErrorNoSourceContract": "Lütfen bir kaynak sözleşme seçin",
+    "releaseTransferRightsErrorNoDestinationContract": "Lütfen bir hedef sözleşme seçin",
+    "releaseTransferRightsErrorSameContract": "Kaynak ve hedef sözleşmeler farklı olmalıdır",
+    "releaseTransferRightsErrorInvalidContract": "Geçersiz sözleşme yapılandırması",
     "dAppSearchPlaceholder": "Ara veya dApp URLsi gir",
     "addToFavorites": "Favorilere ekle",
     "favoriteNameLabel": "İsim",
