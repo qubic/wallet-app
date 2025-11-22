@@ -48,31 +48,24 @@ abstract class WalletContentStoreBase with Store {
   @computed
   List<DappDto> get topDapps {
     if (dappsResponse == null) return [];
-    return dappsResponse!.dapps
-        .where((dapp) =>
-            dappsResponse!.topApps.contains(dapp.id) &&
-            isDappAvailableOnCurrentPlatform(dapp))
+    return allDapps
+        .where((dapp) => dappsResponse!.topApps.contains(dapp.id))
         .toList();
   }
 
   @computed
   DappDto? get featuredDapp {
-    final dapp = dappsResponse?.dapps
+    return allDapps
         .firstWhereOrNull((e) => e.id == dappsResponse?.featuredApp?.id);
-    if (dapp != null && isDappAvailableOnCurrentPlatform(dapp)) {
-      return dapp;
-    }
-    return null;
   }
 
   @computed
   List<DappDto> get popularDapps {
     if (dappsResponse == null) return [];
-    return dappsResponse!.dapps
+    return allDapps
         .where((dapp) =>
             !dappsResponse!.topApps.contains(dapp.id) &&
-            dapp.id != dappsResponse!.featuredApp?.id &&
-            isDappAvailableOnCurrentPlatform(dapp))
+            dapp.id != dappsResponse!.featuredApp?.id)
         .toList();
   }
 
@@ -92,7 +85,7 @@ abstract class WalletContentStoreBase with Store {
     if (dapp.excludedPlatforms == null || dapp.excludedPlatforms!.isEmpty) {
       return true;
     }
-    final currentPlatform = getCurrentPlatform().toLowerCase();
+    final currentPlatform = getCurrentPlatform();
     return !dapp.excludedPlatforms!
         .any((platform) => platform.toLowerCase() == currentPlatform);
   }
@@ -100,7 +93,6 @@ abstract class WalletContentStoreBase with Store {
   @action
   Future<void> loadDapps() async {
     try {
-      appLogger.d("message");
       isLoading = true;
       error = null;
       final response = await _staticApi.getDapps();
