@@ -118,6 +118,41 @@ class WalletConnectService {
     return false;
   }
 
+  /// Builds a list of asset items for WalletConnect JSON format.
+  List<dynamic> _buildAssetsListForWalletConnect(
+      Iterable<QubicAssetDto> assets) {
+    return assets.map((asset) => asset.toWalletConnectJson()).toList();
+  }
+
+  /// Builds account data for WalletConnect responses and events.
+  ///
+  /// Returns a list of account items, each containing:
+  /// - address: The account's public ID
+  /// - name: The account's display name
+  /// - amount: The account's balance (-1 if not available)
+  /// - assets: (optional) List of assets if [includeAssets] is true
+  ///
+  /// [includeAssets] - When true, includes the full assets list for each account.
+  ///                   When false, only basic account info is returned.
+  ///                   Use true for account requests, false for account change events.
+  List<dynamic> _buildAccountsData({required bool includeAssets}) {
+    List<dynamic> data = [];
+    for (var id in appStore.currentQubicIDs) {
+      if (id.watchOnly == false) {
+        dynamic item = {};
+        item["address"] = id.publicId;
+        item["name"] = id.name;
+        item["amount"] =
+            id.amount ?? -1; // TODO add information in which case is null
+        if (includeAssets) {
+          item["assets"] = _buildAssetsListForWalletConnect(id.assets.values);
+        }
+        data.add(item);
+      }
+    }
+    return data;
+  }
+
   //---------------------------------- Triggers ----------------------------------
 
   //Triggers an amountChanged event for all the wallet connect clients who have subscribed to it
@@ -167,16 +202,11 @@ class WalletConnectService {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           dynamic item = {};
-          List<dynamic> assetsList = [];
-          for (var element in id.value) {
-            dynamic assetItem = element.toWalletConnectJson();
-            assetsList.add(assetItem);
-          }
           item["address"] = id.key;
           item["name"] = appStore.currentQubicIDs
               .firstWhere((element) => element.publicId == id.key)
               .name;
-          item["assets"] = assetsList; // Assign the list
+          item["assets"] = _buildAssetsListForWalletConnect(id.value);
           data.add(item);
         }
 
@@ -199,16 +229,7 @@ class WalletConnectService {
         .forEach(((String session, SessionData sessionData) {
       if (sessionData.namespaces.entries.first.value.events
           .contains(WcEvents.accountsChanged)) {
-        List<dynamic> data = [];
-        for (var id in appStore.currentQubicIDs) {
-          if (id.watchOnly == false) {
-            dynamic item = {};
-            item["address"] = id.publicId;
-            item["name"] = id.name;
-            item["amount"] = id.amount ?? -1;
-            data.add(item);
-          }
-        }
+        List<dynamic> data = _buildAccountsData(includeAssets: false);
 
         web3Wallet!.emitSessionEvent(
             topic: sessionData.topic,
@@ -306,22 +327,7 @@ class WalletConnectService {
         handler: (topic, args) {
           final sessionId = getLastSessionId(WcMethods.wRequestAccounts, topic);
 
-          List<dynamic> data = [];
-          appStore.currentQubicIDs.forEach(((id) {
-            if (id.watchOnly == false) {
-              dynamic item = {};
-              List<dynamic> assetsList = []; // Changed to a list
-              id.assets.forEach((key, value) {
-                dynamic assetItem = value.toWalletConnectJson();
-                assetsList.add(assetItem);
-              });
-              item["address"] = id.publicId;
-              item["name"] = id.name;
-              item["amount"] = id.amount ?? -1;
-              item["assets"] = assetsList; // Assign the list
-              data.add(item);
-            }
-          }));
+          List<dynamic> data = _buildAccountsData(includeAssets: true);
 
           return web3Wallet!.respondSessionRequest(
               topic: topic,
