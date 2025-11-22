@@ -71,7 +71,7 @@ class DappDto {
 
   @override
   String toString() {
-    return 'DappDto(id: $id, nameId: $nameId, icon: $icon, url: $url, descriptionId: $descriptionId, customDescriptionId: $customDescriptionId, description: $description, name: $name openButtonTitle: $openButtonTitle)';
+    return 'DappDto(id: $id, nameId: $nameId, icon: $icon, url: $url, descriptionId: $descriptionId, customDescriptionId: $customDescriptionId, description: $description, name: $name openButtonTitle: $openButtonTitle, excludedPlatforms: $excludedPlatforms)';
   }
 }
 
