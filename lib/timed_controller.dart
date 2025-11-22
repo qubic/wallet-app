@@ -65,10 +65,8 @@ class TimedController extends WidgetsBindingObserver {
 
           //Filter out only non WatchOnly accounts
           for (var element in changedIds.entries) {
-            if (appStore.currentQubicIDs.any((currentQubicId) {
-              return currentQubicId.publicId == element.key &&
-                  currentQubicId.watchOnly == false;
-            })) {
+            final account = appStore.findAccountById(element.key);
+            if (account != null && !account.watchOnly) {
               changedIdsWithSeed[element.key] = element.value;
             }
           }
@@ -90,10 +88,8 @@ class TimedController extends WidgetsBindingObserver {
 
         //Filter out only non WatchOnly accounts
         for (var element in changedIds.entries) {
-          if (appStore.currentQubicIDs.any((currentQubicId) {
-            return currentQubicId.publicId == element.key &&
-                currentQubicId.watchOnly == false;
-          })) {
+          final account = appStore.findAccountById(element.key);
+          if (account != null && !account.watchOnly) {
             changedIdsWithSeed[element.key] = element.value;
           }
         }

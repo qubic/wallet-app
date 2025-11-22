@@ -137,18 +137,16 @@ class WalletConnectService {
   ///                   Use true for account requests, false for account change events.
   List<dynamic> _buildAccountsData({required bool includeAssets}) {
     List<dynamic> data = [];
-    for (var id in appStore.currentQubicIDs) {
-      if (id.watchOnly == false) {
-        dynamic item = {};
-        item["address"] = id.publicId;
-        item["name"] = id.name;
-        item["amount"] =
-            id.amount ?? -1; // TODO add information in which case is null
-        if (includeAssets) {
-          item["assets"] = _buildAssetsListForWalletConnect(id.assets.values);
-        }
-        data.add(item);
+    for (var id in appStore.nonWatchOnlyAccounts) {
+      dynamic item = {};
+      item["address"] = id.publicId;
+      item["name"] = id.name;
+      item["amount"] =
+          id.amount ?? -1; // TODO add information in which case is null
+      if (includeAssets) {
+        item["assets"] = _buildAssetsListForWalletConnect(id.assets.values);
       }
+      data.add(item);
     }
     return data;
   }
@@ -168,12 +166,13 @@ class WalletConnectService {
           .contains(WcEvents.amountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
+          final account = appStore.findAccountById(id.key);
+          if (account == null) continue;
+
           dynamic item = {};
           item["address"] = id.key;
           item["amount"] = id.value;
-          item["name"] = appStore.currentQubicIDs
-              .firstWhere((element) => element.publicId == id.key)
-              .name;
+          item["name"] = account.name;
           data.add(item);
         }
 
@@ -201,11 +200,12 @@ class WalletConnectService {
           .contains(WcEvents.assetAmountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
+          final account = appStore.findAccountById(id.key);
+          if (account == null) continue;
+
           dynamic item = {};
           item["address"] = id.key;
-          item["name"] = appStore.currentQubicIDs
-              .firstWhere((element) => element.publicId == id.key)
-              .name;
+          item["name"] = account.name;
           item["assets"] = _buildAssetsListForWalletConnect(id.value);
           data.add(item);
         }
@@ -483,11 +483,9 @@ class WalletConnectService {
 
     // -------------------------------------------------------- END OF METHODS ---------------------------------------------------------
 
-    appStore.currentQubicIDs.forEach(((id) {
-      if (id.watchOnly == false) {
-        registerAccount(id.publicId);
-      }
-    }));
+    for (var id in appStore.nonWatchOnlyAccounts) {
+      registerAccount(id.publicId);
+    }
   }
 
   /// Pairs WC with a URL

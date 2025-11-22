@@ -390,7 +390,14 @@
     "addAccountErrorNameAlreadyInUse": "Name is already in use",
     "addAccountErrorPublicIDAlreadyInUse": "Public ID already in use",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Max accounts limit reached",
-    "addAccountDialogMessageMaxNumberOfAccountsReached": "You can only have up to 15 Qubic Accounts in your wallet. If you need to add another one, please remove one of the existing ones.",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "You can only have up to {maxAccounts} Qubic Accounts in your wallet. If you need to add another one, please remove one of the existing ones.",
+    "@addAccountDialogMessageMaxNumberOfAccountsReached": {
+        "placeholders": {
+            "maxAccounts": {
+                "type": "int"
+            }
+        }
+    },
     "addAccountButtonCreateRandom": "Create Random",
     "addAccountLabelPrivateSeed": "Private Seed",
     "addAccountLabelAccountName": "Account Name",
@@ -584,7 +591,14 @@
     "autolockLabelDurationImmediately": "Immediately",
     "settingsLabelAutlock": "Auto-Lock",
     "importVaultDialogTitleTooManyAccounts": "Too many accounts found",
-    "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
+    "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than {maxAccounts} accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having {maxAccounts} or less.",
+    "@importVaultDialogMessageTooManyAccounts": {
+        "placeholders": {
+            "maxAccounts": {
+                "type": "int"
+            }
+        }
+    },
     "importVaultErrorNoAccountsFound": "No accounts found in your vault file. We can't proceed with the import.",
     "importVaultFilePickerLabel": "Please select a vault file to continue:",
     "importVaultFileErrorGeneralMessage": "Error importing vault file: {errorDescription}",
@@ -681,7 +695,14 @@
     },
     "generalErrorFileRequired": "Please select a file",
     "generalErrorPathRequired": "Please select a path",
-    "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
+    "homeWarningTooManyAccounts": "You have more than {maxAccounts} accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have {maxAccounts} or fewer.",
+    "@homeWarningTooManyAccounts": {
+        "placeholders": {
+            "maxAccounts": {
+                "type": "int"
+            }
+        }
+    },
     "cmdErrorVerifyingIdentityGeneric": "Error verifying the identity.",
     "cmdErrorVerifyingIdentity": "Cannot verify your identity: {errorDescription}",
     "@cmdErrorVerifyingIdentity": {

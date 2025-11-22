@@ -63,6 +63,9 @@ abstract class Config {
   static const fetchEverySecondsSlow = 60 * 5;
   static const inactiveSecondsLimit = 120;
 
+  // Maximum number of accounts (watch-only and regular) allowed in the wallet
+  static const maxAccountsInWallet = 15;
+
   static const checkForTamperedUtils = true;
 
   static const useNativeSnackbar = false;
