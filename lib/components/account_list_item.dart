@@ -279,7 +279,8 @@ class _AccountListItemState extends State<AccountListItem> {
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.delete,
-                    child: Text(l10n.generalButtonDelete),
+                    child: Text(l10n.generalButtonDelete,
+                        style: const TextStyle(color: LightThemeColors.error)),
                   ),
                 ]));
   }
