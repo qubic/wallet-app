@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
@@ -40,24 +41,28 @@ abstract class WalletContentStoreBase with Store {
   bool isLoading = false;
 
   @computed
-  List<DappDto> get allDapps => dappsResponse?.dapps ?? [];
+  List<DappDto> get allDapps => (dappsResponse?.dapps ?? [])
+      .where((dapp) => isDappAvailableOnCurrentPlatform(dapp))
+      .toList();
 
   @computed
   List<DappDto> get topDapps {
     if (dappsResponse == null) return [];
-    return dappsResponse!.dapps
+    return allDapps
         .where((dapp) => dappsResponse!.topApps.contains(dapp.id))
         .toList();
   }
 
   @computed
-  DappDto? get featuredDapp => dappsResponse?.dapps
-      .firstWhereOrNull((e) => e.id == dappsResponse?.featuredApp?.id);
+  DappDto? get featuredDapp {
+    return allDapps
+        .firstWhereOrNull((e) => e.id == dappsResponse?.featuredApp?.id);
+  }
 
   @computed
   List<DappDto> get popularDapps {
     if (dappsResponse == null) return [];
-    return dappsResponse!.dapps
+    return allDapps
         .where((dapp) =>
             !dappsResponse!.topApps.contains(dapp.id) &&
             dapp.id != dappsResponse!.featuredApp?.id)
@@ -69,10 +74,25 @@ abstract class WalletContentStoreBase with Store {
     return Config.getSupportedLocale(currentLocale);
   }
 
+  /// Returns the current platform identifier
+  /// Platform identifiers: 'ios', 'android', 'macos', 'windows', 'linux', 'web'
+  String getCurrentPlatform() {
+    return UniversalPlatform.operatingSystem;
+  }
+
+  /// Checks if a dApp should be shown on the current platform
+  bool isDappAvailableOnCurrentPlatform(DappDto dapp) {
+    if (dapp.excludedPlatforms == null || dapp.excludedPlatforms!.isEmpty) {
+      return true;
+    }
+    final currentPlatform = getCurrentPlatform();
+    return !dapp.excludedPlatforms!
+        .any((platform) => platform.toLowerCase() == currentPlatform);
+  }
+
   @action
   Future<void> loadDapps() async {
     try {
-      appLogger.d("message");
       isLoading = true;
       error = null;
       final response = await _staticApi.getDapps();
