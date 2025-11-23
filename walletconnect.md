@@ -323,6 +323,10 @@ Fires when the amount of a specific asset in one or more wallet accounts changes
 | -32603 | Internal error | Unexpected internal error occurs. |
 | 5000 | User rejected | The user rejected the request. |
 
+## Testing & Development
+
+Test the WalletConnect integration with our live demo app: **[https://qubic.github.io/wallet-app-dapp/](https://qubic.github.io/wallet-app-dapp/)**
+
 ## References
 
 For more details on WalletConnect integration, please refer to the official [Documentation](https://docs.reown.com/).
