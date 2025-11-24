@@ -38,11 +38,7 @@ abstract class Config {
   static const smartContracts = "/general/data/smart_contracts.json";
   static const labeledAddresses = "/general/data/address_labels.json";
 
-  static tickData(int tick) => "/v1/ticks/$tick/tick-data";
-  static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
-  static computors(int epoch) => "/v1/epochs/$epoch/computors";
   static transaction(String transaction) => "/v2/transactions/$transaction";
-  static networkTicks(int epoch) => "/v2/epochs/$epoch/ticks";
   static const latestTickProcessed = "/v1/latestTick";
 
   static const latestStatsUrl = "/v1/latest-stats";
