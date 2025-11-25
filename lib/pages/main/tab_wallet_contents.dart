@@ -135,13 +135,14 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
   void addAccount() {
     final l10n = l10nOf(context);
-    if (appStore.currentQubicIDs.length >= 15) {
+    if (appStore.currentQubicIDs.length >= Config.maxAccountsInWallet) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return getAlertDialog(
                 l10n.addAccountDialogTitleMaxNumberOfAccountsReached,
-                l10n.addAccountDialogMessageMaxNumberOfAccountsReached,
+                l10n.addAccountDialogMessageMaxNumberOfAccountsReached(
+                    Config.maxAccountsInWallet),
                 primaryButtonLabel: l10n.generalButtonOK,
                 primaryButtonFunction: () {
               Navigator.of(context).pop();
@@ -283,7 +284,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                   SliverList(
                       delegate: SliverChildListDelegate([
                     Observer(builder: (builder) {
-                      if (appStore.currentQubicIDs.length > 15) {
+                      if (appStore.currentQubicIDs.length > Config.maxAccountsInWallet) {
                         return Padding(
                             padding: const EdgeInsets.fromLTRB(
                                 ThemePaddings.normalPadding,
@@ -295,7 +296,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                               const Icon(Icons.warning_amber_rounded,
                                   color: LightThemeColors.error, size: 40),
                               ThemedControls.spacerVerticalNormal(),
-                              Text(l10n.homeWarningTooManyAccounts,
+                              Text(
+                                  l10n.homeWarningTooManyAccounts(
+                                      Config.maxAccountsInWallet),
                                   textAlign: TextAlign.center,
                                   style: TextStyles.textNormal)
                             ])));

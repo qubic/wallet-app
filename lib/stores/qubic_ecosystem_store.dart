@@ -7,6 +7,7 @@ import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/models/token_response.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
 
 part 'qubic_ecosystem_store.g.dart';
@@ -91,6 +92,17 @@ abstract class QubicEcosystemStoreBase with Store {
   SmartContractModel? getContractByIndex(int index) {
     try {
       return smartContracts.firstWhere((sc) => sc.contractIndex == index);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Get the QX contract by its address.
+  /// Returns null if QX contract is not found.
+  SmartContractModel? getQxContract() {
+    try {
+      return smartContracts
+          .firstWhere((sc) => sc.address == QxInfo.address);
     } catch (e) {
       return null;
     }

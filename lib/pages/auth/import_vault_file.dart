@@ -13,6 +13,7 @@ import 'package:go_router/go_router.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
+import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -228,8 +229,8 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
   /// Handles the proceed button
   ///
   /// This function validates the form and imports the vault file
-  /// If the number of accounts to be imported is more than 15, a dialog is shown to the user
-  /// If the number of accounts to be imported is less than 15, the wallet is created
+  /// If the number of accounts to be imported exceeds max allowed, a dialog is shown to the user
+  /// Otherwise, the wallet is created
   Future<void> handleProceed() async {
     final l10n = l10nOf(context);
 
@@ -243,10 +244,11 @@ class _ImportVaultFileState extends State<ImportVaultFile> {
     String messageTitle = "";
     String messageText = "";
 
-    if (toBeImportedCount > 15) {
-      // More than 15 accounts to be imported found
+    if (toBeImportedCount > Config.maxAccountsInWallet) {
+      // More than max accounts to be imported found
       messageTitle = l10n.importVaultDialogTitleTooManyAccounts;
-      messageText = l10n.importVaultDialogMessageTooManyAccounts;
+      messageText = l10n.importVaultDialogMessageTooManyAccounts(
+          Config.maxAccountsInWallet);
     }
 
     if ((messageTitle.isNotEmpty) && (messageText.isNotEmpty)) {
