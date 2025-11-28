@@ -902,6 +902,7 @@
     "revealSeedWarningTitle": "Đừng chia sẻ seed riêng tư của bạn!",
     "revealSeedWarningDescription": "Nếu ai đó có seed riêng tư của bạn, họ sẽ có toàn quyền kiểm soát tài khoản của bạn",
     "blockedScreenshotWarning": "Chụp màn hình được bảo vệ — màn hình này là riêng tư.",
+    "accountSortByLabel": "Sắp xếp theo",
     "accountSortModeName": "Tên (A-Z)",
     "accountSortModeBalance": "Số dư (Cao → Thấp)",
     "accountSortModeCreation": "Tạo (Cũ nhất → Mới nhất)"

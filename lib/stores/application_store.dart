@@ -60,8 +60,7 @@ abstract class _ApplicationStore with Store {
   }
 
   @observable
-  late AccountSortMode accountsSortingMode =
-      _hiveStorage.getAccountsSortingMode() ?? AccountSortMode.creationOrder;
+  AccountSortMode accountsSortingMode = AccountSortMode.creationOrder;
 
   @action
   void setAccountsSortingMode(AccountSortMode mode) {
@@ -72,31 +71,47 @@ abstract class _ApplicationStore with Store {
   }
 
   void initStoredAccountsIfAbsent() {
-    if (_hiveStorage.getAccountsSortingMode() == null &&
-        currentQubicIDs.isNotEmpty) {
+    // Load sorting mode from storage
+    final storedMode = _hiveStorage.getAccountsSortingMode();
+    if (storedMode != null) {
+      accountsSortingMode = storedMode;
+    } else if (currentQubicIDs.isNotEmpty) {
+      // Initialize default sorting mode if absent
       appLogger.i('Setting accounts by creation order');
-      _hiveStorage.setAccounts(currentQubicIDs);
+      accountsSortingMode = AccountSortMode.creationOrder;
       _hiveStorage.setAccountsSortingMode(AccountSortMode.creationOrder);
     }
   }
 
   @action
   void sortAccounts() {
+    if (accountsSortingMode == AccountSortMode.creationOrder) {
+      // Restore creation order by sorting by the original index
+      // We can use the publicId order from secure storage as reference
+      // For now, trigger a reload to restore order
+      _restoreCreationOrder();
+      return;
+    }
+
     if (accountsSortingMode == AccountSortMode.name) {
-      currentQubicIDs.sort((a, b) => a.name.compareTo(b.name));
+      currentQubicIDs.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     } else if (accountsSortingMode == AccountSortMode.balance) {
       currentQubicIDs.sort((b, a) => (a.amount ?? 0).compareTo(b.amount ?? 0));
-    } else {
-      //Arrange currentQubicIDs based on the accountsSorted
-      final accountsSorted = _hiveStorage.getAccounts();
-      currentQubicIDs.sort((a, b) {
-        final aIndex =
-            accountsSorted.indexWhere((acc) => acc.publicId == a.publicId);
-        final bIndex =
-            accountsSorted.indexWhere((acc) => acc.publicId == b.publicId);
-        return aIndex.compareTo(bIndex);
-      });
     }
+  }
+
+  void _restoreCreationOrder() {
+    // Sort currentQubicIDs based on the cached creation order
+    currentQubicIDs.sort((a, b) {
+      final aIndex = _creationOrderCache.indexOf(a.publicId);
+      final bIndex = _creationOrderCache.indexOf(b.publicId);
+
+      // Handle accounts not in cache (shouldn't happen, but defensive)
+      if (aIndex == -1) return 1;
+      if (bIndex == -1) return -1;
+
+      return aIndex.compareTo(bIndex);
+    });
   }
 
 // Add an action to update the tab index
@@ -123,6 +138,9 @@ abstract class _ApplicationStore with Store {
 
   @observable
   ObservableList<QubicListVm> currentQubicIDs = ObservableList<QubicListVm>();
+
+  // Cache of account public IDs in creation order (for restoring sort)
+  List<String> _creationOrderCache = [];
   @observable
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
@@ -254,6 +272,8 @@ abstract class _ApplicationStore with Store {
       isSignedIn = true;
       final results = await secureStorage.getWalletContents();
       currentQubicIDs = ObservableList.of(results);
+      // Cache the creation order
+      _creationOrderCache = results.map((e) => e.publicId).toList();
     } catch (e) {
       isSignedIn = false;
     }
@@ -285,6 +305,8 @@ abstract class _ApplicationStore with Store {
       //Populate the list
       final results = await secureStorage.getWalletContents();
       currentQubicIDs = ObservableList.of(results);
+      // Cache the creation order
+      _creationOrderCache = results.map((e) => e.publicId).toList();
       return result;
     } catch (e) {
       isSignedIn = false;
@@ -299,6 +321,7 @@ abstract class _ApplicationStore with Store {
       await _hiveStorage.initEncryptedBoxes();
       isSignedIn = result;
       currentQubicIDs = ObservableList<QubicListVm>();
+      _creationOrderCache = [];
       appLogger.d('[QubicWallet] Signed up');
       return isSignedIn;
     } catch (e) {
@@ -313,6 +336,7 @@ abstract class _ApplicationStore with Store {
     transactionFilter = TransactionFilter();
     currentQubicIDs = ObservableList<QubicListVm>();
     currentTransactions = ObservableList<TransactionVm>();
+    _creationOrderCache = [];
   }
 
   @action
@@ -321,6 +345,8 @@ abstract class _ApplicationStore with Store {
     for (var element in ids) {
       currentQubicIDs.add(QubicListVm(element.getPublicId(), element.getName(),
           null, null, null, element.getPrivateSeed() == '' ? true : false));
+      // Add to creation order cache
+      _creationOrderCache.add(element.getPublicId());
     }
     initStoredAccountsIfAbsent();
   }
@@ -330,9 +356,8 @@ abstract class _ApplicationStore with Store {
     await secureStorage.addID(QubicId(privateSeed, publicId, name, null));
     currentQubicIDs.add(QubicListVm(
         publicId, name, null, null, null, privateSeed == '' ? true : false));
-    // Add to stored by creation order accounts
-    _hiveStorage.addAccount(QubicListVm(
-        publicId, name, null, null, null, privateSeed == '' ? true : false));
+    // Add to creation order cache
+    _creationOrderCache.add(publicId);
     sortAccounts();
   }
 
@@ -349,11 +374,13 @@ abstract class _ApplicationStore with Store {
         item.name = name;
         currentQubicIDs[i] = item;
         await secureStorage.renameId(publicId, name);
+        // Re-sort if in name mode to update account position
+        if (accountsSortingMode == AccountSortMode.name) {
+          sortAccounts();
+        }
         return;
       }
     }
-    // Rename stored by creation order accounts
-    _hiveStorage.renameAccount(publicId, name);
   }
 
   @action
@@ -530,6 +557,8 @@ abstract class _ApplicationStore with Store {
     await secureStorage.removeID(publicId);
     currentQubicIDs.removeWhere(
         (element) => element.publicId == publicId.replaceAll(",", "_"));
+    // Remove from creation order cache
+    _creationOrderCache.remove(publicId.replaceAll(",", "_"));
     //Remove all from transactions which contain this qubicId and no other wallet ids
 
     currentTransactions.removeWhere((element) =>
@@ -543,8 +572,6 @@ abstract class _ApplicationStore with Store {
         currentQubicIDs.any(
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
-    // Remove from stored by creation order accounts
-    _hiveStorage.deleteAccount(publicId);
   }
 }
 

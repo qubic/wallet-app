@@ -30,8 +30,6 @@ import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:qubic_wallet/timed_controller.dart';
-import 'package:flutter_animate/flutter_animate.dart';
-import 'package:sprung/sprung.dart';
 
 class TabWalletContents extends StatefulWidget {
   const TabWalletContents({super.key});
@@ -334,28 +332,46 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                   Observer(builder: (context) {
                     if (appStore.currentQubicIDs.isNotEmpty) {
                       return SliverToBoxAdapter(
+                          child: Transform.translate(
+                        offset: const Offset(0, -8),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            right: ThemePaddings.smallPadding,
+                          ),
                           child: Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: PopupMenuButton<AccountSortMode>(
-                          icon: const Icon(Icons.sort,
-                              color: LightThemeColors.primary),
-                          onSelected: (AccountSortMode mode) {
-                            appStore.setAccountsSortingMode(mode);
-                          },
-                          itemBuilder: (BuildContext context) {
-                            return [
-                              _buildSortMenuItem(AccountSortMode.name,
-                                  Icons.sort_by_alpha, l10n.accountSortModeName),
-                              _buildSortMenuItem(
-                                  AccountSortMode.balance,
-                                  Icons.account_balance_wallet,
-                                  l10n.accountSortModeBalance),
-                              _buildSortMenuItem(
-                                  AccountSortMode.creationOrder,
-                                  Icons.access_time,
-                                  l10n.accountSortModeCreation),
-                            ];
-                          },
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: PopupMenuButton<AccountSortMode>(
+                              icon: const Icon(Icons.sort,
+                                  color: LightThemeColors.primary),
+                              onSelected: (AccountSortMode mode) {
+                                appStore.setAccountsSortingMode(mode);
+                              },
+                              itemBuilder: (BuildContext context) {
+                                return [
+                                  PopupMenuItem<AccountSortMode>(
+                                    enabled: false,
+                                    child: Text(
+                                      l10n.accountSortByLabel,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: LightThemeColors.primary,
+                                      ),
+                                    ),
+                                  ),
+                                  _buildSortMenuItem(AccountSortMode.name,
+                                      Icons.sort_by_alpha, l10n.accountSortModeName),
+                                  _buildSortMenuItem(
+                                      AccountSortMode.balance,
+                                      Icons.account_balance_wallet,
+                                      l10n.accountSortModeBalance),
+                                  _buildSortMenuItem(
+                                      AccountSortMode.creationOrder,
+                                      Icons.access_time,
+                                      l10n.accountSortModeCreation),
+                                ];
+                              },
+                            ),
+                          ),
                         ),
                       ));
                     } else {
@@ -419,22 +435,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                               child: AccountListItem(
                                 key: ValueKey(account.publicId),
                                 item: account,
-                              )
-                                  .animate()
-                                  .fadeIn(
-                                    duration: 1000.ms,
-                                    begin: 0.0,
-                                  )
-                                  .slideY(
-                                    begin: 0.1,
-                                    curve: Sprung.underDamped,
-                                    duration: 2.seconds,
-                                  )
-                                  .slideX(
-                                    begin: 0.1,
-                                    duration: 2.seconds,
-                                    curve: Sprung.underDamped,
-                                  ),
+                              ),
                             ),
                           );
                         },
