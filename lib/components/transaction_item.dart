@@ -10,6 +10,7 @@ import 'package:qubic_wallet/components/unit_amount.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/address_ui_helper.dart';
 import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
@@ -20,7 +21,6 @@ import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
-import 'package:qubic_wallet/smart_contracts/sc_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -120,7 +120,8 @@ class _TransactionItemState extends State<TransactionItem> {
               if (TransactionActionHelpers.canDelete(widget.item))
                 PopupMenuItem<CardItem>(
                   value: CardItem.delete,
-                  child: Text(l10n.generalButtonDelete),
+                  child: Text(l10n.generalButtonDelete,
+                      style: const TextStyle(color: LightThemeColors.error)),
                 )
             ]);
   }
@@ -149,8 +150,8 @@ class _TransactionItemState extends State<TransactionItem> {
                   textAlign: TextAlign.start, style: TextStyles.secondaryText)
             ]);
           }),
-          if (QubicSCStore.isSC(accountId))
-            Text(QubicSCStore.fromContractId(accountId)!),
+          if (AddressUIHelper.getLabel(accountId) case String label)
+            Text(label),
           TextWithMidEllipsis(accountId,
               style: TextStyles.textNormal, textAlign: TextAlign.start),
         ]);

@@ -7,6 +7,7 @@ import 'package:qubic_wallet/models/wallet_connect/pairing_metadata_mixin.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_event.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 
 import '../../di.dart';
 
@@ -39,17 +40,30 @@ class RequestSendAssetEvent extends RequestEvent with PairingMetadataMixin {
       throw ArgumentError("From and to are the same");
     }
 
+    // Find the QX contract index dynamically
+    final ecosystemStore = getIt<QubicEcosystemStore>();
+    final qxContract = ecosystemStore.getQxContract();
+
+    if (qxContract == null) {
+      throw ArgumentError(
+          "Asset transfer is temporarily unavailable. Please try again later. (err: SC data loading failed)");
+    }
+
+    // Only match assets managed by QX contract
     final asset = account.assets.values.firstWhereOrNull((element) =>
         element.issuedAsset.name == assetName &&
-        element.issuedAsset.issuerIdentity == issuer);
+        element.issuedAsset.issuerIdentity == issuer &&
+        element.managingContractIndex == qxContract.contractIndex);
     if (asset == null) {
-      throw ArgumentError("Asset not found in this account $from",
+      throw ArgumentError(
+          "Asset not found or not managed by QX contract in account $from",
           WcRequestParameters.assetName);
     }
 
     final ownedAmount = asset.numberOfUnits;
     if (ownedAmount < amount) {
-      throw ArgumentError("Insufficient assets", WcRequestParameters.amount);
+      throw ArgumentError(
+          "Insufficient QX-managed assets", WcRequestParameters.amount);
     }
 
     if (account.amount! < QxInfo.transferAssetFee) {

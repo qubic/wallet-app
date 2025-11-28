@@ -62,6 +62,13 @@ class TextStyles {
     color: LightThemeColors.textLightGrey,
   );
 
+  static TextStyle smallInfoTextTight = const TextStyle(
+    fontSize: ThemeFontSizes.small,
+    fontWeight: FontWeight.w400,
+    color: LightThemeColors.textLightGrey,
+    height: 1.2,
+  );
+
   static TextStyle primaryButtonText = const TextStyle(
     fontSize: ThemeFontSizes.large,
     fontWeight: FontWeight.w500,
@@ -104,6 +111,12 @@ class TextStyles {
       fontSize: ThemeFontSizes.label,
       fontWeight: FontWeight.bold,
       color: LightThemeColors.textLabel);
+
+  static TextStyle labelTextTight = const TextStyle(
+      fontSize: ThemeFontSizes.label,
+      fontWeight: FontWeight.bold,
+      color: LightThemeColors.textLabel,
+      height: 1.2);
 
   static TextStyle labelTextNormal = const TextStyle(
       fontSize: ThemeFontSizes.normal,

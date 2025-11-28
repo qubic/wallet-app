@@ -12,12 +12,8 @@ class TransactionDirectionItem extends StatelessWidget {
   final TransactionVm item;
 
   TransactionDirectionItem({super.key, required this.item}) {
-    isIncoming = appStore.currentQubicIDs.where((element) {
-      return element.publicId == item.destId;
-    }).isNotEmpty;
-    isOutgoing = appStore.currentQubicIDs.where((element) {
-      return element.publicId == item.sourceId;
-    }).isNotEmpty;
+    isIncoming = appStore.findAccountById(item.destId) != null;
+    isOutgoing = appStore.findAccountById(item.sourceId) != null;
   }
 
   final ApplicationStore appStore = getIt<ApplicationStore>();

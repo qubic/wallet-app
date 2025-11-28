@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:flutter/foundation.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 
@@ -7,11 +9,36 @@ abstract class Config {
   // Qubic RPC backend related config
   static const qubicMainnetRpcDomain = "https://rpc.qubic.org";
 
-  static tickData(int tick) => "/v1/ticks/$tick/tick-data";
-  static tickTransactions(int tick) => "/v2/ticks/$tick/transactions";
-  static computors(int epoch) => "/v1/epochs/$epoch/computors";
+  // Qubic static API related config
+  // Automatically uses dev environment in debug mode, production in release mode
+  static bool get useDevEnvironment => kDebugMode;
+
+  static String get qubicStaticApiBaseUrl {
+    if (useDevEnvironment) {
+      return "https://static.qubic.org/dev/v1";
+    }
+    return "https://static.qubic.org/v1";
+  }
+
+  /// Returns a supported language code, falling back to English if not supported
+  /// Uses the app's l10n configuration automatically - no manual maintenance needed
+  static String getSupportedLocale(String locale) {
+    final supportedLocaleCodes = AppLocalizations.supportedLocales
+        .map((l) => l.languageCode)
+        .toList();
+    return supportedLocaleCodes.contains(locale) ? locale : 'en';
+  }
+
+  // Qubic static API endpoints
+  // Wallet-app specific endpoints (can be versioned independently in future)
+  static const dapps = "/wallet-app/dapps/dapps.json";
+  static dappLocale(String locale) => "/wallet-app/dapps/locales/$locale.json";
+
+  // General/ecosystem endpoints (shared across Qubic ecosystem)
+  static const smartContracts = "/general/data/smart_contracts.json";
+  static const labeledAddresses = "/general/data/address_labels.json";
+
   static transaction(String transaction) => "/v2/transactions/$transaction";
-  static networkTicks(int epoch) => "/v2/epochs/$epoch/ticks";
   static const latestTickProcessed = "/v1/latestTick";
 
   static const latestStatsUrl = "/v1/latest-stats";
@@ -24,11 +51,16 @@ abstract class Config {
   static addressTransfers(String address) =>
       "/v2/identities/$address/transfers";
 
+  static const assets = "/v1/assets/issuances";
+
   static const notFoundStatusCode = 404;
 
   static const fetchEverySeconds = 60;
   static const fetchEverySecondsSlow = 60 * 5;
   static const inactiveSecondsLimit = 120;
+
+  // Maximum number of accounts (watch-only and regular) allowed in the wallet
+  static const maxAccountsInWallet = 15;
 
   static const checkForTamperedUtils = true;
 
@@ -85,4 +117,5 @@ abstract class Config {
   static const CustomURLScheme = "qubic-wallet";
 
   static const dAppDefaultImageName = "assets/images/dapp-default.png";
+  static const double dAppIconSize = 45.0;
 }

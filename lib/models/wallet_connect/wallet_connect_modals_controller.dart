@@ -6,12 +6,12 @@ import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
+import 'package:qubic_wallet/models/wallet_connect/request_handle_transaction_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_assets_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_transaction_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
-import 'package:qubic_wallet/models/wallet_connect/request_handle_transaction_event.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
@@ -164,19 +164,26 @@ class WalletConnectModalsController {
   }
 
   Future<int> getTargetTick(int? tick) async {
-    int latestTick = (await _liveApi.getCurrentTick()).tick;
-    if (tick != null) {
-      if (tick < latestTick) {
-        getIt
-            .get<GlobalSnackBar>()
-            .showError(l10nWrapper.l10n!.wcErrorTickExpired);
-        throw const JsonRpcError(
-            code: WcErrors.qwTickBecameInPast,
-            message: "Tick value is Expired");
+    try {
+      int latestTick = (await _liveApi.getCurrentTick()).tick;
+      if (tick != null) {
+        if (tick < latestTick) {
+          getIt
+              .get<GlobalSnackBar>()
+              .showError(l10nWrapper.l10n!.wcErrorTickExpired);
+          throw const JsonRpcError(
+              code: WcErrors.qwTickBecameInPast,
+              message: "Tick value is Expired");
+        }
+        return tick;
+      } else {
+        return latestTick + defaultTargetTickType.value;
       }
-      return tick;
-    } else {
-      return latestTick + defaultTargetTickType.value;
+    } catch (e) {
+      throw JsonRpcError(
+        code: WcErrors.qwUnexpectedError,
+        message: "Failed to get current tick: ${e.toString()}",
+      );
     }
   }
 }

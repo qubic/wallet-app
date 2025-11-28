@@ -437,6 +437,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
         File(path).writeAsBytes([], flush: true);
       });
     } catch (e) {
+      if (!mounted) return;
       if (e is AppError && e.type == ErrorType.tamperedWallet) {
         showTamperedWalletAlert(context);
       } else {
@@ -479,6 +480,7 @@ class _ExportWalletVaultState extends State<ExportWalletVault> {
         isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       if (e.toString().startsWith("Exception: CRITICAL:")) {
         showTamperedWalletAlert(context);
       } else {
