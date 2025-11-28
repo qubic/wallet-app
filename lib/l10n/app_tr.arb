@@ -5,7 +5,6 @@
     "generalLabelNo": "Hayır",
     "generalButtonConfirm": "Onayla",
     "generalButtonDelete": "Sil",
-    "generalButtonAdd": "Ekle",
     "generalButtonCopy": "Kopyala",
     "generalButtonRename": "Yeniden Adlandır",
     "generalButtonSave": "Kaydet",
@@ -18,7 +17,6 @@
     "generalButtonApply": "Uygula",
     "generalButtonEraseWalletData": "Cüzdan Verisini Sil",
     "generalButtonClearAll": "Hepsini Temizle",
-    "generalButtonShowAll": "Hepsini Göster",
     "generalButtonUseQRCode": "QR Kod Kullan",
     "generalButtonCopyAddress": "Adresi Kopyala",
     "generalLabelHidden": "******",
@@ -26,9 +24,6 @@
     "generalLabelCurrencyQubic": "QUBIC",
     "generalLabelCurrencyUSD": "USD",
     "generalLabelTick": "Tick",
-    "generalLabelInfo": "Bilgi",
-    "generalLabelDate": "Tarih",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Hesap {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -44,14 +39,6 @@
     "generalLabelTo": "a",
     "generalLabeQubicAddress": "Qubic Adres",
     "generalLabeQubicAddressAndPublicID": "Qubic Adres (Halka Açık ID)",
-    "generalLabelQubicAddressWithAccountName": "Qubic Adres {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} cüzdan hesabı \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -76,8 +63,6 @@
     "generalLabelNotAvailable": "Uygulanamaz",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
-    "generalLabelEnabled": "Etkinleştirildi",
-    "generalLabelDisabled": "Devre Dışı Bırakıldı",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "Bir hata ile karşılaşıldı",
     "generalSnackBarMessageCopiedToClipboard": "Panoya Kopyalandı",
@@ -169,7 +154,6 @@
     "settingsLabelExportWalletVaultFile": "Cüzdan Kilit Dosyasını Dışa Aktar",
     "settingsHeaderAbout": "Hakkında",
     "settingsLabelJoinCommunity": "Topluluğa Katıl",
-    "settingsLabelWalletInfo": "Cüzdan Bilgisi",
     "generalBiometricTypeFaceID": "Yüz Tanıma",
     "generalBiometricTypeTouchID": "Parmak İzi Tanıma",
     "generalBiometricTypeIris": "İris Tanıma",
@@ -235,7 +219,7 @@
     "accountButtonReceive": "Al",
     "accountButtonSend": "Gönder",
     "accountButtonAssets": "Varlıklar",
-    "accountSendTitle": "Para Gönder",
+    "accountSendTitle": "QUBIC Gönder",
     "accountSendLabelDestinationAddress": "Varış Adresi",
     "accountSendLabelAmount": "Miktar",
     "accountSendButtonMax": "Maksimum",
@@ -243,14 +227,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Gelişmiş Seçenekler",
     "assetsLabelContractName": "Kontrakt Adı",
     "assetsLabelContractIndex": "Kontrakt İndeksi",
-    "assetsLabelTick": "Valid for tick {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "yöneten",
     "assetsLabelCurrentBalance": "ID'deki Bakiye: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -270,7 +247,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "QX Tarafından Çıkartılmış Token'lar",
+    "assetsLabelQXAssets": "Token'lar",
     "createPasswordSheetHeader": "Lütfen parolanızı yedekleyiniz",
     "createPasswordSheetMessage": "Eğer parolanızı unutursanız hesabınızı gerı kurtaramazsınız. Devam etmeden önce şifrenizin yedeğini aldığınızdan emin olun.",
     "createPasswordSheetCheckboxMessage": "Evet, parolamın yedeğini aldım.",
@@ -377,7 +354,7 @@
     "addAccountErrorNameAlreadyInUse": "İsim zaten kullanımda",
     "addAccountErrorPublicIDAlreadyInUse": "Halka Açık ID zaten kullanımda",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Maksimum hesap limitine ulaşıldı",
-    "addAccountDialogMessageMaxNumberOfAccountsReached": "Qubic Hesabınızda maksimum 15 adet cüzdan ekleyebilirsiniz. Eğer başka bir cüzdan eklemek istiyorsanız mevcut hesaplardan birini kaldırmanız gerekmektedir.",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "Qubic Hesabınızda {maxAccounts} adet cüzdan ekleyebilirsiniz. Eğer başka bir cüzdan eklemek istiyorsanız mevcut hesaplardan birini kaldırmanız gerekmektedir.",
     "addAccountButtonCreateRandom": "Rastgele Oluştur",
     "addAccountLabelPrivateSeed": "Özel Anahtar",
     "addAccountLabelAccountName": "Hesap Adı",
@@ -392,8 +369,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Geçersiz özel anahtar girildi",
     "addAccountErrorTamperedWalletTitle": "KUSURLU CÜZDAN TESPİT EDİLDİ",
     "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nHTTPS://GITHUB.COM/QUBIC/WALLET-APP'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
-    "sendAssetLabelTransactionCost": "Ücret (sabit)",
-    "sendAssetButtonTransfer": "Transfer",
+    "sendAssetButtonTransfer": "Gönder",
     "sendAssetErrorTickIsInThePast": "Tick geçmiştedir. Mevcut Tick: {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -416,7 +392,6 @@
     "reauthenticateTitle": "Kimlik Doğrulaması Gerekiyor",
     "reauthenticateHeader": "Lütfen yeniden kimlik doğrulaması yapın",
     "reathenticateLabelReason": "Lütfen devam etmek için yeniden kimlik doğrulaması yapın.",
-    "reathenticateWithPasswordLabelReason": "Lütfen devam etmek için yeniden kimlik doğrulaması yapın. Sağladığınız şifre, cüzdanınızı şifrelemek için kullanılacaktır.",
     "receiveTitle": "Fon ve Varlık Al",
     "receiveHeader": "in \"{accountName}\"",
     "@receiveHeader": {
@@ -449,14 +424,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Adres Seç",
     "sendItemLabelSelectSenderAddressLineTwo": "Cüzdan Hesaplarınızdan",
-    "sendItemLabelCurrentTick": "(Mevcut Tick: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Cüzdan Kasa Dosyasını Dışa Aktar",
     "exportWalletVaultLabelInstructions": "Bu cüzdanın içeriğini, yedek olarak şifrelenmiş bir kasa dosyası olarak dışa aktarın. Bu dosya, web cüzdanına aktarılabilir ve yalnızca sağlanan şifreyle açılabilir. Bu dosyayı her zaman güvenli bir yerde saklayın.",
     "exportWalletVaultButtonExport": "Dışa Aktar",
@@ -490,16 +457,8 @@
     "transfersListLabelReceiveIn": "Kabul Et",
     "transfersListLabelSharePublicIdInstructionsOne": "Lütfen aşağıdaki Halka Açık ID'yi gönderen kişiyle paylaşın:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Veya QR kodu gösterin",
-    "transferAssetHeaderForShares": "{assetName} Hisse Transferi",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "{assetName} Token Transferi",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "{assetName} Gönder",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -514,8 +473,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "ID'nin {assetName} hisse sahipliği miktarı: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "ID'deki varlık bakiyesi: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -525,17 +484,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "ID'nin {assetName} token sahipliği miktarı: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Yalnızca Qx tarafından yönetilen varlıklar aktarılabilir",
     "generalAllTransactionDetails": "TX ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nTyp: {type}\nDurum: {status}\nTimestamp: {timestamp}\nHedef Tick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Mevcut Bir Cüzdanı İçe Aktar",
     "importWalletTitle": "Cüzdanı İçe Aktar",
@@ -563,7 +512,7 @@
     "autolockLabelDurationImmediately": "Hemen",
     "settingsLabelAutlock": "Otomatik Kilitleme Ayarları",
     "importVaultDialogTitleTooManyAccounts": "Çok fazla hesap bulundu",
-    "importVaultDialogMessageTooManyAccounts": "Kasa dosyanız 15'ten fazla hesap içeriyor. Tüm hesaplar içe aktarılacaktır, ancak bakiyelerinizi görüntülemek ve fon gönderebilmek için lütfen 15 veya daha az hesap olacak şekilde bazı hesapları silin.",
+    "importVaultDialogMessageTooManyAccounts": "Kasa dosyanız {maxAccounts}'ten fazla hesap içeriyor. Tüm hesaplar içe aktarılacaktır, ancak bakiyelerinizi görüntülemek ve fon gönderebilmek için lütfen {maxAccounts} veya daha az hesap olacak şekilde bazı hesapları silin.",
     "importVaultErrorNoAccountsFound": "Kasa Dosyanızad herhangi bir hesap bulunamadı. İçe aktarma işlemine devam edilemiyor.",
     "importVaultFilePickerLabel": "Lütfen devam etmek için bir Kasa Dosyası seçin:",
     "importVaultFileErrorGeneralMessage": "Kasa dosyası içe aktarılırken hata oluştu: {errorDescription}",
@@ -646,7 +595,7 @@
     },
     "generalErrorFileRequired": "Lütfen bir dosya seçin",
     "generalErrorPathRequired": "Lütfen bir yol seçin",
-    "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz.",
+    "homeWarningTooManyAccounts": "Cüzdanınızda {maxAccounts}'ten fazla hesap var. {maxAccounts} veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz.",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Geçersiz yanlızca izleme adresi. Lütfen girilen adresi kontrol edin.",
     "addAccountErrorVerifyIdentityError": "Adres doğrulanamadı.",
@@ -712,10 +661,7 @@
     "wcExpiresInDays": "{count, plural, =1{Oturum 1 gün içinde sona eriyor} other{Oturum {count} gün içinde sona eriyor}}",
     "wcExpiresInLessThanDay": "Oturum bir günden daha kısa sürede sona eriyor",
     "pasteURLHere": "URL'yi Yapıştır",
-    "approvingConnection": "Bağlantı onaylanıyor",
-    "pleaseWait": "Lütfen bekleyin",
     "wcApproveSignTransferOf": "Transferi imzala",
-    "wcApproveTransferOf": "Transfer",
     "wcApproveSignOf": "Aşağıdaki mesajı imzala",
     "wcApprovedSignedTransaction": "İşlem imzalandı ve başarıyla dApp'e gönderildi",
     "wcApprovedSignedMessage": "Mesaj imzalandı ve başarıyla dApp'e gönderildi",
@@ -803,7 +749,8 @@
     "transactionsCount": "{count, plural, =1{1 işlem} other{{count} işlem gösteriliyor}}",
     "dAppOpenButton": "Aç",
     "dAppFeaturedApp": "Öne Çıkan Uygulama",
-    "dAppPopularApps": "Popüler dApp'ler",
+    "dAppPopularApps": "dApp'leri Keşfet",
+    "dAppQubicApps": "Qubic Apps",
     "networksTitle": "Ağlar",
     "networksButtonAddNetwork": "Ağ Ekle",
     "networksConfirmationDialogTitleDeleteNetwork": "{networkName} silinsin mi?",
@@ -842,5 +789,67 @@
     "accountSortByLabel": "Sıralama",
     "accountSortModeName": "Ad (A-Z)",
     "accountSortModeBalance": "Bakiye (Yüksek → Düşük)",
-    "accountSortModeCreation": "Oluşturma (En Eski → En Yeni)"
+    "accountSortModeCreation": "Oluşturma (En Eski → En Yeni)",
+    "releaseTransferRightsMenuOption": "Transfer Hakları",
+    "releaseTransferRightsTitle": "Yönetim Haklarını Transfer Et",
+    "releaseTransferRightsLabelSourceContract": "Smart Contract'tan",
+    "releaseTransferRightsLabelAvailableAmount": "Mevcut: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Miktar",
+    "releaseTransferRightsLabelDestinationContract": "Smart Contract'a",
+    "releaseTransferRightsButtonSubmit": "Transfer Et",
+    "releaseTransferRightsErrorNoSourceContract": "Lütfen bir kaynak sözleşme seçin",
+    "releaseTransferRightsErrorNoDestinationContract": "Lütfen bir hedef sözleşme seçin",
+    "releaseTransferRightsErrorSameContract": "Kaynak ve hedef sözleşmeler farklı olmalıdır",
+    "releaseTransferRightsErrorInvalidContract": "Geçersiz sözleşme yapılandırması",
+    "dAppSearchPlaceholder": "Ara veya dApp URLsi gir",
+    "addToFavorites": "Favorilere ekle",
+    "favoriteNameLabel": "İsim",
+    "favoriteNameHint": "Bir isim girin",
+    "favoriteNameRequired": "İsim gerekli",
+    "favoriteNameTooLong": "İsim 50 karakterden az olmalıdır",
+    "favoriteNameAlreadyInUse": "Bu isim zaten kullanılıyor",
+    "favoriteUrlLabel": "Url",
+    "favoriteUrlHint": "https://example.com",
+    "favoriteUrlRequired": "URL gerekli",
+    "favoriteUrlInvalid": "Lütfen geçerli bir URL girin",
+    "favoriteAddedSuccessfully": "Favorilere eklendi",
+    "favoritesTitle": "Favoriler",
+    "favoritesEmpty": "Henüz favori yok",
+    "favoritesEmptyDescription": "Hızlı erişim için favori dApp'lerinizi ekleyin",
+    "favoriteRemoved": "Favorilerden kaldırıldı",
+    "removeFavorite": "Favorilerden kaldır",
+    "dAppSearchInGoogle": "Google'da Ara",
+    "generalLabelNoResults": "Sonuç bulunamadı",
+    "generalLabelTermsOfService": "Kullanım Şartları",
+    "dAppSearchEmptyState": "Bir şeyler keşfedelim! Yazmaya başlayın",
+    "webviewAddressBarLabelOpenInBrowser": "Tarayıcıda aç",
+    "generalButtonContinue": "Devam et",
+    "dAppExternalUrlWarningTitle": "Güvenlik Uyarısı",
+    "dAppExternalUrlWarningMessage": "Üçüncü taraf bir dApp açmak üzeresiniz. \"Qubic Wallet\", Qubic ekosistem katkıda bulunanları tarafından geliştirilen üçüncü taraf uygulamaların yasallığı, güvenliği, performansı veya işlevselliği konusunda hiçbir onay, garanti veya güvence vermemektedir.\n\nTam olarak neye izin verdiğinizi anlamak için her onay talebini dikkatle okuyun. Bir dApp kullanmak finansal risk içerebilir.\n\n\"Qubic Wallet\", bu dApp'in kullanımından kaynaklanan herhangi bir kayıp veya sorundan sorumlu değildir.\n\nDaha fazla bilgi için Kullanım Şartlarımıza bakın.",
+    "dAppExternalUrlWarningDoNotRemind": "Bir daha hatırlatma",
+    "webviewErrorCannotLoad": "Bu sayfa yüklenemedi",
+    "webviewErrorInsecureConnection": "Bu sayfa güvenli olmayan bir bağlantı (HTTP) kullandığı için yüklenemiyor. Yalnızca güvenli bağlantılara (HTTPS) izin verilir.",
+    "webviewErrorGeneric": "Sayfa yükleme hatası: {error}",
+    "webviewErrorHttp": "HTTP Hatası {code}"
 }

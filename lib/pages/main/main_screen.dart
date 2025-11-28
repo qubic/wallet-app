@@ -92,8 +92,13 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       _backgroundTimer?.cancel();
       _timedController.restartFetchTimersIfNeeded();
       _autoLockTimer?.cancel();
-      if (!applicationStore.isSignedIn) {
-        context.go('/signIn');
+      if (!applicationStore.isSignedIn && mounted) {
+        // Use post frame callback to ensure the widget tree is ready
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            context.go('/signIn');
+          }
+        });
       }
     }
   }
@@ -150,9 +155,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             : applicationStore.globalError.substring(0, errorPos);
 
         if (error != "") {
-          //Error overriding for more than 15 accounts in wallet
+          //Error overriding for more than max accounts in wallet
           if (error == "Failed to perform action. Server returned status 400") {
-            if (applicationStore.currentQubicIDs.length > 15) {
+            if (applicationStore.currentQubicIDs.length > Config.maxAccountsInWallet) {
               return;
             }
           }
@@ -309,11 +314,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               border: Border(
                 top: BorderSide(width: 1, color: LightThemeColors.navBorder),
               ),
-              color: LightThemeColors.navBg)),
+              color: LightThemeColors.background)),
 
       tabs: _tabs(),
 
-      backgroundColor: LightThemeColors.navBg,
+      backgroundColor: LightThemeColors.background,
 
       // Default is Colors.white.
       handleAndroidBackButtonPress: true, // Default is true.

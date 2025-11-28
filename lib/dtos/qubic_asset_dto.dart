@@ -44,6 +44,7 @@ class QubicAssetDto {
     data['assetName'] = issuedAsset.name;
     data['issuerIdentity'] = issuedAsset.issuerIdentity;
     data['ownedAmount'] = numberOfUnits;
+    data['managingContractIndex'] = managingContractIndex;
     return data;
   }
 

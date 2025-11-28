@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dapp_store.dart';
+part of 'wallet_content_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,38 +8,38 @@ part of 'dapp_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$DappStore on DappStoreBase, Store {
+mixin _$WalletContentStore on WalletContentStoreBase, Store {
   Computed<List<DappDto>>? _$allDappsComputed;
 
   @override
   List<DappDto> get allDapps =>
       (_$allDappsComputed ??= Computed<List<DappDto>>(() => super.allDapps,
-              name: 'DappStoreBase.allDapps'))
+              name: 'WalletContentStoreBase.allDapps'))
           .value;
   Computed<List<DappDto>>? _$topDappsComputed;
 
   @override
   List<DappDto> get topDapps =>
       (_$topDappsComputed ??= Computed<List<DappDto>>(() => super.topDapps,
-              name: 'DappStoreBase.topDapps'))
+              name: 'WalletContentStoreBase.topDapps'))
           .value;
   Computed<DappDto?>? _$featuredDappComputed;
 
   @override
   DappDto? get featuredDapp =>
       (_$featuredDappComputed ??= Computed<DappDto?>(() => super.featuredDapp,
-              name: 'DappStoreBase.featuredDapp'))
+              name: 'WalletContentStoreBase.featuredDapp'))
           .value;
   Computed<List<DappDto>>? _$popularDappsComputed;
 
   @override
   List<DappDto> get popularDapps => (_$popularDappsComputed ??=
           Computed<List<DappDto>>(() => super.popularDapps,
-              name: 'DappStoreBase.popularDapps'))
+              name: 'WalletContentStoreBase.popularDapps'))
       .value;
 
   late final _$dappsResponseAtom =
-      Atom(name: 'DappStoreBase.dappsResponse', context: context);
+      Atom(name: 'WalletContentStoreBase.dappsResponse', context: context);
 
   @override
   DappsResponse? get dappsResponse {
@@ -54,7 +54,8 @@ mixin _$DappStore on DappStoreBase, Store {
     });
   }
 
-  late final _$errorAtom = Atom(name: 'DappStoreBase.error', context: context);
+  late final _$errorAtom =
+      Atom(name: 'WalletContentStoreBase.error', context: context);
 
   @override
   String? get error {
@@ -70,7 +71,7 @@ mixin _$DappStore on DappStoreBase, Store {
   }
 
   late final _$isLoadingAtom =
-      Atom(name: 'DappStoreBase.isLoading', context: context);
+      Atom(name: 'WalletContentStoreBase.isLoading', context: context);
 
   @override
   bool get isLoading {
@@ -86,7 +87,7 @@ mixin _$DappStore on DappStoreBase, Store {
   }
 
   late final _$loadDappsAsyncAction =
-      AsyncAction('DappStoreBase.loadDapps', context: context);
+      AsyncAction('WalletContentStoreBase.loadDapps', context: context);
 
   @override
   Future<void> loadDapps() {

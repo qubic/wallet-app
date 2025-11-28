@@ -151,20 +151,30 @@ abstract class _ApplicationStore with Store {
 
   List<String> get qubicIDsNames => currentQubicIDs.map((e) => e.name).toList();
 
+  /// Returns only accounts that are not watch-only (i.e., accounts with private seeds).
+  /// Use this when you need to filter out watch-only accounts for operations like
+  /// WalletConnect events, transactions, or balance calculations.
+  ///
+  /// Performance note: With a maximum of Config.maxAccountsInWallet accounts supported, iterating this filtered
+  /// list and then applying additional conditions in the caller (double iteration) has
+  /// negligible performance impact (~25 operations total). Code clarity is prioritized.
+  List<QubicListVm> get nonWatchOnlyAccounts {
+    return currentQubicIDs.where((id) => !id.watchOnly).toList();
+  }
+
   @observable
   int pendingRequests = 0; //The number of pending HTTP requests
 
   @computed
   int get totalAmounts {
-    return currentQubicIDs
-        .where((qubic) => !qubic.watchOnly)
+    return nonWatchOnlyAccounts
         .fold<int>(0, (sum, qubic) => sum + (qubic.amount ?? 0));
   }
 
   @computed
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
-    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(
+    return nonWatchOnlyAccounts.fold<double>(
         0,
         (sum, qubic) =>
             sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
@@ -178,7 +188,7 @@ abstract class _ApplicationStore with Store {
   List<QubicAssetDto> get totalShares {
     List<QubicAssetDto> shares = [];
     List<QubicAssetDto> tokens = [];
-    currentQubicIDs.where((qubic) => !qubic.watchOnly).forEach((id) {
+    nonWatchOnlyAccounts.forEach((id) {
       id.assets.forEach((key, asset) {
         QubicAssetDto temp = asset;
 

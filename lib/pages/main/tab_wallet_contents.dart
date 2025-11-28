@@ -24,6 +24,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
@@ -44,6 +45,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   final TimedController _timedController = getIt<TimedController>();
   final NetworkStore networkStore = getIt<NetworkStore>();
+  final QubicEcosystemStore ecosystemStore = getIt<QubicEcosystemStore>();
 
   final double sliverExpanded = 185;
 
@@ -84,6 +86,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   @override
   void initState() {
     super.initState();
+    ecosystemStore.loadAllData();
 
     // Auto scroll to top with one item
     disposeAutorun = autorun((_) {
@@ -161,13 +164,14 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
   void addAccount() {
     final l10n = l10nOf(context);
-    if (appStore.currentQubicIDs.length >= 15) {
+    if (appStore.currentQubicIDs.length >= Config.maxAccountsInWallet) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return getAlertDialog(
                 l10n.addAccountDialogTitleMaxNumberOfAccountsReached,
-                l10n.addAccountDialogMessageMaxNumberOfAccountsReached,
+                l10n.addAccountDialogMessageMaxNumberOfAccountsReached(
+                    Config.maxAccountsInWallet),
                 primaryButtonLabel: l10n.generalButtonOK,
                 primaryButtonFunction: () {
               Navigator.of(context).pop();
@@ -188,6 +192,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
             edgeOffset: kToolbarHeight,
             onRefresh: () async {
               await _timedController.interruptFetchTimer();
+              await ecosystemStore.refreshIfAbsent();
             },
             backgroundColor: LightThemeColors.refreshIndicatorBackground,
             child: Container(
@@ -308,7 +313,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                   SliverList(
                       delegate: SliverChildListDelegate([
                     Observer(builder: (builder) {
-                      if (appStore.currentQubicIDs.length > 15) {
+                      if (appStore.currentQubicIDs.length > Config.maxAccountsInWallet) {
                         return Padding(
                             padding: const EdgeInsets.fromLTRB(
                                 ThemePaddings.normalPadding,
@@ -320,7 +325,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                               const Icon(Icons.warning_amber_rounded,
                                   color: LightThemeColors.error, size: 40),
                               ThemedControls.spacerVerticalNormal(),
-                              Text(l10n.homeWarningTooManyAccounts,
+                              Text(
+                                  l10n.homeWarningTooManyAccounts(
+                                      Config.maxAccountsInWallet),
                                   textAlign: TextAlign.center,
                                   style: TextStyles.textNormal)
                             ])));

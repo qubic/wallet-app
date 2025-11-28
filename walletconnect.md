@@ -2,13 +2,13 @@
 
 ## Terminology
 
-| Term      | Explanation                                                                                             |
-| :-------- | :------------------------------------------------------------------------------------------------------ |
-| dApp      | A (web3) application that needs access to the Qubic Wallet.                                             |
-| Session   | A connection between a dApp and the Qubic Wallet.                                                      |
-| Chain ID | Identifier of the blockchain network. For Qubic wallet, it's `qubic:mainnet`. |
-| Method    | Functionality exposed by the Qubic Wallet that can be invoked by the dApp.                             |
-| Event     | Information that the Qubic Wallet can push to a dApp without the dApp initiating a request.             |
+| Term     | Explanation                                                                                 |
+| :------- | :------------------------------------------------------------------------------------------ |
+| dApp     | A (web3) application that needs access to the Qubic Wallet.                                 |
+| Session  | A connection between a dApp and the Qubic Wallet.                                           |
+| Chain ID | Identifier of the blockchain network. For Qubic wallet, it's `qubic:mainnet`.               |
+| Method   | Functionality exposed by the Qubic Wallet that can be invoked by the dApp.                  |
+| Event    | Information that the Qubic Wallet can push to a dApp without the dApp initiating a request. |
 
 ## Session Establishment
 
@@ -82,16 +82,17 @@ Requests all accounts in the wallet. This method provides the dApp with informat
 
 On success, an array of `RequestAccountsResult` objects is received:
 
-| Property | Type   | Description                                 |
-| :------- | :----- | :------------------------------------------ |
-| address  | String | The public ID of the account.               |
-| name    | String | The name of the account in the wallet.      |
-| amount   | Number | The number of Qubic in the wallet.          |
-| assets   | Array | An array containing the assets associated with this account. Each element represents a single asset. |
-| assets[index] | Object | An object containing the details of a specific asset. |
-| assets[index].assetName | String | The name of the asset. |
-| assets[index].issuerIdentity | String | The public ID of the issuer of the asset. |
-| assets[index].ownedAmount | Number | The balance of the specified asset in the account.	|
+| Property                            | Type   | Description                                                                                          |
+| :---------------------------------- | :----- | :--------------------------------------------------------------------------------------------------- |
+| address                             | String | The public ID of the account.                                                                        |
+| name                                | String | The name of the account in the wallet.                                                               |
+| amount                              | Number | The number of Qubic in the wallet.                                                                   |
+| assets                              | Array  | An array containing the assets associated with this account. Each element represents a single asset. |
+| assets[index]                       | Object | An object containing the details of a specific asset.                                                |
+| assets[index].assetName             | String | The name of the asset.                                                                               |
+| assets[index].issuerIdentity        | String | The public ID of the issuer of the asset.                                                            |
+| assets[index].ownedAmount           | Number | The balance of the specified asset in the account.                                                   |
+| assets[index].managingContractIndex | Number | The index of the smart contract managing this asset.                                                 |
 
 ### qubic_sendQubic
 
@@ -99,19 +100,19 @@ Asks the wallet to send Qubic to a specific address (upon user confirmation).
 
 **Method parameters:**
 
-| Param  | Type   | Description                             |
-| :----- | :----- | :-------------------------------------- |
-| from | String | The public ID of the source account.    |
-| to   | String | The public ID of the destination account. |
-| amount| Number | The number of Qubic to send. Must be positive. |
+| Param       | Type              | Description                                              |
+| :---------- | :---------------- | :------------------------------------------------------- |
+| from        | String            | The public ID of the source account.                     |
+| to          | String            | The public ID of the destination account.                |
+| amount      | Number            | The number of Qubic to send. Must be positive.           |
 | redirectUrl | String (optional) | The deep or universal link for the dApp to redirect back |
 
 
 On success, the following data is received:
 
-| Property        | Type   | Value                         |
-| :-------------- | :----- | :---------------------------- |
-| transactionId | String | Transaction unique identifier. |
+| Property      | Type   | Value                                                         |
+| :------------ | :----- | :------------------------------------------------------------ |
+| transactionId | String | Transaction unique identifier.                                |
 | tick          | Number | Tick the transfer is scheduled for. (Approval time + 5 ticks) |
 
 On error, a standard `JsonRpcError` is received. See the `JSON-RPC errors` section for more details.
@@ -122,23 +123,23 @@ Asks the wallet to sign a transaction. The transaction either transfers Qu or in
 
 **Method parameters:**
 
-| Param       | Type     | Description                                                                                       |
-| :---------- | :------- | :------------------------------------------------------------------------------------------------ |
-| from      | String   | The public ID of the source account.                                                              |
-| to        | String   | The public ID of the destination account.                                                            |
-| amount    | Number   | The number of Qubic to send. Must be 0 or positive.                                                 |
-| tick     | Number  (optional)| If defined, indicates the tick for the transaction. Otherwise, it will be calculated as the tick at the moment of approval + 5 ticks.|
-| inputType | Number (optional)  | Transaction input type. Default value is 0.                                                          |
-| payload   | String (optional)  | Payload bytes in base64 format.                                                               |
-| redirectUrl| String (optional)  | The deep or universal link for the dApp to redirect back  |
+| Param       | Type               | Description                                                                                                                           |
+| :---------- | :----------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
+| from        | String             | The public ID of the source account.                                                                                                  |
+| to          | String             | The public ID of the destination account.                                                                                             |
+| amount      | Number             | The number of Qubic to send. Must be 0 or positive.                                                                                   |
+| tick        | Number  (optional) | If defined, indicates the tick for the transaction. Otherwise, it will be calculated as the tick at the moment of approval + 5 ticks. |
+| inputType   | Number (optional)  | Transaction input type. Default value is 0.                                                                                           |
+| payload     | String (optional)  | Payload bytes in base64 format.                                                                                                       |
+| redirectUrl | String (optional)  | The deep or universal link for the dApp to redirect back                                                                              |
 
 On success, the following data is received:
 
-| Property          | Type   | Value                                     |
-| :---------------- | :----- | :---------------------------------------- |
-| signedTransaction| String | The signed transaction payload.            |
-| transactionId   | String | Transaction unique identifier.           |
-| tick            | Number | The tick that the transfer was signed for.|
+| Property          | Type   | Value                                      |
+| :---------------- | :----- | :----------------------------------------- |
+| signedTransaction | String | The signed transaction payload.            |
+| transactionId     | String | Transaction unique identifier.             |
+| tick              | Number | The tick that the transfer was signed for. |
 
 On error, a standard `JsonRpcError` is received. See the `JSON-RPC errors` section for more details.
 
@@ -148,22 +149,22 @@ Asks the wallet to sign and broadcast a transaction. The transaction either tran
 
 **Method parameters:**
 
-| Param       | Type     | Description                                                                                       |
-| :---------- | :------- | :------------------------------------------------------------------------------------------------ |
-| from      | String   | The public ID of the source account.                                                              |
-| to        | String   | The public ID of the destination account.                                                            |
-| amount    | Number   | The number of Qubic to send. Must be 0 or positive.                                                 |
-| tick     | Number (optional) | If defined, indicates the tick for the transaction. Otherwise, it will be calculated as the tick at the moment of approval + 5 ticks.|
-| inputType | Number (optional)  | Transaction input type. Default value is 0.                                                          |
-| payload   | String (optional) | Payload bytes in base64 format.                                                              |
-| redirectUrl| String (optional)  | The deep or universal link for the dApp to redirect back  |
+| Param       | Type              | Description                                                                                                                           |
+| :---------- | :---------------- | :------------------------------------------------------------------------------------------------------------------------------------ |
+| from        | String            | The public ID of the source account.                                                                                                  |
+| to          | String            | The public ID of the destination account.                                                                                             |
+| amount      | Number            | The number of Qubic to send. Must be 0 or positive.                                                                                   |
+| tick        | Number (optional) | If defined, indicates the tick for the transaction. Otherwise, it will be calculated as the tick at the moment of approval + 5 ticks. |
+| inputType   | Number (optional) | Transaction input type. Default value is 0.                                                                                           |
+| payload     | String (optional) | Payload bytes in base64 format.                                                                                                       |
+| redirectUrl | String (optional) | The deep or universal link for the dApp to redirect back                                                                              |
 
 
 On success, the following data is received:
 
-| Property        | Type   | Value                         |
-| :-------------- | :----- | :---------------------------- |
-| transactionId | String | Transaction unique identifier.|
+| Property      | Type   | Value                                   |
+| :------------ | :----- | :-------------------------------------- |
+| transactionId | String | Transaction unique identifier.          |
 | tick          | Number | The tick the transfer is scheduled for. |
 
 On error, a standard `JsonRpcError` is received. See the `JSON-RPC errors` section for more details.
@@ -174,19 +175,19 @@ Asks the wallet to sign a message.
 
 **Method parameters:**
 
-| Param   | Type   | Description                                                                 |
-| :------ | :----- | :-------------------------------------------------------------------------- |
-| from  | String | The public ID of the account to be used for signing the message.            |
-| message| String | The message to be signed.                                                  |
-| redirectUrl| String (optional)  | The deep or universal link for the dApp to redirect back                |
+| Param       | Type              | Description                                                      |
+| :---------- | :---------------- | :--------------------------------------------------------------- |
+| from        | String            | The public ID of the account to be used for signing the message. |
+| message     | String            | The message to be signed.                                        |
+| redirectUrl | String (optional) | The deep or universal link for the dApp to redirect back         |
 
 On success, the following data is received:
 
-| Property    | Type   | Value                                                                                                     |
-| :---------- | :----- | :---------------------------------------------------------------------------------------------------------- |
-| signedData| String | The signed message. Before creating the signature, the string `'Qubic Signed Message:\n'` is prepended to the message. |
-| digest    | String |                                                                                                            |
-| signature | String |                                                                                                            |
+| Property   | Type   | Value                                                                                                                  |
+| :--------- | :----- | :--------------------------------------------------------------------------------------------------------------------- |
+| signedData | String | The signed message. Before creating the signature, the string `'Qubic Signed Message:\n'` is prepended to the message. |
+| digest     | String |                                                                                                                        |
+| signature  | String |                                                                                                                        |
 
 On error, a standard `JsonRpcError` is received. See the `JSON-RPC errors` section for more details.
 
@@ -194,22 +195,24 @@ On error, a standard `JsonRpcError` is received. See the `JSON-RPC errors` secti
 
 Asks the wallet to transfer assets to a specific address (upon user confirmation).
 
+**Important:** This method only supports transferring assets managed by the QX smart contract. The validation checks your QX-managed balance, not your total owned amount. If your assets are managed by multiple contracts, only the QX-managed portion can be transferred via WalletConnect.
+
 **Method parameters:**
 
-| Param       | Type   | Description                                     |
-| :---------- | :----- | :---------------------------------------------- |
-| from      | String | The public ID of the source account.            |
-| to        | String | The public ID of the destination account.         |
-| assetName | String | The name of the asset to transfer.              |
-| issuer    | String | The public ID of the issuer of the token to transfer. |
-| amount    | Number | The amount of tokens to send.                  |
-| redirectUrl| String (optional)  | The deep or universal link for the dApp to redirect back  |
+| Param       | Type              | Description                                              |
+| :---------- | :---------------- | :------------------------------------------------------- |
+| from        | String            | The public ID of the source account.                     |
+| to          | String            | The public ID of the destination account.                |
+| assetName   | String            | The name of the asset to transfer.                       |
+| issuer      | String            | The public ID of the issuer of the token to transfer.    |
+| amount      | Number            | The amount of tokens to send.                            |
+| redirectUrl | String (optional) | The deep or universal link for the dApp to redirect back |
 
 On success, the following data is received:
 
-| Property        | Type   | Value                         |
-| :-------------- | :----- | :---------------------------- |
-| transactionId | String | Transaction unique identifier.|
+| Property      | Type   | Value                                   |
+| :------------ | :----- | :-------------------------------------- |
+| transactionId | String | Transaction unique identifier.          |
 | tick          | Number | The tick the transfer is scheduled for. |
 
 On error, a standard `JsonRpcError` is received. See the `JSON-RPC errors` section for more details.
@@ -237,11 +240,11 @@ Fires when the accounts in the wallet are changed (added/renamed/deleted/wallet 
 ]
 ```
 
-| Field   | Type   | Description                                                   |
-| :------ | :----- | :------------------------------------------------------------ |
-| address| String | The public ID of the account.                                 |
-| name  | String | The human-readable name of the wallet account.                |
-| amount| Number | The number of Qubics in the account. (-1 if wallet does not have this information for the account)|
+| Field   | Type   | Description                                                                                        |
+| :------ | :----- | :------------------------------------------------------------------------------------------------- |
+| address | String | The public ID of the account.                                                                      |
+| name    | String | The human-readable name of the wallet account.                                                     |
+| amount  | Number | The number of Qubics in the account. (-1 if wallet does not have this information for the account) |
 
 ### amountChanged
 
@@ -264,11 +267,11 @@ Fires when the Qubic amount in one or more wallet accounts changes.
 ]
 ```
 
-| Field   | Type   | Description                           |
-| :------ | :----- | :------------------------------------ |
-| address| String | The public ID of the account.         |
-| name  | String | The human-readable name of the wallet account.|
-| amount| Number | The number of Qubics in the account. |
+| Field   | Type   | Description                                    |
+| :------ | :----- | :--------------------------------------------- |
+| address | String | The public ID of the account.                  |
+| name    | String | The human-readable name of the wallet account. |
+| amount  | Number | The number of Qubics in the account.           |
 
 
 ### assetAmountChanged
@@ -286,7 +289,8 @@ Fires when the amount of a specific asset in one or more wallet accounts changes
       {
         "assetName": "CFB",
         "issuerIdentity": "CFBMEMZOIDEXQAUXYYSZIURADQLAPWPMNJXQSNVQZAHYVOPYUKKJBJUCTVJL",
-        "ownedAmount": 1288696
+        "ownedAmount": 1288696,
+        "managingContractIndex": 1
       }
     ]
   },
@@ -298,25 +302,30 @@ Fires when the amount of a specific asset in one or more wallet accounts changes
 ]
 ```
 
-| Field   | Type   | Description                                                   |
-| :------ | :----- | :------------------------------------------------------------ |
-| address| String | The public ID of the account.                                 |
-| name  | String | The human-readable name of the wallet account.                |
-| assets   | Array | An array containing the assets that have changed for this account. Each element represents a single asset. |
-| assets[index] | Object | An object containing the details of a specific asset. |
-| assets[index].assetName | String | The name of the asset. |
-| assets[index].issuerIdentity | String | The public ID of the issuer of the asset. |
-| assets[index].ownedAmount | Number | The balance of the specified asset in the account.	|
+| Field                               | Type   | Description                                                                                                |
+| :---------------------------------- | :----- | :--------------------------------------------------------------------------------------------------------- |
+| address                             | String | The public ID of the account.                                                                              |
+| name                                | String | The human-readable name of the wallet account.                                                             |
+| assets                              | Array  | An array containing the assets that have changed for this account. Each element represents a single asset. |
+| assets[index]                       | Object | An object containing the details of a specific asset.                                                      |
+| assets[index].assetName             | String | The name of the asset.                                                                                     |
+| assets[index].issuerIdentity        | String | The public ID of the issuer of the asset.                                                                  |
+| assets[index].ownedAmount           | Number | The balance of the specified asset in the account.                                                         |
+| assets[index].managingContractIndex | Number | The index of the smart contract managing this asset.                                                       |
 
 ## JSON-RPC errors
 
-| Code | Message        | Meaning                      |
-| :--- | :------------- | :--------------------------- |
-| -32001 |  User is unavailable | The request comes while the user have another existing one. |
-| -32002 | Tick expired | The tick the user sends became expired during the approval. |
-| -32602 | Invalid argument(s) | The dApp didn't send valid parameters. |
-| -32603 | Internal error | Unexpected internal error occurs. |
-| 5000 | User rejected | The user rejected the request. |
+| Code   | Message             | Meaning                                                     |
+| :----- | :------------------ | :---------------------------------------------------------- |
+| -32001 | User is unavailable | The request comes while the user have another existing one. |
+| -32002 | Tick expired        | The tick the user sends became expired during the approval. |
+| -32602 | Invalid argument(s) | The dApp didn't send valid parameters.                      |
+| -32603 | Internal error      | Unexpected internal error occurs.                           |
+| 5000   | User rejected       | The user rejected the request.                              |
+
+## Testing & Development
+
+Test the WalletConnect integration with our live demo app: **[https://qubic.github.io/wallet-app-dapp/](https://qubic.github.io/wallet-app-dapp/)**
 
 ## References
 

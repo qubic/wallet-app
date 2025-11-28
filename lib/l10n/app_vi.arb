@@ -5,7 +5,6 @@
     "generalLabelNo": "Không",
     "generalButtonConfirm": "Xác nhận",
     "generalButtonDelete": "Xóa",
-    "generalButtonAdd": "Thêm",
     "generalButtonCopy": "Sao chép",
     "generalButtonRename": "Đổi tên",
     "generalButtonSave": "Lưu",
@@ -20,7 +19,6 @@
     "generalButtonApply": "Áp dụng",
     "generalButtonEraseWalletData": "Xóa dữ liệu ví",
     "generalButtonClearAll": "Xóa tất cả",
-    "generalButtonShowAll": "Hiển thị tất cả",
     "generalButtonUseQRCode": "Sử dụng mã QR",
     "generalButtonCopyAddress": "Sao chép địa chỉ",
     "generalButtonPaste": "Dán",
@@ -33,9 +31,6 @@
     "generalLabelTick": "Tick",
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Loại đầu vào",
-    "generalLabelInfo": "Thông tin",
-    "generalLabelDate": "Ngày",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Tài khoản {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -52,14 +47,6 @@
     "generalLabelFee": "Phí",
     "generalLabeQubicAddress": "Địa chỉ Qubic",
     "generalLabeQubicAddressAndPublicID": "Địa chỉ Qubic (ID công khai)",
-    "generalLabelQubicAddressWithAccountName": "Địa chỉ Qubic {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} tài khoản ví \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -85,8 +72,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Cổ phần} other{Cổ phần}}",
-    "generalLabelEnabled": "Đã bật",
-    "generalLabelDisabled": "Đã tắt",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "Đã xảy ra lỗi",
     "generalSnackBarMessageCopiedToClipboard": "Đã sao chép vào clipboard",
@@ -192,7 +177,6 @@
     "settingsHeaderAbout": "Về chúng tôi",
     "settingsLabelJoinCommunity": "Tham gia cộng đồng",
     "settingsLabelSupport": "Hỗ trợ",
-    "settingsLabelWalletInfo": "Thông tin ví",
     "settingsLabelWalletConnect": "WalletConnect",
     "settingsSupportGithub": "GitHub (Báo cáo sự cố)",
     "settingsSupportDiscord": "Discord (Kênh hỗ trợ)",
@@ -262,7 +246,7 @@
     "accountButtonReceive": "Nhận",
     "accountButtonSend": "Gửi",
     "accountButtonAssets": "Tài sản",
-    "accountSendTitle": "Gửi tiền",
+    "accountSendTitle": "Gửi QUBIC",
     "accountSendLabelDestinationAddress": "Địa chỉ đích",
     "accountSendLabelAmount": "Số lượng",
     "accountSendButtonMax": "Tối đa",
@@ -271,14 +255,7 @@
     "accountSendSectionInvalidDestinationAddress": "Địa chỉ đích không hợp lệ",
     "assetsLabelContractName": "Tên hợp đồng",
     "assetsLabelContractIndex": "Chỉ mục hợp đồng",
-    "assetsLabelTick": "Có hiệu lực cho tick {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "được quản lý bởi",
     "assetsLabelCurrentBalance": "Số dư trong ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -298,7 +275,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "Token do QX phát hành",
+    "assetsLabelQXAssets": "Tokens",
     "createPasswordSheetHeader": "Vui lòng sao lưu mật khẩu của bạn",
     "createPasswordSheetMessage": "Không có cách nào để khôi phục mật khẩu của bạn nếu bạn quên. Vui lòng đảm bảo bạn đã sao lưu mật khẩu trước khi tiếp tục.",
     "createPasswordSheetCheckboxMessage": "Vâng, tôi đã sao lưu mật khẩu của mình.",
@@ -413,7 +390,7 @@
     "addAccountErrorNameAlreadyInUse": "Tên đã được sử dụng",
     "addAccountErrorPublicIDAlreadyInUse": "ID công khai đã được sử dụng",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Đã đạt giới hạn số tài khoản tối đa",
-    "addAccountDialogMessageMaxNumberOfAccountsReached": "Bạn chỉ có thể có tối đa 15 tài khoản Qubic trong ví của bạn. Nếu bạn cần thêm một tài khoản khác, vui lòng xóa một tài khoản hiện có.",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "Bạn chỉ có thể có tối đa {maxAccounts} tài khoản Qubic trong ví của bạn. Nếu bạn cần thêm một tài khoản khác, vui lòng xóa một tài khoản hiện có.",
     "addAccountButtonCreateRandom": "Tạo ngẫu nhiên",
     "addAccountLabelPrivateSeed": "Seed riêng tư",
     "addAccountLabelAccountName": "Tên tài khoản",
@@ -434,8 +411,7 @@
     "addAccountWatchOnlyHintQubicAddress": "Nhập địa chỉ Qubic",
     "addAccountCreateNewAccountModalBottomSheet": "Tạo tài khoản mới",
     "addAccountWatchOnlyAddressModalBottomSheet": "Tài khoản chỉ xem",
-    "sendAssetLabelTransactionCost": "Phí (cố định)",
-    "sendAssetButtonTransfer": "Chuyển khoản",
+    "sendAssetButtonTransfer": "Gửi",
     "sendAssetErrorTickIsInThePast": "Tick được cung cấp là trong quá khứ. Tick hiện tại là {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -459,7 +435,6 @@
     "reauthenticateTitle": "Yêu cầu xác thực",
     "reauthenticateHeader": "Vui lòng xác thực lại",
     "reathenticateLabelReason": "Vui lòng xác thực lại để tiếp tục.",
-    "reathenticateWithPasswordLabelReason": "Vui lòng xác thực lại để tiếp tục. Mật khẩu bạn cung cấp sẽ được sử dụng để mã hóa ví vault của bạn.",
     "receiveTitle": "Nhận tiền và tài sản",
     "receiveHeader": "trong \"{accountName}\"",
     "@receiveHeader": {
@@ -492,14 +467,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Chọn địa chỉ",
     "sendItemLabelSelectSenderAddressLineTwo": "từ các tài khoản ví của bạn",
-    "sendItemLabelCurrentTick": "(Tick hiện tại: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Xuất tập tin Vault ví",
     "exportWalletVaultLabelInstructions": "Xuất nội dung ví này vào một tập tin vault được mã hóa làm bản sao lưu. Tập tin này có thể được nhập vào ví web và chỉ có thể được mở khóa bằng mật khẩu được cung cấp. Luôn giữ tập tin này ở một nơi an toàn.",
     "exportWalletVaultButtonExport": "Xuất",
@@ -533,16 +500,8 @@
     "transfersListLabelReceiveIn": "Nhận trong",
     "transfersListLabelSharePublicIdInstructionsOne": "Vui lòng chia sẻ ID công khai sau đây với người gửi:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Hoặc hiển thị mã QR sau đây",
-    "transferAssetHeaderForShares": "Chuyển cổ phần {assetName}",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Chuyển token {assetName}",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Gửi {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -557,8 +516,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "Cổ phần {assetName} thuộc sở hữu của ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Số dư tài sản trong ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -568,17 +527,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "Token {assetName} thuộc sở hữu của ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Chỉ có thể chuyển các tài sản được quản lý bởi Qx",
     "generalAllTransactionDetails": "ID GD: {trxId}\nNguồn: {sourceId}\nĐích: {destId}\nSố lượng: {amount}\nLoại: {type}\nTrạng thái: {status}\nDấu thời gian: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
@@ -635,7 +584,7 @@
     "autolockLabelDurationImmediately": "Ngay lập tức",
     "settingsLabelAutlock": "Tự động khóa",
     "importVaultDialogTitleTooManyAccounts": "Tìm thấy quá nhiều tài khoản",
-    "importVaultDialogMessageTooManyAccounts": "Tập tin vault của bạn chứa hơn 15 tài khoản. Tất cả các tài khoản sẽ được nhập, nhưng để xem số dư và gửi tiền của bạn, vui lòng xóa một số cho đến khi còn 15 hoặc ít hơn.",
+    "importVaultDialogMessageTooManyAccounts": "Tập tin vault của bạn chứa hơn {maxAccounts} tài khoản. Tất cả các tài khoản sẽ được nhập, nhưng để xem số dư và gửi tiền của bạn, vui lòng xóa một số cho đến khi còn {maxAccounts} hoặc ít hơn.",
     "importVaultErrorNoAccountsFound": "Không tìm thấy tài khoản nào trong tập tin vault của bạn. Chúng tôi không thể tiếp tục nhập.",
     "importVaultFilePickerLabel": "Vui lòng chọn một tập tin vault để tiếp tục:",
     "importVaultFileErrorGeneralMessage": "Lỗi nhập tập tin vault: {errorDescription}",
@@ -732,7 +681,7 @@
     },
     "generalErrorFileRequired": "Vui lòng chọn một tập tin",
     "generalErrorPathRequired": "Vui lòng chọn một đường dẫn",
-    "homeWarningTooManyAccounts": "Bạn có hơn 15 tài khoản trong ví của bạn. Bạn sẽ không thể chuyển tiền hoặc xem số dư cho đến khi bạn xóa một số để còn 15 hoặc ít hơn.",
+    "homeWarningTooManyAccounts": "Bạn có hơn {maxAccounts} tài khoản trong ví của bạn. Bạn sẽ không thể chuyển tiền hoặc xem số dư cho đến khi bạn xóa một số để còn {maxAccounts} hoặc ít hơn.",
     "cmdErrorVerifyingIdentityGeneric": "Lỗi xác minh danh tính.",
     "cmdErrorVerifyingIdentity": "Không thể xác minh danh tính của bạn: {errorDescription}",
     "@cmdErrorVerifyingIdentity": {
@@ -788,10 +737,7 @@
     "wcExpiresInDays": "{count, plural, =1{Phiên hết hạn trong 1 ngày} other{Phiên hết hạn trong {count} ngày}}",
     "wcExpiresInLessThanDay": "Phiên hết hạn trong ít hơn một ngày",
     "pasteURLHere": "Dán URL",
-    "approvingConnection": "Đang chấp thuận kết nối",
-    "pleaseWait": "Vui lòng chờ",
     "wcApproveSignTransferOf": "Ký chuyển khoản của",
-    "wcApproveTransferOf": "Chuyển khoản của",
     "wcApproveSignOf": "Ký tin nhắn sau đây",
     "wcApprovedSignedTransaction": "Đã ký giao dịch và gửi thành công đến dApp",
     "wcApprovedSignedMessage": "Đã ký tin nhắn và gửi thành công đến dApp",
@@ -852,7 +798,8 @@
     "wcSignTransaction": "Ký giao dịch",
     "dAppOpenButton": "Mở",
     "dAppFeaturedApp": "Ứng dụng nổi bật",
-    "dAppPopularApps": "dApp phổ biến",
+    "dAppPopularApps": "Khám phá dApp",
+    "dAppQubicApps": "Qubic Apps",
     "assetButtonIssuerIdentity": "Danh tính nhà phát hành",
     "networksTitle": "Mạng",
     "networksButtonAddNetwork": "Thêm mạng",
@@ -905,5 +852,67 @@
     "accountSortByLabel": "Sắp xếp theo",
     "accountSortModeName": "Tên (A-Z)",
     "accountSortModeBalance": "Số dư (Cao → Thấp)",
-    "accountSortModeCreation": "Tạo (Cũ nhất → Mới nhất)"
+    "accountSortModeCreation": "Tạo (Cũ nhất → Mới nhất)",
+    "releaseTransferRightsMenuOption": "Quyền Chuyển Nhượng",
+    "releaseTransferRightsTitle": "Chuyển Quyền Quản Lý",
+    "releaseTransferRightsLabelSourceContract": "Từ Smart Contract",
+    "releaseTransferRightsLabelAvailableAmount": "Khả dụng: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Số Lượng",
+    "releaseTransferRightsLabelDestinationContract": "Đến Smart Contract",
+    "releaseTransferRightsButtonSubmit": "Chuyển",
+    "releaseTransferRightsErrorNoSourceContract": "Vui lòng chọn hợp đồng nguồn",
+    "releaseTransferRightsErrorNoDestinationContract": "Vui lòng chọn hợp đồng đích",
+    "releaseTransferRightsErrorSameContract": "Hợp đồng nguồn và đích phải khác nhau",
+    "releaseTransferRightsErrorInvalidContract": "Cấu hình hợp đồng không hợp lệ",
+    "dAppSearchPlaceholder": "Tìm kiếm hoặc nhập URL dApp",
+    "addToFavorites": "Thêm vào yêu thích",
+    "favoriteNameLabel": "Tên",
+    "favoriteNameHint": "Nhập tên",
+    "favoriteNameRequired": "Tên là bắt buộc",
+    "favoriteNameTooLong": "Tên phải có tối đa 50 ký tự",
+    "favoriteNameAlreadyInUse": "Tên này đã được sử dụng",
+    "favoriteUrlLabel": "Url",
+    "favoriteUrlHint": "https://example.com",
+    "favoriteUrlRequired": "URL là bắt buộc",
+    "favoriteUrlInvalid": "Vui lòng nhập URL hợp lệ",
+    "favoriteAddedSuccessfully": "Đã thêm vào yêu thích",
+    "favoritesTitle": "Yêu thích",
+    "favoritesEmpty": "Chưa có mục yêu thích",
+    "favoritesEmptyDescription": "Thêm các dApp yêu thích của bạn để truy cập nhanh",
+    "favoriteRemoved": "Đã xóa khỏi yêu thích",
+    "removeFavorite": "Xóa khỏi yêu thích",
+    "dAppSearchInGoogle": "Tìm kiếm trên Google",
+    "generalLabelNoResults": "Không tìm thấy kết quả",
+    "generalLabelTermsOfService": "Điều khoản dịch vụ",
+    "dAppSearchEmptyState": "Hãy khám phá điều gì đó! Bắt đầu nhập",
+    "webviewAddressBarLabelOpenInBrowser": "Mở trong trình duyệt",
+    "generalButtonContinue": "Tiếp tục",
+    "dAppExternalUrlWarningTitle": "Cảnh báo bảo mật",
+    "dAppExternalUrlWarningMessage": "Bạn sắp mở một dApp của bên thứ ba. \"Qubic Wallet\" không đưa ra bất kỳ sự xác nhận, bảo đảm hoặc cam kết nào liên quan đến tính hợp pháp, bảo mật, hiệu suất hoặc chức năng của các ứng dụng bên thứ ba được phát triển bởi những người đóng góp của hệ sinh thái Qubic.\n\nĐọc kỹ từng yêu cầu phê duyệt để bạn hiểu chính xác những gì bạn đang cho phép. Sử dụng dApp có thể liên quan đến rủi ro tài chính.\n\n\"Qubic Wallet\" không chịu trách nhiệm về bất kỳ tổn thất hoặc vấn đề nào phát sinh từ việc sử dụng dApp này.\n\nĐể biết thêm thông tin, vui lòng xem Điều khoản Dịch vụ của chúng tôi.",
+    "dAppExternalUrlWarningDoNotRemind": "Không nhắc lại",
+    "webviewErrorCannotLoad": "Không thể tải trang đó",
+    "webviewErrorInsecureConnection": "Trang này không thể tải được vì sử dụng kết nối không an toàn (HTTP). Chỉ cho phép kết nối an toàn (HTTPS).",
+    "webviewErrorGeneric": "Không thể tải trang: {error}",
+    "webviewErrorHttp": "Lỗi HTTP {code}"
 }

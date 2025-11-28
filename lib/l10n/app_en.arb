@@ -5,7 +5,6 @@
     "generalLabelNo": "No",
     "generalButtonConfirm": "Confirm",
     "generalButtonDelete": "Delete",
-    "generalButtonAdd": "Add",
     "generalButtonCopy": "Copy",
     "generalButtonRename": "Rename",
     "generalButtonSave": "Save",
@@ -20,7 +19,6 @@
     "generalButtonApply": "Apply",
     "generalButtonEraseWalletData": "Erase Wallet Data",
     "generalButtonClearAll": "Clear All",
-    "generalButtonShowAll": "Show All",
     "generalButtonUseQRCode": "Use QR Code",
     "generalButtonCopyAddress": "Copy Address",
     "generalButtonPaste": "Paste",
@@ -33,9 +31,6 @@
     "generalLabelTick": "Tick",
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Input Type",
-    "generalLabelInfo": "Info",
-    "generalLabelDate": "Date",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Account {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -52,14 +47,6 @@
     "generalLabelFee": "Fee",
     "generalLabeQubicAddress": "Qubic Address",
     "generalLabeQubicAddressAndPublicID": "Qubic Address (Public ID)",
-    "generalLabelQubicAddressWithAccountName": "Qubic Address {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "{toFrom} wallet account \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -85,8 +72,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Share} other{Shares}}",
-    "generalLabelEnabled": "Enabled",
-    "generalLabelDisabled": "Disabled",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "An error has ocurred",
     "generalSnackBarMessageCopiedToClipboard": "Copied to clipboard",
@@ -140,7 +125,7 @@
     "generalStatusCode": "Status Code",
     "generalCode": "Code",
     "appTabHome": "Home",
-    "appTabExplore": "Explore",
+    "appTabExplore": "Discover",
     "appTabSettings": "Settings",
     "homeLabelTotalBalance": "Total Balance",
     "homeHeader": "Accounts in Wallet",
@@ -192,7 +177,6 @@
     "settingsHeaderAbout": "About",
     "settingsLabelJoinCommunity": "Join Community",
     "settingsLabelSupport": "Support",
-    "settingsLabelWalletInfo": "Wallet Info",
     "settingsLabelWalletConnect": "WalletConnect",
     "settingsSupportGithub": "GitHub (File an issue)",
     "settingsSupportDiscord": "Discord (Support channel)",
@@ -262,7 +246,7 @@
     "accountButtonReceive": "Receive",
     "accountButtonSend": "Send",
     "accountButtonAssets": "Assets",
-    "accountSendTitle": "Send Funds",
+    "accountSendTitle": "Send QUBIC",
     "accountSendLabelDestinationAddress": "Destination Address",
     "accountSendLabelAmount": "Amount",
     "accountSendButtonMax": "Max",
@@ -271,14 +255,7 @@
     "accountSendSectionInvalidDestinationAddress": "Invalid destination address",
     "assetsLabelContractName": "Contract Name",
     "assetsLabelContractIndex": "Contract Index",
-    "assetsLabelTick": "Valid for tick {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "managed by",
     "assetsLabelCurrentBalance": "Balance in ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -298,7 +275,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "QX Issued Tokens",
+    "assetsLabelQXAssets": "Tokens",
     "createPasswordSheetHeader": "Please backup your password",
     "createPasswordSheetMessage": "There is no way to retrieve your password if you forget it. Please make sure you have a backup of your password before proceeding.",
     "createPasswordSheetCheckboxMessage": "Yes, I have backed up my password.",
@@ -413,7 +390,14 @@
     "addAccountErrorNameAlreadyInUse": "Name is already in use",
     "addAccountErrorPublicIDAlreadyInUse": "Public ID already in use",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Max accounts limit reached",
-    "addAccountDialogMessageMaxNumberOfAccountsReached": "You can only have up to 15 Qubic Accounts in your wallet. If you need to add another one, please remove one of the existing ones.",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "You can only have up to {maxAccounts} Qubic Accounts in your wallet. If you need to add another one, please remove one of the existing ones.",
+    "@addAccountDialogMessageMaxNumberOfAccountsReached": {
+        "placeholders": {
+            "maxAccounts": {
+                "type": "int"
+            }
+        }
+    },
     "addAccountButtonCreateRandom": "Create Random",
     "addAccountLabelPrivateSeed": "Private Seed",
     "addAccountLabelAccountName": "Account Name",
@@ -434,8 +418,7 @@
     "addAccountWatchOnlyHintQubicAddress": "Enter a Qubic Address",
     "addAccountCreateNewAccountModalBottomSheet": "Create New Account",
     "addAccountWatchOnlyAddressModalBottomSheet": "Watch Only Account",
-    "sendAssetLabelTransactionCost": "Fee (fixed)",
-    "sendAssetButtonTransfer": "Transfer",
+    "sendAssetButtonTransfer": "Send",
     "sendAssetErrorTickIsInThePast": "Provided tick is in the past. Current tick is {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -459,7 +442,6 @@
     "reauthenticateTitle": "Authentication Required",
     "reauthenticateHeader": "Please reauthenticate",
     "reathenticateLabelReason": "Please authenticate again in order to proceed.",
-    "reathenticateWithPasswordLabelReason": "Please authenticate again in order to proceed. The password you provide will be the one used to encrypt your vault wallet.",
     "receiveTitle": "Receive Funds and Assets",
     "receiveHeader": "in \"{accountName}\"",
     "@receiveHeader": {
@@ -492,14 +474,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Select Address",
     "sendItemLabelSelectSenderAddressLineTwo": "from your Wallet Accounts",
-    "sendItemLabelCurrentTick": "(Current Tick: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Export Wallet Vault File",
     "exportWalletVaultLabelInstructions": "Export the contents of this wallet in an encrypted vault file as a backup. This file can be imported in the web wallet and can only be unlocked with the provided password. Always keep this file in a safe place.",
     "exportWalletVaultButtonExport": "Export",
@@ -533,16 +507,8 @@
     "transfersListLabelReceiveIn": "Receive in",
     "transfersListLabelSharePublicIdInstructionsOne": "Please share the following Public ID with the sender:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Or show the following QR Code",
-    "transferAssetHeaderForShares": "Transfer {assetName} shares",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Transfer {assetName} tokens",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Send {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -557,8 +523,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "{assetName} shares owned by ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Asset balance in ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -568,17 +534,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "{assetName} tokens owned by ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Only assets managed by Qx can be transferred",
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nType: {type}\nStatus: {status}\nTimestamp: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
@@ -635,7 +591,14 @@
     "autolockLabelDurationImmediately": "Immediately",
     "settingsLabelAutlock": "Auto-Lock",
     "importVaultDialogTitleTooManyAccounts": "Too many accounts found",
-    "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than 15 accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having 15 or less.",
+    "importVaultDialogMessageTooManyAccounts": "Your vault file contains more than {maxAccounts} accounts. All the accounts will be imported, but in order to view your balances and send funds, please delete some until having {maxAccounts} or less.",
+    "@importVaultDialogMessageTooManyAccounts": {
+        "placeholders": {
+            "maxAccounts": {
+                "type": "int"
+            }
+        }
+    },
     "importVaultErrorNoAccountsFound": "No accounts found in your vault file. We can't proceed with the import.",
     "importVaultFilePickerLabel": "Please select a vault file to continue:",
     "importVaultFileErrorGeneralMessage": "Error importing vault file: {errorDescription}",
@@ -732,7 +695,14 @@
     },
     "generalErrorFileRequired": "Please select a file",
     "generalErrorPathRequired": "Please select a path",
-    "homeWarningTooManyAccounts": "You have more than 15 accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have 15 or fewer.",
+    "homeWarningTooManyAccounts": "You have more than {maxAccounts} accounts in your wallet. You will not be able to transfer funds or view balances until you remove some so that you have {maxAccounts} or fewer.",
+    "@homeWarningTooManyAccounts": {
+        "placeholders": {
+            "maxAccounts": {
+                "type": "int"
+            }
+        }
+    },
     "cmdErrorVerifyingIdentityGeneric": "Error verifying the identity.",
     "cmdErrorVerifyingIdentity": "Cannot verify your identity: {errorDescription}",
     "@cmdErrorVerifyingIdentity": {
@@ -788,10 +758,7 @@
     "wcExpiresInDays": "{count, plural, =1{Session expires in 1 day} other{Session expires in {count} days}}",
     "wcExpiresInLessThanDay": "Session expires less than day",
     "pasteURLHere": "Paste URL",
-    "approvingConnection": "Approving connection",
-    "pleaseWait": "Please wait",
     "wcApproveSignTransferOf": "Sign the transfer of",
-    "wcApproveTransferOf": "Transfer of",
     "wcApproveSignOf": "Sign the following message",
     "wcApprovedSignedTransaction": "Signed transaction and successfully sent to dApp",
     "wcApprovedSignedMessage": "Signed message and successfully sent to dApp",
@@ -852,7 +819,8 @@
     "wcSignTransaction": "Sign Transaction",
     "dAppOpenButton": "Open",
     "dAppFeaturedApp": "Featured App",
-    "dAppPopularApps": "Popular dApps",
+    "dAppPopularApps": "Discover dApps",
+    "dAppQubicApps": "Qubic Apps",
     "assetButtonIssuerIdentity": "Issuer Identity",
     "networksTitle": "Networks",
     "networksButtonAddNetwork": "Add Network",
@@ -905,5 +873,83 @@
     "accountSortByLabel": "Sort by",
     "accountSortModeName": "Name (A-Z)",
     "accountSortModeBalance": "Balance (High → Low)",
-    "accountSortModeCreation": "Creation (Oldest → Newest)"
+    "accountSortModeCreation": "Creation (Oldest → Newest)",
+    "releaseTransferRightsMenuOption": "Transfer Rights",
+    "releaseTransferRightsTitle": "Transfer Management Rights",
+    "releaseTransferRightsLabelSourceContract": "From Smart Contract",
+    "releaseTransferRightsLabelAvailableAmount": "Available: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "description": "Label showing available units in selected source contract",
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "description": "Dropdown option format for source contract selection",
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "addToFavorites": "Add Favorite",
+    "favoriteNameLabel": "Name",
+    "favoriteNameHint": "Enter a name",
+    "favoriteNameRequired": "Name is required",
+    "favoriteNameTooLong": "Name must be 50 characters or less",
+    "favoriteNameAlreadyInUse": "This name is already in use",
+    "favoriteUrlLabel": "Url",
+    "favoriteUrlHint": "https://example.com",
+    "favoriteUrlRequired": "URL is required",
+    "favoriteUrlInvalid": "Please enter a valid URL",
+    "favoriteAddedSuccessfully": "Added to favorites",
+    "favoritesTitle": "Favorites",
+    "favoritesEmpty": "No favorites yet",
+    "favoritesEmptyDescription": "Add your favorite dApps for quick access",
+    "favoriteRemoved": "Removed from favorites",
+    "removeFavorite": "Remove Favorite",
+    "webviewAddressBarLabelOpenInBrowser": "Open in Browser",
+    "dAppSearchPlaceholder": "Search or enter dApp URL",
+    "dAppSearchInGoogle": "Search in Google",
+    "generalLabelNoResults": "No results found",
+    "generalLabelTermsOfService": "Terms of Service",
+    "dAppSearchEmptyState": "Let's discover something! Start typing to begin",
+    "generalButtonContinue": "Continue",
+    "dAppExternalUrlWarningTitle": "Security Warning",
+    "dAppExternalUrlWarningMessage": "You are about to open a third-party dApp. \"Qubic Wallet\" makes no endorsement, warranty, or guarantee regarding the legality, security, performance, or functionality of any third-party applications developed by Qubic ecosystem contributors.\n\nRead each approval request carefully so you understand exactly what you are allowing. Using a dApp can involve financial risk.\n\n\"Qubic Wallet\" is not responsible for any losses or issues that result from using this dApp.\n\nFor more information, see our Terms of Service.",
+    "dAppExternalUrlWarningDoNotRemind": "Don't remind me again",
+    "webviewErrorCannotLoad": "We couldn't load that page",
+    "webviewErrorInsecureConnection": "This page cannot be loaded because it uses an insecure connection (HTTP). Only secure connections (HTTPS) are allowed.",
+    "webviewErrorGeneric": "Failed to load page: {error}",
+    "@webviewErrorGeneric": {
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Amount",
+    "releaseTransferRightsLabelDestinationContract": "To Smart Contract",
+    "releaseTransferRightsButtonSubmit": "Transfer",
+    "releaseTransferRightsErrorNoSourceContract": "Please select a source contract",
+    "releaseTransferRightsErrorNoDestinationContract": "Please select a destination contract",
+    "releaseTransferRightsErrorSameContract": "Source and destination contracts must be different",
+    "releaseTransferRightsErrorInvalidContract": "Invalid contract configuration",
+    "webviewErrorHttp": "HTTP Error {code}",
+    "@webviewErrorHttp": {
+        "placeholders": {
+            "code": {
+                "type": "String"
+            }
+        }
+    }
 }
