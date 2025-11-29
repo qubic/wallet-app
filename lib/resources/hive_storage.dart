@@ -8,7 +8,6 @@ import 'package:qubic_wallet/helpers/dapp_helpers.dart';
 import 'package:qubic_wallet/models/favorite_dapp.dart';
 import 'package:qubic_wallet/models/network_model.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
-import 'package:qubic_wallet/models/network_model.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
