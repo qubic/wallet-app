@@ -182,14 +182,4 @@ class QubicCmd {
       return await qubicCmdUtils.signUTF8(seed, utf8Text);
     }
   }
-
-  Future<List<int>> publicKeyStringToBytes(String publicKeyString) async {
-    if (useJs) {
-      return await qubicJs.publicKeyStringToBytes(publicKeyString);
-    } else {
-      return await qubicJs.publicKeyStringToBytes(publicKeyString);
-
-      //return await qubicCmdUtils.publicKeyStringToBytes(publicKeyString);
-    }
-  }
 }

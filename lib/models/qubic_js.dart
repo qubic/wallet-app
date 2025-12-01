@@ -35,7 +35,4 @@ abstract class QubicJSFunctions {
   static const parseAssetTransferPayload = "parseAssetTransferPayload";
   // Parse QUtil SendMany transfer payload
   static const parseTransferSendManyPayload = "parseTransferSendManyPayload";
-
-  // Qubic identity conversion function
-  static const String publicKeyStringToBytes = 'publicKeyStringToBytes';
 }

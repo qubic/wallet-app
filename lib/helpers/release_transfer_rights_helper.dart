@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
 
 /// Helper class for serializing Release Transfer Rights transaction input
@@ -16,7 +14,7 @@ import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
 /// ```
 ///
 /// Input Structure (52 bytes total):
-/// 1. Asset issuer (32 bytes): Identity address converted to bytes using base-26 encoding
+/// 1. Asset issuer (32 bytes): Identity address converted to bytes using native Dart base-26 encoding
 /// 2. Asset name (8 bytes): Uppercase ASCII, null-padded
 /// 3. Number of shares (8 bytes): Signed 64-bit integer, little-endian
 /// 4. New managing contract index (4 bytes): Unsigned 32-bit integer, little-endian
@@ -39,17 +37,16 @@ class ReleaseTransferRightsHelper {
   }) async {
     // Validate inputs
     if (numberOfShares <= 0) {
-      throw ArgumentError('numberOfShares must be positive, got: $numberOfShares');
+      throw ArgumentError(
+          'numberOfShares must be positive, got: $numberOfShares');
     }
 
     final buffer = ByteData(ReleaseTransferRightsInfo.inputStructureSize);
     int offset = 0;
 
     // 1. Issuer Identity
-    // Convert 60-character identity to bytes using ts-library-wrapper
-    final qubicCmd = getIt<QubicCmd>();
-    final issuerBytesList =
-        await qubicCmd.qubicJs.publicKeyStringToBytes(issuerIdentity);
+    // Convert 60-character identity to bytes using base-26 encoding
+    final issuerBytesList = _publicKeyStringToBytes(issuerIdentity);
     final issuerBytes = Uint8List.fromList(issuerBytesList);
 
     if (issuerBytes.length != ReleaseTransferRightsInfo.issuerIdentitySize) {
@@ -82,5 +79,41 @@ class ReleaseTransferRightsHelper {
     // Convert to base64 string
     final bytes = buffer.buffer.asUint8List();
     return base64Encode(bytes);
+  }
+
+  /// Converts a 60-character Qubic public ID (base-26 A-Z) to 32 bytes
+  /// This is a pure Dart implementation based on the Qubic base-26 encoding algorithm
+  static List<int> _publicKeyStringToBytes(String publicKeyString) {
+    // Validate input
+    if (publicKeyString.length != 60) {
+      throw ArgumentError(
+          'Public key must be exactly 60 characters, got: ${publicKeyString.length}');
+    }
+
+    final upperKey = publicKeyString.toUpperCase();
+
+    // Create a 32-byte buffer
+    final publicKeyBytes = Uint8List(32);
+    final byteData = ByteData.view(publicKeyBytes.buffer);
+
+    // Process in 4 groups of 14 characters each (4 * 14 = 56 characters used)
+    // Based on the Qubic base-26 encoding algorithm
+    for (int i = 0; i < 4; i++) {
+      // Initialize the 8-byte section to 0
+      byteData.setUint64(i * 8, 0, Endian.little);
+
+      // Process 14 characters for this section (in reverse order)
+      for (int j = 13; j >= 0; j--) {
+        final charCode = upperKey.codeUnitAt(i * 14 + j);
+        final charValue = charCode - 'A'.codeUnitAt(0);
+
+        // Get current value, multiply by 26, add character value
+        final currentValue = byteData.getUint64(i * 8, Endian.little);
+        final newValue = currentValue * 26 + charValue;
+        byteData.setUint64(i * 8, newValue, Endian.little);
+      }
+    }
+
+    return publicKeyBytes.toList();
   }
 }

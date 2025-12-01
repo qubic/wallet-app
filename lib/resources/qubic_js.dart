@@ -2,9 +2,9 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter/services.dart' show Uint8List;
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
@@ -403,31 +403,5 @@ class QubicJs {
     }
 
     return seeds;
-  }
-
-  Future<List<int>> publicKeyStringToBytes(String publicKeyString) async {
-    try {
-      CallAsyncJavaScriptResult? result = await runFunction(
-          QubicJSFunctions.publicKeyStringToBytes, [publicKeyString]);
-
-      if (result == null) {
-        throw Exception('Failed to convert public key string to bytes');
-      }
-      if (result.error != null) {
-        throw Exception('Error converting public key: ${result.error}');
-      }
-
-      final Map<String, dynamic> data = json.decode(result.value);
-
-      if (data['status'] == 'error') {
-        throw Exception(data['error'] ?? 'Unknown error occurred');
-      }
-
-      // Return the bytes as a List<int>
-      return List<int>.from(data['bytes']);
-    } catch (e) {
-      appLogger.e('Error converting public key string to bytes: $e');
-      rethrow;
-    }
   }
 }
