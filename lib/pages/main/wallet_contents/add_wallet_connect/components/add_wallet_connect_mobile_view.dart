@@ -75,7 +75,6 @@ class _AddWalletConnectMobileViewState
                     facing: CameraFacing.back,
                     torchEnabled: false,
                   ),
-                  scanWindow: scanWindow,
                   onDetect: widget.onDetect,
                   errorBuilder: (context, error, child) {
                     return Material(
