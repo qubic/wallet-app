@@ -132,6 +132,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     _setupWalletConnect();
+    applicationStore.initStoredAccountsIfAbsent();
     getIt<NetworkStore>().initNetworks();
     applicationStore.initStoredTransactions();
 
