@@ -137,6 +137,8 @@ class _SignInState extends State<SignIn>
                           ),
                         )));
               }),
+              desktopSnackBarPosition: DesktopSnackBarPosition.topCenter,
+              mobileSnackBarPosition: MobileSnackBarPosition.top,
               snackBarStrategy: RemoveSnackBarStrategy());
           errorBar.show(context);
           applicationStore.clearGlobalError();
@@ -169,6 +171,8 @@ class _SignInState extends State<SignIn>
                           ),
                         )));
               }),
+              desktopSnackBarPosition: DesktopSnackBarPosition.topCenter,
+              mobileSnackBarPosition: MobileSnackBarPosition.top,
               snackBarStrategy: RemoveSnackBarStrategy());
           notificationBar.show(context);
         }
