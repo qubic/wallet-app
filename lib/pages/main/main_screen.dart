@@ -157,12 +157,15 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         if (error != "") {
           //Error overriding for more than max accounts in wallet
           if (error == "Failed to perform action. Server returned status 400") {
-            if (applicationStore.currentQubicIDs.length > Config.maxAccountsInWallet) {
+            if (applicationStore.currentQubicIDs.length >
+                Config.maxAccountsInWallet) {
               return;
             }
           }
 
           errorBar = AnimatedSnackBar(
+              desktopSnackBarPosition: DesktopSnackBarPosition.topCenter,
+              mobileSnackBarPosition: MobileSnackBarPosition.top,
               builder: ((context) {
                 return Ink(
                     decoration: BoxDecoration(
@@ -197,6 +200,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
 
         if (notification != "") {
           notificationBar = AnimatedSnackBar(
+              desktopSnackBarPosition: DesktopSnackBarPosition.topCenter,
+              mobileSnackBarPosition: MobileSnackBarPosition.top,
               builder: ((context) {
                 return Ink(
                     decoration: BoxDecoration(
