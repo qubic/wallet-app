@@ -381,20 +381,14 @@ class _SignInState extends State<SignIn>
             })));
   }
 
-  //Gets the version info
   Widget getVersionInfo() {
-    if (timesPressed < 5) {
-      return Container();
-    }
     return Observer(builder: (BuildContext context) {
       if (_settingsStore.versionInfo == null) {
         return Container();
       }
-      return Text(
-          "${_settingsStore.versionInfo} (${_settingsStore.buildNumber})",
-          textAlign: TextAlign.center,
+      return Text("v${_settingsStore.versionInfo} (${_settingsStore.buildNumber})",
           style: TextStyles.labelTextSmall
-              .copyWith(color: LightThemeColors.color3));
+              .copyWith(color: LightThemeColors.color3.withValues(alpha: 0.4)));
     });
   }
 
@@ -656,7 +650,7 @@ class _SignInState extends State<SignIn>
                 },
               ),
               Positioned(
-                  bottom: 2,
+                  bottom: ThemePaddings.smallPadding,
                   right: ThemePaddings.bigPadding,
                   child: isKeyboardVisible ? Container() : getVersionInfo())
             ],
