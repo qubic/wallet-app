@@ -5,7 +5,6 @@
     "generalLabelNo": "Non",
     "generalButtonConfirm": "Confirmer",
     "generalButtonDelete": "Supprimer",
-    "generalButtonAdd": "Ajouter",
     "generalButtonCopy": "Copier",
     "generalButtonRename": "Renommer",
     "generalButtonSave": "Enregistrer",
@@ -18,7 +17,6 @@
     "generalButtonApply": "Appliquer",
     "generalButtonEraseWalletData": "Effacer les données du portefeuille",
     "generalButtonClearAll": "Tout effacer",
-    "generalButtonShowAll": "Tout afficher",
     "generalButtonUseQRCode": "Utiliser le QR Code",
     "generalButtonCopyAddress": "Copier l'adresse",
     "generalLabelHidden": "******",
@@ -26,9 +24,6 @@
     "generalLabelCurrencyQubic": "QUBIC",
     "generalLabelCurrencyUSD": "USD",
     "generalLabelTick": "Tick",
-    "generalLabelInfo": "Info",
-    "generalLabelDate": "Date",
-    "generalLabelID": "ID",
     "generalLabelAccount": "Compte {accountNumber}",
     "@generalLabelAccount": {
         "placeholders": {
@@ -44,14 +39,6 @@
     "generalLabelTo": "À",
     "generalLabeQubicAddress": "Adresse Qubic",
     "generalLabeQubicAddressAndPublicID": "Adresse Qubic (ID public)",
-    "generalLabelQubicAddressWithAccountName": "Adresse Qubic {accountName}",
-    "@generalLabelQubicAddressWithAccountName": {
-        "placeholders": {
-            "accountName": {
-                "type": "String"
-            }
-        }
-    },
     "generalLabelToFromAccount": "Compte portefeuille {toFrom} \"{accountName}\"",
     "@generalLabelToFromAccount": {
         "placeholders": {
@@ -76,8 +63,6 @@
     "generalLabelNotAvailable": "N/A",
     "generalUnitTokens": "{count, plural, =1{Token} other{Tokens}}",
     "generalUnitShares": "{count, plural, =1{Part} other{Parts}}",
-    "generalLabelEnabled": "Activé",
-    "generalLabelDisabled": "Désactivé",
     "generalLabelUSDQubicConversion": "USD / QUBIC",
     "generalLabelError": "Une erreur s'est produite",
     "generalSnackBarMessageCopiedToClipboard": "Copié dans le presse-papiers",
@@ -169,7 +154,6 @@
     "settingsLabelExportWalletVaultFile": "Exporter le Fichier Vault du Portefeuille",
     "settingsHeaderAbout": "À Propos",
     "settingsLabelJoinCommunity": "Rejoindre la Communauté",
-    "settingsLabelWalletInfo": "Infos sur le Portefeuille",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
     "generalBiometricTypeIris": "Iris",
@@ -243,14 +227,7 @@
     "accountSendSectionAdvanceOptionsTitle": "Options avancées",
     "assetsLabelContractName": "Nom du contrat",
     "assetsLabelContractIndex": "Index du contrat",
-    "assetsLabelTick": "Valide pour le tick {tick}",
-    "@assetsLabelTick": {
-        "placeholders": {
-            "tick": {
-                "type": "String"
-            }
-        }
-    },
+    "assetsManagedBy": "géré par",
     "assetsLabelCurrentBalance": "Solde en ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -270,7 +247,7 @@
             }
         }
     },
-    "assetsLabelQXAssets": "Tokens Émis QX",
+    "assetsLabelQXAssets": "Tokens",
     "createPasswordSheetHeader": "Veuillez sauvegarder votre mot de passe",
     "createPasswordSheetMessage": "Il n'y a aucun moyen de récupérer votre mot de passe si vous l'oubliez. Veuillez vous assurer d'avoir une sauvegarde de votre mot de passe avant de continuer.",
     "createPasswordSheetCheckboxMessage": "Oui, j'ai sauvegardé mon mot de passe.",
@@ -416,7 +393,6 @@
     "reauthenticateTitle": "Authentification Requise",
     "reauthenticateHeader": "Veuillez vous réauthentifier",
     "reathenticateLabelReason": "Veuillez vous authentifier à nouveau pour continuer.",
-    "reathenticateWithPasswordLabelReason": "Veuillez vous authentifier à nouveau pour continuer. Le mot de passe que vous fournissez sera celui utilisé pour chiffrer votre fichier vault de portefeuille.",
     "receiveTitle": "Recevoir des Fonds et des Actifs",
     "receiveHeader": "dans \"{accountName}\"",
     "@receiveHeader": {
@@ -449,14 +425,6 @@
     },
     "sendItemLabelSelectSenderAddressLineOne": "Sélectionner l'Adresse",
     "sendItemLabelSelectSenderAddressLineTwo": "de vos Comptes Portefeuille",
-    "sendItemLabelCurrentTick": "(Tick Actuel: {currentTickFormatted})",
-    "@sendItemLabelCurrentTick": {
-        "placeholders": {
-            "currentTickFormatted": {
-                "type": "String"
-            }
-        }
-    },
     "exportWalletVaultTitle": "Exporter le Fichier Vault du Portefeuille",
     "exportWalletVaultLabelInstructions": "Exportez le contenu de ce portefeuille dans un fichier vault chiffré comme sauvegarde. Ce fichier peut être importé dans le portefeuille web et ne peut être déverrouillé qu'avec le mot de passe fourni. Gardez toujours ce fichier en lieu sûr.",
     "exportWalletVaultButtonExport": "Exporter",
@@ -490,16 +458,8 @@
     "transfersListLabelReceiveIn": "Recevoir dans",
     "transfersListLabelSharePublicIdInstructionsOne": "Veuillez partager l'ID Public suivant avec l'expéditeur :",
     "transfersListLabelSharePublicIdInstructionsTwo": "Ou montrez le QR Code suivant",
-    "transferAssetHeaderForShares": "Transférer des parts {assetName}",
-    "@transferAssetHeaderForShares": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            }
-        }
-    },
-    "transferAssetHeaderForTokens": "Transférer des Tokens {assetName}",
-    "@transferAssetHeaderForTokens": {
+    "transferAssetHeader": "Transférer {assetName}",
+    "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -514,8 +474,8 @@
             }
         }
     },
-    "transferAssetLabelOwnedShares": "Parts {assetName} détenues par l'ID: {formattedAmount}",
-    "@transferAssetLabelOwnedShares": {
+    "transferAssetLabelOwned": "Solde d'actifs en ID: {formattedAmount} {assetName}",
+    "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
                 "type": "String"
@@ -525,17 +485,7 @@
             }
         }
     },
-    "transferAssetLabelOwnedTokens": "Tokens {assetName} détenus par l'ID: {formattedAmount}",
-    "@transferAssetLabelOwnedTokens": {
-        "placeholders": {
-            "assetName": {
-                "type": "String"
-            },
-            "formattedAmount": {
-                "type": "String"
-            }
-        }
-    },
+    "transferAssetNoticeQxOnly": "* Seuls les actifs gérés par Qx peuvent être transférés",
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestinataire: {destId}\nMontant: {amount}\nType: {type}\nStatut: {status}\nHorodatage: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Importer un Portefeuille Existant",
     "importWalletTitle": "Importer Votre Portefeuille",
@@ -717,10 +667,7 @@
     "wcExpiresInDays": "{count, plural, =1{La session expire dans 1 jour} other{La session expire dans {count} jours}}",
     "wcExpiresInLessThanDay": "La session expire dans moins d'un jour",
     "pasteURLHere": "Collez l'URL",
-    "approvingConnection": "Approbation de la connexion",
-    "pleaseWait": "Veuillez patienter",
     "wcApproveSignTransferOf": "Signer le transfert de",
-    "wcApproveTransferOf": "Transfert de",
     "wcApproveSignOf": "Signer le message suivant",
     "wcApprovedSignedTransaction": "Transaction signée et envoyée avec succès à la dApp",
     "wcApprovedSignedMessage": "Message signé et envoyé avec succès à la dApp",
@@ -803,12 +750,13 @@
     "generalLabelMultipleReceivers": "Destinataires multiples",
     "qxTransferSharesWarning": "Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur.",
     "settingsSupportGoogleForm": "Remplir le formulaire",
-    "appTabExplore": "Explorer",
+    "appTabExplore": "Découvrir",
     "storedTransfersLabel": "Voir les transactions incomplètes",
     "transactionsCount": "{count, plural, =1{1 transaction} other{Affichage de {count} transactions}}",
     "dAppOpenButton": "Ouvrir",
     "dAppFeaturedApp": "Application en vedette",
-    "dAppPopularApps": "dApps populaires",
+    "dAppPopularApps": "Découvrir des dApps",
+    "dAppQubicApps": "Qubic Apps",
     "networksTitle": "Réseaux",
     "networksButtonAddNetwork": "Ajouter un réseau",
     "networksConfirmationDialogTitleDeleteNetwork": "Supprimer {networkName}?",
@@ -843,5 +791,35 @@
     "revealSeedCopiedToClipboardMessage": "La phrase secrète a été copiée temporairement (pendant 1 minute) dans le presse-papiers ",
     "revealSeedWarningTitle": "Ne partagez pas votre phrase secrète!",
     "revealSeedWarningDescription": "Si quelqu’un possède votre phrase secrète, il aura un contrôle total sur votre compte",
-    "blockedScreenshotWarning": "Capture protégée — cet écran reste privé."
+    "blockedScreenshotWarning": "Capture protégée — cet écran reste privé.",
+    "dAppSearchPlaceholder": "Rechercher ou saisir URL dApp",
+    "addToFavorites": "Ajouter aux favoris",
+    "favoriteNameLabel": "Nom",
+    "favoriteNameHint": "Entrez un nom",
+    "favoriteNameRequired": "Le nom est obligatoire",
+    "favoriteNameTooLong": "Le nom ne doit pas dépasser 50 caractères",
+    "favoriteNameAlreadyInUse": "Ce nom est déjà utilisé",
+    "favoriteUrlLabel": "Url",
+    "favoriteUrlHint": "https://example.com",
+    "favoriteUrlRequired": "L'URL est obligatoire",
+    "favoriteUrlInvalid": "Veuillez entrer une URL valide",
+    "favoriteAddedSuccessfully": "Ajouté aux favoris",
+    "favoritesTitle": "Favoris",
+    "favoritesEmpty": "Aucun favori pour le moment",
+    "favoritesEmptyDescription": "Ajoutez vos dApps préférées pour un accès rapide",
+    "favoriteRemoved": "Supprimé des favoris",
+    "removeFavorite": "Supprimer le favori",
+    "dAppSearchInGoogle": "Rechercher sur Google",
+    "generalLabelNoResults": "Aucun résultat trouvé",
+    "generalLabelTermsOfService": "Conditions d'utilisation",
+    "dAppSearchEmptyState": "Découvrons quelque chose ! Commencez à taper",
+    "webviewAddressBarLabelOpenInBrowser": "Ouvrir dans le navigateur",
+    "generalButtonContinue": "Continuer",
+    "dAppExternalUrlWarningTitle": "Avertissement de sécurité",
+    "dAppExternalUrlWarningMessage": "Vous êtes sur le point d'ouvrir une dApp tierce. \"Qubic Wallet\" n'offre aucun aval, garantie ou assurance concernant la légalité, la sécurité, les performances ou la fonctionnalité des applications tierces développées par les contributeurs de l'écosystème Qubic.\n\nLisez attentivement chaque demande d'approbation pour bien comprendre ce que vous autorisez. L'utilisation d'une dApp peut comporter des risques financiers.\n\n\"Qubic Wallet\" n'est pas responsable des pertes ou problèmes résultant de l'utilisation de cette dApp.\n\nPour plus d'informations, consultez nos Conditions d'utilisation.",
+    "dAppExternalUrlWarningDoNotRemind": "Ne plus me rappeler",
+    "webviewErrorCannotLoad": "Impossible de charger cette page",
+    "webviewErrorInsecureConnection": "Cette page ne peut pas être chargée car elle utilise une connexion non sécurisée (HTTP). Seules les connexions sécurisées (HTTPS) sont autorisées.",
+    "webviewErrorGeneric": "Échec du chargement de la page : {error}",
+    "webviewErrorHttp": "Erreur HTTP {code}"
 }

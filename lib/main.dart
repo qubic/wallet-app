@@ -16,7 +16,7 @@ import 'package:qubic_wallet/platform_specific_initialization.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/routes.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/dapp_store.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
@@ -71,11 +71,11 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.inactive && mounted) {
       setState(() {
         _isInBackground = true;
       });
-    } else if (state == AppLifecycleState.resumed) {
+    } else if (state == AppLifecycleState.resumed && mounted) {
       qubicCmd.reinitialize();
       getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded();
       setState(() {
@@ -91,7 +91,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded();
-      getIt<DappStore>().loadDapps();
+      getIt<WalletContentStore>().loadDapps();
     });
   }
 

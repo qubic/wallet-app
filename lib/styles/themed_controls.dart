@@ -146,12 +146,20 @@ class ThemedControls {
     return const SizedBox(width: ThemePaddings.smallPadding);
   }
 
+  static Widget spacerHorizontalMedium() {
+    return const SizedBox(width: ThemePaddings.mediumPadding);
+  }
+
   static Widget spacerHorizontalNull() {
     return const SizedBox(width: 0);
   }
 
   static Widget spacerHorizontalMini() {
     return const SizedBox(width: ThemePaddings.miniPadding);
+  }
+
+  static Widget spacerHorizontalTiny() {
+    return const SizedBox(width: ThemePaddings.tinyPadding);
   }
 
   static Widget spacerHorizontalHuge() {
@@ -174,8 +182,26 @@ class ThemedControls {
     return const SizedBox(height: ThemePaddings.smallPadding);
   }
 
+  static Widget spacerVerticalMedium() {
+    return const SizedBox(height: ThemePaddings.mediumPadding);
+  }
+
   static Widget spacerVerticalMini() {
     return const SizedBox(height: ThemePaddings.miniPadding);
+  }
+
+  static Widget spacerVerticalTiny() {
+    return const SizedBox(height: ThemePaddings.tinyPadding);
+  }
+
+  /// Standard navigation chevron icon used across the app
+  /// Used in list items, tiles, and navigation elements
+  static Widget get chevronIcon {
+    return const Icon(
+      Icons.arrow_forward_ios_outlined,
+      size: 14,
+      color: LightThemeColors.textLightGrey,
+    );
   }
 
   static Widget pageHeader({
