@@ -46,8 +46,15 @@ class QubicJs {
     );
 
     await InAppWebView!.run();
+
+    // Wait for controller to be set
     while (controller == null) {
       sleep(const Duration(milliseconds: 100));
+    }
+
+    // Wait for WebView to fully load (isReady flag)
+    while (!isReady) {
+      await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 
@@ -85,6 +92,21 @@ class QubicJs {
   Future<CallAsyncJavaScriptResult?> runFunction(
       String functionName, List<String> parameters) async {
     await initialize();
+
+    // Double-check that WebView is ready before executing
+    if (!isReady) {
+      appLogger.w("QubicJS: WebView not ready, waiting...");
+      int waitAttempts = 0;
+      while (!isReady && waitAttempts < 50) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        waitAttempts++;
+      }
+      if (!isReady) {
+        throw Exception('WebView failed to become ready after 5 seconds');
+      }
+      appLogger.d("QubicJS: WebView is now ready");
+    }
+
     parameters = parameters.map((e) => e.replaceAll("'", "\\'")).toList();
     String functionBody =
         "await window.runBrowser('$functionName', '${parameters.join("','")}')";
@@ -423,7 +445,6 @@ class QubicJs {
         throw Exception(data['error'] ?? 'Unknown error occurred');
       }
 
-      // Return the bytes as a List<int>
       return List<int>.from(data['bytes']);
     } catch (e) {
       appLogger.e('Error converting public key string to bytes: $e');
