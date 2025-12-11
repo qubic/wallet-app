@@ -65,7 +65,6 @@ class _SignInState extends State<SignIn>
   double formOpacity = 1;
   bool isKeyboardVisible = false;
   bool obscuringText = true; //Hide password or not
-  int timesPressed = 0; //Number of times logo has been clicked
   BiometricType? biometricType; //The type of biometric available
 
   void _setAuthError(String? error) {
@@ -420,25 +419,11 @@ class _SignInState extends State<SignIn>
     });
   }
 
-  //Gets the logo (tappable to show version info)
   Widget getLogo() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-            child: GestureDetector(
-                onDoubleTap: () {
-                  setState(() {
-                    timesPressed++;
-                  });
-                },
-                onTap: () {
-                  setState(() {
-                    timesPressed++;
-                  });
-                },
-                child: const Image(
-                    image: AssetImage('assets/images/blue-logo.png')))),
+        const Image(image: AssetImage('assets/images/blue-logo.png')),
         ConstrainedBox(
             constraints: const BoxConstraints(
               minHeight: 12.0,
@@ -650,7 +635,8 @@ class _SignInState extends State<SignIn>
                 },
               ),
               Positioned(
-                  bottom: ThemePaddings.smallPadding,
+                  bottom: ThemePaddings.smallPadding +
+                      MediaQuery.of(context).padding.bottom,
                   right: ThemePaddings.bigPadding,
                   child: isKeyboardVisible ? Container() : getVersionInfo())
             ],
