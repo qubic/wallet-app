@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:collection/collection.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/dapp_helpers.dart';
@@ -9,11 +10,13 @@ import 'package:qubic_wallet/models/network_model.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
+import 'package:qubic_wallet/stores/application_store.dart';
 
 enum HiveBoxesNames {
   storedTransactions,
   storedNetworks,
   currentNetworkName,
+  accountsSortingMode,
   favoriteDapps,
   externalUrlWarningPreference,
 }
@@ -26,6 +29,8 @@ class HiveStorage {
   late Box<FavoriteDappModel> _favoriteDapps;
   late Box<bool> _externalUrlWarningBox;
   final currentNetworkKey = "current_network";
+  late Box<String> _accountsSortingMode;
+  final accountsSortingKey = "accounts_sorting_mode";
   final externalUrlWarningKey = "external_url_warning_dismissed";
   late HiveAesCipher _encryptionCipher;
 
@@ -44,6 +49,7 @@ class HiveStorage {
       await openTransactionsBox();
       await openNetworksBox();
       await openCurrentNetworkBox();
+      await openAccountsSortingModeBox();
       await openFavoriteDappsBox();
       await openExternalUrlWarningBox();
     } catch (e) {
@@ -104,6 +110,12 @@ class HiveStorage {
     appLogger.d('[HiveStorage] Current network box opened.');
   }
 
+  Future<void> openAccountsSortingModeBox() async {
+    _accountsSortingMode = await Hive.openBox<String>(
+        HiveBoxesNames.accountsSortingMode.name,
+        encryptionCipher: _encryptionCipher);
+  }
+
   Future<void> openFavoriteDappsBox() async {
     _favoriteDapps = await Hive.openBox<FavoriteDappModel>(
       HiveBoxesNames.favoriteDapps.name,
@@ -157,13 +169,26 @@ class HiveStorage {
     return _currentNetworkBox.get(currentNetworkKey);
   }
 
+  void setAccountsSortingMode(AccountSortMode mode) {
+    _accountsSortingMode.put(accountsSortingKey, mode.name);
+  }
+
+  AccountSortMode? getAccountsSortingMode() {
+    final mode = _accountsSortingMode.get(accountsSortingKey);
+    if (mode != null) {
+      return AccountSortMode.values.firstWhereOrNull((e) => e.name == mode);
+    }
+    return null;
+  }
+
   // External URL warning preference methods
   bool getExternalUrlWarningDismissed() {
     return _externalUrlWarningBox.get(externalUrlWarningKey) ?? false;
   }
 
   void setExternalUrlWarningDismissed(bool dismissed) {
-    appLogger.d('[HiveStorage] Setting external URL warning dismissed: $dismissed');
+    appLogger
+        .d('[HiveStorage] Setting external URL warning dismissed: $dismissed');
     _externalUrlWarningBox.put(externalUrlWarningKey, dismissed);
   }
 
@@ -194,8 +219,8 @@ class HiveStorage {
   }
 
   List<FavoriteDappModel> getFavoriteDapps() {
-    appLogger.d(
-        '[HiveStorage] Getting favorite dApps (${_favoriteDapps.length})');
+    appLogger
+        .d('[HiveStorage] Getting favorite dApps (${_favoriteDapps.length})');
     final favorites = _favoriteDapps.values.toList();
     // Sort by createdAt to show in the order they were added
     favorites.sort((a, b) => a.createdAt.compareTo(b.createdAt));
@@ -204,7 +229,8 @@ class HiveStorage {
 
   bool isFavorite(String url) {
     final normalizedUrl = normalizeUrl(url);
-    appLogger.d('[HiveStorage] Checking if favorite - Original: $url, Normalized: $normalizedUrl');
+    appLogger.d(
+        '[HiveStorage] Checking if favorite - Original: $url, Normalized: $normalizedUrl');
 
     final isFav = _favoriteDapps.containsKey(normalizedUrl);
     appLogger.d('[HiveStorage] Is favorite: $isFav');
@@ -221,6 +247,8 @@ class HiveStorage {
     await _currentNetworkBox.clear();
     _currentNetworkBox.close();
 
+    await _accountsSortingMode.clear();
+    _accountsSortingMode.close();
     await _favoriteDapps.clear();
     _favoriteDapps.close();
 

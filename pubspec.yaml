@@ -78,6 +78,7 @@ dependencies:
   no_screenshot: ^0.3.1
   upgrader: ^12.1.0
   version: ^3.0.0
+  implicitly_animated_list: ^2.3.0
   cached_network_image: ^3.4.1
 
 dev_dependencies:
