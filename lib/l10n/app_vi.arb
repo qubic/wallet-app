@@ -180,6 +180,8 @@
     "settingsLabelWalletConnect": "WalletConnect",
     "settingsSupportGithub": "GitHub (Báo cáo sự cố)",
     "settingsSupportDiscord": "Discord (Kênh hỗ trợ)",
+    "settingsSupportWarningTitle": "Cảnh giác với kẻ lừa đảo",
+    "settingsSupportWarningDescription": "Chúng tôi không cung cấp hỗ trợ trực tiếp. Chúng tôi sẽ không bao giờ yêu cầu seed riêng tư, chia sẻ màn hình hoặc cài đặt ứng dụng hỗ trợ từ xa. Hãy cẩn thận với những kẻ mạo danh trên Discord, GitHub hoặc bất kỳ nền tảng nào khác.",
     "settingsSupportGoogleForm": "Điền biểu mẫu",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",

@@ -739,6 +739,8 @@
     "settingsLabelSupport": "Soporte",
     "settingsSupportGithub": "GitHub (Reportar un problema)",
     "settingsSupportDiscord": "Discord (Canal de soporte)",
+    "settingsSupportWarningTitle": "Cuidado con los estafadores",
+    "settingsSupportWarningDescription": "No ofrecemos soporte en vivo. Nunca le pediremos su semilla privada, compartir pantalla ni instalar aplicaciones de soporte remoto. Tenga cuidado con los impostores en Discord, GitHub u otras plataformas.",
     "generalLabelFee": "Tarifa",
     "generalLabelMultipleReceivers": "Múltiples destinatarios",
     "qxTransferSharesWarning": "Este registro de transacción es actualmente visible solo para el remitente.",

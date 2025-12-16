@@ -745,6 +745,8 @@
     "settingsLabelSupport": "Support",
     "settingsSupportGithub": "GitHub (Signaler un problème)",
     "settingsSupportDiscord": "Discord (Canal de support)",
+    "settingsSupportWarningTitle": "Attention aux arnaqueurs",
+    "settingsSupportWarningDescription": "Nous n'offrons pas de support en direct. Nous ne vous demanderons jamais votre seed privé, de partager votre écran ou d'installer des applications de support à distance. Méfiez-vous des imposteurs sur Discord, GitHub ou toute autre plateforme.",
     "generalLabelFee": "Frais",
     "generalLabelMultipleReceivers": "Destinataires multiples",
     "qxTransferSharesWarning": "Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur.",

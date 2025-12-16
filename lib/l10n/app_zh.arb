@@ -740,6 +740,8 @@
     "settingsLabelSupport": "支援",
     "settingsSupportGithub": "GitHub（提交問題）",
     "settingsSupportDiscord": "Discord（支援頻道）",
+    "settingsSupportWarningTitle": "小心詐騙者",
+    "settingsSupportWarningDescription": "我們不提供即時支援。我們絕不會要求您提供私鑰、進行螢幕共享或安裝遠端支援應用程式。請小心 Discord、GitHub 或其他平台上的冒充者。",
     "generalLabelFee": "费用",
     "generalLabelMultipleReceivers": "多個接收者",
     "qxTransferSharesWarning": "此交易当前仅发送方可见，接收方暂时无法查看",
