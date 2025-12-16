@@ -38,6 +38,22 @@ abstract class WcErrors {
   static const qwUserUnavailable = -32001;
   static const qwTickBecameInPast = -32002;
   static const qwUnexpectedError = -32603;
+  // Error codes for debugging iOS WebView issues (#552)
+  static const qwWebViewNotReady = -32010;
+  static const qwWebViewControllerNull = -32011;
+  static const qwJsReturnedNull = -32012;
+  static const qwJsReturnedError = -32013;
+  static const qwJsonDecodeFailed = -32014;
+}
+
+/// Exception class that carries both error code and message for debugging
+class WcException implements Exception {
+  final int code;
+  final String message;
+  const WcException(this.code, this.message);
+
+  @override
+  String toString() => '[$code] $message';
 }
 
 typedef Validator = String? Function(dynamic value);
