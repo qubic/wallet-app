@@ -44,6 +44,7 @@ abstract class WcErrors {
   static const qwJsReturnedNull = -32012;
   static const qwJsReturnedError = -32013;
   static const qwJsonDecodeFailed = -32014;
+  static const qwWebViewExecutionFailed = -32015;
 }
 
 /// Exception class that carries both error code and message for debugging

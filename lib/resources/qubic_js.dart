@@ -120,7 +120,16 @@ class QubicJs {
         "await window.runBrowser('$functionName', '${parameters.join("','")}')";
 
     functionBody = "return JSON.stringify($functionBody);";
-    return await controller!.callAsyncJavaScript(functionBody: functionBody);
+
+    // Wrap JS execution to catch cases where controller exists but native WebView is dead
+    try {
+      return await controller!.callAsyncJavaScript(functionBody: functionBody);
+    } catch (e) {
+      // Controller is non-null but native WebView was killed by iOS
+      appLogger.e('WebView execution failed: $e');
+      throw WcException(WcErrors.qwWebViewExecutionFailed,
+          'WebView execution failed: ${e.runtimeType}');
+    }
   }
 
   Future<String> createAssetTransferTransaction(
