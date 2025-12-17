@@ -17,7 +17,7 @@ class GlobalSnackBar {
       scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
         elevation: 999,
         showCloseIcon: true,
-        duration: const Duration(seconds: 6),
+        duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
         content: Text(message),
       ));
@@ -38,14 +38,14 @@ class GlobalSnackBar {
       scaffoldMessengerKey.currentState?.showSnackBar(SnackBar(
         elevation: 999,
         showCloseIcon: true,
-        duration: const Duration(seconds: 6),
+        duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
         content: Text(error),
       ));
     } else {
       appStore.reportGlobalNotification("");
       appStore.reportGlobalError(error);
-      errorTimer = Timer(const Duration(seconds: 4), () {
+      errorTimer = Timer(const Duration(seconds: 2), () {
         appStore.reportGlobalError("");
       });
     }
