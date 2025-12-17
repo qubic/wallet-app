@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
+import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 
 class TransactionStatusHelpers {
   static IconData getTransactionStatusIcon(ComputedTransactionStatus status) {
@@ -51,8 +52,13 @@ class TransactionStatusHelpers {
     }
   }
 
-  static ComputedTransactionStatus getTransactionStatus(bool isPending,
-      int? inputType, int amount, bool moneyFlew, bool isInvalid) {
+  static ComputedTransactionStatus getTransactionStatus(
+      bool isPending,
+      int? inputType,
+      int amount,
+      bool moneyFlew,
+      bool isInvalid,
+      String? destId) {
     ComputedTransactionStatus result;
 
     if (isPending) {
@@ -60,12 +66,18 @@ class TransactionStatusHelpers {
     } else if (isInvalid) {
       result = ComputedTransactionStatus.invalid;
     } else {
-      if (inputType == 0 && amount > 0) {
-        // it's a "simple" transfer so we can say if worked or not
+      final isSendMany = QutilInfo.isSendToManyTransfer(destId, inputType);
+
+      if ((inputType == 0 && amount > 0) || isSendMany) {
+        // For simple transfers and SendMany transactions:
+        // The moneyFlew flag definitively tells us if the transfer succeeded
         result = moneyFlew
             ? ComputedTransactionStatus.success
             : ComputedTransactionStatus.failure;
       } else {
+        // For other smart contract calls or 0-amount transactions:
+        // We cannot determine success/failure from moneyFlew alone
+        // So we show "executed" to indicate the tx was processed by the network
         result = ComputedTransactionStatus.executed;
       }
     }

@@ -57,7 +57,7 @@ class TransactionVm {
 
   ComputedTransactionStatus getStatus() {
     return TransactionStatusHelpers.getTransactionStatus(
-        isPending, type, amount, moneyFlow, isInvalid);
+        isPending, type, amount, moneyFlow, isInvalid, destId);
   }
 
   String toReadableString(BuildContext context) {
