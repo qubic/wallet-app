@@ -97,8 +97,8 @@ class QubicJs {
 
     // Check if controller was killed by iOS
     if (controller == null) {
-      throw const AppException(WcErrors.qwWebViewControllerNull,
-          'WebView controller unavailable');
+      throw const AppException(
+          WcErrors.qwWebViewControllerNull, 'WebView controller unavailable');
     }
 
     // Double-check that WebView is ready before executing
@@ -128,8 +128,8 @@ class QubicJs {
     } catch (e) {
       // Controller is non-null but native WebView was killed by iOS
       appLogger.e('WebView execution failed: $e');
-      throw AppException(WcErrors.qwWebViewExecutionFailed,
-          'WebView execution failed: ${e.runtimeType}');
+      throw AppException(
+          WcErrors.qwWebViewExecutionFailed, 'WebView execution failed: $e');
     }
   }
 
@@ -199,8 +199,8 @@ class QubicJs {
             'Transaction generation returned empty result');
       }
       if (result.error != null) {
-        throw AppException(WcErrors.qwJsReturnedError,
-            'JS error: ${result.error}');
+        throw AppException(
+            WcErrors.qwJsReturnedError, 'JS error: ${result.error}');
       }
       try {
         final Map<String, dynamic> data = json.decode(result.value);

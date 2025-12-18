@@ -339,9 +339,6 @@ class WalletConnectService {
       appLogger.e(e);
       if (e is JsonRpcError) {
         error = e;
-      } else if (e is WcException) {
-        // Use the specific error code from WcException for debugging (#552)
-        error = JsonRpcError(code: e.code, message: e.message);
       } else if (e is ArgumentError) {
         error = JsonRpcError.invalidParams(e.toString());
       } else {

@@ -11,7 +11,8 @@ class AppException implements Exception {
   const AppException(this.code, this.message);
 
   @override
-  String toString() => '$message (errCode: $code)';
+  String toString() =>
+      'An internal error occurred, if the error persists contact support (errCode: $code)';
 }
 
 class AppError {
