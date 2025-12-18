@@ -5,6 +5,15 @@ import 'package:dio/dio.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
+class AppException implements Exception {
+  final int code;
+  final String message;
+  const AppException(this.code, this.message);
+
+  @override
+  String toString() => '$message (errCode: $code)';
+}
+
 class AppError {
   final String message;
   final ErrorType type;
@@ -15,9 +24,8 @@ class AppError {
 
   static AppError tamperedWallet() {
     return AppError(
-      "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN",
-      ErrorType.tamperedWallet
-    );
+        "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN",
+        ErrorType.tamperedWallet);
   }
 
   @override

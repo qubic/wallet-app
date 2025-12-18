@@ -15,6 +15,7 @@ import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_js.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 
 /// A class that handles the secure storage of the wallet. The wallet is stored in the secure storage of the device
@@ -96,7 +97,7 @@ class QubicJs {
 
     // Check if controller was killed by iOS
     if (controller == null) {
-      throw const WcException(WcErrors.qwWebViewControllerNull,
+      throw const AppException(WcErrors.qwWebViewControllerNull,
           'WebView controller unavailable');
     }
 
@@ -109,7 +110,7 @@ class QubicJs {
         waitAttempts++;
       }
       if (!isReady) {
-        throw const WcException(WcErrors.qwWebViewNotReady,
+        throw const AppException(WcErrors.qwWebViewNotReady,
             'WebView initialization timeout after 5 seconds');
       }
       appLogger.d("QubicJS: WebView is now ready");
@@ -127,7 +128,7 @@ class QubicJs {
     } catch (e) {
       // Controller is non-null but native WebView was killed by iOS
       appLogger.e('WebView execution failed: $e');
-      throw WcException(WcErrors.qwWebViewExecutionFailed,
+      throw AppException(WcErrors.qwWebViewExecutionFailed,
           'WebView execution failed: ${e.runtimeType}');
     }
   }
@@ -194,18 +195,18 @@ class QubicJs {
                 ]);
 
       if (result == null) {
-        throw const WcException(WcErrors.qwJsReturnedNull,
+        throw const AppException(WcErrors.qwJsReturnedNull,
             'Transaction generation returned empty result');
       }
       if (result.error != null) {
-        throw WcException(WcErrors.qwJsReturnedError,
+        throw AppException(WcErrors.qwJsReturnedError,
             'JS error: ${result.error}');
       }
       try {
         final Map<String, dynamic> data = json.decode(result.value);
         return SignedTransaction.fromJson(data);
       } on FormatException catch (e) {
-        throw WcException(WcErrors.qwJsonDecodeFailed,
+        throw AppException(WcErrors.qwJsonDecodeFailed,
             'Failed to parse response: ${e.message}');
       }
     } catch (e) {

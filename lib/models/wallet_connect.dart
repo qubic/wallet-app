@@ -1,4 +1,5 @@
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 
 /// WalletConnect Methods
 abstract class WcMethods {
@@ -45,16 +46,6 @@ abstract class WcErrors {
   static const qwJsReturnedError = -32013;
   static const qwJsonDecodeFailed = -32014;
   static const qwWebViewExecutionFailed = -32015;
-}
-
-/// Exception class that carries both error code and message for debugging
-class WcException implements Exception {
-  final int code;
-  final String message;
-  const WcException(this.code, this.message);
-
-  @override
-  String toString() => '[$code] $message';
 }
 
 typedef Validator = String? Function(dynamic value);
