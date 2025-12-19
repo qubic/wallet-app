@@ -713,6 +713,7 @@
     "generalErrorRequestCancelled": "İstek iptal edildi",
     "generalErrorCouldntParseResponse": "Yanıt ayrıştırılamadı",
     "generalErrorServerError": "Sunucu hatası",
+    "generalErrorCouldntFetchMarketPrice": "En güncel piyasa fiyatı alınamadı. USD dönüşümü kullanılamıyor.",
     "generalStatusCode": "Durum Kodu",
     "generalCode": "Kod",
     "accountSendSectionInvalidDestinationAddress": "Geçersiz hedef adres",

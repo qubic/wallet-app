@@ -705,6 +705,7 @@
     "generalErrorRequestCancelled": "Solicitud cancelada",
     "generalErrorCouldntParseResponse": "No se pudo analizar la respuesta",
     "generalErrorServerError": "Error del servidor",
+    "generalErrorCouldntFetchMarketPrice": "No se pudo obtener el precio de mercado más reciente. Conversión a USD no disponible.",
     "generalStatusCode": "Código de estado",
     "generalCode": "Código",
     "accountSendSectionInvalidDestinationAddress": "Dirección de destino inválida",

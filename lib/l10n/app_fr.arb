@@ -718,6 +718,7 @@
     "generalErrorRequestCancelled": "Demande annulée",
     "generalErrorCouldntParseResponse": "Impossible d'analyser la réponse",
     "generalErrorServerError": "Erreur du serveur",
+    "generalErrorCouldntFetchMarketPrice": "Impossible de récupérer le dernier prix du marché. Conversion en USD non disponible.",
     "generalStatusCode": "Code d'état",
     "generalCode": "Code",
     "accountSendSectionInvalidDestinationAddress": "Adresse de destination invalide",

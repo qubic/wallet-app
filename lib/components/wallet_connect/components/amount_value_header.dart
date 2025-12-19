@@ -44,13 +44,11 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
 
   Widget getTotalUSD() {
     if (appStore.marketInfo?.price == null) {
-      // Show warning only once per widget instance
       if (!_hasShownMarketInfoWarning) {
         _hasShownMarketInfoWarning = true;
         final l10n = l10nOf(context);
-        // Use post-frame callback to avoid showing snackbar during build
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          _globalSnackBar.show(
+          _globalSnackBar.showError(
             l10n.generalErrorCouldntFetchMarketPrice,
           );
         });

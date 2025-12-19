@@ -713,6 +713,7 @@
     "generalErrorRequestCancelled": "請求已取消",
     "generalErrorCouldntParseResponse": "無法解析響應",
     "generalErrorServerError": "伺服器錯誤",
+    "generalErrorCouldntFetchMarketPrice": "無法獲取最新市場價格。美元轉換不可用。",
     "generalStatusCode": "狀態碼",
     "generalCode": "代碼",
     "accountSendSectionInvalidDestinationAddress": "無效的目的地地址",

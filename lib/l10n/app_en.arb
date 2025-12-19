@@ -122,6 +122,7 @@
     "generalErrorRequestCancelled": "Request Cancelled",
     "generalErrorCouldntParseResponse": "Could not parse response",
     "generalErrorServerError": "Server error",
+    "generalErrorCouldntFetchMarketPrice": "Could not fetch latest market price. USD conversion unavailable.",
     "generalStatusCode": "Status Code",
     "generalCode": "Code",
     "appTabHome": "Home",
