@@ -15,9 +15,8 @@ class AppError {
 
   static AppError tamperedWallet() {
     return AppError(
-      "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN",
-      ErrorType.tamperedWallet
-    );
+        "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN",
+        ErrorType.tamperedWallet);
   }
 
   @override
@@ -42,8 +41,17 @@ class AppError {
     appLogger.e(error.response?.data?.toString() ?? "NULL");
 
     final responseData = error.response?.data;
+    final statusCode = error.response?.statusCode;
     String serverMessage;
     int? code;
+
+    if (statusCode == 429) {
+      return AppError(
+        "Server is rate limiting requests. This can happen when multiple apps are accessing the network or when using a VPN.",
+        ErrorType.server,
+        statusCode: statusCode,
+      );
+    }
 
     if (responseData is Map<String, dynamic>) {
       serverMessage = responseData['message'] ??
@@ -59,7 +67,7 @@ class AppError {
     return AppError(
       "${l10nWrapper.l10n!.generalErrorServerError}: $serverMessage",
       ErrorType.server,
-      statusCode: error.response?.statusCode,
+      statusCode: statusCode,
       code: code,
     );
   }
