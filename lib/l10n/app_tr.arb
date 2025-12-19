@@ -713,6 +713,7 @@
     "generalErrorRequestCancelled": "İstek iptal edildi",
     "generalErrorCouldntParseResponse": "Yanıt ayrıştırılamadı",
     "generalErrorServerError": "Sunucu hatası",
+    "generalErrorRateLimited": "Sunucu istekleri sınırlandırıyor. Bu, birden fazla uygulama ağa eriştiğinde veya VPN kullanıldığında olabilir.",
     "generalStatusCode": "Durum Kodu",
     "generalCode": "Kod",
     "accountSendSectionInvalidDestinationAddress": "Geçersiz hedef adres",

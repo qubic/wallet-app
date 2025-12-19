@@ -705,6 +705,7 @@
     "generalErrorRequestCancelled": "Solicitud cancelada",
     "generalErrorCouldntParseResponse": "No se pudo analizar la respuesta",
     "generalErrorServerError": "Error del servidor",
+    "generalErrorRateLimited": "El servidor está limitando las solicitudes. Esto puede ocurrir cuando varias aplicaciones acceden a la red o cuando se usa una VPN.",
     "generalStatusCode": "Código de estado",
     "generalCode": "Código",
     "accountSendSectionInvalidDestinationAddress": "Dirección de destino inválida",

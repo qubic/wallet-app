@@ -47,7 +47,7 @@ class AppError {
 
     if (statusCode == 429) {
       return AppError(
-        "Server is rate limiting requests. This can happen when multiple apps are accessing the network or when using a VPN.",
+        l10nWrapper.l10n!.generalErrorRateLimited,
         ErrorType.server,
         statusCode: statusCode,
       );

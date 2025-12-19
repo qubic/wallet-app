@@ -713,6 +713,7 @@
     "generalErrorRequestCancelled": "請求已取消",
     "generalErrorCouldntParseResponse": "無法解析響應",
     "generalErrorServerError": "伺服器錯誤",
+    "generalErrorRateLimited": "伺服器正在限制請求。當多個應用程式訪問網絡或使用VPN時可能會發生這種情況。",
     "generalStatusCode": "狀態碼",
     "generalCode": "代碼",
     "accountSendSectionInvalidDestinationAddress": "無效的目的地地址",
