@@ -119,7 +119,12 @@ class TimedController extends WidgetsBindingObserver {
       final marketInfo = await _statsApi.getMarketInfo();
       appStore.setMarketInfo(marketInfo);
     } on AppError catch (e) {
-      appStore.reportGlobalError(e.message);
+      if (e.statusCode == 429) {
+        appStore.reportGlobalError(
+            "Server is rate limiting requests. This can happen when multiple apps are accessing the network or when using a VPN.");
+      } else {
+        appStore.reportGlobalError(e.message);
+      }
     }
   }
 

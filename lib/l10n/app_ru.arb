@@ -713,7 +713,6 @@
     "generalErrorRequestCancelled": "Запрос отменен",
     "generalErrorCouldntParseResponse": "Не удалось разобрать ответ",
     "generalErrorServerError": "Ошибка сервера",
-    "generalErrorCouldntFetchMarketPrice": "Не удалось получить актуальную рыночную цену. Конвертация в USD недоступна.",
     "generalStatusCode": "Код статуса",
     "generalCode": "Код",
     "accountSendSectionInvalidDestinationAddress": "Неверный адрес назначения",

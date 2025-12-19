@@ -122,7 +122,6 @@
     "generalErrorRequestCancelled": "Yêu cầu đã bị hủy",
     "generalErrorCouldntParseResponse": "Không thể phân tích phản hồi",
     "generalErrorServerError": "Lỗi máy chủ",
-    "generalErrorCouldntFetchMarketPrice": "Không thể lấy giá thị trường mới nhất. Chuyển đổi USD không khả dụng.",
     "generalStatusCode": "Mã trạng thái",
     "generalCode": "Mã",
     "appTabHome": "Trang chủ",

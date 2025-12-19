@@ -713,7 +713,6 @@
     "generalErrorRequestCancelled": "Anfrage abgebrochen",
     "generalErrorCouldntParseResponse": "Antwort konnte nicht analysiert werden",
     "generalErrorServerError": "Serverfehler",
-    "generalErrorCouldntFetchMarketPrice": "Aktueller Marktpreis konnte nicht abgerufen werden. USD-Umrechnung nicht verfügbar.",
     "generalStatusCode": "Statuscode",
     "generalCode": "Code",
     "accountSendSectionInvalidDestinationAddress": "Ungültige Zieladresse",
