@@ -3,6 +3,7 @@ import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -24,7 +25,9 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
 
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
+  final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   bool showingTotalBalance = true;
+  bool _hasShownMarketInfoWarning = false;
 
   @override
   void initState() {
@@ -40,6 +43,21 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
   }
 
   Widget getTotalUSD() {
+    if (appStore.marketInfo?.price == null) {
+      // Show warning only once per widget instance
+      if (!_hasShownMarketInfoWarning) {
+        _hasShownMarketInfoWarning = true;
+        final l10n = l10nOf(context);
+        // Use post-frame callback to avoid showing snackbar during build
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _globalSnackBar.show(
+            l10n.generalErrorCouldntFetchMarketPrice,
+          );
+        });
+      }
+      return const SizedBox.shrink();
+    }
+
     num price = appStore.marketInfo!.price! * widget.amount;
     String formattedValue = CurrencyHelpers.formatToUsdCurrency(price);
     return Text(formattedValue, style: TextStyles.sliverSmall);
