@@ -3,6 +3,7 @@ import 'package:qubic_wallet/components/wallet_connect/approve_wc_method_screen.
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
+import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
@@ -14,6 +15,7 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.da
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
+import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 
 // Provides a unified place to handle WalletConnect modals
@@ -35,11 +37,16 @@ class WalletConnectModalsController {
     final navigator = Navigator.of(context);
     await _autoIgnoreRequestsWhenModalIsOpen(event.topic, event.requestId);
     _wCDialogOpen = true;
+
+    final isSimpleTransfer =
+        TransactionActionHelpers.isSimpleTransferTransaction(
+            event.inputType, event.amount);
+
     var result =
         await navigator.push(MaterialPageRoute<RequestSendTransactionResult?>(
             builder: (BuildContext context) {
               return ApproveWcMethodScreen(
-                method: (event.inputType == null || event.inputType == 0)
+                method: isSimpleTransfer
                     ? WalletConnectMethod.sendQubic
                     : WalletConnectMethod.sendTransaction,
                 data: ApprovalDataModel(

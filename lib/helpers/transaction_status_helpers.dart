@@ -1,10 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 
 class TransactionStatusHelpers {
+  /// Determines if a transaction has definitive success/failure status from moneyFlew.
+  /// This includes simple Qubic transfers (type 0 with amount > 0) and SendMany transactions.
+  static bool hasDefinitiveStatus({
+    required int? inputType,
+    required int amount,
+    required String? destId,
+  }) {
+    final isSendMany = QutilInfo.isSendToManyTransfer(destId, inputType);
+    return TransactionActionHelpers.isSimpleTransferTransaction(
+            inputType, amount) ||
+        isSendMany;
+  }
+
   static IconData getTransactionStatusIcon(ComputedTransactionStatus status) {
     switch (status) {
       case ComputedTransactionStatus.failure:
@@ -66,9 +80,8 @@ class TransactionStatusHelpers {
     } else if (isInvalid) {
       result = ComputedTransactionStatus.invalid;
     } else {
-      final isSendMany = QutilInfo.isSendToManyTransfer(destId, inputType);
-
-      if ((inputType == 0 && amount > 0) || isSendMany) {
+      if (hasDefinitiveStatus(
+          inputType: inputType, amount: amount, destId: destId)) {
         // For simple transfers and SendMany transactions:
         // The moneyFlew flag definitively tells us if the transfer succeeded
         result = moneyFlew
