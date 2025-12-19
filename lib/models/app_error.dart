@@ -15,6 +15,16 @@ class AppException implements Exception {
       'An internal error occurred, if the error persists contact support (errCode: $code)';
 }
 
+/// Error codes for QubicJS and WebView operations
+abstract class QubicJsErrors {
+  static const webViewNotReady = -32010;
+  static const webViewControllerNull = -32011;
+  static const jsReturnedNull = -32012;
+  static const jsReturnedError = -32013;
+  static const jsonDecodeFailed = -32014;
+  static const webViewExecutionFailed = -32015;
+}
+
 class AppError {
   final String message;
   final ErrorType type;

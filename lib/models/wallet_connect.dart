@@ -1,5 +1,4 @@
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:qubic_wallet/models/app_error.dart';
 
 /// WalletConnect Methods
 abstract class WcMethods {
@@ -39,13 +38,6 @@ abstract class WcErrors {
   static const qwUserUnavailable = -32001;
   static const qwTickBecameInPast = -32002;
   static const qwUnexpectedError = -32603;
-  // Error codes for debugging iOS WebView issues (#552)
-  static const qwWebViewNotReady = -32010;
-  static const qwWebViewControllerNull = -32011;
-  static const qwJsReturnedNull = -32012;
-  static const qwJsReturnedError = -32013;
-  static const qwJsonDecodeFailed = -32014;
-  static const qwWebViewExecutionFailed = -32015;
 }
 
 typedef Validator = String? Function(dynamic value);
