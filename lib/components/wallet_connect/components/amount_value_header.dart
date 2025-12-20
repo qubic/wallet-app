@@ -40,6 +40,10 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
   }
 
   Widget getTotalUSD() {
+    if (appStore.marketInfo?.price == null) {
+      return Text("-", style: TextStyles.sliverSmall);
+    }
+
     num price = appStore.marketInfo!.price! * widget.amount;
     String formattedValue = CurrencyHelpers.formatToUsdCurrency(price);
     return Text(formattedValue, style: TextStyles.sliverSmall);

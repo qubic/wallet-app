@@ -718,6 +718,7 @@
     "generalErrorRequestCancelled": "Demande annulée",
     "generalErrorCouldntParseResponse": "Impossible d'analyser la réponse",
     "generalErrorServerError": "Erreur du serveur",
+    "generalErrorRateLimited": "Le serveur limite les requêtes. Cela peut se produire lorsque plusieurs applications accèdent au réseau ou lors de l'utilisation d'un VPN.",
     "generalStatusCode": "Code d'état",
     "generalCode": "Code",
     "generalErrorInternalError": "Une erreur interne s'est produite. Si l'erreur persiste, contactez-nous (errCode: {code})",

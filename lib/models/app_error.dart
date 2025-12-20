@@ -62,8 +62,17 @@ class AppError {
     appLogger.e(error.response?.data?.toString() ?? "NULL");
 
     final responseData = error.response?.data;
+    final statusCode = error.response?.statusCode;
     String serverMessage;
     int? code;
+
+    if (statusCode == 429) {
+      return AppError(
+        l10nWrapper.l10n!.generalErrorRateLimited,
+        ErrorType.server,
+        statusCode: statusCode,
+      );
+    }
 
     if (responseData is Map<String, dynamic>) {
       serverMessage = responseData['message'] ??
@@ -79,7 +88,7 @@ class AppError {
     return AppError(
       "${l10nWrapper.l10n!.generalErrorServerError}: $serverMessage",
       ErrorType.server,
-      statusCode: error.response?.statusCode,
+      statusCode: statusCode,
       code: code,
     );
   }

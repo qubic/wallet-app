@@ -122,6 +122,7 @@
     "generalErrorRequestCancelled": "Request Cancelled",
     "generalErrorCouldntParseResponse": "Could not parse response",
     "generalErrorServerError": "Server error",
+    "generalErrorRateLimited": "Server is rate limiting requests. This can happen when multiple apps are accessing the network or when using a VPN.",
     "generalStatusCode": "Status Code",
     "generalCode": "Code",
     "generalErrorInternalError": "An internal error occurred. If the error persists, contact us (errCode: {code})",

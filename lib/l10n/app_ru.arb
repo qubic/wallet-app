@@ -713,6 +713,7 @@
     "generalErrorRequestCancelled": "Запрос отменен",
     "generalErrorCouldntParseResponse": "Не удалось разобрать ответ",
     "generalErrorServerError": "Ошибка сервера",
+    "generalErrorRateLimited": "Сервер ограничивает запросы. Это может произойти, когда несколько приложений обращаются к сети или при использовании VPN.",
     "generalStatusCode": "Код статуса",
     "generalCode": "Код",
     "generalErrorInternalError": "Произошла внутренняя ошибка. Если ошибка повторяется, свяжитесь с нами (errCode: {code})",

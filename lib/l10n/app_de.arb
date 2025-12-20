@@ -713,6 +713,7 @@
     "generalErrorRequestCancelled": "Anfrage abgebrochen",
     "generalErrorCouldntParseResponse": "Antwort konnte nicht analysiert werden",
     "generalErrorServerError": "Serverfehler",
+    "generalErrorRateLimited": "Server begrenzt Anfragen. Dies kann passieren, wenn mehrere Apps auf das Netzwerk zugreifen oder wenn Sie ein VPN verwenden.",
     "generalStatusCode": "Statuscode",
     "generalCode": "Code",
     "generalErrorInternalError": "Ein interner Fehler ist aufgetreten. Wenn der Fehler weiterhin besteht, kontaktieren Sie uns (errCode: {code})",

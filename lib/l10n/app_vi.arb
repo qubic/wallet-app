@@ -122,6 +122,7 @@
     "generalErrorRequestCancelled": "Yêu cầu đã bị hủy",
     "generalErrorCouldntParseResponse": "Không thể phân tích phản hồi",
     "generalErrorServerError": "Lỗi máy chủ",
+    "generalErrorRateLimited": "Máy chủ đang giới hạn yêu cầu. Điều này có thể xảy ra khi nhiều ứng dụng truy cập mạng hoặc khi sử dụng VPN.",
     "generalStatusCode": "Mã trạng thái",
     "generalCode": "Mã",
     "generalErrorInternalError": "Đã xảy ra lỗi nội bộ. Nếu lỗi vẫn tiếp diễn, vui lòng liên hệ với chúng tôi (errCode: {code})",
