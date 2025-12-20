@@ -124,6 +124,14 @@
     "generalErrorServerError": "Server error",
     "generalStatusCode": "Status Code",
     "generalCode": "Code",
+    "generalErrorInternalError": "An internal error occurred. If the error persists, contact us (errCode: {code})",
+    "@generalErrorInternalError": {
+        "placeholders": {
+            "code": {
+                "type": "int"
+            }
+        }
+    },
     "appTabHome": "Home",
     "appTabExplore": "Discover",
     "appTabSettings": "Settings",

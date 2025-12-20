@@ -715,6 +715,7 @@
     "generalErrorServerError": "Serverfehler",
     "generalStatusCode": "Statuscode",
     "generalCode": "Code",
+    "generalErrorInternalError": "Ein interner Fehler ist aufgetreten. Wenn der Fehler weiterhin besteht, kontaktieren Sie uns (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "Ungültige Zieladresse",
     "cmdErrorCreatingSignatureGeneric": "Fehler beim Erstellen der Signatur",
     "cmdErrorCreatingSignatureDigestEmpty": "Fehler beim Erstellen der Signatur. Digest ist leer",

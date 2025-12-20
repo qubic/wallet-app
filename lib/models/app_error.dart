@@ -5,6 +5,27 @@ import 'package:dio/dio.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
+class AppException implements Exception {
+  final int code;
+  final String message;
+  const AppException(this.code, this.message);
+
+  @override
+  String toString() =>
+      l10nWrapper.l10n?.generalErrorInternalError(code) ??
+      'An internal error occurred. If the error persists, contact us (errCode: $code)';
+}
+
+/// Error codes for QubicJS and WebView operations
+abstract class QubicJsErrors {
+  static const webViewNotReady = -32010;
+  static const webViewControllerNull = -32011;
+  static const jsReturnedNull = -32012;
+  static const jsReturnedError = -32013;
+  static const jsonDecodeFailed = -32014;
+  static const webViewExecutionFailed = -32015;
+}
+
 class AppError {
   final String message;
   final ErrorType type;
@@ -15,9 +36,8 @@ class AppError {
 
   static AppError tamperedWallet() {
     return AppError(
-      "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN",
-      ErrorType.tamperedWallet
-    );
+        "CRITICAL: YOUR INSTALLATION OF QUBIC WALLET IS TAMPERED. PLEASE UNINSTALL THE APP, DOWNLOAD IT FROM A TRUSTED SOURCE AND INSTALL IT AGAIN",
+        ErrorType.tamperedWallet);
   }
 
   @override

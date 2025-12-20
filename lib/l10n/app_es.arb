@@ -707,6 +707,7 @@
     "generalErrorServerError": "Error del servidor",
     "generalStatusCode": "Código de estado",
     "generalCode": "Código",
+    "generalErrorInternalError": "Ocurrió un error interno. Si el error persiste, contáctenos (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "Dirección de destino inválida",
     "cmdErrorCreatingSignatureGeneric": "Error al generar la firma",
     "cmdErrorCreatingSignatureDigestEmpty": "Error al generar la firma. El digest está vacío",

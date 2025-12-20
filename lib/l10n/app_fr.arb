@@ -720,6 +720,7 @@
     "generalErrorServerError": "Erreur du serveur",
     "generalStatusCode": "Code d'état",
     "generalCode": "Code",
+    "generalErrorInternalError": "Une erreur interne s'est produite. Si l'erreur persiste, contactez-nous (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "Adresse de destination invalide",
     "cmdErrorCreatingSignatureGeneric": "Erreur lors de la tentative de création de la signature",
     "cmdErrorCreatingSignatureDigestEmpty": "Erreur lors de la tentative de création de la signature. Le digest est vide",

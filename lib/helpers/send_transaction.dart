@@ -75,7 +75,7 @@ Future<SignedTransaction?> sendAssetTransferTransactionDialog(
       showAlertDialog(
           context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     }
-    return null;
+    rethrow;
   }
 }
 
@@ -106,7 +106,7 @@ Future<SignedTransaction?> getTransactionDialog(
       showAlertDialog(
           context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     }
-    return null;
+    rethrow;
   }
 }
 
@@ -118,15 +118,17 @@ Future<SignedTransaction?> sendTransactionDialog(BuildContext context,
   final l10n = l10nOf(context);
 
   late String? transactionKey;
-  final signedTransaction = await getTransactionDialog(context, sourceId,
-      destinationId, value, destinationTick, inputType, payload);
-  transactionKey = signedTransaction?.transactionKey;
-  if (transactionKey == null) {
-    return null;
-  }
+  late SignedTransaction? signedTransaction;
 
-  //We have the transaction, now let's call the API
   try {
+    signedTransaction = await getTransactionDialog(context, sourceId,
+        destinationId, value, destinationTick, inputType, payload);
+    transactionKey = signedTransaction?.transactionKey;
+    if (transactionKey == null) {
+      return null;
+    }
+
+    //We have the transaction, now let's call the API
     final transactionId =
         await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
 
@@ -150,7 +152,7 @@ Future<SignedTransaction?> sendTransactionDialog(BuildContext context,
       showAlertDialog(
           context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     }
-    return null;
+    rethrow;
   }
   return signedTransaction;
 }
@@ -253,6 +255,6 @@ Future<SignedTransaction?> sendReleaseTransferRightsTransactionDialog(
       showAlertDialog(
           context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     }
-    return null;
+    rethrow;
   }
 }
