@@ -12,7 +12,8 @@ class AppException implements Exception {
 
   @override
   String toString() =>
-      'An internal error occurred, if the error persists contact support (errCode: $code)';
+      l10nWrapper.l10n?.generalErrorInternalError(code) ??
+      'An internal error occurred. If the error persists, contact us (errCode: $code)';
 }
 
 /// Error codes for QubicJS and WebView operations

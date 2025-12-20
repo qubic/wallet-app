@@ -715,6 +715,7 @@
     "generalErrorServerError": "伺服器錯誤",
     "generalStatusCode": "狀態碼",
     "generalCode": "代碼",
+    "generalErrorInternalError": "发生内部错误。如果错误持续存在，请联系我们 (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "無效的目的地地址",
     "cmdErrorCreatingSignatureGeneric": "創建簽名時發生錯誤",
     "cmdErrorCreatingSignatureDigestEmpty": "創建簽名時發生錯誤。摘要為空",

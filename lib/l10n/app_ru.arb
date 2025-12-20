@@ -715,6 +715,7 @@
     "generalErrorServerError": "Ошибка сервера",
     "generalStatusCode": "Код статуса",
     "generalCode": "Код",
+    "generalErrorInternalError": "Произошла внутренняя ошибка. Если ошибка повторяется, свяжитесь с нами (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "Неверный адрес назначения",
     "cmdErrorCreatingSignatureGeneric": "Ошибка при попытке создать подпись",
     "cmdErrorCreatingSignatureDigestEmpty": "Ошибка при попытке создать подпись. Хэш пуст",

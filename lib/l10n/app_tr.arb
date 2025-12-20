@@ -715,6 +715,7 @@
     "generalErrorServerError": "Sunucu hatası",
     "generalStatusCode": "Durum Kodu",
     "generalCode": "Kod",
+    "generalErrorInternalError": "Dahili bir hata oluştu. Hata devam ederse, bizimle iletişime geçin (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "Geçersiz hedef adres",
     "cmdErrorCreatingSignatureGeneric": "İmza oluşturulurken hata oluştu",
     "cmdErrorCreatingSignatureDigestEmpty": "İmza oluşturulurken hata oluştu. Özet boş",
