@@ -41,7 +41,7 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
 
   Widget getTotalUSD() {
     if (appStore.marketInfo?.price == null) {
-      return Text("N/A", style: TextStyles.sliverSmall);
+      return Text("-", style: TextStyles.sliverSmall);
     }
 
     num price = appStore.marketInfo!.price! * widget.amount;
