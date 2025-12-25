@@ -60,6 +60,17 @@ android {
         targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        ndk {
+            // Ensure we build for 64-bit architectures required for 16KB alignment
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
+    }
+
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging = false
+        }
     }
 
     signingConfigs {
