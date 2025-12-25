@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:app_links/app_links.dart';
 import 'package:blur/blur.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -29,12 +28,14 @@ Future<void> main() async {
     await initializePlatformHelpers(); // Check if iOS app running on Mac (must be before DI)
     await setupDI(); //Dependency injection
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarBrightness: Brightness.dark,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.transparent,
-    ));
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Colors.transparent,
+      ),
+    );
 
     await PlatformSpecificInitilization().run();
     getIt.get<SettingsStore>().loadSettings();
@@ -121,7 +122,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
       // same or higher package version, but still same major version. If you
       // use a lower package version, some properties may not be supported.
       // In that case remove them after copying this theme to your app.
-      theme: FlexThemeData.dark(
+      theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           brightness: Brightness.dark,
           primary: LightThemeColors.primary,
@@ -137,15 +138,15 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
         ),
 
         useMaterial3: true,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        scaffoldBackgroundColor: LightThemeColors.background,
         // To use the Playground font, add GoogleFonts package and uncomment
         fontFamily: ThemeFonts.primary,
-        surfaceMode: FlexSurfaceMode.highScaffoldLowSurface,
-        blendLevel: 2,
-        visualDensity: FlexColorScheme.comfortablePlatformDensity,
       ).copyWith(
-          filledButtonTheme: FilledButtonThemeData(
-        style: ButtonStyles.primaryButtonBig,
-      )),
+        filledButtonTheme: FilledButtonThemeData(
+          style: ButtonStyles.primaryButtonBig,
+        ),
+      ),
       builder: (context, child) {
         final localizations = AppLocalizations.of(context);
         if (localizations != null) {
@@ -161,9 +162,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
                   blur: 21.0,
                   colorOpacity: 0.5,
                   blurColor: Colors.black,
-                  child: Container(
-                    color: Colors.black.withValues(alpha: 0.2),
-                  ),
+                  child: Container(color: Colors.black.withValues(alpha: 0.2)),
                 ),
               ),
           ],

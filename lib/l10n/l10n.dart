@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:qubic_wallet/l10n/app_localizations.dart';
 import 'package:qubic_wallet/globals/localization_manager.dart';
 
-export 'package:flutter_gen/gen_l10n/app_localizations.dart';
+export 'package:qubic_wallet/l10n/app_localizations.dart';
 
 AppLocalizations l10nOf(BuildContext context) {
   if (!LocalizationManager.instance.isInitialized) {
