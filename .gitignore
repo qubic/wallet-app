@@ -49,3 +49,10 @@ devtools_options.yaml
 non_translated_keys.txt
 
 .codegpt
+
+# FVM Version Cache
+.fvm/
+
+# Generated localization files
+lib/l10n/app_localizations.dart
+lib/l10n/app_localizations_*.dart
