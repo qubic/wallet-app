@@ -110,7 +110,6 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
         pairingTimer?.cancel();
         existsTimer?.cancel();
         if (args != null) {
-          log(args.toString());
           wcPairingId = args.id;
           wcPairingMetadata = args.params.proposer.metadata;
           //Automatic parsing (with registering events and methods)

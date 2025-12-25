@@ -157,7 +157,8 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         if (error != "") {
           //Error overriding for more than max accounts in wallet
           if (error == "Failed to perform action. Server returned status 400") {
-            if (applicationStore.currentQubicIDs.length > Config.maxAccountsInWallet) {
+            if (applicationStore.currentQubicIDs.length >
+                Config.maxAccountsInWallet) {
               return;
             }
           }
@@ -307,7 +308,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // _controller.jumpToPreviousTab();
     return PersistentTabView(
       controller: _controller,
-      navBarHeight: 60,
       navBarBuilder: (navBarConfig) => Style1BottomNavBar(
           navBarConfig: navBarConfig,
           navBarDecoration: const NavBarDecoration(
