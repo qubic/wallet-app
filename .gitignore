@@ -50,3 +50,10 @@ non_translated_keys.txt
 
 .codegpt
 CLAUDE.md
+
+# FVM Version Cache
+.fvm/
+
+# Generated localization files
+lib/l10n/app_localizations.dart
+lib/l10n/app_localizations_*.dart
