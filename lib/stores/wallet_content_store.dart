@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pub_semver/pub_semver.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
@@ -39,6 +41,9 @@ abstract class WalletContentStoreBase with Store {
 
   @observable
   bool isLoading = false;
+
+  /// Cached app version for version constraint checks
+  Version? _appVersion;
 
   @computed
   List<DappDto> get allDapps => (dappsResponse?.dapps ?? [])
@@ -80,14 +85,27 @@ abstract class WalletContentStoreBase with Store {
     return UniversalPlatform.operatingSystem;
   }
 
-  /// Checks if a dApp should be shown on the current platform
+  /// Checks if a dApp should be shown on the current platform and version
   bool isDappAvailableOnCurrentPlatform(DappDto dapp) {
-    if (dapp.excludedPlatforms == null || dapp.excludedPlatforms!.isEmpty) {
-      return true;
-    }
     final currentPlatform = getCurrentPlatform();
-    return !dapp.excludedPlatforms!
-        .any((platform) => platform.toLowerCase() == currentPlatform);
+    final versionConstraint = dapp.platformVersions?[currentPlatform];
+
+    // If no version constraint for this platform, dApp is available
+    if (versionConstraint == null) return true;
+
+    // Special value "none" means excluded entirely (no version supported)
+    if (versionConstraint.toLowerCase() == DappDto.versionNone) return false;
+
+    // If app version not loaded, hide dApps with version constraints (restrictive)
+    if (_appVersion == null) return false;
+
+    try {
+      final constraint = VersionConstraint.parse(versionConstraint);
+      return constraint.allows(_appVersion!);
+    } catch (e) {
+      appLogger.e('Invalid version constraint: $versionConstraint - $e');
+      return false; // On error, hide the dApp (restrictive)
+    }
   }
 
   @action
@@ -95,6 +113,17 @@ abstract class WalletContentStoreBase with Store {
     try {
       isLoading = true;
       error = null;
+
+      // Load app version for version constraint checks
+      if (_appVersion == null) {
+        final packageInfo = await PackageInfo.fromPlatform();
+        try {
+          _appVersion = Version.parse(packageInfo.version);
+        } catch (e) {
+          appLogger.e('Failed to parse app version: ${packageInfo.version}');
+        }
+      }
+
       final response = await _staticApi.getDapps();
       final dappsLocalized =
           await _staticApi.getLocalizedDappData(getCurrentLocale());
