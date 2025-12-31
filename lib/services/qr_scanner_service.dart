@@ -92,7 +92,7 @@ class QrScannerService {
           children: [
             MobileScanner(
               controller: controller,
-              errorBuilder: (context, error, child) {
+              errorBuilder: (context, error) {
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 50),
