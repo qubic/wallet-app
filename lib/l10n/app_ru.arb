@@ -219,7 +219,7 @@
     "accountButtonReceive": "Получить",
     "accountButtonSend": "Отправить",
     "accountButtonAssets": "Ассеты",
-    "accountSendTitle": "Отправить средства",
+    "accountSendTitle": "Отправить QUBIC",
     "accountSendLabelDestinationAddress": "Адрес назначения",
     "accountSendLabelAmount": "Сумма",
     "accountSendButtonMax": "Максимум",
@@ -353,7 +353,7 @@
     "addAccountErrorNameAlreadyInUse": "Имя уже используется",
     "addAccountErrorPublicIDAlreadyInUse": "ID уже используется",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Максимальный лимит аккаунтов достигнут",
-    "addAccountDialogMessageMaxNumberOfAccountsReached": "В вашем кошельке может быть не более 15 аккаунтов Qubic. Если вам нужно добавить еще один, удалите один из существующих.",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "В вашем кошельке может быть не более {maxAccounts} аккаунтов Qubic. Если вам нужно добавить еще один, удалите один из существующих.",
     "addAccountButtonCreateRandom": "Создать случайный",
     "addAccountLabelPrivateSeed": "Секретный сид",
     "addAccountLabelAccountName": "Имя аккаунта",
@@ -368,8 +368,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Неправильный секретный сид",
     "addAccountErrorTamperedWalletTitle": "ОБНАРУЖЕН ПОДДЕЛЬНЫЙ КОШЕЛЕК",
     "addAccountErrorTamperedWalletMessage": "КОШЕЛЕК, КОТОРЫЙ ВЫ ИСПОЛЬЗУЕТЕ В ДАННЫЙ МОМЕНТ, ПОДДЕЛАН.\n\nУСТАНОВИТЕ ОФИЦИАЛЬНУЮ ВЕРСИЮ С САЙТА HTTPS://GITHUB.COM/QUBIC/WALLET-APP ИЛИ РИСКУЙТЕ ПОТЕРЯТЬ СРЕДСТВА",
-    "sendAssetLabelTransactionCost": "Комиссия (fixed)",
-    "sendAssetButtonTransfer": "Транзакция",
+    "sendAssetButtonTransfer": "Отправить",
     "sendAssetErrorTickIsInThePast": "Выбранный тик уже прошёл. Текущий тик {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -457,7 +456,7 @@
     "transfersListLabelReceiveIn": "Передан в",
     "transfersListLabelSharePublicIdInstructionsOne": "Пожалуйста, сообщите отправителю этот ID:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Или покажите ему QR код",
-    "transferAssetHeader": "Транзакция {assetName}",
+    "transferAssetHeader": "Отправить {assetName}",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -512,7 +511,7 @@
     "autolockLabelDurationImmediately": "Немедленно",
     "settingsLabelAutlock": "Настройки автоблокировки",
     "importVaultDialogTitleTooManyAccounts": "Найдено слишком много учетных записей",
-    "importVaultDialogMessageTooManyAccounts": "Ваш Vault файл содержит более 15 аккаунтов. Все аккаунты будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше 15.",
+    "importVaultDialogMessageTooManyAccounts": "Ваш Vault файл содержит более {maxAccounts} аккаунтов. Все аккаунты будут импортированы, но для просмотра баланса и отправки средств, пожалуйста, удалите некоторые из них, пока их не останется меньше {maxAccounts}.",
     "importVaultErrorNoAccountsFound": "В вашем файле Vault не обнаружено аккаунтов.",
     "importVaultFilePickerLabel": "Для продолжения выберите файл Vault:",
     "importVaultFileErrorGeneralMessage": "Ошибка при импортировании файла Vault: {errorDescription}",
@@ -595,7 +594,7 @@
     },
     "generalErrorFileRequired": "Выберите файл",
     "generalErrorPathRequired": "Выберите путь",
-    "homeWarningTooManyAccounts": "В вашем кошельке более 15 счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более 15.",
+    "homeWarningTooManyAccounts": "В вашем кошельке более {maxAccounts} счетов. Вы не сможете переводить средства или просматривать остатки, пока не удалите некоторые из них, чтобы осталось не более {maxAccounts}.",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Неверный адрес для наблюдения. Проверьте адрес.",
     "addAccountErrorVerifyIdentityError": "Невозможно верифицировать адрес.",
@@ -714,8 +713,10 @@
     "generalErrorRequestCancelled": "Запрос отменен",
     "generalErrorCouldntParseResponse": "Не удалось разобрать ответ",
     "generalErrorServerError": "Ошибка сервера",
+    "generalErrorRateLimited": "Сервер ограничивает запросы. Это может произойти, когда несколько приложений обращаются к сети или при использовании VPN.",
     "generalStatusCode": "Код статуса",
     "generalCode": "Код",
+    "generalErrorInternalError": "Произошла внутренняя ошибка. Если ошибка повторяется, свяжитесь с нами (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "Неверный адрес назначения",
     "cmdErrorCreatingSignatureGeneric": "Ошибка при попытке создать подпись",
     "cmdErrorCreatingSignatureDigestEmpty": "Ошибка при попытке создать подпись. Хэш пуст",
@@ -741,6 +742,8 @@
     "settingsLabelSupport": "Поддержка",
     "settingsSupportGithub": "GitHub (Создать обращение)",
     "settingsSupportDiscord": "Discord (Канал поддержки)",
+    "settingsSupportWarningTitle": "Остерегайтесь мошенников",
+    "settingsSupportWarningDescription": "Мы не предоставляем живую поддержку. Мы никогда не попросим вашу приватную сид-фразу, демонстрацию экрана или установку приложений удалённой поддержки. Будьте осторожны с мошенниками в Discord, GitHub или на других платформах.",
     "generalLabelFee": "Комиссия",
     "generalLabelMultipleReceivers": "Несколько получателей",
     "qxTransferSharesWarning": "Эта запись о транзакции в данный момент видна только отправителю.",
@@ -787,6 +790,42 @@
     "revealSeedWarningTitle": "Никогда не делитесь своей приватной сид-фразой!",
     "revealSeedWarningDescription": "Если кто-то получит вашу приватную сид-фразу, он получит полный доступ к вашему аккаунту",
     "blockedScreenshotWarning": "Скриншот защищён — экран остаётся приватным.",
+    "accountSortByLabel": "Сортировать по",
+    "accountSortModeName": "Имя (А-Я)",
+    "accountSortModeBalance": "Баланс (Высокий → Низкий)",
+    "accountSortModeCreation": "Создание (Старые → Новые)",
+    "releaseTransferRightsMenuOption": "Права на Передачу",
+    "releaseTransferRightsTitle": "Передать Права Управления",
+    "releaseTransferRightsLabelSourceContract": "Из Смарт-Контракта",
+    "releaseTransferRightsLabelAvailableAmount": "Доступно: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Количество",
+    "releaseTransferRightsLabelDestinationContract": "В Смарт-Контракт",
+    "releaseTransferRightsButtonSubmit": "Передать",
+    "releaseTransferRightsErrorNoSourceContract": "Пожалуйста, выберите исходный контракт",
+    "releaseTransferRightsErrorNoDestinationContract": "Пожалуйста, выберите целевой контракт",
+    "releaseTransferRightsErrorSameContract": "Исходный и целевой контракты должны быть разными",
+    "releaseTransferRightsErrorInvalidContract": "Неверная конфигурация контракта",
     "dAppSearchPlaceholder": "Поиск или ввод URL dApp",
     "addToFavorites": "Добавить в избранное",
     "favoriteNameLabel": "Название",

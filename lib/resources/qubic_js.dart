@@ -15,6 +15,7 @@ import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_js.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
+import 'package:qubic_wallet/models/app_error.dart';
 
 /// A class that handles the secure storage of the wallet. The wallet is stored in the secure storage of the device
 /// The wallet password is encrypted using Argon2
@@ -46,8 +47,15 @@ class QubicJs {
     );
 
     await InAppWebView!.run();
+
+    // Wait for controller to be set
     while (controller == null) {
       sleep(const Duration(milliseconds: 100));
+    }
+
+    // Wait for WebView to fully load (isReady flag)
+    while (!isReady) {
+      await Future.delayed(const Duration(milliseconds: 100));
     }
   }
 
@@ -85,12 +93,43 @@ class QubicJs {
   Future<CallAsyncJavaScriptResult?> runFunction(
       String functionName, List<String> parameters) async {
     await initialize();
+
+    // Check if controller was killed by iOS
+    if (controller == null) {
+      throw const AppException(
+          QubicJsErrors.webViewControllerNull, 'WebView controller unavailable');
+    }
+
+    // Double-check that WebView is ready before executing
+    if (!isReady) {
+      appLogger.w("QubicJS: WebView not ready, waiting...");
+      int waitAttempts = 0;
+      while (!isReady && waitAttempts < 50) {
+        await Future.delayed(const Duration(milliseconds: 100));
+        waitAttempts++;
+      }
+      if (!isReady) {
+        throw const AppException(QubicJsErrors.webViewNotReady,
+            'WebView initialization timeout after 5 seconds');
+      }
+      appLogger.d("QubicJS: WebView is now ready");
+    }
+
     parameters = parameters.map((e) => e.replaceAll("'", "\\'")).toList();
     String functionBody =
         "await window.runBrowser('$functionName', '${parameters.join("','")}')";
 
     functionBody = "return JSON.stringify($functionBody);";
-    return await controller!.callAsyncJavaScript(functionBody: functionBody);
+
+    // Wrap JS execution to catch cases where controller exists but native WebView is dead
+    try {
+      return await controller!.callAsyncJavaScript(functionBody: functionBody);
+    } catch (e) {
+      // Controller is non-null but native WebView was killed by iOS
+      appLogger.e('WebView execution failed: $e');
+      throw AppException(QubicJsErrors.webViewExecutionFailed,
+          'WebView execution failed: $e');
+    }
   }
 
   Future<String> createAssetTransferTransaction(
@@ -155,15 +194,20 @@ class QubicJs {
                 ]);
 
       if (result == null) {
-        throw Exception(LocalizationManager.instance.appLocalization
-            .cmdErrorCreatingTransferTransactionGeneric);
+        throw const AppException(QubicJsErrors.jsReturnedNull,
+            'Transaction generation returned empty result');
       }
       if (result.error != null) {
-        throw Exception(LocalizationManager.instance.appLocalization
-            .cmdErrorCreatingTransferTransaction(result.error ?? ""));
+        throw AppException(
+            QubicJsErrors.jsReturnedError, 'JS error: ${result.error}');
       }
-      final Map<String, dynamic> data = json.decode(result.value);
-      return SignedTransaction.fromJson(data);
+      try {
+        final Map<String, dynamic> data = json.decode(result.value);
+        return SignedTransaction.fromJson(data);
+      } on FormatException catch (e) {
+        throw AppException(QubicJsErrors.jsonDecodeFailed,
+            'Failed to parse response: ${e.message}');
+      }
     } catch (e) {
       appLogger.e(e);
       rethrow;
@@ -403,5 +447,30 @@ class QubicJs {
     }
 
     return seeds;
+  }
+
+  Future<List<int>> publicKeyStringToBytes(String publicKeyString) async {
+    try {
+      CallAsyncJavaScriptResult? result = await runFunction(
+          QubicJSFunctions.publicKeyStringToBytes, [publicKeyString]);
+
+      if (result == null) {
+        throw Exception('Failed to convert public key string to bytes');
+      }
+      if (result.error != null) {
+        throw Exception('Error converting public key: ${result.error}');
+      }
+
+      final Map<String, dynamic> data = json.decode(result.value);
+
+      if (data['status'] == 'error') {
+        throw Exception(data['error'] ?? 'Unknown error occurred');
+      }
+
+      return List<int>.from(data['bytes']);
+    } catch (e) {
+      appLogger.e('Error converting public key string to bytes: $e');
+      rethrow;
+    }
   }
 }

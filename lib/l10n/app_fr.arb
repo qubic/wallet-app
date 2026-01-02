@@ -219,7 +219,7 @@
     "accountButtonReceive": "Recevoir",
     "accountButtonSend": "Envoyer",
     "accountButtonAssets": "Actifs",
-    "accountSendTitle": "Envoyer des fonds",
+    "accountSendTitle": "Envoyer QUBIC",
     "accountSendLabelDestinationAddress": "Adresse de destination",
     "accountSendLabelAmount": "Montant",
     "accountSendButtonMax": "Max",
@@ -354,7 +354,7 @@
     "addAccountErrorNameAlreadyInUse": "Nom déjà utilisé",
     "addAccountErrorPublicIDAlreadyInUse": "ID public déjà utilisé",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Limite maximale de comptes atteinte",
-    "addAccountDialogMessageMaxNumberOfAccountsReached": "Vous ne pouvez avoir que jusqu'à 15 comptes Qubic dans votre portefeuille. Si vous devez en ajouter un autre, veuillez en supprimer un des existants.",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "Vous ne pouvez avoir que jusqu'à {maxAccounts} comptes Qubic dans votre portefeuille. Si vous devez en ajouter un autre, veuillez en supprimer un des existants.",
     "addAccountButtonCreateRandom": "Créer au Hasard",
     "addAccountLabelPrivateSeed": "Seed Privée",
     "addAccountLabelAccountName": "Nom du Compte",
@@ -369,8 +369,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Seed privée fournie invalide",
     "addAccountErrorTamperedWalletTitle": "PORTEFEUILLE MODIFIÉ DÉTECTÉ",
     "addAccountErrorTamperedWalletMessage": "LE PORTEFEUILLE QUE VOUS UTILISEZ ACTUELLEMENT EST MODIFIÉ.\n\nINSTALLEZ UNE VERSION OFFICIELLE DE HTTPS://GITHUB.COM/QUBIC/WALLET-APP OU RISQUEZ UNE PERTE DE FONDS",
-    "sendAssetLabelTransactionCost": "Frais (fixe)",
-    "sendAssetButtonTransfer": "Transférer",
+    "sendAssetButtonTransfer": "Envoyer",
     "sendAssetErrorTickIsInThePast": "Le tick fourni est dans le passé. Le tick actuel est {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -458,7 +457,7 @@
     "transfersListLabelReceiveIn": "Recevoir dans",
     "transfersListLabelSharePublicIdInstructionsOne": "Veuillez partager l'ID Public suivant avec l'expéditeur :",
     "transfersListLabelSharePublicIdInstructionsTwo": "Ou montrez le QR Code suivant",
-    "transferAssetHeader": "Transférer {assetName}",
+    "transferAssetHeader": "Envoyer {assetName}",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -513,9 +512,9 @@
     "autolockLabelDurationImmediately": "Immédiatement",
     "settingsLabelAutlock": "Verrouiller automatiquement",
     "importVaultDialogTitleTooManyAccounts": "Trop de comptes trouvés",
-    "importVaultDialogMessageTooManyAccounts": "Votre fichier vault contient plus de 15 comptes. Tous les comptes seront importés, mais pour pouvoir visualiser vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
+    "importVaultDialogMessageTooManyAccounts": "Votre fichier vault contient plus de {maxAccounts} comptes. Tous les comptes seront importés, mais pour pouvoir visualiser vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que {maxAccounts} ou moins.",
     "importVaultDialogTitleTooManyAccountsAndWatchAccounts": "Comptes en Consultation Seule et trop de comptes trouvés",
-    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Votre fichier vault contient plus de 15 comptes, dont certains sont en Consultation Seule. Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés, mais pour pouvoir consulter vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que 15 ou moins.",
+    "importVaultDialogMessageTooManyAccountsAndWatchAccounts": "Votre fichier vault contient plus de {maxAccounts} comptes, dont certains sont en Consultation Seule. Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés, mais pour pouvoir consulter vos soldes et envoyer des fonds, veuillez en supprimer certains jusqu'à ce qu'il n'en reste plus que {maxAccounts} ou moins.",
     "importVaultDialogTitleWatchAccount": "Comptes en Consultation Seule trouvés",
     "importVaultDialogMessageWatchAccount": "Comme nous ne prenons actuellement pas en charge les comptes en Consultation Seule, ils seront ignorés. Tous les autres seront importés.",
     "importVaultErrorNoAccountsFound": "Aucun compte n'a été trouvé dans votre fichier vault. Nous ne pouvons pas procéder à l'importation.",
@@ -601,7 +600,7 @@
     },
     "generalErrorFileRequired": "Veuillez remplir le fichier",
     "generalErrorPathRequired": "Veuillez remplir le chemin du fichier",
-    "homeWarningTooManyAccounts": "Vous avez plus de 15 comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que 15 ou moins",
+    "homeWarningTooManyAccounts": "Vous avez plus de {maxAccounts} comptes dans votre portefeuille. Vous ne pourrez pas transférer de fonds ni consulter les soldes tant que vous n'en aurez pas supprimé certains pour n'en avoir que {maxAccounts} ou moins",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Adresse en lecture seule invalide. Veuillez vérifier l'adresse saisie.",
     "addAccountErrorVerifyIdentityError": "Impossible de vérifier l'adresse.",
@@ -719,8 +718,10 @@
     "generalErrorRequestCancelled": "Demande annulée",
     "generalErrorCouldntParseResponse": "Impossible d'analyser la réponse",
     "generalErrorServerError": "Erreur du serveur",
+    "generalErrorRateLimited": "Le serveur limite les requêtes. Cela peut se produire lorsque plusieurs applications accèdent au réseau ou lors de l'utilisation d'un VPN.",
     "generalStatusCode": "Code d'état",
     "generalCode": "Code",
+    "generalErrorInternalError": "Une erreur interne s'est produite. Si l'erreur persiste, contactez-nous (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "Adresse de destination invalide",
     "cmdErrorCreatingSignatureGeneric": "Erreur lors de la tentative de création de la signature",
     "cmdErrorCreatingSignatureDigestEmpty": "Erreur lors de la tentative de création de la signature. Le digest est vide",
@@ -746,6 +747,8 @@
     "settingsLabelSupport": "Support",
     "settingsSupportGithub": "GitHub (Signaler un problème)",
     "settingsSupportDiscord": "Discord (Canal de support)",
+    "settingsSupportWarningTitle": "Attention aux arnaqueurs",
+    "settingsSupportWarningDescription": "Nous n'offrons pas de support en direct. Nous ne vous demanderons jamais votre seed privé, de partager votre écran ou d'installer des applications de support à distance. Méfiez-vous des imposteurs sur Discord, GitHub ou toute autre plateforme.",
     "generalLabelFee": "Frais",
     "generalLabelMultipleReceivers": "Destinataires multiples",
     "qxTransferSharesWarning": "Cet enregistrement de transaction est actuellement visible uniquement par l'expéditeur.",
@@ -790,8 +793,46 @@
     "homeHeaderQubicPrice": "QUBIC Prix",
     "revealSeedCopiedToClipboardMessage": "La phrase secrète a été copiée temporairement (pendant 1 minute) dans le presse-papiers ",
     "revealSeedWarningTitle": "Ne partagez pas votre phrase secrète!",
+    "revealSeedWarningDescription": "Si quelqu'un possède votre phrase secrète, il aura un contrôle total sur votre compte",
+    "blockedScreenshotWarning": "Capture protégée — cet écran reste privé.",
+    "accountSortByLabel": "Trier par",
+    "accountSortModeName": "Nom (A-Z)",
+    "accountSortModeBalance": "Solde (Élevé → Bas)",
+    "accountSortModeCreation": "Création (Ancien → Récent)",
     "revealSeedWarningDescription": "Si quelqu’un possède votre phrase secrète, il aura un contrôle total sur votre compte",
     "blockedScreenshotWarning": "Capture protégée — cet écran reste privé.",
+    "releaseTransferRightsMenuOption": "Droits de Transfert",
+    "releaseTransferRightsTitle": "Transférer les Droits de Gestion",
+    "releaseTransferRightsLabelSourceContract": "Du Smart Contract",
+    "releaseTransferRightsLabelAvailableAmount": "Disponible : {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Montant",
+    "releaseTransferRightsLabelDestinationContract": "Vers Smart Contract",
+    "releaseTransferRightsButtonSubmit": "Transférer",
+    "releaseTransferRightsErrorNoSourceContract": "Veuillez sélectionner un contrat source",
+    "releaseTransferRightsErrorNoDestinationContract": "Veuillez sélectionner un contrat de destination",
+    "releaseTransferRightsErrorSameContract": "Les contrats source et de destination doivent être différents",
+    "releaseTransferRightsErrorInvalidContract": "Configuration de contrat invalide",
     "dAppSearchPlaceholder": "Rechercher ou saisir URL dApp",
     "addToFavorites": "Ajouter aux favoris",
     "favoriteNameLabel": "Nom",

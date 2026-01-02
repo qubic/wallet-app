@@ -59,6 +59,61 @@ abstract class _ApplicationStore with Store {
     currentInboundUri = uri;
   }
 
+  @observable
+  AccountSortMode accountsSortingMode = AccountSortMode.creationOrder;
+
+  @action
+  void setAccountsSortingMode(AccountSortMode mode) {
+    if (accountsSortingMode == mode) return;
+    accountsSortingMode = mode;
+    _hiveStorage.setAccountsSortingMode(mode);
+    sortAccounts();
+  }
+
+  void initStoredAccountsIfAbsent() {
+    // Load sorting mode from storage
+    final storedMode = _hiveStorage.getAccountsSortingMode();
+    if (storedMode != null) {
+      accountsSortingMode = storedMode;
+    } else if (currentQubicIDs.isNotEmpty) {
+      // Initialize default sorting mode if absent
+      appLogger.i('Setting accounts by creation order');
+      accountsSortingMode = AccountSortMode.creationOrder;
+      _hiveStorage.setAccountsSortingMode(AccountSortMode.creationOrder);
+    }
+  }
+
+  @action
+  void sortAccounts() {
+    if (accountsSortingMode == AccountSortMode.creationOrder) {
+      // Restore creation order by sorting by the original index
+      // We can use the publicId order from secure storage as reference
+      // For now, trigger a reload to restore order
+      _restoreCreationOrder();
+      return;
+    }
+
+    if (accountsSortingMode == AccountSortMode.name) {
+      currentQubicIDs.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    } else if (accountsSortingMode == AccountSortMode.balance) {
+      currentQubicIDs.sort((b, a) => (a.amount ?? 0).compareTo(b.amount ?? 0));
+    }
+  }
+
+  void _restoreCreationOrder() {
+    // Sort currentQubicIDs based on the cached creation order
+    currentQubicIDs.sort((a, b) {
+      final aIndex = _creationOrderCache.indexOf(a.publicId);
+      final bIndex = _creationOrderCache.indexOf(b.publicId);
+
+      // Handle accounts not in cache (shouldn't happen, but defensive)
+      if (aIndex == -1) return 1;
+      if (bIndex == -1) return -1;
+
+      return aIndex.compareTo(bIndex);
+    });
+  }
+
 // Add an action to update the tab index
   @action
   void setCurrentTabIndex(int index) {
@@ -83,6 +138,9 @@ abstract class _ApplicationStore with Store {
 
   @observable
   ObservableList<QubicListVm> currentQubicIDs = ObservableList<QubicListVm>();
+
+  // Cache of account public IDs in creation order (for restoring sort)
+  List<String> _creationOrderCache = [];
   @observable
   ObservableList<TransactionVm> currentTransactions =
       ObservableList<TransactionVm>();
@@ -93,20 +151,30 @@ abstract class _ApplicationStore with Store {
 
   List<String> get qubicIDsNames => currentQubicIDs.map((e) => e.name).toList();
 
+  /// Returns only accounts that are not watch-only (i.e., accounts with private seeds).
+  /// Use this when you need to filter out watch-only accounts for operations like
+  /// WalletConnect events, transactions, or balance calculations.
+  ///
+  /// Performance note: With a maximum of Config.maxAccountsInWallet accounts supported, iterating this filtered
+  /// list and then applying additional conditions in the caller (double iteration) has
+  /// negligible performance impact (~25 operations total). Code clarity is prioritized.
+  List<QubicListVm> get nonWatchOnlyAccounts {
+    return currentQubicIDs.where((id) => !id.watchOnly).toList();
+  }
+
   @observable
   int pendingRequests = 0; //The number of pending HTTP requests
 
   @computed
   int get totalAmounts {
-    return currentQubicIDs
-        .where((qubic) => !qubic.watchOnly)
+    return nonWatchOnlyAccounts
         .fold<int>(0, (sum, qubic) => sum + (qubic.amount ?? 0));
   }
 
   @computed
   double get totalAmountsInUSD {
     if (marketInfo == null) return -1;
-    return currentQubicIDs.where((qubic) => !qubic.watchOnly).fold<double>(
+    return nonWatchOnlyAccounts.fold<double>(
         0,
         (sum, qubic) =>
             sum + (qubic.amount ?? 0) * marketInfo!.price!.toDouble());
@@ -120,7 +188,7 @@ abstract class _ApplicationStore with Store {
   List<QubicAssetDto> get totalShares {
     List<QubicAssetDto> shares = [];
     List<QubicAssetDto> tokens = [];
-    currentQubicIDs.where((qubic) => !qubic.watchOnly).forEach((id) {
+    nonWatchOnlyAccounts.forEach((id) {
       id.assets.forEach((key, asset) {
         QubicAssetDto temp = asset;
 
@@ -214,6 +282,8 @@ abstract class _ApplicationStore with Store {
       isSignedIn = true;
       final results = await secureStorage.getWalletContents();
       currentQubicIDs = ObservableList.of(results);
+      // Cache the creation order
+      _creationOrderCache = results.map((e) => e.publicId).toList();
     } catch (e) {
       isSignedIn = false;
     }
@@ -245,6 +315,8 @@ abstract class _ApplicationStore with Store {
       //Populate the list
       final results = await secureStorage.getWalletContents();
       currentQubicIDs = ObservableList.of(results);
+      // Cache the creation order
+      _creationOrderCache = results.map((e) => e.publicId).toList();
       return result;
     } catch (e) {
       isSignedIn = false;
@@ -259,6 +331,7 @@ abstract class _ApplicationStore with Store {
       await _hiveStorage.initEncryptedBoxes();
       isSignedIn = result;
       currentQubicIDs = ObservableList<QubicListVm>();
+      _creationOrderCache = [];
       appLogger.d('[QubicWallet] Signed up');
       return isSignedIn;
     } catch (e) {
@@ -273,6 +346,7 @@ abstract class _ApplicationStore with Store {
     transactionFilter = TransactionFilter();
     currentQubicIDs = ObservableList<QubicListVm>();
     currentTransactions = ObservableList<TransactionVm>();
+    _creationOrderCache = [];
   }
 
   @action
@@ -281,7 +355,10 @@ abstract class _ApplicationStore with Store {
     for (var element in ids) {
       currentQubicIDs.add(QubicListVm(element.getPublicId(), element.getName(),
           null, null, null, element.getPrivateSeed() == '' ? true : false));
+      // Add to creation order cache
+      _creationOrderCache.add(element.getPublicId());
     }
+    initStoredAccountsIfAbsent();
   }
 
   @action
@@ -289,6 +366,9 @@ abstract class _ApplicationStore with Store {
     await secureStorage.addID(QubicId(privateSeed, publicId, name, null));
     currentQubicIDs.add(QubicListVm(
         publicId, name, null, null, null, privateSeed == '' ? true : false));
+    // Add to creation order cache
+    _creationOrderCache.add(publicId);
+    sortAccounts();
   }
 
   Future<String> getSeedById(String publicId) async {
@@ -304,9 +384,13 @@ abstract class _ApplicationStore with Store {
         item.name = name;
         currentQubicIDs[i] = item;
         await secureStorage.renameId(publicId, name);
+        // Re-sort if in name mode to update account position
+        if (accountsSortingMode == AccountSortMode.name) {
+          sortAccounts();
+        }
         return;
       }
-    } //);
+    }
   }
 
   @action
@@ -483,6 +567,8 @@ abstract class _ApplicationStore with Store {
     await secureStorage.removeID(publicId);
     currentQubicIDs.removeWhere(
         (element) => element.publicId == publicId.replaceAll(",", "_"));
+    // Remove from creation order cache
+    _creationOrderCache.remove(publicId.replaceAll(",", "_"));
     //Remove all from transactions which contain this qubicId and no other wallet ids
 
     currentTransactions.removeWhere((element) =>
@@ -497,4 +583,10 @@ abstract class _ApplicationStore with Store {
                 (el) => el.publicId == element.destId.replaceAll(",", "_")) ==
             false);
   }
+}
+
+enum AccountSortMode {
+  creationOrder,
+  name,
+  balance,
 }

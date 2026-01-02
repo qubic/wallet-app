@@ -219,7 +219,7 @@
     "accountButtonReceive": "Empfangen",
     "accountButtonSend": "Senden",
     "accountButtonAssets": "Vermögenswerte",
-    "accountSendTitle": "Geld senden",
+    "accountSendTitle": "QUBIC senden",
     "accountSendLabelDestinationAddress": "Zieladresse",
     "accountSendLabelAmount": "Betrag",
     "accountSendButtonMax": "Max",
@@ -354,7 +354,7 @@
     "addAccountErrorNameAlreadyInUse": "Name ist bereits vergeben.",
     "addAccountErrorPublicIDAlreadyInUse": "Öffentliche ID bereits vergeben.",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Maximale Anzahl an Konten erreicht.",
-    "addAccountDialogMessageMaxNumberOfAccountsReached": "Sie können nur bis zu 15 Qubic-Konten in Ihrem Wallet haben. Wenn Sie ein weiteres hinzufügen müssen, entfernen Sie bitte eines der Vorhandenen.",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "Sie können nur bis zu {maxAccounts} Qubic-Konten in Ihrem Wallet haben. Wenn Sie ein weiteres hinzufügen müssen, entfernen Sie bitte eines der Vorhandenen.",
     "addAccountButtonCreateRandom": "Zufällig erstellen",
     "addAccountLabelPrivateSeed": "Privater Seed",
     "addAccountLabelAccountName": "Kontoname",
@@ -369,8 +369,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Ungültigen privaten Seed angegeben.",
     "addAccountErrorTamperedWalletTitle": "MANIPULIERTES WALLET ERKANNT",
     "addAccountErrorTamperedWalletMessage": "DAS WALLET, DAS SIE DERZEIT VERWENDEN, IST MANIPULIERT.\n\nINSTALLIEREN SIE EINE OFFIZIELLE VERSION VON HTTPS://GITHUB.COM/QUBIC/WALLET-APP ODER RISIKIEREN SIE DEN VERLUST VON GELDERN.",
-    "sendAssetLabelTransactionCost": "Gebühr (fest)",
-    "sendAssetButtonTransfer": "Übertragen",
+    "sendAssetButtonTransfer": "Senden",
     "sendAssetErrorTickIsInThePast": "Der angegebene Tick liegt in der Vergangenheit. Aktueller Tick ist {currentTick}.",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -458,7 +457,7 @@
     "transfersListLabelReceiveIn": "Empfangen in",
     "transfersListLabelSharePublicIdInstructionsOne": "Bitte teilen Sie dem Absender die folgende öffentliche ID mit:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Oder zeigen Sie den folgenden QR-Code",
-    "transferAssetHeader": "Übertragen Sie {assetName}",
+    "transferAssetHeader": "{assetName} senden",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -513,7 +512,7 @@
     "autolockLabelDurationImmediately": "Sofort",
     "settingsLabelAutlock": "Auto-Lock",
     "importVaultDialogTitleTooManyAccounts": "Zu viele Konten gefunden",
-    "importVaultDialogMessageTooManyAccounts": "Ihre Tresor-Datei enthält mehr als 15 Konten. Alle Konten werden importiert, aber um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
+    "importVaultDialogMessageTooManyAccounts": "Ihre Tresor-Datei enthält mehr als {maxAccounts} Konten. Alle Konten werden importiert, aber um Ihre Guthaben anzuzeigen und Gelder zu senden, löschen Sie bitte einige Konten, bis Sie {maxAccounts} oder weniger haben.",
     "importVaultErrorNoAccountsFound": "In Ihrer Tresor-Datei wurden keine Konten gefunden. Wir können den Import nicht fortsetzen.",
     "importVaultFilePickerLabel": "Bitte wählen Sie eine Tresor-Datei aus, um fortzufahren:",
     "importVaultFileErrorGeneralMessage": "Fehler beim Importieren der Tresor-Datei: {errorDescription}",
@@ -596,7 +595,7 @@
     },
     "generalErrorFileRequired": "Bitte wählen Sie eine Datei",
     "generalErrorPathRequired": "Bitte wählen Sie einen Pfad",
-    "homeWarningTooManyAccounts": "Sie haben mehr als 15 Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und QUBICs zu senden, löschen Sie bitte einige Konten, bis Sie 15 oder weniger haben.",
+    "homeWarningTooManyAccounts": "Sie haben mehr als {maxAccounts} Konten in Ihrem Wallet. Um Ihre Guthaben anzuzeigen und QUBICs zu senden, löschen Sie bitte einige Konten, bis Sie {maxAccounts} oder weniger haben.",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Ungültige Watch-Only-Adresse. Bitte überprüfen Sie die eingegebene Adresse.",
     "addAccountErrorVerifyIdentityError": "Die Adresse konnte nicht überprüft werden.",
@@ -714,8 +713,10 @@
     "generalErrorRequestCancelled": "Anfrage abgebrochen",
     "generalErrorCouldntParseResponse": "Antwort konnte nicht analysiert werden",
     "generalErrorServerError": "Serverfehler",
+    "generalErrorRateLimited": "Server begrenzt Anfragen. Dies kann passieren, wenn mehrere Apps auf das Netzwerk zugreifen oder wenn Sie ein VPN verwenden.",
     "generalStatusCode": "Statuscode",
     "generalCode": "Code",
+    "generalErrorInternalError": "Ein interner Fehler ist aufgetreten. Wenn der Fehler weiterhin besteht, kontaktieren Sie uns (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "Ungültige Zieladresse",
     "cmdErrorCreatingSignatureGeneric": "Fehler beim Erstellen der Signatur",
     "cmdErrorCreatingSignatureDigestEmpty": "Fehler beim Erstellen der Signatur. Digest ist leer",
@@ -741,6 +742,8 @@
     "settingsLabelSupport": "Support",
     "settingsSupportGithub": "GitHub (Problem melden)",
     "settingsSupportDiscord": "Discord (Support-Kanal)",
+    "settingsSupportWarningTitle": "Vorsicht vor Betrügern",
+    "settingsSupportWarningDescription": "Wir bieten keinen Live-Support an. Wir werden niemals nach Ihrem privaten Seed fragen, Bildschirmfreigabe anfordern oder Sie bitten, Fernwartungs-Apps zu installieren. Seien Sie vorsichtig mit Betrügern auf Discord, GitHub oder anderen Plattformen.",
     "generalLabelFee": "Gebühr",
     "generalLabelMultipleReceivers": "Mehrere Empfänger",
     "qxTransferSharesWarning": "Dieser Transaktionsdatensatz ist derzeit nur für den Absender sichtbar.",
@@ -787,6 +790,42 @@
     "revealSeedWarningTitle": "Teile deinen privaten Seed nicht!",
     "revealSeedWarningDescription": "Wenn jemand deinen privaten Seed hat, hat er vollständige Kontrolle über dein Konto",
     "blockedScreenshotWarning": "Screenshot geschützt — dieser Bildschirm bleibt privat.",
+    "accountSortByLabel": "Sortieren nach",
+    "accountSortModeName": "Name (A-Z)",
+    "accountSortModeBalance": "Guthaben (Hoch → Niedrig)",
+    "accountSortModeCreation": "Erstellung (Älteste → Neueste)",
+    "releaseTransferRightsMenuOption": "Übertragungsrechte",
+    "releaseTransferRightsTitle": "Verwaltungsrechte übertragen",
+    "releaseTransferRightsLabelSourceContract": "Von Smart Contract",
+    "releaseTransferRightsLabelAvailableAmount": "Verfügbar: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Menge",
+    "releaseTransferRightsLabelDestinationContract": "Zu Smart Contract",
+    "releaseTransferRightsButtonSubmit": "Übertragen",
+    "releaseTransferRightsErrorNoSourceContract": "Bitte wählen Sie einen Quellvertrag aus",
+    "releaseTransferRightsErrorNoDestinationContract": "Bitte wählen Sie einen Zielvertrag aus",
+    "releaseTransferRightsErrorSameContract": "Quell- und Zielvertrag müssen unterschiedlich sein",
+    "releaseTransferRightsErrorInvalidContract": "Ungültige Vertragskonfiguration",
     "dAppSearchPlaceholder": "Suchen oder dApp-URL eingeben",
     "addToFavorites": "Favorit hinzufügen",
     "favoriteNameLabel": "Name",

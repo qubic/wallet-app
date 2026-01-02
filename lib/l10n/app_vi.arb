@@ -122,8 +122,10 @@
     "generalErrorRequestCancelled": "Yêu cầu đã bị hủy",
     "generalErrorCouldntParseResponse": "Không thể phân tích phản hồi",
     "generalErrorServerError": "Lỗi máy chủ",
+    "generalErrorRateLimited": "Máy chủ đang giới hạn yêu cầu. Điều này có thể xảy ra khi nhiều ứng dụng truy cập mạng hoặc khi sử dụng VPN.",
     "generalStatusCode": "Mã trạng thái",
     "generalCode": "Mã",
+    "generalErrorInternalError": "Đã xảy ra lỗi nội bộ. Nếu lỗi vẫn tiếp diễn, vui lòng liên hệ với chúng tôi (errCode: {code})",
     "appTabHome": "Trang chủ",
     "appTabExplore": "Khám phá",
     "appTabSettings": "Cài đặt",
@@ -180,6 +182,8 @@
     "settingsLabelWalletConnect": "WalletConnect",
     "settingsSupportGithub": "GitHub (Báo cáo sự cố)",
     "settingsSupportDiscord": "Discord (Kênh hỗ trợ)",
+    "settingsSupportWarningTitle": "Cảnh giác với kẻ lừa đảo",
+    "settingsSupportWarningDescription": "Chúng tôi không cung cấp hỗ trợ trực tiếp. Chúng tôi sẽ không bao giờ yêu cầu seed riêng tư, chia sẻ màn hình hoặc cài đặt ứng dụng hỗ trợ từ xa. Hãy cẩn thận với những kẻ mạo danh trên Discord, GitHub hoặc bất kỳ nền tảng nào khác.",
     "settingsSupportGoogleForm": "Điền biểu mẫu",
     "generalBiometricTypeFaceID": "Face ID",
     "generalBiometricTypeTouchID": "Touch ID",
@@ -246,7 +250,7 @@
     "accountButtonReceive": "Nhận",
     "accountButtonSend": "Gửi",
     "accountButtonAssets": "Tài sản",
-    "accountSendTitle": "Gửi tiền",
+    "accountSendTitle": "Gửi QUBIC",
     "accountSendLabelDestinationAddress": "Địa chỉ đích",
     "accountSendLabelAmount": "Số lượng",
     "accountSendButtonMax": "Tối đa",
@@ -390,7 +394,7 @@
     "addAccountErrorNameAlreadyInUse": "Tên đã được sử dụng",
     "addAccountErrorPublicIDAlreadyInUse": "ID công khai đã được sử dụng",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Đã đạt giới hạn số tài khoản tối đa",
-    "addAccountDialogMessageMaxNumberOfAccountsReached": "Bạn chỉ có thể có tối đa 15 tài khoản Qubic trong ví của bạn. Nếu bạn cần thêm một tài khoản khác, vui lòng xóa một tài khoản hiện có.",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "Bạn chỉ có thể có tối đa {maxAccounts} tài khoản Qubic trong ví của bạn. Nếu bạn cần thêm một tài khoản khác, vui lòng xóa một tài khoản hiện có.",
     "addAccountButtonCreateRandom": "Tạo ngẫu nhiên",
     "addAccountLabelPrivateSeed": "Seed riêng tư",
     "addAccountLabelAccountName": "Tên tài khoản",
@@ -411,8 +415,7 @@
     "addAccountWatchOnlyHintQubicAddress": "Nhập địa chỉ Qubic",
     "addAccountCreateNewAccountModalBottomSheet": "Tạo tài khoản mới",
     "addAccountWatchOnlyAddressModalBottomSheet": "Tài khoản chỉ xem",
-    "sendAssetLabelTransactionCost": "Phí (cố định)",
-    "sendAssetButtonTransfer": "Chuyển khoản",
+    "sendAssetButtonTransfer": "Gửi",
     "sendAssetErrorTickIsInThePast": "Tick được cung cấp là trong quá khứ. Tick hiện tại là {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -501,7 +504,7 @@
     "transfersListLabelReceiveIn": "Nhận trong",
     "transfersListLabelSharePublicIdInstructionsOne": "Vui lòng chia sẻ ID công khai sau đây với người gửi:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Hoặc hiển thị mã QR sau đây",
-    "transferAssetHeader": "Chuyển {assetName}",
+    "transferAssetHeader": "Gửi {assetName}",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -585,7 +588,7 @@
     "autolockLabelDurationImmediately": "Ngay lập tức",
     "settingsLabelAutlock": "Tự động khóa",
     "importVaultDialogTitleTooManyAccounts": "Tìm thấy quá nhiều tài khoản",
-    "importVaultDialogMessageTooManyAccounts": "Tập tin vault của bạn chứa hơn 15 tài khoản. Tất cả các tài khoản sẽ được nhập, nhưng để xem số dư và gửi tiền của bạn, vui lòng xóa một số cho đến khi còn 15 hoặc ít hơn.",
+    "importVaultDialogMessageTooManyAccounts": "Tập tin vault của bạn chứa hơn {maxAccounts} tài khoản. Tất cả các tài khoản sẽ được nhập, nhưng để xem số dư và gửi tiền của bạn, vui lòng xóa một số cho đến khi còn {maxAccounts} hoặc ít hơn.",
     "importVaultErrorNoAccountsFound": "Không tìm thấy tài khoản nào trong tập tin vault của bạn. Chúng tôi không thể tiếp tục nhập.",
     "importVaultFilePickerLabel": "Vui lòng chọn một tập tin vault để tiếp tục:",
     "importVaultFileErrorGeneralMessage": "Lỗi nhập tập tin vault: {errorDescription}",
@@ -682,7 +685,7 @@
     },
     "generalErrorFileRequired": "Vui lòng chọn một tập tin",
     "generalErrorPathRequired": "Vui lòng chọn một đường dẫn",
-    "homeWarningTooManyAccounts": "Bạn có hơn 15 tài khoản trong ví của bạn. Bạn sẽ không thể chuyển tiền hoặc xem số dư cho đến khi bạn xóa một số để còn 15 hoặc ít hơn.",
+    "homeWarningTooManyAccounts": "Bạn có hơn {maxAccounts} tài khoản trong ví của bạn. Bạn sẽ không thể chuyển tiền hoặc xem số dư cho đến khi bạn xóa một số để còn {maxAccounts} hoặc ít hơn.",
     "cmdErrorVerifyingIdentityGeneric": "Lỗi xác minh danh tính.",
     "cmdErrorVerifyingIdentity": "Không thể xác minh danh tính của bạn: {errorDescription}",
     "@cmdErrorVerifyingIdentity": {
@@ -850,6 +853,42 @@
     "revealSeedWarningTitle": "Đừng chia sẻ seed riêng tư của bạn!",
     "revealSeedWarningDescription": "Nếu ai đó có seed riêng tư của bạn, họ sẽ có toàn quyền kiểm soát tài khoản của bạn",
     "blockedScreenshotWarning": "Chụp màn hình được bảo vệ — màn hình này là riêng tư.",
+    "accountSortByLabel": "Sắp xếp theo",
+    "accountSortModeName": "Tên (A-Z)",
+    "accountSortModeBalance": "Số dư (Cao → Thấp)",
+    "accountSortModeCreation": "Tạo (Cũ nhất → Mới nhất)",
+    "releaseTransferRightsMenuOption": "Quyền Chuyển Nhượng",
+    "releaseTransferRightsTitle": "Chuyển Quyền Quản Lý",
+    "releaseTransferRightsLabelSourceContract": "Từ Smart Contract",
+    "releaseTransferRightsLabelAvailableAmount": "Khả dụng: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Số Lượng",
+    "releaseTransferRightsLabelDestinationContract": "Đến Smart Contract",
+    "releaseTransferRightsButtonSubmit": "Chuyển",
+    "releaseTransferRightsErrorNoSourceContract": "Vui lòng chọn hợp đồng nguồn",
+    "releaseTransferRightsErrorNoDestinationContract": "Vui lòng chọn hợp đồng đích",
+    "releaseTransferRightsErrorSameContract": "Hợp đồng nguồn và đích phải khác nhau",
+    "releaseTransferRightsErrorInvalidContract": "Cấu hình hợp đồng không hợp lệ",
     "dAppSearchPlaceholder": "Tìm kiếm hoặc nhập URL dApp",
     "addToFavorites": "Thêm vào yêu thích",
     "favoriteNameLabel": "Tên",

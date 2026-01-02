@@ -5,8 +5,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
-import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
-import 'package:qubic_wallet/services/qr_scanner_service.dart';
+import 'package:qubic_wallet/components/transaction/advanced_tick_options.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -19,8 +18,10 @@ import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
+import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -55,23 +56,6 @@ class _SendState extends State<Send> {
   );
 
   bool expanded = false;
-
-  List<DropdownMenuItem<TargetTickTypeEnum>> getTickList() {
-    final l10n = l10nOf(context);
-
-    return TargetTickTypeEnum.values.map((targetTickTypeItem) {
-      return DropdownMenuItem<TargetTickTypeEnum>(
-        value: targetTickTypeItem,
-        child: Text(
-            targetTickTypeItem == TargetTickTypeEnum.manual
-                ? l10n.sendItemLabelTargetTickManual
-                : l10n
-                    .sendItemLabelTargetTickAutomatic(targetTickTypeItem.value),
-            style: TextStyles
-                .inputBoxSmallStyle), // Display name without enum prefix
-      );
-    }).toList();
-  }
 
   CurrencyInputFormatter getInputFormatter() {
     final l10n = l10nOf(context);
@@ -213,81 +197,6 @@ class _SendState extends State<Send> {
     );
   }
 
-  List<Widget> getOverrideTick() {
-    final l10n = l10nOf(context);
-
-    if ((targetTickType == TargetTickTypeEnum.manual) && (expanded == true)) {
-      return [
-        ThemedControls.spacerVerticalSmall(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Expanded(
-                child: Text(l10n.generalLabelTick,
-                    style: TextStyles.labelTextNormal)),
-            ThemedControls.transparentButtonSmall(
-                text: l10n.sendItemButtonSetCurrentTick(
-                    appStore.currentTick.asThousands()),
-                onPressed: () {
-                  if (appStore.currentTick > 0) {
-                    tickController.text = appStore.currentTick.toString();
-                  }
-                }),
-          ],
-        ),
-        FormBuilderTextField(
-          decoration: ThemeInputDecorations.normalInputbox,
-          name: l10n.generalLabelTick,
-          readOnly: isLoading,
-          controller: tickController,
-          enableSuggestions: false,
-          keyboardType: TextInputType.number,
-          validator: FormBuilderValidators.compose([
-            FormBuilderValidators.required(
-                errorText: l10n.generalErrorRequiredField),
-            FormBuilderValidators.numeric(),
-          ]),
-          maxLines: 1,
-          autocorrect: false,
-          autofillHints: null,
-        )
-      ];
-    }
-    return [Container()];
-  }
-
-  Widget getAdvancedOptions() {
-    final l10n = l10nOf(context);
-
-    return Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(l10n.sendItemLabelDetermineTargetTick,
-              style: TextStyles.labelTextNormal),
-          ThemedControls.spacerVerticalMini(),
-          Theme(
-              data: Theme.of(context).copyWith(
-                  canvasColor: LightThemeColors.background,
-                  scaffoldBackgroundColor: LightThemeColors.background,
-                  brightness: Brightness.dark,
-                  dropdownMenuTheme: DropdownMenuThemeData(
-                    textStyle: TextStyles.inputBoxNormalStyle,
-                  )),
-              child: ThemedControls.dropdown<TargetTickTypeEnum>(
-                items: getTickList(),
-                onChanged: (TargetTickTypeEnum? value) {
-                  setState(() {
-                    targetTickType = value!;
-                  });
-                },
-                value: targetTickType,
-              )),
-          Column(children: getOverrideTick())
-        ]);
-  }
-
   Widget getScrollView(BuildContext context) {
     final l10n = l10nOf(context);
     return SingleChildScrollView(
@@ -419,7 +328,7 @@ class _SendState extends State<Send> {
                     readOnly: isLoading,
                     controller: amount,
                     enableSuggestions: false,
-                    textAlign: TextAlign.start,
+                    textAlign: TextAlign.end,
                     onSubmitted: (value) => transferNowHandler(),
                     validator: FormBuilderValidators.compose([
                       FormBuilderValidators.required(
@@ -476,7 +385,18 @@ class _SendState extends State<Send> {
                                         ThemePaddings.normalPadding,
                                         ThemePaddings.normalPadding,
                                       ),
-                                      child: getAdvancedOptions()),
+                                      child: AdvancedTickOptions(
+                                        targetTickType: targetTickType,
+                                        onTargetTickTypeChanged:
+                                            (TargetTickTypeEnum? value) {
+                                          setState(() {
+                                            targetTickType = value!;
+                                          });
+                                        },
+                                        tickController: tickController,
+                                        currentTick: appStore.currentTick,
+                                        isLoading: isLoading,
+                                      )),
                                   isExpanded: expanded,
                                 )
                               ])))
@@ -547,45 +467,51 @@ class _SendState extends State<Send> {
       isLoading = true;
     });
 
-    int? targetTick;
+    try {
+      int? targetTick;
 
-    if (targetTickType == TargetTickTypeEnum.manual) {
-      targetTick = int.tryParse(tickController.text);
-    } else {
-      // fetch latest tick
-      int latestTick = (await _liveApi.getCurrentTick()).tick;
-      targetTick = latestTick + targetTickType.value;
-    }
-    if (!mounted) return;
-    SignedTransaction? result = await sendTransactionDialog(
-        context,
-        widget.item.publicId,
-        destinationID.text,
-        getQubicAmount(),
-        targetTick!);
-    if (result == null) {
+      if (targetTickType == TargetTickTypeEnum.manual) {
+        targetTick = int.tryParse(tickController.text);
+      } else {
+        // fetch latest tick
+        int latestTick = (await _liveApi.getCurrentTick()).tick;
+        targetTick = latestTick + targetTickType.value;
+      }
+      if (!mounted) return;
+      SignedTransaction? result = await sendTransactionDialog(
+          context,
+          widget.item.publicId,
+          destinationID.text,
+          getQubicAmount(),
+          targetTick!);
+      if (result == null) {
+        return;
+      }
+      await _timedController.interruptFetchTimer();
+
+      if (!mounted) return;
       setState(() {
         isLoading = false;
       });
-      return;
+      Navigator.pop(context);
+      final l10n = l10nOf(context);
+      _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
+          targetTick.toString().asThousands()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return TransactionsForId(
+          publicQubicId: widget.item.publicId,
+          item: widget.item,
+        );
+      }));
+    } catch (e) {
+      _globalSnackBar.showError(e.toString());
+    } finally {
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
-    await _timedController.interruptFetchTimer();
-
-    setState(() {
-      isLoading = false;
-    });
-
-    if (!mounted) return;
-    Navigator.pop(context);
-    final l10n = l10nOf(context);
-    _globalSnackBar.show(l10n.generalSnackBarMessageTransactionSubmitted(
-        targetTick.toString().asThousands()));
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return TransactionsForId(
-        publicQubicId: widget.item.publicId,
-        item: widget.item,
-      );
-    }));
   }
 
   late final TextEditingController destinationID;

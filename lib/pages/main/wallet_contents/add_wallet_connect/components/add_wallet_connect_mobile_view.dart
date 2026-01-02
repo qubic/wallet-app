@@ -43,10 +43,16 @@ class _AddWalletConnectMobileViewState
     final l10n = l10nOf(context);
     return LayoutBuilder(
       builder: (context, constraints) {
-        const overlayWidth = 280.0;
-        const overlayHeight = 280.0;
-        final shiftingFromCenterToTop =
-            constraints.maxHeight > ResponsiveConstants.largeScreenHeight
+        final isTablet =
+            constraints.maxWidth > ResponsiveConstants.tabletBreakpoint;
+        final screenSize = constraints.maxWidth < constraints.maxHeight
+            ? constraints.maxWidth
+            : constraints.maxHeight;
+        final overlayWidth = screenSize * (isTablet ? 0.55 : 0.75);
+        final overlayHeight = overlayWidth;
+        final shiftingFromCenterToTop = isTablet
+            ? constraints.maxHeight * 0.05 // Less shift for tablets
+            : constraints.maxHeight > ResponsiveConstants.largeScreenHeight
                 ? constraints.maxHeight * 0.1
                 : constraints.maxHeight * .08;
 
@@ -69,7 +75,6 @@ class _AddWalletConnectMobileViewState
                     facing: CameraFacing.back,
                     torchEnabled: false,
                   ),
-                  scanWindow: scanWindow,
                   onDetect: widget.onDetect,
                   errorBuilder: (context, error, child) {
                     return Material(

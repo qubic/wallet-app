@@ -7,6 +7,8 @@ import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/models/token_response.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
+import 'package:qubic_wallet/smart_contracts/qx_info.dart';
+import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
 
 part 'qubic_ecosystem_store.g.dart';
 
@@ -85,6 +87,41 @@ abstract class QubicEcosystemStoreBase with Store {
     } catch (e) {
       return null;
     }
+  }
+
+  SmartContractModel? getContractByIndex(int index) {
+    try {
+      return smartContracts.firstWhere((sc) => sc.contractIndex == index);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Get the QX contract by its address.
+  /// Returns null if QX contract is not found.
+  SmartContractModel? getQxContract() {
+    try {
+      return smartContracts
+          .firstWhere((sc) => sc.address == QxInfo.address);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /// Get fee for a specific procedure.
+  /// Returns the fee for a specific procedure in a contract
+  /// Returns null if contract not found or procedure not found
+  int? getFeeForProcedure(int contractIndex, int procedureId) {
+    final contract = getContractByIndex(contractIndex);
+    if (contract == null) return null;
+    return contract.getProcedureFee(procedureId);
+  }
+
+  /// Get the procedure ID for "Transfer Share Management Rights" for a given contract
+  int? getTransferShareManagementRightsProcedureId(int contractIndex) {
+    final contract = getContractByIndex(contractIndex);
+    if (contract == null) return null;
+    return contract.getProcedureId(ReleaseTransferRightsInfo.procedureName);
   }
 
   @action

@@ -1,4 +1,7 @@
 class DappDto {
+  /// Special value for platformVersions to exclude a platform entirely
+  static const String versionNone = 'none';
+
   final String id;
   final String? nameId;
   final String? icon;
@@ -9,6 +12,12 @@ class DappDto {
   final String? description;
   final String? name;
   final String? openButtonTitle;
+
+  /// Platform-specific version constraints (semver format: ">=1.0.0", "^2.0.0")
+  /// Keys: 'ios', 'android', 'macos', 'windows', 'linux', 'web'
+  /// Use [versionNone] to exclude a platform entirely
+  /// If a platform is not in the map, the dApp is available on all versions of that platform
+  final Map<String, String>? platformVersions;
 
   DappDto({
     required this.id,
@@ -21,6 +30,7 @@ class DappDto {
     this.description,
     this.name,
     this.openButtonTitle,
+    this.platformVersions,
   });
 
   factory DappDto.fromJson(Map<String, dynamic> json) {
@@ -33,6 +43,9 @@ class DappDto {
       customDescriptionId: json['customDescriptionId'],
       openButtonTitleId: json['openButtonTitleId'],
       openButtonTitle: json['openButtonTitle'],
+      platformVersions: json['platformVersions'] != null
+          ? Map<String, String>.from(json['platformVersions'])
+          : null,
     );
   }
 
@@ -47,6 +60,7 @@ class DappDto {
     String? name,
     String? openButtonTitleId,
     String? openButtonTitle,
+    Map<String, String>? platformVersions,
   }) {
     return DappDto(
       id: id ?? this.id,
@@ -59,12 +73,13 @@ class DappDto {
       name: name ?? this.name,
       openButtonTitleId: openButtonTitleId ?? this.openButtonTitleId,
       openButtonTitle: openButtonTitle ?? this.openButtonTitle,
+      platformVersions: platformVersions ?? this.platformVersions,
     );
   }
 
   @override
   String toString() {
-    return 'DappDto(id: $id, nameId: $nameId, icon: $icon, url: $url, descriptionId: $descriptionId, customDescriptionId: $customDescriptionId, description: $description, name: $name openButtonTitle: $openButtonTitle)';
+    return 'DappDto(id: $id, nameId: $nameId, icon: $icon, url: $url, descriptionId: $descriptionId, customDescriptionId: $customDescriptionId, description: $description, name: $name, openButtonTitle: $openButtonTitle, platformVersions: $platformVersions)';
   }
 }
 

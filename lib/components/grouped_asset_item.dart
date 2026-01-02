@@ -8,12 +8,13 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/release_transfer_rights.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfer_asset.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
-enum CardItem { issuerIdentity }
+enum CardItem { issuerIdentity, releaseTransferRights }
 
 class GroupedAssetItem extends StatelessWidget {
   final QubicListVm account;
@@ -26,11 +27,25 @@ class GroupedAssetItem extends StatelessWidget {
   });
 
   Widget getCardMenu(BuildContext context) {
-    if (groupedAsset.isSmartContractShare) {
-      return Container();
+    final l10n = l10nOf(context);
+
+    List<PopupMenuEntry<CardItem>> menuItems = [
+      PopupMenuItem<CardItem>(
+        value: CardItem.releaseTransferRights,
+        child: Text(l10n.releaseTransferRightsMenuOption),
+      ),
+    ];
+
+    // Add Issuer Identity option only for non-smart-contract shares
+    if (!groupedAsset.isSmartContractShare) {
+      menuItems.add(
+        PopupMenuItem<CardItem>(
+          value: CardItem.issuerIdentity,
+          child: Text(l10n.assetButtonIssuerIdentity),
+        ),
+      );
     }
 
-    final l10n = l10nOf(context);
     return PopupMenuButton<CardItem>(
         tooltip: "",
         icon: Icon(Icons.more_horiz,
@@ -39,14 +54,19 @@ class GroupedAssetItem extends StatelessWidget {
           if (menuItem == CardItem.issuerIdentity) {
             viewAddressInExplorer(
                 context, groupedAsset.issuedAsset.issuerIdentity);
+          } else if (menuItem == CardItem.releaseTransferRights) {
+            pushScreen(
+              context,
+              screen: ReleaseTransferRights(
+                item: account,
+                groupedAsset: groupedAsset,
+              ),
+              withNavBar: false,
+              pageTransitionAnimation: PageTransitionAnimation.cupertino,
+            );
           }
         },
-        itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
-              PopupMenuItem<CardItem>(
-                value: CardItem.issuerIdentity,
-                child: Text(l10n.assetButtonIssuerIdentity),
-              )
-            ]);
+        itemBuilder: (BuildContext context) => menuItems);
   }
 
   Widget getAssetButtonBar(BuildContext context) {
@@ -120,7 +140,9 @@ class GroupedAssetItem extends StatelessWidget {
                   ],
                 ),
                 ThemedControls.spacerVerticalSmall(),
-                ...groupedAsset.contractContributions.map((contribution) {
+                ...groupedAsset.contractContributions
+                    .where((contribution) => contribution.numberOfUnits > 0)
+                    .map((contribution) {
                   String? contractName = getIt<QubicEcosystemStore>()
                       .getContractNameByIndex(
                           contribution.managingContractIndex);

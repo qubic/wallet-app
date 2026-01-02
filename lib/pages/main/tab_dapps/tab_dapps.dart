@@ -632,28 +632,30 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
                         },
                       ),
                     ),
-                    ThemedControls.spacerVerticalNormal(),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: ThemePaddings.smallPadding +
-                            ThemePaddings.normalPadding,
-                        right: ThemePaddings.smallPadding,
+                    if (walletStore.popularDapps.isNotEmpty) ...[
+                      ThemedControls.spacerVerticalNormal(),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: ThemePaddings.smallPadding +
+                              ThemePaddings.normalPadding,
+                          right: ThemePaddings.smallPadding,
+                        ),
+                        child: Text(l10n.dAppPopularApps,
+                            style: TextStyles.labelText),
                       ),
-                      child: Text(l10n.dAppPopularApps,
-                          style: TextStyles.labelText),
-                    ),
-                    const SizedBox(height: ThemePaddings.normalPadding),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: ThemePaddings.smallPadding),
-                      child: PopularDAppsWidget(
-                        slideAnimation: _popularSlideAnimation,
-                        fadeAnimation: _popularFadeAnimation,
-                        onDappReturn: () {
-                          setState(() {});
-                        },
+                      const SizedBox(height: ThemePaddings.normalPadding),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: ThemePaddings.smallPadding),
+                        child: PopularDAppsWidget(
+                          slideAnimation: _popularSlideAnimation,
+                          fadeAnimation: _popularFadeAnimation,
+                          onDappReturn: () {
+                            setState(() {});
+                          },
+                        ),
                       ),
-                    ),
+                    ],
                     const SizedBox(height: ThemePaddings.hugePadding),
                   ],
                 );

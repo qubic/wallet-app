@@ -132,6 +132,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
 
     _setupWalletConnect();
+    applicationStore.initStoredAccountsIfAbsent();
     getIt<NetworkStore>().initNetworks();
     applicationStore.initStoredTransactions();
 
@@ -154,9 +155,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             : applicationStore.globalError.substring(0, errorPos);
 
         if (error != "") {
-          //Error overriding for more than 15 accounts in wallet
+          //Error overriding for more than max accounts in wallet
           if (error == "Failed to perform action. Server returned status 400") {
-            if (applicationStore.currentQubicIDs.length > 15) {
+            if (applicationStore.currentQubicIDs.length > Config.maxAccountsInWallet) {
               return;
             }
           }

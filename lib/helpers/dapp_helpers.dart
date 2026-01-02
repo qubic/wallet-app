@@ -57,23 +57,8 @@ String? findFavoriteIcon(String url, String? pageIconUrl) {
     final uri = Uri.parse(url);
     final normalizedHost = _normalizeHost(uri.host);
 
-    // Check topDapps for matching host
-    for (final dapp in walletStore.topDapps) {
-      if (dapp.url != null) {
-        try {
-          final dappUri = Uri.parse(dapp.url!);
-          if (_normalizeHost(dappUri.host) == normalizedHost &&
-              dapp.icon != null) {
-            return dapp.icon;
-          }
-        } catch (e) {
-          // Skip if URL parsing fails
-        }
-      }
-    }
-
-    // Check popularDapps for matching host
-    for (final dapp in walletStore.popularDapps) {
+    // Check all dApps for matching host
+    for (final dapp in walletStore.allDapps) {
       if (dapp.url != null) {
         try {
           final dappUri = Uri.parse(dapp.url!);

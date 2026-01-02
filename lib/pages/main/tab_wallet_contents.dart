@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:implicitly_animated_list/implicitly_animated_list.dart';
 import 'package:mobx/mobx.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/account_list_item.dart';
@@ -18,6 +19,7 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_account_modal_bottom_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
@@ -56,11 +58,37 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
   ReactionDisposer? disposeAutorun;
 
+  PopupMenuItem<AccountSortMode> _buildSortMenuItem(
+      AccountSortMode mode, IconData icon, String label) {
+    final isSelected = appStore.accountsSortingMode == mode;
+    final color =
+        isSelected ? LightThemeColors.primary40 : LightThemeColors.primary;
+
+    return PopupMenuItem<AccountSortMode>(
+      value: mode,
+      child: Row(
+        children: [
+          Icon(icon, color: color),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(label,
+                style: TextStyle(
+                  color: color,
+                  fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+                )),
+          ),
+          if (isSelected) Icon(Icons.check, color: color, size: 18),
+        ],
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
     ecosystemStore.loadAllData();
 
+    // Auto scroll to top with one item
     disposeAutorun = autorun((_) {
       if (appStore.currentQubicIDs.length <= 1) {
         if (_scrollController.hasClients) {
@@ -70,6 +98,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
         }
       }
     });
+    appStore.sortAccounts();
 
     _scrollController.addListener(() {
       if (_scrollController.offset > sliverExpanded) {
@@ -135,13 +164,14 @@ class _TabWalletContentsState extends State<TabWalletContents> {
 
   void addAccount() {
     final l10n = l10nOf(context);
-    if (appStore.currentQubicIDs.length >= 15) {
+    if (appStore.currentQubicIDs.length >= Config.maxAccountsInWallet) {
       showDialog(
           context: context,
           builder: (BuildContext context) {
             return getAlertDialog(
                 l10n.addAccountDialogTitleMaxNumberOfAccountsReached,
-                l10n.addAccountDialogMessageMaxNumberOfAccountsReached,
+                l10n.addAccountDialogMessageMaxNumberOfAccountsReached(
+                    Config.maxAccountsInWallet),
                 primaryButtonLabel: l10n.generalButtonOK,
                 primaryButtonFunction: () {
               Navigator.of(context).pop();
@@ -283,7 +313,7 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                   SliverList(
                       delegate: SliverChildListDelegate([
                     Observer(builder: (builder) {
-                      if (appStore.currentQubicIDs.length > 15) {
+                      if (appStore.currentQubicIDs.length > Config.maxAccountsInWallet) {
                         return Padding(
                             padding: const EdgeInsets.fromLTRB(
                                 ThemePaddings.normalPadding,
@@ -295,7 +325,9 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                               const Icon(Icons.warning_amber_rounded,
                                   color: LightThemeColors.error, size: 40),
                               ThemedControls.spacerVerticalNormal(),
-                              Text(l10n.homeWarningTooManyAccounts,
+                              Text(
+                                  l10n.homeWarningTooManyAccounts(
+                                      Config.maxAccountsInWallet),
                                   textAlign: TextAlign.center,
                                   style: TextStyles.textNormal)
                             ])));
@@ -304,6 +336,55 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                       }
                     }),
                   ])),
+                  Observer(builder: (context) {
+                    if (appStore.currentQubicIDs.isNotEmpty) {
+                      return SliverToBoxAdapter(
+                          child: Transform.translate(
+                        offset: const Offset(0, -8),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            right: ThemePaddings.smallPadding,
+                          ),
+                          child: Align(
+                            alignment: AlignmentDirectional.centerEnd,
+                            child: PopupMenuButton<AccountSortMode>(
+                              icon: const Icon(Icons.sort,
+                                  color: LightThemeColors.primary),
+                              onSelected: (AccountSortMode mode) {
+                                appStore.setAccountsSortingMode(mode);
+                              },
+                              itemBuilder: (BuildContext context) {
+                                return [
+                                  PopupMenuItem<AccountSortMode>(
+                                    enabled: false,
+                                    child: Text(
+                                      l10n.accountSortByLabel,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: LightThemeColors.primary,
+                                      ),
+                                    ),
+                                  ),
+                                  _buildSortMenuItem(AccountSortMode.name,
+                                      Icons.sort_by_alpha, l10n.accountSortModeName),
+                                  _buildSortMenuItem(
+                                      AccountSortMode.balance,
+                                      Icons.account_balance_wallet,
+                                      l10n.accountSortModeBalance),
+                                  _buildSortMenuItem(
+                                      AccountSortMode.creationOrder,
+                                      Icons.access_time,
+                                      l10n.accountSortModeCreation),
+                                ];
+                              },
+                            ),
+                          ),
+                        ),
+                      ));
+                    } else {
+                      return const SliverToBoxAdapter(child: SizedBox.shrink());
+                    }
+                  }),
                   Observer(builder: (context) {
                     if (appStore.currentQubicIDs.isEmpty) {
                       return SliverList(
@@ -344,17 +425,27 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                     ]))));
                       }, childCount: 1));
                     } else {
-                      return SliverList(
-                        delegate: SliverChildBuilderDelegate((context, index) {
+                      final accounts = appStore.currentQubicIDs;
+                      return SliverImplicitlyAnimatedList<QubicListVm>(
+                        itemData: accounts,
+                        deleteDuration: const Duration(milliseconds: 600),
+                        insertDuration: const Duration(milliseconds: 600),
+                        itemEquality: (a, b) => a.publicId == b.publicId,
+                        itemBuilder: (context, account) {
                           return Container(
-                              color: LightThemeColors.background,
-                              child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: ThemePaddings.smallPadding,
-                                      vertical: ThemePaddings.minimumPadding),
-                                  child: AccountListItem(
-                                      item: appStore.currentQubicIDs[index])));
-                        }, childCount: appStore.currentQubicIDs.length),
+                            color: LightThemeColors.background,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: ThemePaddings.smallPadding,
+                                vertical: ThemePaddings.minimumPadding,
+                              ),
+                              child: AccountListItem(
+                                key: ValueKey(account.publicId),
+                                item: account,
+                              ),
+                            ),
+                          );
+                        },
                       );
                     }
                   }),

@@ -219,7 +219,7 @@
     "accountButtonReceive": "Al",
     "accountButtonSend": "Gönder",
     "accountButtonAssets": "Varlıklar",
-    "accountSendTitle": "Para Gönder",
+    "accountSendTitle": "QUBIC Gönder",
     "accountSendLabelDestinationAddress": "Varış Adresi",
     "accountSendLabelAmount": "Miktar",
     "accountSendButtonMax": "Maksimum",
@@ -354,7 +354,7 @@
     "addAccountErrorNameAlreadyInUse": "İsim zaten kullanımda",
     "addAccountErrorPublicIDAlreadyInUse": "Halka Açık ID zaten kullanımda",
     "addAccountDialogTitleMaxNumberOfAccountsReached": "Maksimum hesap limitine ulaşıldı",
-    "addAccountDialogMessageMaxNumberOfAccountsReached": "Qubic Hesabınızda maksimum 15 adet cüzdan ekleyebilirsiniz. Eğer başka bir cüzdan eklemek istiyorsanız mevcut hesaplardan birini kaldırmanız gerekmektedir.",
+    "addAccountDialogMessageMaxNumberOfAccountsReached": "Qubic Hesabınızda {maxAccounts} adet cüzdan ekleyebilirsiniz. Eğer başka bir cüzdan eklemek istiyorsanız mevcut hesaplardan birini kaldırmanız gerekmektedir.",
     "addAccountButtonCreateRandom": "Rastgele Oluştur",
     "addAccountLabelPrivateSeed": "Özel Anahtar",
     "addAccountLabelAccountName": "Hesap Adı",
@@ -369,8 +369,7 @@
     "addAccountHintAddressInvalidPrivateSeed": "Geçersiz özel anahtar girildi",
     "addAccountErrorTamperedWalletTitle": "KUSURLU CÜZDAN TESPİT EDİLDİ",
     "addAccountErrorTamperedWalletMessage": "ŞU ANDA KULLANDIĞINIZ CÜZDAN HASARLI.\n\nHTTPS://GITHUB.COM/QUBIC/WALLET-APP'DAN RESMİ BİR SÜRÜM YÜKLEYİN VEYA FON KAYBI RİSKİYLE KARŞILAŞABİLİRSİNİZ",
-    "sendAssetLabelTransactionCost": "Ücret (sabit)",
-    "sendAssetButtonTransfer": "Transfer",
+    "sendAssetButtonTransfer": "Gönder",
     "sendAssetErrorTickIsInThePast": "Tick geçmiştedir. Mevcut Tick: {currentTick}",
     "@sendAssetErrorTickIsInThePast": {
         "placeholders": {
@@ -458,7 +457,7 @@
     "transfersListLabelReceiveIn": "Kabul Et",
     "transfersListLabelSharePublicIdInstructionsOne": "Lütfen aşağıdaki Halka Açık ID'yi gönderen kişiyle paylaşın:",
     "transfersListLabelSharePublicIdInstructionsTwo": "Veya QR kodu gösterin",
-    "transferAssetHeader": "{assetName} Transferi",
+    "transferAssetHeader": "{assetName} Gönder",
     "@transferAssetHeader": {
         "placeholders": {
             "assetName": {
@@ -513,7 +512,7 @@
     "autolockLabelDurationImmediately": "Hemen",
     "settingsLabelAutlock": "Otomatik Kilitleme Ayarları",
     "importVaultDialogTitleTooManyAccounts": "Çok fazla hesap bulundu",
-    "importVaultDialogMessageTooManyAccounts": "Kasa dosyanız 15'ten fazla hesap içeriyor. Tüm hesaplar içe aktarılacaktır, ancak bakiyelerinizi görüntülemek ve fon gönderebilmek için lütfen 15 veya daha az hesap olacak şekilde bazı hesapları silin.",
+    "importVaultDialogMessageTooManyAccounts": "Kasa dosyanız {maxAccounts}'ten fazla hesap içeriyor. Tüm hesaplar içe aktarılacaktır, ancak bakiyelerinizi görüntülemek ve fon gönderebilmek için lütfen {maxAccounts} veya daha az hesap olacak şekilde bazı hesapları silin.",
     "importVaultErrorNoAccountsFound": "Kasa Dosyanızad herhangi bir hesap bulunamadı. İçe aktarma işlemine devam edilemiyor.",
     "importVaultFilePickerLabel": "Lütfen devam etmek için bir Kasa Dosyası seçin:",
     "importVaultFileErrorGeneralMessage": "Kasa dosyası içe aktarılırken hata oluştu: {errorDescription}",
@@ -596,7 +595,7 @@
     },
     "generalErrorFileRequired": "Lütfen bir dosya seçin",
     "generalErrorPathRequired": "Lütfen bir yol seçin",
-    "homeWarningTooManyAccounts": "Cüzdanınızda 15'ten fazla hesap var. 15 veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz.",
+    "homeWarningTooManyAccounts": "Cüzdanınızda {maxAccounts}'ten fazla hesap var. {maxAccounts} veya daha az sayıda hesap kalana kadar fon transferi yapamayacak veya bakiyeleri görüntüleyemeyeceksiniz.",
     "settingsLabelWalletConnect": "WalletConnect",
     "addAccountErrorVerifyIdentityWrongIdentity": "Geçersiz yanlızca izleme adresi. Lütfen girilen adresi kontrol edin.",
     "addAccountErrorVerifyIdentityError": "Adres doğrulanamadı.",
@@ -714,8 +713,10 @@
     "generalErrorRequestCancelled": "İstek iptal edildi",
     "generalErrorCouldntParseResponse": "Yanıt ayrıştırılamadı",
     "generalErrorServerError": "Sunucu hatası",
+    "generalErrorRateLimited": "Sunucu istekleri sınırlandırıyor. Bu, birden fazla uygulama ağa eriştiğinde veya VPN kullanıldığında olabilir.",
     "generalStatusCode": "Durum Kodu",
     "generalCode": "Kod",
+    "generalErrorInternalError": "Dahili bir hata oluştu. Hata devam ederse, bizimle iletişime geçin (errCode: {code})",
     "accountSendSectionInvalidDestinationAddress": "Geçersiz hedef adres",
     "cmdErrorCreatingSignatureGeneric": "İmza oluşturulurken hata oluştu",
     "cmdErrorCreatingSignatureDigestEmpty": "İmza oluşturulurken hata oluştu. Özet boş",
@@ -741,6 +742,8 @@
     "settingsLabelSupport": "Destek",
     "settingsSupportGithub": "GitHub (Hata bildir)",
     "settingsSupportDiscord": "Discord (Destek kanalı)",
+    "settingsSupportWarningTitle": "Dolandırıcılara dikkat edin",
+    "settingsSupportWarningDescription": "Canlı destek sunmuyoruz. Özel seed'inizi, ekran paylaşımı veya uzak destek uygulamaları yüklemenizi asla istemeyiz. Discord, GitHub veya diğer platformlardaki taklitçilere karşı dikkatli olun.",
     "generalLabelFee": "Ücret",
     "generalLabelMultipleReceivers": "Birden Fazla Alıcı",
     "qxTransferSharesWarning": "Bu işlem kaydı şu anda yalnızca gönderen tarafından görülebilir.",
@@ -787,6 +790,42 @@
     "revealSeedWarningTitle": "Özel Anahtarınızı Paylaşmayın!",
     "revealSeedWarningDescription": "Birisi özel anahtarınıza sahipse, hesabınız üzerinde tam kontrol sahibi olur",
     "blockedScreenshotWarning": "Ekran görüntüsü korundu — bu ekran gizli kalır.",
+    "accountSortByLabel": "Sıralama",
+    "accountSortModeName": "Ad (A-Z)",
+    "accountSortModeBalance": "Bakiye (Yüksek → Düşük)",
+    "accountSortModeCreation": "Oluşturma (En Eski → En Yeni)",
+    "releaseTransferRightsMenuOption": "Transfer Hakları",
+    "releaseTransferRightsTitle": "Yönetim Haklarını Transfer Et",
+    "releaseTransferRightsLabelSourceContract": "Smart Contract'tan",
+    "releaseTransferRightsLabelAvailableAmount": "Mevcut: {formattedAmount}",
+    "@releaseTransferRightsLabelAvailableAmount": {
+        "placeholders": {
+            "formattedAmount": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsSourceContractOption": "{contractName} ({numberOfUnits} {assetName})",
+    "@releaseTransferRightsSourceContractOption": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            },
+            "numberOfUnits": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
+    "releaseTransferRightsLabelAmount": "Miktar",
+    "releaseTransferRightsLabelDestinationContract": "Smart Contract'a",
+    "releaseTransferRightsButtonSubmit": "Transfer Et",
+    "releaseTransferRightsErrorNoSourceContract": "Lütfen bir kaynak sözleşme seçin",
+    "releaseTransferRightsErrorNoDestinationContract": "Lütfen bir hedef sözleşme seçin",
+    "releaseTransferRightsErrorSameContract": "Kaynak ve hedef sözleşmeler farklı olmalıdır",
+    "releaseTransferRightsErrorInvalidContract": "Geçersiz sözleşme yapılandırması",
     "dAppSearchPlaceholder": "Ara veya dApp URLsi gir",
     "addToFavorites": "Favorilere ekle",
     "favoriteNameLabel": "İsim",

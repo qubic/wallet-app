@@ -120,7 +120,8 @@ class _TransactionItemState extends State<TransactionItem> {
               if (TransactionActionHelpers.canDelete(widget.item))
                 PopupMenuItem<CardItem>(
                   value: CardItem.delete,
-                  child: Text(l10n.generalButtonDelete),
+                  child: Text(l10n.generalButtonDelete,
+                      style: const TextStyle(color: LightThemeColors.error)),
                 )
             ]);
   }

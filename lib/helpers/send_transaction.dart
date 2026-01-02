@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
+import 'package:qubic_wallet/helpers/release_transfer_rights_helper.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_error.dart';
@@ -73,7 +75,7 @@ Future<SignedTransaction?> sendAssetTransferTransactionDialog(
       showAlertDialog(
           context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     }
-    return null;
+    rethrow;
   }
 }
 
@@ -104,7 +106,7 @@ Future<SignedTransaction?> getTransactionDialog(
       showAlertDialog(
           context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     }
-    return null;
+    rethrow;
   }
 }
 
@@ -116,15 +118,17 @@ Future<SignedTransaction?> sendTransactionDialog(BuildContext context,
   final l10n = l10nOf(context);
 
   late String? transactionKey;
-  final signedTransaction = await getTransactionDialog(context, sourceId,
-      destinationId, value, destinationTick, inputType, payload);
-  transactionKey = signedTransaction?.transactionKey;
-  if (transactionKey == null) {
-    return null;
-  }
+  late SignedTransaction? signedTransaction;
 
-  //We have the transaction, now let's call the API
   try {
+    signedTransaction = await getTransactionDialog(context, sourceId,
+        destinationId, value, destinationTick, inputType, payload);
+    transactionKey = signedTransaction?.transactionKey;
+    if (transactionKey == null) {
+      return null;
+    }
+
+    //We have the transaction, now let's call the API
     final transactionId =
         await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
 
@@ -148,7 +152,109 @@ Future<SignedTransaction?> sendTransactionDialog(BuildContext context,
       showAlertDialog(
           context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
     }
-    return null;
+    rethrow;
   }
   return signedTransaction;
+}
+
+///
+/// Sends a Release Transfer Rights transaction
+/// This transfers the management rights of an asset from one contract to another
+///
+/// Parameters:
+/// - [sourceId]: User's public ID (account that owns the asset)
+/// - [issuerIdentity]: The issuer identity of the asset
+/// - [assetName]: Name of the asset
+/// - [numberOfShares]: Number of shares to transfer management rights for
+/// - [destinationContractIndex]: Contract index to transfer management rights to
+/// - [contractAddress]: Address of the source contract (transaction destination)
+/// - [procedureNumber]: Procedure number for the source contract
+/// - [fee]: Transaction fee in QUBIC
+/// - [destinationTick]: Target tick for the transaction
+Future<SignedTransaction?> sendReleaseTransferRightsTransactionDialog(
+  BuildContext context, {
+  required String sourceId,
+  required String issuerIdentity,
+  required String assetName,
+  required int numberOfShares,
+  required int destinationContractIndex,
+  required String contractAddress,
+  required int procedureNumber,
+  required int fee,
+  required int destinationTick,
+}) async {
+  final l10n = l10nOf(context);
+  String seed = await getIt.get<ApplicationStore>().getSeedByPublicId(sourceId);
+  QubicCmd qubicCmd = getIt.get<QubicCmd>();
+
+  try {
+    // Serialize the input structure
+    final payload = await ReleaseTransferRightsHelper.serializeInput(
+      issuerIdentity: issuerIdentity,
+      assetName: assetName,
+      numberOfShares: numberOfShares,
+      newManagingContractIndex: destinationContractIndex,
+    );
+
+    appLogger.d('=== RELEASE TRANSFER RIGHTS PAYLOAD ===');
+    appLogger.d('Issuer Identity: $issuerIdentity');
+    appLogger.d('Asset Name: $assetName');
+    appLogger.d('Number of Shares: $numberOfShares');
+    appLogger.d('Destination Contract Index: $destinationContractIndex');
+    appLogger.d('Contract Address: $contractAddress');
+    appLogger.d('Procedure Number: $procedureNumber');
+    appLogger.d('Fee: $fee');
+    appLogger.d('Target Tick: $destinationTick');
+    appLogger.d('---');
+    appLogger.d('Payload (base64): $payload');
+    appLogger.d('=======================================');
+
+    // Create the transaction
+    final signedTransaction = await qubicCmd.createTransaction(
+      seed,
+      contractAddress,
+      fee,
+      destinationTick,
+      inputType: procedureNumber,
+      payload: payload,
+    );
+
+    final transactionKey = signedTransaction.transactionKey;
+    final transactionId =
+        await getIt.get<QubicLiveApi>().submitTransaction(transactionKey);
+
+    // Store the transaction locally (including zero-fee transactions like Release Transfer Rights)
+    if (fee >= 0) {
+      final pendingTransaction = TransactionVm(
+        id: transactionId,
+        sourceId: sourceId,
+        destId: contractAddress,
+        amount: fee,
+        targetTick: destinationTick,
+        isPending: true,
+        moneyFlow: fee > 0,
+        type: procedureNumber,
+        inputHex: payload,
+      );
+      getIt.get<ApplicationStore>().addStoredTransaction(pendingTransaction);
+    }
+
+    return SignedTransaction(
+      transactionKey: transactionKey,
+      transactionId: transactionId,
+    );
+  } catch (e) {
+    appLogger.e('Error sending Release Transfer Rights transaction: $e');
+    if (e is AppError && e.type == ErrorType.tamperedWallet) {
+      if (context.mounted) {
+        showTamperedWalletAlert(context);
+      }
+      return null;
+    }
+    if (context.mounted) {
+      showAlertDialog(
+          context, l10n.sendItemDialogErrorGeneralTitle, e.toString());
+    }
+    rethrow;
+  }
 }

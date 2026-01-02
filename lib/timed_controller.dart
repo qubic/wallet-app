@@ -7,8 +7,8 @@ import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
-import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
+import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
 class TimedController extends WidgetsBindingObserver {
@@ -46,6 +46,7 @@ class TimedController extends WidgetsBindingObserver {
     }
   }
 
+// TODO: Refactor this function to remove side effects and separate concerns
   /// Fetch balances assets and transactions from the network
   /// Makes four calls (balances, network balances, network assets, network transactions
   /// and updates the store with the results)
@@ -65,15 +66,17 @@ class TimedController extends WidgetsBindingObserver {
 
           //Filter out only non WatchOnly accounts
           for (var element in changedIds.entries) {
-            if (appStore.currentQubicIDs.any((currentQubicId) {
-              return currentQubicId.publicId == element.key &&
-                  currentQubicId.watchOnly == false;
-            })) {
+            final account = appStore.findAccountById(element.key);
+            if (account != null && !account.watchOnly) {
               changedIdsWithSeed[element.key] = element.value;
             }
           }
           if (changedIdsWithSeed.isNotEmpty) {
             _walletConnectService.triggerAmountChangedEvent(changedIdsWithSeed);
+          }
+          // Only sort if in balance mode since balance changes don't affect other sort orders
+          if (appStore.accountsSortingMode == AccountSortMode.balance) {
+            appStore.sortAccounts();
           }
         }
       }, onError: (e) {
@@ -90,10 +93,8 @@ class TimedController extends WidgetsBindingObserver {
 
         //Filter out only non WatchOnly accounts
         for (var element in changedIds.entries) {
-          if (appStore.currentQubicIDs.any((currentQubicId) {
-            return currentQubicId.publicId == element.key &&
-                currentQubicId.watchOnly == false;
-          })) {
+          final account = appStore.findAccountById(element.key);
+          if (account != null && !account.watchOnly) {
             changedIdsWithSeed[element.key] = element.value;
           }
         }
