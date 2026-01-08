@@ -200,18 +200,20 @@ class _TransactionItemState extends State<TransactionItem> {
                 ])),
             if (!isQxTransferShares ||
                 (isQxTransferShares && assetTransfer != null))
-              Center(
-                  child: Container(
-                      constraints: const BoxConstraints(maxWidth: 500),
-                      width: double.infinity,
-                      child: FittedBox(
-                          child: UnitAmount(
-                              type: isQxTransferShares
-                                  ? assetTransfer!.assetName
-                                  : l10n.generalLabelCurrencyQubic,
-                              amount: isQxTransferShares
-                                  ? int.tryParse(assetTransfer!.numberOfUnits)
-                                  : widget.item.amount)))),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                    constraints: const BoxConstraints(maxWidth: 500),
+                    width: double.infinity,
+                    child: FittedBox(
+                        child: UnitAmount(
+                            type: isQxTransferShares
+                                ? assetTransfer!.assetName
+                                : l10n.generalLabelCurrencyQubic,
+                            amount: isQxTransferShares
+                                ? int.tryParse(assetTransfer!.numberOfUnits)
+                                : widget.item.amount))),
+              ),
             Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
