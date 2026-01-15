@@ -23,9 +23,8 @@ abstract class Config {
   /// Returns a supported language code, falling back to English if not supported
   /// Uses the app's l10n configuration automatically - no manual maintenance needed
   static String getSupportedLocale(String locale) {
-    final supportedLocaleCodes = AppLocalizations.supportedLocales
-        .map((l) => l.languageCode)
-        .toList();
+    final supportedLocaleCodes =
+        AppLocalizations.supportedLocales.map((l) => l.languageCode).toList();
     return supportedLocaleCodes.contains(locale) ? locale : 'en';
   }
 
@@ -33,6 +32,7 @@ abstract class Config {
   // Wallet-app specific endpoints (can be versioned independently in future)
   static const dapps = "/wallet-app/dapps/dapps.json";
   static dappLocale(String locale) => "/wallet-app/dapps/locales/$locale.json";
+  static const appVersionCheck = "/wallet-app/version-check.json";
 
   // General/ecosystem endpoints (shared across Qubic ecosystem)
   static const smartContracts = "/general/data/smart_contracts.json";
@@ -96,7 +96,7 @@ abstract class Config {
   static const String proxyIP = '192.168.1.1'; // Replace with actual proxy IP
   static const int proxyPort = 8888; // Replace with actual proxy port
   static const DeviceIntegrityResponse deviceIntegrityResponse =
-      DeviceIntegrityResponse.restrict;
+      DeviceIntegrityResponse.none;
 
   // Configuration for Wallet Connect
   static const walletConnectProjectId = "b2ace378845f0e4806ef23d2732f77a4";

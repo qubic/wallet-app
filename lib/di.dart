@@ -12,6 +12,7 @@ import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
+import 'package:qubic_wallet/stores/app_update_store.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
@@ -42,6 +43,7 @@ Future<void> setupDI() async {
   await getIt<SecureStorage>().initialize();
   getIt.registerSingleton<HiveStorage>(HiveStorage());
   await getIt<HiveStorage>().initialize();
+  getIt.registerSingleton<AppUpdateStore>(AppUpdateStore());
 
 //Providers
   getIt.registerSingleton<GlobalSnackBar>(GlobalSnackBar());
