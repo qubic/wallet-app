@@ -1,6 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/models/app_version_check_model.dart'
+    show AppVersionCheckModel;
 import 'package:qubic_wallet/models/exchange_model.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/protocol_model.dart';
@@ -71,6 +74,28 @@ class QubicStaticApi {
       return ProtocolResponse.fromJson(response.data);
     } catch (error) {
       throw Exception('Failed to fetch protocol data');
+    }
+  }
+
+  Future<AppVersionCheckModel?> getAppVersionCheck() async {
+    try {
+      // TODO: Replace with real API call before production
+      if (Config.useDevEnvironment) {
+        return AppVersionCheckModel.fromJson({
+          'version': '2.5.0',
+          'release_notes':
+              '- Critical security fixes\n- Improved transaction reliability\n- Enhanced wallet performance',
+          'show_later_button': true,
+          'show_ignore_button': false,
+          'platforms': ['android', 'ios'],
+        });
+      }
+
+      final response = await _dio.get(Config.appVersionCheck);
+      return AppVersionCheckModel.fromJson(response.data);
+    } catch (e) {
+      appLogger.e('[QubicStaticApi] Failed to fetch app version check: $e');
+      throw Exception('Failed to fetch app version check');
     }
   }
 }
