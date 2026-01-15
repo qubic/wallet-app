@@ -9,13 +9,6 @@ part of 'app_update_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$AppUpdateStore on _AppUpdateStore, Store {
-  Computed<bool>? _$shouldShowUpdateScreenComputed;
-
-  @override
-  bool get shouldShowUpdateScreen => (_$shouldShowUpdateScreenComputed ??=
-          Computed<bool>(() => super.shouldShowUpdateScreen,
-              name: '_AppUpdateStore.shouldShowUpdateScreen'))
-      .value;
   Computed<AppVersionCheckModel?>? _$currentVersionInfoComputed;
 
   @override
@@ -25,52 +18,19 @@ mixin _$AppUpdateStore on _AppUpdateStore, Store {
               name: '_AppUpdateStore.currentVersionInfo'))
           .value;
 
-  late final _$versionInfoAtom =
-      Atom(name: '_AppUpdateStore.versionInfo', context: context);
+  late final _$_versionInfoAtom =
+      Atom(name: '_AppUpdateStore._versionInfo', context: context);
 
   @override
-  AppVersionCheckModel? get versionInfo {
-    _$versionInfoAtom.reportRead();
-    return super.versionInfo;
+  AppVersionCheckModel? get _versionInfo {
+    _$_versionInfoAtom.reportRead();
+    return super._versionInfo;
   }
 
   @override
-  set versionInfo(AppVersionCheckModel? value) {
-    _$versionInfoAtom.reportWrite(value, super.versionInfo, () {
-      super.versionInfo = value;
-    });
-  }
-
-  late final _$_dismissedForSessionAtom =
-      Atom(name: '_AppUpdateStore._dismissedForSession', context: context);
-
-  @override
-  bool get _dismissedForSession {
-    _$_dismissedForSessionAtom.reportRead();
-    return super._dismissedForSession;
-  }
-
-  @override
-  set _dismissedForSession(bool value) {
-    _$_dismissedForSessionAtom.reportWrite(value, super._dismissedForSession,
-        () {
-      super._dismissedForSession = value;
-    });
-  }
-
-  late final _$_ignoredVersionAtom =
-      Atom(name: '_AppUpdateStore._ignoredVersion', context: context);
-
-  @override
-  String? get _ignoredVersion {
-    _$_ignoredVersionAtom.reportRead();
-    return super._ignoredVersion;
-  }
-
-  @override
-  set _ignoredVersion(String? value) {
-    _$_ignoredVersionAtom.reportWrite(value, super._ignoredVersion, () {
-      super._ignoredVersion = value;
+  set _versionInfo(AppVersionCheckModel? value) {
+    _$_versionInfoAtom.reportWrite(value, super._versionInfo, () {
+      super._versionInfo = value;
     });
   }
 
@@ -108,8 +68,6 @@ mixin _$AppUpdateStore on _AppUpdateStore, Store {
   @override
   String toString() {
     return '''
-versionInfo: ${versionInfo},
-shouldShowUpdateScreen: ${shouldShowUpdateScreen},
 currentVersionInfo: ${currentVersionInfo}
     ''';
   }

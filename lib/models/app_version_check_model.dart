@@ -49,11 +49,11 @@ class AppVersionCheckModel {
     }
 
     final updateUrls = json['update_urls'] != null
-        ? Map<String, String>.from(json['update_urls'] as Map)
+        ? Map<String, String>.from(json['update_urls'])
         : _defaultUpdateUrls;
 
     final platforms = json['platforms'] != null
-        ? List<String>.from(json['platforms'] as List)
+        ? List<String>.from(json['platforms'])
         : _defaultPlatforms;
 
     return AppVersionCheckModel(
