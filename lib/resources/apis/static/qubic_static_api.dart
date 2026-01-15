@@ -65,7 +65,7 @@ class QubicStaticApi {
           'version': '2.5.0',
           'release_notes':
               '- Critical security fixes\n- Improved transaction reliability\n- Enhanced wallet performance',
-          'show_later_button': true,
+          'show_later_button': false,
           'show_ignore_button': false,
           'platforms': ['android', 'ios'],
         });
