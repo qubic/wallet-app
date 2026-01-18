@@ -8,6 +8,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
@@ -25,6 +26,7 @@ class _AssetsState extends State<Assets> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
+  final QubicEcosystemStore _ecosystemStore = getIt<QubicEcosystemStore>();
   late final QubicListVm accountItem;
 
   String? generatedPublicId;
@@ -39,7 +41,9 @@ class _AssetsState extends State<Assets> {
   Widget getQXAssets() {
     final l10n = l10nOf(context);
 
-    List<GroupedAssetDto> qxAssets = accountItem.getGroupedAssets()
+    List<GroupedAssetDto> qxAssets = accountItem
+        .getGroupedAssets(
+            getContractName: _ecosystemStore.getContractNameByIndex)
         .where((element) => !element.isSmartContractShare)
         .toList();
     if (qxAssets.isEmpty) {
@@ -62,7 +66,9 @@ class _AssetsState extends State<Assets> {
   Widget getSCAssets() {
     final l10n = l10nOf(context);
 
-    List<GroupedAssetDto> scAssets = accountItem.getGroupedAssets()
+    List<GroupedAssetDto> scAssets = accountItem
+        .getGroupedAssets(
+            getContractName: _ecosystemStore.getContractNameByIndex)
         .where((element) => element.isSmartContractShare)
         .toList();
     if (scAssets.isEmpty) {

@@ -91,7 +91,11 @@ class QubicListVm {
 
   /// Groups assets by token name AND issuer ID, aggregating balances across managing contracts
   /// Assets are uniquely identified by the combination of issuer ID and asset name
-  List<GroupedAssetDto> getGroupedAssets() {
+  ///
+  /// [getContractName] - Optional function to resolve contract index to name for alphabetical sorting.
+  /// If provided, contributions are sorted alphabetically by contract name.
+  /// If not provided, contributions are sorted by contract index (deterministic but numeric).
+  List<GroupedAssetDto> getGroupedAssets({String? Function(int)? getContractName}) {
     Map<String, List<QubicAssetDto>> groupedByToken = {};
 
     // Group assets by token name AND issuer ID
@@ -118,6 +122,17 @@ class QubicListVm {
           sourceAsset: asset,
         ));
       }
+
+      // Sort contributions alphabetically by contract name if resolver provided,
+      // otherwise by contract index for deterministic ordering
+      contributions.sort((a, b) {
+        if (getContractName != null) {
+          final nameA = getContractName(a.managingContractIndex) ?? '';
+          final nameB = getContractName(b.managingContractIndex) ?? '';
+          return nameA.compareTo(nameB);
+        }
+        return a.managingContractIndex.compareTo(b.managingContractIndex);
+      });
 
       result.add(GroupedAssetDto(
         tokenName: assetList.first.issuedAsset.name,
