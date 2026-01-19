@@ -91,17 +91,15 @@ class QubicListVm {
 
   /// Groups assets by token name AND issuer ID, aggregating balances across managing contracts
   /// Assets are uniquely identified by the combination of issuer ID and asset name
-  ///
-  /// [getContractName] - Optional function to resolve contract index to name for alphabetical sorting.
-  /// If provided, contributions are sorted alphabetically by contract name.
-  /// If not provided, contributions are sorted by contract index (deterministic but numeric).
-  List<GroupedAssetDto> getGroupedAssets({String? Function(int)? getContractName}) {
+  /// Contributions are sorted by number of units (highest first) for better UX
+  List<GroupedAssetDto> getGroupedAssets() {
     Map<String, List<QubicAssetDto>> groupedByToken = {};
 
     // Group assets by token name AND issuer ID
     assets.forEach((key, asset) {
       // Create a unique key combining issuer ID and token name
-      String groupKey = '${asset.issuedAsset.issuerIdentity}_${asset.issuedAsset.name}';
+      String groupKey =
+          '${asset.issuedAsset.issuerIdentity}_${asset.issuedAsset.name}';
       if (!groupedByToken.containsKey(groupKey)) {
         groupedByToken[groupKey] = [];
       }
@@ -123,16 +121,8 @@ class QubicListVm {
         ));
       }
 
-      // Sort contributions alphabetically by contract name if resolver provided,
-      // otherwise by contract index for deterministic ordering
-      contributions.sort((a, b) {
-        if (getContractName != null) {
-          final nameA = getContractName(a.managingContractIndex) ?? '';
-          final nameB = getContractName(b.managingContractIndex) ?? '';
-          return nameA.compareTo(nameB);
-        }
-        return a.managingContractIndex.compareTo(b.managingContractIndex);
-      });
+      // Sort by number of units (highest first) for better UX
+      contributions.sort((a, b) => b.numberOfUnits.compareTo(a.numberOfUnits));
 
       result.add(GroupedAssetDto(
         tokenName: assetList.first.issuedAsset.name,

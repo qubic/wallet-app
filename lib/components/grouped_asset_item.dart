@@ -81,8 +81,8 @@ class GroupedAssetItem extends StatelessWidget {
               onPressed: () {
                 pushScreen(
                   context,
-                  screen: TransferAsset(
-                      item: account, groupedAsset: groupedAsset),
+                  screen:
+                      TransferAsset(item: account, groupedAsset: groupedAsset),
                   withNavBar: false,
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );

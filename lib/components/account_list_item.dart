@@ -22,7 +22,6 @@ import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -45,7 +44,6 @@ class _AccountListItemState extends State<AccountListItem> {
 
   final SettingsStore _settingsStore = getIt<SettingsStore>();
   final ApplicationStore _appStore = getIt<ApplicationStore>();
-  final QubicEcosystemStore _ecosystemStore = getIt<QubicEcosystemStore>();
 
   bool totalBalanceVisible = true;
   late ReactionDisposer _disposer;
@@ -357,8 +355,7 @@ class _AccountListItemState extends State<AccountListItem> {
     List<Widget> shares = [];
     final l10n = l10nOf(context);
 
-    var groupedAssets = widget.item.getGroupedAssets(
-        getContractName: _ecosystemStore.getContractNameByIndex);
+    var groupedAssets = widget.item.getGroupedAssets();
 
     for (var groupedAsset in groupedAssets) {
       if (groupedAsset.totalUnits > 0) {
