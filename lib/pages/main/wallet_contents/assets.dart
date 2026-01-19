@@ -39,7 +39,8 @@ class _AssetsState extends State<Assets> {
   Widget getQXAssets() {
     final l10n = l10nOf(context);
 
-    List<GroupedAssetDto> qxAssets = accountItem.getGroupedAssets()
+    List<GroupedAssetDto> qxAssets = accountItem
+        .getGroupedAssets()
         .where((element) => !element.isSmartContractShare)
         .toList();
     if (qxAssets.isEmpty) {
@@ -52,7 +53,8 @@ class _AssetsState extends State<Assets> {
     output.add(const SizedBox(height: ThemePaddings.mediumPadding));
     for (var element in qxAssets) {
       if (element.totalUnits > 0) {
-        output.add(GroupedAssetItem(account: accountItem, groupedAsset: element));
+        output
+            .add(GroupedAssetItem(account: accountItem, groupedAsset: element));
       }
     }
     return Column(
@@ -62,7 +64,8 @@ class _AssetsState extends State<Assets> {
   Widget getSCAssets() {
     final l10n = l10nOf(context);
 
-    List<GroupedAssetDto> scAssets = accountItem.getGroupedAssets()
+    List<GroupedAssetDto> scAssets = accountItem
+        .getGroupedAssets()
         .where((element) => element.isSmartContractShare)
         .toList();
     if (scAssets.isEmpty) {
@@ -76,7 +79,8 @@ class _AssetsState extends State<Assets> {
     output.add(const SizedBox(height: ThemePaddings.mediumPadding));
     for (var element in scAssets) {
       if (element.totalUnits > 0) {
-        output.add(GroupedAssetItem(account: accountItem, groupedAsset: element));
+        output
+            .add(GroupedAssetItem(account: accountItem, groupedAsset: element));
       }
     }
     return Column(

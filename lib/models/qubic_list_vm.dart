@@ -91,13 +91,15 @@ class QubicListVm {
 
   /// Groups assets by token name AND issuer ID, aggregating balances across managing contracts
   /// Assets are uniquely identified by the combination of issuer ID and asset name
+  /// Contributions are sorted by number of units (highest first) for better UX
   List<GroupedAssetDto> getGroupedAssets() {
     Map<String, List<QubicAssetDto>> groupedByToken = {};
 
     // Group assets by token name AND issuer ID
     assets.forEach((key, asset) {
       // Create a unique key combining issuer ID and token name
-      String groupKey = '${asset.issuedAsset.issuerIdentity}_${asset.issuedAsset.name}';
+      String groupKey =
+          '${asset.issuedAsset.issuerIdentity}_${asset.issuedAsset.name}';
       if (!groupedByToken.containsKey(groupKey)) {
         groupedByToken[groupKey] = [];
       }
@@ -118,6 +120,9 @@ class QubicListVm {
           sourceAsset: asset,
         ));
       }
+
+      // Sort by number of units (highest first) for better UX
+      contributions.sort((a, b) => b.numberOfUnits.compareTo(a.numberOfUnits));
 
       result.add(GroupedAssetDto(
         tokenName: assetList.first.issuedAsset.name,

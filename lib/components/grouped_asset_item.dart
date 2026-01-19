@@ -72,9 +72,6 @@ class GroupedAssetItem extends StatelessWidget {
   Widget getAssetButtonBar(BuildContext context) {
     final l10n = l10nOf(context);
 
-    // Use the first contract's asset for transfer (matching Web Wallet behavior)
-    final firstAsset = groupedAsset.contractContributions.first.sourceAsset;
-
     return Padding(
       padding: const EdgeInsets.all(ThemePaddings.normalPadding),
       child: OverflowBar(
@@ -84,7 +81,8 @@ class GroupedAssetItem extends StatelessWidget {
               onPressed: () {
                 pushScreen(
                   context,
-                  screen: TransferAsset(item: account, asset: firstAsset),
+                  screen:
+                      TransferAsset(item: account, groupedAsset: groupedAsset),
                   withNavBar: false,
                   pageTransitionAnimation: PageTransitionAnimation.cupertino,
                 );
