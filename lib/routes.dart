@@ -1,9 +1,12 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/pages/auth/sign_in.dart';
 import 'package:qubic_wallet/pages/main/main_screen.dart';
+import 'package:qubic_wallet/pages/update/app_update_screen.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/app_update_store.dart';
 
 CustomTransitionPage buildPageWithDefaultTransition<T>({
   required BuildContext context,
@@ -34,15 +37,33 @@ bool isSignedIn() {
   return getIt<ApplicationStore>().isSignedIn;
 }
 
+bool needsUpdate() {
+  final result = getIt<AppUpdateStore>().shouldShowUpdateScreen;
+  appLogger.i('[Routes] needsUpdate() called, result: $result');
+  return result;
+}
+
 // GoRouter configuration
 final appRouter = GoRouter(
   navigatorKey: rootNavigatorKey,
   routes: [
     GoRoute(
+      path: '/update',
+      name: 'update',
+      pageBuilder: defaultPageBuilder(const AppUpdateScreen()),
+    ),
+    GoRoute(
       path: '/signIn',
       name: 'signIn',
       builder: (context, state) => const SignIn(),
       pageBuilder: defaultPageBuilder(const SignIn()),
+      redirect: (BuildContext context, GoRouterState state) {
+        // Check for update BEFORE auth
+        if (needsUpdate()) {
+          return '/update';
+        }
+        return null;
+      },
     ),
     GoRoute(
       path: '/signInNoAuth',
@@ -50,6 +71,13 @@ final appRouter = GoRouter(
       builder: (context, state) => SignIn(
           disableLocalAuth: state.pathParameters['disableLocalAuth'] == 'true'),
       pageBuilder: defaultPageBuilder(const SignIn(disableLocalAuth: true)),
+      redirect: (BuildContext context, GoRouterState state) {
+        // Check for update BEFORE auth
+        if (needsUpdate()) {
+          return '/update';
+        }
+        return null;
+      },
     ),
     GoRoute(
       path: '/',
@@ -57,6 +85,11 @@ final appRouter = GoRouter(
       builder: (context, state) => const MainScreen(),
       pageBuilder: defaultPageBuilder(const MainScreen()),
       redirect: (BuildContext context, GoRouterState state) {
+        // Check for update FIRST
+        if (needsUpdate()) {
+          return '/update';
+        }
+        // Then check auth
         if (!isSignedIn()) {
           return '/signin';
         }

@@ -19,6 +19,7 @@ import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
+import 'package:qubic_wallet/stores/app_update_store.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -41,6 +42,7 @@ Future<void> main() async {
     getIt.get<SettingsStore>().setBuildNumber(packageInfo.buildNumber);
 
     getIt.get<ApplicationStore>().checkWalletIsInitialized();
+    await getIt.get<AppUpdateStore>().checkForUpdate();
   } catch (e) {
     appLogger.e(e.toString());
   }

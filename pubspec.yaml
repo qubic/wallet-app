@@ -76,6 +76,7 @@ dependencies:
   safe_device: ^1.2.1
   cryptography: ^2.7.0
   no_screenshot: ^0.3.1
+  version: ^3.0.0
   implicitly_animated_list: ^2.3.0
   cached_network_image: ^3.4.1
 
