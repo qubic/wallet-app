@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
@@ -7,7 +8,7 @@ import 'package:qubic_wallet/components/id_list_item_select.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/components/transaction/advanced_tick_options.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
@@ -24,6 +25,7 @@ import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -32,8 +34,9 @@ import 'package:qubic_wallet/timed_controller.dart';
 
 class TransferAsset extends StatefulWidget {
   final QubicListVm item;
-  final QubicAssetDto asset;
-  const TransferAsset({super.key, required this.item, required this.asset});
+  final GroupedAssetDto groupedAsset;
+  const TransferAsset(
+      {super.key, required this.item, required this.groupedAsset});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -48,6 +51,7 @@ class _TransferAssetState extends State<TransferAsset> {
   final TimedController _timedController = getIt<TimedController>();
   final GlobalKey<_TransferAssetState> widgetKey = GlobalKey();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
+  final QubicEcosystemStore _ecosystemStore = getIt<QubicEcosystemStore>();
   String? transferError;
   TargetTickTypeEnum targetTickType = defaultTargetTickType;
 
@@ -62,6 +66,23 @@ class _TransferAssetState extends State<TransferAsset> {
 
   late List<QubicListVm> knownQubicIDs;
 
+  /// Find the QX contribution from the grouped asset (same data shown in list)
+  int get transferableUnits {
+    final qxContract = _ecosystemStore.getQxContract();
+    if (qxContract == null) return 0;
+
+    final qxContribution = widget.groupedAsset.contractContributions
+        .firstWhereOrNull(
+            (c) => c.managingContractIndex == qxContract.contractIndex);
+    return qxContribution?.numberOfUnits ?? 0;
+  }
+
+  /// Token name from the grouped asset
+  String get tokenName => widget.groupedAsset.tokenName;
+
+  /// Issuer identity from the grouped asset
+  String get issuerIdentity => widget.groupedAsset.issuedAsset.issuerIdentity;
+
   @override
   void initState() {
     knownQubicIDs = appStore.currentQubicIDs
@@ -73,7 +94,7 @@ class _TransferAssetState extends State<TransferAsset> {
 
   CurrencyInputFormatter getInputFormatter(BuildContext context) {
     return CurrencyInputFormatter(
-        trailingSymbol: widget.asset.issuedAsset.name,
+        trailingSymbol: tokenName,
         useSymbolPadding: true,
         thousandSeparator: ThousandSeparator.Comma,
         mantissaLength: 0);
@@ -237,24 +258,24 @@ class _TransferAssetState extends State<TransferAsset> {
         ThemedControls.transparentButtonSmall(
             text: l10n.accountSendButtonMax,
             onPressed: () {
-              if (widget.asset.numberOfUnits > 0) {
+              if (transferableUnits > 0) {
                 numberOfSharesCtrl.value = getInputFormatter(context)
                     .formatEditUpdate(
                         const TextEditingValue(text: ''),
                         TextEditingValue(
-                            text: (widget.asset.numberOfUnits).toString()));
+                            text: (transferableUnits).toString()));
               }
             }),
-        (widget.asset.numberOfUnits > 1)
+        (transferableUnits > 1)
             ? ThemedControls.transparentButtonSmall(
                 text: l10n.accountSendButtonMaxMinusOne,
                 onPressed: () {
-                  if (widget.asset.numberOfUnits > 1) {
+                  if (transferableUnits > 1) {
                     numberOfSharesCtrl.value = getInputFormatter(context)
                         .formatEditUpdate(
                             const TextEditingValue(text: ''),
                             TextEditingValue(
-                                text: (widget.asset.numberOfUnits - 1)
+                                text: (transferableUnits - 1)
                                     .toString()));
                   }
                 })
@@ -282,7 +303,7 @@ class _TransferAssetState extends State<TransferAsset> {
             errorText: l10n.generalErrorRequiredField),
         CustomFormFieldValidators.isLessThanParsedAsset(
           context: context,
-          lessThan: widget.asset.numberOfUnits,
+          lessThan: transferableUnits,
         ),
       ]),
       inputFormatters: [getInputFormatter(context)],
@@ -299,11 +320,14 @@ class _TransferAssetState extends State<TransferAsset> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              l10n.transferAssetLabelOwned(widget.asset.issuedAsset.name,
-                  formatter.format(widget.asset.numberOfUnits)),
+              l10n.transferAssetLabelOwned(tokenName,
+                  formatter.format(transferableUnits)),
               style: TextStyles.secondaryText),
         ]);
   }
+
+  /// Qubic balance from passed account (consistent with list)
+  int get currentQubicBalance => widget.item.amount ?? 0;
 
   Widget getTotalQubicInfo() {
     final l10n = l10nOf(context);
@@ -313,7 +337,7 @@ class _TransferAssetState extends State<TransferAsset> {
         children: [
           Text(
               l10n.assetsLabelCurrentBalance(
-                  formatter.format(widget.item.amount)),
+                  formatter.format(currentQubicBalance)),
               style: TextStyles.secondaryText)
         ]);
   }
@@ -321,8 +345,7 @@ class _TransferAssetState extends State<TransferAsset> {
   Widget getCostInfo() {
     final l10n = l10nOf(context);
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      Text(l10n.generalLabelFee,
-          style: TextStyles.labelTextNormal),
+      Text(l10n.generalLabelFee, style: TextStyles.labelTextNormal),
       ThemedControls.spacerVerticalMini(),
       FormBuilderTextField(
         name: "fee",
@@ -333,7 +356,7 @@ class _TransferAssetState extends State<TransferAsset> {
                 "${QxInfo.transferAssetFee.asThousands()} ${l10n.generalLabelCurrencyQubic}"),
         validator: FormBuilderValidators.compose([
           CustomFormFieldValidators.isLessThanParsed(
-              lessThan: widget.item.amount!, context: context),
+              lessThan: currentQubicBalance, context: context),
         ]),
         decoration: ThemeInputDecorations.normalInputbox,
       ),
@@ -353,7 +376,7 @@ class _TransferAssetState extends State<TransferAsset> {
             children: <Widget>[
               ThemedControls.pageHeader(
                   headerText:
-                      l10n.transferAssetHeader(widget.asset.issuedAsset.name),
+                      l10n.transferAssetHeader(tokenName),
                   subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalSmall(),
               Text(l10n.transferAssetNoticeQxOnly,
@@ -527,8 +550,8 @@ class _TransferAssetState extends State<TransferAsset> {
           context,
           widget.item.publicId,
           destinationID.text,
-          widget.asset.issuedAsset.name,
-          widget.asset.issuedAsset.issuerIdentity,
+          tokenName,
+          issuerIdentity,
           getAssetAmount(),
           targetTick!);
 
