@@ -169,6 +169,17 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
       }
     }
   }
+    void _clearCache(BuildContext context) async {
+    final l10n = l10nOf(context);
+    if (widget.webViewController != null) {
+      await InAppWebViewController.clearAllCache();
+      if (context.mounted) {
+        final globalSnackBar = getIt<GlobalSnackBar>();
+        globalSnackBar.show(l10n.webviewCacheCleared);
+        widget.webViewController?.reload();
+      }
+    }
+  }
 
 
   PopupMenuItem<String> _getMenuItem({
@@ -244,6 +255,12 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
                             label: l10n.webviewAddressBarLabelShareURL,
                             onTap: () => _shareCurrentUrl(context),
                             icon: Icons.share,
+                          ),
+                            _getMenuItem(
+                            value: 'clear_cache',
+                            label: l10n.webviewAddressBarLabelClearCache,
+                            onTap: () => _clearCache(context),
+                            icon: Icons.delete_outline,
                           ),
                           _getMenuItem(
                             value: 'open_in_browser',

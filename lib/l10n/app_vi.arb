@@ -918,5 +918,7 @@
     "webviewErrorCannotLoad": "Không thể tải trang đó",
     "webviewErrorInsecureConnection": "Trang này không thể tải được vì sử dụng kết nối không an toàn (HTTP). Chỉ cho phép kết nối an toàn (HTTPS).",
     "webviewErrorGeneric": "Không thể tải trang: {error}",
-    "webviewErrorHttp": "Lỗi HTTP {code}"
+    "webviewErrorHttp": "Lỗi HTTP {code}",
+    "webviewAddressBarLabelClearCache": "Xóa bộ nhớ đệm",
+    "webviewCacheCleared": "Đã xóa bộ nhớ đệm trình duyệt"
 }

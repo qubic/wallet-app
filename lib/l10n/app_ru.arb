@@ -855,5 +855,7 @@
     "webviewErrorCannotLoad": "Не удалось загрузить эту страницу",
     "webviewErrorInsecureConnection": "Эта страница не может быть загружена, поскольку использует небезопасное соединение (HTTP). Разрешены только безопасные соединения (HTTPS).",
     "webviewErrorGeneric": "Ошибка загрузки страницы: {error}",
-    "webviewErrorHttp": "HTTP ошибка {code}"
+    "webviewErrorHttp": "HTTP ошибка {code}",
+    "webviewAddressBarLabelClearCache": "Очистить кэш",
+    "webviewCacheCleared": "Кэш браузера очищен"
 }

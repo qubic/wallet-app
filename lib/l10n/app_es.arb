@@ -854,5 +854,7 @@
     "webviewErrorCannotLoad": "No pudimos cargar esa página",
     "webviewErrorInsecureConnection": "Esta página no se puede cargar porque usa una conexión insegura (HTTP). Solo se permiten conexiones seguras (HTTPS).",
     "webviewErrorGeneric": "Error al cargar la página: {error}",
-    "webviewErrorHttp": "Error HTTP {code}"
+    "webviewErrorHttp": "Error HTTP {code}",
+    "webviewAddressBarLabelClearCache": "Borrar caché",
+    "webviewCacheCleared": "Caché del navegador borrada"
 }

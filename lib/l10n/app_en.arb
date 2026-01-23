@@ -961,5 +961,7 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "webviewAddressBarLabelClearCache": "Clear Cache",
+    "webviewCacheCleared": "Browser cache cleared"
 }
