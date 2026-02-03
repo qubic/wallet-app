@@ -228,6 +228,14 @@
     "assetsLabelContractName": "Имя контракта",
     "assetsLabelContractIndex": "Индекс контракта",
     "assetsManagedBy": "управляется",
+    "assetsIssuedBy": "Выпущено {address}",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "Балланс ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

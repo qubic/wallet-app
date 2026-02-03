@@ -228,6 +228,14 @@
     "assetsLabelContractName": "Vertragsname",
     "assetsLabelContractIndex": "Vertragsindex",
     "assetsManagedBy": "verwaltet von",
+    "assetsIssuedBy": "Ausgegeben von {address}",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "Guthaben in ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

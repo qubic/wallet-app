@@ -228,6 +228,14 @@
     "assetsLabelContractName": "Nom du contrat",
     "assetsLabelContractIndex": "Index du contrat",
     "assetsManagedBy": "géré par",
+    "assetsIssuedBy": "Émis par {address}",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "Solde en ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

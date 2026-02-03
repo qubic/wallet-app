@@ -228,6 +228,14 @@
     "assetsLabelContractName": "合约名称",
     "assetsLabelContractIndex": "合约索引",
     "assetsManagedBy": "管理者",
+    "assetsIssuedBy": "由 {address} 发行",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "ID 中余额： {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
