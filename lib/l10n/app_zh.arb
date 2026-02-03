@@ -738,7 +738,7 @@
     "wcSmartContractWarningDescription": "請確保您信任此 DApp。批准交易後，您可能會授權轉移 Qubics 和/或資產",
     "wcApproveTransfer": "批准轉帳",
     "wcSendAssets": "發送資產",
-    "assetButtonIssuerIdentity": "发行人身份",
+    "assetButtonIssuerIdentity": "查看发行人",
     "settingsLabelSupport": "支援",
     "settingsSupportGithub": "GitHub（提交問題）",
     "settingsSupportDiscord": "Discord（支援頻道）",

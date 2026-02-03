@@ -804,7 +804,7 @@
     "dAppFeaturedApp": "Ứng dụng nổi bật",
     "dAppPopularApps": "Khám phá dApp",
     "dAppQubicApps": "Qubic Apps",
-    "assetButtonIssuerIdentity": "Danh tính nhà phát hành",
+    "assetButtonIssuerIdentity": "Xem Nhà Phát Hành",
     "networksTitle": "Mạng",
     "networksButtonAddNetwork": "Thêm mạng",
     "networksConfirmationDialogTitleDeleteNetwork": "Xóa {networkName}?",
