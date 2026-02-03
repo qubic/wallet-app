@@ -415,6 +415,27 @@ class ThemedControls {
         buttonStyle: ButtonStyles.textButtonBig);
   }
 
+  /// An icon-only button with rounded square shape (reuses secondaryButton style)
+  static Widget iconButtonSquare({
+    required void Function()? onPressed,
+    required Widget icon,
+    String? semanticLabel,
+  }) {
+    return Semantics(
+      label: semanticLabel,
+      button: true,
+      child: SizedBox(
+        width: ButtonStyles.buttonHeight,
+        height: ButtonStyles.buttonHeight,
+        child: TextButton(
+          style: ButtonStyles.secondaryButton,
+          onPressed: onPressed,
+          child: icon,
+        ),
+      ),
+    );
+  }
+
   /// Shows an error label
   static Widget errorLabel(String text) {
     return Text(text, style: TextStyles.labelTextError);
