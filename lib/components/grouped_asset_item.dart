@@ -93,7 +93,7 @@ class GroupedAssetItem extends StatelessWidget {
               );
             },
             semanticLabel: l10n.releaseTransferRightsMenuOption,
-            icon: SvgPicture.asset("assets/images/swap-arrows.svg"),
+            icon: SvgPicture.asset("assets/images/transfer-rights.svg"),
           ),
         ],
       ),
