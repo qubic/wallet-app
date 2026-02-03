@@ -855,5 +855,9 @@
     "webviewErrorCannotLoad": "Bu sayfa yüklenemedi",
     "webviewErrorInsecureConnection": "Bu sayfa güvenli olmayan bir bağlantı (HTTP) kullandığı için yüklenemiyor. Yalnızca güvenli bağlantılara (HTTPS) izin verilir.",
     "webviewErrorGeneric": "Sayfa yükleme hatası: {error}",
-    "webviewErrorHttp": "HTTP Hatası {code}"
+    "webviewErrorHttp": "HTTP Hatası {code}",
+    "settingsDappBrowserClearCache": "Tarayıcı önbelleğini temizle",
+    "settingsDappBrowserClearCacheConfirmTitle": "Tarayıcı önbelleği temizlensin mi?",
+    "settingsDappBrowserClearCacheConfirmMessage": "Bu işlem, dApp tarayıcısının çerezlerini, önbelleğini ve tarama verilerini temizleyecektir. dApp'lerden çıkış yapılabilir.",
+    "settingsDappBrowserCacheCleared": "Tarayıcı önbelleği temizlendi"
 }

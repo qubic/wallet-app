@@ -918,5 +918,9 @@
     "webviewErrorCannotLoad": "Không thể tải trang đó",
     "webviewErrorInsecureConnection": "Trang này không thể tải được vì sử dụng kết nối không an toàn (HTTP). Chỉ cho phép kết nối an toàn (HTTPS).",
     "webviewErrorGeneric": "Không thể tải trang: {error}",
-    "webviewErrorHttp": "Lỗi HTTP {code}"
+    "webviewErrorHttp": "Lỗi HTTP {code}",
+    "settingsDappBrowserClearCache": "Xóa bộ nhớ cache trình duyệt",
+    "settingsDappBrowserClearCacheConfirmTitle": "Xóa bộ nhớ cache trình duyệt?",
+    "settingsDappBrowserClearCacheConfirmMessage": "Thao tác này sẽ xóa cookie, bộ nhớ cache và dữ liệu duyệt web của trình duyệt dApp. Bạn có thể bị đăng xuất khỏi các dApp.",
+    "settingsDappBrowserCacheCleared": "Đã xóa bộ nhớ cache trình duyệt"
 }

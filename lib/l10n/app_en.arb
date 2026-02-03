@@ -961,5 +961,9 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "settingsDappBrowserClearCache": "Clear Browser Cache",
+    "settingsDappBrowserClearCacheConfirmTitle": "Clear Browser Cache?",
+    "settingsDappBrowserClearCacheConfirmMessage": "This will clear cookies, cache, and browsing data for the dApp browser. You may be logged out of dApps.",
+    "settingsDappBrowserCacheCleared": "Browser cache cleared"
 }
