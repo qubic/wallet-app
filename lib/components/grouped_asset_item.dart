@@ -5,6 +5,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/address_ui_helper.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -118,20 +119,33 @@ class GroupedAssetItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: AmountFormatted(
-                        key: ValueKey<String>(
-                            "qubicAsset${account.publicId}-${groupedAsset.tokenName}-${groupedAsset.totalUnits}"),
-                        amount: groupedAsset.totalUnits,
-                        isInHeader: false,
-                        labelOffset: -0,
-                        labelHorizOffset: -6,
-                        textStyle: MediaQuery.of(context).size.width < 400
-                            ? TextStyles.accountAmount.copyWith(fontSize: 20)
-                            : TextStyles.accountAmount,
-                        labelStyle: TextStyles.accountAmountLabel,
-                        currencyName: groupedAsset.tokenName,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AmountFormatted(
+                            key: ValueKey<String>(
+                                "qubicAsset${account.publicId}-${groupedAsset.tokenName}-${groupedAsset.totalUnits}"),
+                            amount: groupedAsset.totalUnits,
+                            isInHeader: false,
+                            labelOffset: -0,
+                            labelHorizOffset: -6,
+                            textStyle: MediaQuery.of(context).size.width < 400
+                                ? TextStyles.accountAmount.copyWith(fontSize: 20)
+                                : TextStyles.accountAmount,
+                            labelStyle: TextStyles.accountAmountLabel,
+                            currencyName: groupedAsset.tokenName,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: ThemePaddings.tinyPadding),
+                            child: Text(
+                              l10n.assetsIssuedBy(AddressUIHelper.truncateAddress(groupedAsset.issuedAsset.issuerIdentity)),
+                              style: TextStyles.secondaryTextSmall,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     getCardMenu(context),

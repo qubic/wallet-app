@@ -260,6 +260,14 @@
     "assetsLabelContractName": "Tên hợp đồng",
     "assetsLabelContractIndex": "Chỉ mục hợp đồng",
     "assetsManagedBy": "được quản lý bởi",
+    "assetsIssuedBy": "Được phát hành bởi {address}",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "Số dư trong ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

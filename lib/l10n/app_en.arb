@@ -266,6 +266,14 @@
     "assetsLabelContractName": "Contract Name",
     "assetsLabelContractIndex": "Contract Index",
     "assetsManagedBy": "managed by",
+    "assetsIssuedBy": "Issued by {address}",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "Balance in ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {

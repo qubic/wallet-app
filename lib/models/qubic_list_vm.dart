@@ -63,8 +63,9 @@ class QubicListVm {
     Map<String, QubicAssetDto> mergedAssets = {};
 
     for (int i = 0; i < newAssets.length; i++) {
+      // Include issuer identity to distinguish tokens with same name but different issuers
       String name =
-          "${newAssets[i].issuedAsset.name}-${newAssets[i].managingContractIndex}";
+          "${newAssets[i].issuedAsset.issuerIdentity}_${newAssets[i].issuedAsset.name}-${newAssets[i].managingContractIndex}";
       if (mergedAssets.containsKey(name)) {
         if (mergedAssets[name]!.info.tick < newAssets[i].info.tick) {
           mergedAssets[name] = newAssets[i];
