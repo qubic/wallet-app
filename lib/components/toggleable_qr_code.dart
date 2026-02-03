@@ -6,6 +6,9 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import '../flutter_flow/theme_paddings.dart';
 
 class ToggleableQRCode extends StatefulWidget {
+  static const double qrCodeWidthFactor = 0.75;
+  static const double embeddedLogoSize = 80.0;
+
   final String qRCodeData;
   final bool expanded;
   final bool hasQubicLogo;
@@ -59,21 +62,27 @@ class _ToggleableQRCodeState extends State<ToggleableQRCode> {
       },
       child: expanded
           ? Column(children: [
-              ThemedControls.card(
-                  child: Column(children: [
-                QrImageView(
-                  data: widget.qRCodeData,
-                  version: QrVersions.auto,
-                  backgroundColor: Colors.white,
-                  errorCorrectionLevel: QrErrorCorrectLevel.H,
-                  embeddedImage: widget.hasQubicLogo
-                      ? const AssetImage('assets/images/logo.png')
-                      : null,
-                  embeddedImageStyle: const QrEmbeddedImageStyle(
-                    size: Size(80, 80),
+              ThemedControls.spacerVerticalSmall(),
+              Center(
+                child: FractionallySizedBox(
+                  widthFactor: ToggleableQRCode.qrCodeWidthFactor,
+                  child: QrImageView(
+                    data: widget.qRCodeData,
+                    version: QrVersions.auto,
+                    backgroundColor: Colors.white,
+                    errorCorrectionLevel: QrErrorCorrectLevel.H,
+                    padding: const EdgeInsets.all(ThemePaddings.smallPadding),
+                    embeddedImage: widget.hasQubicLogo
+                        ? const AssetImage('assets/images/logo.png')
+                        : null,
+                    embeddedImageStyle: const QrEmbeddedImageStyle(
+                      size: Size(
+                          ToggleableQRCode.embeddedLogoSize,
+                          ToggleableQRCode.embeddedLogoSize),
+                    ),
                   ),
-                )
-              ])),
+                ),
+              ),
               ThemedControls.spacerVerticalSmall(),
             ])
           : null,
