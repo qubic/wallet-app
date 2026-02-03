@@ -855,5 +855,9 @@
     "webviewErrorCannotLoad": "无法加载该页面",
     "webviewErrorInsecureConnection": "此页面无法加载，因为它使用不安全的连接 (HTTP)。仅允许安全连接 (HTTPS)。",
     "webviewErrorGeneric": "加载页面失败：{error}",
-    "webviewErrorHttp": "HTTP 错误 {code}"
+    "webviewErrorHttp": "HTTP 错误 {code}",
+    "settingsDappBrowserClearCache": "清除浏览器缓存",
+    "settingsDappBrowserClearCacheConfirmTitle": "清除浏览器缓存？",
+    "settingsDappBrowserClearCacheConfirmMessage": "这将清除 dApp 浏览器的 Cookie、缓存和浏览数据。您可能会从 dApp 中登出。",
+    "settingsDappBrowserCacheCleared": "浏览器缓存已清除"
 }

@@ -862,5 +862,9 @@
     "webviewErrorCannotLoad": "Impossible de charger cette page",
     "webviewErrorInsecureConnection": "Cette page ne peut pas être chargée car elle utilise une connexion non sécurisée (HTTP). Seules les connexions sécurisées (HTTPS) sont autorisées.",
     "webviewErrorGeneric": "Échec du chargement de la page : {error}",
-    "webviewErrorHttp": "Erreur HTTP {code}"
+    "webviewErrorHttp": "Erreur HTTP {code}",
+    "settingsDappBrowserClearCache": "Vider le cache du navigateur",
+    "settingsDappBrowserClearCacheConfirmTitle": "Vider le cache du navigateur ?",
+    "settingsDappBrowserClearCacheConfirmMessage": "Cela supprimera les cookies, le cache et les données de navigation du navigateur dApp. Vous pourriez être déconnecté des dApps.",
+    "settingsDappBrowserCacheCleared": "Cache du navigateur vidé"
 }

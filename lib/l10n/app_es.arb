@@ -854,5 +854,9 @@
     "webviewErrorCannotLoad": "No pudimos cargar esa página",
     "webviewErrorInsecureConnection": "Esta página no se puede cargar porque usa una conexión insegura (HTTP). Solo se permiten conexiones seguras (HTTPS).",
     "webviewErrorGeneric": "Error al cargar la página: {error}",
-    "webviewErrorHttp": "Error HTTP {code}"
+    "webviewErrorHttp": "Error HTTP {code}",
+    "settingsDappBrowserClearCache": "Limpiar caché del navegador",
+    "settingsDappBrowserClearCacheConfirmTitle": "¿Limpiar caché del navegador?",
+    "settingsDappBrowserClearCacheConfirmMessage": "Esto eliminará cookies, caché y datos de navegación del navegador dApp. Es posible que se cierre su sesión en las dApps.",
+    "settingsDappBrowserCacheCleared": "Caché del navegador limpiada"
 }

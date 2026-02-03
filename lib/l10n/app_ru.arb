@@ -855,5 +855,9 @@
     "webviewErrorCannotLoad": "Не удалось загрузить эту страницу",
     "webviewErrorInsecureConnection": "Эта страница не может быть загружена, поскольку использует небезопасное соединение (HTTP). Разрешены только безопасные соединения (HTTPS).",
     "webviewErrorGeneric": "Ошибка загрузки страницы: {error}",
-    "webviewErrorHttp": "HTTP ошибка {code}"
+    "webviewErrorHttp": "HTTP ошибка {code}",
+    "settingsDappBrowserClearCache": "Очистить кэш браузера",
+    "settingsDappBrowserClearCacheConfirmTitle": "Очистить кэш браузера?",
+    "settingsDappBrowserClearCacheConfirmMessage": "Это удалит файлы cookie, кэш и данные просмотра браузера dApp. Вы можете выйти из dApps.",
+    "settingsDappBrowserCacheCleared": "Кэш браузера очищен"
 }

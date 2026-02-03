@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/components/erase_wallet_data_button.dart';
 import 'package:qubic_wallet/pages/main/tab_settings/components/settings_list_tile.dart';
@@ -56,6 +59,25 @@ class _TabSettingsState extends State<TabSettings> {
       isFirstOpen = false;
     }
     super.didChangeDependencies();
+  }
+
+  void _showClearBrowserCacheDialog(BuildContext context) {
+    final l10n = l10nOf(context);
+    showDialog(
+      context: context,
+      builder: (context) => ConfirmationDialog(
+        title: l10n.settingsDappBrowserClearCacheConfirmTitle,
+        content: l10n.settingsDappBrowserClearCacheConfirmMessage,
+        continueText: l10n.settingsDappBrowserClearCache,
+        continueFunction: () async {
+          await InAppWebViewController.clearAllCache();
+          if (context.mounted) {
+            final globalSnackBar = getIt<GlobalSnackBar>();
+            globalSnackBar.show(l10n.settingsDappBrowserCacheCleared);
+          }
+        },
+      ),
+    );
   }
 
   @override
@@ -149,6 +171,16 @@ class _TabSettingsState extends State<TabSettings> {
                                     height: defaultIconHeight),
                                 title: l10n.networksTitle,
                                 path: NetworksScreen(),
+                              ),
+                              SettingsListTile(
+                                prefix: Icon(
+                                  Icons.cached,
+                                  size: defaultIconHeight,
+                                  color: LightThemeColors.textColorSecondary,
+                                ),
+                                title: l10n.settingsDappBrowserClearCache,
+                                suffix: const SizedBox.shrink(),
+                                onPressed: () => _showClearBrowserCacheDialog(context),
                               ),
                               SettingsListTile(
                                 prefix: SvgPicture.asset(AppIcons.support,
