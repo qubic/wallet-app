@@ -12,6 +12,7 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/release_transfer_rights.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfer_asset.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -77,7 +78,7 @@ class GroupedAssetItem extends StatelessWidget {
               );
             },
             semanticLabel: l10n.assetsButtonSend,
-            icon: SvgPicture.asset("assets/images/send-arrow.svg"),
+            icon: SvgPicture.asset(AppIcons.sendArrow),
           ),
           const SizedBox(width: ThemePaddings.smallPadding),
           ThemedControls.iconButtonSquare(
@@ -93,7 +94,7 @@ class GroupedAssetItem extends StatelessWidget {
               );
             },
             semanticLabel: l10n.releaseTransferRightsMenuOption,
-            icon: SvgPicture.asset("assets/images/transfer-rights.svg"),
+            icon: SvgPicture.asset(AppIcons.transferRights),
           ),
         ],
       ),

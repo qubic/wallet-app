@@ -1,6 +1,11 @@
 abstract class AppIcons {
   static const String _path = 'assets/icons/';
 
+  // Action icons
+  static const String sendArrow = '${_path}send-arrow.svg';
+  static const String receiveArrow = '${_path}receive-arrow.svg';
+  static const String transferRights = '${_path}transfer-rights.svg';
+
   static const String changePassword = '${_path}change-password.svg';
   static const String export = '${_path}export.svg';
   static const String autoLock = '${_path}auto-lock.svg';

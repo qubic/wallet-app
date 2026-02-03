@@ -23,6 +23,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -313,7 +314,7 @@ class _AccountListItemState extends State<AccountListItem> {
                       );
                     },
                     semanticLabel: l10n.accountButtonSend,
-                    icon: SvgPicture.asset("assets/images/send-arrow.svg"),
+                    icon: SvgPicture.asset(AppIcons.sendArrow),
                   ),
                 const SizedBox(width: ThemePaddings.smallPadding),
                 ThemedControls.iconButtonSquare(
@@ -327,7 +328,7 @@ class _AccountListItemState extends State<AccountListItem> {
                     );
                   },
                   semanticLabel: l10n.accountButtonReceive,
-                  icon: SvgPicture.asset("assets/images/receive-arrow.svg"),
+                  icon: SvgPicture.asset(AppIcons.receiveArrow),
                 ),
                 getAssetsButton(context),
               ],
