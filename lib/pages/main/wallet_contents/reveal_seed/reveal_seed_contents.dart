@@ -6,6 +6,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -51,8 +52,9 @@ class RevealSeedContentsState extends State<RevealSeedContents> {
                   title: l10n.revealSeedWarningTitle,
                   description: l10n.revealSeedWarningDescription,
                 ),
-                ThemedControls.spacerVerticalSmall(),
+                ThemedControls.spacerVerticalMini(),
                 ThemedControls.card(
+                  padding: const EdgeInsets.all(ThemePaddings.smallPadding),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -77,7 +79,7 @@ class RevealSeedContentsState extends State<RevealSeedContents> {
                     ],
                   ),
                 ),
-                ThemedControls.spacerVerticalSmall(),
+                ThemedControls.spacerVerticalMini(),
                 seedId != null
                     ? ToggleableQRCode(qRCodeData: seedId!, expanded: true)
                     : Container(),

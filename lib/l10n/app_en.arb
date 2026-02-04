@@ -839,7 +839,7 @@
     "dAppFeaturedApp": "Featured App",
     "dAppPopularApps": "Discover dApps",
     "dAppQubicApps": "Qubic Apps",
-    "assetButtonIssuerIdentity": "Issuer Identity",
+    "assetButtonIssuerIdentity": "View Issuer",
     "networksTitle": "Networks",
     "networksButtonAddNetwork": "Add Network",
     "networksConfirmationDialogTitleDeleteNetwork": "Delete {networkName}?",

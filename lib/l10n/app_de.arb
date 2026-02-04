@@ -746,7 +746,7 @@
     "wcSmartContractWarningDescription": "Stelle sicher, dass du dieser DApp vertraust. Durch die Genehmigung der Transaktion kannst du möglicherweise die Übertragung von Qubics und/oder Vermögenswerten autorisieren",
     "wcApproveTransfer": "Übertragung Genehmigen",
     "wcSendAssets": "Vermögenswerte Senden",
-    "assetButtonIssuerIdentity": "Identität des Ausstellers",
+    "assetButtonIssuerIdentity": "Emittent anzeigen",
     "settingsLabelSupport": "Support",
     "settingsSupportGithub": "GitHub (Problem melden)",
     "settingsSupportDiscord": "Discord (Support-Kanal)",

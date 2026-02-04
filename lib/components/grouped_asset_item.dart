@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
@@ -12,10 +13,11 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/release_transfer_rights.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfer_asset.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
-enum CardItem { issuerIdentity, releaseTransferRights }
+enum CardItem { issuerIdentity }
 
 class GroupedAssetItem extends StatelessWidget {
   final QubicListVm account;
@@ -30,21 +32,9 @@ class GroupedAssetItem extends StatelessWidget {
   Widget getCardMenu(BuildContext context) {
     final l10n = l10nOf(context);
 
-    List<PopupMenuEntry<CardItem>> menuItems = [
-      PopupMenuItem<CardItem>(
-        value: CardItem.releaseTransferRights,
-        child: Text(l10n.releaseTransferRightsMenuOption),
-      ),
-    ];
-
-    // Add Issuer Identity option only for non-smart-contract shares
-    if (!groupedAsset.isSmartContractShare) {
-      menuItems.add(
-        PopupMenuItem<CardItem>(
-          value: CardItem.issuerIdentity,
-          child: Text(l10n.assetButtonIssuerIdentity),
-        ),
-      );
+    // Only show menu for non-smart-contract shares (Issuer Identity option)
+    if (groupedAsset.isSmartContractShare) {
+      return const SizedBox.shrink();
     }
 
     return PopupMenuButton<CardItem>(
@@ -55,44 +45,58 @@ class GroupedAssetItem extends StatelessWidget {
           if (menuItem == CardItem.issuerIdentity) {
             viewAddressInExplorer(
                 context, groupedAsset.issuedAsset.issuerIdentity);
-          } else if (menuItem == CardItem.releaseTransferRights) {
-            pushScreen(
-              context,
-              screen: ReleaseTransferRights(
-                item: account,
-                groupedAsset: groupedAsset,
-              ),
-              withNavBar: false,
-              pageTransitionAnimation: PageTransitionAnimation.cupertino,
-            );
           }
         },
-        itemBuilder: (BuildContext context) => menuItems);
+        itemBuilder: (BuildContext context) => [
+              PopupMenuItem<CardItem>(
+                value: CardItem.issuerIdentity,
+                child: Text(l10n.assetButtonIssuerIdentity),
+              ),
+            ]);
   }
 
   Widget getAssetButtonBar(BuildContext context) {
     final l10n = l10nOf(context);
 
     return Padding(
-      padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-      child: OverflowBar(
-        alignment: MainAxisAlignment.start,
+      padding: const EdgeInsets.fromLTRB(
+        ThemePaddings.normalPadding,
+        ThemePaddings.smallPadding,
+        ThemePaddings.normalPadding,
+        ThemePaddings.normalPadding,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          ThemedControls.primaryButtonBig(
-              onPressed: () {
-                pushScreen(
-                  context,
-                  screen:
-                      TransferAsset(item: account, groupedAsset: groupedAsset),
-                  withNavBar: false,
-                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
-                );
-              },
-              text: l10n.assetsButtonSend,
-              icon: LightThemeColors.shouldInvertIcon
-                  ? ThemedControls.invertedColors(
-                      child: Image.asset("assets/images/send.png"))
-                  : Image.asset("assets/images/send.png")),
+          ThemedControls.iconButtonSquare(
+            onPressed: () {
+              pushScreen(
+                context,
+                screen:
+                    TransferAsset(item: account, groupedAsset: groupedAsset),
+                withNavBar: false,
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              );
+            },
+            semanticLabel: l10n.assetsButtonSend,
+            icon: SvgPicture.asset(AppIcons.sendArrow),
+          ),
+          const SizedBox(width: ThemePaddings.smallPadding),
+          ThemedControls.iconButtonSquare(
+            onPressed: () {
+              pushScreen(
+                context,
+                screen: ReleaseTransferRights(
+                  item: account,
+                  groupedAsset: groupedAsset,
+                ),
+                withNavBar: false,
+                pageTransitionAnimation: PageTransitionAnimation.cupertino,
+              );
+            },
+            semanticLabel: l10n.releaseTransferRightsMenuOption,
+            icon: SvgPicture.asset(AppIcons.transferRights),
+          ),
         ],
       ),
     );

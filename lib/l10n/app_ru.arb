@@ -746,7 +746,7 @@
     "wcSmartContractWarningDescription": "Убедитесь, что вы доверяете этому DApp. Одобряя транзакцию, вы можете разрешить перевод Qubics и/или активов",
     "wcApproveTransfer": "Одобрить перевод",
     "wcSendAssets": "Отправить активы",
-    "assetButtonIssuerIdentity": "Идентификатор владельца",
+    "assetButtonIssuerIdentity": "Посмотреть эмитента",
     "settingsLabelSupport": "Поддержка",
     "settingsSupportGithub": "GitHub (Создать обращение)",
     "settingsSupportDiscord": "Discord (Канал поддержки)",
