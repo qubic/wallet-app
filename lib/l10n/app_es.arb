@@ -479,7 +479,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Saldo de activos en ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Saldo gestionado por QX: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -490,7 +490,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Solo se pueden transferir activos gestionados por Qx",
+    "transferAssetQxBalanceHint": "* Saldo total: {totalAmount} {assetName}. Para aumentar el saldo transferible, primero mueva más a QX mediante \"Transferir Derechos de Gestión\" en Activos.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\nOrigen: {sourceId}\nDestino: {destId}\nnMonto: {amount}\nTipo: {type}\nStatus: {status}\nFecha: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Importar un Wallet Existente",
     "importWalletTitle": "Importar Wallet",

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/components/private_seed_warning.dart';
+import 'package:qubic_wallet/components/qr_scan_icon_button.dart';
 import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/di.dart';
@@ -529,7 +530,7 @@ class _AddAccountState extends State<AddAccount> {
                       name: "publicAddress",
                       controller: publicId,
                       maxLength: 60,
-                      maxLines: 2,
+                      maxLines: 3,
                       validator: FormBuilderValidators.compose([
                         FormBuilderValidators.required(
                             errorText: l10n.generalErrorRequiredField),
@@ -546,19 +547,16 @@ class _AddAccountState extends State<AddAccount> {
                       },
                       readOnly: isLoading,
                       style: TextStyles.inputBoxSmallStyle,
-                      decoration: ThemeInputDecorations.normalInputbox.copyWith(
-                          hintText: l10n.addAccountWatchOnlyHintQubicAddress),
+                      decoration:
+                          ThemeInputDecorations.normalMultiLineInputbox.copyWith(
+                        hintText: l10n.addAccountWatchOnlyHintQubicAddress,
+                        suffixIcon: isMobile
+                            ? QrScanIconButton(controller: publicId)
+                            : null,
+                      ),
                       autocorrect: false,
                       autofillHints: null,
                     ),
-                    ThemedControls.spacerVerticalNormal(),
-                    if (isMobile)
-                      ScanCodeButton(onPressed: () {
-                        getIt<QrScannerService>().scanAndSetPublicId(
-                          context: context,
-                          controller: publicId,
-                        );
-                      }),
                     const SizedBox(height: ThemePaddings.normalPadding),
                   ],
                 ),
