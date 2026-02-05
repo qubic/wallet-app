@@ -9,6 +9,7 @@ import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/address_ui_helper.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
@@ -424,30 +425,42 @@ class _AccountListItemState extends State<AccountListItem> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Row(children: [
-                        Expanded(
-                          child: Row(children: [
-                            Flexible(
-                              child: Text(
-                                widget.item.name,
-                                style: TextStyles.accountName,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(children: [
+                                  Flexible(
+                                    child: Text(
+                                      widget.item.name,
+                                      style: TextStyles.accountName,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  ThemedControls.spacerHorizontalSmall(),
+                                  isItemWatchOnly()
+                                      ? const Icon(
+                                          Icons.remove_red_eye_rounded,
+                                          color: LightThemeColors.color4,
+                                        )
+                                      : Container(),
+                                ]),
+                                Text(
+                                  AddressUIHelper.truncateAddress(
+                                      widget.item.publicId),
+                                  style: TextStyles.secondaryTextSmall,
+                                  maxLines: 1,
+                                ),
+                              ],
                             ),
-                            ThemedControls.spacerHorizontalSmall(),
-                            isItemWatchOnly()
-                                ? const Icon(
-                                    Icons.remove_red_eye_rounded,
-                                    color: LightThemeColors.color4,
-                                  )
-                                : Container(),
-                          ]),
-                        ),
-                        getCardMenu(context)
-                      ]),
-                      ThemedControls.spacerVerticalSmall(),
-                      Text(widget.item.publicId),
+                          ),
+                          getCardMenu(context)
+                        ],
+                      ),
                       ThemedControls.spacerVerticalSmall(),
                       AnimatedCrossFade(
                         duration: const Duration(milliseconds: 300),

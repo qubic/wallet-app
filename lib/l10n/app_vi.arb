@@ -20,6 +20,7 @@
     "generalButtonEraseWalletData": "Xóa dữ liệu ví",
     "generalButtonClearAll": "Xóa tất cả",
     "generalButtonUseQRCode": "Sử dụng mã QR",
+    "tooltipScanQRCode": "Quét mã QR",
     "generalButtonCopyAddress": "Sao chép địa chỉ",
     "generalButtonPaste": "Dán",
     "generalButtonClear": "Xóa",
@@ -528,7 +529,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Số dư tài sản trong ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Số dư được quản lý bởi QX: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -539,7 +540,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Chỉ có thể chuyển các tài sản được quản lý bởi Qx",
+    "transferAssetQxBalanceHint": "* Tổng số dư: {totalAmount} {assetName}. Để tăng số dư có thể chuyển, hãy chuyển thêm vào QX qua \"Chuyển quyền quản lý\" trong Tài sản trước.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "ID GD: {trxId}\nNguồn: {sourceId}\nĐích: {destId}\nSố lượng: {amount}\nLoại: {type}\nTrạng thái: {status}\nDấu thời gian: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",

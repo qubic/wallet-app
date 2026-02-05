@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Wallet-Daten löschen",
     "generalButtonClearAll": "Alle löschen",
     "generalButtonUseQRCode": "QR-Code verwenden",
+    "tooltipScanQRCode": "QR-Code scannen",
     "generalButtonCopyAddress": "Adresse kopieren",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
@@ -481,7 +482,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Asset-Guthaben in ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Von QX verwaltetes Guthaben: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -492,7 +493,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Nur von Qx verwaltete Assets können übertragen werden",
+    "transferAssetQxBalanceHint": "* Gesamtguthaben: {totalAmount} {assetName}. Um das übertragbare Guthaben zu erhöhen, verschieben Sie zuerst mehr zu QX über \"Verwaltungsrechte übertragen\" in Assets.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\nQuelle: {sourceId}\nZiel: {destId}\nBetrag: {amount}\nTyp: {type}\nStatus: {status}\nZeitstempel: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Vorhandene Wallet importieren",
     "importWalletTitle": "Wallet importieren",

@@ -20,6 +20,7 @@
     "generalButtonEraseWalletData": "Erase Wallet Data",
     "generalButtonClearAll": "Clear All",
     "generalButtonUseQRCode": "Use QR Code",
+    "tooltipScanQRCode": "Scan QR Code",
     "generalButtonCopyAddress": "Copy Address",
     "generalButtonPaste": "Paste",
     "generalButtonClear": "Clear",
@@ -541,7 +542,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Asset balance in ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Balance managed by QX: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -552,7 +553,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Only assets managed by Qx can be transferred",
+    "transferAssetQxBalanceHint": "* Total balance: {totalAmount} {assetName}. To increase transferable balance, move more to QX via \"Transfer Management Rights\" in Assets first.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nType: {type}\nStatus: {status}\nTimestamp: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",

@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "清除钱包数据",
     "generalButtonClearAll": "清除所有",
     "generalButtonUseQRCode": "使用二维码",
+    "tooltipScanQRCode": "扫描二维码",
     "generalButtonCopyAddress": "复制地址",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
@@ -481,7 +482,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "ID 中的资产余额: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "QX 管理的余额: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -492,7 +493,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* 只能转移由 Qx 管理的资产",
+    "transferAssetQxBalanceHint": "* 总余额: {totalAmount} {assetName}。要增加可转移余额，请先通过资产中的\"转移管理权限\"将更多资产移至 QX。",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\n发送方: {sourceId}\n接收方: {destId}\n数量: {amount}\n类型: {type}\nStatus: {status}\n时间戳: {timestamp}\n刻度: {targetTick}",
     "welcomeButtonImportExistingWallet": "导入已有钱包",
     "importWalletTitle": "导入钱包",

@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Cüzdan Verisini Sil",
     "generalButtonClearAll": "Hepsini Temizle",
     "generalButtonUseQRCode": "QR Kod Kullan",
+    "tooltipScanQRCode": "QR Kodu Tara",
     "generalButtonCopyAddress": "Adresi Kopyala",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
@@ -481,7 +482,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "ID'deki varlık bakiyesi: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "QX tarafından yönetilen bakiye: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -492,7 +493,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Yalnızca Qx tarafından yönetilen varlıklar aktarılabilir",
+    "transferAssetQxBalanceHint": "* Toplam bakiye: {totalAmount} {assetName}. Aktarılabilir bakiyeyi artırmak için önce Varlıklar'daki \"Yönetim Haklarını Aktar\" seçeneğiyle QX'e daha fazla taşıyın.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\nKaynak: {sourceId}\nHedef: {destId}\nTutar: {amount}\nTyp: {type}\nDurum: {status}\nTimestamp: {timestamp}\nHedef Tick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Mevcut Bir Cüzdanı İçe Aktar",
     "importWalletTitle": "Cüzdanı İçe Aktar",

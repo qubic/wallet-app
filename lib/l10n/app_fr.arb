@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Effacer les données du portefeuille",
     "generalButtonClearAll": "Tout effacer",
     "generalButtonUseQRCode": "Utiliser le QR Code",
+    "tooltipScanQRCode": "Scanner le code QR",
     "generalButtonCopyAddress": "Copier l'adresse",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
@@ -481,7 +482,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Solde d'actifs en ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Solde géré par QX: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -492,7 +493,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Seuls les actifs gérés par Qx peuvent être transférés",
+    "transferAssetQxBalanceHint": "* Solde total: {totalAmount} {assetName}. Pour augmenter le solde transférable, déplacez d'abord plus vers QX via \"Transférer les droits de gestion\" dans Actifs.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestinataire: {destId}\nMontant: {amount}\nType: {type}\nStatut: {status}\nHorodatage: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Importer un Portefeuille Existant",
     "importWalletTitle": "Importer Votre Portefeuille",

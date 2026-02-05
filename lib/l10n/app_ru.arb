@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Очистить данные кошелька",
     "generalButtonClearAll": "Очистить всё",
     "generalButtonUseQRCode": "Использовать QR код",
+    "tooltipScanQRCode": "Сканировать QR-код",
     "generalButtonCopyAddress": "Копировать адрес",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
@@ -480,7 +481,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Баланс активов в ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Баланс, управляемый QX: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -491,7 +492,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Можно переводить только активы, управляемые Qx",
+    "transferAssetQxBalanceHint": "* Общий баланс: {totalAmount} {assetName}. Чтобы увеличить переводимый баланс, сначала переместите больше в QX через \"Передача прав управления\" в Активах.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\nИсточник: {sourceId}\nПолучатель: {destId}\nТик: {amount}\nТип: {type}\nСтатус: {status}\nМетка времени: {timestamp}\nТик: {targetTick}",
     "welcomeButtonImportExistingWallet": "Импортировать существующий кошелек",
     "importWalletTitle": "Импортировать кошелек",
