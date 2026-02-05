@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "清除钱包数据",
     "generalButtonClearAll": "清除所有",
     "generalButtonUseQRCode": "使用二维码",
+    "tooltipScanQRCode": "扫描二维码",
     "generalButtonCopyAddress": "复制地址",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",

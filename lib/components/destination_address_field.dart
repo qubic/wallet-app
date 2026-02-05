@@ -81,7 +81,11 @@ class DestinationAddressField extends StatelessWidget {
           decoration: ThemeInputDecorations.normalMultiLineInputbox.copyWith(
             hintText: "",
             hintMaxLines: 3,
-            suffixIcon: _buildSuffixIcon(context),
+            suffixIcon: _SuffixIconRow(
+              controller: controller,
+              showBookmarkPicker: showBookmarkPicker,
+              onBookmarkPressed: onBookmarkPressed,
+            ),
           ),
           autocorrect: false,
           autofillHints: null,
@@ -89,8 +93,21 @@ class DestinationAddressField extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _buildSuffixIcon(BuildContext context) {
+class _SuffixIconRow extends StatelessWidget {
+  final TextEditingController controller;
+  final bool showBookmarkPicker;
+  final VoidCallback? onBookmarkPressed;
+
+  const _SuffixIconRow({
+    required this.controller,
+    required this.showBookmarkPicker,
+    this.onBookmarkPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     final hasButtons = isMobile || showBookmarkPicker;
     if (!hasButtons) return const SizedBox.shrink();
 
@@ -98,16 +115,13 @@ class DestinationAddressField extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // QR Scan button (mobile only)
         if (isMobile) QrScanIconButton(controller: controller),
-        // Vertical separator between buttons (only when both are present)
         if (isMobile && showBookmarkPicker)
           Container(
             height: 24,
             width: 1,
             color: LightThemeColors.inputBorderColor,
           ),
-        // Bookmark picker button
         if (showBookmarkPicker) BookmarkIconButton(onPressed: onBookmarkPressed),
       ],
     );

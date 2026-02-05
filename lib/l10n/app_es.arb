@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Eliminar el Wallet",
     "generalButtonClearAll": "Limpiar Todo",
     "generalButtonUseQRCode": "Usar Código QR",
+    "tooltipScanQRCode": "Escanear código QR",
     "generalButtonCopyAddress": "Copiar Dirección",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",

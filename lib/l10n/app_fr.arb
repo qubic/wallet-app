@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Effacer les données du portefeuille",
     "generalButtonClearAll": "Tout effacer",
     "generalButtonUseQRCode": "Utiliser le QR Code",
+    "tooltipScanQRCode": "Scanner le code QR",
     "generalButtonCopyAddress": "Copier l'adresse",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",

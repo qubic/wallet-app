@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Очистить данные кошелька",
     "generalButtonClearAll": "Очистить всё",
     "generalButtonUseQRCode": "Использовать QR код",
+    "tooltipScanQRCode": "Сканировать QR-код",
     "generalButtonCopyAddress": "Копировать адрес",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",

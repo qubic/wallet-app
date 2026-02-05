@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Cüzdan Verisini Sil",
     "generalButtonClearAll": "Hepsini Temizle",
     "generalButtonUseQRCode": "QR Kod Kullan",
+    "tooltipScanQRCode": "QR Kodu Tara",
     "generalButtonCopyAddress": "Adresi Kopyala",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",

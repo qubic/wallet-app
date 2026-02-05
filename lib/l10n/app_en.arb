@@ -20,6 +20,7 @@
     "generalButtonEraseWalletData": "Erase Wallet Data",
     "generalButtonClearAll": "Clear All",
     "generalButtonUseQRCode": "Use QR Code",
+    "tooltipScanQRCode": "Scan QR Code",
     "generalButtonCopyAddress": "Copy Address",
     "generalButtonPaste": "Paste",
     "generalButtonClear": "Clear",

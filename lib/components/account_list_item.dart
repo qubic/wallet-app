@@ -449,24 +449,11 @@ class _AccountListItemState extends State<AccountListItem> {
                                         )
                                       : Container(),
                                 ]),
-                                LayoutBuilder(
-                                  builder: (context, constraints) {
-                                    const addressStyle = TextStyle(
-                                      fontSize: 12,
-                                      color: LightThemeColors.textColorSecondary,
-                                    );
-                                    final charWidth =
-                                        (addressStyle.fontSize ?? 11) * 0.6;
-                                    final maxChars =
-                                        (constraints.maxWidth / charWidth)
-                                            .floor();
-                                    return Text(
-                                      AddressUIHelper.truncateMiddle(
-                                          widget.item.publicId, maxChars),
-                                      style: addressStyle,
-                                      maxLines: 1,
-                                    );
-                                  },
+                                Text(
+                                  AddressUIHelper.truncateAddress(
+                                      widget.item.publicId),
+                                  style: TextStyles.secondaryTextSmall,
+                                  maxLines: 1,
                                 ),
                               ],
                             ),

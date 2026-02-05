@@ -20,6 +20,7 @@
     "generalButtonEraseWalletData": "Xóa dữ liệu ví",
     "generalButtonClearAll": "Xóa tất cả",
     "generalButtonUseQRCode": "Sử dụng mã QR",
+    "tooltipScanQRCode": "Quét mã QR",
     "generalButtonCopyAddress": "Sao chép địa chỉ",
     "generalButtonPaste": "Dán",
     "generalButtonClear": "Xóa",

@@ -13,7 +13,7 @@ class AddressUIHelper {
     return _ecosystemStore.getEntityLabel(address);
   }
 
-  static const _truncateLength = 4;
+  static const _truncateLength = 6;
 
   /// Truncates an address to show first and last [_truncateLength] characters.
   /// Example: "ABCDEFGHIJKLMNOP..." becomes "ABCD...MNOP"
