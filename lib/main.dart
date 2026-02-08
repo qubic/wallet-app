@@ -26,8 +26,8 @@ import 'package:universal_platform/universal_platform.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
+    await initializePlatformHelpers(); // Check if iOS app running on Mac (must be before DI)
     await setupDI(); //Dependency injection
-    await initializePlatformHelpers(); // Check if iOS app running on Mac
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,

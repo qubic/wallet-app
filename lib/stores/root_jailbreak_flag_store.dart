@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_is_ios_app_on_mac/flutter_is_ios_app_on_mac.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
+import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/show_alert_dialog.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/routes.dart';
@@ -24,7 +24,7 @@ abstract class RootJailbreakFlagStoreBase with Store {
   Future<void> checkDeviceState() async {
     // Skip root/jailbreak check for iOS apps running on Mac
     // (safe_device gives false positives in this scenario)
-    if (await FlutterIsIosAppOnMac.isIosAppOnMac()) {
+    if (isIosAppOnMac) {
       isRootedOrJailbroken = false;
       return;
     }
