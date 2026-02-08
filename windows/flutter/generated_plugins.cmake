@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   connectivity_plus
   downloadsfolder
   flutter_inappwebview_windows
+  flutter_is_ios_app_on_mac
   flutter_secure_storage_windows
   local_auth_windows
   screen_retriever

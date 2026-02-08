@@ -628,6 +628,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.0"
+  flutter_is_ios_app_on_mac:
+    dependency: "direct main"
+    description:
+      name: flutter_is_ios_app_on_mac
+      sha256: "568ecf16ac654a6193893ce3c50098c834c9478a3c5a67ee7320bb59b1946c99"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:

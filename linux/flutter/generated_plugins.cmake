@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  flutter_is_ios_app_on_mac
   flutter_secure_storage_linux
   gtk
   screen_retriever

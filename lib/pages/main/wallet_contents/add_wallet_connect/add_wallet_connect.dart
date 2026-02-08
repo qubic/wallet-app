@@ -302,11 +302,13 @@ class _AddWalletConnectState extends State<AddWalletConnect> {
 
   //Returns the child widget based on the platform
   //If the platform is desktop, it will return the desktop view
+  //If the platform is iOS app running on Mac, it will return the desktop view
   //If the platform is mobile, and an app link is used it will return the desktop view
   //If the platform is mobile, and no app link is used it will return the mobile view
 
   Widget getChildWidget() {
-    if (!isMobile) {
+    // Use desktop view for desktop platforms or iOS apps running on Mac
+    if (!isMobile || isIosAppOnMac) {
       return _AddWalletConnectDesktopView(
         isLoading: isLoading,
         proceedHandler: proceedHandler,
