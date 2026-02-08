@@ -22,9 +22,9 @@ abstract class RootJailbreakFlagStoreBase with Store {
 
   @action
   Future<void> checkDeviceState() async {
-    // Skip root/jailbreak check for iOS apps running on Mac
-    // (safe_device gives false positives in this scenario)
-    if (isIosAppOnMac) {
+    // Only check on mobile devices (safe_device only supports iOS/Android)
+    // Also skip iOS apps running on Mac (false positives)
+    if (!isMobile || isIosAppOnMac) {
       isRootedOrJailbroken = false;
       return;
     }
