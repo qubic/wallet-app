@@ -394,6 +394,7 @@
     "deleteAccountDialogTitle": "Удалить аккаунт",
     "deleteAccountDialogMessage": "Вы уверены, что хотите удалить этот аккаунт Qubic из своего кошелька? (Все средства, связанные с этим счетом, не будут удалены)\n\nУБЕДИТЕСЬ, ЧТО У ВАС ЕСТЬ РЕЗЕРВНАЯ КОПИЯ СЕКРЕТНОГО СИДА ПЕРЕД УДАЛЕНИЕМ ЭТОГО АККАУНТА!",
     "deleteAccountDialogButtonDelete": "Удалить аккаунт",
+    "errorNoAccountsForWalletConnect": "Добавьте свой аккаунт для подключения к dApps.",
     "renameAccountDialogTitle": "Переименовать аккаунт",
     "renameAccountLabelName": "Имя",
     "renameAccountDialogHintName": "Новое имя",

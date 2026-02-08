@@ -395,6 +395,7 @@
     "deleteAccountDialogTitle": "Konto löschen",
     "deleteAccountDialogMessage": "Sind Sie sicher, dass Sie dieses Qubic-Konto aus Ihrem Wallet löschen möchten? (Alle mit diesem Konto verbundenen Gelder werden nicht entfernt)\n\nSTELLEN SIE SICHER, DASS SIE EINE SICHERUNG IHRER PRIVATEN SEED HABEN, BEVOR SIE DIESES KONTO LÖSCHEN!",
     "deleteAccountDialogButtonDelete": "Konto löschen",
+    "errorNoAccountsForWalletConnect": "Fügen Sie Ihr eigenes Konto hinzu, um sich mit dApps zu verbinden.",
     "renameAccountDialogTitle": "Konto umbenennen",
     "renameAccountLabelName": "Name",
     "renameAccountDialogHintName": "Neuer Name",
