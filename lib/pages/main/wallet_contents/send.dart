@@ -3,15 +3,14 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:qubic_wallet/components/destination_address_field.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
-import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/components/transaction/advanced_tick_options.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
-import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/send_transaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
@@ -21,7 +20,6 @@ import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -208,71 +206,19 @@ class _SendState extends State<Send> {
               headerText: l10n.accountSendTitle,
               subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
           ThemedControls.spacerVerticalSmall(),
-          Text(l10n.accountSendLabelDestinationAddress,
-              style: TextStyles.labelTextNormal),
-          ThemedControls.spacerVerticalMini(),
           FormBuilder(
               key: _formKey,
               child: Column(
                 children: [
-                  Flex(direction: Axis.horizontal, children: [
-                    Expanded(
-                        flex: 10,
-                        child: FormBuilderTextField(
-                          name: "destinationID",
-                          readOnly: isLoading,
-                          controller: destinationID,
-                          enableSuggestions: false,
-                          onSubmitted: (value) => transferNowHandler(),
-                          keyboardType: TextInputType.visiblePassword,
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(
-                                errorText: l10n.generalErrorRequiredField),
-                            CustomFormFieldValidators.isPublicID(
-                                context: context),
-                            verifyPublicId(l10n
-                                .accountSendSectionInvalidDestinationAddress),
-                          ]),
-                          maxLines: 2,
-                          style: TextStyles.inputBoxSmallStyle,
-                          maxLength: 60,
-                          decoration: ThemeInputDecorations
-                              .normalMultiLineInputbox
-                              .copyWith(
-                                  hintText: "",
-                                  hintMaxLines: 3,
-                                  // This line is the one that causes the error
-                                  suffixIcon: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        appStore.currentQubicIDs.length > 1
-                                            ? IconButton(
-                                                onPressed: () async {
-                                                  showPickerBottomSheet();
-                                                },
-                                                icon: LightThemeColors
-                                                        .shouldInvertIcon
-                                                    ? ThemedControls.invertedColors(
-                                                        child: Image.asset(
-                                                            "assets/images/bookmark-24.png"))
-                                                    : Image.asset(
-                                                        "assets/images/bookmark-24.png"))
-                                            //const Icon(Icons.book))
-                                            : Container(),
-                                        ThemedControls.spacerHorizontalMini()
-                                      ])),
-                          autocorrect: false,
-                          autofillHints: null,
-                        )),
-                  ]),
-                  if (isMobile)
-                    ScanCodeButton(onPressed: () {
-                      getIt<QrScannerService>().scanAndSetPublicId(
-                        context: context,
-                        controller: destinationID,
-                      );
-                    }),
+                  DestinationAddressField(
+                    controller: destinationID,
+                    isLoading: isLoading,
+                    showBookmarkPicker: appStore.currentQubicIDs.length > 1,
+                    onBookmarkPressed: showPickerBottomSheet,
+                    additionalValidator: verifyPublicId(
+                        l10n.accountSendSectionInvalidDestinationAddress),
+                    onSubmitted: (value) => transferNowHandler(),
+                  ),
                   ThemedControls.spacerVerticalMini(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

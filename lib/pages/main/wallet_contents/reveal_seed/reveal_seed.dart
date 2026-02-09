@@ -6,7 +6,7 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_contents.dart';
 import 'package:qubic_wallet/services/screenshot_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/edge_insets.dart';
+import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 
 class RevealSeed extends StatefulWidget {
   final QubicListVm item;
@@ -54,7 +54,11 @@ class _RevealSeedState extends State<RevealSeed> {
           backgroundColor: Colors.transparent,
         ),
         body: SafeArea(
-            minimum: ThemeEdgeInsets.pageInsets,
+            minimum: const EdgeInsets.fromLTRB(
+                ThemePaddings.smallPadding,
+                ThemePaddings.smallPadding,
+                ThemePaddings.smallPadding,
+                ThemePaddings.smallPadding),
             child: Column(children: [Expanded(child: getContents())])));
   }
 }

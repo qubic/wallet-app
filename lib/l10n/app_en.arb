@@ -20,6 +20,7 @@
     "generalButtonEraseWalletData": "Erase Wallet Data",
     "generalButtonClearAll": "Clear All",
     "generalButtonUseQRCode": "Use QR Code",
+    "tooltipScanQRCode": "Scan QR Code",
     "generalButtonCopyAddress": "Copy Address",
     "generalButtonPaste": "Paste",
     "generalButtonClear": "Clear",
@@ -266,6 +267,14 @@
     "assetsLabelContractName": "Contract Name",
     "assetsLabelContractIndex": "Contract Index",
     "assetsManagedBy": "managed by",
+    "assetsIssuedBy": "Issued by {address}",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "Balance in ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -533,7 +542,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Asset balance in ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Balance managed by QX: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -544,7 +553,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Only assets managed by Qx can be transferred",
+    "transferAssetQxBalanceHint": "* Total balance: {totalAmount} {assetName}. To increase transferable balance, move more to QX via \"Transfer Management Rights\" in Assets first.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestination: {destId}\nAmount: {amount}\nType: {type}\nStatus: {status}\nTimestamp: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
@@ -831,7 +850,7 @@
     "dAppFeaturedApp": "Featured App",
     "dAppPopularApps": "Discover dApps",
     "dAppQubicApps": "Qubic Apps",
-    "assetButtonIssuerIdentity": "Issuer Identity",
+    "assetButtonIssuerIdentity": "View Issuer",
     "networksTitle": "Networks",
     "networksButtonAddNetwork": "Add Network",
     "networksConfirmationDialogTitleDeleteNetwork": "Delete {networkName}?",
@@ -961,5 +980,9 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "settingsDappBrowserClearCache": "Clear Browser Cache",
+    "settingsDappBrowserClearCacheConfirmTitle": "Clear Browser Cache?",
+    "settingsDappBrowserClearCacheConfirmMessage": "This will clear cookies, cache, and browsing data for the dApp browser. You may be logged out of dApps.",
+    "settingsDappBrowserCacheCleared": "Browser cache cleared"
 }

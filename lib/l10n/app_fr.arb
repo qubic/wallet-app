@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Effacer les données du portefeuille",
     "generalButtonClearAll": "Tout effacer",
     "generalButtonUseQRCode": "Utiliser le QR Code",
+    "tooltipScanQRCode": "Scanner le code QR",
     "generalButtonCopyAddress": "Copier l'adresse",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
@@ -228,6 +229,14 @@
     "assetsLabelContractName": "Nom du contrat",
     "assetsLabelContractIndex": "Index du contrat",
     "assetsManagedBy": "géré par",
+    "assetsIssuedBy": "Émis par {address}",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "Solde en ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -473,7 +482,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Solde d'actifs en ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Solde géré par QX: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -484,7 +493,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Seuls les actifs gérés par Qx peuvent être transférés",
+    "transferAssetQxBalanceHint": "* Solde total: {totalAmount} {assetName}. Pour augmenter le solde transférable, déplacez d'abord plus vers QX via \"Transférer les droits de gestion\" dans Actifs.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\nSource: {sourceId}\nDestinataire: {destId}\nMontant: {amount}\nType: {type}\nStatut: {status}\nHorodatage: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Importer un Portefeuille Existant",
     "importWalletTitle": "Importer Votre Portefeuille",
@@ -743,7 +762,7 @@
     "wcSmartContractWarningDescription": "Assurez-vous de faire confiance à cette DApp. En approuvant la transaction, vous pourriez autoriser le transfert de Qubics et/ou d'actifs",
     "wcApproveTransfer": "Approuver le transfert",
     "wcSendAssets": "Envoyer des actifs",
-    "assetButtonIssuerIdentity": "Identité de l'Émetteur",
+    "assetButtonIssuerIdentity": "Voir l'Émetteur",
     "settingsLabelSupport": "Support",
     "settingsSupportGithub": "GitHub (Signaler un problème)",
     "settingsSupportDiscord": "Discord (Canal de support)",
@@ -862,5 +881,9 @@
     "webviewErrorCannotLoad": "Impossible de charger cette page",
     "webviewErrorInsecureConnection": "Cette page ne peut pas être chargée car elle utilise une connexion non sécurisée (HTTP). Seules les connexions sécurisées (HTTPS) sont autorisées.",
     "webviewErrorGeneric": "Échec du chargement de la page : {error}",
-    "webviewErrorHttp": "Erreur HTTP {code}"
+    "webviewErrorHttp": "Erreur HTTP {code}",
+    "settingsDappBrowserClearCache": "Vider le cache du navigateur",
+    "settingsDappBrowserClearCacheConfirmTitle": "Vider le cache du navigateur ?",
+    "settingsDappBrowserClearCacheConfirmMessage": "Cela supprimera les cookies, le cache et les données de navigation du navigateur dApp. Vous pourriez être déconnecté des dApps.",
+    "settingsDappBrowserCacheCleared": "Cache du navigateur vidé"
 }

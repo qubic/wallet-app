@@ -1,6 +1,11 @@
 abstract class AppIcons {
   static const String _path = 'assets/icons/';
 
+  // Action icons
+  static const String sendArrow = '${_path}send-arrow.svg';
+  static const String receiveArrow = '${_path}receive-arrow.svg';
+  static const String transferRights = '${_path}transfer-rights.svg';
+
   static const String changePassword = '${_path}change-password.svg';
   static const String export = '${_path}export.svg';
   static const String autoLock = '${_path}auto-lock.svg';
@@ -36,4 +41,5 @@ abstract class AppIcons {
   static const String google = '${_path}google.svg';
   static const String pendingAndFailedTrx = '${_path}clock-alert-outline.svg';
   static const String terms = '${_path}terms.svg';
+  static const String bookmark = '${_path}bookmark.svg';
 }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/toggleable_qr_code.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
-import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 
 import 'package:qubic_wallet/stores/application_store.dart';
-import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:share_plus/share_plus.dart';
@@ -53,56 +52,37 @@ class _ReceiveState extends State<Receive> {
             padding: const EdgeInsets.all(ThemePaddings.normalPadding)));
   }
 
-  List<Widget> getActions() {
+  Widget getShareAction() {
     final l10n = l10nOf(context);
-    return [
-      ThemedControls.primaryButtonNormal(
-          onPressed: () {
-            ClipboardHelper.copyToClipboard(widget.item.publicId, context);
-          },
-          text: l10n.generalButtonCopyAddress,
-          icon: !LightThemeColors.shouldInvertIcon
-              ? ThemedControls.invertedColors(
-                  child: Image.asset("assets/images/Group 2400.png"))
-              : Image.asset("assets/images/Group 2400.png")),
-      MediaQuery.of(context).size.width < 400
-          ? ThemedControls.spacerVerticalSmall()
-          : ThemedControls.spacerHorizontalSmall(),
-      Builder(
-        builder: (context) {
-          return ThemedControls.transparentButtonNormal(
-            onPressed: () {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                final RenderBox box = context.findRenderObject() as RenderBox;
+    return ThemedControls.primaryButtonNormal(
+        onPressed: () {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            final RenderBox box = context.findRenderObject() as RenderBox;
 
-                // Calculate the global position of the Receive button
-                final Offset position = box.localToGlobal(Offset.zero);
-                final Size size = box.size;
+            // Calculate the global position of the Receive button
+            final Offset position = box.localToGlobal(Offset.zero);
+            final Size size = box.size;
 
-                // Create a Rect based on the Recieve button's position and size
-                final Rect sharePositionOrigin = Rect.fromLTWH(
-                  position.dx,
-                  position.dy,
-                  size.width,
-                  size.height,
-                );
+            // Create a Rect based on the Recieve button's position and size
+            final Rect sharePositionOrigin = Rect.fromLTWH(
+              position.dx,
+              position.dy,
+              size.width,
+              size.height,
+            );
 
-                // Now use this Rect for the sharePositionOrigin
-                Share.share(
-                  widget.item.publicId,
-                  sharePositionOrigin: sharePositionOrigin,
-                );
-              });
-            },
-            text: l10n.generalButtonShare,
-            icon: LightThemeColors.shouldInvertIcon
-                ? ThemedControls.invertedColors(
-                    child: Image.asset("assets/images/Group 2389.png"))
-                : Image.asset("assets/images/Group 2389.png"),
-          );
+            // Now use this Rect for the sharePositionOrigin
+            Share.share(
+              widget.item.publicId,
+              sharePositionOrigin: sharePositionOrigin,
+            );
+          });
         },
-      )
-    ];
+        text: l10n.generalButtonShare,
+        icon: !LightThemeColors.shouldInvertIcon
+            ? ThemedControls.invertedColors(
+                child: Image.asset("assets/images/Group 2389.png"))
+            : Image.asset("assets/images/Group 2389.png"));
   }
 
   Widget getScrollView() {
@@ -119,21 +99,30 @@ class _ReceiveState extends State<Receive> {
                   headerText: l10n.receiveTitle,
                   subheaderText: l10n.receiveHeader(widget.item.name)),
               ThemedControls.card(
+                  padding: const EdgeInsets.fromLTRB(
+                      ThemePaddings.mediumPadding,
+                      ThemePaddings.normalPadding,
+                      ThemePaddings.miniPadding,
+                      ThemePaddings.normalPadding),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                    Text(l10n.receiveLabelAddress,
-                        style: TextStyles.lightGreyTextSmall),
-                    ThemedControls.spacerVerticalMini(),
-                    Text(widget.item.publicId),
-                    ThemedControls.spacerVerticalNormal(),
-                    MediaQuery.of(context).size.width < 400
-                        ? Column(children: getActions())
-                        : Row(children: getActions())
-                  ])),
-              ThemedControls.spacerVerticalSmall(),
-              ToggleableQRCode(
-                  qRCodeData: widget.item.publicId, expanded: true),
+                        Text(l10n.receiveLabelAddress,
+                            style: TextStyles.lightGreyTextSmall),
+                        ThemedControls.spacerVerticalSmall(),
+                        Flex(direction: Axis.horizontal, children: [
+                          Expanded(child: Text(widget.item.publicId)),
+                          CopyButton(copiedText: widget.item.publicId),
+                        ]),
+                        ThemedControls.spacerVerticalSmall(),
+                        MediaQuery.of(context).size.width < 400
+                            ? Column(children: [getShareAction()])
+                            : Row(children: [getShareAction()]),
+                        ThemedControls.spacerVerticalNormal(),
+                        ToggleableQRCode(
+                            qRCodeData: widget.item.publicId, expanded: true)
+                      ])),
+              ThemedControls.spacerVerticalMini()
             ],
           ))
         ]));
@@ -162,7 +151,11 @@ class _ReceiveState extends State<Receive> {
               backgroundColor: Colors.transparent,
             ),
             body: SafeArea(
-                minimum: ThemeEdgeInsets.pageInsets,
+                minimum: const EdgeInsets.fromLTRB(
+                    ThemePaddings.smallPadding,
+                    ThemePaddings.normalPadding,
+                    ThemePaddings.smallPadding,
+                    ThemePaddings.bigPadding),
                 child: Column(children: [
                   Expanded(child: getScrollView()),
                 ]))));

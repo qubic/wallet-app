@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "清除钱包数据",
     "generalButtonClearAll": "清除所有",
     "generalButtonUseQRCode": "使用二维码",
+    "tooltipScanQRCode": "扫描二维码",
     "generalButtonCopyAddress": "复制地址",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
@@ -228,6 +229,14 @@
     "assetsLabelContractName": "合约名称",
     "assetsLabelContractIndex": "合约索引",
     "assetsManagedBy": "管理者",
+    "assetsIssuedBy": "由 {address} 发行",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "ID 中余额： {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -473,7 +482,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "ID 中的资产余额: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "QX 管理的余额: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -484,7 +493,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* 只能转移由 Qx 管理的资产",
+    "transferAssetQxBalanceHint": "* 总余额: {totalAmount} {assetName}。要增加可转移余额，请先通过资产中的\"转移管理权限\"将更多资产移至 QX。",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\n发送方: {sourceId}\n接收方: {destId}\n数量: {amount}\n类型: {type}\nStatus: {status}\n时间戳: {timestamp}\n刻度: {targetTick}",
     "welcomeButtonImportExistingWallet": "导入已有钱包",
     "importWalletTitle": "导入钱包",
@@ -738,7 +757,7 @@
     "wcSmartContractWarningDescription": "請確保您信任此 DApp。批准交易後，您可能會授權轉移 Qubics 和/或資產",
     "wcApproveTransfer": "批准轉帳",
     "wcSendAssets": "發送資產",
-    "assetButtonIssuerIdentity": "发行人身份",
+    "assetButtonIssuerIdentity": "查看发行人",
     "settingsLabelSupport": "支援",
     "settingsSupportGithub": "GitHub（提交問題）",
     "settingsSupportDiscord": "Discord（支援頻道）",
@@ -855,5 +874,9 @@
     "webviewErrorCannotLoad": "无法加载该页面",
     "webviewErrorInsecureConnection": "此页面无法加载，因为它使用不安全的连接 (HTTP)。仅允许安全连接 (HTTPS)。",
     "webviewErrorGeneric": "加载页面失败：{error}",
-    "webviewErrorHttp": "HTTP 错误 {code}"
+    "webviewErrorHttp": "HTTP 错误 {code}",
+    "settingsDappBrowserClearCache": "清除浏览器缓存",
+    "settingsDappBrowserClearCacheConfirmTitle": "清除浏览器缓存？",
+    "settingsDappBrowserClearCacheConfirmMessage": "这将清除 dApp 浏览器的 Cookie、缓存和浏览数据。您可能会从 dApp 中登出。",
+    "settingsDappBrowserCacheCleared": "浏览器缓存已清除"
 }

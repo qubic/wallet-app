@@ -4,8 +4,8 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
+import 'package:qubic_wallet/components/destination_address_field.dart';
 import 'package:qubic_wallet/components/id_list_item_select.dart';
-import 'package:qubic_wallet/components/scan_code_button.dart';
 import 'package:qubic_wallet/components/transaction/advanced_tick_options.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
@@ -13,7 +13,6 @@ import 'package:qubic_wallet/extensions/as_thousands.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
-import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/send_transaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
@@ -22,7 +21,6 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
-import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
@@ -82,6 +80,12 @@ class _TransferAssetState extends State<TransferAsset> {
 
   /// Issuer identity from the grouped asset
   String get issuerIdentity => widget.groupedAsset.issuedAsset.issuerIdentity;
+
+  /// Total units from the grouped asset
+  int get totalUnits => widget.groupedAsset.totalUnits;
+
+  /// Whether to show the QX warning (when there's balance in other contracts)
+  bool get showQxWarning => transferableUnits < totalUnits;
 
   @override
   void initState() {
@@ -207,80 +211,29 @@ class _TransferAssetState extends State<TransferAsset> {
 
   Widget getDestinationQubicId() {
     final l10n = l10nOf(context);
-    return FormBuilderTextField(
-      name: "destinationID",
-      readOnly: isLoading,
+    return DestinationAddressField(
       controller: destinationID,
-      enableSuggestions: false,
-      keyboardType: TextInputType.visiblePassword,
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(
-            errorText: l10n.generalErrorRequiredField),
-        CustomFormFieldValidators.isPublicID(context: context),
-        verifyPublicId(l10n.accountSendSectionInvalidDestinationAddress),
-      ]),
-      maxLines: 2,
-      style: TextStyles.inputBoxSmallStyle,
-      maxLength: 60,
-      decoration: ThemeInputDecorations.normalMultiLineInputbox.copyWith(
-          hintText: "",
-          hintMaxLines: 3,
-          // This line is the one that causes the error
-          suffixIcon: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                appStore.currentQubicIDs.length > 1
-                    ? IconButton(
-                        onPressed: () async {
-                          showPickerBottomSheet();
-                        },
-                        icon: LightThemeColors.shouldInvertIcon
-                            ? ThemedControls.invertedColors(
-                                child: Image.asset(
-                                    "assets/images/bookmark-24.png"))
-                            : Image.asset("assets/images/bookmark-24.png"))
-                    //const Icon(Icons.book))
-                    : Container(),
-                ThemedControls.spacerHorizontalMini()
-              ])),
-      autocorrect: false,
-      autofillHints: null,
+      isLoading: isLoading,
+      showBookmarkPicker: appStore.currentQubicIDs.length > 1,
+      onBookmarkPressed: showPickerBottomSheet,
+      additionalValidator:
+          verifyPublicId(l10n.accountSendSectionInvalidDestinationAddress),
     );
   }
 
   Widget getPredefinedAmountOptions() {
     final l10n = l10nOf(context);
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        ThemedControls.transparentButtonSmall(
-            text: l10n.accountSendButtonMax,
-            onPressed: () {
-              if (transferableUnits > 0) {
-                numberOfSharesCtrl.value = getInputFormatter(context)
-                    .formatEditUpdate(
-                        const TextEditingValue(text: ''),
-                        TextEditingValue(
-                            text: (transferableUnits).toString()));
-              }
-            }),
-        (transferableUnits > 1)
-            ? ThemedControls.transparentButtonSmall(
-                text: l10n.accountSendButtonMaxMinusOne,
-                onPressed: () {
-                  if (transferableUnits > 1) {
-                    numberOfSharesCtrl.value = getInputFormatter(context)
-                        .formatEditUpdate(
-                            const TextEditingValue(text: ''),
-                            TextEditingValue(
-                                text: (transferableUnits - 1)
-                                    .toString()));
-                  }
-                })
-            : Container()
-      ],
+    return ThemedControls.transparentButtonSmall(
+        text: l10n.accountSendButtonMax,
+        onPressed: () {
+          if (transferableUnits > 0) {
+            numberOfSharesCtrl.value = getInputFormatter(context)
+                .formatEditUpdate(
+                    const TextEditingValue(text: ''),
+                    TextEditingValue(text: (transferableUnits).toString()));
+          }
+        },
     );
   }
 
@@ -320,7 +273,8 @@ class _TransferAssetState extends State<TransferAsset> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-              l10n.transferAssetLabelOwned(tokenName,
+              l10n.transferAssetLabelOwned(
+                  tokenName,
                   formatter.format(transferableUnits)),
               style: TextStyles.secondaryText),
         ]);
@@ -378,25 +332,12 @@ class _TransferAssetState extends State<TransferAsset> {
                   headerText:
                       l10n.transferAssetHeader(tokenName),
                   subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
-              ThemedControls.spacerVerticalSmall(),
-              Text(l10n.transferAssetNoticeQxOnly,
-                  style: TextStyles.secondaryText),
               ThemedControls.spacerVerticalNormal(),
-              Text(l10n.accountSendLabelDestinationAddress,
-                  style: TextStyles.labelTextNormal),
-              ThemedControls.spacerVerticalMini(),
               FormBuilder(
                   key: _formKey,
                   child: Column(
                     children: [
                       getDestinationQubicId(),
-                      if (isMobile)
-                        ScanCodeButton(onPressed: () {
-                          getIt<QrScannerService>().scanAndSetPublicId(
-                            context: context,
-                            controller: destinationID,
-                          );
-                        }),
                       ThemedControls.spacerVerticalMini(),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         Expanded(
@@ -407,6 +348,16 @@ class _TransferAssetState extends State<TransferAsset> {
                       getAmountBox(),
                       ThemedControls.spacerVerticalMini(),
                       getOwnershipInfo(),
+                      if (showQxWarning) ...[
+                        ThemedControls.spacerVerticalSmall(),
+                        Text(
+                          l10n.transferAssetQxBalanceHint(
+                              formatter.format(totalUnits), tokenName),
+                          style: TextStyles.secondaryText.copyWith(
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
                       ThemedControls.spacerVerticalBig(),
                       getCostInfo(),
                       ThemedControls.spacerVerticalBig(),
@@ -605,8 +556,10 @@ class _TransferAssetState extends State<TransferAsset> {
               backgroundColor: Colors.transparent,
             ),
             body: SafeArea(
-                minimum: ThemeEdgeInsets.pageInsets
-                    .copyWith(bottom: ThemePaddings.normalPadding),
+                minimum: ThemeEdgeInsets.pageInsets.copyWith(
+                    left: ThemePaddings.smallPadding,
+                    right: ThemePaddings.smallPadding,
+                    bottom: ThemePaddings.normalPadding),
                 child: Column(children: [
                   Expanded(child: getScrollView()),
                   Row(

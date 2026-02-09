@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:mobx/mobx.dart';
@@ -8,6 +9,7 @@ import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/address_ui_helper.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';
 import 'package:qubic_wallet/helpers/explorer_helpers.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
@@ -22,6 +24,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
@@ -289,31 +292,33 @@ class _AccountListItemState extends State<AccountListItem> {
     final l10n = l10nOf(context);
 
     return Padding(
-      padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-      child: OverflowBar(
-        alignment: MainAxisAlignment.start,
-        spacing: ThemePaddings.normalPadding,
+      padding: const EdgeInsets.fromLTRB(
+        ThemePaddings.normalPadding,
+        ThemePaddings.smallPadding,
+        ThemePaddings.normalPadding,
+        ThemePaddings.normalPadding,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: isItemWatchOnly()
             ? []
             : [
-                widget.item.amount != null
-                    ? ThemedControls.primaryButtonBig(
-                        onPressed: () {
-                          pushScreen(
-                            context,
-                            screen: Send(item: widget.item),
-                            withNavBar: false,
-                            pageTransitionAnimation:
-                                PageTransitionAnimation.cupertino,
-                          );
-                        },
-                        text: l10n.accountButtonSend,
-                        icon: LightThemeColors.shouldInvertIcon
-                            ? ThemedControls.invertedColors(
-                                child: Image.asset("assets/images/send.png"))
-                            : Image.asset("assets/images/send.png"))
-                    : Container(),
-                ThemedControls.primaryButtonBig(
+                if (widget.item.amount != null)
+                  ThemedControls.iconButtonSquare(
+                    onPressed: () {
+                      pushScreen(
+                        context,
+                        screen: Send(item: widget.item),
+                        withNavBar: false,
+                        pageTransitionAnimation:
+                            PageTransitionAnimation.cupertino,
+                      );
+                    },
+                    semanticLabel: l10n.accountButtonSend,
+                    icon: SvgPicture.asset(AppIcons.sendArrow),
+                  ),
+                const SizedBox(width: ThemePaddings.smallPadding),
+                ThemedControls.iconButtonSquare(
                   onPressed: () {
                     pushScreen(
                       context,
@@ -323,11 +328,8 @@ class _AccountListItemState extends State<AccountListItem> {
                           PageTransitionAnimation.cupertino,
                     );
                   },
-                  icon: !LightThemeColors.shouldInvertIcon
-                      ? ThemedControls.invertedColors(
-                          child: Image.asset("assets/images/receive.png"))
-                      : Image.asset("assets/images/receive.png"),
-                  text: l10n.accountButtonReceive,
+                  semanticLabel: l10n.accountButtonReceive,
+                  icon: SvgPicture.asset(AppIcons.receiveArrow),
                 ),
                 getAssetsButton(context),
               ],
@@ -338,16 +340,26 @@ class _AccountListItemState extends State<AccountListItem> {
   Widget getAssetsButton(BuildContext context) {
     final l10n = l10nOf(context);
     return widget.item.assets.keys.isNotEmpty
-        ? ThemedControls.primaryButtonBig(
-            text: l10n.accountButtonAssets,
-            onPressed: () {
-              pushScreen(
-                context,
-                screen: Assets(publicId: widget.item.publicId),
-                withNavBar: false, // OPTIONAL VALUE. True by default.
-                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-              );
-            })
+        ? Row(
+            children: [
+              const SizedBox(width: ThemePaddings.smallPadding),
+              ThemedControls.iconButtonSquare(
+                semanticLabel: l10n.accountButtonAssets,
+                onPressed: () {
+                  pushScreen(
+                    context,
+                    screen: Assets(publicId: widget.item.publicId),
+                    withNavBar: false,
+                    pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                  );
+                },
+                icon: const Icon(
+                  Icons.category_outlined,
+                  color: LightThemeColors.primary40,
+                ),
+              ),
+            ],
+          )
         : const SizedBox.shrink();
   }
 
@@ -413,30 +425,42 @@ class _AccountListItemState extends State<AccountListItem> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Row(children: [
-                        Expanded(
-                          child: Row(children: [
-                            Flexible(
-                              child: Text(
-                                widget.item.name,
-                                style: TextStyles.accountName,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(children: [
+                                  Flexible(
+                                    child: Text(
+                                      widget.item.name,
+                                      style: TextStyles.accountName,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  ThemedControls.spacerHorizontalSmall(),
+                                  isItemWatchOnly()
+                                      ? const Icon(
+                                          Icons.remove_red_eye_rounded,
+                                          color: LightThemeColors.color4,
+                                        )
+                                      : Container(),
+                                ]),
+                                Text(
+                                  AddressUIHelper.truncateAddress(
+                                      widget.item.publicId),
+                                  style: TextStyles.secondaryTextSmall,
+                                  maxLines: 1,
+                                ),
+                              ],
                             ),
-                            ThemedControls.spacerHorizontalSmall(),
-                            isItemWatchOnly()
-                                ? const Icon(
-                                    Icons.remove_red_eye_rounded,
-                                    color: LightThemeColors.color4,
-                                  )
-                                : Container(),
-                          ]),
-                        ),
-                        getCardMenu(context)
-                      ]),
-                      ThemedControls.spacerVerticalSmall(),
-                      Text(widget.item.publicId),
+                          ),
+                          getCardMenu(context)
+                        ],
+                      ),
                       ThemedControls.spacerVerticalSmall(),
                       AnimatedCrossFade(
                         duration: const Duration(milliseconds: 300),

@@ -20,6 +20,7 @@
     "generalButtonEraseWalletData": "Xóa dữ liệu ví",
     "generalButtonClearAll": "Xóa tất cả",
     "generalButtonUseQRCode": "Sử dụng mã QR",
+    "tooltipScanQRCode": "Quét mã QR",
     "generalButtonCopyAddress": "Sao chép địa chỉ",
     "generalButtonPaste": "Dán",
     "generalButtonClear": "Xóa",
@@ -260,6 +261,14 @@
     "assetsLabelContractName": "Tên hợp đồng",
     "assetsLabelContractIndex": "Chỉ mục hợp đồng",
     "assetsManagedBy": "được quản lý bởi",
+    "assetsIssuedBy": "Được phát hành bởi {address}",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "Số dư trong ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -520,7 +529,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Số dư tài sản trong ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Số dư được quản lý bởi QX: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -531,7 +540,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Chỉ có thể chuyển các tài sản được quản lý bởi Qx",
+    "transferAssetQxBalanceHint": "* Tổng số dư: {totalAmount} {assetName}. Để tăng số dư có thể chuyển, hãy chuyển thêm vào QX qua \"Chuyển quyền quản lý\" trong Tài sản trước.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "ID GD: {trxId}\nNguồn: {sourceId}\nĐích: {destId}\nSố lượng: {amount}\nLoại: {type}\nTrạng thái: {status}\nDấu thời gian: {timestamp}\nTick: {targetTick}",
     "@generalAllTransactionDetails": {
         "description": "This contains the string that will be copied to the clipboard containing all the transaction details ",
@@ -804,7 +823,7 @@
     "dAppFeaturedApp": "Ứng dụng nổi bật",
     "dAppPopularApps": "Khám phá dApp",
     "dAppQubicApps": "Qubic Apps",
-    "assetButtonIssuerIdentity": "Danh tính nhà phát hành",
+    "assetButtonIssuerIdentity": "Xem Nhà Phát Hành",
     "networksTitle": "Mạng",
     "networksButtonAddNetwork": "Thêm mạng",
     "networksConfirmationDialogTitleDeleteNetwork": "Xóa {networkName}?",
@@ -918,5 +937,9 @@
     "webviewErrorCannotLoad": "Không thể tải trang đó",
     "webviewErrorInsecureConnection": "Trang này không thể tải được vì sử dụng kết nối không an toàn (HTTP). Chỉ cho phép kết nối an toàn (HTTPS).",
     "webviewErrorGeneric": "Không thể tải trang: {error}",
-    "webviewErrorHttp": "Lỗi HTTP {code}"
+    "webviewErrorHttp": "Lỗi HTTP {code}",
+    "settingsDappBrowserClearCache": "Xóa bộ nhớ cache trình duyệt",
+    "settingsDappBrowserClearCacheConfirmTitle": "Xóa bộ nhớ cache trình duyệt?",
+    "settingsDappBrowserClearCacheConfirmMessage": "Thao tác này sẽ xóa cookie, bộ nhớ cache và dữ liệu duyệt web của trình duyệt dApp. Bạn có thể bị đăng xuất khỏi các dApp.",
+    "settingsDappBrowserCacheCleared": "Đã xóa bộ nhớ cache trình duyệt"
 }

@@ -5,7 +5,8 @@ import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 
 class ThemedControls {
-  static Widget card({required Widget child, Color? borderColor}) {
+  static Widget card(
+      {required Widget child, Color? borderColor, EdgeInsets? padding}) {
     return Card(
         color: LightThemeColors.cardBackground,
         elevation: 0,
@@ -17,11 +18,8 @@ class ThemedControls {
         ),
         child: Column(children: [
           Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  ThemePaddings.normalPadding,
-                  ThemePaddings.normalPadding,
-                  ThemePaddings.normalPadding,
-                  ThemePaddings.normalPadding),
+              padding: padding ??
+                  const EdgeInsets.all(ThemePaddings.normalPadding),
               child: child)
         ]));
   }
@@ -192,6 +190,10 @@ class ThemedControls {
 
   static Widget spacerVerticalTiny() {
     return const SizedBox(height: ThemePaddings.tinyPadding);
+  }
+
+  static Widget spacerVerticalMinimum() {
+    return const SizedBox(height: ThemePaddings.minimumPadding);
   }
 
   /// Standard navigation chevron icon used across the app
@@ -413,6 +415,27 @@ class ThemedControls {
         icon: icon,
         textStyle: TextStyles.transparentButtonTextNormal,
         buttonStyle: ButtonStyles.textButtonBig);
+  }
+
+  /// An icon-only button with rounded square shape (reuses secondaryButton style)
+  static Widget iconButtonSquare({
+    required void Function()? onPressed,
+    required Widget icon,
+    String? semanticLabel,
+  }) {
+    return Semantics(
+      label: semanticLabel,
+      button: true,
+      child: SizedBox(
+        width: ButtonStyles.buttonHeight,
+        height: ButtonStyles.buttonHeight,
+        child: TextButton(
+          style: ButtonStyles.secondaryButton,
+          onPressed: onPressed,
+          child: icon,
+        ),
+      ),
+    );
   }
 
   /// Shows an error label

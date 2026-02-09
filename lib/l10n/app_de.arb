@@ -18,6 +18,7 @@
     "generalButtonEraseWalletData": "Wallet-Daten löschen",
     "generalButtonClearAll": "Alle löschen",
     "generalButtonUseQRCode": "QR-Code verwenden",
+    "tooltipScanQRCode": "QR-Code scannen",
     "generalButtonCopyAddress": "Adresse kopieren",
     "generalLabelHidden": "******",
     "generalLabelHiddenLong": "*********",
@@ -228,6 +229,14 @@
     "assetsLabelContractName": "Vertragsname",
     "assetsLabelContractIndex": "Vertragsindex",
     "assetsManagedBy": "verwaltet von",
+    "assetsIssuedBy": "Ausgegeben von {address}",
+    "@assetsIssuedBy": {
+        "placeholders": {
+            "address": {
+                "type": "String"
+            }
+        }
+    },
     "assetsLabelCurrentBalance": "Guthaben in ID: {amount} QUBIC",
     "@assetsLabelCurrentBalance": {
         "placeholders": {
@@ -473,7 +482,7 @@
             }
         }
     },
-    "transferAssetLabelOwned": "Asset-Guthaben in ID: {formattedAmount} {assetName}",
+    "transferAssetLabelOwned": "Von QX verwaltetes Guthaben: {formattedAmount} {assetName}",
     "@transferAssetLabelOwned": {
         "placeholders": {
             "assetName": {
@@ -484,7 +493,17 @@
             }
         }
     },
-    "transferAssetNoticeQxOnly": "* Nur von Qx verwaltete Assets können übertragen werden",
+    "transferAssetQxBalanceHint": "* Gesamtguthaben: {totalAmount} {assetName}. Um das übertragbare Guthaben zu erhöhen, verschieben Sie zuerst mehr zu QX über \"Verwaltungsrechte übertragen\" in Assets.",
+    "@transferAssetQxBalanceHint": {
+        "placeholders": {
+            "totalAmount": {
+                "type": "String"
+            },
+            "assetName": {
+                "type": "String"
+            }
+        }
+    },
     "generalAllTransactionDetails": "TX ID: {trxId}\nQuelle: {sourceId}\nZiel: {destId}\nBetrag: {amount}\nTyp: {type}\nStatus: {status}\nZeitstempel: {timestamp}\nTick: {targetTick}",
     "welcomeButtonImportExistingWallet": "Vorhandene Wallet importieren",
     "importWalletTitle": "Wallet importieren",
@@ -738,7 +757,7 @@
     "wcSmartContractWarningDescription": "Stelle sicher, dass du dieser DApp vertraust. Durch die Genehmigung der Transaktion kannst du möglicherweise die Übertragung von Qubics und/oder Vermögenswerten autorisieren",
     "wcApproveTransfer": "Übertragung Genehmigen",
     "wcSendAssets": "Vermögenswerte Senden",
-    "assetButtonIssuerIdentity": "Identität des Ausstellers",
+    "assetButtonIssuerIdentity": "Emittent anzeigen",
     "settingsLabelSupport": "Support",
     "settingsSupportGithub": "GitHub (Problem melden)",
     "settingsSupportDiscord": "Discord (Support-Kanal)",
@@ -855,5 +874,9 @@
     "webviewErrorCannotLoad": "Diese Seite konnte nicht geladen werden",
     "webviewErrorInsecureConnection": "Diese Seite kann nicht geladen werden, da sie eine unsichere Verbindung (HTTP) verwendet. Nur sichere Verbindungen (HTTPS) sind zulässig.",
     "webviewErrorGeneric": "Fehler beim Laden der Seite: {error}",
-    "webviewErrorHttp": "HTTP-Fehler {code}"
+    "webviewErrorHttp": "HTTP-Fehler {code}",
+    "settingsDappBrowserClearCache": "Browser-Cache leeren",
+    "settingsDappBrowserClearCacheConfirmTitle": "Browser-Cache leeren?",
+    "settingsDappBrowserClearCacheConfirmMessage": "Dadurch werden Cookies, Cache und Browserdaten für den dApp-Browser gelöscht. Sie werden möglicherweise von dApps abgemeldet.",
+    "settingsDappBrowserCacheCleared": "Browser-Cache geleert"
 }
