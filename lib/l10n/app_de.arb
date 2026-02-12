@@ -781,6 +781,7 @@
     "networksLabelDefault": "Standard",
     "networksButtonSetAsDefault": "Als Standard festlegen",
     "addNetworkTitle": "Benutzerdefiniertes Netzwerk hinzufügen",
+    "editNetworkTitle": "Netzwerk bearbeiten",
     "addNetworkLabelNetworkName": "Netzwerkname",
     "addNetworkTextFieldHintNetworkName": "Z. B.: Qubic Mainnet",
     "addNetworkLabelRPCURL": "RPC-URL",

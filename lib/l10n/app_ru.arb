@@ -781,6 +781,7 @@
     "networksLabelDefault": "По умолчанию",
     "networksButtonSetAsDefault": "Установить по умолчанию",
     "addNetworkTitle": "Добавить пользовательскую сеть",
+    "editNetworkTitle": "Редактировать сеть",
     "addNetworkLabelNetworkName": "Имя сети",
     "addNetworkTextFieldHintNetworkName": "Напр.: Qubic Mainnet",
     "addNetworkLabelRPCURL": "RPC URL",

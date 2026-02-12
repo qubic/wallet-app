@@ -780,6 +780,7 @@
     "networksLabelDefault": "Predeterminado",
     "networksButtonSetAsDefault": "Establecer como predeterminado",
     "addNetworkTitle": "Agregar red personalizada",
+    "editNetworkTitle": "Editar red",
     "addNetworkLabelNetworkName": "Nombre de la red",
     "addNetworkTextFieldHintNetworkName": "Ej: Qubic Mainnet",
     "addNetworkLabelRPCURL": "URL RPC",

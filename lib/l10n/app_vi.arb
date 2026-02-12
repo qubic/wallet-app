@@ -845,6 +845,7 @@
     "networksLabelDefault": "Mặc định",
     "networksButtonSetAsDefault": "Đặt làm mặc định",
     "addNetworkTitle": "Thêm mạng tùy chỉnh",
+    "editNetworkTitle": "Chỉnh sửa mạng",
     "addNetworkLabelNetworkName": "Tên mạng",
     "addNetworkTextFieldHintNetworkName": "Ví dụ: Qubic Mainnet",
     "addNetworkLabelRPCURL": "RPC URL",

@@ -781,6 +781,7 @@
     "networksLabelDefault": "預設",
     "networksButtonSetAsDefault": "設為預設",
     "addNetworkTitle": "新增自訂網路",
+    "editNetworkTitle": "編輯網路",
     "addNetworkLabelNetworkName": "網路名稱",
     "addNetworkTextFieldHintNetworkName": "例如：Qubic Mainnet",
     "addNetworkLabelRPCURL": "RPC 網址",
