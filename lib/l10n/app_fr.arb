@@ -910,5 +910,6 @@
     "signVerifyMessageErrorChecksum": "Échec de la vérification de la somme de contrôle de la signature.",
     "signVerifyMessageErrorSign": "Échec de la signature du message. Veuillez réessayer.",
     "signVerifyMessageSettingsLabel": "Vérifier le message",
-    "signVerifyMessageAccountMenu": "Signer le message"
+    "signVerifyMessageAccountMenu": "Signer le message",
+    "generalLabelToday": "Aujourd'hui"
 }

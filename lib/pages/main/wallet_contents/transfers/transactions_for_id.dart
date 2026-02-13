@@ -10,6 +10,7 @@ import 'package:qubic_wallet/components/transaction_item.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/date_formatter.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -167,6 +168,50 @@ class _TransactionsForIdState extends State<TransactionsForId> {
   late TransactionFilter transactionFilter =
       TransactionFilter(qubicId: widget.publicQubicId);
 
+  DateTime? _parseTimestamp(TransactionDto dto) {
+    final ms = int.tryParse(dto.timestamp);
+    return ms != null ? DateTime.fromMillisecondsSinceEpoch(ms) : null;
+  }
+
+  /// Get the previous item by navigating pages directly (avoids flattening).
+  TransactionDto? _getPreviousItem(int index) {
+    if (index <= 0) return null;
+    final pages = _pagingController.value.pages;
+    if (pages == null) return null;
+    int remaining = index - 1;
+    for (final page in pages) {
+      if (remaining < page.length) {
+        return page[remaining];
+      }
+      remaining -= page.length;
+    }
+    return null;
+  }
+
+  bool _shouldShowDayHeader(TransactionDto item, int index) {
+    final currentDate = _parseTimestamp(item);
+    if (currentDate == null) return false;
+    if (index == 0) return true;
+    final previousItem = _getPreviousItem(index);
+    if (previousItem == null) return true;
+    final previousDate = _parseTimestamp(previousItem);
+    if (previousDate == null) return true;
+    return !DateFormatter.isSameDay(currentDate, previousDate);
+  }
+
+  Widget _buildDayHeader(BuildContext context, DateTime date) {
+    final l10n = l10nOf(context);
+    final label = DateFormatter.isToday(date)
+        ? l10n.generalLabelToday
+        : DateFormatter.formatMediumDate(date);
+    return Padding(
+      padding: const EdgeInsets.only(
+          top: ThemePaddings.normalPadding,
+          bottom: ThemePaddings.smallPadding),
+      child: Text(label, style: TextStyles.lightGreyTextSmall),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
@@ -264,13 +309,33 @@ class _TransactionsForIdState extends State<TransactionsForId> {
               Expanded(
                 child: CustomPagedListView<int, TransactionDto>(
                   pagingController: _pagingController,
+                  cacheExtent: 500,
                   separatorBuilder: (context, index) => const SizedBox(
                     height: ThemePaddings.miniPadding,
                   ),
                   itemBuilder: (context, item, index) {
-                    return TransactionItem(
-                        item: TransactionVm.fromTransactionDto(item));
+                    final showHeader = _shouldShowDayHeader(item, index);
+                    final date = _parseTimestamp(item);
+                    final txWidget = TransactionItem(
+                        item: TransactionVm.fromTransactionDto(item),
+                        currentAccountId: widget.publicQubicId);
+                    if (showHeader && date != null) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildDayHeader(context, date),
+                          txWidget,
+                        ],
+                      );
+                    }
+                    return txWidget;
                   },
+                  newPageProgressIndicatorBuilder: (context) => const Padding(
+                        padding: EdgeInsets.all(ThemePaddings.smallPadding),
+                        child: Center(
+                            child:
+                                SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
+                      ),
                   firstPageProgressIndicatorBuilder: (context) =>
                       const Center(child: CircularProgressIndicator()),
                   firstPageErrorIndicatorBuilder: (context) =>

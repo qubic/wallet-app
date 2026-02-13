@@ -34,6 +34,7 @@ abstract class Config {
   // General/ecosystem endpoints (shared across Qubic ecosystem)
   static const smartContracts = "/general/data/smart_contracts.json";
   static const labeledAddresses = "/general/data/address_labels.json";
+  static const exchanges = "/general/data/exchanges.json";
 
   // ---------------------------------------------------------------------------
   // RPC API Endpoints — Query

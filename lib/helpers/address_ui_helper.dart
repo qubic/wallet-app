@@ -13,6 +13,11 @@ class AddressUIHelper {
     return _ecosystemStore.getEntityLabel(address);
   }
 
+  /// Returns true if the address is a known smart contract.
+  static bool isSmartContract(String address) {
+    return _ecosystemStore.getContractName(address) != null;
+  }
+
   static const _truncateLength = 6;
 
   /// Truncates an address to show first and last [_truncateLength] characters.

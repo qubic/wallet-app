@@ -2,6 +2,8 @@ import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/helpers/global_snack_bar.dart';
+import 'package:qubic_wallet/models/exchange_model.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/models/token_response.dart';
@@ -46,6 +48,9 @@ abstract class QubicEcosystemStoreBase with Store {
   @observable
   List<LabeledAddressModel> labeledAddresses = [];
 
+  @observable
+  List<ExchangeModel> exchanges = [];
+
   @computed
   Map<String, SmartContractModel> get _byId => {
         for (var sc in smartContracts) sc.address: sc,
@@ -59,6 +64,11 @@ abstract class QubicEcosystemStoreBase with Store {
   @computed
   Map<String, LabeledAddressModel> get _labeledAddressesById => {
         for (var addr in labeledAddresses) addr.address: addr,
+      };
+
+  @computed
+  Map<String, ExchangeModel> get _exchangesById => {
+        for (var ex in exchanges) ex.address: ex,
       };
 
   String? getContractName(String address) => _byId[address]?.name;
@@ -76,12 +86,16 @@ abstract class QubicEcosystemStoreBase with Store {
   String? getAddressLabel(String address) =>
       _labeledAddressesById[address]?.label;
 
-  /// Returns the label/name for an address if it's a known entity (smart contract, token, or labeled address).
+  String? getExchangeName(String address) =>
+      _exchangesById[address]?.name;
+
+  /// Returns the label/name for an address if it's a known entity.
   /// Returns null if the address is not recognized.
-  /// Priority: Smart Contract > Token > Labeled Address
+  /// Priority: Smart Contract > Token > Exchange > Labeled Address
   String? getEntityLabel(String address) {
     return getContractName(address) ??
         getTokenName(address) ??
+        getExchangeName(address) ??
         getAddressLabel(address);
   }
 
@@ -153,10 +167,24 @@ abstract class QubicEcosystemStoreBase with Store {
     }
   }
 
+  @action
+  Future<void> loadExchanges() async {
+    try {
+      final response = await _staticApi.getExchanges();
+
+      exchanges = response.exchanges;
+      appLogger.i("Successfully loaded ${exchanges.length} exchanges");
+    } catch (e) {
+      appLogger.e("Failed to load exchanges from API: ${e.toString()}");
+      getIt<GlobalSnackBar>().showError(e.toString());
+    }
+  }
+
   Future<void> loadAllData() async {
     loadSmartContracts();
     loadTokens();
     loadLabeledAddresses();
+    loadExchanges();
   }
 
   Future<void> refreshIfAbsent() async {
@@ -168,6 +196,9 @@ abstract class QubicEcosystemStoreBase with Store {
     }
     if (labeledAddresses.isEmpty) {
       await loadLabeledAddresses();
+    }
+    if (exchanges.isEmpty) {
+      await loadExchanges();
     }
   }
 }
