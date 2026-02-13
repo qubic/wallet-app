@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
@@ -29,8 +30,13 @@ abstract class RootJailbreakFlagStoreBase with Store {
       return;
     }
 
-    bool isSafeDevice = await SafeDevice.isSafeDevice;
-    isRootedOrJailbroken = !isSafeDevice;
+    // Allow emulators in debug/profile for dev; flag them in release.
+    if (!await SafeDevice.isRealDevice) {
+      isRootedOrJailbroken = kReleaseMode;
+      return;
+    }
+
+    isRootedOrJailbroken = !await SafeDevice.isSafeDevice;
   }
 
   Future<void> showWarningDialog(BuildContext context) async {
