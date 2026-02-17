@@ -87,6 +87,14 @@ You can add accounts to a wallet by:
 
 ---
 
+### 5. App Upgrade System
+- Automatic update detection – Prompts users to install the latest version directly from within the app.  
+- Cross-platform support – Works on Android, iOS.  
+- Custom appcast feed – Fetches release information from a hosted `appcast.xml`.  
+- Powered by: [Upgrader](https://pub.dev/packages/upgrader) 
+
+---
+
 ## RPC Communication
 
 Qubic Wallet interacts with the network using the following RPC endpoints:
