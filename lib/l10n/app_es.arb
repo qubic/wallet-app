@@ -394,6 +394,7 @@
     "deleteAccountDialogTitle": "Eliminar Cuenta",
     "deleteAccountDialogMessage": "¿Estás seguro que quieres eliminar esta cuenta de tu Wallet? (Los fondos asociados no serán removidos)\n\n!ASEGÚRATE DE TENER UNA COPIA DE RESPALDO DE TU SEMILLA PRIVADA ANTES DE ELIMINAR ESTA CUENTA!",
     "deleteAccountDialogButtonDelete": "Eliminar Cuenta",
+    "errorNoAccountsForWalletConnect": "Agrega tu propia cuenta para conectarte a dApps.",
     "renameAccountDialogTitle": "Renombrar Cuenta",
     "renameAccountLabelName": "Nombre",
     "renameAccountDialogHintName": "Nuevo nombre",

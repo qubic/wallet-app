@@ -395,6 +395,7 @@
     "deleteAccountDialogTitle": "Supprimer le Compte",
     "deleteAccountDialogMessage": "Êtes-vous sûr de vouloir supprimer ce compte Qubic de votre portefeuille ? (Les fonds associés à ce compte ne seront pas supprimés)\n\nASSUREZ-VOUS D'AVOIR UNE SAUVEGARDE DE VOTRE SEED PRIVÉE AVANT DE SUPPRIMER CE COMPTE !",
     "deleteAccountDialogButtonDelete": "Supprimer le Compte",
+    "errorNoAccountsForWalletConnect": "Ajoutez votre propre compte pour vous connecter aux dApps.",
     "renameAccountDialogTitle": "Renommer le Compte",
     "renameAccountLabelName": "Nom",
     "renameAccountDialogHintName": "Nouveau nom",

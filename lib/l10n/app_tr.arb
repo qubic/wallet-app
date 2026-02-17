@@ -395,6 +395,7 @@
     "deleteAccountDialogTitle": "Hesabı Sil",
     "deleteAccountDialogMessage": "Bu Qubic Hesabını cüzdanınızdan silmek istediğinizden emin misiniz? (Bu Hesaba bağlı herhangi bir fon kaldırılmayacaktır)\n\nBU HESABI SİLMEDEN ÖNCE ÖZEL ANAHTARINIZIN YEDEKLEĞİNİZDEN EMİN OLUN!",
     "deleteAccountDialogButtonDelete": "Hesabı Sil",
+    "errorNoAccountsForWalletConnect": "dApps'e bağlanmak için kendi hesabınızı ekleyin.",
     "renameAccountDialogTitle": "Hesabın Adını Değiştir",
     "renameAccountLabelName": "Ad",
     "renameAccountDialogHintName": "Yeni Ad",
