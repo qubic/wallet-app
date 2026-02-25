@@ -877,6 +877,7 @@
     "addNetworkTextFieldHintNetworkName": "Eg: Qubic Mainnet",
     "addNetworkLabelRPCURL": "RPC URL",
     "addNetworkLabelQubicExplorerURL": "Explorer URL",
+    "editNetworkTitle": "Edit Network",
     "networksWarningBannerCurrentNetwork": "You are currently in {networkName}",
     "@networksWarningBannerCurrentNetwork": {
         "placeholders": {

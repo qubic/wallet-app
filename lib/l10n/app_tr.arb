@@ -782,6 +782,7 @@
     "networksLabelDefault": "Varsayılan",
     "networksButtonSetAsDefault": "Varsayılan Yap",
     "addNetworkTitle": "Özel Ağ Ekle",
+    "editNetworkTitle": "Ağı Düzenle",
     "addNetworkLabelNetworkName": "Ağ Adı",
     "addNetworkTextFieldHintNetworkName": "Örn: Qubic Mainnet",
     "addNetworkLabelRPCURL": "RPC URL",
