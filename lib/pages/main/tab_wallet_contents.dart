@@ -11,7 +11,6 @@ import 'package:qubic_wallet/components/cumulative_wallet_value_sliver.dart';
 import 'package:qubic_wallet/components/gradient_container.dart';
 import 'package:qubic_wallet/components/price_panel.dart';
 import 'package:qubic_wallet/components/sliver_button.dart';
-import 'package:qubic_wallet/components/tick_indication_styled.dart';
 import 'package:qubic_wallet/components/tick_refresh.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
@@ -50,11 +49,8 @@ class _TabWalletContentsState extends State<TabWalletContents> {
   final double sliverExpanded = 185;
 
   double _sliverShowPercent = 1;
-  final bool showTickOnTop = false;
   final ScrollController _scrollController = ScrollController();
   String? signInError;
-
-  // int? currentTick;
 
   ReactionDisposer? disposeAutorun;
 
@@ -121,7 +117,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
     disposeAutorun!();
     _scrollController.dispose();
     super.dispose();
-    // disposer();
   }
 
   Widget getEmptyWallet() {
@@ -270,19 +265,6 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                           Positioned.fill(
                               child: SingleChildScrollView(
                             child: Column(children: [
-                              if (showTickOnTop)
-                                Padding(
-                                    padding: const EdgeInsets.fromLTRB(
-                                        0,
-                                        ThemePaddings.normalPadding,
-                                        0,
-                                        ThemePaddings.normalPadding),
-                                    child: Center(
-                                        child: showTickOnTop
-                                            ? TickIndicatorStyled(
-                                                textStyle:
-                                                    TextStyles.whiteTickText)
-                                            : Container())),
                               Transform.translate(
                                   offset:
                                       Offset(0, -10 * (1 - _sliverShowPercent)),
