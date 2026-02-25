@@ -83,6 +83,18 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
     return url;
   }
 
+  Future<void> _pasteOrClear(TextEditingController controller) async {
+    if (controller.text.isNotEmpty) {
+      controller.clear();
+    } else {
+      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+      if (clipboardData != null) {
+        controller.text = removeHttpsScheme(clipboardData.text!.trim());
+      }
+    }
+    setState(() {});
+  }
+
   List<String> getNetworkNamesForValidation() {
     if (isEditing) {
       return networkStore.networks
@@ -139,18 +151,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         ),
                         const Spacer(),
                         ThemedControls.transparentButtonSmall(
-                            onPressed: () async {
-                              if (rpcUrlController.text.isNotEmpty == true) {
-                                rpcUrlController.clear();
-                              } else {
-                                final clipboardData = await Clipboard.getData(
-                                    Clipboard.kTextPlain);
-                                if (clipboardData != null) {
-                                  rpcUrlController.text = clipboardData.text!;
-                                }
-                              }
-                              setState(() {});
-                            },
+                            onPressed: () => _pasteOrClear(rpcUrlController),
                             text: rpcUrlController.text.isNotEmpty == true
                                 ? l10n.generalButtonClear
                                 : l10n.generalButtonPaste),
@@ -179,18 +180,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         ),
                         const Spacer(),
                         ThemedControls.transparentButtonSmall(
-                            onPressed: () async {
-                              if (explorerController.text.isNotEmpty == true) {
-                                explorerController.clear();
-                              } else {
-                                final clipboardData = await Clipboard.getData(
-                                    Clipboard.kTextPlain);
-                                if (clipboardData != null) {
-                                  explorerController.text = clipboardData.text!;
-                                }
-                              }
-                              setState(() {});
-                            },
+                            onPressed: () => _pasteOrClear(explorerController),
                             text: explorerController.text.isNotEmpty == true
                                 ? l10n.generalButtonClear
                                 : l10n.generalButtonPaste),
