@@ -64,10 +64,14 @@ abstract class _NetworkStore with Store {
     getIt<QubicArchiveApi>().updateDio();
     getIt<QubicLiveApi>().updateDio();
     getIt<QubicStatsApi>().updateDio();
-    getIt<WalletContentStore>()
-        .allDapps
-        .firstWhere((e) => e.id == "explorer_app_id")
-        .url = currentNetwork.explorerUrl;
+    try {
+      getIt<WalletContentStore>()
+          .allDapps
+          .firstWhere((e) => e.id == "explorer_app_id")
+          .url = currentNetwork.explorerUrl;
+    } catch (_) {
+      // Explorer dapp may not be loaded yet
+    }
   }
 
   @action
