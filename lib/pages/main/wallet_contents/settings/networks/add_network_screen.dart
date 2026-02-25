@@ -13,6 +13,7 @@ import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/timed_controller.dart';
 
 class AddNetworkScreen extends StatefulWidget {
   final NetworkModel? network;
@@ -29,6 +30,7 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
   final TextEditingController rpcUrlController = TextEditingController();
   final TextEditingController explorerController = TextEditingController();
   final networkStore = getIt<NetworkStore>();
+  final timerController = getIt<TimedController>();
   static const httpsScheme = "https://";
   final prefixHttpsWidget = const Padding(
     padding: EdgeInsets.only(left: 12, right: 2),
@@ -68,7 +70,12 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
         explorerUrl: '$httpsScheme${explorerController.text}',
       );
       if (isEditing) {
+        final wasCurrentNetwork =
+            networkStore.currentNetwork == widget.network!;
         networkStore.updateNetwork(widget.network!, network);
+        if (wasCurrentNetwork) {
+          timerController.interruptFetchTimer();
+        }
       } else {
         networkStore.addNetwork(network);
       }
