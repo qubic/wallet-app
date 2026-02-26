@@ -217,6 +217,28 @@ class _TabWalletContentsState extends State<TabWalletContents> {
                                   .restrictFeatureIfDeviceCompromised()) {
                                 return;
                               }
+                              if (appStore.nonWatchOnlyAccounts.isEmpty) {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext dialogContext) {
+                                    return AlertDialog(
+                                      title: Text(l10n.settingsLabelWalletConnect,
+                                          style: TextStyles.alertHeader),
+                                      content: Text(
+                                          l10n.errorNoAccountsForWalletConnect,
+                                          style: TextStyles.alertText),
+                                      actions: [
+                                        ThemedControls.primaryButtonNormal(
+                                          text: l10n.generalButtonOK,
+                                          onPressed: () =>
+                                              Navigator.pop(dialogContext),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                                return;
+                              }
                               pushScreen(
                                 context,
                                 screen: const AddWalletConnect(),
