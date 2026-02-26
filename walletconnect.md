@@ -330,6 +330,3 @@ Test the WalletConnect integration with our live demo app: **[https://qubic.gith
 ## References
 
 For more details on WalletConnect integration, please refer to the official [Documentation](https://docs.reown.com/).
-
-```
-

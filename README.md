@@ -153,7 +153,7 @@ There are currently no automated unit or integration tests.
 
 To build Qubic Wallet, you will need:
 
-* [Flutter SDK](https://flutter.dev/docs/get-started/install) (**3.22.2** or later)
+* [Flutter SDK](https://flutter.dev/docs/get-started/install) (**3.27.1** or later)
 * [Dart SDK](https://dart.dev/get-dart) (included with Flutter)
 * Platform-specific tools:
 
@@ -238,6 +238,7 @@ However, your contributions to the project are very welcome and appreciated.
 You can help by:
 - Adding new issues on the **Issues** page to report bugs or request new features/improvements.
 - Providing updates, bug fixes, or other code changes via pull requests.
+  - All pull requests must target the **`develop`** branch.
 
 ---
 
