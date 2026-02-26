@@ -9,6 +9,7 @@ import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
+import 'package:qubic_wallet/smart_contracts/special_addresses.dart';
 
 part 'qubic_ecosystem_store.g.dart';
 
@@ -66,8 +67,11 @@ abstract class QubicEcosystemStoreBase with Store {
     return _byId[contractId]?.getProcedureName(type);
   }
 
-  String? getTokenName(String issuerIdentityAddress) =>
-      _tokensById[issuerIdentityAddress]?.name;
+  String? getTokenName(String issuerIdentityAddress) {
+    // Skip the empty address - it's shared by all SC-issued tokens
+    if (issuerIdentityAddress == SpecialAddresses.empty) return null;
+    return _tokensById[issuerIdentityAddress]?.name;
+  }
 
   String? getAddressLabel(String address) =>
       _labeledAddressesById[address]?.label;

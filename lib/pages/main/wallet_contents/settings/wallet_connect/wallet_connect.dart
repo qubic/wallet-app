@@ -12,6 +12,7 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/add_wallet_connect/add_wallet_connect.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/components/wallet_connect_expansion_card.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
+import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
@@ -32,6 +33,7 @@ class WalletConnectSettings extends StatefulWidget {
 class _WalletConnectSettingsState extends State<WalletConnectSettings> {
   final WalletConnectService walletConnectService =
       getIt<WalletConnectService>();
+  final ApplicationStore _appStore = getIt<ApplicationStore>();
 
   Map<String, SessionData> sessions = {};
 
@@ -68,6 +70,33 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
         });
       });
     }
+  }
+
+  /// Returns true if there are non-watch-only accounts, false otherwise.
+  /// Shows an error dialog if there are no accounts.
+  bool _checkHasAccounts() {
+    if (_appStore.nonWatchOnlyAccounts.isEmpty) {
+      final l10n = l10nOf(context);
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title:
+                Text(l10n.settingsLabelWalletConnect, style: TextStyles.alertHeader),
+            content: Text(l10n.errorNoAccountsForWalletConnect,
+                style: TextStyles.alertText),
+            actions: [
+              ThemedControls.primaryButtonNormal(
+                text: l10n.generalButtonOK,
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        },
+      );
+      return false;
+    }
+    return true;
   }
 
   List<String> getMethods(SessionData sessionData) {
@@ -270,6 +299,7 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
                       .restrictFeatureIfDeviceCompromised()) {
                     return;
                   }
+                  if (!_checkHasAccounts()) return;
                   await pushScreen(
                     context,
                     screen: const AddWalletConnect(),
@@ -311,6 +341,7 @@ class _WalletConnectSettingsState extends State<WalletConnectSettings> {
                     .restrictFeatureIfDeviceCompromised()) {
                   return;
                 }
+                if (!_checkHasAccounts()) return;
                 await pushScreen(
                   context,
                   screen: const AddWalletConnect(),

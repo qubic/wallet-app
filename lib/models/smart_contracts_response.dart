@@ -24,6 +24,7 @@ class SmartContractModel {
   final List<Procedure> procedures;
   final String? website;
   final String? proposalUrl;
+  final bool allowTransferShares;
 
   SmartContractModel({
     required this.filename,
@@ -35,6 +36,7 @@ class SmartContractModel {
     required this.procedures,
     required this.website,
     required this.proposalUrl,
+    required this.allowTransferShares,
   });
 
   factory SmartContractModel.fromJson(Map<String, dynamic> json) =>
@@ -49,6 +51,7 @@ class SmartContractModel {
             json["procedures"].map((x) => Procedure.fromJson(x))),
         website: json["website"],
         proposalUrl: json["proposalUrl"],
+        allowTransferShares: json["allowTransferShares"] ?? false,
       );
 
   /// Get procedure name by procedure ID
