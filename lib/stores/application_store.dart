@@ -536,9 +536,9 @@ abstract class _ApplicationStore with Store {
           toBeRemoved.add(trx);
         }
       }
-      for (var trx in toBeRemoved) {
-        removeStoredTransaction(trx.id);
-      }
+    }
+    for (var trx in toBeRemoved) {
+      removeStoredTransaction(trx.id);
     }
   }
 

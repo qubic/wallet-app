@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:collection/collection.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
@@ -19,7 +20,6 @@ import 'package:reown_walletkit/reown_walletkit.dart';
 class WalletConnectService {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
-  bool isReady = false;
 
   PairingInfo? pairingInfo;
 
@@ -153,6 +153,14 @@ class WalletConnectService {
 
   //---------------------------------- Triggers ----------------------------------
 
+  /// Checks if the session has subscribed to a specific event.
+  /// Returns false if namespaces are empty or the event is not found.
+  bool _sessionHasEvent(SessionData sessionData, String eventName) {
+    final events =
+        sessionData.namespaces.entries.firstOrNull?.value.events ?? [];
+    return events.contains(eventName);
+  }
+
   //Triggers an amountChanged event for all the wallet connect clients who have subscribed to it
   //@param changedIDs Map<String, int> with the publicId (key) and number of $Qubic (int)
   void triggerAmountChangedEvent(Map<String, int> changedIDs) {
@@ -162,8 +170,7 @@ class WalletConnectService {
     web3Wallet!
         .getActiveSessions()
         .forEach(((String session, SessionData sessionData) {
-      if (sessionData.namespaces.entries.first.value.events
-          .contains(WcEvents.amountChanged)) {
+      if (_sessionHasEvent(sessionData, WcEvents.amountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           final account = appStore.findAccountById(id.key);
@@ -196,8 +203,7 @@ class WalletConnectService {
     web3Wallet!
         .getActiveSessions()
         .forEach(((String session, SessionData sessionData) {
-      if (sessionData.namespaces.entries.first.value.events
-          .contains(WcEvents.assetAmountChanged)) {
+      if (_sessionHasEvent(sessionData, WcEvents.assetAmountChanged)) {
         List<dynamic> data = [];
         for (var id in changedIDs.entries) {
           final account = appStore.findAccountById(id.key);
@@ -227,8 +233,7 @@ class WalletConnectService {
     web3Wallet!
         .getActiveSessions()
         .forEach(((String session, SessionData sessionData) {
-      if (sessionData.namespaces.entries.first.value.events
-          .contains(WcEvents.accountsChanged)) {
+      if (_sessionHasEvent(sessionData, WcEvents.accountsChanged)) {
         List<dynamic> data = _buildAccountsData(includeAssets: false);
 
         web3Wallet!.emitSessionEvent(
@@ -294,21 +299,9 @@ class WalletConnectService {
       appLogger.d("Session request: $args");
     });
 
-    web3Wallet!.core.relayClient.onRelayClientDisconnect.subscribe((args) {
-      web3Wallet!.onSessionConnect.unsubscribeAll();
-      web3Wallet!.onSessionDelete.unsubscribeAll();
-      web3Wallet!.onSessionExpire.unsubscribeAll();
-      web3Wallet!.onProposalExpire.unsubscribeAll();
-      web3Wallet!.onSessionProposal.unsubscribeAll();
-      web3Wallet!.onSessionProposalError.unsubscribeAll();
-      web3Wallet!.onSessionAuthRequest.unsubscribeAll();
-      web3Wallet!.onSessionPing.unsubscribeAll();
-      web3Wallet!.onSessionRequest.unsubscribeAll();
-      web3Wallet!.core.relayClient.onRelayClientDisconnect.unsubscribeAll();
-
-      web3Wallet = null;
-      initialize();
-    });
+    // Note: We intentionally don't subscribe to onRelayClientDisconnect.
+    // The SDK handles reconnection internally. Subscribing and destroying
+    // the instance would fight the SDK's built-in reconnection logic.
 
     //Event emitter registrations
     web3Wallet!.registerEventEmitter(
@@ -360,7 +353,9 @@ class WalletConnectService {
           late RequestHandleTransactionEvent event;
 
           if (sendQubicHandler == null) {
-            throw "sendQubicHandler is not set";
+            throw const JsonRpcError(
+                code: WcErrors.qwUnexpectedError,
+                message: "sendQubicHandler is not set");
           }
           try {
             event = RequestHandleTransactionEvent.fromMap(
@@ -386,7 +381,9 @@ class WalletConnectService {
           late RequestHandleTransactionEvent event;
 
           if (sendTransactionHandler == null) {
-            throw "sendTransactionHandler is not set";
+            throw const JsonRpcError(
+                code: WcErrors.qwUnexpectedError,
+                message: "sendTransactionHandler is not set");
           }
           try {
             event = RequestHandleTransactionEvent.fromMap(
@@ -414,7 +411,9 @@ class WalletConnectService {
           late RequestSignMessageEvent event;
 
           if (signGenericHandler == null) {
-            throw "signGenericHandler is not set";
+            throw const JsonRpcError(
+                code: WcErrors.qwUnexpectedError,
+                message: "signGenericHandler is not set");
           }
           try {
             event = RequestSignMessageEvent.fromMap(args, topic, sessionId);
@@ -439,7 +438,9 @@ class WalletConnectService {
           late RequestHandleTransactionEvent event;
 
           if (signTransactionHandler == null) {
-            throw "signTransactionHandler is not set";
+            throw const JsonRpcError(
+                code: WcErrors.qwUnexpectedError,
+                message: "signTransactionHandler is not set");
           }
           try {
             event = RequestHandleTransactionEvent.fromMap(
@@ -466,7 +467,9 @@ class WalletConnectService {
           late RequestSendAssetEvent event;
 
           if (sendAssetHandler == null) {
-            throw "sendAssetHandler is not set";
+            throw const JsonRpcError(
+                code: WcErrors.qwUnexpectedError,
+                message: "sendAssetHandler is not set");
           }
           try {
             event = RequestSendAssetEvent.fromMap(args, topic, sessionId);
@@ -509,13 +512,14 @@ class WalletConnectService {
 
   void validateAndSetSession(String topic, RequestEvent event) {
     if (event is! PairingMetadataMixin) {
-      throw "Event does not support pairing metadata";
+      throw JsonRpcError.invalidParams(
+          "Event does not support pairing metadata");
     }
 
     final activeSessions = web3Wallet!.getActiveSessions();
 
     if (!activeSessions.containsKey(topic)) {
-      throw "Session not found";
+      throw JsonRpcError.invalidParams("Session not found");
     }
 
     final sessionMetadata = activeSessions[topic]!.peer.metadata;
