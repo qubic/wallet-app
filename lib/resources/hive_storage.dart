@@ -161,14 +161,6 @@ class HiveStorage {
     _storedNetworks.delete(networkName);
   }
 
-  updateStoredNetwork(String oldNetworkName, NetworkModel updatedNetwork) {
-    // If name changed, remove old entry first
-    if (oldNetworkName != updatedNetwork.name) {
-      _storedNetworks.delete(oldNetworkName);
-    }
-    _storedNetworks.put(updatedNetwork.name, updatedNetwork);
-  }
-
   void saveCurrentNetworkName(String networkName) {
     _currentNetworkBox.put(currentNetworkKey, networkName);
   }

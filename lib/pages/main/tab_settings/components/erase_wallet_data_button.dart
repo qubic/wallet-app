@@ -7,7 +7,6 @@ import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/auth/erase_wallet_sheet.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
-import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -21,8 +20,6 @@ class EraseWalletDataButton extends StatelessWidget {
   final SecureStorage secureStorage = getIt<SecureStorage>();
   final _globalSnackBar = getIt<GlobalSnackBar>();
   final TimedController timedController = getIt<TimedController>();
-  final WalletConnectService _walletConnectService =
-      getIt<WalletConnectService>();
   EraseWalletDataButton({super.key});
 
   @override
@@ -44,10 +41,6 @@ class EraseWalletDataButton extends StatelessWidget {
               builder: (BuildContext context) {
                 return SafeArea(
                     child: EraseWalletSheet(onAccept: () async {
-                  // Disconnect WalletConnect sessions before erasing wallet
-                  if (_walletConnectService.web3Wallet != null) {
-                    _walletConnectService.disconnect();
-                  }
                   await secureStorage.deleteWallet();
                   await settingsStore.loadSettings();
                   await _hiveStorage.clear();

@@ -206,10 +206,10 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   }
 
   List<DropdownMenuItem<int>> getDestinationContractList() {
-    // Get all contracts that allow transfer shares as destination
+    // Get all contracts that support "Transfer Share Management Rights" procedure
     final supportedContracts = ecosystemStore.smartContracts
         .where((contract) =>
-            contract.allowTransferShares &&
+            contract.supportsTransferShareManagementRights() &&
             contract.contractIndex != selectedSourceContractIndex)
         .toList();
 

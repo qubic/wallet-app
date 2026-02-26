@@ -48,18 +48,6 @@ class NetworksScreen extends StatelessWidget {
     );
   }
 
-  Widget buildEditButton(BuildContext context, NetworkModel network) {
-    return ThemedControls.iconButtonSquare(
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return AddNetworkScreen(network: network);
-        }));
-      },
-      icon: const Icon(Icons.edit,
-          color: LightThemeColors.primary40, size: 20),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
@@ -123,8 +111,6 @@ class NetworksScreen extends StatelessWidget {
                         ),
                         if (!isDefault) ...[
                           ThemedControls.spacerHorizontalSmall(),
-                          buildEditButton(context, network),
-                          ThemedControls.spacerHorizontalSmall(),
                           SizedBox(
                             width: ButtonStyles.buttonHeight,
                             child: TextButton(
@@ -140,13 +126,6 @@ class NetworksScreen extends StatelessWidget {
                                 child: SvgPicture.asset(AppIcons.close)),
                           ),
                         ]
-                      ],
-                    ),
-                  if (isSelected && !isDefault)
-                    Row(
-                      children: [
-                        const Spacer(),
-                        buildEditButton(context, network),
                       ],
                     ),
                 ],

@@ -60,28 +60,20 @@ abstract class _NetworkStore with Store {
     }
   }
 
-  void _refreshServices() {
-    getIt<QubicArchiveApi>().updateDio();
-    getIt<QubicLiveApi>().updateDio();
-    getIt<QubicStatsApi>().updateDio();
-    try {
-      getIt<WalletContentStore>()
-          .allDapps
-          .firstWhere((e) => e.id == "explorer_app_id")
-          .url = currentNetwork.explorerUrl;
-    } catch (_) {
-      // Explorer dapp may not be loaded yet
-    }
-  }
-
   @action
   void setCurrentNetwork(NetworkModel network) {
     networks
         .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     networks.remove(network);
     networks.insert(0, network);
+    getIt<QubicArchiveApi>().updateDio();
+    getIt<QubicLiveApi>().updateDio();
+    getIt<QubicStatsApi>().updateDio();
     getIt<HiveStorage>().saveCurrentNetworkName(network.name);
-    _refreshServices();
+    getIt<WalletContentStore>()
+        .allDapps
+        .firstWhere((e) => e.id == "explorer_app_id")
+        .url = network.explorerUrl;
   }
 
   @action
@@ -96,27 +88,5 @@ abstract class _NetworkStore with Store {
   void removeNetwork(NetworkModel network) {
     networks.remove(network);
     getIt<HiveStorage>().removeStoredNetwork(network.name);
-  }
-
-  @action
-  void updateNetwork(NetworkModel oldNetwork, NetworkModel updatedNetwork) {
-    final index = networks.indexOf(oldNetwork);
-    if (index != -1) {
-      final wasCurrent = index == 0;
-      networks[index] = updatedNetwork;
-      networks.sort(
-          (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
-
-      // If it was the current network, keep it at position 0 and refresh services
-      if (wasCurrent) {
-        networks.remove(updatedNetwork);
-        networks.insert(0, updatedNetwork);
-        getIt<HiveStorage>().saveCurrentNetworkName(updatedNetwork.name);
-        _refreshServices();
-      }
-
-      getIt<HiveStorage>()
-          .updateStoredNetwork(oldNetwork.name, updatedNetwork);
-    }
   }
 }

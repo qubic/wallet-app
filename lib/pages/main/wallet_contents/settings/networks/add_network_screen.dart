@@ -13,24 +13,20 @@ import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
-import 'package:qubic_wallet/timed_controller.dart';
 
 class AddNetworkScreen extends StatefulWidget {
-  final NetworkModel? network;
-
-  const AddNetworkScreen({super.key, this.network});
+  const AddNetworkScreen({super.key});
 
   @override
   State<AddNetworkScreen> createState() => _AddNetworkScreenState();
 }
 
 class _AddNetworkScreenState extends State<AddNetworkScreen> {
-  final formKey = GlobalKey<FormBuilderState>();
+  final addNetworkFormKey = GlobalKey<FormBuilderState>();
   final TextEditingController networkNameController = TextEditingController();
   final TextEditingController rpcUrlController = TextEditingController();
   final TextEditingController explorerController = TextEditingController();
   final networkStore = getIt<NetworkStore>();
-  final timerController = getIt<TimedController>();
   static const httpsScheme = "https://";
   final prefixHttpsWidget = const Padding(
     padding: EdgeInsets.only(left: 12, right: 2),
@@ -42,43 +38,21 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
     ),
   );
 
-  bool get isEditing => widget.network != null;
-
-  @override
-  void initState() {
-    super.initState();
-    if (isEditing) {
-      networkNameController.text = widget.network!.name;
-      rpcUrlController.text = removeHttpsScheme(widget.network!.rpcUrl);
-      explorerController.text = removeHttpsScheme(widget.network!.explorerUrl);
-    }
-  }
-
   @override
   void dispose() {
     networkNameController.dispose();
     rpcUrlController.dispose();
-    explorerController.dispose();
     super.dispose();
   }
 
   onSubmitted() {
-    if (formKey.currentState!.validate()) {
+    if (addNetworkFormKey.currentState!.validate()) {
       final network = NetworkModel(
         name: networkNameController.text,
         rpcUrl: '$httpsScheme${rpcUrlController.text}',
         explorerUrl: '$httpsScheme${explorerController.text}',
       );
-      if (isEditing) {
-        final wasCurrentNetwork =
-            networkStore.currentNetwork == widget.network!;
-        networkStore.updateNetwork(widget.network!, network);
-        if (wasCurrentNetwork) {
-          timerController.interruptFetchTimer();
-        }
-      } else {
-        networkStore.addNetwork(network);
-      }
+      networkStore.addNetwork(network);
       Navigator.pop(context);
     }
   }
@@ -90,42 +64,18 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
     return url;
   }
 
-  Future<void> _pasteOrClear(TextEditingController controller) async {
-    if (controller.text.isNotEmpty) {
-      controller.clear();
-    } else {
-      final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-      if (clipboardData != null) {
-        controller.text = removeHttpsScheme(clipboardData.text!.trim());
-      }
-    }
-    setState(() {});
-  }
-
-  List<String> getNetworkNamesForValidation() {
-    if (isEditing) {
-      return networkStore.networks
-          .where((n) => n.name != widget.network!.name)
-          .map((e) => e.name)
-          .toList();
-    }
-    return networkStore.networks.map((e) => e.name).toList();
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-            isEditing ? l10n.editNetworkTitle : l10n.addNetworkTitle,
-            style: TextStyles.textExtraLargeBold),
+        title: Text(l10n.addNetworkTitle, style: TextStyles.textExtraLargeBold),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
       body: SafeArea(
         child: FormBuilder(
-          key: formKey,
+          key: addNetworkFormKey,
           child: Column(
             children: [
               Expanded(
@@ -142,7 +92,9 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         validator: FormBuilderValidators.compose([
                           FormBuilderValidators.required(),
                           CustomFormFieldValidators.isNameAvailable(
-                              namesList: getNetworkNamesForValidation(),
+                              namesList: networkStore.networks
+                                  .map((e) => e.name)
+                                  .toList(),
                               context: context)
                         ]),
                         decoration:
@@ -158,7 +110,18 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         ),
                         const Spacer(),
                         ThemedControls.transparentButtonSmall(
-                            onPressed: () => _pasteOrClear(rpcUrlController),
+                            onPressed: () async {
+                              if (rpcUrlController.text.isNotEmpty == true) {
+                                rpcUrlController.clear();
+                              } else {
+                                final clipboardData = await Clipboard.getData(
+                                    Clipboard.kTextPlain);
+                                if (clipboardData != null) {
+                                  rpcUrlController.text = clipboardData.text!;
+                                }
+                              }
+                              setState(() {});
+                            },
                             text: rpcUrlController.text.isNotEmpty == true
                                 ? l10n.generalButtonClear
                                 : l10n.generalButtonPaste),
@@ -187,7 +150,18 @@ class _AddNetworkScreenState extends State<AddNetworkScreen> {
                         ),
                         const Spacer(),
                         ThemedControls.transparentButtonSmall(
-                            onPressed: () => _pasteOrClear(explorerController),
+                            onPressed: () async {
+                              if (explorerController.text.isNotEmpty == true) {
+                                explorerController.clear();
+                              } else {
+                                final clipboardData = await Clipboard.getData(
+                                    Clipboard.kTextPlain);
+                                if (clipboardData != null) {
+                                  explorerController.text = clipboardData.text!;
+                                }
+                              }
+                              setState(() {});
+                            },
                             text: explorerController.text.isNotEmpty == true
                                 ? l10n.generalButtonClear
                                 : l10n.generalButtonPaste),

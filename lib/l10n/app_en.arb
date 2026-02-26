@@ -455,7 +455,6 @@
     "deleteAccountDialogMessage": "Are you sure you want to delete this Qubic Account from your wallet? (Any funds associated with this Account will not be removed)\n\nMAKE SURE YOU HAVE A BACKUP OF YOUR PRIVATE SEED BEFORE DELETING THIS ACCOUNT!",
     "deleteAccountDialogMessageWatchOnly": "Are you sure you want to delete this watch only Account from your wallet?",
     "deleteAccountDialogButtonDelete": "Delete Account",
-    "errorNoAccountsForWalletConnect": "Add your own account to connect to dApps.",
     "renameAccountDialogTitle": "Rename Account",
     "renameAccountLabelName": "Name",
     "renameAccountDialogHintName": "New name",
@@ -877,7 +876,6 @@
     "addNetworkTextFieldHintNetworkName": "Eg: Qubic Mainnet",
     "addNetworkLabelRPCURL": "RPC URL",
     "addNetworkLabelQubicExplorerURL": "Explorer URL",
-    "editNetworkTitle": "Edit Network",
     "networksWarningBannerCurrentNetwork": "You are currently in {networkName}",
     "@networksWarningBannerCurrentNetwork": {
         "placeholders": {

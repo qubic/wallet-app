@@ -48,9 +48,6 @@ class AppLinkController {
     if (getIt<RootJailbreakFlagStore>().restrictFeatureIfDeviceCompromised()) {
       return;
     }
-    if (_applicationStore.nonWatchOnlyAccounts.isEmpty) {
-      throw Exception(l10n.errorNoAccountsForWalletConnect);
-    }
     await pushScreen(
       context,
       screen:
