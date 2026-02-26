@@ -112,12 +112,15 @@ class NetworksScreen extends StatelessWidget {
                     Row(
                       children: [
                         Expanded(
-                          child: ThemedControls.secondaryButtonWithChild(
-                            onPressed: () => onSetDefault(network),
-                            child: Text(
-                              l10n.networksButtonSetAsDefault,
-                              style: TextStyles.primaryButtonText
-                                  .copyWith(color: LightThemeColors.primary40),
+                          child: SizedBox(
+                            height: ButtonStyles.buttonHeight,
+                            child: ThemedControls.secondaryButtonWithChild(
+                              onPressed: () => onSetDefault(network),
+                              child: Text(
+                                l10n.networksButtonSetAsDefault,
+                                style: TextStyles.primaryButtonText
+                                    .copyWith(color: LightThemeColors.primary40),
+                              ),
                             ),
                           ),
                         ),
@@ -127,6 +130,7 @@ class NetworksScreen extends StatelessWidget {
                           ThemedControls.spacerHorizontalSmall(),
                           SizedBox(
                             width: ButtonStyles.buttonHeight,
+                            height: ButtonStyles.buttonHeight,
                             child: TextButton(
                                 style: TextButton.styleFrom(
                                     padding: EdgeInsets.zero,
