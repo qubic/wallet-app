@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
@@ -37,12 +38,104 @@ class TimedController extends WidgetsBindingObserver {
   }
 
   /// Restart the fetching timer if it's not already running
+  /// Uses smart timing: calculates remaining time if data is fresh,
+  /// or adds network delay with silent retry if data is stale
   restartFetchTimersIfNeeded() {
     if (_fetchTimer == null) {
-      setupFetchTimer(true);
+      if (lastFetch == null) {
+        _startFetchWithNetworkDelay();
+      } else {
+        final elapsed = DateTime.now().difference(lastFetch!).inSeconds;
+        if (elapsed >= Config.fetchEverySeconds) {
+          _startFetchWithNetworkDelay();
+        } else {
+          final remaining = Config.fetchEverySeconds - elapsed;
+          _startFetchAfterDelay(remaining);
+        }
+      }
     }
     if (_fetchTimerSlow == null) {
-      setupSlowTimer(true);
+      if (lastFetchSlow == null) {
+        setupSlowTimer(true);
+      } else {
+        final elapsed = DateTime.now().difference(lastFetchSlow!).inSeconds;
+        if (elapsed >= Config.fetchEverySecondsSlow) {
+          setupSlowTimer(true);
+        } else {
+          final remaining = Config.fetchEverySecondsSlow - elapsed;
+          _startSlowFetchAfterDelay(remaining);
+        }
+      }
+    }
+  }
+
+  /// Start fetch timer after waiting for remaining time (data is still fresh)
+  void _startFetchAfterDelay(int delaySeconds) {
+    _fetchTimer = Timer(Duration(seconds: delaySeconds), () async {
+      await fetchData();
+      if (_fetchTimer == null) return; // Cancelled during fetch
+      _fetchTimer = Timer.periodic(
+          const Duration(seconds: Config.fetchEverySeconds), (timer) {
+        fetchData();
+      });
+    });
+  }
+
+  /// Start slow fetch timer after waiting for remaining time
+  void _startSlowFetchAfterDelay(int delaySeconds) {
+    _fetchTimerSlow = Timer(Duration(seconds: delaySeconds), () async {
+      await fetchDataSlow();
+      if (_fetchTimerSlow == null) return; // Cancelled during fetch
+      _fetchTimerSlow = Timer.periodic(
+          const Duration(seconds: Config.fetchEverySecondsSlow), (timer) {
+        fetchDataSlow();
+      });
+    });
+  }
+
+  /// Start fetch with network delay and silent retry on first failure
+  Future<void> _startFetchWithNetworkDelay() async {
+    // Set a placeholder timer to prevent re-entry
+    _fetchTimer = Timer(Duration.zero, () {});
+
+    // Wait for network to be ready after resume
+    await Future.delayed(const Duration(seconds: 1));
+    if (_fetchTimer == null) return; // Cancelled during delay
+
+    await _fetchDataWithSilentRetry();
+    if (_fetchTimer == null) return; // Cancelled during fetch
+
+    _fetchTimer = Timer.periodic(
+        const Duration(seconds: Config.fetchEverySeconds), (timer) {
+      fetchData();
+    });
+  }
+
+  /// Core fetch: get current tick, validate pending transactions, fetch balances/assets
+  Future<void> _fetchCoreData() async {
+    int tick = (await _liveApi.getCurrentTick()).tick;
+    appStore.currentTick = tick;
+    int latestTickProcessed = (await _archiveApi.getLatestTickProcessed());
+    appStore.validatePendingTransactions(latestTickProcessed);
+    _getNetworkBalancesAndAssets();
+    lastFetch = DateTime.now();
+    appLogger.d('[TimedController] Fetch successful (tick: $tick)');
+  }
+
+  /// Fetch data with silent retry - only reports error on second failure
+  Future<void> _fetchDataWithSilentRetry() async {
+    try {
+      await _fetchCoreData();
+    } catch (e) {
+      appLogger.w('[TimedController] First fetch failed: $e, retrying silently...');
+      await Future.delayed(const Duration(milliseconds: 500));
+      try {
+        await _fetchCoreData();
+      } catch (retryError) {
+        appLogger.e('[TimedController] Retry also failed: $retryError');
+        appStore
+            .reportGlobalError(retryError.toString().replaceAll("Exception: ", ""));
+      }
     }
   }
 
@@ -128,17 +221,9 @@ class TimedController extends WidgetsBindingObserver {
   /// If the call fails, it shows a snackbar with the error message
   fetchData() async {
     try {
-      //Fetch the ticks
-      int tick = (await _liveApi.getCurrentTick()).tick;
-      appStore.currentTick = tick;
-      int latestTickProcessed = (await _archiveApi.getLatestTickProcessed());
-      appStore.validatePendingTransactions(latestTickProcessed);
-      _getNetworkBalancesAndAssets();
-      lastFetch = DateTime.now();
-    } on Exception catch (e) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
+      await _fetchCoreData();
     } catch (e) {
+      appLogger.e('[TimedController] fetchData failed: $e');
       appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
     }
   }
