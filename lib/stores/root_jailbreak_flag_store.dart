@@ -29,6 +29,13 @@ abstract class RootJailbreakFlagStoreBase with Store {
       return;
     }
 
+    // Skip on simulators/emulators (they report as jailbroken/rooted)
+    bool isReal = await SafeDevice.isRealDevice;
+    if (!isReal) {
+      isRootedOrJailbroken = false;
+      return;
+    }
+
     bool isSafeDevice = await SafeDevice.isSafeDevice;
     isRootedOrJailbroken = !isSafeDevice;
   }
