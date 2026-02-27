@@ -48,6 +48,21 @@ class NetworksScreen extends StatelessWidget {
     );
   }
 
+  Widget buildDeleteButton(BuildContext context, NetworkModel network) {
+    return SizedBox(
+      width: ButtonStyles.buttonHeight,
+      height: ButtonStyles.buttonHeight,
+      child: TextButton(
+          style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              backgroundColor: LightThemeColors.dangerBackgroundButton),
+          onPressed: () => showRemoveDialog(context, network),
+          child: SvgPicture.asset(AppIcons.close)),
+    );
+  }
+
   Widget buildEditButton(BuildContext context, NetworkModel network) {
     return ThemedControls.iconButtonSquare(
       onPressed: () {
@@ -128,21 +143,7 @@ class NetworksScreen extends StatelessWidget {
                           ThemedControls.spacerHorizontalSmall(),
                           buildEditButton(context, network),
                           ThemedControls.spacerHorizontalSmall(),
-                          SizedBox(
-                            width: ButtonStyles.buttonHeight,
-                            height: ButtonStyles.buttonHeight,
-                            child: TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    backgroundColor: LightThemeColors
-                                        .dangerBackgroundButton),
-                                onPressed: () =>
-                                    showRemoveDialog(context, network),
-                                child: SvgPicture.asset(AppIcons.close)),
-                          ),
+                          buildDeleteButton(context, network),
                         ]
                       ],
                     ),
