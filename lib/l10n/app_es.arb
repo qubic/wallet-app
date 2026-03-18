@@ -79,8 +79,8 @@
         }
     },
     "generalErrorUnsupportedOS": "Sistema no soportado",
-    "generalErrorOnlyLowercaseChar": "Debe contener sólo letras mayúsculas",
-    "generalErrorOnlyUppercaseChar": "Debe contener sólo letras minúsculas",
+    "generalErrorOnlyLowercaseChar": "Debe contener sólo letras minúsculas",
+    "generalErrorOnlyUppercaseChar": "Debe contener sólo letras mayúsculas",
     "generalErrorMinCharLength": "Debe contener al menos {minCharLength} letras",
     "@generalErrorMinCharLength": {
         "placeholders": {
