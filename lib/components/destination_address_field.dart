@@ -87,6 +87,7 @@ class DestinationAddressField extends StatelessWidget {
               onBookmarkPressed: onBookmarkPressed,
             ),
           ),
+          textCapitalization: TextCapitalization.characters,
           autocorrect: false,
           autofillHints: null,
         ),
