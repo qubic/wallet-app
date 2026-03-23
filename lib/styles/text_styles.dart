@@ -138,16 +138,6 @@ class TextStyles {
       fontWeight: FontWeight.normal,
       color: LightThemeColors.error);
 
-  static TextStyle whiteTickText = const TextStyle(
-      fontSize: ThemeFontSizes.large,
-      fontWeight: FontWeight.normal,
-      color: LightThemeColors.onGradient);
-
-  static TextStyle blackTickText = const TextStyle(
-      fontSize: ThemeFontSizes.large,
-      fontWeight: FontWeight.normal,
-      color: LightThemeColors.primary);
-
   //Slivers
   static TextStyle sliverHeader = const TextStyle(
       fontSize: ThemeFontSizes.large,
