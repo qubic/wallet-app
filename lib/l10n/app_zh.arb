@@ -730,6 +730,7 @@
     "generalErrorUnexpectedError": "發生了意外錯誤",
     "generalErrorConnectionTimeout": "連接超時",
     "generalErrorNoInternetConnection": "無網絡連接",
+    "generalErrorConnectionRefused": "無法連接到伺服器，服務可能暫時不可用",
     "generalErrorRequestCancelled": "請求已取消",
     "generalErrorCouldntParseResponse": "無法解析響應",
     "generalErrorServerError": "伺服器錯誤",

@@ -722,6 +722,7 @@
     "generalErrorUnexpectedError": "Ha ocurrido un error inesperado",
     "generalErrorConnectionTimeout": "La conexión ha expirado",
     "generalErrorNoInternetConnection": "No hay conexión a internet",
+    "generalErrorConnectionRefused": "No se pudo conectar al servidor. El servicio puede estar temporalmente fuera de servicio",
     "generalErrorRequestCancelled": "Solicitud cancelada",
     "generalErrorCouldntParseResponse": "No se pudo analizar la respuesta",
     "generalErrorServerError": "Error del servidor",
