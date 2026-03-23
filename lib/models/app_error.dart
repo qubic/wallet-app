@@ -104,10 +104,32 @@ enum ErrorType {
 }
 
 class ErrorHandler {
-  static AppError handleError(Object? error) {
+  static Future<bool> _hasInternetConnection() async {
+    try {
+      final result = await InternetAddress.lookup('example.com')
+          .timeout(const Duration(seconds: 3));
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  static Future<AppError> _handleConnectionError() async {
+    if (await _hasInternetConnection()) {
+      return AppError(
+          l10nWrapper.l10n!.generalErrorConnectionRefused, ErrorType.server);
+    }
+    return AppError(
+        l10nWrapper.l10n!.generalErrorNoInternetConnection, ErrorType.network);
+  }
+
+  static Future<AppError> handleError(Object? error) async {
     appLogger.e(error.toString());
     appLogger.e("Error type:${error.runtimeType}");
     switch (error) {
+      case AppError appError:
+        return appError;
+
       case DioException dioError:
         switch (dioError.type) {
           case DioExceptionType.connectionTimeout:
@@ -116,8 +138,7 @@ class ErrorHandler {
             return AppError(l10nWrapper.l10n!.generalErrorConnectionTimeout,
                 ErrorType.network);
           case DioExceptionType.connectionError:
-            return AppError(l10nWrapper.l10n!.generalErrorNoInternetConnection,
-                ErrorType.network);
+            return _handleConnectionError();
           case DioExceptionType.badResponse:
             return AppError.serverErrorParse(dioError);
           case DioExceptionType.cancel:
@@ -125,6 +146,9 @@ class ErrorHandler {
                 ErrorType.network);
           case DioExceptionType.unknown:
           default:
+            if (dioError.error is SocketException) {
+              return _handleConnectionError();
+            }
             return AppError(l10nWrapper.l10n!.generalErrorUnexpectedError,
                 ErrorType.unknown);
         }
@@ -135,8 +159,7 @@ class ErrorHandler {
             ErrorType.format);
 
       case SocketException _:
-        return AppError(l10nWrapper.l10n!.generalErrorNoInternetConnection,
-            ErrorType.network);
+        return _handleConnectionError();
 
       case TimeoutException _:
         return AppError(
