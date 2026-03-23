@@ -59,7 +59,6 @@ class TimedController extends WidgetsBindingObserver {
 
       //Fetch network balances
       _liveApi.getQubicBalances(myIds).then((balances) {
-        //_apiService.getNetworkBalances(myIds).then((balances) {
         Map<String, int> changedIds = appStore.setAmounts(balances);
         if (changedIds.isNotEmpty) {
           Map<String, int> changedIdsWithSeed = {};
@@ -79,13 +78,13 @@ class TimedController extends WidgetsBindingObserver {
             appStore.sortAccounts();
           }
         }
-      }, onError: (e) {
-        appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      }, onError: (e) async {
+        final error = await ErrorHandler.handleError(e);
+        appStore.reportGlobalError(error.toString());
       });
 
       //Fetch network assets
       _liveApi.getCurrentAssets(myIds).then((assets) {
-        //_apiService.getCurrentAssets(myIds).then((assets) {
         Map<String, List<QubicAssetDto>> changedIds =
             appStore.setAssets(assets);
 
@@ -103,11 +102,15 @@ class TimedController extends WidgetsBindingObserver {
           _walletConnectService
               .triggerAssetAmountChangedEvent(changedIdsWithSeed);
         }
-      }, onError: (e) {
-        appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      }, onError: (e) async {
+        final error = await ErrorHandler.handleError(e);
+        appStore.reportGlobalError(error.toString());
       });
-    } on Exception catch (e) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+    } on AppError catch (e) {
+      appStore.reportGlobalError(e.toString());
+    } catch (e) {
+      final error = await ErrorHandler.handleError(e);
+      appStore.reportGlobalError(error.toString());
     }
   }
 
@@ -119,7 +122,7 @@ class TimedController extends WidgetsBindingObserver {
       final marketInfo = await _statsApi.getMarketInfo();
       appStore.setMarketInfo(marketInfo);
     } on AppError catch (e) {
-      appStore.reportGlobalError(e.message);
+      appStore.reportGlobalError(e.toString());
     }
   }
 
@@ -135,11 +138,11 @@ class TimedController extends WidgetsBindingObserver {
       appStore.validatePendingTransactions(latestTickProcessed);
       _getNetworkBalancesAndAssets();
       lastFetch = DateTime.now();
-    } on Exception catch (e) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
+    } on AppError catch (e) {
+      appStore.reportGlobalError(e.toString());
     } catch (e) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      final error = await ErrorHandler.handleError(e);
+      appStore.reportGlobalError(error.toString());
     }
   }
 
@@ -152,9 +155,11 @@ class TimedController extends WidgetsBindingObserver {
     try {
       _getMarketInfo();
       lastFetchSlow = DateTime.now();
-    } on Exception catch (e) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
+    } on AppError catch (e) {
+      appStore.reportGlobalError(e.toString());
+    } catch (e) {
+      final error = await ErrorHandler.handleError(e);
+      appStore.reportGlobalError(error.toString());
     }
   }
 

@@ -41,7 +41,7 @@ class QubicArchiveApi {
 
       return allTransfers;
     } catch (error) {
-      throw ErrorHandler.handleError(error);
+      throw await ErrorHandler.handleError(error);
     }
   }
 
@@ -53,9 +53,9 @@ class QubicArchiveApi {
       if (error.response?.statusCode == Config.notFoundStatusCode) {
         return null;
       }
-      throw ErrorHandler.handleError(error);
+      throw await ErrorHandler.handleError(error);
     } catch (error) {
-      throw ErrorHandler.handleError(error);
+      throw await ErrorHandler.handleError(error);
     }
   }
 
@@ -65,7 +65,7 @@ class QubicArchiveApi {
           '${_networkStore.currentNetwork.rpcUrl}${Config.latestTickProcessed}');
       return response.data["latestTick"];
     } catch (error) {
-      throw ErrorHandler.handleError(error);
+      throw await ErrorHandler.handleError(error);
     }
   }
 
@@ -74,7 +74,7 @@ class QubicArchiveApi {
       final response = await _dio.get('$_baseUrl${Config.assets}');
       return TokensResponse.fromJson(response.data);
     } catch (error) {
-      throw ErrorHandler.handleError(error);
+      throw await ErrorHandler.handleError(error);
     }
   }
 }
