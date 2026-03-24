@@ -16,9 +16,11 @@ import 'package:qubic_wallet/helpers/send_transaction.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
+import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
+import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -64,6 +66,9 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   String? sourceContractError;
   String? destinationContractError;
 
+  // Procedure type for the selected source contract
+  ManagementRightsProcedureType? _procedureType;
+
   // Available units for selected source
   int availableUnits = 0;
 
@@ -77,11 +82,26 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
 
   bool isLoading = false;
   bool _isInitialized = false;
+  ReactionDisposer? _smartContractsReaction;
 
   @override
   void initState() {
     super.initState();
     _initializeFormData();
+    // Re-initialize _procedureType if smartContracts loads after this screen opens.
+    _smartContractsReaction = reaction(
+      (_) => ecosystemStore.smartContracts.length,
+      (_) {
+        if (selectedSourceContractIndex != null && _procedureType == null && mounted) {
+          setState(() {
+            _procedureType = ecosystemStore
+                .getManagementRightsProcedureType(selectedSourceContractIndex!);
+            selectedDestinationContractIndex = null;
+            _updateDestinationDefault();
+          });
+        }
+      },
+    );
   }
 
   @override
@@ -104,19 +124,23 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       selectedSourceContractIndex =
           contractsWithBalance.first.managingContractIndex;
       availableUnits = contractsWithBalance.first.numberOfUnits;
+      _procedureType = ecosystemStore
+          .getManagementRightsProcedureType(selectedSourceContractIndex!);
       _updateDestinationDefault();
       // Don't call _updateFee() here - it needs context, will be called in didChangeDependencies
     }
   }
 
   void _updateDestinationDefault() {
-    // If source is not Qx, default destination to Qx (contract index 1)
-    // Find Qx contract dynamically
     final qxContract = ecosystemStore.getQxContract();
+    if (qxContract == null || selectedSourceContractIndex == null || _procedureType == null) return;
 
-    if (selectedSourceContractIndex != null &&
-        qxContract != null &&
-        selectedSourceContractIndex != qxContract.contractIndex) {
+    if (_procedureType == ManagementRightsProcedureType.revoke) {
+      // Revoke always goes to QX
+      selectedDestinationContractIndex = qxContract.contractIndex;
+    } else if (selectedSourceContractIndex != qxContract.contractIndex &&
+        qxContract.allowTransferShares) {
+      // Transfer: default to QX when source is not QX and QX accepts transfers
       selectedDestinationContractIndex = qxContract.contractIndex;
     }
   }
@@ -130,8 +154,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
 
     // Get procedure number for source contract dynamically
     final procedureNumber =
-        ecosystemStore.getTransferShareManagementRightsProcedureId(
-            selectedSourceContractIndex!);
+        ecosystemStore.getManagementRightsProcedureId(selectedSourceContractIndex!);
 
     if (procedureNumber == null) {
       currentFee = ReleaseTransferRightsInfo.defaultReleaseFee;
@@ -156,6 +179,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
 
   @override
   void dispose() {
+    _smartContractsReaction?.call();
     numberOfSharesCtrl.dispose();
     tickController.dispose();
     feeController.dispose();
@@ -206,16 +230,22 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   }
 
   List<DropdownMenuItem<int>> getDestinationContractList() {
-    // Get all contracts that allow transfer shares as destination
-    final supportedContracts = ecosystemStore.smartContracts
-        .where((contract) =>
-            contract.allowTransferShares &&
-            contract.contractIndex != selectedSourceContractIndex)
-        .toList();
+    List<SmartContractModel> supportedContracts;
 
-    // Sort alphabetically by name (case-insensitive)
-    supportedContracts
-        .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    if (_procedureType == ManagementRightsProcedureType.revoke) {
+      // Revoke: destination is QX only
+      final qxContract = ecosystemStore.getQxContract();
+      supportedContracts = qxContract != null ? [qxContract] : [];
+    } else {
+      // Transfer: contracts that allow transfer shares AND have a management rights procedure (excluding source)
+      supportedContracts = ecosystemStore.smartContracts
+          .where((contract) =>
+              contract.allowTransferShares &&
+              contract.hasManagementRightsProcedure() &&
+              contract.contractIndex != selectedSourceContractIndex)
+          .toList()
+        ..sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    }
 
     return supportedContracts.map((contract) {
       return DropdownMenuItem<int>(
@@ -260,10 +290,13 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
                     .firstWhere((c) => c.managingContractIndex == value);
                 availableUnits = contribution.numberOfUnits;
 
-                // Clear destination if same as source
-                if (selectedDestinationContractIndex == value) {
-                  selectedDestinationContractIndex = null;
-                }
+                // Update procedure type for new source contract
+                _procedureType =
+                    ecosystemStore.getManagementRightsProcedureType(value);
+
+                // Always reset destination when source changes — procedure type
+                // may have changed (revoke↔transfer), invalidating the previous selection.
+                selectedDestinationContractIndex = null;
 
                 // Update default destination
                 _updateDestinationDefault();
@@ -272,6 +305,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
                 _updateFee();
               } else {
                 availableUnits = 0;
+                _procedureType = null;
               }
             });
           },
@@ -627,16 +661,34 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
         targetTick = latestTick + targetTickType.value;
       }
 
-      // Get contract address and procedure number dynamically from ecosystem store
+      // Get contract address and procedure number from ecosystem store
       final sourceContract =
           ecosystemStore.getContractByIndex(selectedSourceContractIndex!);
       final procedureNumber =
-          ecosystemStore.getTransferShareManagementRightsProcedureId(
-              selectedSourceContractIndex!);
+          ecosystemStore.getManagementRightsProcedureId(selectedSourceContractIndex!);
 
-      if (sourceContract == null || procedureNumber == null) {
+      if (sourceContract == null || procedureNumber == null || _procedureType == null) {
         _globalSnackBar.show(l10n.releaseTransferRightsErrorInvalidContract);
         return;
+      }
+
+      // Validate destination is consistent with procedure type
+      final destContract =
+          ecosystemStore.getContractByIndex(selectedDestinationContractIndex!);
+      if (_procedureType == ManagementRightsProcedureType.revoke) {
+        final qxContract = ecosystemStore.getQxContract();
+        if (destContract == null || qxContract == null ||
+            destContract.contractIndex != qxContract.contractIndex) {
+          _globalSnackBar.show(l10n.releaseTransferRightsErrorInvalidContract);
+          return;
+        }
+      } else {
+        if (destContract == null ||
+            !destContract.allowTransferShares ||
+            !destContract.hasManagementRightsProcedure()) {
+          _globalSnackBar.show(l10n.releaseTransferRightsErrorInvalidContract);
+          return;
+        }
       }
 
       final contractAddress = sourceContract.address;
@@ -653,6 +705,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
         procedureNumber: procedureNumber,
         fee: currentFee,
         destinationTick: targetTick!,
+        procedureType: _procedureType!,
       );
 
       if (result == null) {

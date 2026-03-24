@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
@@ -57,6 +58,16 @@ class GroupedAssetItem extends StatelessWidget {
 
   Widget getAssetButtonBar(BuildContext context) {
     final l10n = l10nOf(context);
+    final ecosystemStore = getIt<QubicEcosystemStore>();
+
+    // Show management rights button only if a managing contract has the procedure
+    // and the user has shares in that contract
+    final hasManagementRights = groupedAsset.contractContributions.any((c) =>
+        c.numberOfUnits > 0 &&
+        (ecosystemStore
+                .getContractByIndex(c.managingContractIndex)
+                ?.hasManagementRightsProcedure() ??
+            false));
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(
@@ -81,22 +92,24 @@ class GroupedAssetItem extends StatelessWidget {
             semanticLabel: l10n.assetsButtonSend,
             icon: SvgPicture.asset(AppIcons.sendArrow),
           ),
-          const SizedBox(width: ThemePaddings.smallPadding),
-          ThemedControls.iconButtonSquare(
-            onPressed: () {
-              pushScreen(
-                context,
-                screen: ReleaseTransferRights(
-                  item: account,
-                  groupedAsset: groupedAsset,
-                ),
-                withNavBar: false,
-                pageTransitionAnimation: PageTransitionAnimation.cupertino,
-              );
-            },
-            semanticLabel: l10n.releaseTransferRightsMenuOption,
-            icon: SvgPicture.asset(AppIcons.transferRights),
-          ),
+          if (hasManagementRights) ...[
+            const SizedBox(width: ThemePaddings.smallPadding),
+            ThemedControls.iconButtonSquare(
+              onPressed: () {
+                pushScreen(
+                  context,
+                  screen: ReleaseTransferRights(
+                    item: account,
+                    groupedAsset: groupedAsset,
+                  ),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              },
+              semanticLabel: l10n.releaseTransferRightsMenuOption,
+              icon: SvgPicture.asset(AppIcons.transferRights),
+            ),
+          ],
         ],
       ),
     );
@@ -193,7 +206,7 @@ class GroupedAssetItem extends StatelessWidget {
           ),
           account.watchOnly
               ? ThemedControls.spacerVerticalNormal()
-              : getAssetButtonBar(context),
+              : Observer(builder: (_) => getAssetButtonBar(context)),
         ]),
       ),
     );
