@@ -1,7 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/models/token_response.dart';
@@ -138,7 +137,6 @@ abstract class QubicEcosystemStoreBase with Store {
           .i("Successfully loaded ${smartContracts.length} smart contracts");
     } catch (e) {
       appLogger.e("Failed to load smart contracts from API: ${e.toString()}");
-      getIt<GlobalSnackBar>().showError(e.toString());
     }
   }
 
@@ -151,7 +149,6 @@ abstract class QubicEcosystemStoreBase with Store {
       appLogger.i("Successfully loaded ${tokens.length} tokens");
     } catch (e) {
       appLogger.e("Failed to load tokens from API: ${e.toString()}");
-      getIt<GlobalSnackBar>().showError(e.toString());
     }
   }
 
@@ -165,7 +162,6 @@ abstract class QubicEcosystemStoreBase with Store {
           "Successfully loaded ${labeledAddresses.length} labeled addresses");
     } catch (e) {
       appLogger.e("Failed to load labeled addresses from API: ${e.toString()}");
-      getIt<GlobalSnackBar>().showError(e.toString());
     }
   }
 
