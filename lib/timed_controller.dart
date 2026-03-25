@@ -121,6 +121,7 @@ class TimedController extends WidgetsBindingObserver {
     try {
       final marketInfo = await _statsApi.getMarketInfo();
       appStore.setMarketInfo(marketInfo);
+      lastFetchSlow = DateTime.now();
     } on AppError catch (e) {
       appStore.reportGlobalError(e.toString());
     }
@@ -154,7 +155,6 @@ class TimedController extends WidgetsBindingObserver {
   fetchDataSlow() async {
     try {
       _getMarketInfo();
-      lastFetchSlow = DateTime.now();
     } on AppError catch (e) {
       appStore.reportGlobalError(e.toString());
     } catch (e) {
