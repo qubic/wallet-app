@@ -53,42 +53,14 @@ class TimedController extends WidgetsBindingObserver {
   /// Will not make a call if there's a pending call
   /// If any of the calls fail, it shows a snackbar with the error message
   _getNetworkBalancesAndAssets() async {
-    try {
-      List<String> myIds =
-          appStore.currentQubicIDs.map((e) => e.publicId).toList();
+    List<String> myIds =
+        appStore.currentQubicIDs.map((e) => e.publicId).toList();
 
-      //Fetch network balances
-      _liveApi.getQubicBalances(myIds).then((balances) {
-        Map<String, int> changedIds = appStore.setAmounts(balances);
-        if (changedIds.isNotEmpty) {
-          Map<String, int> changedIdsWithSeed = {};
-
-          //Filter out only non WatchOnly accounts
-          for (var element in changedIds.entries) {
-            final account = appStore.findAccountById(element.key);
-            if (account != null && !account.watchOnly) {
-              changedIdsWithSeed[element.key] = element.value;
-            }
-          }
-          if (changedIdsWithSeed.isNotEmpty) {
-            _walletConnectService.triggerAmountChangedEvent(changedIdsWithSeed);
-          }
-          // Only sort if in balance mode since balance changes don't affect other sort orders
-          if (appStore.accountsSortingMode == AccountSortMode.balance) {
-            appStore.sortAccounts();
-          }
-        }
-      }, onError: (e) async {
-        final error = await ErrorHandler.handleError(e);
-        appStore.reportGlobalError(error.toString());
-      });
-
-      //Fetch network assets
-      _liveApi.getCurrentAssets(myIds).then((assets) {
-        Map<String, List<QubicAssetDto>> changedIds =
-            appStore.setAssets(assets);
-
-        Map<String, List<QubicAssetDto>> changedIdsWithSeed = {};
+    //Fetch network balances
+    _liveApi.getQubicBalances(myIds).then((balances) {
+      Map<String, int> changedIds = appStore.setAmounts(balances);
+      if (changedIds.isNotEmpty) {
+        Map<String, int> changedIdsWithSeed = {};
 
         //Filter out only non WatchOnly accounts
         for (var element in changedIds.entries) {
@@ -97,21 +69,42 @@ class TimedController extends WidgetsBindingObserver {
             changedIdsWithSeed[element.key] = element.value;
           }
         }
-
         if (changedIdsWithSeed.isNotEmpty) {
-          _walletConnectService
-              .triggerAssetAmountChangedEvent(changedIdsWithSeed);
+          _walletConnectService.triggerAmountChangedEvent(changedIdsWithSeed);
         }
-      }, onError: (e) async {
-        final error = await ErrorHandler.handleError(e);
-        appStore.reportGlobalError(error.toString());
-      });
-    } on AppError catch (e) {
-      appStore.reportGlobalError(e.toString());
-    } catch (e) {
+        // Only sort if in balance mode since balance changes don't affect other sort orders
+        if (appStore.accountsSortingMode == AccountSortMode.balance) {
+          appStore.sortAccounts();
+        }
+      }
+    }, onError: (e) async {
       final error = await ErrorHandler.handleError(e);
       appStore.reportGlobalError(error.toString());
-    }
+    });
+
+    //Fetch network assets
+    _liveApi.getCurrentAssets(myIds).then((assets) {
+      Map<String, List<QubicAssetDto>> changedIds =
+          appStore.setAssets(assets);
+
+      Map<String, List<QubicAssetDto>> changedIdsWithSeed = {};
+
+      //Filter out only non WatchOnly accounts
+      for (var element in changedIds.entries) {
+        final account = appStore.findAccountById(element.key);
+        if (account != null && !account.watchOnly) {
+          changedIdsWithSeed[element.key] = element.value;
+        }
+      }
+
+      if (changedIdsWithSeed.isNotEmpty) {
+        _walletConnectService
+            .triggerAssetAmountChangedEvent(changedIdsWithSeed);
+      }
+    }, onError: (e) async {
+      final error = await ErrorHandler.handleError(e);
+      appStore.reportGlobalError(error.toString());
+    });
   }
 
   /// Fetch the market info from the backend
@@ -153,14 +146,7 @@ class TimedController extends WidgetsBindingObserver {
   /// If the call succeeds, it updates the store with the results
 
   fetchDataSlow() async {
-    try {
-      _getMarketInfo();
-    } on AppError catch (e) {
-      appStore.reportGlobalError(e.toString());
-    } catch (e) {
-      final error = await ErrorHandler.handleError(e);
-      appStore.reportGlobalError(error.toString());
-    }
+    _getMarketInfo();
   }
 
   /// Restart the fetching timer.
