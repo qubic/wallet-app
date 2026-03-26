@@ -730,6 +730,7 @@
     "generalErrorUnexpectedError": "Ein unerwarteter Fehler ist aufgetreten",
     "generalErrorConnectionTimeout": "Zeitüberschreitung der Verbindung",
     "generalErrorNoInternetConnection": "Keine Internetverbindung",
+    "generalErrorConnectionRefused": "Verbindung zum Server konnte nicht hergestellt werden. Der Dienst ist möglicherweise vorübergehend nicht verfügbar",
     "generalErrorRequestCancelled": "Anfrage abgebrochen",
     "generalErrorCouldntParseResponse": "Antwort konnte nicht analysiert werden",
     "generalErrorServerError": "Serverfehler",

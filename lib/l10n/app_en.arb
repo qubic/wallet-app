@@ -120,6 +120,7 @@
     "generalErrorUnexpectedError": "An unexpected error has occurred",
     "generalErrorConnectionTimeout": "Connection timed out",
     "generalErrorNoInternetConnection": "No internet connection",
+    "generalErrorConnectionRefused": "Could not connect to the server. The service may be temporarily down",
     "generalErrorRequestCancelled": "Request Cancelled",
     "generalErrorCouldntParseResponse": "Could not parse response",
     "generalErrorServerError": "Server error",

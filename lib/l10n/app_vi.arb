@@ -120,6 +120,7 @@
     "generalErrorUnexpectedError": "Đã xảy ra lỗi không mong muốn",
     "generalErrorConnectionTimeout": "Kết nối hết thời gian chờ",
     "generalErrorNoInternetConnection": "Không có kết nối internet",
+    "generalErrorConnectionRefused": "Không thể kết nối đến máy chủ. Dịch vụ có thể tạm thời không hoạt động",
     "generalErrorRequestCancelled": "Yêu cầu đã bị hủy",
     "generalErrorCouldntParseResponse": "Không thể phân tích phản hồi",
     "generalErrorServerError": "Lỗi máy chủ",
