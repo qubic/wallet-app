@@ -847,6 +847,7 @@
     "releaseTransferRightsErrorNoDestinationContract": "Lütfen bir hedef sözleşme seçin",
     "releaseTransferRightsErrorSameContract": "Kaynak ve hedef sözleşmeler farklı olmalıdır",
     "releaseTransferRightsErrorInvalidContract": "Geçersiz sözleşme yapılandırması",
+    "releaseTransferRightsRevokeOnlyHint": "* {contract} tarafından yönetilen varlıklar yalnızca QX'e iptal edilebilir",
     "dAppSearchPlaceholder": "Ara veya dApp URLsi gir",
     "addToFavorites": "Favorilere ekle",
     "favoriteNameLabel": "İsim",

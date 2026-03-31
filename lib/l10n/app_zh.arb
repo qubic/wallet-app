@@ -847,6 +847,7 @@
     "releaseTransferRightsErrorNoDestinationContract": "请选择目标合约",
     "releaseTransferRightsErrorSameContract": "源合约和目标合约必须不同",
     "releaseTransferRightsErrorInvalidContract": "无效的合约配置",
+    "releaseTransferRightsRevokeOnlyHint": "* 由 {contract} 管理的资产只能撤销到 QX",
     "dAppSearchPlaceholder": "搜索或输入 dApp URL",
     "addToFavorites": "添加收藏",
     "favoriteNameLabel": "名称",

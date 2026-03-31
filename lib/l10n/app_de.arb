@@ -847,6 +847,7 @@
     "releaseTransferRightsErrorNoDestinationContract": "Bitte wählen Sie einen Zielvertrag aus",
     "releaseTransferRightsErrorSameContract": "Quell- und Zielvertrag müssen unterschiedlich sein",
     "releaseTransferRightsErrorInvalidContract": "Ungültige Vertragskonfiguration",
+    "releaseTransferRightsRevokeOnlyHint": "* Von {contract} verwaltete Assets können nur an QX widerrufen werden",
     "dAppSearchPlaceholder": "Suchen oder dApp-URL eingeben",
     "addToFavorites": "Favorit hinzufügen",
     "favoriteNameLabel": "Name",

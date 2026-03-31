@@ -425,6 +425,17 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
             style: TextStyles.labelTextNormalError,
           ),
         ],
+        if (_procedureType == ManagementRightsProcedureType.revoke &&
+            selectedSourceContractIndex != null) ...[
+          ThemedControls.spacerVerticalMini(),
+          Text(
+            l10n.releaseTransferRightsRevokeOnlyHint(
+              ecosystemStore.getContractNameByIndex(selectedSourceContractIndex!) ??
+                  "Contract $selectedSourceContractIndex",
+            ),
+            style: TextStyles.secondaryText,
+          ),
+        ],
       ],
     );
   }
