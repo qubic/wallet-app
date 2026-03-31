@@ -846,6 +846,7 @@
     "releaseTransferRightsErrorNoDestinationContract": "Por favor seleccione un contrato de destino",
     "releaseTransferRightsErrorSameContract": "Los contratos de origen y destino deben ser diferentes",
     "releaseTransferRightsErrorInvalidContract": "Configuración de contrato no válida",
+    "releaseTransferRightsRevokeOnlyHint": "* Los activos gestionados por {contract} solo pueden ser revocados a QX",
     "dAppSearchPlaceholder": "Buscar o ingresar URL de dApp",
     "addToFavorites": "Agregar favorito",
     "favoriteNameLabel": "Nombre",

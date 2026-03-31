@@ -975,6 +975,14 @@
     "releaseTransferRightsErrorNoDestinationContract": "Please select a destination contract",
     "releaseTransferRightsErrorSameContract": "Source and destination contracts must be different",
     "releaseTransferRightsErrorInvalidContract": "Invalid contract configuration",
+    "releaseTransferRightsRevokeOnlyHint": "* Assets managed by {contract} can only be revoked to QX",
+    "@releaseTransferRightsRevokeOnlyHint": {
+        "placeholders": {
+            "contract": {
+                "type": "String"
+            }
+        }
+    },
     "webviewErrorHttp": "HTTP Error {code}",
     "@webviewErrorHttp": {
         "placeholders": {
