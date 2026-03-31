@@ -23,7 +23,7 @@ class QubicStatsApi {
           '${_networkStore.currentNetwork.rpcUrl}${Config.latestStatsUrl}');
       return MarketInfoDto.fromJson(response.data["data"]);
     } catch (error) {
-      throw ErrorHandler.handleError(error);
+      throw await ErrorHandler.handleError(error);
     }
   }
 }

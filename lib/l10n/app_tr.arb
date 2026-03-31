@@ -730,6 +730,7 @@
     "generalErrorUnexpectedError": "Beklenmeyen bir hata oluştu",
     "generalErrorConnectionTimeout": "Bağlantı zaman aşımına uğradı",
     "generalErrorNoInternetConnection": "İnternet bağlantısı yok",
+    "generalErrorConnectionRefused": "Sunucuya bağlanılamadı. Hizmet geçici olarak kullanılamıyor olabilir",
     "generalErrorRequestCancelled": "İstek iptal edildi",
     "generalErrorCouldntParseResponse": "Yanıt ayrıştırılamadı",
     "generalErrorServerError": "Sunucu hatası",

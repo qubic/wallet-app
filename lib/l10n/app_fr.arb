@@ -735,6 +735,7 @@
     "generalErrorUnexpectedError": "Une erreur inattendue s'est produite",
     "generalErrorConnectionTimeout": "Le délai de connexion a expiré",
     "generalErrorNoInternetConnection": "Pas de connexion Internet",
+    "generalErrorConnectionRefused": "Impossible de se connecter au serveur. Le service est peut-être temporairement indisponible",
     "generalErrorRequestCancelled": "Demande annulée",
     "generalErrorCouldntParseResponse": "Impossible d'analyser la réponse",
     "generalErrorServerError": "Erreur du serveur",

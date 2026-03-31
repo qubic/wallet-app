@@ -730,6 +730,7 @@
     "generalErrorUnexpectedError": "Произошла неожиданная ошибка",
     "generalErrorConnectionTimeout": "Время ожидания подключения истекло",
     "generalErrorNoInternetConnection": "Нет подключения к интернету",
+    "generalErrorConnectionRefused": "Не удалось подключиться к серверу. Сервис может быть временно недоступен",
     "generalErrorRequestCancelled": "Запрос отменен",
     "generalErrorCouldntParseResponse": "Не удалось разобрать ответ",
     "generalErrorServerError": "Ошибка сервера",

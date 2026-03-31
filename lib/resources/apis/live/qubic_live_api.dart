@@ -29,7 +29,7 @@ class QubicLiveApi {
           .get('${_networkStore.currentNetwork.rpcUrl}${Config.currentTick}');
       return CurrentTickDto.fromJson(response.data["tickInfo"]);
     } catch (error) {
-      throw ErrorHandler.handleError(error);
+      throw await ErrorHandler.handleError(error);
     } finally {
       _appStore.decreasePendingRequests();
     }
@@ -44,7 +44,7 @@ class QubicLiveApi {
       );
       return response.data["transactionId"];
     } catch (error) {
-      throw ErrorHandler.handleError(error);
+      throw await ErrorHandler.handleError(error);
     } finally {
       _appStore.decreasePendingRequests();
     }
@@ -62,7 +62,7 @@ class QubicLiveApi {
       return List<CurrentBalanceDto>.from(
           response.map((e) => CurrentBalanceDto.fromJson(e.data["balance"])));
     } catch (e) {
-      throw ErrorHandler.handleError(e);
+      throw await ErrorHandler.handleError(e);
     } finally {
       _appStore.decreasePendingRequests();
     }
@@ -81,7 +81,7 @@ class QubicLiveApi {
               .map((asset) => QubicAssetDto.fromJson(asset)))
           .toList();
     } catch (e) {
-      throw ErrorHandler.handleError(e);
+      throw await ErrorHandler.handleError(e);
     } finally {
       _appStore.decreasePendingRequests();
     }
