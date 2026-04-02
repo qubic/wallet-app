@@ -8,8 +8,9 @@ void viewAddressInExplorer(BuildContext context, String address) {
   viewExplorerURL(context, "network/address/$address");
 }
 
-void viewTransactionInExplorer(BuildContext context, String trxId) {
-  viewExplorerURL(context, "network/tx/$trxId");
+void viewTransactionInExplorer(BuildContext context, String trxId,
+    {required int tick}) {
+  viewExplorerURL(context, "network/tx/$trxId?tick=$tick");
 }
 
 void viewExplorerURL(BuildContext context, String pathToData) {
