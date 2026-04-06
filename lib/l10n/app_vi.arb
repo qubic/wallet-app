@@ -911,6 +911,7 @@
     "releaseTransferRightsErrorNoDestinationContract": "Vui lòng chọn hợp đồng đích",
     "releaseTransferRightsErrorSameContract": "Hợp đồng nguồn và đích phải khác nhau",
     "releaseTransferRightsErrorInvalidContract": "Cấu hình hợp đồng không hợp lệ",
+    "releaseTransferRightsRevokeOnlyHint": "* Tài sản được quản lý bởi {contract} chỉ có thể thu hồi về QX",
     "dAppSearchPlaceholder": "Tìm kiếm hoặc nhập URL dApp",
     "addToFavorites": "Thêm vào yêu thích",
     "favoriteNameLabel": "Tên",

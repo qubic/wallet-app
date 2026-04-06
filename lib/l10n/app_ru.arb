@@ -848,6 +848,7 @@
     "releaseTransferRightsErrorNoDestinationContract": "Пожалуйста, выберите целевой контракт",
     "releaseTransferRightsErrorSameContract": "Исходный и целевой контракты должны быть разными",
     "releaseTransferRightsErrorInvalidContract": "Неверная конфигурация контракта",
+    "releaseTransferRightsRevokeOnlyHint": "* Активы, управляемые {contract}, могут быть отозваны только в QX",
     "dAppSearchPlaceholder": "Поиск или ввод URL dApp",
     "addToFavorites": "Добавить в избранное",
     "favoriteNameLabel": "Название",
