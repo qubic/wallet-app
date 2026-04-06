@@ -11,6 +11,7 @@ import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
+import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
 void showTamperedWalletAlert(BuildContext context) {
@@ -182,19 +183,29 @@ Future<SignedTransaction?> sendReleaseTransferRightsTransactionDialog(
   required int procedureNumber,
   required int fee,
   required int destinationTick,
+  required ManagementRightsProcedureType procedureType,
 }) async {
   final l10n = l10nOf(context);
   String seed = await getIt.get<ApplicationStore>().getSeedByPublicId(sourceId);
   QubicCmd qubicCmd = getIt.get<QubicCmd>();
 
   try {
-    // Serialize the input structure
-    final payload = await ReleaseTransferRightsHelper.serializeInput(
-      issuerIdentity: issuerIdentity,
-      assetName: assetName,
-      numberOfShares: numberOfShares,
-      newManagingContractIndex: destinationContractIndex,
-    );
+    // Serialize the input structure based on procedure type
+    final String payload;
+    if (procedureType == ManagementRightsProcedureType.revoke) {
+      payload = await ReleaseTransferRightsHelper.serializeRevokeInput(
+        issuerIdentity: issuerIdentity,
+        assetName: assetName,
+        numberOfShares: numberOfShares,
+      );
+    } else {
+      payload = await ReleaseTransferRightsHelper.serializeInput(
+        issuerIdentity: issuerIdentity,
+        assetName: assetName,
+        numberOfShares: numberOfShares,
+        newManagingContractIndex: destinationContractIndex,
+      );
+    }
 
     appLogger.d('=== RELEASE TRANSFER RIGHTS PAYLOAD ===');
     appLogger.d('Issuer Identity: $issuerIdentity');
