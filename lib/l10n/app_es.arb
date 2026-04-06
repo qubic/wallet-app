@@ -79,8 +79,8 @@
         }
     },
     "generalErrorUnsupportedOS": "Sistema no soportado",
-    "generalErrorOnlyLowercaseChar": "Debe contener sólo letras mayúsculas",
-    "generalErrorOnlyUppercaseChar": "Debe contener sólo letras minúsculas",
+    "generalErrorOnlyLowercaseChar": "Debe contener sólo letras minúsculas",
+    "generalErrorOnlyUppercaseChar": "Debe contener sólo letras mayúsculas",
     "generalErrorMinCharLength": "Debe contener al menos {minCharLength} letras",
     "@generalErrorMinCharLength": {
         "placeholders": {
@@ -847,6 +847,7 @@
     "releaseTransferRightsErrorNoDestinationContract": "Por favor seleccione un contrato de destino",
     "releaseTransferRightsErrorSameContract": "Los contratos de origen y destino deben ser diferentes",
     "releaseTransferRightsErrorInvalidContract": "Configuración de contrato no válida",
+    "releaseTransferRightsRevokeOnlyHint": "* Los activos gestionados por {contract} solo pueden ser revocados a QX",
     "dAppSearchPlaceholder": "Buscar o ingresar URL de dApp",
     "addToFavorites": "Agregar favorito",
     "favoriteNameLabel": "Nombre",

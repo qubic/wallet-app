@@ -18,8 +18,7 @@ class TransactionActionHelpers {
   }
 
   static bool canViewInExplorer(TransactionVm item) {
-    return item.getStatus() != ComputedTransactionStatus.pending &&
-        item.getStatus() != ComputedTransactionStatus.invalid;
+    return item.getStatus() != ComputedTransactionStatus.invalid;
   }
 
   static bool canDelete(TransactionVm item) {

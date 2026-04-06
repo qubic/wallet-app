@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
 
 class SmartContractsResponse {
@@ -55,61 +56,64 @@ class SmartContractModel {
       );
 
   /// Get procedure name by procedure ID
-  String? getProcedureName(int type) {
-    try {
-      return procedures.firstWhere((p) => p.id == type).name;
-    } catch (e) {
-      return null;
-    }
-  }
+  String? getProcedureName(int type) =>
+      procedures.firstWhereOrNull((p) => p.id == type)?.name;
 
   /// Get procedure fee by procedure ID
-  int? getProcedureFee(int type) {
-    try {
-      return procedures.firstWhere((p) => p.id == type).fee;
-    } catch (e) {
-      return null;
-    }
-  }
+  int? getProcedureFee(int type) =>
+      procedures.firstWhereOrNull((p) => p.id == type)?.fee;
 
   /// Check if this contract supports a specific procedure by name (case-insensitive)
   bool supportsProcedure(String procedureName) {
-    return procedures
-        .any((p) => p.name.toLowerCase() == procedureName.toLowerCase());
-  }
-
-  /// Check if this contract supports Transfer Share Management Rights
-  bool supportsTransferShareManagementRights() {
-    return supportsProcedure(ReleaseTransferRightsInfo.procedureName);
+    final name = procedureName.toLowerCase();
+    return procedures.any((p) => p.name.toLowerCase() == name);
   }
 
   /// Get procedure ID by procedure name (case-insensitive)
   int? getProcedureId(String procedureName) {
-    try {
-      return procedures
-          .firstWhere(
-              (p) => p.name.toLowerCase() == procedureName.toLowerCase())
-          .id;
-    } catch (e) {
-      return null;
-    }
+    final name = procedureName.toLowerCase();
+    return procedures.firstWhereOrNull((p) => p.name.toLowerCase() == name)?.id;
   }
+
+  Procedure? get _managementRightsProcedure =>
+      procedures.firstWhereOrNull((p) => p.managementRightsType != null);
+
+  bool hasManagementRightsProcedure() => _managementRightsProcedure != null;
+
+  ManagementRightsProcedureType? getManagementRightsProcedureType() =>
+      _managementRightsProcedure?.managementRightsType;
+
+  int? getManagementRightsProcedureId() => _managementRightsProcedure?.id;
 }
 
 class Procedure {
   final int id;
   final String name;
   final int? fee;
+  final String? sourceIdentifier;
 
   Procedure({
     required this.id,
     required this.name,
     required this.fee,
+    this.sourceIdentifier,
   });
+
+  ManagementRightsProcedureType? get managementRightsType {
+    final id = sourceIdentifier?.toLowerCase();
+    if (id == ReleaseTransferRightsInfo.transferSourceIdentifier) {
+      return ManagementRightsProcedureType.transfer;
+    }
+    if (id == ReleaseTransferRightsInfo.revokeSourceIdentifier) {
+      return ManagementRightsProcedureType.revoke;
+    }
+    return null;
+  }
 
   factory Procedure.fromJson(Map<String, dynamic> json) => Procedure(
         id: json["id"],
         name: json["name"],
         fee: json["fee"],
+        sourceIdentifier: json["sourceIdentifier"],
       );
 }

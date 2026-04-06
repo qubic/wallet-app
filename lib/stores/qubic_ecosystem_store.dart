@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
@@ -84,32 +85,16 @@ abstract class QubicEcosystemStoreBase with Store {
         getAddressLabel(address);
   }
 
-  String? getContractNameByIndex(int index) {
-    try {
-      return smartContracts.firstWhere((sc) => sc.contractIndex == index).name;
-    } catch (e) {
-      return null;
-    }
-  }
+  String? getContractNameByIndex(int index) =>
+      smartContracts.firstWhereOrNull((sc) => sc.contractIndex == index)?.name;
 
-  SmartContractModel? getContractByIndex(int index) {
-    try {
-      return smartContracts.firstWhere((sc) => sc.contractIndex == index);
-    } catch (e) {
-      return null;
-    }
-  }
+  SmartContractModel? getContractByIndex(int index) =>
+      smartContracts.firstWhereOrNull((sc) => sc.contractIndex == index);
 
   /// Get the QX contract by its address.
   /// Returns null if QX contract is not found.
-  SmartContractModel? getQxContract() {
-    try {
-      return smartContracts
-          .firstWhere((sc) => sc.address == QxInfo.address);
-    } catch (e) {
-      return null;
-    }
-  }
+  SmartContractModel? getQxContract() =>
+      smartContracts.firstWhereOrNull((sc) => sc.address == QxInfo.address);
 
   /// Get fee for a specific procedure.
   /// Returns the fee for a specific procedure in a contract
@@ -120,11 +105,14 @@ abstract class QubicEcosystemStoreBase with Store {
     return contract.getProcedureFee(procedureId);
   }
 
-  /// Get the procedure ID for "Transfer Share Management Rights" for a given contract
-  int? getTransferShareManagementRightsProcedureId(int contractIndex) {
-    final contract = getContractByIndex(contractIndex);
-    if (contract == null) return null;
-    return contract.getProcedureId(ReleaseTransferRightsInfo.procedureName);
+  /// Get the procedure ID for the management rights procedure (transfer or revoke).
+  int? getManagementRightsProcedureId(int contractIndex) {
+    return getContractByIndex(contractIndex)?.getManagementRightsProcedureId();
+  }
+
+  /// Get the management rights procedure type for a given contract.
+  ManagementRightsProcedureType? getManagementRightsProcedureType(int contractIndex) {
+    return getContractByIndex(contractIndex)?.getManagementRightsProcedureType();
   }
 
   @action
