@@ -312,7 +312,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     // _controller.jumpToPreviousTab();
     return PersistentTabView(
       controller: _controller,
-      navBarHeight: 60,
       navBarBuilder: (navBarConfig) => Style1BottomNavBar(
           navBarConfig: navBarConfig,
           navBarDecoration: const NavBarDecoration(

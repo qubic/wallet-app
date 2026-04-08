@@ -10,7 +10,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   flutter_is_ios_app_on_mac
   flutter_secure_storage_windows
   local_auth_windows
-  screen_retriever
+  screen_retriever_windows
   share_plus
   url_launcher_windows
   window_manager

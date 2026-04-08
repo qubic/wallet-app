@@ -10,7 +10,8 @@ allprojects {
             if (project.plugins.hasPlugin("com.android.application") ||
                     project.plugins.hasPlugin("com.android.library")) {
                 project.android {
-                    compileSdkVersion 34
+                    compileSdkVersion 35
+                    ndkVersion "28.2.13676358"
                     if (!project.android.hasProperty("namespace") || project.android.namespace == null) {
                         namespace project.group
                     }

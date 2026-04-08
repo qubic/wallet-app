@@ -48,8 +48,7 @@ class BottomNavBarBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) => DecoratedNavBar(
         decoration: navBarDecoration,
-        filter: navBarDecoration.filter,
-        height: navBarConfig.navBarHeight,
+        height: 60,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: navBarConfig.items.map((item) {
