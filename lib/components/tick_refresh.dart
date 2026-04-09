@@ -18,7 +18,7 @@ class TickRefresh extends StatelessWidget {
     return isMobile
         ? Container()
         : Observer(builder: (context) {
-            if (appStore.pendingRequests == 0) {
+            if (!appStore.isLoading) {
               return Ink(
                   decoration: const ShapeDecoration(
                     color: LightThemeColors.panelBackground,

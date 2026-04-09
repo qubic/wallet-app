@@ -224,19 +224,19 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
     });
   }
 
-  late final _$pendingRequestsAtom =
-      Atom(name: '_ApplicationStore.pendingRequests', context: context);
+  late final _$isLoadingAtom =
+      Atom(name: '_ApplicationStore.isLoading', context: context);
 
   @override
-  int get pendingRequests {
-    _$pendingRequestsAtom.reportRead();
-    return super.pendingRequests;
+  bool get isLoading {
+    _$isLoadingAtom.reportRead();
+    return super.isLoading;
   }
 
   @override
-  set pendingRequests(int value) {
-    _$pendingRequestsAtom.reportWrite(value, super.pendingRequests, () {
-      super.pendingRequests = value;
+  set isLoading(bool value) {
+    _$isLoadingAtom.reportWrite(value, super.isLoading, () {
+      super.isLoading = value;
     });
   }
 
@@ -454,33 +454,11 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
-  void incrementPendingRequests() {
+  void setLoading(bool value) {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.incrementPendingRequests');
+        name: '_ApplicationStore.setLoading');
     try {
-      return super.incrementPendingRequests();
-    } finally {
-      _$_ApplicationStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void decreasePendingRequests() {
-    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.decreasePendingRequests');
-    try {
-      return super.decreasePendingRequests();
-    } finally {
-      _$_ApplicationStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void resetPendingRequests() {
-    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
-        name: '_ApplicationStore.resetPendingRequests');
-    try {
-      return super.resetPendingRequests();
+      return super.setLoading(value);
     } finally {
       _$_ApplicationStoreActionController.endAction(_$actionInfo);
     }
@@ -590,7 +568,7 @@ showAddAccountModal: ${showAddAccountModal},
 currentQubicIDs: ${currentQubicIDs},
 currentTransactions: ${currentTransactions},
 transactionFilter: ${transactionFilter},
-pendingRequests: ${pendingRequests},
+isLoading: ${isLoading},
 marketInfo: ${marketInfo},
 totalAmounts: ${totalAmounts},
 totalAmountsInUSD: ${totalAmountsInUSD},

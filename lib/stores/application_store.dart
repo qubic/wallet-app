@@ -163,7 +163,7 @@ abstract class _ApplicationStore with Store {
   }
 
   @observable
-  int pendingRequests = 0; //The number of pending HTTP requests
+  bool isLoading = false;
 
   @computed
   int get totalAmounts {
@@ -239,18 +239,8 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
-  void incrementPendingRequests() {
-    pendingRequests++;
-  }
-
-  @action
-  void decreasePendingRequests() {
-    pendingRequests--;
-  }
-
-  @action
-  void resetPendingRequests() {
-    pendingRequests = 0;
+  void setLoading(bool value) {
+    isLoading = value;
   }
 
   @action

@@ -124,6 +124,7 @@ class TimedController extends WidgetsBindingObserver {
   /// Fetches the current tick and the network balances and assets
   /// If the call fails, it shows a snackbar with the error message
   fetchData() async {
+    appStore.setLoading(true);
     try {
       //Fetch the ticks
       int tick = (await _liveApi.getCurrentTick()).tick;
@@ -137,6 +138,8 @@ class TimedController extends WidgetsBindingObserver {
     } catch (e) {
       final error = await ErrorHandler.handleError(e);
       appStore.reportGlobalError(error.toString());
+    } finally {
+      appStore.setLoading(false);
     }
   }
 
