@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/query_transaction_dto.dart';
 import 'package:qubic_wallet/dtos/transactions_dto.dart';
+import 'package:qubic_wallet/helpers/encoding_helpers.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
@@ -21,19 +20,6 @@ class QubicQueryApi {
 
   String get _baseUrl => _networkStore.rpcUrl;
 
-  /// Converts a Base64-encoded string to a lowercase hex string.
-  /// The query API returns [inputData] and [signature] as Base64;
-  /// callers expect hex.
-  String _base64ToHex(String base64Str) {
-    if (base64Str.isEmpty) return '';
-    try {
-      final bytes = base64Decode(base64Str);
-      return bytes.map((b) => b.toRadixString(16).padLeft(2, '0')).join();
-    } catch (_) {
-      return '';
-    }
-  }
-
   /// Maps a flat [QueryTransactionDto] from the query API to the
   /// [TransactionDto] shape that callers already expect.
   TransactionDto _toTransactionDto(QueryTransactionDto q) {
@@ -45,8 +31,8 @@ class QubicQueryApi {
         tickNumber: q.tickNumber,
         inputType: q.inputType,
         inputSize: q.inputSize,
-        inputHex: _base64ToHex(q.inputData),
-        signatureHex: _base64ToHex(q.signature),
+        inputHex: base64ToHex(q.inputData),
+        signatureHex: base64ToHex(q.signature),
         txId: q.hash,
       ),
       timestamp: q.timestamp,
