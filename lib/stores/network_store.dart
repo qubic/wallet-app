@@ -44,8 +44,7 @@ abstract class _NetworkStore with Store {
     final List<NetworkModel> storedNetworks =
         getIt<HiveStorage>().getStoredNetworks();
     networks.addAll(storedNetworks);
-    networks
-        .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    _sortNetworksByName();
   }
 
   @action
@@ -74,10 +73,14 @@ abstract class _NetworkStore with Store {
     }
   }
 
-  @action
-  void setCurrentNetwork(NetworkModel network) {
+  void _sortNetworksByName() {
     networks
         .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+  }
+
+  @action
+  void setCurrentNetwork(NetworkModel network) {
+    _sortNetworksByName();
     networks.remove(network);
     networks.insert(0, network);
     getIt<HiveStorage>().saveCurrentNetworkName(network.name);
@@ -87,8 +90,7 @@ abstract class _NetworkStore with Store {
   @action
   void addNetwork(NetworkModel network) {
     networks.add(network);
-    networks
-        .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+    _sortNetworksByName();
     getIt<HiveStorage>().addStoredNetwork(network);
   }
 
@@ -104,8 +106,7 @@ abstract class _NetworkStore with Store {
     if (index != -1) {
       final wasCurrent = index == 0;
       networks[index] = updatedNetwork;
-      networks.sort(
-          (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+      _sortNetworksByName();
 
       // If it was the current network, keep it at position 0 and refresh services
       if (wasCurrent) {
