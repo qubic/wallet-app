@@ -16,10 +16,10 @@ class QubicQueryApi {
       : _dio = DioClient.getDio(baseUrl: _networkStore.rpcUrl);
 
   void updateDio() {
-    _dio = DioClient.getDio(baseUrl: _networkStore.currentNetwork.rpcUrl);
+    _dio = DioClient.getDio(baseUrl: _networkStore.rpcUrl);
   }
 
-  String get _baseUrl => _networkStore.currentNetwork.rpcUrl;
+  String get _baseUrl => _networkStore.rpcUrl;
 
   /// Converts a Base64-encoded string to a lowercase hex string.
   /// The query API returns [inputData] and [signature] as Base64;
@@ -54,11 +54,12 @@ class QubicQueryApi {
     );
   }
 
-  /// Returns the tickNumber of the last tick processed by the archive.
+  /// Returns the tickNumber of the last tick processed by the query backend.
   /// Used to determine when to validate pending transactions.
   Future<int> getLastProcessedTick() async {
     try {
-      final response = await _dio.get('$_baseUrl${Config.lastProcessedTick}');
+      final response = await _dio.get(
+          '$_baseUrl${Config.lastProcessedTick}');
       return response.data['tickNumber'] as int;
     } catch (error) {
       throw await ErrorHandler.handleError(error);
