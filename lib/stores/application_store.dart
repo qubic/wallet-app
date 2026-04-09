@@ -519,11 +519,15 @@ abstract class _ApplicationStore with Store {
     List<TransactionVm> toBeRemoved = [];
     for (var trx in _hiveStorage.getStoredTransactions()) {
       if (latestTickProcessed >= trx.targetTick) {
-        final checkTrx = await qubicQueryApi.getTransactionByHash(trx.id);
-        if (checkTrx == null) {
-          convertPendingToInvalid(trx);
-        } else {
-          toBeRemoved.add(trx);
+        try {
+          final checkTrx = await qubicQueryApi.getTransactionByHash(trx.id);
+          if (checkTrx == null) {
+            convertPendingToInvalid(trx);
+          } else {
+            toBeRemoved.add(trx);
+          }
+        } catch (e) {
+          appLogger.e('Failed to validate transaction ${trx.id}: $e');
         }
       }
     }
