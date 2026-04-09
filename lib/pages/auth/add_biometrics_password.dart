@@ -41,6 +41,7 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
   final SettingsStore settingsStore = getIt<SettingsStore>();
   bool? canUseBiometrics = false;
   bool enabledBiometrics = false;
+  bool isAuthenticating = false;
 
   @override
   void initState() {
@@ -109,14 +110,28 @@ class _AddBiometricsPasswordState extends State<AddBiometricsPassword> {
               }),
               value: enabledBiometrics,
               onChanged: (value) async {
+                if (isAuthenticating) return;
                 if (value == true) {
-                  final bool didAuthenticate = await auth.authenticate(
-                      localizedReason: ' ',
-                      options: AuthenticationOptions(
-                          biometricOnly:
-                              UniversalPlatform.isDesktop ? false : true));
-                  if (!didAuthenticate) {
+                  setState(() {
+                    isAuthenticating = true;
+                  });
+                  try {
+                    final bool didAuthenticate = await auth.authenticate(
+                        localizedReason: ' ',
+                        options: AuthenticationOptions(
+                            biometricOnly:
+                                UniversalPlatform.isDesktop ? false : true));
+                    if (!didAuthenticate) {
+                      return;
+                    }
+                  } catch (e) {
                     return;
+                  } finally {
+                    if (mounted) {
+                      setState(() {
+                        isAuthenticating = false;
+                      });
+                    }
                   }
                 }
                 setState(() {

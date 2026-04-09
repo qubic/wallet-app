@@ -12,13 +12,12 @@ import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/models/pagination_request_model.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/filter_transactions.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/stored_transactions_for_id.dart';
-import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/query/qubic_query_api.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -39,17 +38,16 @@ class TransactionsForId extends StatefulWidget {
 class _TransactionsForIdState extends State<TransactionsForId> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final TimedController _timedController = getIt<TimedController>();
-  final QubicArchiveApi qubicArchiveApi = getIt<QubicArchiveApi>();
+  final QubicQueryApi qubicQueryApi = getIt<QubicQueryApi>();
   final int pageSize = 20;
   late final PagingController<int, TransactionDto> _pagingController =
       PagingController<int, TransactionDto>(
     fetchPage: (pageKey) async {
-      final data = await qubicArchiveApi.getAddressTransfers(
-          widget.publicQubicId,
-          PaginationRequestModel(
-              page: pageKey, pageSize: pageSize, isDescending: true));
-
-      return data;
+      // pageKey is 1-based (starts at 1, see customNextPage).
+      // Query API uses 0-based offset: offset = (pageKey - 1) * pageSize.
+      final offset = (pageKey - 1) * pageSize;
+      return qubicQueryApi.getAddressTransfers(
+          widget.publicQubicId, offset, pageSize);
     },
     getNextPageKey: (state) => customNextPage(state, pageSize),
   );

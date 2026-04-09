@@ -13,7 +13,7 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
-import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/query/qubic_query_api.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 
@@ -26,7 +26,7 @@ class ApplicationStore = _ApplicationStore with _$ApplicationStore;
 abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
   late final HiveStorage _hiveStorage = getIt<HiveStorage>();
-  late final QubicArchiveApi qubicArchiveApi = getIt<QubicArchiveApi>();
+  late final QubicQueryApi qubicQueryApi = getIt<QubicQueryApi>();
 
   /// If there are stored wallet settings in the device
   @observable
@@ -529,7 +529,7 @@ abstract class _ApplicationStore with Store {
     List<TransactionVm> toBeRemoved = [];
     for (var trx in _hiveStorage.getStoredTransactions()) {
       if (latestTickProcessed >= trx.targetTick) {
-        final checkTrx = await qubicArchiveApi.getTransaction(trx.id);
+        final checkTrx = await qubicQueryApi.getTransactionByHash(trx.id);
         if (checkTrx == null) {
           convertPendingToInvalid(trx);
         } else {

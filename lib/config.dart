@@ -23,9 +23,8 @@ abstract class Config {
   /// Returns a supported language code, falling back to English if not supported
   /// Uses the app's l10n configuration automatically - no manual maintenance needed
   static String getSupportedLocale(String locale) {
-    final supportedLocaleCodes = AppLocalizations.supportedLocales
-        .map((l) => l.languageCode)
-        .toList();
+    final supportedLocaleCodes =
+        AppLocalizations.supportedLocales.map((l) => l.languageCode).toList();
     return supportedLocaleCodes.contains(locale) ? locale : 'en';
   }
 
@@ -38,8 +37,8 @@ abstract class Config {
   static const smartContracts = "/general/data/smart_contracts.json";
   static const labeledAddresses = "/general/data/address_labels.json";
 
-  static transaction(String transaction) => "/v2/transactions/$transaction";
-  static const latestTickProcessed = "/v1/latestTick";
+  static const lastProcessedTick = "/query/v1/getLastProcessedTick";
+  static const transactionByHash = "/query/v1/getTransactionByHash";
 
   static const latestStatsUrl = "/v1/latest-stats";
 
@@ -48,8 +47,7 @@ abstract class Config {
 
   static addressQubicBalance(String address) => "/v1/balances/$address";
   static addressAssetsBalance(String address) => "/v1/assets/$address/owned";
-  static addressTransfers(String address) =>
-      "/v2/identities/$address/transfers";
+  static const transactionsForIdentity = "/query/v1/getTransactionsForIdentity";
 
   static const assets = "/v1/assets/issuances";
 

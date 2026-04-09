@@ -2,7 +2,7 @@ import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/models/network_model.dart';
-import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/query/qubic_query_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
@@ -61,7 +61,7 @@ abstract class _NetworkStore with Store {
   }
 
   void _refreshServices() {
-    getIt<QubicArchiveApi>().updateDio();
+    getIt<QubicQueryApi>().updateDio();
     getIt<QubicLiveApi>().updateDio();
     getIt<QubicStatsApi>().updateDio();
     try {
