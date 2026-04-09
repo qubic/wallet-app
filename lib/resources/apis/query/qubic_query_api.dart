@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/query_transaction_dto.dart';
 import 'package:qubic_wallet/dtos/transactions_dto.dart';
-import 'package:qubic_wallet/helpers/encoding_helpers.dart';
+import 'package:qubic_wallet/helpers/format_helpers.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
