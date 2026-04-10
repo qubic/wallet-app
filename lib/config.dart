@@ -49,12 +49,15 @@ abstract class Config {
   // RPC API Endpoints — Live
   // ---------------------------------------------------------------------------
 
-  static const currentTick = "/v1/tick-info";
-  static const submitTransaction = "/v1/broadcast-transaction";
-  static addressQubicBalance(String address) => "/v1/balances/$address";
-  static addressAssetsBalance(String address) => "/v1/assets/$address/owned";
-  static const assets = "/v1/assets/issuances";
-  static const latestStatsUrl = "/v1/latest-stats";
+  static const liveApiPrefix = "/live/v1";
+  static const currentTick = "$liveApiPrefix/tick-info";
+  static const submitTransaction = "$liveApiPrefix/broadcast-transaction";
+  static addressQubicBalance(String address) =>
+      "$liveApiPrefix/balances/$address";
+  static addressAssetsBalance(String address) =>
+      "$liveApiPrefix/assets/$address/owned";
+  static const assets = "$liveApiPrefix/assets/issuances";
+  static const latestStatsUrl = "$liveApiPrefix/latest-stats";
 
   // ---------------------------------------------------------------------------
   // HTTP
