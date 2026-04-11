@@ -110,9 +110,8 @@ PODS:
     - nanopb/encode (= 2.30910.0)
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
-  - "no_screenshot (0.0.1+4)":
+  - no_screenshot (0.3.2-beta.3):
     - Flutter
-    - ScreenProtectorKit (~> 1.3.1)
   - OrderedSet (6.0.3)
   - package_info_plus (0.4.5):
     - Flutter
@@ -125,7 +124,6 @@ PODS:
   - safe_device (1.0.0):
     - DTTJailbreakDetection
     - Flutter
-  - ScreenProtectorKit (1.3.1)
   - SDWebImage (5.19.7):
     - SDWebImage/Core (= 5.19.7)
   - SDWebImage/Core (5.19.7)
@@ -183,7 +181,6 @@ SPEC REPOS:
     - nanopb
     - OrderedSet
     - PromisesObjC
-    - ScreenProtectorKit
     - SDWebImage
     - SwiftyGif
 
@@ -256,14 +253,13 @@ SPEC CHECKSUMS:
   MLKitVision: e858c5f125ecc288e4a31127928301eaba9ae0c1
   mobile_scanner: 92e8812bf22a8f84131e2a7f9d0f44dad1a4742b
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
-  no_screenshot: 6d183496405a3ab709a67a54e5cd0f639e94729e
+  no_screenshot: 5e345998c43ffcad5d6834f249590483fcc037bd
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
   privacy_screen: 3159a541f5d3a31bea916cfd4e58f9dc722b3fd4
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   safe_device: 2573e42a36900686b7bf02a87ac60c5c3a79a015
-  ScreenProtectorKit: 83a6281b02c7a5902ee6eac4f5045f674e902ae4
   SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
