@@ -5,7 +5,7 @@ import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/models/token_response.dart';
-import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
@@ -35,7 +35,7 @@ class QubicEcosystemStore = QubicEcosystemStoreBase with _$QubicEcosystemStore;
 
 abstract class QubicEcosystemStoreBase with Store {
   final QubicStaticApi _staticApi = getIt<QubicStaticApi>();
-  final QubicArchiveApi _archiveApi = getIt<QubicArchiveApi>();
+  final QubicLiveApi _liveApi = getIt<QubicLiveApi>();
 
   @observable
   List<SmartContractModel> smartContracts = [];
@@ -131,7 +131,7 @@ abstract class QubicEcosystemStoreBase with Store {
   @action
   Future<void> loadTokens() async {
     try {
-      final response = await _archiveApi.getTokens();
+      final response = await _liveApi.getTokens();
 
       tokens = response.assets;
       appLogger.i("Successfully loaded ${tokens.length} tokens");
