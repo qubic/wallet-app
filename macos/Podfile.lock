@@ -1,18 +1,15 @@
 PODS:
   - app_links (1.0.0):
     - FlutterMacOS
-  - Argon2Swift (1.0.4)
   - connectivity_plus (0.0.1):
-    - Flutter
     - FlutterMacOS
-  - dargon2_flutter_desktop (0.0.1):
-    - Argon2Swift
-    - FlutterMacOS
-  - downloadsfolder (0.0.1):
+  - cryptography_flutter (0.2.0):
     - FlutterMacOS
   - flutter_inappwebview_macos (0.0.1):
     - FlutterMacOS
     - OrderedSet (~> 6.0.3)
+  - flutter_is_ios_app_on_mac (0.0.1):
+    - FlutterMacOS
   - flutter_secure_storage_macos (6.1.1):
     - FlutterMacOS
   - FlutterMacOS (1.0.0)
@@ -20,6 +17,8 @@ PODS:
     - Flutter
     - FlutterMacOS
   - mobile_scanner (5.2.3):
+    - FlutterMacOS
+  - no_screenshot (0.3.2-beta.3):
     - FlutterMacOS
   - OrderedSet (6.0.3)
   - package_info_plus (0.0.1):
@@ -34,6 +33,9 @@ PODS:
   - shared_preferences_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
+  - sqflite_darwin (0.0.4):
+    - Flutter
+    - FlutterMacOS
   - url_launcher_macos (0.0.1):
     - FlutterMacOS
   - window_manager (0.2.0):
@@ -41,38 +43,39 @@ PODS:
 
 DEPENDENCIES:
   - app_links (from `Flutter/ephemeral/.symlinks/plugins/app_links/macos`)
-  - connectivity_plus (from `Flutter/ephemeral/.symlinks/plugins/connectivity_plus/darwin`)
-  - dargon2_flutter_desktop (from `Flutter/ephemeral/.symlinks/plugins/dargon2_flutter_desktop/macos`)
-  - downloadsfolder (from `Flutter/ephemeral/.symlinks/plugins/downloadsfolder/macos`)
+  - connectivity_plus (from `Flutter/ephemeral/.symlinks/plugins/connectivity_plus/macos`)
+  - cryptography_flutter (from `Flutter/ephemeral/.symlinks/plugins/cryptography_flutter/macos`)
   - flutter_inappwebview_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_inappwebview_macos/macos`)
+  - flutter_is_ios_app_on_mac (from `Flutter/ephemeral/.symlinks/plugins/flutter_is_ios_app_on_mac/macos`)
   - flutter_secure_storage_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_secure_storage_macos/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - local_auth_darwin (from `Flutter/ephemeral/.symlinks/plugins/local_auth_darwin/darwin`)
   - mobile_scanner (from `Flutter/ephemeral/.symlinks/plugins/mobile_scanner/macos`)
+  - no_screenshot (from `Flutter/ephemeral/.symlinks/plugins/no_screenshot/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - screen_retriever (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever/macos`)
   - share_plus (from `Flutter/ephemeral/.symlinks/plugins/share_plus/macos`)
   - shared_preferences_foundation (from `Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin`)
+  - sqflite_darwin (from `Flutter/ephemeral/.symlinks/plugins/sqflite_darwin/darwin`)
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
   - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
 
 SPEC REPOS:
   trunk:
-    - Argon2Swift
     - OrderedSet
 
 EXTERNAL SOURCES:
   app_links:
     :path: Flutter/ephemeral/.symlinks/plugins/app_links/macos
   connectivity_plus:
-    :path: Flutter/ephemeral/.symlinks/plugins/connectivity_plus/darwin
-  dargon2_flutter_desktop:
-    :path: Flutter/ephemeral/.symlinks/plugins/dargon2_flutter_desktop/macos
-  downloadsfolder:
-    :path: Flutter/ephemeral/.symlinks/plugins/downloadsfolder/macos
+    :path: Flutter/ephemeral/.symlinks/plugins/connectivity_plus/macos
+  cryptography_flutter:
+    :path: Flutter/ephemeral/.symlinks/plugins/cryptography_flutter/macos
   flutter_inappwebview_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_inappwebview_macos/macos
+  flutter_is_ios_app_on_mac:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_is_ios_app_on_mac/macos
   flutter_secure_storage_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_secure_storage_macos/macos
   FlutterMacOS:
@@ -81,6 +84,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/local_auth_darwin/darwin
   mobile_scanner:
     :path: Flutter/ephemeral/.symlinks/plugins/mobile_scanner/macos
+  no_screenshot:
+    :path: Flutter/ephemeral/.symlinks/plugins/no_screenshot/macos
   package_info_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
   path_provider_foundation:
@@ -91,30 +96,33 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/share_plus/macos
   shared_preferences_foundation:
     :path: Flutter/ephemeral/.symlinks/plugins/shared_preferences_foundation/darwin
+  sqflite_darwin:
+    :path: Flutter/ephemeral/.symlinks/plugins/sqflite_darwin/darwin
   url_launcher_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos
   window_manager:
     :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
 
 SPEC CHECKSUMS:
-  app_links: 10e0a0ab602ffaf34d142cd4862f29d34b303b2a
-  Argon2Swift: 295b8bde7ba61434f227f5610b8813c42e866f74
-  connectivity_plus: 18382e7311ba19efcaee94442b23b32507b20695
-  dargon2_flutter_desktop: 5c9ada7e2681da7dc95052e4fcc1e61ad17e27e1
-  downloadsfolder: f8c4d35588cc58b607898ebbbdbeb5c0e7f04a46
-  flutter_inappwebview_macos: bdf207b8f4ebd58e86ae06cd96b147de99a67c9b
-  flutter_secure_storage_macos: 59459653abe1adb92abbc8ea747d79f8d19866c9
+  app_links: 9028728e32c83a0831d9db8cf91c526d16cc5468
+  connectivity_plus: 4adf20a405e25b42b9c9f87feff8f4b6fde18a4e
+  cryptography_flutter: 33e8726fef117a6f306382f6fa34e173642cc64f
+  flutter_inappwebview_macos: c2d68649f9f8f1831bfcd98d73fd6256366d9d1d
+  flutter_is_ios_app_on_mac: b6861fc03b2c78baa75ad6122068f9dc8e8aada2
+  flutter_secure_storage_macos: b2d62a774c23b060f0b99d0173b0b36abb4a8632
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
-  local_auth_darwin: 66e40372f1c29f383a314c738c7446e2f7fdadc3
-  mobile_scanner: 0a05256215b047af27b9495db3b77640055e8824
+  local_auth_darwin: 553ce4f9b16d3fdfeafce9cf042e7c9f77c1c391
+  mobile_scanner: bd1e7cd9b67b442f4d903747f4778e040513f860
+  no_screenshot: 793cd7e1a158fa2d8be095473105d51e60583b66
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
-  package_info_plus: 12f1c5c2cfe8727ca46cbd0b26677728972d9a5b
-  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
-  screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38
-  share_plus: 1fa619de8392a4398bfaf176d441853922614e89
-  shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
-  url_launcher_macos: c82c93949963e55b228a30115bd219499a6fe404
-  window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
+  package_info_plus: f0052d280d17aa382b932f399edf32507174e870
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  screen_retriever: 4f97c103641aab8ce183fa5af3b87029df167936
+  share_plus: 510bf0af1a42cd602274b4629920c9649c52f4cc
+  shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
+  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
+  url_launcher_macos: 0fba8ddabfc33ce0a9afe7c5fef5aab3d8d2d673
+  window_manager: 1d01fa7ac65a6e6f83b965471b1a7fdd3f06166c
 
 PODFILE CHECKSUM: cd4de04520a2f183f35981be9c3a084d83c36222
 

@@ -188,7 +188,7 @@ abstract class _ApplicationStore with Store {
   List<QubicAssetDto> get totalShares {
     List<QubicAssetDto> shares = [];
     List<QubicAssetDto> tokens = [];
-    nonWatchOnlyAccounts.forEach((id) {
+    for (final id in nonWatchOnlyAccounts) {
       id.assets.forEach((key, asset) {
         QubicAssetDto temp = asset;
 
@@ -212,7 +212,7 @@ abstract class _ApplicationStore with Store {
           }
         }
       });
-    });
+    }
 
     List<QubicAssetDto> result = [];
     result.addAll(shares);

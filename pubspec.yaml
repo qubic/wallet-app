@@ -75,9 +75,10 @@ dependencies:
   safe_device: ^1.2.1
   flutter_is_ios_app_on_mac: ^1.0.1
   cryptography: ^2.7.0
-  no_screenshot: ^0.3.1
+  no_screenshot: ^0.3.6
   implicitly_animated_list: ^2.3.0
   cached_network_image: ^3.4.1
+  pub_semver: ^2.1.5
 
 dev_dependencies:
   flutter_test:

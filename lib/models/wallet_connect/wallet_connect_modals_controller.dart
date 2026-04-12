@@ -15,7 +15,6 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.da
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
-import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 
 // Provides a unified place to handle WalletConnect modals

@@ -57,7 +57,12 @@ abstract class Config {
   static addressAssetsBalance(String address) =>
       "$liveApiPrefix/assets/$address/owned";
   static const assets = "$liveApiPrefix/assets/issuances";
-  static const latestStatsUrl = "$liveApiPrefix/latest-stats";
+
+  // ---------------------------------------------------------------------------
+  // RPC API Endpoints — Stats
+  // ---------------------------------------------------------------------------
+
+  static const latestStatsUrl = "/v1/latest-stats";
 
   // ---------------------------------------------------------------------------
   // HTTP
