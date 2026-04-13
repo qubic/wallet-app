@@ -1,7 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:flutter/foundation.dart';
-import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/l10n/app_localizations.dart';
 import 'package:qubic_wallet/models/qubic_helper_config.dart';
 import 'package:qubic_wallet/stores/root_jailbreak_flag_store.dart';
 
