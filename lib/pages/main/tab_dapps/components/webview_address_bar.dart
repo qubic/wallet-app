@@ -12,6 +12,8 @@ import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum _MenuAction { refresh, favorite, removeFavorite, share, openInBrowser }
+
 class WebviewAddressBar extends StatefulWidget {
   const WebviewAddressBar({
     super.key,
@@ -171,17 +173,15 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
   }
 
 
-  PopupMenuItem<String> _getMenuItem({
-    required String value,
+  PopupMenuItem<_MenuAction> _getMenuItem({
+    required _MenuAction value,
     required String label,
     required IconData icon,
-    required VoidCallback onTap,
     Color? iconColor,
     Color? textColor,
   }) {
-    return PopupMenuItem<String>(
+    return PopupMenuItem<_MenuAction>(
       value: value,
-      onTap: onTap,
       child: Row(
         children: [
           Icon(icon, size: 18, color: iconColor ?? LightThemeColors.menuInactive),
@@ -215,7 +215,7 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
                   suffixIcon: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      PopupMenuButton<String>(
+                      PopupMenuButton<_MenuAction>(
                         icon: const Icon(
                           Icons.more_vert,
                           size: 15,
@@ -225,37 +225,45 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
+                        onSelected: (action) {
+                          switch (action) {
+                            case _MenuAction.refresh:
+                              _reloadPage(context);
+                            case _MenuAction.favorite:
+                            case _MenuAction.removeFavorite:
+                              _handleFavoriteAction(context);
+                            case _MenuAction.share:
+                              _shareCurrentUrl(context);
+                            case _MenuAction.openInBrowser:
+                              _openInBrowser(context);
+                          }
+                        },
                         itemBuilder: (context) => [
                           _getMenuItem(
-                            value: 'refresh',
+                            value: _MenuAction.refresh,
                             label: l10n.webviewAddressBarLabelRefresh,
-                            onTap: () => _reloadPage(context),
                             icon: Icons.refresh,
                           ),
                           if (!widget.hideFavorites && !_isFavorite)
                             _getMenuItem(
-                              value: 'favorite',
+                              value: _MenuAction.favorite,
                               label: l10n.addToFavorites,
-                              onTap: () => _handleFavoriteAction(context),
                               icon: Icons.star_border,
                             ),
                           _getMenuItem(
-                            value: 'share',
+                            value: _MenuAction.share,
                             label: l10n.webviewAddressBarLabelShareURL,
-                            onTap: () => _shareCurrentUrl(context),
                             icon: Icons.share,
                           ),
                           _getMenuItem(
-                            value: 'open_in_browser',
+                            value: _MenuAction.openInBrowser,
                             label: l10n.webviewAddressBarLabelOpenInBrowser,
-                            onTap: () => _openInBrowser(context),
                             icon: Icons.open_in_browser,
                           ),
                           if (!widget.hideFavorites && _isFavorite)
                             _getMenuItem(
-                              value: 'remove_favorite',
+                              value: _MenuAction.removeFavorite,
                               label: l10n.removeFavorite,
-                              onTap: () => _handleFavoriteAction(context),
                               icon: Icons.star,
                               iconColor: LightThemeColors.error,
                               textColor: LightThemeColors.error,
