@@ -105,8 +105,8 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
         ? (input.startsWith("http") ? input : "https://$input")
         : "https://www.google.com/search?q=${Uri.encodeComponent(input)}";
 
-    widget.webViewController?.loadUrl(
-        urlRequest: URLRequest(url: WebUri.uri(Uri.parse(url))));
+    widget.webViewController
+        ?.loadUrl(urlRequest: URLRequest(url: WebUri.uri(Uri.parse(url))));
   }
 
   Color _getButtonColor(bool isActive) {
@@ -125,7 +125,10 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
     if (widget.webViewController != null) {
       final url = await widget.webViewController!.getUrl();
       if (url != null) {
-        await Share.share(url.toString());
+        await Share.share(
+          url.toString(),
+          sharePositionOrigin: const Rect.fromLTWH(0, 0, 1, 1),
+        );
       }
     }
   }
@@ -170,7 +173,6 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
     }
   }
 
-
   PopupMenuItem<String> _getMenuItem({
     required String value,
     required String label,
@@ -184,9 +186,11 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
       onTap: onTap,
       child: Row(
         children: [
-          Icon(icon, size: 18, color: iconColor ?? LightThemeColors.menuInactive),
+          Icon(icon,
+              size: 18, color: iconColor ?? LightThemeColors.menuInactive),
           ThemedControls.spacerHorizontalSmall(),
-          Text(label, style: TextStyles.inputBoxSmallStyle.copyWith(color: textColor)),
+          Text(label,
+              style: TextStyles.inputBoxSmallStyle.copyWith(color: textColor)),
         ],
       ),
     );
@@ -207,7 +211,8 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
             child: TextField(
               controller: widget.urlController,
               onTap: () => widget.urlController.selection = TextSelection(
-                  baseOffset: 0, extentOffset: widget.urlController.value.text.length),
+                  baseOffset: 0,
+                  extentOffset: widget.urlController.value.text.length),
               keyboardType: TextInputType.url,
               style: TextStyles.inputBoxSmallStyle
                   .copyWith(fontSize: ThemeFontSizes.small),
