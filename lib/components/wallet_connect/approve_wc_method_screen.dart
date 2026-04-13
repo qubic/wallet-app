@@ -12,6 +12,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/send_transaction.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
+import 'package:qubic_wallet/l10n/app_localizations.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/wallet_connect/approval_data_model.dart';
