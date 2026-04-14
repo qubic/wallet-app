@@ -48,6 +48,8 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
     _onUrlChanged();
   }
 
+  final _menuButtonKey = GlobalKey();
+
   @override
   void dispose() {
     widget.urlChangeNotifier.removeListener(_onUrlChanged);
@@ -123,14 +125,19 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
     }
   }
 
+  Rect _getMenuButtonRect() {
+    final box = _menuButtonKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box != null) {
+      return box.localToGlobal(Offset.zero) & box.size;
+    }
+    return const Rect.fromLTWH(0, 0, 1, 1);
+  }
+
   void _shareCurrentUrl(BuildContext context) async {
     if (widget.webViewController != null) {
-      final box = context.findRenderObject() as RenderBox?;
-      final sharePositionOrigin = box != null
-          ? box.localToGlobal(Offset.zero) & box.size
-          : const Rect.fromLTWH(0, 0, 1, 1);
+      final sharePositionOrigin = _getMenuButtonRect();
       final url = await widget.webViewController!.getUrl();
-      if (url != null) {
+      if (url != null && mounted) {
         await Share.share(
           url.toString(),
           sharePositionOrigin: sharePositionOrigin,
@@ -179,7 +186,6 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
     }
   }
 
-
   PopupMenuItem<_MenuAction> _getMenuItem({
     required _MenuAction value,
     required String label,
@@ -226,6 +232,7 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       PopupMenuButton<_MenuAction>(
+                        key: _menuButtonKey,
                         icon: const Icon(
                           Icons.more_vert,
                           size: 15,
