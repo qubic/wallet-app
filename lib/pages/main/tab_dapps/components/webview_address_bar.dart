@@ -135,7 +135,10 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
 
   void _shareCurrentUrl(BuildContext context) async {
     if (widget.webViewController != null) {
-      final sharePositionOrigin = _getMenuButtonRect();
+      final box = context.findRenderObject() as RenderBox?;
+      final sharePositionOrigin = box != null
+          ? box.localToGlobal(Offset.zero) & box.size
+          : const Rect.fromLTWH(0, 0, 1, 1);
       final url = await widget.webViewController!.getUrl();
       if (url != null && mounted) {
         await Share.share(
