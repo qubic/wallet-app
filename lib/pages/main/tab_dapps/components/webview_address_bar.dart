@@ -48,6 +48,8 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
     _onUrlChanged();
   }
 
+  final _menuButtonKey = GlobalKey();
+
   @override
   void dispose() {
     widget.urlChangeNotifier.removeListener(_onUrlChanged);
@@ -107,8 +109,8 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
         ? (input.startsWith("http") ? input : "https://$input")
         : "https://www.google.com/search?q=${Uri.encodeComponent(input)}";
 
-    widget.webViewController?.loadUrl(
-        urlRequest: URLRequest(url: WebUri.uri(Uri.parse(url))));
+    widget.webViewController
+        ?.loadUrl(urlRequest: URLRequest(url: WebUri.uri(Uri.parse(url))));
   }
 
   Color _getButtonColor(bool isActive) {
@@ -123,11 +125,23 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
     }
   }
 
+  Rect _getMenuButtonRect() {
+    final box = _menuButtonKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box != null) {
+      return box.localToGlobal(Offset.zero) & box.size;
+    }
+    return const Rect.fromLTWH(0, 0, 1, 1);
+  }
+
   void _shareCurrentUrl(BuildContext context) async {
     if (widget.webViewController != null) {
+      final sharePositionOrigin = _getMenuButtonRect();
       final url = await widget.webViewController!.getUrl();
-      if (url != null) {
-        await Share.share(url.toString());
+      if (url != null && mounted) {
+        await Share.share(
+          url.toString(),
+          sharePositionOrigin: sharePositionOrigin,
+        );
       }
     }
   }
@@ -172,7 +186,6 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
     }
   }
 
-
   PopupMenuItem<_MenuAction> _getMenuItem({
     required _MenuAction value,
     required String label,
@@ -184,9 +197,11 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
       value: value,
       child: Row(
         children: [
-          Icon(icon, size: 18, color: iconColor ?? LightThemeColors.menuInactive),
+          Icon(icon,
+              size: 18, color: iconColor ?? LightThemeColors.menuInactive),
           ThemedControls.spacerHorizontalSmall(),
-          Text(label, style: TextStyles.inputBoxSmallStyle.copyWith(color: textColor)),
+          Text(label,
+              style: TextStyles.inputBoxSmallStyle.copyWith(color: textColor)),
         ],
       ),
     );
@@ -207,7 +222,8 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
             child: TextField(
               controller: widget.urlController,
               onTap: () => widget.urlController.selection = TextSelection(
-                  baseOffset: 0, extentOffset: widget.urlController.value.text.length),
+                  baseOffset: 0,
+                  extentOffset: widget.urlController.value.text.length),
               keyboardType: TextInputType.url,
               style: TextStyles.inputBoxSmallStyle
                   .copyWith(fontSize: ThemeFontSizes.small),
@@ -216,6 +232,7 @@ class _WebviewAddressBarState extends State<WebviewAddressBar> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       PopupMenuButton<_MenuAction>(
+                        key: _menuButtonKey,
                         icon: const Icon(
                           Icons.more_vert,
                           size: 15,

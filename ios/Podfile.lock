@@ -4,7 +4,7 @@ PODS:
   - Argon2Swift (1.0.4)
   - connectivity_plus (0.0.1):
     - Flutter
-  - cryptography_flutter (0.2.0):
+  - cryptography_flutter (0.0.1):
     - Flutter
   - DKImagePickerController/Core (4.3.9):
     - DKImagePickerController/ImageDataManager
@@ -118,8 +118,6 @@ PODS:
   - path_provider_foundation (0.0.1):
     - Flutter
     - FlutterMacOS
-  - privacy_screen (0.0.1):
-    - Flutter
   - PromisesObjC (2.4.0)
   - safe_device (1.0.0):
     - DTTJailbreakDetection
@@ -155,7 +153,6 @@ DEPENDENCIES:
   - no_screenshot (from `.symlinks/plugins/no_screenshot/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
-  - privacy_screen (from `.symlinks/plugins/privacy_screen/ios`)
   - safe_device (from `.symlinks/plugins/safe_device/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -213,8 +210,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
-  privacy_screen:
-    :path: ".symlinks/plugins/privacy_screen/ios"
   safe_device:
     :path: ".symlinks/plugins/safe_device/ios"
   share_plus:
@@ -230,12 +225,12 @@ SPEC CHECKSUMS:
   app_links: 3da4c36b46cac3bf24eb897f1a6ce80bda109874
   Argon2Swift: 295b8bde7ba61434f227f5610b8813c42e866f74
   connectivity_plus: cb623214f4e1f6ef8fe7403d580fdad517d2f7dd
-  cryptography_flutter: 70166b3780db39960caf51fd90fe308bec22d3f1
+  cryptography_flutter: 4868d92d3e47f91f0bc321e63e6fa0387f365f11
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
   DTTJailbreakDetection: 5e356c5badc17995f65a83ed9483f787a0057b71
   file_picker: 9b3292d7c8bc68c8a7bf8eb78f730e49c8efc517
-  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_is_ios_app_on_mac: 27b8bd88f3ddf4f9270353ee7d435a31b6c432f6
   flutter_native_splash: 6cad9122ea0fad137d23137dd14b937f3e90b145
@@ -257,7 +252,6 @@ SPEC CHECKSUMS:
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  privacy_screen: 3159a541f5d3a31bea916cfd4e58f9dc722b3fd4
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   safe_device: 2573e42a36900686b7bf02a87ac60c5c3a79a015
   SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
@@ -267,6 +261,6 @@ SPEC CHECKSUMS:
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
   url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
 
-PODFILE CHECKSUM: 4da5bac12b419425b339f61dbc09da297bd5309d
+PODFILE CHECKSUM: 1f4dabc595c9bbe45eeb272f9842a691d6f2e071
 
 COCOAPODS: 1.16.2

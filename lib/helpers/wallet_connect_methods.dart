@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:qubic_wallet/config.dart';
+import 'package:qubic_wallet/l10n/app_localizations.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';

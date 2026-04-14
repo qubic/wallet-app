@@ -6,6 +6,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/dapp_helpers.dart';
+import 'package:qubic_wallet/l10n/app_localizations.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_icon.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_list_tile.dart';
