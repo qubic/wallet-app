@@ -492,9 +492,12 @@ class _AccountListItemState extends State<AccountListItem> {
                                   currencyName: l10n.generalLabelCurrencyQubic,
                                 ),
                                 Text(
-                                    CurrencyHelpers.formatToUsdCurrency(
-                                        (widget.item.amount ?? 0) *
-                                            (_appStore.marketInfo?.price ?? 0)),
+                                    widget.item.amount == null
+                                        ? "—"
+                                        : CurrencyHelpers.formatToUsdCurrency(
+                                            widget.item.amount! *
+                                                (_appStore.marketInfo?.price ??
+                                                    0)),
                                     style: TextStyles.sliverSmall),
                                 if (widget.item.assets.isNotEmpty)
                                   ThemedControls.spacerVerticalSmall(),
