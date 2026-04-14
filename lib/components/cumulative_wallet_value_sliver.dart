@@ -100,7 +100,8 @@ class _CumulativeWalletValueSliverState
               child: Column(
                 children: [
                   Observer(builder: (context) {
-                    if (appStore.totalAmountsInUSD == -1) {
+                    if (appStore.totalAmountsInUSD == -1 &&
+                        appStore.hasBalancesBeenFetched) {
                       return Container();
                     }
                     return AnimatedCrossFade(
@@ -122,7 +123,8 @@ class _CumulativeWalletValueSliverState
                     );
                   }),
                   Observer(builder: (context) {
-                    if (appStore.totalAmountsInUSD == -1) {
+                    if (appStore.totalAmountsInUSD == -1 &&
+                        appStore.hasBalancesBeenFetched) {
                       return Container();
                     }
                     return AnimatedOpacity(
