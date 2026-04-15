@@ -15,14 +15,14 @@ class SignedMessageData {
 }
 
 /// Utility for converting between QubicSignResult format and the
-/// cross-compatible Angular wallet format.
+/// cross-compatible signed message format.
 ///
-/// Angular wallet format:
+/// Signed message format:
 /// ```json
 /// { "identity": "AAA...ZZZ", "message": "text", "signature": "AAA...PPP" }
 /// ```
-/// Where signature is 130 chars of shifted-hex (A-P alphabet) encoding
-/// 65 bytes: 64-byte Schnorrq signature + 1-byte K12 checksum.
+/// Where signature is 128 chars of shifted-hex (A-P alphabet) encoding
+/// 64 bytes (raw Schnorrq signature).
 class SignatureFormatHelper {
   static const int _codeUnitA = 65; // 'A'
 
@@ -61,13 +61,12 @@ class SignatureFormatHelper {
     return bytes;
   }
 
-  /// Build cross-compatible signed message JSON from raw signature bytes.
+  /// Build signed message JSON from raw signature bytes.
   ///
   /// [signatureBytes] must be exactly 64 bytes (raw Schnorrq signature).
-  /// This method computes a K12 checksum, appends it, and re-encodes
-  /// as shifted-hex.
+  /// Encodes as 128-char shifted-hex.
   ///
-  /// Returns a pretty-printed JSON string matching the Angular wallet format.
+  /// Returns a pretty-printed JSON string.
   static String buildSignedMessageJson({
     required String identity,
     required String message,
@@ -78,19 +77,7 @@ class SignatureFormatHelper {
           'Expected 64-byte signature, got ${signatureBytes.length}');
     }
 
-    // Compute 1-byte K12 checksum of the 64-byte signature
-    // NOTE: K12 hashing requires the qubic helper. For now, we use a
-    // simple checksum. During integration testing, verify this matches
-    // the Angular wallet's K12 output and replace if needed.
-    final checksum = _computeSimpleChecksum(signatureBytes);
-
-    // Build 65-byte array: 64 sig + 1 checksum
-    final sigWithChecksum = Uint8List(65);
-    sigWithChecksum.setAll(0, signatureBytes);
-    sigWithChecksum[64] = checksum;
-
-    // Encode as shifted-hex
-    final encodedSig = encodeShiftedHex(sigWithChecksum);
+    final encodedSig = encodeShiftedHex(signatureBytes);
 
     final result = {
       'identity': identity,
@@ -136,42 +123,8 @@ class SignatureFormatHelper {
     return RegExp(r'^[A-Z]{60}$').hasMatch(identity);
   }
 
-  /// Validate signature format: exactly 130 A-P characters (case-insensitive).
+  /// Validate signature format: exactly 128 A-P characters (case-insensitive).
   static bool isValidSignatureFormat(String signature) {
-    return RegExp(r'^[A-Pa-p]{130}$').hasMatch(signature);
-  }
-
-  /// Validate shifted-hex signature checksum.
-  ///
-  /// Decodes the 130-char signature to 65 bytes, then verifies that
-  /// byte 65 matches the K12 checksum of bytes 1-64.
-  /// Returns true if checksum is valid.
-  static bool validateSignatureChecksum(String signature) {
-    try {
-      final decoded = decodeShiftedHex(signature);
-      if (decoded.length != 65) return false;
-
-      final sigBytes = decoded.sublist(0, 64);
-      final checksum = decoded[64];
-
-      final expectedChecksum = _computeSimpleChecksum(sigBytes);
-      return checksum == expectedChecksum;
-    } catch (_) {
-      return false;
-    }
-  }
-
-  /// Simple checksum placeholder — XOR fold of all bytes.
-  ///
-  /// TODO: Replace with actual K12 hash once the Dart K12 dependency
-  /// is resolved (via qubic helper binary or Dart FFI).
-  /// The Angular wallet uses: K12(signature, checksumOut, 1)
-  /// which produces a 1-byte K12 digest of the 64-byte signature.
-  static int _computeSimpleChecksum(Uint8List bytes) {
-    int checksum = 0;
-    for (final b in bytes) {
-      checksum ^= b;
-    }
-    return checksum;
+    return RegExp(r'^[A-Pa-p]{128}$').hasMatch(signature);
   }
 }

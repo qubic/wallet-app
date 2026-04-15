@@ -95,18 +95,10 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
       return;
     }
 
-    // 5. Validate checksum
-    if (!SignatureFormatHelper.validateSignatureChecksum(parsed.signature)) {
-      if (!mounted) return;
-      setState(() => verifyError = l10n.signVerifyMessageErrorChecksum);
-      return;
-    }
-
-    // 6. Cryptographic verification
+    // 5. Cryptographic verification
     try {
-      // Decode shifted-hex to 65 bytes, take first 64 (signature without checksum)
-      final decoded = SignatureFormatHelper.decodeShiftedHex(parsed.signature);
-      final sigBytes = decoded.sublist(0, 64);
+      // Decode 128-char shifted-hex → 64-byte signature
+      final sigBytes = SignatureFormatHelper.decodeShiftedHex(parsed.signature);
       final signatureB64 = base64Encode(sigBytes);
 
       final isValid = await qubicCmd.verifySignedUTF8(
@@ -115,7 +107,8 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
       if (!mounted) return;
       setState(() => verifyResult =
           isValid ? _VerifyResult.valid : _VerifyResult.invalid);
-    } catch (_) {
+    } catch (e) {
+      debugPrint('Step 6: error = $e');
       if (!mounted) return;
       setState(() => verifyError = l10n.signVerifyMessageErrorSignature);
     }
