@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/signature_format_helper.dart';
@@ -82,6 +83,7 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
       if (!mounted) return;
       setState(() => signOutput = json);
     } catch (e) {
+      appLogger.e('signMessage failed: $e');
       if (!mounted) return;
       _globalSnackBar.show(l10n.signVerifyMessageErrorSign);
     } finally {

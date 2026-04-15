@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/signature_format_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
@@ -80,7 +81,8 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
         setState(() => verifyError = l10n.signVerifyMessageErrorIdentity);
         return;
       }
-    } catch (_) {
+    } catch (e) {
+      appLogger.e('verifyIdentity failed: $e');
       if (!mounted) return;
       setState(() => verifyError = l10n.signVerifyMessageErrorIdentity);
       return;
@@ -104,13 +106,14 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
       if (!mounted) return;
       setState(() => verifyResult =
           isValid ? _VerifyResult.valid : _VerifyResult.invalid);
-    } catch (_) {
+    } catch (e) {
+      appLogger.e('verifyMessage failed: $e');
       if (!mounted) return;
       setState(() => verifyError = l10n.signVerifyMessageErrorSignature);
     }
   }
 
-  Widget _buildResultBanner(String text, Color color) {
+  Widget _buildStatusBanner(String text, Color color) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(ThemePaddings.normalPadding),
@@ -172,6 +175,7 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                   hintText: l10n.signVerifyMessageVerifyInputPlaceholder,
                   suffixIcon: hasInput
                       ? IconButton(
+                          tooltip: l10n.generalButtonClear,
                           icon: const Icon(Icons.cancel, size: 20),
                           color: LightThemeColors.grey50,
                           onPressed: () {
@@ -202,17 +206,17 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
               // Result banner
               if (verifyResult == _VerifyResult.valid) ...[
                 ThemedControls.spacerVerticalNormal(),
-                _buildResultBanner(l10n.signVerifyMessageResultValid,
+                _buildStatusBanner(l10n.signVerifyMessageResultValid,
                     LightThemeColors.successIncoming),
               ],
               if (verifyResult == _VerifyResult.invalid) ...[
                 ThemedControls.spacerVerticalNormal(),
-                _buildResultBanner(l10n.signVerifyMessageResultInvalid,
+                _buildStatusBanner(l10n.signVerifyMessageResultInvalid,
                     LightThemeColors.error),
               ],
               if (verifyError.isNotEmpty) ...[
                 ThemedControls.spacerVerticalNormal(),
-                _buildResultBanner(verifyError, LightThemeColors.error),
+                _buildStatusBanner(verifyError, LightThemeColors.error),
               ],
             ],
           ),

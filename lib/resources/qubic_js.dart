@@ -377,13 +377,20 @@ class QubicJs {
         await runFunction(QubicJSFunctions.signMessage, [seed, utf8Text]);
 
     if (result == null) {
-      throw Exception('Failed to sign message');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureGeneric);
     }
     if (result.error != null) {
-      throw Exception('Failed to sign message: ${result.error}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(result.error ?? ""));
     }
     final Map<String, dynamic> data = json.decode(result.value);
-    return data['signature'] as String;
+    final signature = data['signature'];
+    if (signature is! String) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignatureEmpty);
+    }
+    return signature;
   }
 
   Future<bool> verifyMessage(

@@ -25,6 +25,8 @@ class SignedMessageData {
 /// 64 bytes (raw Schnorrq signature).
 class SignatureFormatHelper {
   static const int _codeUnitA = 65; // 'A'
+  static final RegExp _identityRe = RegExp(r'^[A-Z]{60}$');
+  static final RegExp _signatureRe = RegExp(r'^[A-Pa-p]{128}$');
 
   /// Encode bytes to shifted-hex (A-P alphabet).
   ///
@@ -41,7 +43,7 @@ class SignatureFormatHelper {
 
   /// Decode shifted-hex string (A-P alphabet) to bytes.
   ///
-  /// Input must be uppercase A-P characters with even length.
+  /// Input must be A-P characters (case-insensitive) with even length.
   /// Throws [FormatException] on invalid input.
   static Uint8List decodeShiftedHex(String encoded) {
     final upper = encoded.toUpperCase();
@@ -119,12 +121,10 @@ class SignatureFormatHelper {
   }
 
   /// Validate identity format: exactly 60 uppercase A-Z characters.
-  static bool isValidIdentityFormat(String identity) {
-    return RegExp(r'^[A-Z]{60}$').hasMatch(identity);
-  }
+  static bool isValidIdentityFormat(String identity) =>
+      _identityRe.hasMatch(identity);
 
   /// Validate signature format: exactly 128 A-P characters (case-insensitive).
-  static bool isValidSignatureFormat(String signature) {
-    return RegExp(r'^[A-Pa-p]{128}$').hasMatch(signature);
-  }
+  static bool isValidSignatureFormat(String signature) =>
+      _signatureRe.hasMatch(signature);
 }

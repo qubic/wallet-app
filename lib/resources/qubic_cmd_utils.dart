@@ -622,20 +622,28 @@ class QubicCmdUtils {
     try {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
-      throw Exception('Failed to sign message');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureGeneric);
     }
     QubicCmdResponse response;
     try {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
-      throw Exception('Failed to sign message: ${e.toString()}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(e.toString()));
     }
 
     if (!response.status) {
-      throw Exception(response.error ?? 'Failed to sign message');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(response.error ?? ""));
     }
 
-    return parsedJson['signature'] as String;
+    if (response.signature == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignatureEmpty);
+    }
+
+    return response.signature!;
   }
 
   Future<bool> verifyMessage(
