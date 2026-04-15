@@ -136,8 +136,7 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                     onPressed: () async {
                       final clipboardData =
                           await Clipboard.getData(Clipboard.kTextPlain);
-                      if (clipboardData != null &&
-                          clipboardData.text != null) {
+                      if (clipboardData != null && clipboardData.text != null) {
                         _verifyInputController.text = clipboardData.text!;
                       }
                     },
@@ -152,6 +151,16 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                 minLines: 6,
                 decoration: ThemeInputDecorations.bigInputbox.copyWith(
                   hintText: l10n.signVerifyMessageVerifyInputPlaceholder,
+                  suffixIcon: _verifyInputController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.cancel, size: 20),
+                          color: LightThemeColors.grey50,
+                          onPressed: () {
+                            _verifyInputController.clear();
+                            setState(() {});
+                          },
+                        )
+                      : null,
                 ),
               ),
 

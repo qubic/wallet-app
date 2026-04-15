@@ -113,7 +113,7 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Header — same pattern as Send screen
+              // Header
               ThemedControls.pageHeader(
                 headerText: l10n.signVerifyMessageSignButton,
                 subheaderText: l10n.transferAssetSubHeader(widget.item.name),
@@ -129,6 +129,16 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
                 maxLines: 3,
                 decoration: ThemeInputDecorations.bigInputbox.copyWith(
                   hintText: l10n.signVerifyMessageEnterMessage,
+                  suffixIcon: _messageController.text.isNotEmpty
+                      ? IconButton(
+                          icon: const Icon(Icons.cancel, size: 20),
+                          color: LightThemeColors.grey50,
+                          onPressed: () {
+                            _messageController.clear();
+                            setState(() {});
+                          },
+                        )
+                      : null,
                 ),
               ),
 
