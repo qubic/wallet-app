@@ -372,6 +372,22 @@ class QubicJs {
     return QubicSignResult.fromJson(data);
   }
 
+  Future<bool> verifySignedUTF8(
+      String identity, String utf8Text, String signatureB64) async {
+    CallAsyncJavaScriptResult? result = await runFunction(
+        QubicJSFunctions.verifySignedUTF8,
+        [identity, utf8Text, signatureB64]);
+
+    if (result == null) {
+      throw Exception('Failed to verify signature');
+    }
+    if (result.error != null) {
+      throw Exception('Failed to verify signature: ${result.error}');
+    }
+    final Map<String, dynamic> data = json.decode(result.value);
+    return data['isValid'] == true;
+  }
+
   Future<List<QubicImportVaultSeed>> importVault(
       String password, String baseFileContents) async {
     List<QubicImportVaultSeed>? seeds;

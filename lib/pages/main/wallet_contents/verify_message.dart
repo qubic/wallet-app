@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qubic_wallet/di.dart';
@@ -101,10 +103,22 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
     }
 
     // 6. Cryptographic verification
-    // TODO: Implement actual Schnorrq verification once the qubic helper
-    // exposes a verify command. For now, format/checksum checks pass.
-    if (!mounted) return;
-    setState(() => verifyResult = _VerifyResult.valid);
+    try {
+      // Decode shifted-hex to 65 bytes, take first 64 (signature without checksum)
+      final decoded = SignatureFormatHelper.decodeShiftedHex(parsed.signature);
+      final sigBytes = decoded.sublist(0, 64);
+      final signatureB64 = base64Encode(sigBytes);
+
+      final isValid = await qubicCmd.verifySignedUTF8(
+          parsed.identity, parsed.message, signatureB64);
+
+      if (!mounted) return;
+      setState(() => verifyResult =
+          isValid ? _VerifyResult.valid : _VerifyResult.invalid);
+    } catch (_) {
+      if (!mounted) return;
+      setState(() => verifyError = l10n.signVerifyMessageErrorSignature);
+    }
   }
 
   @override

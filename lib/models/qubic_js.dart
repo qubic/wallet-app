@@ -26,6 +26,9 @@ abstract class QubicJSFunctions {
 // Creates signed from UTF-8 data
   static const signUTF8 = "createSigned.fromUTF8";
 
+  // Verifies a signed UTF-8 message against a public identity
+  static const verifySignedUTF8 = "verifySigned.fromUTF8";
+
   // Imports a vault from a string
   static const importVault = "wallet.importVault";
 

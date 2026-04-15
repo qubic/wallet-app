@@ -607,4 +607,36 @@ class QubicCmdUtils {
 
     return QubicSignResult.fromCMDResponse(response);
   }
+
+  Future<bool> verifySignedUTF8(
+      String identity, String utf8Text, String signatureB64) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          QubicJSFunctions.verifySignedUTF8,
+          identity,
+          utf8Text,
+          signatureB64,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception('Failed to verify signature');
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception('Failed to verify signature: ${e.toString()}');
+    }
+
+    if (!response.status) {
+      throw Exception(response.error ?? 'Failed to verify signature');
+    }
+
+    return response.isValid == true;
+  }
 }

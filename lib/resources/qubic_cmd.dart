@@ -183,6 +183,16 @@ class QubicCmd {
     }
   }
 
+  Future<bool> verifySignedUTF8(
+      String identity, String utf8Text, String signatureB64) async {
+    if (useJs) {
+      return await qubicJs.verifySignedUTF8(identity, utf8Text, signatureB64);
+    } else {
+      return await qubicCmdUtils.verifySignedUTF8(
+          identity, utf8Text, signatureB64);
+    }
+  }
+
   Future<List<int>> publicKeyStringToBytes(String publicKeyString) async {
     if (useJs) {
       return await qubicJs.publicKeyStringToBytes(publicKeyString);
