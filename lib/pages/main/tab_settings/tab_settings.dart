@@ -18,6 +18,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/settings/networks/networ
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/support/support_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/terms_of_use_screen.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/settings/wallet_connect/wallet_connect.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/verify_message.dart';
 import 'package:qubic_wallet/services/biometric_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -159,6 +160,15 @@ class _TabSettingsState extends State<TabSettings> {
                                 ),
                                 title: settingsUnlockLabel,
                                 path: const ManageBiometrics(),
+                              ),
+                              SettingsListTile(
+                                prefix: Icon(
+                                  Icons.draw_outlined,
+                                  size: defaultIconHeight,
+                                  color: LightThemeColors.textColorSecondary,
+                                ),
+                                title: l10n.signVerifyMessageSettingsLabel,
+                                path: const VerifyMessageScreen(),
                               ),
                               SettingsListTile(
                                   prefix: SvgPicture.asset(
