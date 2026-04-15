@@ -113,7 +113,7 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text(l10n.signVerifyMessageTabVerify,
+        title: Text(l10n.signVerifyMessageVerifyTitle,
             style: TextStyles.textExtraLargeBold),
         centerTitle: true,
       ),
@@ -125,7 +125,6 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Label + Paste button
-              ThemedControls.spacerVerticalSmall(),
               Row(
                 children: [
                   Expanded(

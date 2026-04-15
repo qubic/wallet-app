@@ -115,7 +115,7 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
             children: [
               // Header
               ThemedControls.pageHeader(
-                headerText: l10n.signVerifyMessageSignButton,
+                headerText: l10n.signVerifyMessageSignTitle,
                 subheaderText: l10n.transferAssetSubHeader(widget.item.name),
               ),
               ThemedControls.spacerVerticalSmall(),

@@ -952,8 +952,10 @@
     "signVerifyMessageSelectAccount": "Select account",
     "signVerifyMessageEnterMessage": "Enter message to sign",
     "signVerifyMessageMessageLabel": "Message",
-    "signVerifyMessageSignButton": "Sign Message",
-    "signVerifyMessageVerifyButton": "Verify Signature",
+    "signVerifyMessageSignTitle": "Sign Message",
+    "signVerifyMessageSignButton": "Sign",
+    "signVerifyMessageVerifyTitle": "Verify Message",
+    "signVerifyMessageVerifyButton": "Verify",
     "signVerifyMessageOutputLabel": "Signed output (JSON)",
     "signVerifyMessageVerifyInputLabel": "Signed message (JSON)",
     "signVerifyMessageVerifyInputPlaceholder": "Paste JSON with identity, message, and signature fields",
@@ -965,5 +967,5 @@
     "signVerifyMessageErrorChecksum": "Signature checksum verification failed.",
     "signVerifyMessageErrorSign": "Failed to sign message. Please try again.",
     "signVerifyMessageSettingsLabel": "Sign / Verify Message",
-    "signVerifyMessageAccountMenu": "Sign a message"
+    "signVerifyMessageAccountMenu": "Sign Message"
 }
