@@ -101,7 +101,7 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
       final sigBytes = SignatureFormatHelper.decodeShiftedHex(parsed.signature);
       final signatureB64 = base64Encode(sigBytes);
 
-      final isValid = await qubicCmd.verifySignedUTF8(
+      final isValid = await qubicCmd.verifyMessage(
           parsed.identity, parsed.message, signatureB64);
 
       if (!mounted) return;

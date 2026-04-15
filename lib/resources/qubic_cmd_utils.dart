@@ -608,13 +608,43 @@ class QubicCmdUtils {
     return QubicSignResult.fromCMDResponse(response);
   }
 
-  Future<bool> verifySignedUTF8(
+  Future<String> signMessage(String seed, String utf8Text) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          QubicJSFunctions.signMessage,
+          seed,
+          utf8Text,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception('Failed to sign message');
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception('Failed to sign message: ${e.toString()}');
+    }
+
+    if (!response.status) {
+      throw Exception(response.error ?? 'Failed to sign message');
+    }
+
+    return parsedJson['signature'] as String;
+  }
+
+  Future<bool> verifyMessage(
       String identity, String utf8Text, String signatureB64) async {
     await validateFileStreamSignature();
     final p = await Process.run(
         await _getHelperFileFullPath(),
         [
-          QubicJSFunctions.verifySignedUTF8,
+          QubicJSFunctions.verifyMessage,
           identity,
           utf8Text,
           signatureB64,

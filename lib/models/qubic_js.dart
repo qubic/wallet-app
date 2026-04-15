@@ -26,8 +26,12 @@ abstract class QubicJSFunctions {
 // Creates signed from UTF-8 data
   static const signUTF8 = "createSigned.fromUTF8";
 
-  // Verifies a signed UTF-8 message against a public identity
-  static const verifySignedUTF8 = "verifySigned.fromUTF8";
+  // Signs a user-facing UTF-8 message (raw, no prefix, no pre-hashing).
+  // Compatible with the web wallet and Qubic Toolkit.
+  static const signMessage = "signMessage";
+
+  // Verifies a user-facing UTF-8 message signature (raw, no prefix).
+  static const verifyMessage = "verifyMessage";
 
   // Imports a vault from a string
   static const importVault = "wallet.importVault";

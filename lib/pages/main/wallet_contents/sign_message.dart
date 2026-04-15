@@ -73,13 +73,15 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
     try {
       final seed = await appStore.getSeedByPublicId(widget.item.publicId);
 
-      // signUTF8 prepends "Qubic Signed Message:\n" before signing
-      // (security measure matching Ethereum's pattern to prevent
-      // malicious dApps from tricking users into signing raw transactions)
-      final signResult = await qubicCmd.signUTF8(seed, _messageController.text);
+      // signMessage signs the raw UTF-8 bytes directly (no prefix),
+      // producing signatures compatible with the web wallet and Qubic Toolkit.
+      // This is distinct from signUTF8 which is reserved for WalletConnect
+      // and prepends "Qubic Signed Message:\n" as a security measure.
+      final signatureB64 =
+          await qubicCmd.signMessage(seed, _messageController.text);
 
-      // signResult.signature is base64-encoded 64-byte Schnorrq signature
-      final rawSigBytes = base64Decode(signResult.signature);
+      // signature is base64-encoded 64-byte Schnorrq signature
+      final rawSigBytes = base64Decode(signatureB64);
 
       final json = SignatureFormatHelper.buildSignedMessageJson(
         identity: widget.item.publicId,
