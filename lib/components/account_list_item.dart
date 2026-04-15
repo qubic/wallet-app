@@ -19,6 +19,7 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/assets.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/receive.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/sign_message.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_warning_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
@@ -31,7 +32,7 @@ import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
-enum CardItem { delete, rename, reveal, viewTransactions, viewInExplorer }
+enum CardItem { delete, rename, reveal, viewTransactions, viewInExplorer, signMessage }
 
 class AccountListItem extends StatefulWidget {
   final QubicListVm item;
@@ -224,6 +225,15 @@ class _AccountListItemState extends State<AccountListItem> {
                 pushToTransactionsScreen();
               }
 
+              if (menuItem == CardItem.signMessage) {
+                pushScreen(
+                  context,
+                  screen: SignMessageScreen(item: widget.item),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              }
+
               if (menuItem == CardItem.reveal) {
                 if (getIt<RootJailbreakFlagStore>()
                     .restrictFeatureIfDeviceCompromised()) {
@@ -275,6 +285,11 @@ class _AccountListItemState extends State<AccountListItem> {
                     PopupMenuItem<CardItem>(
                       value: CardItem.reveal,
                       child: Text(l10n.accountButtonRevealPrivateSeed),
+                    ),
+                  if (!isItemWatchOnly())
+                    PopupMenuItem<CardItem>(
+                      value: CardItem.signMessage,
+                      child: Text(l10n.signVerifyMessageAccountMenu),
                     ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.rename,
