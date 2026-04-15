@@ -43,10 +43,8 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
 
   void _onInputChanged() {
     setState(() {
-      if (verifyResult != _VerifyResult.none || verifyError.isNotEmpty) {
-        verifyResult = _VerifyResult.none;
-        verifyError = '';
-      }
+      verifyResult = _VerifyResult.none;
+      verifyError = '';
     });
   }
 
@@ -68,13 +66,13 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
       return;
     }
 
-    // 2. Validate identity format
+    // 2. Validate identity format (fast regex pre-check)
     if (!SignatureFormatHelper.isValidIdentityFormat(parsed.identity)) {
       setState(() => verifyError = l10n.signVerifyMessageErrorIdentity);
       return;
     }
 
-    // 3. Verify identity with qubic helper
+    // 3. Verify identity with qubic helper (full checksum validation)
     try {
       final isValidId = await qubicCmd.verifyIdentity(parsed.identity);
       if (!isValidId) {
@@ -97,7 +95,6 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
 
     // 5. Cryptographic verification
     try {
-      // Decode 128-char shifted-hex → 64-byte signature
       final sigBytes = SignatureFormatHelper.decodeShiftedHex(parsed.signature);
       final signatureB64 = base64Encode(sigBytes);
 
@@ -107,16 +104,32 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
       if (!mounted) return;
       setState(() => verifyResult =
           isValid ? _VerifyResult.valid : _VerifyResult.invalid);
-    } catch (e) {
-      debugPrint('Step 6: error = $e');
+    } catch (_) {
       if (!mounted) return;
       setState(() => verifyError = l10n.signVerifyMessageErrorSignature);
     }
   }
 
+  Widget _buildResultBanner(String text, Color color) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(ThemePaddings.normalPadding),
+      decoration: BoxDecoration(
+        color: color.withAlpha(40),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        text,
+        style: TextStyles.labelTextNormal.copyWith(color: color),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = l10nOf(context);
+    final hasInput = _verifyInputController.text.isNotEmpty;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -142,8 +155,8 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                     onPressed: () async {
                       final clipboardData =
                           await Clipboard.getData(Clipboard.kTextPlain);
-                      if (clipboardData != null && clipboardData.text != null) {
-                        _verifyInputController.text = clipboardData.text!;
+                      if (clipboardData?.text != null) {
+                        _verifyInputController.text = clipboardData!.text!;
                       }
                     },
                     text: l10n.generalButtonPaste,
@@ -157,7 +170,7 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                 minLines: 6,
                 decoration: ThemeInputDecorations.bigInputbox.copyWith(
                   hintText: l10n.signVerifyMessageVerifyInputPlaceholder,
-                  suffixIcon: _verifyInputController.text.isNotEmpty
+                  suffixIcon: hasInput
                       ? IconButton(
                           icon: const Icon(Icons.cancel, size: 20),
                           color: LightThemeColors.grey50,
@@ -175,7 +188,7 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  _verifyInputController.text.isNotEmpty
+                  hasInput
                       ? ThemedControls.primaryButtonBig(
                           text: l10n.signVerifyMessageVerifyButton,
                           onPressed: _onVerify,
@@ -186,61 +199,20 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                 ],
               ),
 
-              // Result banner — Valid
+              // Result banner
               if (verifyResult == _VerifyResult.valid) ...[
                 ThemedControls.spacerVerticalNormal(),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-                  decoration: BoxDecoration(
-                    color: LightThemeColors.successIncoming.withAlpha(40),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    l10n.signVerifyMessageResultValid,
-                    style: TextStyles.labelTextNormal
-                        .copyWith(color: LightThemeColors.successIncoming),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                _buildResultBanner(l10n.signVerifyMessageResultValid,
+                    LightThemeColors.successIncoming),
               ],
-
-              // Result banner — Invalid
               if (verifyResult == _VerifyResult.invalid) ...[
                 ThemedControls.spacerVerticalNormal(),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-                  decoration: BoxDecoration(
-                    color: LightThemeColors.error.withAlpha(40),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    l10n.signVerifyMessageResultInvalid,
-                    style: TextStyles.labelTextNormal
-                        .copyWith(color: LightThemeColors.error),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                _buildResultBanner(l10n.signVerifyMessageResultInvalid,
+                    LightThemeColors.error),
               ],
-
-              // Error message
               if (verifyError.isNotEmpty) ...[
                 ThemedControls.spacerVerticalNormal(),
-                Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(ThemePaddings.normalPadding),
-                  decoration: BoxDecoration(
-                    color: LightThemeColors.error.withAlpha(40),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    verifyError,
-                    style: TextStyles.labelTextNormal
-                        .copyWith(color: LightThemeColors.error),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+                _buildResultBanner(verifyError, LightThemeColors.error),
               ],
             ],
           ),

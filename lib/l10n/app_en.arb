@@ -996,10 +996,6 @@
     "settingsDappBrowserClearCacheConfirmTitle": "Clear Browser Cache?",
     "settingsDappBrowserClearCacheConfirmMessage": "This will clear cookies, cache, and browsing data for the dApp browser. You may be logged out of dApps.",
     "settingsDappBrowserCacheCleared": "Browser cache cleared",
-    "signVerifyMessageTitle": "Sign / Verify Message",
-    "signVerifyMessageTabSign": "Sign",
-    "signVerifyMessageTabVerify": "Verify",
-    "signVerifyMessageSelectAccount": "Select account",
     "signVerifyMessageEnterMessage": "Enter message to sign",
     "signVerifyMessageMessageLabel": "Message",
     "signVerifyMessageSignTitle": "Sign Message",
@@ -1014,7 +1010,6 @@
     "signVerifyMessageErrorParse": "Invalid JSON format. Expected JSON with identity, message, and signature fields",
     "signVerifyMessageErrorIdentity": "Invalid identity format. Expected 60 uppercase A-Z characters.",
     "signVerifyMessageErrorSignature": "Invalid signature format.",
-    "signVerifyMessageErrorChecksum": "Signature checksum verification failed.",
     "signVerifyMessageErrorSign": "Failed to sign message. Please try again.",
     "signVerifyMessageSettingsLabel": "Sign / Verify Message",
     "signVerifyMessageAccountMenu": "Sign Message"

@@ -883,10 +883,6 @@
     "settingsDappBrowserClearCacheConfirmTitle": "清除浏览器缓存？",
     "settingsDappBrowserClearCacheConfirmMessage": "这将清除 dApp 浏览器的 Cookie、缓存和浏览数据。您可能会从 dApp 中登出。",
     "settingsDappBrowserCacheCleared": "浏览器缓存已清除",
-    "signVerifyMessageTitle": "Sign / Verify Message",
-    "signVerifyMessageTabSign": "Sign",
-    "signVerifyMessageTabVerify": "Verify",
-    "signVerifyMessageSelectAccount": "Select account",
     "signVerifyMessageEnterMessage": "Enter message to sign",
     "signVerifyMessageMessageLabel": "Message",
     "signVerifyMessageSignTitle": "Sign Message",
@@ -901,7 +897,6 @@
     "signVerifyMessageErrorParse": "Invalid JSON format. Expected object with identity, message, and signature",
     "signVerifyMessageErrorIdentity": "Invalid identity format. Expected 60 uppercase A-Z characters.",
     "signVerifyMessageErrorSignature": "Invalid signature format.",
-    "signVerifyMessageErrorChecksum": "Signature checksum verification failed.",
     "signVerifyMessageErrorSign": "Failed to sign message. Please try again.",
     "signVerifyMessageSettingsLabel": "Sign / Verify Message",
     "signVerifyMessageAccountMenu": "Sign Message"

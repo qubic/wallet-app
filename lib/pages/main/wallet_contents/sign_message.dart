@@ -47,13 +47,7 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
     super.dispose();
   }
 
-  void _onFormChanged() {
-    setState(() {
-      if (signOutput.isNotEmpty) {
-        signOutput = '';
-      }
-    });
-  }
+  void _onFormChanged() => setState(() => signOutput = '');
 
   bool get _canSign => _messageController.text.isNotEmpty && !isSigning;
 
