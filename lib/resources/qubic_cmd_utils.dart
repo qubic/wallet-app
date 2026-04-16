@@ -646,6 +646,36 @@ class QubicCmdUtils {
     return response.signature!;
   }
 
+  Future<int> computeK12Checksum(String dataB64) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          QubicJSFunctions.computeK12Checksum,
+          dataB64,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureGeneric);
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception('Failed to compute K12 checksum: ${e.toString()}');
+    }
+    if (!response.status) {
+      throw Exception(response.error ?? 'Failed to compute K12 checksum');
+    }
+    final checksumB64 = parsedJson['checksum'] as String;
+    final checksumBytes = base64Decode(checksumB64);
+    return checksumBytes[0];
+  }
+
   Future<bool> verifyMessage(
       String identity, String utf8Text, String signatureB64) async {
     await validateFileStreamSignature();

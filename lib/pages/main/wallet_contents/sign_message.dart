@@ -74,10 +74,14 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
       // signature is base64-encoded 64-byte Schnorrq signature
       final rawSigBytes = base64Decode(signatureB64);
 
+      // Compute 1-byte K12 checksum (required by Qubic signature format)
+      final k12Checksum = await qubicCmd.computeK12Checksum(signatureB64);
+
       final json = SignatureFormatHelper.buildSignedMessageJson(
         identity: widget.item.publicId,
         message: _messageController.text,
         signatureBytes: rawSigBytes,
+        k12Checksum: k12Checksum,
       );
 
       if (!mounted) return;

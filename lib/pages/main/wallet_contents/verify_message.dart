@@ -97,7 +97,9 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
 
     // 5. Cryptographic verification
     try {
-      final sigBytes = SignatureFormatHelper.decodeShiftedHex(parsed.signature);
+      // Decode 130-char shifted-hex → 65 bytes, strip K12 checksum byte
+      final decoded = SignatureFormatHelper.decodeShiftedHex(parsed.signature);
+      final sigBytes = decoded.sublist(0, 64);
       final signatureB64 = base64Encode(sigBytes);
 
       final isValid = await qubicCmd.verifyMessage(

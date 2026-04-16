@@ -393,6 +393,21 @@ class QubicJs {
     return signature;
   }
 
+  Future<int> computeK12Checksum(String dataB64) async {
+    CallAsyncJavaScriptResult? result = await runFunction(
+        QubicJSFunctions.computeK12Checksum, [dataB64]);
+
+    if (result == null) {
+      throw Exception('Failed to compute K12 checksum');
+    }
+    if (result.error != null) {
+      throw Exception('Failed to compute K12 checksum: ${result.error}');
+    }
+    final Map<String, dynamic> data = json.decode(result.value);
+    final checksumBytes = base64Decode(data['checksum']);
+    return checksumBytes[0];
+  }
+
   Future<bool> verifyMessage(
       String identity, String utf8Text, String signatureB64) async {
     CallAsyncJavaScriptResult? result = await runFunction(

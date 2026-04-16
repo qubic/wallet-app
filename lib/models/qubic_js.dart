@@ -33,6 +33,9 @@ abstract class QubicJSFunctions {
   // Verifies a user-facing UTF-8 message signature (raw, no prefix).
   static const verifyMessage = "verifyMessage";
 
+  // Computes a 1-byte K12 checksum of data
+  static const computeK12Checksum = "computeK12Checksum";
+
   // Imports a vault from a string
   static const importVault = "wallet.importVault";
 

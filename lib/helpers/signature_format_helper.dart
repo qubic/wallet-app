@@ -21,12 +21,12 @@ class SignedMessageData {
 /// ```json
 /// { "identity": "AAA...ZZZ", "message": "text", "signature": "AAA...PPP" }
 /// ```
-/// Where signature is 128 chars of shifted-hex (A-P alphabet) encoding
-/// 64 bytes (raw Schnorrq signature).
+/// Where signature is 130 chars of shifted-hex (A-P alphabet) encoding
+/// 65 bytes: 64-byte Schnorrq signature + 1-byte K12 checksum.
 class SignatureFormatHelper {
   static const int _codeUnitA = 65; // 'A'
   static final RegExp _identityRe = RegExp(r'^[A-Z]{60}$');
-  static final RegExp _signatureRe = RegExp(r'^[A-Pa-p]{128}$');
+  static final RegExp _signatureRe = RegExp(r'^[A-Pa-p]{130}$');
 
   /// Encode bytes to shifted-hex (A-P alphabet).
   ///
@@ -63,23 +63,32 @@ class SignatureFormatHelper {
     return bytes;
   }
 
-  /// Build signed message JSON from raw signature bytes.
+  /// Build signed message JSON from raw signature bytes + K12 checksum.
   ///
   /// [signatureBytes] must be exactly 64 bytes (raw Schnorrq signature).
-  /// Encodes as 128-char shifted-hex.
+  /// [k12Checksum] is the 1-byte K12 checksum of the signature.
+  /// Appends the checksum byte (65 bytes total) and encodes as 130-char
+  /// shifted-hex, matching the Qubic.NET Wallet and Toolkit format.
   ///
   /// Returns a pretty-printed JSON string.
   static String buildSignedMessageJson({
     required String identity,
     required String message,
     required Uint8List signatureBytes,
+    required int k12Checksum,
   }) {
     if (signatureBytes.length != 64) {
       throw ArgumentError(
           'Expected 64-byte signature, got ${signatureBytes.length}');
     }
 
-    final encodedSig = encodeShiftedHex(signatureBytes);
+    // Build 65-byte array: 64 sig + 1 K12 checksum
+    final sigWithChecksum = Uint8List(65);
+    sigWithChecksum.setAll(0, signatureBytes);
+    sigWithChecksum[64] = k12Checksum;
+
+    // Encode as shifted-hex (130 chars)
+    final encodedSig = encodeShiftedHex(sigWithChecksum);
 
     final result = {
       'identity': identity,
@@ -106,7 +115,7 @@ class SignatureFormatHelper {
       if (identity is! String || message is! String || signature is! String) {
         return null;
       }
-      if (identity.isEmpty || message.isEmpty || signature.isEmpty) {
+      if (identity.isEmpty || signature.isEmpty) {
         return null;
       }
 
@@ -124,7 +133,8 @@ class SignatureFormatHelper {
   static bool isValidIdentityFormat(String identity) =>
       _identityRe.hasMatch(identity);
 
-  /// Validate signature format: exactly 128 A-P characters (case-insensitive).
+  /// Validate signature format: exactly 130 A-P characters (case-insensitive).
+  /// 65 bytes = 64-byte Schnorrq signature + 1-byte K12 checksum.
   static bool isValidSignatureFormat(String signature) =>
       _signatureRe.hasMatch(signature);
 }

@@ -194,6 +194,15 @@ class QubicCmd {
     }
   }
 
+  /// Computes a 1-byte K12 checksum of the given base64-encoded data.
+  Future<int> computeK12Checksum(String dataB64) async {
+    if (useJs) {
+      return await qubicJs.computeK12Checksum(dataB64);
+    } else {
+      return await qubicCmdUtils.computeK12Checksum(dataB64);
+    }
+  }
+
   /// Verifies a user-facing UTF-8 message signature (raw, no prefix).
   Future<bool> verifyMessage(
       String identity, String utf8Text, String signatureB64) async {
