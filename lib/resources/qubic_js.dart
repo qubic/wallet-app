@@ -10,6 +10,7 @@ import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
+import 'package:qubic_wallet/models/qublic_cmd_response.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_js.dart';
@@ -406,7 +407,8 @@ class QubicJs {
           .cmdErrorComputingK12Checksum(result.error ?? ""));
     }
     final Map<String, dynamic> data = json.decode(result.value);
-    final checksumB64 = data['checksum'] as String?;
+    final response = QubicCmdResponse.fromJson(data);
+    final checksumB64 = response.checksum;
     if (checksumB64 == null || checksumB64.isEmpty) {
       throw Exception(LocalizationManager
           .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);

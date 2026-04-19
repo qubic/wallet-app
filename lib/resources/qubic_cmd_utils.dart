@@ -673,7 +673,7 @@ class QubicCmdUtils {
       throw Exception(LocalizationManager.instance.appLocalization
           .cmdErrorComputingK12Checksum(response.error ?? ""));
     }
-    final checksumB64 = parsedJson['checksum'] as String?;
+    final checksumB64 = response.checksum;
     if (checksumB64 == null || checksumB64.isEmpty) {
       throw Exception(LocalizationManager
           .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);
