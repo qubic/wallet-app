@@ -667,6 +667,9 @@
     "cmdErrorCreatingSignatureDigestEmpty": "Lỗi khi cố gắng tạo chữ ký. Digest trống",
     "cmdErrorCreatingSignatureSignedDataEmpty": "Lỗi khi cố gắng tạo chữ ký. Dữ liệu đã ký trống",
     "cmdErrorCreatingSignatureSignatureEmpty": "Lỗi khi cố gắng tạo chữ ký. Chữ ký trống",
+    "cmdErrorComputingK12ChecksumGeneric": "Lỗi khi tính tổng kiểm tra K12",
+    "cmdErrorComputingK12Checksum": "Lỗi khi tính tổng kiểm tra K12: {errorDescription}",
+    "cmdErrorComputingK12ChecksumEmpty": "Lỗi khi tính tổng kiểm tra K12. Tổng kiểm tra trống",
     "cmdErrorCreatingSignature": "Lỗi khi cố gắng tạo chữ ký: {errorDescription}",
     "@cmdErrorCreatingSignature": {
         "placeholders": {
@@ -960,7 +963,8 @@
     "signVerifyMessageErrorParse": "Định dạng JSON không hợp lệ. Cần JSON có các trường identity, message và signature",
     "signVerifyMessageErrorIdentity": "Định dạng identity không hợp lệ. Cần 60 ký tự A-Z viết hoa.",
     "signVerifyMessageErrorSignature": "Định dạng chữ ký không hợp lệ.",
+    "signVerifyMessageErrorChecksum": "Xác minh tổng kiểm tra chữ ký thất bại.",
     "signVerifyMessageErrorSign": "Không thể ký tin nhắn. Vui lòng thử lại.",
-    "signVerifyMessageSettingsLabel": "Ký / Xác minh tin nhắn",
+    "signVerifyMessageSettingsLabel": "Xác minh tin nhắn",
     "signVerifyMessageAccountMenu": "Ký tin nhắn"
 }

@@ -743,6 +743,9 @@
     "cmdErrorCreatingSignatureDigestEmpty": "創建簽名時發生錯誤。摘要為空",
     "cmdErrorCreatingSignatureSignedDataEmpty": "創建簽名時發生錯誤。已簽署的數據為空",
     "cmdErrorCreatingSignatureSignatureEmpty": "創建簽名時發生錯誤。簽名為空",
+    "cmdErrorComputingK12ChecksumGeneric": "计算 K12 校验和时出错",
+    "cmdErrorComputingK12Checksum": "计算 K12 校验和时出错：{errorDescription}",
+    "cmdErrorComputingK12ChecksumEmpty": "计算 K12 校验和时出错。校验和为空",
     "cmdErrorCreatingSignature": "創建簽名時發生錯誤：{errorDescription}",
     "wcErrorProposalExpired": "會話提案已過期",
     "uriIsEmpty": "URI 為空",
@@ -897,7 +900,8 @@
     "signVerifyMessageErrorParse": "JSON 格式无效。需要包含 identity、message 和 signature 字段的 JSON",
     "signVerifyMessageErrorIdentity": "身份格式无效。需要 60 个大写 A-Z 字符。",
     "signVerifyMessageErrorSignature": "签名格式无效。",
+    "signVerifyMessageErrorChecksum": "签名校验和验证失败。",
     "signVerifyMessageErrorSign": "签名消息失败。请重试。",
-    "signVerifyMessageSettingsLabel": "签名 / 验证消息",
+    "signVerifyMessageSettingsLabel": "验证消息",
     "signVerifyMessageAccountMenu": "签名消息"
 }

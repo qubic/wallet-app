@@ -743,6 +743,9 @@
     "cmdErrorCreatingSignatureDigestEmpty": "Ошибка при попытке создать подпись. Хэш пуст",
     "cmdErrorCreatingSignatureSignedDataEmpty": "Ошибка при попытке создать подпись. Подписанные данные пусты",
     "cmdErrorCreatingSignatureSignatureEmpty": "Ошибка при попытке создать подпись. Подпись пуста",
+    "cmdErrorComputingK12ChecksumGeneric": "Ошибка вычисления контрольной суммы K12",
+    "cmdErrorComputingK12Checksum": "Ошибка вычисления контрольной суммы K12: {errorDescription}",
+    "cmdErrorComputingK12ChecksumEmpty": "Ошибка вычисления контрольной суммы K12. Контрольная сумма пуста",
     "cmdErrorCreatingSignature": "Ошибка при попытке создать подпись: {errorDescription}",
     "wcErrorProposalExpired": "Срок действия предложения сессии истек",
     "uriIsEmpty": "URI пуст",
@@ -897,7 +900,8 @@
     "signVerifyMessageErrorParse": "Неверный формат JSON. Ожидается JSON с полями identity, message и signature",
     "signVerifyMessageErrorIdentity": "Неверный формат identity. Ожидается 60 заглавных символов A-Z.",
     "signVerifyMessageErrorSignature": "Неверный формат подписи.",
+    "signVerifyMessageErrorChecksum": "Проверка контрольной суммы подписи не удалась.",
     "signVerifyMessageErrorSign": "Не удалось подписать сообщение. Повторите попытку.",
-    "signVerifyMessageSettingsLabel": "Подписать / проверить сообщение",
+    "signVerifyMessageSettingsLabel": "Проверить сообщение",
     "signVerifyMessageAccountMenu": "Подписать сообщение"
 }

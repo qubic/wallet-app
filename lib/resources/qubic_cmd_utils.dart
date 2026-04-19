@@ -660,19 +660,29 @@ class QubicCmdUtils {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
       throw Exception(LocalizationManager
-          .instance.appLocalization.cmdErrorCreatingSignatureGeneric);
+          .instance.appLocalization.cmdErrorComputingK12ChecksumGeneric);
     }
     QubicCmdResponse response;
     try {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
-      throw Exception('Failed to compute K12 checksum: ${e.toString()}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorComputingK12Checksum(e.toString()));
     }
     if (!response.status) {
-      throw Exception(response.error ?? 'Failed to compute K12 checksum');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorComputingK12Checksum(response.error ?? ""));
     }
-    final checksumB64 = parsedJson['checksum'] as String;
+    final checksumB64 = parsedJson['checksum'] as String?;
+    if (checksumB64 == null || checksumB64.isEmpty) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);
+    }
     final checksumBytes = base64Decode(checksumB64);
+    if (checksumBytes.isEmpty) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);
+    }
     return checksumBytes[0];
   }
 

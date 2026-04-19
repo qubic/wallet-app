@@ -735,6 +735,9 @@
     "cmdErrorCreatingSignatureDigestEmpty": "Error al generar la firma. El digest está vacío",
     "cmdErrorCreatingSignatureSignedDataEmpty": "Error al generar la firma. Los datos firmados están vacíos",
     "cmdErrorCreatingSignatureSignatureEmpty": "Error al generar la firma. La firma está vacía",
+    "cmdErrorComputingK12ChecksumGeneric": "Error al calcular la suma de comprobación K12",
+    "cmdErrorComputingK12Checksum": "Error al calcular la suma de comprobación K12: {errorDescription}",
+    "cmdErrorComputingK12ChecksumEmpty": "Error al calcular la suma de comprobación K12. La suma está vacía",
     "cmdErrorCreatingSignature": "Error al generar la firma: {errorDescription}",
     "wcErrorProposalExpired": "La propuesta de sesión ha expirado",
     "uriIsEmpty": "El URI está vacío",
@@ -896,7 +899,8 @@
     "signVerifyMessageErrorParse": "Formato JSON no válido. Se espera un JSON con los campos identity, message y signature",
     "signVerifyMessageErrorIdentity": "Formato de identity no válido. Se esperan 60 caracteres en mayúsculas A-Z.",
     "signVerifyMessageErrorSignature": "Formato de firma no válido.",
+    "signVerifyMessageErrorChecksum": "No se pudo verificar la suma de comprobación de la firma.",
     "signVerifyMessageErrorSign": "No se pudo firmar el mensaje. Inténtalo de nuevo.",
-    "signVerifyMessageSettingsLabel": "Firmar / verificar mensaje",
+    "signVerifyMessageSettingsLabel": "Verificar mensaje",
     "signVerifyMessageAccountMenu": "Firmar mensaje"
 }

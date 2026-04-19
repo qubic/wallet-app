@@ -687,6 +687,16 @@
     "cmdErrorCreatingSignatureDigestEmpty": "Error trying to create signature. Digest is empty",
     "cmdErrorCreatingSignatureSignedDataEmpty": "Error trying to create signature. Signed data is empty",
     "cmdErrorCreatingSignatureSignatureEmpty": "Error trying to create signature. Signature is empty",
+    "cmdErrorComputingK12ChecksumGeneric": "Error trying to compute K12 checksum",
+    "cmdErrorComputingK12Checksum": "Error trying to compute K12 checksum: {errorDescription}",
+    "cmdErrorComputingK12ChecksumEmpty": "Error trying to compute K12 checksum. Checksum is empty",
+    "@cmdErrorComputingK12Checksum": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
     "cmdErrorCreatingSignature": "Error trying to create signature: {errorDescription}",
     "@cmdErrorCreatingSignature": {
         "placeholders": {
@@ -1010,7 +1020,8 @@
     "signVerifyMessageErrorParse": "Invalid JSON format. Expected JSON with identity, message, and signature fields",
     "signVerifyMessageErrorIdentity": "Invalid identity format. Expected 60 uppercase A-Z characters.",
     "signVerifyMessageErrorSignature": "Invalid signature format.",
+    "signVerifyMessageErrorChecksum": "Signature checksum verification failed.",
     "signVerifyMessageErrorSign": "Failed to sign message. Please try again.",
-    "signVerifyMessageSettingsLabel": "Sign / Verify Message",
+    "signVerifyMessageSettingsLabel": "Verify Message",
     "signVerifyMessageAccountMenu": "Sign Message"
 }

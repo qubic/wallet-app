@@ -398,13 +398,24 @@ class QubicJs {
         QubicJSFunctions.computeK12Checksum, [dataB64]);
 
     if (result == null) {
-      throw Exception('Failed to compute K12 checksum');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumGeneric);
     }
     if (result.error != null) {
-      throw Exception('Failed to compute K12 checksum: ${result.error}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorComputingK12Checksum(result.error ?? ""));
     }
     final Map<String, dynamic> data = json.decode(result.value);
-    final checksumBytes = base64Decode(data['checksum']);
+    final checksumB64 = data['checksum'] as String?;
+    if (checksumB64 == null || checksumB64.isEmpty) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);
+    }
+    final checksumBytes = base64Decode(checksumB64);
+    if (checksumBytes.isEmpty) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);
+    }
     return checksumBytes[0];
   }
 
