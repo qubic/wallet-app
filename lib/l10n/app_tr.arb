@@ -747,6 +747,8 @@
     "cmdErrorComputingK12ChecksumEmpty": "K12 sağlama toplamı hesaplanırken hata oluştu. Sağlama boş",
     "cmdErrorComputingK12Checksum": "K12 sağlama toplamı hesaplanırken hata oluştu: {errorDescription}",
     "cmdErrorCreatingSignature": "İmza oluşturulurken hata oluştu: {errorDescription}",
+    "cmdErrorVerifyingSignatureGeneric": "İmza doğrulanırken hata oluştu",
+    "cmdErrorVerifyingSignature": "İmza doğrulanırken hata oluştu: {errorDescription}",
     "wcErrorProposalExpired": "Oturum teklifi süresi doldu",
     "uriIsEmpty": "URI boş",
     "uriSchemeUnknown": "Bilinmeyen URI şeması",

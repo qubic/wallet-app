@@ -739,6 +739,8 @@
     "cmdErrorComputingK12ChecksumEmpty": "Error al calcular la suma de comprobación K12. La suma está vacía",
     "cmdErrorComputingK12Checksum": "Error al calcular la suma de comprobación K12: {errorDescription}",
     "cmdErrorCreatingSignature": "Error al generar la firma: {errorDescription}",
+    "cmdErrorVerifyingSignatureGeneric": "Error al verificar la firma",
+    "cmdErrorVerifyingSignature": "Error al verificar la firma: {errorDescription}",
     "wcErrorProposalExpired": "La propuesta de sesión ha expirado",
     "uriIsEmpty": "El URI está vacío",
     "uriSchemeUnknown": "Esquema de URI desconocido",

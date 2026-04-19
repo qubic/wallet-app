@@ -747,6 +747,8 @@
     "cmdErrorComputingK12ChecksumEmpty": "Fehler beim Berechnen der K12-Prüfsumme. Prüfsumme ist leer",
     "cmdErrorComputingK12Checksum": "Fehler beim Berechnen der K12-Prüfsumme: {errorDescription}",
     "cmdErrorCreatingSignature": "Fehler beim Erstellen der Signatur: {errorDescription}",
+    "cmdErrorVerifyingSignatureGeneric": "Fehler beim Verifizieren der Signatur",
+    "cmdErrorVerifyingSignature": "Fehler beim Verifizieren der Signatur: {errorDescription}",
     "wcErrorProposalExpired": "Der Sitzungsantrag ist abgelaufen",
     "uriIsEmpty": "URI ist leer",
     "uriSchemeUnknown": "Unbekanntes URI-Schema",

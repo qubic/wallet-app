@@ -752,6 +752,8 @@
     "cmdErrorComputingK12ChecksumEmpty": "Erreur lors du calcul de la somme de contrôle K12. La somme est vide",
     "cmdErrorComputingK12Checksum": "Erreur lors du calcul de la somme de contrôle K12 : {errorDescription}",
     "cmdErrorCreatingSignature": "Erreur lors de la tentative de création de la signature : {errorDescription}",
+    "cmdErrorVerifyingSignatureGeneric": "Erreur lors de la vérification de la signature",
+    "cmdErrorVerifyingSignature": "Erreur lors de la vérification de la signature : {errorDescription}",
     "wcErrorProposalExpired": "La proposition de session a expiré",
     "uriIsEmpty": "L'URI est vide",
     "uriSchemeUnknown": "Schéma URI inconnu",

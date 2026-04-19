@@ -747,6 +747,8 @@
     "cmdErrorComputingK12ChecksumEmpty": "计算 K12 校验和时出错。校验和为空",
     "cmdErrorComputingK12Checksum": "计算 K12 校验和时出错：{errorDescription}",
     "cmdErrorCreatingSignature": "創建簽名時發生錯誤：{errorDescription}",
+    "cmdErrorVerifyingSignatureGeneric": "验证签名时出错",
+    "cmdErrorVerifyingSignature": "验证签名时出错:{errorDescription}",
     "wcErrorProposalExpired": "會話提案已過期",
     "uriIsEmpty": "URI 為空",
     "uriSchemeUnknown": "未知的 URI 協議",

@@ -747,6 +747,8 @@
     "cmdErrorComputingK12ChecksumEmpty": "Ошибка вычисления контрольной суммы K12. Контрольная сумма пуста",
     "cmdErrorComputingK12Checksum": "Ошибка вычисления контрольной суммы K12: {errorDescription}",
     "cmdErrorCreatingSignature": "Ошибка при попытке создать подпись: {errorDescription}",
+    "cmdErrorVerifyingSignatureGeneric": "Ошибка проверки подписи",
+    "cmdErrorVerifyingSignature": "Ошибка проверки подписи: {errorDescription}",
     "wcErrorProposalExpired": "Срок действия предложения сессии истек",
     "uriIsEmpty": "URI пуст",
     "uriSchemeUnknown": "Неизвестная схема URI",
