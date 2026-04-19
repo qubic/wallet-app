@@ -97,17 +97,26 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
 
     // 5. Cryptographic verification
     try {
-      // Decode 130-char shifted-hex → 65 bytes, strip K12 checksum byte
+      // Decode 130-char shifted-hex → 65 bytes (64-byte sig + 1-byte K12 checksum)
       final decoded = SignatureFormatHelper.decodeShiftedHex(parsed.signature);
       final sigBytes = decoded.sublist(0, 64);
+      final providedChecksum = decoded[64];
       final signatureB64 = base64Encode(sigBytes);
+
+      // Validate the K12 checksum byte before the expensive crypto verify.
+      final expectedChecksum = await qubicCmd.computeK12Checksum(signatureB64);
+      if (expectedChecksum != providedChecksum) {
+        if (!mounted) return;
+        setState(() => verifyError = l10n.signVerifyMessageErrorChecksum);
+        return;
+      }
 
       final isValid = await qubicCmd.verifyMessage(
           parsed.identity, parsed.message, signatureB64);
 
       if (!mounted) return;
-      setState(() => verifyResult =
-          isValid ? _VerifyResult.valid : _VerifyResult.invalid);
+      setState(() =>
+          verifyResult = isValid ? _VerifyResult.valid : _VerifyResult.invalid);
     } catch (e) {
       appLogger.e('verifyMessage failed: $e');
       if (!mounted) return;
