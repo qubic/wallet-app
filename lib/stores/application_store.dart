@@ -94,7 +94,8 @@ abstract class _ApplicationStore with Store {
     }
 
     if (accountsSortingMode == AccountSortMode.name) {
-      currentQubicIDs.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+      currentQubicIDs
+          .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     } else if (accountsSortingMode == AccountSortMode.balance) {
       currentQubicIDs.sort((b, a) => (a.amount ?? 0).compareTo(b.amount ?? 0));
     }
@@ -167,8 +168,8 @@ abstract class _ApplicationStore with Store {
 
   @computed
   int get totalAmounts {
-    return nonWatchOnlyAccounts
-        .fold<int>(0, (sum, qubic) => sum + (qubic.amount ?? 0));
+    return nonWatchOnlyAccounts.fold<int>(
+        0, (sum, qubic) => sum + (qubic.amount ?? 0));
   }
 
   @computed

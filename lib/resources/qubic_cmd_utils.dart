@@ -607,4 +607,117 @@ class QubicCmdUtils {
 
     return QubicSignResult.fromCMDResponse(response);
   }
+
+  Future<String> signMessage(String seed, String utf8Text) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          QubicJSFunctions.signMessage,
+          seed,
+          utf8Text,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureGeneric);
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(e.toString()));
+    }
+
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(response.error ?? ""));
+    }
+
+    if (response.signature == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignatureEmpty);
+    }
+
+    return response.signature!;
+  }
+
+  Future<int> computeK12Checksum(String dataB64) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          QubicJSFunctions.computeK12Checksum,
+          dataB64,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumGeneric);
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorComputingK12Checksum(e.toString()));
+    }
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorComputingK12Checksum(response.error ?? ""));
+    }
+    final checksumB64 = response.checksum;
+    if (checksumB64 == null || checksumB64.isEmpty) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);
+    }
+    final checksumBytes = base64Decode(checksumB64);
+    if (checksumBytes.isEmpty) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);
+    }
+    return checksumBytes[0];
+  }
+
+  Future<bool> verifyMessage(
+      String identity, String utf8Text, String signatureB64) async {
+    await validateFileStreamSignature();
+    final p = await Process.run(
+        await _getHelperFileFullPath(),
+        [
+          QubicJSFunctions.verifyMessage,
+          identity,
+          utf8Text,
+          signatureB64,
+        ],
+        runInShell: true);
+    late dynamic parsedJson;
+    try {
+      parsedJson = jsonDecode(p.stdout.toString());
+    } catch (e) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorVerifyingSignatureGeneric);
+    }
+    QubicCmdResponse response;
+    try {
+      response = QubicCmdResponse.fromJson(parsedJson);
+    } catch (e) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingSignature(e.toString()));
+    }
+
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingSignature(response.error ?? ""));
+    }
+
+    return response.isValid == true;
+  }
 }

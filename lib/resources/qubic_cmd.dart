@@ -183,6 +183,37 @@ class QubicCmd {
     }
   }
 
+  /// Signs a user-facing UTF-8 message (raw, no prefix).
+  /// Compatible with the web wallet and Qubic Toolkit.
+  /// Returns the base64-encoded 64-byte Schnorrq signature.
+  Future<String> signMessage(String seed, String utf8Text) async {
+    if (useJs) {
+      return await qubicJs.signMessage(seed, utf8Text);
+    } else {
+      return await qubicCmdUtils.signMessage(seed, utf8Text);
+    }
+  }
+
+  /// Computes a 1-byte K12 checksum of the given base64-encoded data.
+  Future<int> computeK12Checksum(String dataB64) async {
+    if (useJs) {
+      return await qubicJs.computeK12Checksum(dataB64);
+    } else {
+      return await qubicCmdUtils.computeK12Checksum(dataB64);
+    }
+  }
+
+  /// Verifies a user-facing UTF-8 message signature (raw, no prefix).
+  Future<bool> verifyMessage(
+      String identity, String utf8Text, String signatureB64) async {
+    if (useJs) {
+      return await qubicJs.verifyMessage(identity, utf8Text, signatureB64);
+    } else {
+      return await qubicCmdUtils.verifyMessage(
+          identity, utf8Text, signatureB64);
+    }
+  }
+
   Future<List<int>> publicKeyStringToBytes(String publicKeyString) async {
     if (useJs) {
       return await qubicJs.publicKeyStringToBytes(publicKeyString);
