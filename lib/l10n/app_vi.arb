@@ -668,8 +668,8 @@
     "cmdErrorCreatingSignatureSignedDataEmpty": "Lỗi khi cố gắng tạo chữ ký. Dữ liệu đã ký trống",
     "cmdErrorCreatingSignatureSignatureEmpty": "Lỗi khi cố gắng tạo chữ ký. Chữ ký trống",
     "cmdErrorComputingK12ChecksumGeneric": "Lỗi khi tính tổng kiểm tra K12",
-    "cmdErrorComputingK12Checksum": "Lỗi khi tính tổng kiểm tra K12: {errorDescription}",
     "cmdErrorComputingK12ChecksumEmpty": "Lỗi khi tính tổng kiểm tra K12. Tổng kiểm tra trống",
+    "cmdErrorComputingK12Checksum": "Lỗi khi tính tổng kiểm tra K12: {errorDescription}",
     "cmdErrorCreatingSignature": "Lỗi khi cố gắng tạo chữ ký: {errorDescription}",
     "@cmdErrorCreatingSignature": {
         "placeholders": {
@@ -678,6 +678,8 @@
             }
         }
     },
+    "cmdErrorVerifyingSignatureGeneric": "Lỗi khi xác minh chữ ký",
+    "cmdErrorVerifyingSignature": "Lỗi khi xác minh chữ ký: {errorDescription}",
     "importVaultFileOrPasswordError": "Tập tin đã chọn không phải là tập tin Qubic Vault hoặc mật khẩu không chính xác",
     "importVaultFileGenericError": "Lỗi khi cố gắng nhập tập tin vault",
     "importVaultFileSeedsNullError": "Tập tin vault bị lỗi và không chứa thông tin tài khoản",

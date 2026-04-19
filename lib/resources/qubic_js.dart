@@ -408,6 +408,10 @@ class QubicJs {
     }
     final Map<String, dynamic> data = json.decode(result.value);
     final response = QubicCmdResponse.fromJson(data);
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorComputingK12Checksum(response.error ?? ""));
+    }
     final checksumB64 = response.checksum;
     if (checksumB64 == null || checksumB64.isEmpty) {
       throw Exception(LocalizationManager
@@ -427,13 +431,20 @@ class QubicJs {
         QubicJSFunctions.verifyMessage, [identity, utf8Text, signatureB64]);
 
     if (result == null) {
-      throw Exception('Failed to verify signature');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorVerifyingSignatureGeneric);
     }
     if (result.error != null) {
-      throw Exception('Failed to verify signature: ${result.error}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingSignature(result.error ?? ""));
     }
     final Map<String, dynamic> data = json.decode(result.value);
-    return data['isValid'] == true;
+    final response = QubicCmdResponse.fromJson(data);
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingSignature(response.error ?? ""));
+    }
+    return response.isValid == true;
   }
 
   Future<List<QubicImportVaultSeed>> importVault(

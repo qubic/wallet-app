@@ -688,8 +688,8 @@
     "cmdErrorCreatingSignatureSignedDataEmpty": "Error trying to create signature. Signed data is empty",
     "cmdErrorCreatingSignatureSignatureEmpty": "Error trying to create signature. Signature is empty",
     "cmdErrorComputingK12ChecksumGeneric": "Error trying to compute K12 checksum",
-    "cmdErrorComputingK12Checksum": "Error trying to compute K12 checksum: {errorDescription}",
     "cmdErrorComputingK12ChecksumEmpty": "Error trying to compute K12 checksum. Checksum is empty",
+    "cmdErrorComputingK12Checksum": "Error trying to compute K12 checksum: {errorDescription}",
     "@cmdErrorComputingK12Checksum": {
         "placeholders": {
             "errorDescription": {
@@ -699,6 +699,15 @@
     },
     "cmdErrorCreatingSignature": "Error trying to create signature: {errorDescription}",
     "@cmdErrorCreatingSignature": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorVerifyingSignatureGeneric": "Error trying to verify signature",
+    "cmdErrorVerifyingSignature": "Error trying to verify signature: {errorDescription}",
+    "@cmdErrorVerifyingSignature": {
         "placeholders": {
             "errorDescription": {
                 "type": "String"

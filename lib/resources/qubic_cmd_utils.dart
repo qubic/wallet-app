@@ -702,17 +702,20 @@ class QubicCmdUtils {
     try {
       parsedJson = jsonDecode(p.stdout.toString());
     } catch (e) {
-      throw Exception('Failed to verify signature');
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorVerifyingSignatureGeneric);
     }
     QubicCmdResponse response;
     try {
       response = QubicCmdResponse.fromJson(parsedJson);
     } catch (e) {
-      throw Exception('Failed to verify signature: ${e.toString()}');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingSignature(e.toString()));
     }
 
     if (!response.status) {
-      throw Exception(response.error ?? 'Failed to verify signature');
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingSignature(response.error ?? ""));
     }
 
     return response.isValid == true;
