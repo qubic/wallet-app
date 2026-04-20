@@ -56,6 +56,8 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
     final l10n = l10nOf(context);
     if (!_canSign) return;
 
+    FocusScope.of(context).unfocus();
+
     final authenticated = await reAuthDialog(context);
     if (!authenticated) return;
     if (!mounted) return;
