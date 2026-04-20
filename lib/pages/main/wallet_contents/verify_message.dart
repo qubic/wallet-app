@@ -191,7 +191,8 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                     _onVerify();
                   }
                 },
-                decoration: ThemeInputDecorations.bigInputbox.copyWith(
+                decoration:
+                    ThemeInputDecorations.bigInputboxCompact.copyWith(
                   hintText: l10n.signVerifyMessageVerifyInputPlaceholder,
                   suffixIcon: hasInput
                       ? IconButton(
