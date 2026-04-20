@@ -167,11 +167,14 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                   ),
                   ThemedControls.transparentButtonSmall(
                     onPressed: () async {
+                      final focusScope = FocusScope.of(context);
                       final clipboardData =
                           await Clipboard.getData(Clipboard.kTextPlain);
                       if (clipboardData?.text != null) {
                         _verifyInputController.text = clipboardData!.text!;
                       }
+                      if (!mounted) return;
+                      focusScope.unfocus();
                     },
                     text: l10n.generalButtonPaste,
                   ),
@@ -182,6 +185,13 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                 controller: _verifyInputController,
                 maxLines: null,
                 minLines: 6,
+                textInputAction: TextInputAction.done,
+                onFieldSubmitted: (_) {
+                  FocusScope.of(context).unfocus();
+                  if (_verifyInputController.text.isNotEmpty) {
+                    _onVerify();
+                  }
+                },
                 decoration: ThemeInputDecorations.bigInputbox.copyWith(
                   hintText: l10n.signVerifyMessageVerifyInputPlaceholder,
                   suffixIcon: hasInput
