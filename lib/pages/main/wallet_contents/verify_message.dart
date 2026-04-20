@@ -167,14 +167,13 @@ class _VerifyMessageScreenState extends State<VerifyMessageScreen> {
                   ),
                   ThemedControls.transparentButtonSmall(
                     onPressed: () async {
-                      final focusScope = FocusScope.of(context);
+                      FocusScope.of(context).unfocus();
                       final clipboardData =
                           await Clipboard.getData(Clipboard.kTextPlain);
+                      if (!mounted) return;
                       if (clipboardData?.text != null) {
                         _verifyInputController.text = clipboardData!.text!;
                       }
-                      if (!mounted) return;
-                      focusScope.unfocus();
                     },
                     text: l10n.generalButtonPaste,
                   ),
