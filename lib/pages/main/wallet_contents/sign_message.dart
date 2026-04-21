@@ -56,6 +56,8 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
     final l10n = l10nOf(context);
     if (!_canSign) return;
 
+    FocusScope.of(context).unfocus();
+
     final authenticated = await reAuthDialog(context);
     if (!authenticated) return;
     if (!mounted) return;
@@ -125,7 +127,7 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
               TextFormField(
                 controller: _messageController,
                 maxLines: 3,
-                decoration: ThemeInputDecorations.bigInputbox.copyWith(
+                decoration: ThemeInputDecorations.bigInputboxCompact.copyWith(
                   hintText: l10n.signVerifyMessageEnterMessage,
                   suffixIcon: _messageController.text.isNotEmpty
                       ? IconButton(
@@ -179,7 +181,7 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
                   initialValue: signOutput,
                   readOnly: true,
                   maxLines: null,
-                  decoration: ThemeInputDecorations.bigInputbox,
+                  decoration: ThemeInputDecorations.bigInputboxCompact,
                 ),
               ],
             ],
