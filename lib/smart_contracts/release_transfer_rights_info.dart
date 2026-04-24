@@ -25,6 +25,7 @@ class ReleaseTransferRightsInfo {
 
   // Source identifier constants (from smart_contracts.json), stored lowercase for direct comparison
   static const String transferSourceIdentifier = "transfersharemanagementrights";
+  static const String transferSourceIdentifierAlt = "transfersharesmanagementrights";
   static const String revokeSourceIdentifier = "revokeassetmanagementrights";
 
   // Default fee when releasing FROM a contract
