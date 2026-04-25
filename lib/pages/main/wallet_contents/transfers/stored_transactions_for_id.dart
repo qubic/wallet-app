@@ -31,7 +31,8 @@ class StoredTransactionsForId extends StatelessWidget {
             ),
             Observer(builder: (context) {
               final storedTransactions = getIt<ApplicationStore>()
-                  .getStoredTransactionsForID(item.publicId);
+                  .getStoredTransactionsForID(item.publicId)
+                ..sort((a, b) => b.targetTick.compareTo(a.targetTick));
               final isEmpty = storedTransactions.isEmpty;
               return Expanded(
                   child: isEmpty
