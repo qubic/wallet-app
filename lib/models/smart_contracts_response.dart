@@ -101,7 +101,8 @@ class Procedure {
 
   ManagementRightsProcedureType? get managementRightsType {
     final id = sourceIdentifier?.toLowerCase();
-    if (id == ReleaseTransferRightsInfo.transferSourceIdentifier) {
+    if (id == ReleaseTransferRightsInfo.transferSourceIdentifier ||
+        id == ReleaseTransferRightsInfo.transferSourceIdentifierAlt) {
       return ManagementRightsProcedureType.transfer;
     }
     if (id == ReleaseTransferRightsInfo.revokeSourceIdentifier) {

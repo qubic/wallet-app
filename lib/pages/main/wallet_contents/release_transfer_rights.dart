@@ -88,11 +88,17 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   void initState() {
     super.initState();
     _initializeFormData();
-    // Re-initialize _procedureType if smartContracts loads after this screen opens.
+    // Re-initialize if smartContracts loads after this screen opens.
     _smartContractsReaction = reaction(
       (_) => ecosystemStore.smartContracts.length,
       (_) {
-        if (selectedSourceContractIndex != null && _procedureType == null && mounted) {
+        if (!mounted) return;
+        if (selectedSourceContractIndex == null) {
+          // Smart contracts loaded after init — retry auto-selection.
+          setState(() {
+            _initializeFormData();
+          });
+        } else if (_procedureType == null) {
           setState(() {
             _procedureType = ecosystemStore
                 .getManagementRightsProcedureType(selectedSourceContractIndex!);
@@ -114,11 +120,21 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
     }
   }
 
+  /// Returns contract contributions that have balance and a valid management
+  /// rights procedure, filtering out contracts that can't be used as source.
+  List<AssetContractContribution> _getEligibleSourceContracts() {
+    return widget.groupedAsset.contractContributions
+        .where((c) =>
+            c.numberOfUnits > 0 &&
+            ecosystemStore.getManagementRightsProcedureType(
+                    c.managingContractIndex) !=
+                null)
+        .toList();
+  }
+
   void _initializeFormData() {
     // Auto-select source contract if only one available
-    final contractsWithBalance = widget.groupedAsset.contractContributions
-        .where((c) => c.numberOfUnits > 0)
-        .toList();
+    final contractsWithBalance = _getEligibleSourceContracts();
 
     if (contractsWithBalance.length == 1) {
       selectedSourceContractIndex =
@@ -208,8 +224,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
 
   List<DropdownMenuItem<int>> getSourceContractList() {
     final l10n = l10nOf(context);
-    return widget.groupedAsset.contractContributions
-        .where((c) => c.numberOfUnits > 0)
+    return _getEligibleSourceContracts()
         .map((contribution) {
       final contractName = ecosystemStore
               .getContractNameByIndex(contribution.managingContractIndex) ??
