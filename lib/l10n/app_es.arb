@@ -899,7 +899,7 @@
     "signVerifyMessageResultValid": "Firma válida",
     "signVerifyMessageResultInvalid": "Firma no válida",
     "signVerifyMessageErrorParse": "Formato JSON no válido. Se espera un JSON con los campos identity, message y signature",
-    "signVerifyMessageErrorIdentity": "Formato de identity no válido. Se esperan 60 caracteres en mayúsculas A-Z.",
+    "signVerifyMessageErrorIdentity": "Identity no válida. Comprueba el valor e inténtalo de nuevo.",
     "signVerifyMessageErrorSignature": "Formato de firma no válido.",
     "signVerifyMessageErrorChecksum": "No se pudo verificar la suma de comprobación de la firma.",
     "signVerifyMessageErrorSign": "No se pudo firmar el mensaje. Inténtalo de nuevo.",

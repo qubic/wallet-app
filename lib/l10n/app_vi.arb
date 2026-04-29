@@ -963,7 +963,7 @@
     "signVerifyMessageResultValid": "Chữ ký hợp lệ",
     "signVerifyMessageResultInvalid": "Chữ ký không hợp lệ",
     "signVerifyMessageErrorParse": "Định dạng JSON không hợp lệ. Cần JSON có các trường identity, message và signature",
-    "signVerifyMessageErrorIdentity": "Định dạng identity không hợp lệ. Cần 60 ký tự A-Z viết hoa.",
+    "signVerifyMessageErrorIdentity": "Identity không hợp lệ. Vui lòng kiểm tra giá trị và thử lại.",
     "signVerifyMessageErrorSignature": "Định dạng chữ ký không hợp lệ.",
     "signVerifyMessageErrorChecksum": "Xác minh tổng kiểm tra chữ ký thất bại.",
     "signVerifyMessageErrorSign": "Không thể ký tin nhắn. Vui lòng thử lại.",

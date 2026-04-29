@@ -905,7 +905,7 @@
     "signVerifyMessageResultValid": "Signature valide",
     "signVerifyMessageResultInvalid": "Signature invalide",
     "signVerifyMessageErrorParse": "Format JSON invalide. Un JSON avec les champs identity, message et signature est attendu",
-    "signVerifyMessageErrorIdentity": "Format d'identity invalide. 60 caractères majuscules A-Z sont attendus.",
+    "signVerifyMessageErrorIdentity": "Identity invalide. Veuillez vérifier la valeur et réessayer.",
     "signVerifyMessageErrorSignature": "Format de signature invalide.",
     "signVerifyMessageErrorChecksum": "Échec de la vérification de la somme de contrôle de la signature.",
     "signVerifyMessageErrorSign": "Échec de la signature du message. Veuillez réessayer.",

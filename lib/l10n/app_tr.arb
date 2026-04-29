@@ -900,7 +900,7 @@
     "signVerifyMessageResultValid": "Geçerli İmza",
     "signVerifyMessageResultInvalid": "Geçersiz İmza",
     "signVerifyMessageErrorParse": "Geçersiz JSON formatı. identity, message ve signature alanlarını içeren bir JSON bekleniyor",
-    "signVerifyMessageErrorIdentity": "Geçersiz identity formatı. 60 büyük A-Z karakteri bekleniyor.",
+    "signVerifyMessageErrorIdentity": "Geçersiz identity. Lütfen değeri kontrol edip tekrar deneyin.",
     "signVerifyMessageErrorSignature": "Geçersiz imza formatı.",
     "signVerifyMessageErrorChecksum": "İmza sağlama toplamı doğrulanamadı.",
     "signVerifyMessageErrorSign": "Mesaj imzalanamadı. Lütfen tekrar deneyin.",
