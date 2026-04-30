@@ -900,7 +900,7 @@
     "signVerifyMessageResultValid": "签名有效",
     "signVerifyMessageResultInvalid": "签名无效",
     "signVerifyMessageErrorParse": "JSON 格式无效。需要包含 identity、message 和 signature 字段的 JSON",
-    "signVerifyMessageErrorIdentity": "身份格式无效。需要 60 个大写 A-Z 字符。",
+    "signVerifyMessageErrorIdentity": "身份无效。请检查该值并重试。",
     "signVerifyMessageErrorSignature": "签名格式无效。",
     "signVerifyMessageErrorChecksum": "签名校验和验证失败。",
     "signVerifyMessageErrorSign": "签名消息失败。请重试。",

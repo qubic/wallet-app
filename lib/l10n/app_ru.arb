@@ -900,7 +900,7 @@
     "signVerifyMessageResultValid": "Подпись действительна",
     "signVerifyMessageResultInvalid": "Подпись недействительна",
     "signVerifyMessageErrorParse": "Неверный формат JSON. Ожидается JSON с полями identity, message и signature",
-    "signVerifyMessageErrorIdentity": "Неверный формат identity. Ожидается 60 заглавных символов A-Z.",
+    "signVerifyMessageErrorIdentity": "Неверный identity. Проверьте значение и попробуйте снова.",
     "signVerifyMessageErrorSignature": "Неверный формат подписи.",
     "signVerifyMessageErrorChecksum": "Проверка контрольной суммы подписи не удалась.",
     "signVerifyMessageErrorSign": "Не удалось подписать сообщение. Повторите попытку.",

@@ -900,7 +900,7 @@
     "signVerifyMessageResultValid": "Gültige Signatur",
     "signVerifyMessageResultInvalid": "Ungültige Signatur",
     "signVerifyMessageErrorParse": "Ungültiges JSON-Format. Erwartet wird JSON mit den Feldern identity, message und signature",
-    "signVerifyMessageErrorIdentity": "Ungültiges Identity-Format. Erwartet werden 60 Großbuchstaben A-Z.",
+    "signVerifyMessageErrorIdentity": "Ungültige Identity. Bitte überprüfen Sie den Wert und versuchen Sie es erneut.",
     "signVerifyMessageErrorSignature": "Ungültiges Signaturformat.",
     "signVerifyMessageErrorChecksum": "Prüfsumme der Signatur konnte nicht verifiziert werden.",
     "signVerifyMessageErrorSign": "Signieren der Nachricht fehlgeschlagen. Bitte erneut versuchen.",

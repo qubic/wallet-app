@@ -1027,7 +1027,7 @@
     "signVerifyMessageResultValid": "Valid Signature",
     "signVerifyMessageResultInvalid": "Invalid Signature",
     "signVerifyMessageErrorParse": "Invalid JSON format. Expected JSON with identity, message, and signature fields",
-    "signVerifyMessageErrorIdentity": "Invalid identity format. Expected 60 uppercase A-Z characters.",
+    "signVerifyMessageErrorIdentity": "Invalid identity. Please check the value and try again.",
     "signVerifyMessageErrorSignature": "Invalid signature format.",
     "signVerifyMessageErrorChecksum": "Signature checksum verification failed.",
     "signVerifyMessageErrorSign": "Failed to sign message. Please try again.",
