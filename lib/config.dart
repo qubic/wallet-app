@@ -137,7 +137,7 @@ abstract class Config {
   static const walletConnectIcons = [
     "https://wallet.qubic.org/assets/logos/qubic_wallet_dark.svg"
   ];
-  static const walletConnectRedirectNative = "qubicwallet://";
+  static const walletConnectRedirectNative = "qubic-wallet://";
   static const walletConnectRedirectUniversal = "https://wallet.qubic.org";
   static const walletConnectChainId = "qubic:mainnet";
   static const wallectConnectUrlLength = 187;
