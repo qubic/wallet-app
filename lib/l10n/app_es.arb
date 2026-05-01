@@ -904,5 +904,10 @@
     "signVerifyMessageErrorChecksum": "No se pudo verificar la suma de comprobación de la firma.",
     "signVerifyMessageErrorSign": "No se pudo firmar el mensaje. Inténtalo de nuevo.",
     "signVerifyMessageSettingsLabel": "Verificar mensaje",
-    "signVerifyMessageAccountMenu": "Firmar mensaje"
+    "signVerifyMessageAccountMenu": "Firmar mensaje",
+    "androidDeprecationDialogTitle": "Importante: aviso de actualización del dispositivo",
+    "androidDeprecationDialogMessageBefore": "Las actualizaciones futuras requerirán Android 7.0 o superior. Para seguir recibiendo actualizaciones y asegurar el acceso a tu billetera a largo plazo, ",
+    "androidDeprecationDialogMessageHighlight": "respalda tus seeds privados o exporta tu archivo de bóveda",
+    "androidDeprecationDialogMessageAfter": " desde Ajustes.",
+    "androidDeprecationDialogButton": "Entendido"
 }
