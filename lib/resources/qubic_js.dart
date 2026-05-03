@@ -1,5 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -25,6 +26,12 @@ class QubicJs {
   bool validatedFileStream = false;
   final INDEX_MD5 =
       "a3395f6a38afa4326bf73a52e04530fd"; //MD5 of the index.html file to prevent tampering in run time
+
+  // Pending JS calls keyed by call id. Resolved when the JS side posts the
+  // result back via the `qubicResult` JavaScriptHandler.
+  final Map<String, Completer<CallAsyncJavaScriptResult>> _pendingCalls = {};
+  int _callIdCounter = 0;
+
   initialize() async {
     if (controller != null) {
       appLogger.d("QubicJS: Controller already set. No need to initialize");
@@ -32,6 +39,12 @@ class QubicJs {
     }
     InAppWebView = HeadlessInAppWebView(
       onWebViewCreated: (WVcontroller) async {
+        // Register the result handler before loading the page so that any
+        // early callbacks from JS find a registered receiver.
+        WVcontroller.addJavaScriptHandler(
+          handlerName: 'qubicResult',
+          callback: _handleQubicResult,
+        );
         WVcontroller.loadFile(assetFilePath: Config.qubicJSAssetPath);
         controller = WVcontroller;
       },
@@ -74,6 +87,15 @@ class QubicJs {
     controller!.dispose();
     controller = null;
     isReady = false;
+    // Fail any in-flight calls so awaiters don't hang forever after a dispose.
+    for (final completer in _pendingCalls.values) {
+      if (!completer.isCompleted) {
+        completer.completeError(const AppException(
+            QubicJsErrors.webViewControllerNull,
+            'WebView controller disposed during call'));
+      }
+    }
+    _pendingCalls.clear();
   }
 
   guardInitialized() {
@@ -89,7 +111,27 @@ class QubicJs {
     this.controller = controller;
   }
 
-  /// Runs an async JS function with the given parameters and returns the result
+  /// Receives results from the JS side via the `qubicResult` handler.
+  /// JS posts: [callId, status ('ok' | 'error'), valueOrError]
+  void _handleQubicResult(List<dynamic> args) {
+    if (args.length < 3) return;
+    final callId = args[0]?.toString();
+    final status = args[1]?.toString();
+    final payload = args[2];
+    final completer = _pendingCalls.remove(callId);
+    if (completer == null || completer.isCompleted) return;
+    completer.complete(CallAsyncJavaScriptResult(
+      value: status == 'ok' ? payload : null,
+      error: status == 'error' ? payload?.toString() : null,
+    ));
+  }
+
+  /// Runs an async JS function with the given parameters and returns the result.
+  ///
+  /// Uses `evaluateJavascript` plus a `JavaScriptHandler` callback instead of
+  /// `callAsyncJavaScript`, which causes a native crash on iOS in release/
+  /// TestFlight builds when the WebView is reaped under memory pressure.
+  /// See docs/ios-webview-crash.md and flutter_inappwebview issue #2619.
   Future<CallAsyncJavaScriptResult?> runFunction(
       String functionName, List<String> parameters) async {
     await initialize();
@@ -116,19 +158,36 @@ class QubicJs {
     }
 
     parameters = parameters.map((e) => e.replaceAll("'", "\\'")).toList();
-    String functionBody =
-        "await window.runBrowser('$functionName', '${parameters.join("','")}')";
+    final callId = '${++_callIdCounter}';
+    final completer = Completer<CallAsyncJavaScriptResult>();
+    _pendingCalls[callId] = completer;
 
-    functionBody = "return JSON.stringify($functionBody);";
+    final source = '''
+(async () => {
+  try {
+    const v = await window.runBrowser('$functionName', '${parameters.join("','")}');
+    window.flutter_inappwebview.callHandler('qubicResult', '$callId', 'ok', JSON.stringify(v));
+  } catch (e) {
+    window.flutter_inappwebview.callHandler('qubicResult', '$callId', 'error', (e && e.toString) ? e.toString() : String(e));
+  }
+})();
+''';
 
-    // Wrap JS execution to catch cases where controller exists but native WebView is dead
     try {
-      return await controller!.callAsyncJavaScript(functionBody: functionBody);
+      await controller!.evaluateJavascript(source: source);
     } catch (e) {
-      // Controller is non-null but native WebView was killed by iOS
+      _pendingCalls.remove(callId);
       appLogger.e('WebView execution failed: $e');
       throw AppException(QubicJsErrors.webViewExecutionFailed,
           'WebView execution failed: $e');
+    }
+
+    try {
+      return await completer.future.timeout(const Duration(seconds: 30));
+    } on TimeoutException {
+      _pendingCalls.remove(callId);
+      throw const AppException(QubicJsErrors.webViewExecutionFailed,
+          'WebView execution timed out');
     }
   }
 
