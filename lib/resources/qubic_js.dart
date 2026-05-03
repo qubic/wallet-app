@@ -23,9 +23,6 @@ import 'package:qubic_wallet/models/app_error.dart';
 class QubicJs {
   HeadlessInAppWebView? InAppWebView;
   InAppWebViewController? controller;
-  bool validatedFileStream = false;
-  final INDEX_MD5 =
-      "a3395f6a38afa4326bf73a52e04530fd"; //MD5 of the index.html file to prevent tampering in run time
 
   // Pending JS calls keyed by call id. Resolved when the JS side posts the
   // result back via the `qubicResult` JavaScriptHandler.
@@ -84,7 +81,7 @@ class QubicJs {
   bool isReady = false;
 
   disposeController() {
-    controller!.dispose();
+    controller?.dispose();
     controller = null;
     isReady = false;
     // Fail any in-flight calls so awaiters don't hang forever after a dispose.
@@ -130,8 +127,7 @@ class QubicJs {
   ///
   /// Uses `evaluateJavascript` plus a `JavaScriptHandler` callback instead of
   /// `callAsyncJavaScript`, which causes a native crash on iOS in release/
-  /// TestFlight builds when the WebView is reaped under memory pressure.
-  /// See docs/ios-webview-crash.md and flutter_inappwebview issue #2619.
+  /// TestFlight builds. See flutter_inappwebview issue #2619.
   Future<CallAsyncJavaScriptResult?> runFunction(
       String functionName, List<String> parameters) async {
     await initialize();
@@ -166,7 +162,7 @@ class QubicJs {
 (async () => {
   try {
     const v = await window.runBrowser('$functionName', '${parameters.join("','")}');
-    window.flutter_inappwebview.callHandler('qubicResult', '$callId', 'ok', JSON.stringify(v));
+    window.flutter_inappwebview.callHandler('qubicResult', '$callId', 'ok', JSON.stringify(v === undefined ? null : v));
   } catch (e) {
     window.flutter_inappwebview.callHandler('qubicResult', '$callId', 'error', (e && e.toString) ? e.toString() : String(e));
   }
