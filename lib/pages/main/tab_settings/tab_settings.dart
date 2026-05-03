@@ -71,7 +71,16 @@ class _TabSettingsState extends State<TabSettings> {
         content: l10n.settingsDappBrowserClearCacheConfirmMessage,
         continueText: l10n.settingsDappBrowserClearCache,
         continueFunction: () async {
-          await InAppWebViewController.clearAllCache();
+          // clearAllCache only clears HTTP cache. WalletConnect session state
+          // (and many other dApp signals) live in localStorage / IndexedDB,
+          // which require the WebStorageManager + CookieManager APIs to clear
+          // reliably — especially on iOS, where clearAllCache leaves WKWebView
+          // localStorage intact.
+          await Future.wait([
+            InAppWebViewController.clearAllCache(),
+            WebStorageManager.instance().deleteAllData(),
+            CookieManager.instance().deleteAllCookies(),
+          ]);
           if (context.mounted) {
             final globalSnackBar = getIt<GlobalSnackBar>();
             globalSnackBar.show(l10n.settingsDappBrowserCacheCleared);
