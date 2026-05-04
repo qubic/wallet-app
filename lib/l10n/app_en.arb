@@ -1011,10 +1011,10 @@
             }
         }
     },
-    "settingsDappBrowserClearCache": "Clear Browser Cache",
-    "settingsDappBrowserClearCacheConfirmTitle": "Clear Browser Cache?",
+    "settingsDappBrowserClearCache": "Clear Browser Data",
+    "settingsDappBrowserClearCacheConfirmTitle": "Clear Browser Data?",
     "settingsDappBrowserClearCacheConfirmMessage": "This will clear cookies, cache, and browsing data for the dApp browser. You may be logged out of dApps.",
-    "settingsDappBrowserCacheCleared": "Browser cache cleared",
+    "settingsDappBrowserCacheCleared": "Browser data cleared",
     "signVerifyMessageEnterMessage": "Enter message to sign",
     "signVerifyMessageMessageLabel": "Message",
     "signVerifyMessageSignTitle": "Sign Message",
