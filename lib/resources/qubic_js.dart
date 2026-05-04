@@ -25,6 +25,9 @@ class QubicJs {
   HeadlessInAppWebView? InAppWebView;
   InAppWebViewController? controller;
 
+  /// Maximum time to wait for a JS function result before giving up.
+  static const Duration _runFunctionTimeout = Duration(seconds: 30);
+
   // Pending JS calls keyed by call id. Resolved when the JS side posts the
   // result back via the `qubicResult` JavaScriptHandler.
   final Map<String, Completer<CallAsyncJavaScriptResult>> _pendingCalls = {};
@@ -180,7 +183,7 @@ class QubicJs {
     }
 
     try {
-      return await completer.future.timeout(const Duration(seconds: 30));
+      return await completer.future.timeout(_runFunctionTimeout);
     } on TimeoutException {
       _pendingCalls.remove(callId);
       throw const AppException(QubicJsErrors.webViewExecutionFailed,
