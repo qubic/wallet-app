@@ -19,7 +19,6 @@ enum HiveBoxesNames {
   accountsSortingMode,
   favoriteDapps,
   externalUrlWarningPreference,
-  androidDeprecationDialogPreference,
 }
 
 class HiveStorage {
@@ -29,12 +28,10 @@ class HiveStorage {
   late Box<String> _currentNetworkBox;
   late Box<FavoriteDappModel> _favoriteDapps;
   late Box<bool> _externalUrlWarningBox;
-  late Box<bool> _androidDeprecationDialogBox;
   final currentNetworkKey = "current_network";
   late Box<String> _accountsSortingMode;
   final accountsSortingKey = "accounts_sorting_mode";
   final externalUrlWarningKey = "external_url_warning_dismissed";
-  final androidDeprecationDialogKey = "android_deprecation_dialog_acknowledged";
   late HiveAesCipher _encryptionCipher;
 
   Future<void> initialize() async {
@@ -55,7 +52,6 @@ class HiveStorage {
       await openAccountsSortingModeBox();
       await openFavoriteDappsBox();
       await openExternalUrlWarningBox();
-      await openAndroidDeprecationDialogBox();
     } catch (e) {
       appLogger.e("[HiveStorage] Error initializing hive storage: $e");
     }
@@ -137,15 +133,6 @@ class HiveStorage {
     appLogger.d('[HiveStorage] External URL warning preference box opened.');
   }
 
-  Future<void> openAndroidDeprecationDialogBox() async {
-    _androidDeprecationDialogBox = await Hive.openBox<bool>(
-      HiveBoxesNames.androidDeprecationDialogPreference.name,
-      encryptionCipher: _encryptionCipher,
-    );
-    appLogger
-        .d('[HiveStorage] Android deprecation dialog preference box opened.');
-  }
-
   void addStoredTransaction(TransactionVm transactionVm) {
     appLogger.d('[HiveStorage] Adding transaction: ${transactionVm.id}');
     _storedTransactions.put(transactionVm.id, transactionVm);
@@ -213,19 +200,6 @@ class HiveStorage {
     _externalUrlWarningBox.put(externalUrlWarningKey, dismissed);
   }
 
-  // Android deprecation dialog preference methods
-  bool getAndroidDeprecationDialogAcknowledged() {
-    return _androidDeprecationDialogBox.get(androidDeprecationDialogKey) ??
-        false;
-  }
-
-  Future<void> setAndroidDeprecationDialogAcknowledged(bool acknowledged) async {
-    appLogger.d(
-        '[HiveStorage] Setting Android deprecation dialog acknowledged: $acknowledged');
-    await _androidDeprecationDialogBox
-        .put(androidDeprecationDialogKey, acknowledged);
-  }
-
   // Favorite dApps methods
   void addFavoriteDapp(FavoriteDappModel favorite) {
     appLogger.d('[HiveStorage] Adding favorite: ${favorite.name}');
@@ -288,9 +262,6 @@ class HiveStorage {
 
     await _externalUrlWarningBox.clear();
     _externalUrlWarningBox.close();
-
-    await _androidDeprecationDialogBox.clear();
-    _androidDeprecationDialogBox.close();
 
     await _secureStorage.deleteHiveEncryptionKey();
     appLogger.w(

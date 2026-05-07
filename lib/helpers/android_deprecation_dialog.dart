@@ -1,16 +1,16 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
-import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const int _minSupportedAndroidSdkNext = 24; // Android 7.0 (Nougat)
+const String _ackKey = 'android_deprecation_dialog_acknowledged_v1';
 
 /// Tracks whether we've already shown (or are showing) the dialog this app
 /// session, so a rapid second invocation doesn't stack two dialogs before
@@ -36,8 +36,14 @@ Future<void> maybeShowAndroidDeprecationDialog(BuildContext context) async {
   }
   if (sdkInt >= _minSupportedAndroidSdkNext) return;
 
-  final hive = getIt<HiveStorage>();
-  if (hive.getAndroidDeprecationDialogAcknowledged()) return;
+  final SharedPreferences prefs;
+  try {
+    prefs = await SharedPreferences.getInstance();
+  } catch (_) {
+    _shownThisSession = false;
+    return;
+  }
+  if (prefs.getBool(_ackKey) == true) return;
 
   if (!context.mounted) return;
 
@@ -83,7 +89,12 @@ Future<void> maybeShowAndroidDeprecationDialog(BuildContext context) async {
             child: ThemedControls.primaryButtonBig(
               text: l10n.androidDeprecationDialogButton,
               onPressed: () async {
-                await hive.setAndroidDeprecationDialogAcknowledged(true);
+                try {
+                  await prefs.setBool(_ackKey, true);
+                } catch (_) {
+                  // Best-effort persistence; still dismiss the dialog so the
+                  // user is not stuck on this non-dismissible modal.
+                }
                 if (!ctx.mounted) return;
                 Navigator.of(ctx).pop();
               },
