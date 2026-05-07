@@ -71,7 +71,11 @@ class _TabSettingsState extends State<TabSettings> {
         content: l10n.settingsDappBrowserClearCacheConfirmMessage,
         continueText: l10n.settingsDappBrowserClearCache,
         continueFunction: () async {
-          await InAppWebViewController.clearAllCache();
+          await Future.wait([
+            InAppWebViewController.clearAllCache(),
+            WebStorageManager.instance().deleteAllData(),
+            CookieManager.instance().deleteAllCookies(),
+          ]);
           if (context.mounted) {
             final globalSnackBar = getIt<GlobalSnackBar>();
             globalSnackBar.show(l10n.settingsDappBrowserCacheCleared);
