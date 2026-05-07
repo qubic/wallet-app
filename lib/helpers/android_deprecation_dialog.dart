@@ -1,10 +1,12 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/platform_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
@@ -48,9 +50,27 @@ Future<void> maybeShowAndroidDeprecationDialog(BuildContext context) async {
       canPop: false,
       child: AlertDialog(
         surfaceTintColor: LightThemeColors.strongBackground,
-        title: Text(
-          l10n.androidDeprecationDialogTitle,
-          style: TextStyles.alertHeader,
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              AppIcons.warning,
+              height: 56,
+              colorFilter: const ColorFilter.mode(
+                LightThemeColors.warning40,
+                BlendMode.srcIn,
+              ),
+            ),
+            ThemedControls.spacerVerticalSmall(),
+            Text(
+              l10n.androidDeprecationDialogTitle,
+              style: TextStyles.alertHeader.copyWith(
+                color: LightThemeColors.warning40,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
         content: _buildBody(
           l10n.androidDeprecationDialogMessageBefore,
@@ -76,7 +96,7 @@ Future<void> maybeShowAndroidDeprecationDialog(BuildContext context) async {
 }
 
 Widget _buildBody(String before, String highlight, String after) {
-  final baseStyle = TextStyles.alertText.copyWith(fontSize: 16);
+  final baseStyle = TextStyles.alertText;
   return RichText(
     text: TextSpan(
       style: baseStyle,
