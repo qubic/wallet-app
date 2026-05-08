@@ -5,6 +5,8 @@ abstract class AppIcons {
   static const String sendArrow = '${_path}send-arrow.svg';
   static const String receiveArrow = '${_path}receive-arrow.svg';
   static const String transferRights = '${_path}transfer-rights.svg';
+  static const String copy = '${_path}copy.svg';
+  static const String keyVertical = '${_path}key-vertical.svg';
 
   static const String changePassword = '${_path}change-password.svg';
   static const String export = '${_path}export.svg';

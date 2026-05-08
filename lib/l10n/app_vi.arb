@@ -831,7 +831,7 @@
     "dAppFeaturedApp": "Ứng dụng nổi bật",
     "dAppPopularApps": "Khám phá dApp",
     "dAppQubicApps": "Qubic Apps",
-    "assetButtonIssuerIdentity": "Xem Nhà Phát Hành",
+    "assetButtonIssuerIdentity": "Xem Nhà Phát Hành trong Explorer",
     "networksTitle": "Mạng",
     "networksButtonAddNetwork": "Thêm mạng",
     "networksConfirmationDialogTitleDeleteNetwork": "Xóa {networkName}?",

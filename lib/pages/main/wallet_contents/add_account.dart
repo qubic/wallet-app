@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:qubic_wallet/components/private_seed_warning.dart';
 import 'package:qubic_wallet/components/qr_scan_icon_button.dart';
@@ -21,6 +22,7 @@ import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/screenshot_service.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -345,13 +347,16 @@ class _AddAccountState extends State<AddAccount> {
                                                         "privateSeed"],
                                                     context);
                                               },
-                                              icon: LightThemeColors
-                                                      .shouldInvertIcon
-                                                  ? ThemedControls.invertedColors(
-                                                      child: Image.asset(
-                                                          "assets/images/Group 2400.png"))
-                                                  : Image.asset(
-                                                      "assets/images/Group 2400.png")))
+                                              icon: SvgPicture.asset(
+                                                AppIcons.copy,
+                                                width: 18,
+                                                height: 18,
+                                                colorFilter:
+                                                    const ColorFilter.mode(
+                                                  LightThemeColors.primary,
+                                                  BlendMode.srcIn,
+                                                ),
+                                              )))
                                     ])),
                         autocorrect: false,
                         autofillHints: null,
@@ -372,6 +377,16 @@ class _AddAccountState extends State<AddAccount> {
                       ThemedControls.spacerVerticalMini(),
                       Builder(builder: (context) {
                         return ThemedControls.card(
+                            // Reduce the right padding so the trailing copy
+                            // icon lines up with the one in the private-seed
+                            // text field above. The slight extra trim
+                            // (vs. smallPadding) compensates for the
+                            // TextField's internal suffixIcon spacing.
+                            padding: const EdgeInsets.fromLTRB(
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.normalPadding,
+                                ThemePaddings.tinyPadding,
+                                ThemePaddings.normalPadding),
                             child: Flex(direction: Axis.horizontal, children: [
                           Flexible(
                               child: Column(
@@ -416,12 +431,15 @@ class _AddAccountState extends State<AddAccount> {
                                     ClipboardHelper.copyToClipboard(
                                         generatedPublicId!, context);
                                   },
-                                  icon: LightThemeColors.shouldInvertIcon
-                                      ? ThemedControls.invertedColors(
-                                          child: Image.asset(
-                                              "assets/images/Group 2400.png"))
-                                      : Image.asset(
-                                          "assets/images/Group 2400.png"))
+                                  icon: SvgPicture.asset(
+                                    AppIcons.copy,
+                                    width: 18,
+                                    height: 18,
+                                    colorFilter: const ColorFilter.mode(
+                                      LightThemeColors.primary,
+                                      BlendMode.srcIn,
+                                    ),
+                                  ))
                         ]));
                       })
                     ],
