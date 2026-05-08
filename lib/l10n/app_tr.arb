@@ -907,6 +907,8 @@
     "signVerifyMessageErrorSign": "Mesaj imzalanamadı. Lütfen tekrar deneyin.",
     "signVerifyMessageSettingsLabel": "Mesajı Doğrula",
     "signVerifyMessageAccountMenu": "Mesajı İmzala",
+    "transactionItemLabelSent": "Gönderildi",
+    "transactionItemLabelReceived": "Alındı",
     "addressLabelTokenIssuer": "{name} Yayımlayan",
     "@addressLabelTokenIssuer": {
         "placeholders": {

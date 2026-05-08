@@ -1034,6 +1034,8 @@
     "signVerifyMessageErrorSign": "Failed to sign message. Please try again.",
     "signVerifyMessageSettingsLabel": "Verify Message",
     "signVerifyMessageAccountMenu": "Sign Message",
+    "transactionItemLabelSent": "Sent",
+    "transactionItemLabelReceived": "Received",
     "addressLabelTokenIssuer": "{name} Issuer",
     "@addressLabelTokenIssuer": {
         "placeholders": {

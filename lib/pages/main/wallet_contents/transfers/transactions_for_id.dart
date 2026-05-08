@@ -7,6 +7,7 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:qubic_wallet/components/adaptive_refresh_indicator.dart';
 import 'package:qubic_wallet/components/custom_paged_list_view.dart';
 import 'package:qubic_wallet/components/transaction_item.dart';
+import 'package:qubic_wallet/components/transaction_item_skeleton.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/transactions_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -246,8 +247,10 @@ class _TransactionsForIdState extends State<TransactionsForId> {
         ],
       ),
       body: SafeArea(
-        minimum: ThemeEdgeInsets.pageInsets
-            .copyWith(bottom: ThemePaddings.normalPadding),
+        minimum: ThemeEdgeInsets.pageInsets.copyWith(
+            left: ThemePaddings.smallPadding,
+            right: ThemePaddings.smallPadding,
+            bottom: ThemePaddings.normalPadding),
         child: AdaptiveRefreshIndicator(
           edgeOffset: kToolbarHeight,
           onRefresh: () async {
@@ -311,7 +314,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                   pagingController: _pagingController,
                   cacheExtent: 500,
                   separatorBuilder: (context, index) => const SizedBox(
-                    height: ThemePaddings.miniPadding,
+                    height: ThemePaddings.tinyPadding,
                   ),
                   itemBuilder: (context, item, index) {
                     final showHeader = _shouldShowDayHeader(item, index);
@@ -332,12 +335,18 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                   },
                   newPageProgressIndicatorBuilder: (context) => const Padding(
                         padding: EdgeInsets.all(ThemePaddings.smallPadding),
-                        child: Center(
-                            child:
-                                SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))),
+                        child: TransactionItemSkeleton(),
                       ),
-                  firstPageProgressIndicatorBuilder: (context) =>
-                      const Center(child: CircularProgressIndicator()),
+                  firstPageProgressIndicatorBuilder: (context) => Column(
+                    children: List.generate(
+                      5,
+                      (i) => const Padding(
+                        padding: EdgeInsets.only(
+                            bottom: ThemePaddings.tinyPadding),
+                        child: TransactionItemSkeleton(),
+                      ),
+                    ),
+                  ),
                   firstPageErrorIndicatorBuilder: (context) =>
                       TransactionUIHelpers.getEmptyTransactionsForSingleID(
                           context: context,

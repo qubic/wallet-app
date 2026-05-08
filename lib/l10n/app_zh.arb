@@ -907,6 +907,8 @@
     "signVerifyMessageErrorSign": "签名消息失败。请重试。",
     "signVerifyMessageSettingsLabel": "验证消息",
     "signVerifyMessageAccountMenu": "签名消息",
+    "transactionItemLabelSent": "已发送",
+    "transactionItemLabelReceived": "已接收",
     "addressLabelTokenIssuer": "{name} 发行人",
     "@addressLabelTokenIssuer": {
         "placeholders": {

@@ -912,6 +912,8 @@
     "signVerifyMessageSettingsLabel": "Vérifier le message",
     "signVerifyMessageAccountMenu": "Signer le message",
     "generalLabelToday": "Aujourd'hui",
+    "transactionItemLabelSent": "Envoyé",
+    "transactionItemLabelReceived": "Reçu",
     "addressLabelTokenIssuer": "{name} Émetteur",
     "@addressLabelTokenIssuer": {
         "placeholders": {

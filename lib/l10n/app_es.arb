@@ -906,6 +906,8 @@
     "signVerifyMessageErrorSign": "No se pudo firmar el mensaje. Inténtalo de nuevo.",
     "signVerifyMessageSettingsLabel": "Verificar mensaje",
     "signVerifyMessageAccountMenu": "Firmar mensaje",
+    "transactionItemLabelSent": "Enviado",
+    "transactionItemLabelReceived": "Recibido",
     "addressLabelTokenIssuer": "{name} Emisor",
     "@addressLabelTokenIssuer": {
         "placeholders": {

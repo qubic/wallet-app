@@ -907,6 +907,8 @@
     "signVerifyMessageErrorSign": "Не удалось подписать сообщение. Повторите попытку.",
     "signVerifyMessageSettingsLabel": "Проверить сообщение",
     "signVerifyMessageAccountMenu": "Подписать сообщение",
+    "transactionItemLabelSent": "Отправлено",
+    "transactionItemLabelReceived": "Получено",
     "addressLabelTokenIssuer": "{name} Эмитент",
     "@addressLabelTokenIssuer": {
         "placeholders": {

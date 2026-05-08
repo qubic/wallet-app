@@ -907,6 +907,8 @@
     "signVerifyMessageErrorSign": "Signieren der Nachricht fehlgeschlagen. Bitte erneut versuchen.",
     "signVerifyMessageSettingsLabel": "Nachricht verifizieren",
     "signVerifyMessageAccountMenu": "Nachricht signieren",
+    "transactionItemLabelSent": "Gesendet",
+    "transactionItemLabelReceived": "Empfangen",
     "addressLabelTokenIssuer": "{name} Emittent",
     "@addressLabelTokenIssuer": {
         "placeholders": {

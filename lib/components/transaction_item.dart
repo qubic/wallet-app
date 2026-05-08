@@ -94,23 +94,44 @@ class _TransactionItemState extends State<TransactionItem> {
 
   /// Returns the display name for an address:
   /// account name > smart contract/token label > truncated address
-  String getAddressDisplayName(String address) {
+  String getAddressDisplayName(BuildContext context, String address) {
     final QubicListVm? account = appStore.findAccountById(address);
     if (account != null) return account.name;
-    final label = AddressUIHelper.getLabel(address);
+    final label = AddressUIHelper.getLabel(context, address);
     if (label != null) return label;
     return AddressUIHelper.truncateAddress(address);
   }
 
-  /// Direction arrow: green down for incoming, red up for outgoing
-  IconData get directionIcon {
-    return isIncoming ? Icons.arrow_downward : Icons.arrow_upward;
+  /// Direction arrow asset: receive for incoming, send for outgoing
+  String get directionIconAsset {
+    return isIncoming ? AppIcons.receiveArrow : AppIcons.sendArrow;
   }
 
-  Color get directionColor {
-    return isIncoming
-        ? LightThemeColors.successIncoming
-        : LightThemeColors.error;
+  /// Direction is conveyed by the icon shape (send vs receive); status is
+  /// conveyed by the inline status label. The badge itself is always the
+  /// neutral app accent so it matches the rest of the UI.
+  Color get directionBadgeColor => LightThemeColors.buttonPrimary;
+
+  /// Circular icon badge matching the wallet-extension transaction row design:
+  /// a small circle with a tinted border + fill, centered direction icon.
+  Widget buildDirectionBadge(Color color) {
+    return Container(
+      width: 28,
+      height: 28,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color.withValues(alpha: 0.10),
+        border: Border.all(color: color.withValues(alpha: 0.40), width: 1),
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          directionIconAsset,
+          width: 14,
+          height: 14,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        ),
+      ),
+    );
   }
 
   /// Returns the formatted amount string (color conveys direction, no +/- prefix)
@@ -131,13 +152,16 @@ class _TransactionItemState extends State<TransactionItem> {
   }
 
   /// Returns the color for the amount based on status and direction.
-  /// Failed/invalid → grey, zero → green, otherwise green/red by direction.
+  /// Failed/invalid → grey (didn't happen), zero amount → grey (no balance
+  /// change), otherwise green/red by direction.
   Color amountColorForStatus(ComputedTransactionStatus status) {
     if (status == ComputedTransactionStatus.failure ||
         status == ComputedTransactionStatus.invalid) {
       return LightThemeColors.secondaryTypography;
     }
-    if (widget.item.amount == 0) return LightThemeColors.successIncoming;
+    if (widget.item.amount == 0) {
+      return LightThemeColors.secondaryTypography;
+    }
     return isIncoming
         ? LightThemeColors.successIncoming
         : LightThemeColors.error;
@@ -146,12 +170,28 @@ class _TransactionItemState extends State<TransactionItem> {
   @override
   Widget build(BuildContext context) {
     final status = widget.item.getStatus();
-    final statusIcon =
-        TransactionStatusHelpers.getTransactionStatusIcon(status);
     final statusColor =
         TransactionStatusHelpers.getTransactionStatusColor(status);
-    final txType = TransactionUIHelpers.getTransactionType(
-        widget.item.type ?? 0, widget.item.destId);
+    final l10n = l10nOf(context);
+    String? statusLabel;
+    switch (status) {
+      case ComputedTransactionStatus.pending:
+        statusLabel = l10n.transactionLabelStatusPending;
+        break;
+      case ComputedTransactionStatus.failure:
+        statusLabel = l10n.transactionLabelStatusFailed;
+        break;
+      case ComputedTransactionStatus.invalid:
+        statusLabel = l10n.transactionLabelStatusInvalid;
+        break;
+      case ComputedTransactionStatus.success:
+      case ComputedTransactionStatus.executed:
+        statusLabel = null;
+    }
+    final showAmount =
+        !isQxTransferShares || (isQxTransferShares && assetTransfer != null);
+    final whiteSmall = TextStyles.lightGreyTextSmall
+        .copyWith(color: LightThemeColors.primary);
 
     return ConstrainedBox(
         constraints: const BoxConstraints(minWidth: 400, maxWidth: 500),
@@ -159,89 +199,105 @@ class _TransactionItemState extends State<TransactionItem> {
             padding: const EdgeInsets.only(
                 left: ThemePaddings.smallPadding,
                 right: ThemePaddings.normalPadding,
-                top: ThemePaddings.smallPadding,
-                bottom: ThemePaddings.smallPadding),
+                top: ThemePaddings.mediumPadding,
+                bottom: ThemePaddings.mediumPadding),
             child: InkWell(
                 onTap: () => showDetails(context),
                 borderRadius: BorderRadius.circular(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Lines 1-2: Arrow centered vertically beside tx type + from/to
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(directionIcon, color: directionColor, size: 20),
-                        const SizedBox(width: ThemePaddings.smallPadding),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    buildDirectionBadge(directionBadgeColor),
+                    const SizedBox(width: ThemePaddings.smallPadding),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Line 1: Transaction type [+ status] ............ Amount
+                          // Priority: amount + status always fit; type truncates first.
+                          // Wrapped in an Observer so the type label updates
+                          // reactively once the ecosystem store loads protocol
+                          // input types or smart contract data.
+                          Observer(builder: (context) {
+                            final isSimpleTransfer = (widget.item.type ?? 0) == 0;
+                            final txType = isSimpleTransfer
+                                ? (isIncoming
+                                    ? l10n.transactionItemLabelReceived
+                                    : l10n.transactionItemLabelSent)
+                                : TransactionUIHelpers.getTransactionType(
+                                    widget.item.type ?? 0, widget.item.destId);
+                            return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              // Line 1: Transaction type + Status icon
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Text(txType,
-                                        style: TextStyles.labelTextSmall,
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1),
-                                  ),
-                                  const SizedBox(
-                                      width: ThemePaddings.miniPadding),
-                                  Icon(statusIcon,
-                                      color: statusColor, size: 16),
-                                ],
-                              ),
-                              const SizedBox(height: 2),
-                              // Line 2: From/To + address label
-                              Observer(builder: (context) {
-                                final address = directionAddress;
-                                final displayName =
-                                    getAddressDisplayName(address);
-                                final label = directionLabel(context);
-                                final isSC =
-                                    AddressUIHelper.isSmartContract(address);
-                                return Row(
+                              Flexible(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text("$label: ",
-                                        style:
-                                            TextStyles.lightGreyTextSmall),
-                                    if (isSC) ...[
-                                      SvgPicture.asset(
-                                          AppIcons.smartContract,
-                                          width: 14,
-                                          height: 14,
-                                          colorFilter: ColorFilter.mode(
-                                              TextStyles
-                                                  .lightGreyTextSmall.color!,
-                                              BlendMode.srcIn)),
-                                      const SizedBox(width: 4),
-                                    ],
                                     Flexible(
-                                      child: Text(displayName,
-                                          style:
-                                              TextStyles.lightGreyTextSmall,
+                                      child: Text(txType,
+                                          style: TextStyles.labelTextSmall,
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1),
                                     ),
+                                    if (statusLabel != null) ...[
+                                      Text(' · ',
+                                          style: TextStyles.labelTextSmall
+                                              .copyWith(color: statusColor)),
+                                      Text(statusLabel,
+                                          style: TextStyles.labelTextSmall
+                                              .copyWith(color: statusColor),
+                                          maxLines: 1),
+                                    ],
                                   ],
-                                );
-                              }),
+                                ),
+                              ),
+                              const SizedBox(width: ThemePaddings.smallPadding),
+                              if (showAmount)
+                                Text(formattedAmount,
+                                    style: TextStyles.textSmall.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        color: amountColorForStatus(status))),
                             ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    // Line 3: Amount (right-aligned)
-                    if (!isQxTransferShares ||
-                        (isQxTransferShares && assetTransfer != null))
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(formattedAmount,
-                            style: TextStyles.textSmall.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: amountColorForStatus(status))),
+                            );
+                          }),
+                          const SizedBox(height: 2),
+                          // Line 2: From/To + name (truncatedAddress) — white text
+                          Observer(builder: (context) {
+                            final address = directionAddress;
+                            final displayName =
+                                getAddressDisplayName(context, address);
+                            final truncated =
+                                AddressUIHelper.truncateAddress(address);
+                            final hasName = displayName != truncated;
+                            final label = directionLabel(context);
+                            final isSC =
+                                AddressUIHelper.isSmartContract(address);
+                            return Row(
+                              children: [
+                                Text("$label: ", style: whiteSmall),
+                                if (isSC) ...[
+                                  SvgPicture.asset(AppIcons.smartContract,
+                                      width: 14,
+                                      height: 14,
+                                      colorFilter: ColorFilter.mode(
+                                          whiteSmall.color!, BlendMode.srcIn)),
+                                  const SizedBox(width: 4),
+                                ],
+                                Flexible(
+                                  child: Text(displayName,
+                                      style: whiteSmall,
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1),
+                                ),
+                                if (hasName)
+                                  Text(' ($truncated)', style: whiteSmall),
+                              ],
+                            );
+                          }),
+                        ],
                       ),
+                    ),
                   ],
                 ))));
   }

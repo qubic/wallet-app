@@ -970,6 +970,8 @@
     "signVerifyMessageErrorSign": "Không thể ký tin nhắn. Vui lòng thử lại.",
     "signVerifyMessageSettingsLabel": "Xác minh tin nhắn",
     "signVerifyMessageAccountMenu": "Ký tin nhắn",
+    "transactionItemLabelSent": "Đã gửi",
+    "transactionItemLabelReceived": "Đã nhận",
     "addressLabelTokenIssuer": "{name} Người phát hành",
     "@addressLabelTokenIssuer": {
         "placeholders": {
