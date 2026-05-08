@@ -905,5 +905,10 @@
     "signVerifyMessageErrorChecksum": "签名校验和验证失败。",
     "signVerifyMessageErrorSign": "签名消息失败。请重试。",
     "signVerifyMessageSettingsLabel": "验证消息",
-    "signVerifyMessageAccountMenu": "签名消息"
+    "signVerifyMessageAccountMenu": "签名消息",
+    "androidDeprecationDialogTitle": "重要：设备更新警告",
+    "androidDeprecationDialogMessageBefore": "未来的更新将需要 Android 7.0 或更高版本。为了继续接收更新并确保对钱包的长期访问，请从设置中",
+    "androidDeprecationDialogMessageHighlight": "备份您的私有种子或导出钱包保险库文件",
+    "androidDeprecationDialogMessageAfter": "。",
+    "androidDeprecationDialogButton": "知道了"
 }

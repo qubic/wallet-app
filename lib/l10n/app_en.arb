@@ -1032,5 +1032,10 @@
     "signVerifyMessageErrorChecksum": "Signature checksum verification failed.",
     "signVerifyMessageErrorSign": "Failed to sign message. Please try again.",
     "signVerifyMessageSettingsLabel": "Verify Message",
-    "signVerifyMessageAccountMenu": "Sign Message"
+    "signVerifyMessageAccountMenu": "Sign Message",
+    "androidDeprecationDialogTitle": "Important: device update warning",
+    "androidDeprecationDialogMessageBefore": "Future updates will require Android 7.0 or higher. To continue receiving updates and ensure long-term wallet access, please ",
+    "androidDeprecationDialogMessageHighlight": "back up your private seeds or export your wallet vault",
+    "androidDeprecationDialogMessageAfter": " from Settings.",
+    "androidDeprecationDialogButton": "Got it"
 }

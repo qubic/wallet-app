@@ -11,6 +11,7 @@ import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/android_deprecation_dialog.dart';
 import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
@@ -234,6 +235,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       if (!mounted) return;
       appLinkController.parseUriString(
           applicationStore.currentInboundUri!, context);
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      maybeShowAndroidDeprecationDialog(context);
     });
   }
 
