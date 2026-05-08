@@ -375,7 +375,7 @@
     "transactionItemButtonViewDetails": "Xem chi tiết",
     "transactionItemButtonResend": "Gửi lại",
     "transactionItemLabelConfirmedDate": "Dấu thời gian",
-    "transactionItemLabelDetails": "Chi tiết chuyển khoản",
+    "transactionItemLabelDetails": "Chi tiết giao dịch",
     "sendItemLabelTargetTick": "Tick mục tiêu",
     "sendItemLabelTargetTickAutomatic": "Tự động: Hiện tại + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {

@@ -335,7 +335,7 @@
     "transactionItemButtonViewDetails": "Voir les Détails",
     "transactionItemButtonResend": "Renvoyer",
     "transactionItemLabelConfirmedDate": "Horodatage",
-    "transactionItemLabelDetails": "Détails du Transfert",
+    "transactionItemLabelDetails": "Détails de la Transaction",
     "sendItemLabelTargetTick": "Tick Cible",
     "sendItemLabelTargetTickAutomatic": "Automatiquement: Actuel + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {

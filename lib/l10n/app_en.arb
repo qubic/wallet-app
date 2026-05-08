@@ -381,7 +381,7 @@
     "transactionItemButtonViewDetails": "View Details",
     "transactionItemButtonResend": "Resend",
     "transactionItemLabelConfirmedDate": "Timestamp",
-    "transactionItemLabelDetails": "Transfer Details",
+    "transactionItemLabelDetails": "Transaction Details",
     "sendItemLabelTargetTick": "Target Tick",
     "sendItemLabelTargetTickAutomatic": "Automatically: Current + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {

@@ -336,7 +336,7 @@
     "transactionItemButtonViewDetails": "Details anzeigen",
     "transactionItemButtonResend": "Erneut senden",
     "transactionItemLabelConfirmedDate": "Zeitstempel",
-    "transactionItemLabelDetails": "Überweisungsdetails",
+    "transactionItemLabelDetails": "Transaktionsdetails",
     "sendItemLabelTargetTick": "Ziel-Tick",
     "sendItemLabelTargetTickAutomatic": "Automatisch: Aktuell + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {

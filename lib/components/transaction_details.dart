@@ -188,34 +188,35 @@ class _TransactionDetailsState extends State<TransactionDetails> {
   }
 
   //Gets the from and To labels
-  Widget getFromTo(BuildContext context, String prepend, String accountId) {
-    final l10n = l10nOf(context);
-
+  Widget getFromTo(BuildContext context, String label, String accountId) {
     return Flex(direction: Axis.horizontal, children: [
       Expanded(
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+            // Simple "From" / "To" label.
+            SizedBox(
+                width: double.infinity,
+                child: Text(label,
+                    textAlign: TextAlign.start,
+                    style: TextStyles.lightGreyTextNormal)),
+            // Value: account name / contract label + (truncated address),
+            // matching the format used in the transaction list cell.
             Observer(builder: (context) {
-              QubicListVm? source = appStore.findAccountById(accountId);
-              if (source != null) {
-                return SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                        l10n.generalLabelToFromAccount(prepend, source.name),
-                        textAlign: TextAlign.start,
-                        style: TextStyles.lightGreyTextNormal));
+              final QubicListVm? account = appStore.findAccountById(accountId);
+              final String displayName;
+              if (account != null) {
+                displayName = account.name;
+              } else {
+                displayName = AddressUIHelper.getLabel(context, accountId) ??
+                    AddressUIHelper.truncateAddress(accountId);
               }
-              return SizedBox(
-                  width: double.infinity,
-                  child: Text(l10n.generalLabelToFromAddress(prepend),
-                      textAlign: TextAlign.start,
-                      style: TextStyles.lightGreyTextNormal));
-            }),
-            if (AddressUIHelper.getLabel(accountId) case String label)
-              Row(children: [
-                if (AddressUIHelper.isSmartContract(accountId)) ...[
+              final truncated = AddressUIHelper.truncateAddress(accountId);
+              final hasName = displayName != truncated;
+              final isSC = AddressUIHelper.isSmartContract(accountId);
+              return Row(children: [
+                if (isSC) ...[
                   SvgPicture.asset(AppIcons.smartContract,
                       width: 16,
                       height: 16,
@@ -225,9 +226,14 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                   const SizedBox(width: 4),
                 ],
                 Flexible(
-                    child: Text(label, style: TextStyles.textNormal)),
-              ]),
-            Text(accountId, style: TextStyles.textNormal),
+                    child: Text(displayName,
+                        style: TextStyles.textNormal,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1)),
+                if (hasName)
+                  Text(' ($truncated)', style: TextStyles.textNormal),
+              ]);
+            }),
           ])),
       CopyButton(copiedText: accountId)
     ]);
@@ -290,7 +296,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               ),
                             ],
                           ),
-                          if (isQxTransferShares)
+                          if (isQxTransferShares) ...[
                             DecoratedBox(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
@@ -313,7 +319,8 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                                 ]),
                               ),
                             ),
-                          ThemedControls.spacerVerticalNormal(),
+                            ThemedControls.spacerVerticalSmall(),
+                          ],
                           Center(child: _buildStatusLabel(context)),
                           ThemedControls.spacerVerticalSmall(),
                           Center(
@@ -356,30 +363,22 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                             child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                              getCopyableDetails(
-                                  context,
-                                  l10n.transactionItemLabelConfirmedDate,
-                                  widget.item.timestamp != null
-                                      ? DateFormatter.formatShortWithTime(
-                                          widget.item.timestamp!)
-                                      : l10n.generalLabelNotAvailable),
-                              ThemedControls.spacerVerticalSmall(),
-                              getCopyableDetails(
-                                  context,
-                                  l10n.generalLabelTick,
-                                  widget.item.targetTick.asThousands()),
-                              ThemedControls.spacerVerticalSmall(),
+                              // Order matches the wallet-extension transaction
+                              // details page: id → type → from → to → tick →
+                              // timestamp.
                               getCopyableDetails(
                                   context,
                                   l10n.transactionItemLabelTransactionId,
                                   widget.item.id),
                               ThemedControls.spacerVerticalSmall(),
-                              getCopyableDetails(
-                                  context,
-                                  l10n.transactionItemLabelTransactionType,
-                                  TransactionUIHelpers.getTransactionType(
-                                      widget.item.type ?? 0,
-                                      widget.item.destId)),
+                              Observer(
+                                  builder: (context) => getCopyableDetails(
+                                      context,
+                                      l10n.transactionItemLabelTransactionType,
+                                      TransactionUIHelpers
+                                          .getTransactionTypeLong(
+                                              widget.item.type ?? 0,
+                                              widget.item.destId))),
                               ThemedControls.spacerVerticalSmall(),
                               getFromTo(context, l10n.generalLabelFrom,
                                   widget.item.sourceId),
@@ -391,6 +390,19 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                                       ? widget
                                           .assetTransfer!.newOwnerAndPossessor
                                       : widget.item.destId),
+                              ThemedControls.spacerVerticalSmall(),
+                              getCopyableDetails(
+                                  context,
+                                  l10n.generalLabelTick,
+                                  widget.item.targetTick.asThousands()),
+                              ThemedControls.spacerVerticalSmall(),
+                              getCopyableDetails(
+                                  context,
+                                  l10n.transactionItemLabelConfirmedDate,
+                                  widget.item.timestamp != null
+                                      ? DateFormatter.formatShortWithTime(
+                                          widget.item.timestamp!)
+                                      : l10n.generalLabelNotAvailable),
                               ThemedControls.spacerVerticalSmall(),
                               if (isQxTransferShares &&
                                   widget.assetTransfer != null) ...[

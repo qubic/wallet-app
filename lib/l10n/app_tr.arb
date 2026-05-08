@@ -336,7 +336,7 @@
     "transactionItemButtonViewDetails": "Detayları Göster",
     "transactionItemButtonResend": "Yeniden Gönder",
     "transactionItemLabelConfirmedDate": "Zaman damgası",
-    "transactionItemLabelDetails": "Transfer Detayları",
+    "transactionItemLabelDetails": "İşlem Detayları",
     "sendItemLabelTargetTick": "Hedef Tick",
     "sendItemLabelTargetTickAutomatic": "Otomatik olarak: Mevcut + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
