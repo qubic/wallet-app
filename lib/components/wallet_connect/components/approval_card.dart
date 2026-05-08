@@ -1,6 +1,6 @@
 part of '../approve_wc_method_screen.dart';
 
-class _ApprovalCard extends StatefulWidget {
+class _ApprovalCard extends StatelessWidget {
   const _ApprovalCard({
     required this.data,
     required this.method,
@@ -9,22 +9,50 @@ class _ApprovalCard extends StatefulWidget {
   final ApprovalDataModel data;
   final WalletConnectMethod method;
 
-  @override
-  State<_ApprovalCard> createState() => _ApprovalCardState();
-}
-
-class _ApprovalCardState extends State<_ApprovalCard> {
-  final ApplicationStore appStore = getIt<ApplicationStore>();
-  String? toIdName;
-
-  @override
-  void initState() {
-    super.initState();
-
-    var item = appStore.findAccountById(widget.data.toID);
-    setState(() {
-      toIdName = item?.name;
-    });
+  /// "From"/"To" block for the WalletConnect signing surface:
+  /// "From: <displayName>" (truncated) on one line, then the full address.
+  /// Showing the full address on this screen is intentional — the user is
+  /// authorizing a transfer to a dApp-supplied destination and must be
+  /// able to verify it.
+  Widget _buildFromTo(BuildContext context, String label, String accountId) {
+    final appStore = getIt<ApplicationStore>();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Observer(builder: (context) {
+          final account = appStore.findAccountById(accountId);
+          final String? displayName = account?.name ??
+              AddressUIHelper.getLabel(context, accountId);
+          final isSC = AddressUIHelper.isSmartContract(accountId);
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(displayName != null ? "$label: " : label,
+                  style: TextStyles.lightGreyTextSmall),
+              if (displayName != null) ...[
+                if (isSC) ...[
+                  SvgPicture.asset(AppIcons.smartContract,
+                      width: 16,
+                      height: 16,
+                      colorFilter: ColorFilter.mode(
+                          TextStyles.textNormal.color ?? Colors.white,
+                          BlendMode.srcIn)),
+                  const SizedBox(width: 4),
+                ],
+                Flexible(
+                    child: Text(displayName,
+                        style: TextStyles.textNormal
+                            .copyWith(fontWeight: FontWeight.w600),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1)),
+              ],
+            ],
+          );
+        }),
+        ThemedControls.spacerVerticalMini(),
+        Text(accountId, style: TextStyles.textNormal),
+      ],
+    );
   }
 
   @override
@@ -32,68 +60,45 @@ class _ApprovalCardState extends State<_ApprovalCard> {
     final l10n = l10nOf(context);
     return ThemedControls.card(
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        if (widget.method == WalletConnectMethod.signTransaction ||
-            widget.method == WalletConnectMethod.signMessage) ...[
+        if (method == WalletConnectMethod.signTransaction ||
+            method == WalletConnectMethod.signMessage) ...[
           Center(
               child: Text(
-                  widget.method == WalletConnectMethod.signTransaction
+                  method == WalletConnectMethod.signTransaction
                       ? l10n.wcApproveSignTransferOf
                       : l10n.wcApproveSignOf,
                   style: TextStyles.sliverHeader)),
           ThemedControls.spacerVerticalNormal(),
         ],
-        if (widget.data.message != null) ...[
+        if (data.message != null) ...[
           Center(
-            child: Text(widget.data.message!.replaceAll(r'\n', '\n'),
+            child: Text(data.message!.replaceAll(r'\n', '\n'),
                 textAlign: TextAlign.center, style: TextStyles.textNormal),
           ),
           ThemedControls.spacerVerticalBig(),
         ],
-        if (widget.data.amount != null) ...[
+        if (data.amount != null) ...[
           Center(
               child: AmountValueHeader(
-                  amount: widget.data.amount!,
-                  suffix:
-                      widget.data.assetName ?? l10n.generalLabelCurrencyQubic)),
+                  amount: data.amount!,
+                  suffix: data.assetName ?? l10n.generalLabelCurrencyQubic)),
           ThemedControls.spacerVerticalBig(),
         ],
-        Text(
-          l10n.generalLabelToFromAccount(
-              l10n.generalLabelFrom, widget.data.fromName ?? "-"),
-          style: TextStyles.lightGreyTextSmall,
-        ),
-        ThemedControls.spacerVerticalMini(),
-        Text(widget.data.fromID, style: TextStyles.textNormal),
-        if (widget.data.toID != null) ...[
+        _buildFromTo(context, l10n.generalLabelFrom, data.fromID),
+        if (data.toID != null) ...[
           ThemedControls.spacerVerticalSmall(),
-          toIdName != null
-              ? Text(
-                  l10n.generalLabelToFromAccount(
-                      l10n.generalLabelTo, toIdName!),
-                  style: TextStyles.lightGreyTextSmall,
-                )
-              : Text(
-                  l10n.generalLabelToFromAddress(l10n.generalLabelTo),
-                  style: TextStyles.lightGreyTextSmall,
-                ),
-          if (AddressUIHelper.getLabel(context, widget.data.toID!)
-              case String label) ...[
-            ThemedControls.spacerVerticalMini(),
-            Text(label)
-          ],
-          ThemedControls.spacerVerticalMini(),
-          Text(widget.data.toID ?? "-", style: TextStyles.textNormal),
+          _buildFromTo(context, l10n.generalLabelTo, data.toID!),
         ],
-        if (widget.data.tick != null) ...[
+        if (data.tick != null) ...[
           ThemedControls.spacerVerticalSmall(),
           Text(
             l10n.generalLabelTick,
             style: TextStyles.lightGreyTextSmall,
           ),
-          Text(widget.data.tick?.asThousands() ?? "-",
+          Text(data.tick?.asThousands() ?? "-",
               style: TextStyles.textNormal),
         ],
-        if (widget.data.inputType != null) ...[
+        if (data.inputType != null) ...[
           ThemedControls.spacerVerticalSmall(),
           Text(
             l10n.generalLabelInputType,
@@ -101,18 +106,18 @@ class _ApprovalCardState extends State<_ApprovalCard> {
           ),
           Text(
               TransactionUIHelpers.getTransactionType(
-                  widget.data.inputType ?? 0, widget.data.toID!),
+                  data.inputType ?? 0, data.toID!),
               style: TextStyles.textNormal),
         ],
-        if (widget.data.payload != null) ...[
+        if (data.payload != null) ...[
           ThemedControls.spacerVerticalSmall(),
           Text(
             l10n.generalLabelPayload,
             style: TextStyles.lightGreyTextSmall,
           ),
-          Text(widget.data.payload!, style: TextStyles.textNormal)
+          Text(data.payload!, style: TextStyles.textNormal)
         ],
-        if (widget.method == WalletConnectMethod.sendAsset) ...[
+        if (method == WalletConnectMethod.sendAsset) ...[
           ThemedControls.spacerVerticalSmall(),
           Text(
             l10n.generalLabelFee,

@@ -4,11 +4,13 @@ class _ApprovalButtons extends StatelessWidget {
   final bool isLoading;
   final Function() onApprovalTap;
   final WalletConnectMethod method;
+  final ApprovalDataModel data;
   final VoidCallback redirectToDApp;
   const _ApprovalButtons({
     required this.isLoading,
     required this.onApprovalTap,
     required this.method,
+    required this.data,
     required this.redirectToDApp,
   });
 
@@ -19,7 +21,10 @@ class _ApprovalButtons extends StatelessWidget {
       case WalletConnectMethod.sendQubic:
         return l10n.wcApproveTransfer;
       case WalletConnectMethod.sendTransaction:
-        return l10n.wcApproveTransaction;
+        return TransactionActionHelpers.isSimpleTransferTransaction(
+                data.inputType, data.amount ?? 0)
+            ? l10n.wcApproveTransfer
+            : l10n.wcApproveTransaction;
       case WalletConnectMethod.signMessage:
         return l10n.wcSignMessage;
       case WalletConnectMethod.sendAsset:
