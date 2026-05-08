@@ -104,6 +104,23 @@ mixin _$QubicEcosystemStore on QubicEcosystemStoreBase, Store {
     });
   }
 
+  late final _$transactionInputTypesAtom = Atom(
+      name: 'QubicEcosystemStoreBase.transactionInputTypes', context: context);
+
+  @override
+  List<TransactionInputType> get transactionInputTypes {
+    _$transactionInputTypesAtom.reportRead();
+    return super.transactionInputTypes;
+  }
+
+  @override
+  set transactionInputTypes(List<TransactionInputType> value) {
+    _$transactionInputTypesAtom.reportWrite(value, super.transactionInputTypes,
+        () {
+      super.transactionInputTypes = value;
+    });
+  }
+
   late final _$loadSmartContractsAsyncAction = AsyncAction(
       'QubicEcosystemStoreBase.loadSmartContracts',
       context: context);
@@ -140,13 +157,22 @@ mixin _$QubicEcosystemStore on QubicEcosystemStoreBase, Store {
     return _$loadExchangesAsyncAction.run(() => super.loadExchanges());
   }
 
+  late final _$loadProtocolAsyncAction =
+      AsyncAction('QubicEcosystemStoreBase.loadProtocol', context: context);
+
+  @override
+  Future<void> loadProtocol() {
+    return _$loadProtocolAsyncAction.run(() => super.loadProtocol());
+  }
+
   @override
   String toString() {
     return '''
 smartContracts: ${smartContracts},
 tokens: ${tokens},
 labeledAddresses: ${labeledAddresses},
-exchanges: ${exchanges}
+exchanges: ${exchanges},
+transactionInputTypes: ${transactionInputTypes}
     ''';
   }
 }

@@ -5,6 +5,7 @@ import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/exchange_model.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
+import 'package:qubic_wallet/models/protocol_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/models/token_response.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
@@ -50,6 +51,17 @@ abstract class QubicEcosystemStoreBase with Store {
 
   @observable
   List<ExchangeModel> exchanges = [];
+
+  @observable
+  List<TransactionInputType> transactionInputTypes = [];
+
+  /// Look up the protocol-defined label for a transaction input type.
+  /// Returns null if not found or protocol data hasn't loaded yet.
+  String? getProtocolInputTypeLabel(int inputType) {
+    return transactionInputTypes
+        .firstWhereOrNull((t) => t.id == inputType)
+        ?.label;
+  }
 
   @computed
   Map<String, SmartContractModel> get _byId => {
@@ -180,11 +192,24 @@ abstract class QubicEcosystemStoreBase with Store {
     }
   }
 
+  @action
+  Future<void> loadProtocol() async {
+    try {
+      final response = await _staticApi.getProtocol();
+      transactionInputTypes = response.transactionInputTypes;
+      appLogger.i(
+          "Successfully loaded ${transactionInputTypes.length} protocol transaction input types");
+    } catch (e) {
+      appLogger.e("Failed to load protocol data from API: ${e.toString()}");
+    }
+  }
+
   Future<void> loadAllData() async {
     loadSmartContracts();
     loadTokens();
     loadLabeledAddresses();
     loadExchanges();
+    loadProtocol();
   }
 
   Future<void> refreshIfAbsent() async {
@@ -199,6 +224,9 @@ abstract class QubicEcosystemStoreBase with Store {
     }
     if (exchanges.isEmpty) {
       await loadExchanges();
+    }
+    if (transactionInputTypes.isEmpty) {
+      await loadProtocol();
     }
   }
 }

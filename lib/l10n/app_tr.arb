@@ -906,5 +906,13 @@
     "signVerifyMessageErrorChecksum": "İmza sağlama toplamı doğrulanamadı.",
     "signVerifyMessageErrorSign": "Mesaj imzalanamadı. Lütfen tekrar deneyin.",
     "signVerifyMessageSettingsLabel": "Mesajı Doğrula",
-    "signVerifyMessageAccountMenu": "Mesajı İmzala"
+    "signVerifyMessageAccountMenu": "Mesajı İmzala",
+    "addressLabelTokenIssuer": "{name} Yayımlayan",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }

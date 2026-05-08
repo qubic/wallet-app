@@ -1033,5 +1033,13 @@
     "signVerifyMessageErrorChecksum": "Signature checksum verification failed.",
     "signVerifyMessageErrorSign": "Failed to sign message. Please try again.",
     "signVerifyMessageSettingsLabel": "Verify Message",
-    "signVerifyMessageAccountMenu": "Sign Message"
+    "signVerifyMessageAccountMenu": "Sign Message",
+    "addressLabelTokenIssuer": "{name} Issuer",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }

@@ -240,9 +240,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         if (widget.data.inputType != null &&
             widget.data.inputType! > 0 &&
             widget.data.toID != null &&
-            AddressUIHelper.getLabel(widget.data.toID!) != null) ...[
+            AddressUIHelper.getLabel(context, widget.data.toID!) != null) ...[
           _SmartContractWarningCard(
-              AddressUIHelper.getLabel(widget.data.toID!) ??
+              AddressUIHelper.getLabel(context, widget.data.toID!) ??
                   l10n.wcSmartContractUnknown),
           ThemedControls.spacerVerticalBig(),
         ],

@@ -905,5 +905,13 @@
     "signVerifyMessageErrorChecksum": "No se pudo verificar la suma de comprobación de la firma.",
     "signVerifyMessageErrorSign": "No se pudo firmar el mensaje. Inténtalo de nuevo.",
     "signVerifyMessageSettingsLabel": "Verificar mensaje",
-    "signVerifyMessageAccountMenu": "Firmar mensaje"
+    "signVerifyMessageAccountMenu": "Firmar mensaje",
+    "addressLabelTokenIssuer": "{name} Emisor",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }

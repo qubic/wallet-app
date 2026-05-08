@@ -969,5 +969,13 @@
     "signVerifyMessageErrorChecksum": "Xác minh tổng kiểm tra chữ ký thất bại.",
     "signVerifyMessageErrorSign": "Không thể ký tin nhắn. Vui lòng thử lại.",
     "signVerifyMessageSettingsLabel": "Xác minh tin nhắn",
-    "signVerifyMessageAccountMenu": "Ký tin nhắn"
+    "signVerifyMessageAccountMenu": "Ký tin nhắn",
+    "addressLabelTokenIssuer": "{name} Người phát hành",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }

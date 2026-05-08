@@ -76,7 +76,8 @@ class _ApprovalCardState extends State<_ApprovalCard> {
                   l10n.generalLabelToFromAddress(l10n.generalLabelTo),
                   style: TextStyles.lightGreyTextSmall,
                 ),
-          if (AddressUIHelper.getLabel(widget.data.toID!) case String label) ...[
+          if (AddressUIHelper.getLabel(context, widget.data.toID!)
+              case String label) ...[
             ThemedControls.spacerVerticalMini(),
             Text(label)
           ],

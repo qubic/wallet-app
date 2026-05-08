@@ -906,5 +906,13 @@
     "signVerifyMessageErrorChecksum": "签名校验和验证失败。",
     "signVerifyMessageErrorSign": "签名消息失败。请重试。",
     "signVerifyMessageSettingsLabel": "验证消息",
-    "signVerifyMessageAccountMenu": "签名消息"
+    "signVerifyMessageAccountMenu": "签名消息",
+    "addressLabelTokenIssuer": "{name} 发行人",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }

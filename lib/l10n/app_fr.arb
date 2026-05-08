@@ -911,5 +911,13 @@
     "signVerifyMessageErrorSign": "Échec de la signature du message. Veuillez réessayer.",
     "signVerifyMessageSettingsLabel": "Vérifier le message",
     "signVerifyMessageAccountMenu": "Signer le message",
-    "generalLabelToday": "Aujourd'hui"
+    "generalLabelToday": "Aujourd'hui",
+    "addressLabelTokenIssuer": "{name} Émetteur",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }

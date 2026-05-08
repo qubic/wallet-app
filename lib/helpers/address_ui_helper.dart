@@ -1,16 +1,30 @@
+import 'package:flutter/widgets.dart';
 import 'package:qubic_wallet/di.dart';
+import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 
 /// UI helper for displaying address labels in UI components.
 class AddressUIHelper {
   static final _ecosystemStore = getIt<QubicEcosystemStore>();
 
-  /// Returns the label for an address if it's a known entity
-  /// (smart contract, token, or labeled address).
+  /// Returns the localized label for an address if it's a known entity
+  /// (smart contract, token issuer, exchange, or labeled address).
+  ///
+  /// Token issuers are formatted as "<TOKEN_NAME> Issuer" (localized) to
+  /// match the qubic/explorer-frontend behavior.
   ///
   /// Returns null if the address is not recognized.
-  static String? getLabel(String address) {
-    return _ecosystemStore.getEntityLabel(address);
+  static String? getLabel(BuildContext context, String address) {
+    final contractName = _ecosystemStore.getContractName(address);
+    if (contractName != null) return contractName;
+
+    final tokenName = _ecosystemStore.getTokenName(address);
+    if (tokenName != null) {
+      return l10nOf(context).addressLabelTokenIssuer(tokenName);
+    }
+
+    return _ecosystemStore.getExchangeName(address) ??
+        _ecosystemStore.getAddressLabel(address);
   }
 
   /// Returns true if the address is a known smart contract.

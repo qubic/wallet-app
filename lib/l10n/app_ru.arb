@@ -906,5 +906,13 @@
     "signVerifyMessageErrorChecksum": "Проверка контрольной суммы подписи не удалась.",
     "signVerifyMessageErrorSign": "Не удалось подписать сообщение. Повторите попытку.",
     "signVerifyMessageSettingsLabel": "Проверить сообщение",
-    "signVerifyMessageAccountMenu": "Подписать сообщение"
+    "signVerifyMessageAccountMenu": "Подписать сообщение",
+    "addressLabelTokenIssuer": "{name} Эмитент",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }

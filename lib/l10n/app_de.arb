@@ -906,5 +906,13 @@
     "signVerifyMessageErrorChecksum": "Prüfsumme der Signatur konnte nicht verifiziert werden.",
     "signVerifyMessageErrorSign": "Signieren der Nachricht fehlgeschlagen. Bitte erneut versuchen.",
     "signVerifyMessageSettingsLabel": "Nachricht verifizieren",
-    "signVerifyMessageAccountMenu": "Nachricht signieren"
+    "signVerifyMessageAccountMenu": "Nachricht signieren",
+    "addressLabelTokenIssuer": "{name} Emittent",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    }
 }
