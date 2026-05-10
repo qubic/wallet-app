@@ -979,5 +979,10 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "androidDeprecationDialogTitle": "Quan trọng: cảnh báo cập nhật thiết bị",
+    "androidDeprecationDialogMessageBefore": "Các bản cập nhật trong tương lai sẽ yêu cầu Android 7.0 trở lên. Để tiếp tục nhận các bản cập nhật và đảm bảo quyền truy cập ví lâu dài, hãy ",
+    "androidDeprecationDialogMessageHighlight": "sao lưu seed riêng tư của bạn hoặc xuất tệp vault ví",
+    "androidDeprecationDialogMessageAfter": " từ Cài đặt.",
+    "androidDeprecationDialogButton": "Đã hiểu"
 }

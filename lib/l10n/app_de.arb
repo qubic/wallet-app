@@ -916,5 +916,10 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "androidDeprecationDialogTitle": "Wichtig: Hinweis zur Geräteaktualisierung",
+    "androidDeprecationDialogMessageBefore": "Zukünftige Updates erfordern Android 7.0 oder höher. Um weiterhin Updates zu erhalten und den langfristigen Zugriff auf Ihre Wallet zu sichern, ",
+    "androidDeprecationDialogMessageHighlight": "sichern Sie bitte Ihre privaten Seeds oder exportieren Sie Ihre Wallet-Vault-Datei",
+    "androidDeprecationDialogMessageAfter": " in den Einstellungen.",
+    "androidDeprecationDialogButton": "Verstanden"
 }

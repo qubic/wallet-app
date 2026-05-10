@@ -916,5 +916,10 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "androidDeprecationDialogTitle": "Важно: предупреждение об обновлении устройства",
+    "androidDeprecationDialogMessageBefore": "Будущие обновления потребуют Android 7.0 или выше. Чтобы продолжать получать обновления и обеспечить долгосрочный доступ к кошельку, ",
+    "androidDeprecationDialogMessageHighlight": "сохраните резервные копии приватных сидов или экспортируйте файл хранилища кошелька",
+    "androidDeprecationDialogMessageAfter": " в Настройках.",
+    "androidDeprecationDialogButton": "Понятно"
 }

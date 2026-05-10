@@ -921,5 +921,10 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "androidDeprecationDialogTitle": "Important : avertissement de mise à jour de l'appareil",
+    "androidDeprecationDialogMessageBefore": "Les futures mises à jour nécessiteront Android 7.0 ou supérieur. Pour continuer à recevoir les mises à jour et garantir l'accès à long terme à votre portefeuille, veuillez ",
+    "androidDeprecationDialogMessageHighlight": "sauvegarder vos seeds privés ou exporter votre fichier de coffre",
+    "androidDeprecationDialogMessageAfter": " depuis les Paramètres.",
+    "androidDeprecationDialogButton": "Compris"
 }

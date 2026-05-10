@@ -916,5 +916,10 @@
                 "type": "String"
             }
         }
-    }
+    },
+    "androidDeprecationDialogTitle": "Önemli: cihaz güncelleme uyarısı",
+    "androidDeprecationDialogMessageBefore": "Gelecek güncellemeler Android 7.0 veya üzerini gerektirecek. Güncellemeleri almaya devam etmek ve cüzdanınıza uzun vadeli erişimi güvence altına almak için lütfen Ayarlar bölümünden ",
+    "androidDeprecationDialogMessageHighlight": "özel seed'lerinizi yedekleyin veya cüzdan kasası dosyanızı dışa aktarın",
+    "androidDeprecationDialogMessageAfter": ".",
+    "androidDeprecationDialogButton": "Anladım"
 }
