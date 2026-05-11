@@ -31,7 +31,16 @@ class TransactionDetails extends StatefulWidget {
   final TransactionVm item;
   final QubicAssetTransfer? assetTransfer;
 
-  const TransactionDetails({super.key, required this.item, this.assetTransfer});
+  /// The account this transaction is being viewed from. Decides direction
+  /// (incoming/outgoing) so own-to-own transfers display +/- correctly
+  /// depending on which side the user is looking at.
+  final String currentAccountId;
+
+  const TransactionDetails(
+      {super.key,
+      required this.item,
+      this.assetTransfer,
+      required this.currentAccountId});
 
   @override
   State<TransactionDetails> createState() => _TransactionDetailsState();
@@ -56,7 +65,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
   @override
   void initState() {
     super.initState();
-    isIncoming = appStore.findAccountById(widget.item.destId) != null;
+    isIncoming = widget.item.destId == widget.currentAccountId;
     if (isQutilSendToMany) {
       parseTransferSendManyPayload().then((value) {
         setState(() {

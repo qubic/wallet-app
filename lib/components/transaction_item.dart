@@ -68,7 +68,9 @@ class _TransactionItemState extends State<TransactionItem> {
         builder: (BuildContext context) {
           return SafeArea(
               child: TransactionDetails(
-                  item: widget.item, assetTransfer: assetTransfer));
+                  item: widget.item,
+                  assetTransfer: assetTransfer,
+                  currentAccountId: widget.currentAccountId));
         });
   }
 
