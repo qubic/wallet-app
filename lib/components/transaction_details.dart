@@ -406,7 +406,6 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               ThemedControls.spacerVerticalSmall(),
                               if (isQxTransferShares &&
                                   widget.assetTransfer != null) ...[
-                                ThemedControls.spacerVerticalSmall(),
                                 getCopyableDetails(
                                     context,
                                     l10n.generalLabelFee,
@@ -415,7 +414,6 @@ class _TransactionDetailsState extends State<TransactionDetails> {
                               ],
                               if (isQutilSendToMany &&
                                   sendManyTransfers.isNotEmpty) ...[
-                                ThemedControls.spacerVerticalSmall(),
                                 Text(l10n.generalLabelMultipleReceivers,
                                     style: TextStyles.lightGreyTextNormal),
                                 ThemedControls.spacerVerticalMini(),
