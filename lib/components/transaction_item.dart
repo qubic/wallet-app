@@ -113,28 +113,6 @@ class _TransactionItemState extends State<TransactionItem> {
   /// neutral app accent so it matches the rest of the UI.
   Color get directionBadgeColor => LightThemeColors.buttonPrimary;
 
-  /// Circular icon badge matching the wallet-extension transaction row design:
-  /// a small circle with a tinted border + fill, centered direction icon.
-  Widget buildDirectionBadge(Color color) {
-    return Container(
-      width: 28,
-      height: 28,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: color.withValues(alpha: 0.10),
-        border: Border.all(color: color.withValues(alpha: 0.40), width: 1),
-      ),
-      child: Center(
-        child: SvgPicture.asset(
-          directionIconAsset,
-          width: 14,
-          height: 14,
-          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
-        ),
-      ),
-    );
-  }
-
   /// Returns the formatted amount string (color conveys direction, no +/- prefix)
   String get formattedAmount {
     final int amount;
@@ -208,7 +186,10 @@ class _TransactionItemState extends State<TransactionItem> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    buildDirectionBadge(directionBadgeColor),
+                    _DirectionBadge(
+                      color: directionBadgeColor,
+                      iconAsset: directionIconAsset,
+                    ),
                     const SizedBox(width: ThemePaddings.smallPadding),
                     Expanded(
                       child: Column(
@@ -301,5 +282,35 @@ class _TransactionItemState extends State<TransactionItem> {
                     ),
                   ],
                 ))));
+  }
+}
+
+/// Circular direction badge matching the wallet-extension transaction row:
+/// a 28px circle with a tinted border + fill, centered direction icon.
+class _DirectionBadge extends StatelessWidget {
+  final Color color;
+  final String iconAsset;
+
+  const _DirectionBadge({required this.color, required this.iconAsset});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 28,
+      height: 28,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color.withValues(alpha: 0.10),
+        border: Border.all(color: color.withValues(alpha: 0.40), width: 1),
+      ),
+      child: Center(
+        child: SvgPicture.asset(
+          iconAsset,
+          width: 14,
+          height: 14,
+          colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        ),
+      ),
+    );
   }
 }
