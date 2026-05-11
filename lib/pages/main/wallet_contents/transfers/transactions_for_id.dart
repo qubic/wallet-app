@@ -259,6 +259,7 @@ class _TransactionsForIdState extends State<TransactionsForId> {
           },
           backgroundColor: LightThemeColors.refreshIndicatorBackground,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ThemedControls.pageHeader(
                   headerText: (widget.item == null
