@@ -377,11 +377,6 @@ class _AddAccountState extends State<AddAccount> {
                       ThemedControls.spacerVerticalMini(),
                       Builder(builder: (context) {
                         return ThemedControls.card(
-                            // Reduce the right padding so the trailing copy
-                            // icon lines up with the one in the private-seed
-                            // text field above. The slight extra trim
-                            // (vs. smallPadding) compensates for the
-                            // TextField's internal suffixIcon spacing.
                             padding: const EdgeInsets.fromLTRB(
                                 ThemePaddings.normalPadding,
                                 ThemePaddings.normalPadding,
