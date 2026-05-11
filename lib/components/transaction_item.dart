@@ -1,11 +1,11 @@
 // ignore: depend_on_referenced_packages
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/transaction_details.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/address_ui_helper.dart';
+import 'package:qubic_wallet/helpers/format_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -33,7 +33,6 @@ class TransactionItem extends StatefulWidget {
 
 class _TransactionItemState extends State<TransactionItem> {
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  final NumberFormat numberFormat = NumberFormat.decimalPattern("en_US");
   QubicAssetTransfer? assetTransfer;
 
   bool get isQxTransferShares =>
@@ -149,7 +148,7 @@ class _TransactionItemState extends State<TransactionItem> {
       unit = "QUBIC";
     }
 
-    final formatted = numberFormat.format(amount);
+    final formatted = formatAmount(amount);
     return "$formatted $unit";
   }
 

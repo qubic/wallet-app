@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:intl/intl.dart';
+
 /// Converts a Base64-encoded string to a lowercase hex string.
 /// Returns an empty string for empty input or invalid Base64.
 String base64ToHex(String base64Str) {
@@ -11,3 +13,8 @@ String base64ToHex(String base64Str) {
     return '';
   }
 }
+
+final NumberFormat _amountFormat = NumberFormat.decimalPattern("en_US");
+
+/// Formats a numeric amount with en_US thousands separators.
+String formatAmount(num amount) => _amountFormat.format(amount);

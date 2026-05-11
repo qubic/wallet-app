@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent_bottom_nav_bar_v2.dart';
 import 'package:qubic_wallet/components/copy_button.dart';
 import 'package:qubic_wallet/components/copyable_text.dart';
+import 'package:qubic_wallet/helpers/format_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/extensions/as_thousands.dart';
@@ -50,7 +50,6 @@ class _TransactionDetailsState extends State<TransactionDetails> {
   bool get isQxTransferShares => widget.assetTransfer != null;
   List<QubicSendManyTransfer> sendManyTransfers = [];
   final ApplicationStore appStore = getIt<ApplicationStore>();
-  final NumberFormat _numberFormat = NumberFormat.decimalPattern("en_US");
 
   Future<List<QubicSendManyTransfer>> parseTransferSendManyPayload() async {
     return await getIt<QubicCmd>()
@@ -82,7 +81,7 @@ class _TransactionDetailsState extends State<TransactionDetails> {
 
   /// Amount with +/- prefix (no sign for 0)
   String get formattedAmount {
-    final formatted = _numberFormat.format(_amount);
+    final formatted = formatAmount(_amount);
     if (_amount == 0) return formatted;
     final prefix = isIncoming ? "+" : "-";
     return "$prefix$formatted";
