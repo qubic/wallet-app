@@ -50,6 +50,7 @@ class _CumulativeWalletValueSliverState
   TextStyle secondaryBalanceStyle() => TextStyles.sliverSmall;
 
   String getTotalQubics(BuildContext context) {
+    if (!appStore.hasBalancesBeenFetched) return "—";
     return numberFormat.format(appStore.totalAmounts);
   }
 
@@ -99,15 +100,18 @@ class _CumulativeWalletValueSliverState
               child: Column(
                 children: [
                   Observer(builder: (context) {
-                    if (appStore.totalAmountsInUSD == -1) {
+                    if (appStore.totalAmountsInUSD == -1 &&
+                        appStore.hasBalancesBeenFetched) {
                       return Container();
                     }
                     return AnimatedCrossFade(
                       firstChild: Text(
                         isQubicsPrimaryBalance
                             ? getTotalQubics(context)
-                            : CurrencyHelpers.formatToUsdCurrency(
-                                appStore.totalAmountsInUSD),
+                            : !appStore.hasBalancesBeenFetched
+                                ? "—"
+                                : CurrencyHelpers.formatToUsdCurrency(
+                                    appStore.totalAmountsInUSD),
                         style: primaryBalanceStyle(),
                       ),
                       secondChild: Text(l10n.generalLabelHiddenLong,
@@ -119,7 +123,8 @@ class _CumulativeWalletValueSliverState
                     );
                   }),
                   Observer(builder: (context) {
-                    if (appStore.totalAmountsInUSD == -1) {
+                    if (appStore.totalAmountsInUSD == -1 &&
+                        appStore.hasBalancesBeenFetched) {
                       return Container();
                     }
                     return AnimatedOpacity(
@@ -127,8 +132,10 @@ class _CumulativeWalletValueSliverState
                         duration: const Duration(milliseconds: 300),
                         child: Text(
                           isQubicsPrimaryBalance
-                              ? CurrencyHelpers.formatToUsdCurrency(
-                                  appStore.totalAmountsInUSD)
+                              ? !appStore.hasBalancesBeenFetched
+                                  ? "—"
+                                  : CurrencyHelpers.formatToUsdCurrency(
+                                      appStore.totalAmountsInUSD)
                               : getTotalQubics(context),
                           style: secondaryBalanceStyle(),
                         ));
