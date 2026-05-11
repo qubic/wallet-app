@@ -166,6 +166,13 @@ abstract class _ApplicationStore with Store {
   @observable
   bool isLoading = false;
 
+  /// Whether at least one account has had its balance fetched successfully.
+  @computed
+  bool get hasBalancesBeenFetched {
+    return nonWatchOnlyAccounts.isEmpty ||
+        nonWatchOnlyAccounts.any((qubic) => qubic.amount != null);
+  }
+
   @computed
   int get totalAmounts {
     return nonWatchOnlyAccounts.fold<int>(

@@ -35,7 +35,22 @@ class AmountFormatted extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (amount == null) {
-      return Container();
+      return Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.ideographic,
+          children: [
+            Text("${prefix ?? ""}—${suffix ?? ""}", style: textStyle),
+            const SizedBox(width: 6),
+            hideLabel
+                ? Container()
+                : Transform.translate(
+                    offset: Offset(labelHorizOffset, labelOffset),
+                    child: CurrencyLabel(
+                        currencyName: currencyName,
+                        isInHeader: isInHeader,
+                        style: labelStyle))
+          ]);
     }
 
     if (isInHeader) {
@@ -51,7 +66,7 @@ class AmountFormatted extends StatelessWidget {
                         : stringOverride!) +
                     (suffix ?? ""),
                 style: textStyle),
-            const SizedBox(width: 6, height: 6),
+            const SizedBox(width: 6),
             hideLabel
                 ? Container()
                 : Transform.translate(
@@ -74,7 +89,7 @@ class AmountFormatted extends StatelessWidget {
                         : stringOverride!) +
                     (suffix ?? ""),
                 style: textStyle),
-            const SizedBox(width: 6, height: 6),
+            const SizedBox(width: 6),
             hideLabel
                 ? Container()
                 : Transform.translate(
