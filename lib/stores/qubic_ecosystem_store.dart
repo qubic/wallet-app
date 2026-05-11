@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
-import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/exchange_model.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/protocol_model.dart';
@@ -188,7 +187,6 @@ abstract class QubicEcosystemStoreBase with Store {
       appLogger.i("Successfully loaded ${exchanges.length} exchanges");
     } catch (e) {
       appLogger.e("Failed to load exchanges from API: ${e.toString()}");
-      getIt<GlobalSnackBar>().showError(e.toString());
     }
   }
 
