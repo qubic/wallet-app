@@ -909,7 +909,7 @@
     "signVerifyMessageAccountMenu": "Подписать сообщение",
     "transactionItemLabelSent": "Отправлено",
     "transactionItemLabelReceived": "Получено",
-    "addressLabelTokenIssuer": "{name} Эмитент",
+    "addressLabelTokenIssuer": "Эмитент {name}",
     "@addressLabelTokenIssuer": {
         "placeholders": {
             "name": {

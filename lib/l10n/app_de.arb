@@ -909,7 +909,7 @@
     "signVerifyMessageAccountMenu": "Nachricht signieren",
     "transactionItemLabelSent": "Gesendet",
     "transactionItemLabelReceived": "Empfangen",
-    "addressLabelTokenIssuer": "{name} Emittent",
+    "addressLabelTokenIssuer": "Emittent von {name}",
     "@addressLabelTokenIssuer": {
         "placeholders": {
             "name": {

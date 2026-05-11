@@ -914,7 +914,7 @@
     "generalLabelToday": "Aujourd'hui",
     "transactionItemLabelSent": "Envoyé",
     "transactionItemLabelReceived": "Reçu",
-    "addressLabelTokenIssuer": "{name} Émetteur",
+    "addressLabelTokenIssuer": "Émetteur de {name}",
     "@addressLabelTokenIssuer": {
         "placeholders": {
             "name": {

@@ -908,7 +908,7 @@
     "signVerifyMessageAccountMenu": "Firmar mensaje",
     "transactionItemLabelSent": "Enviado",
     "transactionItemLabelReceived": "Recibido",
-    "addressLabelTokenIssuer": "{name} Emisor",
+    "addressLabelTokenIssuer": "Emisor de {name}",
     "@addressLabelTokenIssuer": {
         "placeholders": {
             "name": {

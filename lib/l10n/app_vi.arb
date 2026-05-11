@@ -972,7 +972,7 @@
     "signVerifyMessageAccountMenu": "Ký tin nhắn",
     "transactionItemLabelSent": "Đã gửi",
     "transactionItemLabelReceived": "Đã nhận",
-    "addressLabelTokenIssuer": "{name} Người phát hành",
+    "addressLabelTokenIssuer": "Người phát hành {name}",
     "@addressLabelTokenIssuer": {
         "placeholders": {
             "name": {
