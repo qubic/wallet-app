@@ -909,7 +909,7 @@
     "signVerifyMessageAccountMenu": "Mesajı İmzala",
     "transactionItemLabelSent": "Gönderildi",
     "transactionItemLabelReceived": "Alındı",
-    "addressLabelTokenIssuer": "{name} Yayımlayan",
+    "addressLabelTokenIssuer": "{name} İhraç Eden",
     "@addressLabelTokenIssuer": {
         "placeholders": {
             "name": {
