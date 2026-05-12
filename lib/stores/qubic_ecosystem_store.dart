@@ -100,16 +100,6 @@ abstract class QubicEcosystemStoreBase with Store {
   String? getExchangeName(String address) =>
       _exchangesById[address]?.name;
 
-  /// Returns the label/name for an address if it's a known entity.
-  /// Returns null if the address is not recognized.
-  /// Priority: Smart Contract > Token > Exchange > Labeled Address
-  String? getEntityLabel(String address) {
-    return getContractName(address) ??
-        getTokenName(address) ??
-        getExchangeName(address) ??
-        getAddressLabel(address);
-  }
-
   String? getContractNameByIndex(int index) =>
       smartContracts.firstWhereOrNull((sc) => sc.contractIndex == index)?.name;
 
