@@ -5,6 +5,7 @@ import 'package:qubic_wallet/components/transaction_details.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/address_ui_helper.dart';
+import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/helpers/format_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_status_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
@@ -47,13 +48,20 @@ class _TransactionItemState extends State<TransactionItem> {
     isIncoming = widget.item.destId == widget.currentAccountId;
 
     if (isQxTransferShares) {
-      getIt<QubicCmd>()
-          .parseAssetTransferPayload(widget.item.inputHex!)
-          .then((value) {
-        setState(() {
-          assetTransfer = value;
-        });
+      _loadAssetTransfer();
+    }
+  }
+
+  Future<void> _loadAssetTransfer() async {
+    try {
+      final value = await getIt<QubicCmd>()
+          .parseAssetTransferPayload(widget.item.inputHex!);
+      if (!mounted) return;
+      setState(() {
+        assetTransfer = value;
       });
+    } catch (e) {
+      appLogger.e("Failed to parse asset transfer payload: $e");
     }
   }
 
