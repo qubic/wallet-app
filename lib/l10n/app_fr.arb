@@ -335,7 +335,7 @@
     "transactionItemButtonViewDetails": "Voir les Détails",
     "transactionItemButtonResend": "Renvoyer",
     "transactionItemLabelConfirmedDate": "Horodatage",
-    "transactionItemLabelDetails": "Détails du Transfert",
+    "transactionItemLabelDetails": "Détails de la Transaction",
     "sendItemLabelTargetTick": "Tick Cible",
     "sendItemLabelTargetTickAutomatic": "Automatiquement: Actuel + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
@@ -769,7 +769,7 @@
     "wcSmartContractWarningDescription": "Assurez-vous de faire confiance à cette DApp. En approuvant la transaction, vous pourriez autoriser le transfert de Qubics et/ou d'actifs",
     "wcApproveTransfer": "Approuver le transfert",
     "wcSendAssets": "Envoyer des actifs",
-    "assetButtonIssuerIdentity": "Voir l'Émetteur",
+    "assetButtonIssuerIdentity": "Voir l'Émetteur dans l'Explorateur",
     "settingsLabelSupport": "Support",
     "settingsSupportGithub": "GitHub (Signaler un problème)",
     "settingsSupportDiscord": "Discord (Canal de support)",
@@ -911,6 +911,17 @@
     "signVerifyMessageErrorSign": "Échec de la signature du message. Veuillez réessayer.",
     "signVerifyMessageSettingsLabel": "Vérifier le message",
     "signVerifyMessageAccountMenu": "Signer le message",
+    "generalLabelToday": "Aujourd'hui",
+    "transactionItemLabelSent": "Envoyé",
+    "transactionItemLabelReceived": "Reçu",
+    "addressLabelTokenIssuer": "Émetteur de {name}",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
     "androidDeprecationDialogTitle": "Important : avertissement de mise à jour de l'appareil",
     "androidDeprecationDialogMessageBefore": "Les futures mises à jour nécessiteront Android 7.0 ou supérieur. Pour continuer à recevoir les mises à jour et garantir l'accès à long terme à votre portefeuille, veuillez ",
     "androidDeprecationDialogMessageHighlight": "sauvegarder vos seeds privés ou exporter votre fichier de coffre",

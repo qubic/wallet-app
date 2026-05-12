@@ -51,7 +51,11 @@ class GroupedAssetItem extends StatelessWidget {
         itemBuilder: (BuildContext context) => [
               PopupMenuItem<CardItem>(
                 value: CardItem.issuerIdentity,
-                child: Text(l10n.assetButtonIssuerIdentity),
+                child: Row(children: [
+                  const Icon(Icons.explore_outlined, size: 20),
+                  const SizedBox(width: 12),
+                  Text(l10n.assetButtonIssuerIdentity),
+                ]),
               ),
             ]);
   }

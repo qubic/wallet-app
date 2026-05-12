@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qubic_wallet/components/wallet_connect/components/amount_value_header.dart';
 import 'package:qubic_wallet/config.dart';
@@ -11,6 +12,7 @@ import 'package:qubic_wallet/helpers/address_ui_helper.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/send_transaction.dart';
+import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/app_localizations.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
@@ -240,9 +242,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
         if (widget.data.inputType != null &&
             widget.data.inputType! > 0 &&
             widget.data.toID != null &&
-            AddressUIHelper.getLabel(widget.data.toID!) != null) ...[
+            AddressUIHelper.isSmartContract(widget.data.toID!)) ...[
           _SmartContractWarningCard(
-              AddressUIHelper.getLabel(widget.data.toID!) ??
+              AddressUIHelper.getLabel(context, widget.data.toID!) ??
                   l10n.wcSmartContractUnknown),
           ThemedControls.spacerVerticalBig(),
         ],
@@ -277,6 +279,7 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
                       _ApprovalButtons(
                         isLoading: isLoading,
                         method: widget.method,
+                        data: widget.data,
                         onApprovalTap: onApprovalTap,
                         redirectToDApp: redirectToDApp,
                       ),

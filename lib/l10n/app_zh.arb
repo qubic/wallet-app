@@ -8,6 +8,7 @@
     "generalButtonCopy": "复制",
     "generalButtonRename": "重命名",
     "generalButtonSave": "保存",
+    "generalLabelToday": "今天",
     "generalButtonProceed": "继续",
     "generalButtonBack": "返回",
     "generalButtonClose": "关闭",
@@ -335,7 +336,7 @@
     "transactionItemButtonViewDetails": "查看详情",
     "transactionItemButtonResend": "重新发送",
     "transactionItemLabelConfirmedDate": "时间戳",
-    "transactionItemLabelDetails": "转账详情",
+    "transactionItemLabelDetails": "交易详情",
     "sendItemLabelTargetTick": "目标刻度",
     "sendItemLabelTargetTickAutomatic": "自动：当前刻度 + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
@@ -764,7 +765,7 @@
     "wcSmartContractWarningDescription": "請確保您信任此 DApp。批准交易後，您可能會授權轉移 Qubics 和/或資產",
     "wcApproveTransfer": "批准轉帳",
     "wcSendAssets": "發送資產",
-    "assetButtonIssuerIdentity": "查看发行人",
+    "assetButtonIssuerIdentity": "在浏览器中查看发行人",
     "settingsLabelSupport": "支援",
     "settingsSupportGithub": "GitHub（提交問題）",
     "settingsSupportDiscord": "Discord（支援頻道）",
@@ -906,6 +907,16 @@
     "signVerifyMessageErrorSign": "签名消息失败。请重试。",
     "signVerifyMessageSettingsLabel": "验证消息",
     "signVerifyMessageAccountMenu": "签名消息",
+    "transactionItemLabelSent": "已发送",
+    "transactionItemLabelReceived": "已接收",
+    "addressLabelTokenIssuer": "{name} 发行人",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
     "androidDeprecationDialogTitle": "重要：设备更新警告",
     "androidDeprecationDialogMessageBefore": "未来的更新将需要 Android 7.0 或更高版本。为了继续接收更新并确保对钱包的长期访问，请从设置中",
     "androidDeprecationDialogMessageHighlight": "备份您的私有种子或导出钱包保险库文件",

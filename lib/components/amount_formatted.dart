@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/currency_label.dart';
+import 'package:qubic_wallet/helpers/format_helpers.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
-import 'package:intl/intl.dart';
 
 class AmountFormatted extends StatelessWidget {
   final num? amount;
   final String currencyName;
   final bool isInHeader;
-  final NumberFormat numberFormat = NumberFormat.decimalPattern("en_US");
   late final TextStyle? labelStyle;
   late final TextStyle? textStyle;
   late final String? stringOverride;
@@ -63,9 +62,7 @@ class AmountFormatted extends StatelessWidget {
             Text(
                 (prefix ?? "") +
                     (stringOverride == null
-                        ? numberFormat.format(
-                            amount!,
-                          )
+                        ? formatAmount(amount!)
                         : stringOverride!) +
                     (suffix ?? ""),
                 style: textStyle),
@@ -88,9 +85,7 @@ class AmountFormatted extends StatelessWidget {
             Text(
                 (prefix ?? "") +
                     (stringOverride == null
-                        ? numberFormat.format(
-                            amount!,
-                          )
+                        ? formatAmount(amount!)
                         : stringOverride!) +
                     (suffix ?? ""),
                 style: textStyle),
@@ -105,7 +100,5 @@ class AmountFormatted extends StatelessWidget {
                         style: labelStyle))
           ]);
     }
-
-    //return Text(numberFormat.format(amount!));
   }
 }

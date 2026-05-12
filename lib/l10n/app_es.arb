@@ -8,6 +8,7 @@
     "generalButtonCopy": "Copiar",
     "generalButtonRename": "Renombrar",
     "generalButtonSave": "Guardar",
+    "generalLabelToday": "Hoy",
     "generalButtonProceed": "Proceder",
     "generalButtonBack": "Regresar",
     "generalButtonClose": "Cerrar",
@@ -763,7 +764,7 @@
     "wcSmartContractWarningDescription": "Asegúrate que esta DApp es confiable. Al aprobar la transacción, podrías autorizar la transferencia de Qubics y/o otros activos",
     "wcApproveTransfer": "Aprobar Transferencia",
     "wcSendAssets": "Enviar Activos",
-    "assetButtonIssuerIdentity": "Ver Emisor",
+    "assetButtonIssuerIdentity": "Ver Emisor en el Explorador",
     "settingsLabelSupport": "Soporte",
     "settingsSupportGithub": "GitHub (Reportar un problema)",
     "settingsSupportDiscord": "Discord (Canal de soporte)",
@@ -905,6 +906,16 @@
     "signVerifyMessageErrorSign": "No se pudo firmar el mensaje. Inténtalo de nuevo.",
     "signVerifyMessageSettingsLabel": "Verificar mensaje",
     "signVerifyMessageAccountMenu": "Firmar mensaje",
+    "transactionItemLabelSent": "Enviado",
+    "transactionItemLabelReceived": "Recibido",
+    "addressLabelTokenIssuer": "Emisor de {name}",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
     "androidDeprecationDialogTitle": "Importante: aviso de actualización del dispositivo",
     "androidDeprecationDialogMessageBefore": "Las actualizaciones futuras requerirán Android 7.0 o superior. Para seguir recibiendo actualizaciones y asegurar el acceso a tu billetera a largo plazo, ",
     "androidDeprecationDialogMessageHighlight": "respalda tus seeds privados o exporta tu archivo de bóveda",

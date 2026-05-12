@@ -8,6 +8,7 @@ class CustomPagedListView<int, T> extends StatelessWidget {
   final WidgetBuilder? firstPageProgressIndicatorBuilder;
   final WidgetBuilder? firstPageErrorIndicatorBuilder;
   final WidgetBuilder? noItemsFoundIndicatorBuilder;
+  final WidgetBuilder? newPageProgressIndicatorBuilder;
   final EdgeInsetsGeometry? padding;
   final double? cacheExtent;
 
@@ -19,6 +20,7 @@ class CustomPagedListView<int, T> extends StatelessWidget {
     this.firstPageProgressIndicatorBuilder,
     this.firstPageErrorIndicatorBuilder,
     this.noItemsFoundIndicatorBuilder,
+    this.newPageProgressIndicatorBuilder,
     this.padding,
     this.cacheExtent,
   });
@@ -32,13 +34,16 @@ class CustomPagedListView<int, T> extends StatelessWidget {
             padding: padding,
             state: state,
             cacheExtent: cacheExtent,
+            physics: const ClampingScrollPhysics(),
             separatorBuilder: separatorBuilder,
             builderDelegate: PagedChildBuilderDelegate<T>(
                 itemBuilder: itemBuilder,
                 firstPageErrorIndicatorBuilder: firstPageErrorIndicatorBuilder,
                 noItemsFoundIndicatorBuilder: noItemsFoundIndicatorBuilder,
                 firstPageProgressIndicatorBuilder:
-                    firstPageProgressIndicatorBuilder),
+                    firstPageProgressIndicatorBuilder,
+                newPageProgressIndicatorBuilder:
+                    newPageProgressIndicatorBuilder),
             fetchNextPage: fetchNextPage,
           );
         });

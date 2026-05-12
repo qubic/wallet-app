@@ -42,6 +42,8 @@ class LightThemeColors {
   static const pending = Color(0xFFF3C05E);
   static const error = Color(0xFFE67070);
   static final border = Colors.white.withValues(alpha: 0.03);
+  static final shimmerBase = Colors.white.withValues(alpha: 0.18);
+  static final shimmerHighlight = Colors.white.withValues(alpha: 0.75);
   static const dangerColor = error40;
   static const dangerBackgroundButton = Color(0xFF272127);
 

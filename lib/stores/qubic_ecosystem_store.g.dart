@@ -32,6 +32,13 @@ mixin _$QubicEcosystemStore on QubicEcosystemStoreBase, Store {
                   () => super._labeledAddressesById,
                   name: 'QubicEcosystemStoreBase._labeledAddressesById'))
           .value;
+  Computed<Map<String, ExchangeModel>>? _$_exchangesByIdComputed;
+
+  @override
+  Map<String, ExchangeModel> get _exchangesById => (_$_exchangesByIdComputed ??=
+          Computed<Map<String, ExchangeModel>>(() => super._exchangesById,
+              name: 'QubicEcosystemStoreBase._exchangesById'))
+      .value;
 
   late final _$smartContractsAtom =
       Atom(name: 'QubicEcosystemStoreBase.smartContracts', context: context);
@@ -81,6 +88,39 @@ mixin _$QubicEcosystemStore on QubicEcosystemStoreBase, Store {
     });
   }
 
+  late final _$exchangesAtom =
+      Atom(name: 'QubicEcosystemStoreBase.exchanges', context: context);
+
+  @override
+  List<ExchangeModel> get exchanges {
+    _$exchangesAtom.reportRead();
+    return super.exchanges;
+  }
+
+  @override
+  set exchanges(List<ExchangeModel> value) {
+    _$exchangesAtom.reportWrite(value, super.exchanges, () {
+      super.exchanges = value;
+    });
+  }
+
+  late final _$transactionInputTypesAtom = Atom(
+      name: 'QubicEcosystemStoreBase.transactionInputTypes', context: context);
+
+  @override
+  List<TransactionInputType> get transactionInputTypes {
+    _$transactionInputTypesAtom.reportRead();
+    return super.transactionInputTypes;
+  }
+
+  @override
+  set transactionInputTypes(List<TransactionInputType> value) {
+    _$transactionInputTypesAtom.reportWrite(value, super.transactionInputTypes,
+        () {
+      super.transactionInputTypes = value;
+    });
+  }
+
   late final _$loadSmartContractsAsyncAction = AsyncAction(
       'QubicEcosystemStoreBase.loadSmartContracts',
       context: context);
@@ -109,12 +149,30 @@ mixin _$QubicEcosystemStore on QubicEcosystemStoreBase, Store {
         .run(() => super.loadLabeledAddresses());
   }
 
+  late final _$loadExchangesAsyncAction =
+      AsyncAction('QubicEcosystemStoreBase.loadExchanges', context: context);
+
+  @override
+  Future<void> loadExchanges() {
+    return _$loadExchangesAsyncAction.run(() => super.loadExchanges());
+  }
+
+  late final _$loadProtocolAsyncAction =
+      AsyncAction('QubicEcosystemStoreBase.loadProtocol', context: context);
+
+  @override
+  Future<void> loadProtocol() {
+    return _$loadProtocolAsyncAction.run(() => super.loadProtocol());
+  }
+
   @override
   String toString() {
     return '''
 smartContracts: ${smartContracts},
 tokens: ${tokens},
-labeledAddresses: ${labeledAddresses}
+labeledAddresses: ${labeledAddresses},
+exchanges: ${exchanges},
+transactionInputTypes: ${transactionInputTypes}
     ''';
   }
 }

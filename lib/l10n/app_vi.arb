@@ -8,6 +8,7 @@
     "generalButtonCopy": "Sao chép",
     "generalButtonRename": "Đổi tên",
     "generalButtonSave": "Lưu",
+    "generalLabelToday": "Hôm nay",
     "generalButtonProceed": "Tiếp tục",
     "generalButtonApprove": "Chấp thuận",
     "generalButtonReject": "Từ chối",
@@ -374,7 +375,7 @@
     "transactionItemButtonViewDetails": "Xem chi tiết",
     "transactionItemButtonResend": "Gửi lại",
     "transactionItemLabelConfirmedDate": "Dấu thời gian",
-    "transactionItemLabelDetails": "Chi tiết chuyển khoản",
+    "transactionItemLabelDetails": "Chi tiết giao dịch",
     "sendItemLabelTargetTick": "Tick mục tiêu",
     "sendItemLabelTargetTickAutomatic": "Tự động: Hiện tại + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
@@ -830,7 +831,7 @@
     "dAppFeaturedApp": "Ứng dụng nổi bật",
     "dAppPopularApps": "Khám phá dApp",
     "dAppQubicApps": "Qubic Apps",
-    "assetButtonIssuerIdentity": "Xem Nhà Phát Hành",
+    "assetButtonIssuerIdentity": "Xem Nhà Phát Hành trong Explorer",
     "networksTitle": "Mạng",
     "networksButtonAddNetwork": "Thêm mạng",
     "networksConfirmationDialogTitleDeleteNetwork": "Xóa {networkName}?",
@@ -969,6 +970,16 @@
     "signVerifyMessageErrorSign": "Không thể ký tin nhắn. Vui lòng thử lại.",
     "signVerifyMessageSettingsLabel": "Xác minh tin nhắn",
     "signVerifyMessageAccountMenu": "Ký tin nhắn",
+    "transactionItemLabelSent": "Đã gửi",
+    "transactionItemLabelReceived": "Đã nhận",
+    "addressLabelTokenIssuer": "Người phát hành {name}",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
     "androidDeprecationDialogTitle": "Quan trọng: cảnh báo cập nhật thiết bị",
     "androidDeprecationDialogMessageBefore": "Các bản cập nhật trong tương lai sẽ yêu cầu Android 7.0 trở lên. Để tiếp tục nhận các bản cập nhật và đảm bảo quyền truy cập ví lâu dài, hãy ",
     "androidDeprecationDialogMessageHighlight": "sao lưu seed riêng tư của bạn hoặc xuất tệp vault ví",

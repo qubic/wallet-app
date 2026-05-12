@@ -8,6 +8,7 @@
     "generalButtonCopy": "Kopyala",
     "generalButtonRename": "Yeniden Adlandır",
     "generalButtonSave": "Kaydet",
+    "generalLabelToday": "Bugün",
     "generalButtonProceed": "Devam Et",
     "generalButtonBack": "Geri",
     "generalButtonClose": "Kapat",
@@ -335,7 +336,7 @@
     "transactionItemButtonViewDetails": "Detayları Göster",
     "transactionItemButtonResend": "Yeniden Gönder",
     "transactionItemLabelConfirmedDate": "Zaman damgası",
-    "transactionItemLabelDetails": "Transfer Detayları",
+    "transactionItemLabelDetails": "İşlem Detayları",
     "sendItemLabelTargetTick": "Hedef Tick",
     "sendItemLabelTargetTickAutomatic": "Otomatik olarak: Mevcut + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
@@ -764,7 +765,7 @@
     "wcSmartContractWarningDescription": "Bu DApp'e güvendiğinizden emin olun. İşlemi onaylayarak Qubics ve/veya varlıkların transferine izin verebilirsiniz",
     "wcApproveTransfer": "Transferi Onayla",
     "wcSendAssets": "Varlıkları Gönder",
-    "assetButtonIssuerIdentity": "Vereni Görüntüle",
+    "assetButtonIssuerIdentity": "Yayımlayanı Explorer'da Görüntüle",
     "settingsLabelSupport": "Destek",
     "settingsSupportGithub": "GitHub (Hata bildir)",
     "settingsSupportDiscord": "Discord (Destek kanalı)",
@@ -906,6 +907,16 @@
     "signVerifyMessageErrorSign": "Mesaj imzalanamadı. Lütfen tekrar deneyin.",
     "signVerifyMessageSettingsLabel": "Mesajı Doğrula",
     "signVerifyMessageAccountMenu": "Mesajı İmzala",
+    "transactionItemLabelSent": "Gönderildi",
+    "transactionItemLabelReceived": "Alındı",
+    "addressLabelTokenIssuer": "{name} İhraç Eden",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
     "androidDeprecationDialogTitle": "Önemli: cihaz güncelleme uyarısı",
     "androidDeprecationDialogMessageBefore": "Gelecek güncellemeler Android 7.0 veya üzerini gerektirecek. Güncellemeleri almaya devam etmek ve cüzdanınıza uzun vadeli erişimi güvence altına almak için lütfen Ayarlar bölümünden ",
     "androidDeprecationDialogMessageHighlight": "özel seed'lerinizi yedekleyin veya cüzdan kasası dosyanızı dışa aktarın",

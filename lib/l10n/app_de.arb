@@ -8,6 +8,7 @@
     "generalButtonCopy": "Kopieren",
     "generalButtonRename": "Umbenennen",
     "generalButtonSave": "Speichern",
+    "generalLabelToday": "Heute",
     "generalButtonProceed": "Fortfahren",
     "generalButtonBack": "Zurück",
     "generalButtonClose": "Schließen",
@@ -335,7 +336,7 @@
     "transactionItemButtonViewDetails": "Details anzeigen",
     "transactionItemButtonResend": "Erneut senden",
     "transactionItemLabelConfirmedDate": "Zeitstempel",
-    "transactionItemLabelDetails": "Überweisungsdetails",
+    "transactionItemLabelDetails": "Transaktionsdetails",
     "sendItemLabelTargetTick": "Ziel-Tick",
     "sendItemLabelTargetTickAutomatic": "Automatisch: Aktuell + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
@@ -764,7 +765,7 @@
     "wcSmartContractWarningDescription": "Stelle sicher, dass du dieser DApp vertraust. Durch die Genehmigung der Transaktion kannst du möglicherweise die Übertragung von Qubics und/oder Vermögenswerten autorisieren",
     "wcApproveTransfer": "Übertragung Genehmigen",
     "wcSendAssets": "Vermögenswerte Senden",
-    "assetButtonIssuerIdentity": "Emittent anzeigen",
+    "assetButtonIssuerIdentity": "Emittent im Explorer anzeigen",
     "settingsLabelSupport": "Support",
     "settingsSupportGithub": "GitHub (Problem melden)",
     "settingsSupportDiscord": "Discord (Support-Kanal)",
@@ -906,6 +907,16 @@
     "signVerifyMessageErrorSign": "Signieren der Nachricht fehlgeschlagen. Bitte erneut versuchen.",
     "signVerifyMessageSettingsLabel": "Nachricht verifizieren",
     "signVerifyMessageAccountMenu": "Nachricht signieren",
+    "transactionItemLabelSent": "Gesendet",
+    "transactionItemLabelReceived": "Empfangen",
+    "addressLabelTokenIssuer": "Emittent von {name}",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
     "androidDeprecationDialogTitle": "Wichtig: Hinweis zur Geräteaktualisierung",
     "androidDeprecationDialogMessageBefore": "Zukünftige Updates erfordern Android 7.0 oder höher. Um weiterhin Updates zu erhalten und den langfristigen Zugriff auf Ihre Wallet zu sichern, ",
     "androidDeprecationDialogMessageHighlight": "sichern Sie bitte Ihre privaten Seeds oder exportieren Sie Ihre Wallet-Vault-Datei",

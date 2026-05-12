@@ -52,6 +52,9 @@ class _AccountListItemState extends State<AccountListItem> {
   bool totalBalanceVisible = true;
   late ReactionDisposer _disposer;
 
+  static const double _menuIconSize = 20;
+  static const double _menuIconSpacing = 12;
+
   bool isItemWatchOnly() => widget.item.watchOnly;
 
   @override
@@ -275,30 +278,64 @@ class _AccountListItemState extends State<AccountListItem> {
             itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewTransactions,
-                    child: Text(l10n.accountButtonViewTransfer),
+                    child: Row(children: [
+                      const Icon(Icons.history, size: _menuIconSize),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.accountButtonViewTransfer),
+                    ]),
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewInExplorer,
-                    child: Text(l10n.accountButtonViewInExplorer),
+                    child: Row(children: [
+                      const Icon(Icons.explore_outlined, size: _menuIconSize),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.accountButtonViewInExplorer),
+                    ]),
                   ),
                   if (!isItemWatchOnly()) // Check if item is not watch-only
                     PopupMenuItem<CardItem>(
                       value: CardItem.reveal,
-                      child: Text(l10n.accountButtonRevealPrivateSeed),
+                      child: Row(children: [
+                        SvgPicture.asset(
+                          AppIcons.keyVertical,
+                          width: _menuIconSize,
+                          height: _menuIconSize,
+                          colorFilter: const ColorFilter.mode(
+                            LightThemeColors.primary,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(width: _menuIconSpacing),
+                        Text(l10n.accountButtonRevealPrivateSeed),
+                      ]),
                     ),
                   if (!isItemWatchOnly())
                     PopupMenuItem<CardItem>(
                       value: CardItem.signMessage,
-                      child: Text(l10n.signVerifyMessageAccountMenu),
+                      child: Row(children: [
+                        const Icon(Icons.draw_outlined, size: _menuIconSize),
+                        const SizedBox(width: _menuIconSpacing),
+                        Text(l10n.signVerifyMessageAccountMenu),
+                      ]),
                     ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.rename,
-                    child: Text(l10n.generalButtonRename),
+                    child: Row(children: [
+                      const Icon(Icons.edit_outlined, size: _menuIconSize),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.generalButtonRename),
+                    ]),
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.delete,
-                    child: Text(l10n.generalButtonDelete,
-                        style: const TextStyle(color: LightThemeColors.error)),
+                    child: Row(children: [
+                      const Icon(Icons.delete_outline,
+                          size: _menuIconSize, color: LightThemeColors.error),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.generalButtonDelete,
+                          style:
+                              const TextStyle(color: LightThemeColors.error)),
+                    ]),
                   ),
                 ]));
   }
@@ -460,6 +497,7 @@ class _AccountListItemState extends State<AccountListItem> {
                                   isItemWatchOnly()
                                       ? const Icon(
                                           Icons.remove_red_eye_rounded,
+                                          size: 18,
                                           color: LightThemeColors.color4,
                                         )
                                       : Container(),

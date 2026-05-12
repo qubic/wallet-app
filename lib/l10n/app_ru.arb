@@ -8,6 +8,7 @@
     "generalButtonCopy": "Копировать",
     "generalButtonRename": "Переименовать",
     "generalButtonSave": "Сохранить",
+    "generalLabelToday": "Сегодня",
     "generalButtonProceed": "Принять",
     "generalButtonBack": "Назад",
     "generalButtonClose": "Закрыть",
@@ -764,7 +765,7 @@
     "wcSmartContractWarningDescription": "Убедитесь, что вы доверяете этому DApp. Одобряя транзакцию, вы можете разрешить перевод Qubics и/или активов",
     "wcApproveTransfer": "Одобрить перевод",
     "wcSendAssets": "Отправить активы",
-    "assetButtonIssuerIdentity": "Посмотреть эмитента",
+    "assetButtonIssuerIdentity": "Посмотреть эмитента в проводнике",
     "settingsLabelSupport": "Поддержка",
     "settingsSupportGithub": "GitHub (Создать обращение)",
     "settingsSupportDiscord": "Discord (Канал поддержки)",
@@ -906,6 +907,16 @@
     "signVerifyMessageErrorSign": "Не удалось подписать сообщение. Повторите попытку.",
     "signVerifyMessageSettingsLabel": "Проверить сообщение",
     "signVerifyMessageAccountMenu": "Подписать сообщение",
+    "transactionItemLabelSent": "Отправлено",
+    "transactionItemLabelReceived": "Получено",
+    "addressLabelTokenIssuer": "Эмитент {name}",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
     "androidDeprecationDialogTitle": "Важно: предупреждение об обновлении устройства",
     "androidDeprecationDialogMessageBefore": "Будущие обновления потребуют Android 7.0 или выше. Чтобы продолжать получать обновления и обеспечить долгосрочный доступ к кошельку, ",
     "androidDeprecationDialogMessageHighlight": "сохраните резервные копии приватных сидов или экспортируйте файл хранилища кошелька",

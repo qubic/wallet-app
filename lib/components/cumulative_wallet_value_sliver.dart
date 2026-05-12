@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';
+import 'package:qubic_wallet/helpers/format_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -21,8 +21,6 @@ class CumulativeWalletValueSliver extends StatefulWidget {
 
 class _CumulativeWalletValueSliverState
     extends State<CumulativeWalletValueSliver> {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern("en_US");
-
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   bool showingTotalBalance = true;
@@ -51,7 +49,7 @@ class _CumulativeWalletValueSliverState
 
   String getTotalQubics(BuildContext context) {
     if (!appStore.hasBalancesBeenFetched) return "—";
-    return numberFormat.format(appStore.totalAmounts);
+    return formatAmount(appStore.totalAmounts);
   }
 
   Widget getConversion() {
