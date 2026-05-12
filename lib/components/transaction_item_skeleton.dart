@@ -5,32 +5,25 @@ import 'package:shimmer/shimmer.dart';
 
 const Duration _shimmerPeriod = Duration(milliseconds: 1800);
 
-Color _shimmerBase(BuildContext context) =>
-    Theme.of(context).textTheme.titleMedium!.color!.withValues(alpha: 0.18);
-
-Color _shimmerHighlight(BuildContext context) =>
-    Theme.of(context).textTheme.titleMedium!.color!.withValues(alpha: 0.75);
-
 class DayHeaderSkeleton extends StatelessWidget {
   const DayHeaderSkeleton({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final fill = _shimmerBase(context);
     return Padding(
       padding: const EdgeInsets.only(
           top: ThemePaddings.normalPadding,
           bottom: ThemePaddings.smallPadding),
       child: Shimmer.fromColors(
-        baseColor: fill,
-        highlightColor: _shimmerHighlight(context),
+        baseColor: LightThemeColors.shimmerBase,
+        highlightColor: LightThemeColors.shimmerHighlight,
         period: _shimmerPeriod,
         child: Container(
           width: 80,
           height: 14,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            color: fill,
+            color: LightThemeColors.shimmerBase,
           ),
         ),
       ),
@@ -43,15 +36,13 @@ class TransactionItemSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fill = _shimmerBase(context);
-
     Widget bar(double width, double height) {
       return Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(4),
-          color: fill,
+          color: LightThemeColors.shimmerBase,
         ),
       );
     }
@@ -65,8 +56,8 @@ class TransactionItemSkeleton extends StatelessWidget {
             top: ThemePaddings.mediumPadding,
             bottom: ThemePaddings.mediumPadding),
         child: Shimmer.fromColors(
-          baseColor: fill,
-          highlightColor: _shimmerHighlight(context),
+          baseColor: LightThemeColors.shimmerBase,
+          highlightColor: LightThemeColors.shimmerHighlight,
           period: _shimmerPeriod,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -76,7 +67,7 @@ class TransactionItemSkeleton extends StatelessWidget {
                 height: 28,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: fill,
+                  color: LightThemeColors.shimmerBase,
                 ),
               ),
               const SizedBox(width: ThemePaddings.smallPadding),
