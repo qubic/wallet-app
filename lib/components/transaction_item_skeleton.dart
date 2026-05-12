@@ -3,7 +3,6 @@ import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 import 'package:shimmer/shimmer.dart';
 
-/// Gradient sweep parameters shared by the skeleton placeholders.
 const Duration _shimmerPeriod = Duration(milliseconds: 1800);
 
 Color _shimmerBase(BuildContext context) =>
@@ -12,9 +11,6 @@ Color _shimmerBase(BuildContext context) =>
 Color _shimmerHighlight(BuildContext context) =>
     Theme.of(context).textTheme.titleMedium!.color!.withValues(alpha: 0.75);
 
-/// Placeholder for the day header (e.g. "Today") shown above transaction
-/// groups. Rendered once at the top of the first-page skeleton so the real
-/// header doesn't pop in and shift the layout when data arrives.
 class DayHeaderSkeleton extends StatelessWidget {
   const DayHeaderSkeleton({super.key});
 
@@ -42,10 +38,6 @@ class DayHeaderSkeleton extends StatelessWidget {
   }
 }
 
-/// Placeholder cell that mimics the [TransactionItem] layout while
-/// transaction data is loading. Used as the first-page progress indicator
-/// in the transactions list to avoid a jarring spinner-to-cells transition
-/// on initial load and pull-to-refresh.
 class TransactionItemSkeleton extends StatelessWidget {
   const TransactionItemSkeleton({super.key});
 
@@ -79,7 +71,6 @@ class TransactionItemSkeleton extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // Badge placeholder
               Container(
                 width: 28,
                 height: 28,
@@ -96,12 +87,12 @@ class TransactionItemSkeleton extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        bar(110, 12), // type
-                        bar(70, 12), // amount
+                        bar(110, 12),
+                        bar(70, 12),
                       ],
                     ),
                     const SizedBox(height: 6),
-                    bar(180, 12), // from/to
+                    bar(180, 12),
                   ],
                 ),
               ),
