@@ -339,14 +339,18 @@ class _TransactionsForIdState extends State<TransactionsForId> {
                         child: TransactionItemSkeleton(),
                       ),
                   firstPageProgressIndicatorBuilder: (context) => Column(
-                    children: List.generate(
-                      5,
-                      (i) => const Padding(
-                        padding: EdgeInsets.only(
-                            bottom: ThemePaddings.tinyPadding),
-                        child: TransactionItemSkeleton(),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const DayHeaderSkeleton(),
+                      ...List.generate(
+                        5,
+                        (i) => const Padding(
+                          padding: EdgeInsets.only(
+                              bottom: ThemePaddings.tinyPadding),
+                          child: TransactionItemSkeleton(),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                   firstPageErrorIndicatorBuilder: (context) =>
                       TransactionUIHelpers.getEmptyTransactionsForSingleID(

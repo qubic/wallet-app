@@ -2,6 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
+Color _skeletonFill(BuildContext context) => Theme.of(context)
+    .textTheme
+    .titleMedium!
+    .color!
+    .withValues(alpha: 0.08);
+
+/// Placeholder for the day header (e.g. "Today") shown above transaction
+/// groups. Rendered once at the top of the first-page skeleton so the real
+/// header doesn't pop in and shift the layout when data arrives.
+class DayHeaderSkeleton extends StatelessWidget {
+  const DayHeaderSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(
+          top: ThemePaddings.normalPadding,
+          bottom: ThemePaddings.smallPadding),
+      child: Container(
+        width: 56,
+        height: 12,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: _skeletonFill(context),
+        ),
+      ),
+    );
+  }
+}
+
 /// Placeholder cell that mimics the [TransactionItem] layout while
 /// transaction data is loading. Used as the first-page progress indicator
 /// in the transactions list to avoid a jarring spinner-to-cells transition
@@ -11,11 +41,7 @@ class TransactionItemSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fill = Theme.of(context)
-        .textTheme
-        .titleMedium!
-        .color!
-        .withValues(alpha: 0.08);
+    final fill = _skeletonFill(context);
 
     Widget bar(double width, double height) {
       return Container(
