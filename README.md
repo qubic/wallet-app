@@ -245,3 +245,29 @@ You can help by:
 
 ## License
 See [LICENSE.md](LICENSE.md).
+
+---
+
+## Android-only hotfix branch
+
+This branch builds an Android `.aab` at **minSdk 21** so devices on Android 5/6 keep receiving updates. It exists because develop/main have moved to dependency versions that force **minSdk 24** (`cryptography_flutter` from pub.dev ≥ 2.3.3, newer `local_auth`, etc.).
+
+To build:
+
+```bash
+fvm flutter pub get
+fvm flutter build appbundle
+```
+
+**Do not merge to `develop`.** This branch deliberately stays on:
+- Flutter **3.27.1** (see `.fvmrc`)
+- `cryptography_flutter` from the **mvarendorff Git fork** (`fix/compatibility-agp-8x`) — last variant that builds at minSdk 21 while supporting newer Flutter API.
+- Older versions of `local_auth`, `flutter_form_builder`, `reown_walletkit`, `flex_color_scheme`, etc. — pinned in `pubspec.yaml`.
+
+Verify the built `.aab` keeps minSdk 21:
+
+```bash
+bundletool dump manifest --bundle=build/app/outputs/bundle/release/app-release.aab | grep -i sdk
+```
+
+Expected: `android:minSdkVersion="21"`.
