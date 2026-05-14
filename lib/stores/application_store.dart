@@ -13,7 +13,7 @@ import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/models/transaction_filter.dart';
 import 'package:qubic_wallet/models/transaction_vm.dart';
-import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/query/qubic_query_api.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
 
@@ -26,7 +26,7 @@ class ApplicationStore = _ApplicationStore with _$ApplicationStore;
 abstract class _ApplicationStore with Store {
   late final SecureStorage secureStorage = getIt<SecureStorage>();
   late final HiveStorage _hiveStorage = getIt<HiveStorage>();
-  late final QubicArchiveApi qubicArchiveApi = getIt<QubicArchiveApi>();
+  late final QubicQueryApi qubicQueryApi = getIt<QubicQueryApi>();
 
   /// If there are stored wallet settings in the device
   @observable
@@ -94,7 +94,8 @@ abstract class _ApplicationStore with Store {
     }
 
     if (accountsSortingMode == AccountSortMode.name) {
-      currentQubicIDs.sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+      currentQubicIDs
+          .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
     } else if (accountsSortingMode == AccountSortMode.balance) {
       currentQubicIDs.sort((b, a) => (a.amount ?? 0).compareTo(b.amount ?? 0));
     }
@@ -163,12 +164,19 @@ abstract class _ApplicationStore with Store {
   }
 
   @observable
-  int pendingRequests = 0; //The number of pending HTTP requests
+  bool isLoading = false;
+
+  /// Whether at least one account has had its balance fetched successfully.
+  @computed
+  bool get hasBalancesBeenFetched {
+    return nonWatchOnlyAccounts.isEmpty ||
+        nonWatchOnlyAccounts.any((qubic) => qubic.amount != null);
+  }
 
   @computed
   int get totalAmounts {
-    return nonWatchOnlyAccounts
-        .fold<int>(0, (sum, qubic) => sum + (qubic.amount ?? 0));
+    return nonWatchOnlyAccounts.fold<int>(
+        0, (sum, qubic) => sum + (qubic.amount ?? 0));
   }
 
   @computed
@@ -188,7 +196,7 @@ abstract class _ApplicationStore with Store {
   List<QubicAssetDto> get totalShares {
     List<QubicAssetDto> shares = [];
     List<QubicAssetDto> tokens = [];
-    nonWatchOnlyAccounts.forEach((id) {
+    for (final id in nonWatchOnlyAccounts) {
       id.assets.forEach((key, asset) {
         QubicAssetDto temp = asset;
 
@@ -212,7 +220,7 @@ abstract class _ApplicationStore with Store {
           }
         }
       });
-    });
+    }
 
     List<QubicAssetDto> result = [];
     result.addAll(shares);
@@ -239,18 +247,8 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
-  void incrementPendingRequests() {
-    pendingRequests++;
-  }
-
-  @action
-  void decreasePendingRequests() {
-    pendingRequests--;
-  }
-
-  @action
-  void resetPendingRequests() {
-    pendingRequests = 0;
+  void setLoading(bool value) {
+    isLoading = value;
   }
 
   @action
@@ -529,11 +527,15 @@ abstract class _ApplicationStore with Store {
     List<TransactionVm> toBeRemoved = [];
     for (var trx in _hiveStorage.getStoredTransactions()) {
       if (latestTickProcessed >= trx.targetTick) {
-        final checkTrx = await qubicArchiveApi.getTransaction(trx.id);
-        if (checkTrx == null) {
-          convertPendingToInvalid(trx);
-        } else {
-          toBeRemoved.add(trx);
+        try {
+          final checkTrx = await qubicQueryApi.getTransactionByHash(trx.id);
+          if (checkTrx == null) {
+            convertPendingToInvalid(trx);
+          } else {
+            toBeRemoved.add(trx);
+          }
+        } catch (e) {
+          appLogger.e('Failed to validate transaction ${trx.id}: $e');
         }
       }
     }

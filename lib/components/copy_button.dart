@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/clipboard_helper.dart';
-import 'package:qubic_wallet/styles/themed_controls.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 
 class CopyButton extends StatelessWidget {
   final String copiedText;
@@ -29,10 +30,15 @@ class CopyButton extends StatelessWidget {
         );
         onTap?.call();
       },
-      icon: LightThemeColors.shouldInvertIcon
-          ? ThemedControls.invertedColors(
-              child: Image.asset("assets/images/Group 2400.png"))
-          : Image.asset("assets/images/Group 2400.png"),
+      icon: SvgPicture.asset(
+        AppIcons.copy,
+        width: 18,
+        height: 18,
+        colorFilter: const ColorFilter.mode(
+          LightThemeColors.primary,
+          BlendMode.srcIn,
+        ),
+      ),
     );
   }
 }

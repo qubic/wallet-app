@@ -8,6 +8,7 @@
     "generalButtonCopy": "Sao chép",
     "generalButtonRename": "Đổi tên",
     "generalButtonSave": "Lưu",
+    "generalLabelToday": "Hôm nay",
     "generalButtonProceed": "Tiếp tục",
     "generalButtonApprove": "Chấp thuận",
     "generalButtonReject": "Từ chối",
@@ -120,6 +121,7 @@
     "generalErrorUnexpectedError": "Đã xảy ra lỗi không mong muốn",
     "generalErrorConnectionTimeout": "Kết nối hết thời gian chờ",
     "generalErrorNoInternetConnection": "Không có kết nối internet",
+    "generalErrorConnectionRefused": "Không thể kết nối đến máy chủ. Dịch vụ có thể tạm thời không hoạt động",
     "generalErrorRequestCancelled": "Yêu cầu đã bị hủy",
     "generalErrorCouldntParseResponse": "Không thể phân tích phản hồi",
     "generalErrorServerError": "Lỗi máy chủ",
@@ -373,7 +375,7 @@
     "transactionItemButtonViewDetails": "Xem chi tiết",
     "transactionItemButtonResend": "Gửi lại",
     "transactionItemLabelConfirmedDate": "Dấu thời gian",
-    "transactionItemLabelDetails": "Chi tiết chuyển khoản",
+    "transactionItemLabelDetails": "Chi tiết giao dịch",
     "sendItemLabelTargetTick": "Tick mục tiêu",
     "sendItemLabelTargetTickAutomatic": "Tự động: Hiện tại + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
@@ -666,6 +668,9 @@
     "cmdErrorCreatingSignatureDigestEmpty": "Lỗi khi cố gắng tạo chữ ký. Digest trống",
     "cmdErrorCreatingSignatureSignedDataEmpty": "Lỗi khi cố gắng tạo chữ ký. Dữ liệu đã ký trống",
     "cmdErrorCreatingSignatureSignatureEmpty": "Lỗi khi cố gắng tạo chữ ký. Chữ ký trống",
+    "cmdErrorComputingK12ChecksumGeneric": "Lỗi khi tính tổng kiểm tra K12",
+    "cmdErrorComputingK12ChecksumEmpty": "Lỗi khi tính tổng kiểm tra K12. Tổng kiểm tra trống",
+    "cmdErrorComputingK12Checksum": "Lỗi khi tính tổng kiểm tra K12: {errorDescription}",
     "cmdErrorCreatingSignature": "Lỗi khi cố gắng tạo chữ ký: {errorDescription}",
     "@cmdErrorCreatingSignature": {
         "placeholders": {
@@ -674,6 +679,8 @@
             }
         }
     },
+    "cmdErrorVerifyingSignatureGeneric": "Lỗi khi xác minh chữ ký",
+    "cmdErrorVerifyingSignature": "Lỗi khi xác minh chữ ký: {errorDescription}",
     "importVaultFileOrPasswordError": "Tập tin đã chọn không phải là tập tin Qubic Vault hoặc mật khẩu không chính xác",
     "importVaultFileGenericError": "Lỗi khi cố gắng nhập tập tin vault",
     "importVaultFileSeedsNullError": "Tập tin vault bị lỗi và không chứa thông tin tài khoản",
@@ -824,7 +831,7 @@
     "dAppFeaturedApp": "Ứng dụng nổi bật",
     "dAppPopularApps": "Khám phá dApp",
     "dAppQubicApps": "Qubic Apps",
-    "assetButtonIssuerIdentity": "Xem Nhà Phát Hành",
+    "assetButtonIssuerIdentity": "Xem Nhà Phát Hành trong Explorer",
     "networksTitle": "Mạng",
     "networksButtonAddNetwork": "Thêm mạng",
     "networksConfirmationDialogTitleDeleteNetwork": "Xóa {networkName}?",
@@ -941,8 +948,41 @@
     "webviewErrorInsecureConnection": "Trang này không thể tải được vì sử dụng kết nối không an toàn (HTTP). Chỉ cho phép kết nối an toàn (HTTPS).",
     "webviewErrorGeneric": "Không thể tải trang: {error}",
     "webviewErrorHttp": "Lỗi HTTP {code}",
-    "settingsDappBrowserClearCache": "Xóa bộ nhớ cache trình duyệt",
-    "settingsDappBrowserClearCacheConfirmTitle": "Xóa bộ nhớ cache trình duyệt?",
+    "settingsDappBrowserClearCache": "Xóa dữ liệu trình duyệt",
+    "settingsDappBrowserClearCacheConfirmTitle": "Xóa dữ liệu trình duyệt?",
     "settingsDappBrowserClearCacheConfirmMessage": "Thao tác này sẽ xóa cookie, bộ nhớ cache và dữ liệu duyệt web của trình duyệt dApp. Bạn có thể bị đăng xuất khỏi các dApp.",
-    "settingsDappBrowserCacheCleared": "Đã xóa bộ nhớ cache trình duyệt"
+    "settingsDappBrowserCacheCleared": "Đã xóa dữ liệu trình duyệt",
+    "signVerifyMessageEnterMessage": "Nhập tin nhắn để ký",
+    "signVerifyMessageMessageLabel": "Tin nhắn",
+    "signVerifyMessageSignTitle": "Ký tin nhắn",
+    "signVerifyMessageSignButton": "Ký",
+    "signVerifyMessageVerifyTitle": "Xác minh tin nhắn",
+    "signVerifyMessageVerifyButton": "Xác minh",
+    "signVerifyMessageOutputLabel": "Đầu ra đã ký (JSON)",
+    "signVerifyMessageVerifyInputLabel": "Tin nhắn đã ký (JSON)",
+    "signVerifyMessageVerifyInputPlaceholder": "Dán JSON với các trường identity, message và signature",
+    "signVerifyMessageResultValid": "Chữ ký hợp lệ",
+    "signVerifyMessageResultInvalid": "Chữ ký không hợp lệ",
+    "signVerifyMessageErrorParse": "Định dạng JSON không hợp lệ. Cần JSON có các trường identity, message và signature",
+    "signVerifyMessageErrorIdentity": "Identity không hợp lệ. Vui lòng kiểm tra giá trị và thử lại.",
+    "signVerifyMessageErrorSignature": "Định dạng chữ ký không hợp lệ.",
+    "signVerifyMessageErrorChecksum": "Xác minh tổng kiểm tra chữ ký thất bại.",
+    "signVerifyMessageErrorSign": "Không thể ký tin nhắn. Vui lòng thử lại.",
+    "signVerifyMessageSettingsLabel": "Xác minh tin nhắn",
+    "signVerifyMessageAccountMenu": "Ký tin nhắn",
+    "transactionItemLabelSent": "Đã gửi",
+    "transactionItemLabelReceived": "Đã nhận",
+    "addressLabelTokenIssuer": "Người phát hành {name}",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "androidDeprecationDialogTitle": "Quan trọng: cảnh báo cập nhật thiết bị",
+    "androidDeprecationDialogMessageBefore": "Các bản cập nhật trong tương lai sẽ yêu cầu Android 7.0 trở lên. Để tiếp tục nhận các bản cập nhật và đảm bảo quyền truy cập ví lâu dài, hãy ",
+    "androidDeprecationDialogMessageHighlight": "sao lưu seed riêng tư của bạn hoặc xuất tệp vault ví",
+    "androidDeprecationDialogMessageAfter": " từ Cài đặt.",
+    "androidDeprecationDialogButton": "Đã hiểu"
 }

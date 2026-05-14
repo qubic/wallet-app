@@ -4,7 +4,7 @@ import 'package:qubic_wallet/services/screenshot_service.dart';
 import 'package:qubic_wallet/services/qr_scanner_service.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_controller.dart';
-import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/query/qubic_query_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
@@ -28,8 +28,9 @@ Future<void> setupDI() async {
   getIt.registerSingleton<NetworkStore>(NetworkStore());
   getIt.registerSingleton<RootJailbreakFlagStore>(RootJailbreakFlagStore());
 
-  getIt.registerSingleton<QubicArchiveApi>(
-      QubicArchiveApi(getIt<NetworkStore>()));
+  getIt.registerSingleton<QubicQueryApi>(
+      QubicQueryApi(getIt<NetworkStore>()));
+  getIt.registerSingleton<QubicLiveApi>(QubicLiveApi(getIt<NetworkStore>()));
   getIt.registerSingleton<QubicStatsApi>(QubicStatsApi(getIt<NetworkStore>()));
   getIt.registerSingleton<QubicStaticApi>(QubicStaticApi());
 
@@ -47,8 +48,6 @@ Future<void> setupDI() async {
   getIt.registerSingleton<GlobalSnackBar>(GlobalSnackBar());
 
   //getIt.registerSingleton<QubicHub>(QubicHub());
-
-  getIt.registerSingleton<QubicLiveApi>(QubicLiveApi(getIt<NetworkStore>()));
 
   //Services
   //getIt.registerSingleton<QubicHubService>(QubicHubService());

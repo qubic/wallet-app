@@ -6,6 +6,7 @@ import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/dapp_helpers.dart';
+import 'package:qubic_wallet/l10n/app_localizations.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_icon.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_list_tile.dart';
@@ -13,6 +14,7 @@ import 'package:qubic_wallet/pages/main/tab_dapps/components/dapp_tile.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/components/popular_apps_widget.dart';
 import 'package:qubic_wallet/pages/main/tab_dapps/favorites_list_screen.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
+import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -356,7 +358,7 @@ class _TabDAppsState extends State<TabDApps> with TickerProviderStateMixin {
           color: Colors.white,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: SvgPicture.asset('assets/icons/google.svg'),
+        child: SvgPicture.asset(AppIcons.google),
       ),
       title: Text(
         '"${result['name']}"',

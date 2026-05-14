@@ -69,9 +69,26 @@ class TransactionUIHelpers {
     ]);
   }
 
+  /// Returns a human-readable label for a transaction type, matching the
+  /// explorer-frontend logic (see `qubic/explorer-frontend/src/utils/qubic.ts`):
+  ///   - Smart-contract tx → procedure name from smart_contracts.json,
+  ///     fallback to "SC".
+  ///   - Otherwise → label from protocol.json (`transaction_input_types`),
+  ///     fallback to "Standard".
   static String getTransactionType(int type, String destination) {
-    return _ecosystemStore.getProcedureName(destination, type) ??
-        "$type ${(type == 0 || SpecialAddresses.empty == destination) ? "Standard" : "SC"}";
+    final isSmartContractTx =
+        type != 0 && destination != SpecialAddresses.empty;
+    if (isSmartContractTx) {
+      return _ecosystemStore.getProcedureName(destination, type) ?? "SC";
+    }
+    return _ecosystemStore.getProtocolInputTypeLabel(type) ?? "Standard";
+  }
+
+  /// Same as [getTransactionType], with the raw input-type number appended in
+  /// parentheses — useful in detail views where the technical type id matters.
+  /// Example: "Transfer (0)", "TransferShareManagementRights (9)".
+  static String getTransactionTypeLong(int type, String destination) {
+    return "${getTransactionType(type, destination)} ($type)";
   }
 
   static getTransactionFiltersInfo(BuildContext context,

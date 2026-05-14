@@ -3,10 +3,10 @@ import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';
+import 'package:qubic_wallet/helpers/format_helpers.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 
 class AmountValueHeader extends StatefulWidget {
@@ -20,8 +20,6 @@ class AmountValueHeader extends StatefulWidget {
 }
 
 class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern("en_US");
-
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   bool showingTotalBalance = true;
@@ -33,7 +31,7 @@ class _CumulativeWalletValueSliverState extends State<AmountValueHeader> {
   }
 
   Widget getTotalQubics(BuildContext context) {
-    return Text(numberFormat.format(widget.amount),
+    return Text(formatAmount(widget.amount),
         style: MediaQuery.of(context).size.width < 400
             ? TextStyles.qubicAmount.copyWith(fontSize: 22)
             : TextStyles.qubicAmount);

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 import 'package:qubic_wallet/components/amount_formatted.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/currency_helpers.dart';
+import 'package:qubic_wallet/helpers/format_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/settings_store.dart';
@@ -21,8 +21,6 @@ class CumulativeWalletValueSliver extends StatefulWidget {
 
 class _CumulativeWalletValueSliverState
     extends State<CumulativeWalletValueSliver> {
-  final NumberFormat numberFormat = NumberFormat.decimalPattern("en_US");
-
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final SettingsStore settingsStore = getIt<SettingsStore>();
   bool showingTotalBalance = true;
@@ -50,7 +48,8 @@ class _CumulativeWalletValueSliverState
   TextStyle secondaryBalanceStyle() => TextStyles.sliverSmall;
 
   String getTotalQubics(BuildContext context) {
-    return numberFormat.format(appStore.totalAmounts);
+    if (!appStore.hasBalancesBeenFetched) return "—";
+    return formatAmount(appStore.totalAmounts);
   }
 
   Widget getConversion() {
@@ -99,15 +98,18 @@ class _CumulativeWalletValueSliverState
               child: Column(
                 children: [
                   Observer(builder: (context) {
-                    if (appStore.totalAmountsInUSD == -1) {
+                    if (appStore.totalAmountsInUSD == -1 &&
+                        appStore.hasBalancesBeenFetched) {
                       return Container();
                     }
                     return AnimatedCrossFade(
                       firstChild: Text(
                         isQubicsPrimaryBalance
                             ? getTotalQubics(context)
-                            : CurrencyHelpers.formatToUsdCurrency(
-                                appStore.totalAmountsInUSD),
+                            : !appStore.hasBalancesBeenFetched
+                                ? "—"
+                                : CurrencyHelpers.formatToUsdCurrency(
+                                    appStore.totalAmountsInUSD),
                         style: primaryBalanceStyle(),
                       ),
                       secondChild: Text(l10n.generalLabelHiddenLong,
@@ -119,7 +121,8 @@ class _CumulativeWalletValueSliverState
                     );
                   }),
                   Observer(builder: (context) {
-                    if (appStore.totalAmountsInUSD == -1) {
+                    if (appStore.totalAmountsInUSD == -1 &&
+                        appStore.hasBalancesBeenFetched) {
                       return Container();
                     }
                     return AnimatedOpacity(
@@ -127,8 +130,10 @@ class _CumulativeWalletValueSliverState
                         duration: const Duration(milliseconds: 300),
                         child: Text(
                           isQubicsPrimaryBalance
-                              ? CurrencyHelpers.formatToUsdCurrency(
-                                  appStore.totalAmountsInUSD)
+                              ? !appStore.hasBalancesBeenFetched
+                                  ? "—"
+                                  : CurrencyHelpers.formatToUsdCurrency(
+                                      appStore.totalAmountsInUSD)
                               : getTotalQubics(context),
                           style: secondaryBalanceStyle(),
                         ));

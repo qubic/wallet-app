@@ -11,6 +11,7 @@ import 'package:qubic_wallet/globals/localization_manager.dart';
 import 'package:qubic_wallet/models/qubic_asset_transfer.dart';
 import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
+import 'package:qubic_wallet/models/qublic_cmd_response.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_import_vault_seed.dart';
 import 'package:qubic_wallet/models/qubic_js.dart';
@@ -23,6 +24,9 @@ import 'package:qubic_wallet/models/app_error.dart';
 class QubicJs {
   HeadlessInAppWebView? InAppWebView;
   InAppWebViewController? controller;
+
+  /// Maximum time to wait for a JS function result before giving up.
+  static const Duration _runFunctionTimeout = Duration(seconds: 30);
 
   // Pending JS calls keyed by call id. Resolved when the JS side posts the
   // result back via the `qubicResult` JavaScriptHandler.
@@ -179,7 +183,7 @@ class QubicJs {
     }
 
     try {
-      return await completer.future.timeout(const Duration(seconds: 30));
+      return await completer.future.timeout(_runFunctionTimeout);
     } on TimeoutException {
       _pendingCalls.remove(callId);
       throw const AppException(QubicJsErrors.webViewExecutionFailed,
@@ -425,6 +429,80 @@ class QubicJs {
     }
     final Map<String, dynamic> data = json.decode(result.value);
     return QubicSignResult.fromJson(data);
+  }
+
+  Future<String> signMessage(String seed, String utf8Text) async {
+    CallAsyncJavaScriptResult? result =
+        await runFunction(QubicJSFunctions.signMessage, [seed, utf8Text]);
+
+    if (result == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureGeneric);
+    }
+    if (result.error != null) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorCreatingSignature(result.error ?? ""));
+    }
+    final Map<String, dynamic> data = json.decode(result.value);
+    final signature = data['signature'];
+    if (signature is! String) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorCreatingSignatureSignatureEmpty);
+    }
+    return signature;
+  }
+
+  Future<int> computeK12Checksum(String dataB64) async {
+    CallAsyncJavaScriptResult? result = await runFunction(
+        QubicJSFunctions.computeK12Checksum, [dataB64]);
+
+    if (result == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumGeneric);
+    }
+    if (result.error != null) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorComputingK12Checksum(result.error ?? ""));
+    }
+    final Map<String, dynamic> data = json.decode(result.value);
+    final response = QubicCmdResponse.fromJson(data);
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorComputingK12Checksum(response.error ?? ""));
+    }
+    final checksumB64 = response.checksum;
+    if (checksumB64 == null || checksumB64.isEmpty) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);
+    }
+    final checksumBytes = base64Decode(checksumB64);
+    if (checksumBytes.isEmpty) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorComputingK12ChecksumEmpty);
+    }
+    return checksumBytes[0];
+  }
+
+  Future<bool> verifyMessage(
+      String identity, String utf8Text, String signatureB64) async {
+    CallAsyncJavaScriptResult? result = await runFunction(
+        QubicJSFunctions.verifyMessage, [identity, utf8Text, signatureB64]);
+
+    if (result == null) {
+      throw Exception(LocalizationManager
+          .instance.appLocalization.cmdErrorVerifyingSignatureGeneric);
+    }
+    if (result.error != null) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingSignature(result.error ?? ""));
+    }
+    final Map<String, dynamic> data = json.decode(result.value);
+    final response = QubicCmdResponse.fromJson(data);
+    if (!response.status) {
+      throw Exception(LocalizationManager.instance.appLocalization
+          .cmdErrorVerifyingSignature(response.error ?? ""));
+    }
+    return response.isValid == true;
   }
 
   Future<List<QubicImportVaultSeed>> importVault(

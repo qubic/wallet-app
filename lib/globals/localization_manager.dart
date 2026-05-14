@@ -1,4 +1,4 @@
-import 'package:qubic_wallet/l10n/l10n.dart';
+import 'package:qubic_wallet/l10n/app_localizations.dart';
 
 /// Localization manager
 ///

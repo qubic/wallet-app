@@ -8,6 +8,7 @@
     "generalButtonCopy": "Copy",
     "generalButtonRename": "Rename",
     "generalButtonSave": "Save",
+    "generalLabelToday": "Today",
     "generalButtonProceed": "Proceed",
     "generalButtonApprove": "Approve",
     "generalButtonReject": "Reject",
@@ -120,6 +121,7 @@
     "generalErrorUnexpectedError": "An unexpected error has occurred",
     "generalErrorConnectionTimeout": "Connection timed out",
     "generalErrorNoInternetConnection": "No internet connection",
+    "generalErrorConnectionRefused": "Could not connect to the server. The service may be temporarily down",
     "generalErrorRequestCancelled": "Request Cancelled",
     "generalErrorCouldntParseResponse": "Could not parse response",
     "generalErrorServerError": "Server error",
@@ -379,7 +381,7 @@
     "transactionItemButtonViewDetails": "View Details",
     "transactionItemButtonResend": "Resend",
     "transactionItemLabelConfirmedDate": "Timestamp",
-    "transactionItemLabelDetails": "Transfer Details",
+    "transactionItemLabelDetails": "Transaction Details",
     "sendItemLabelTargetTick": "Target Tick",
     "sendItemLabelTargetTickAutomatic": "Automatically: Current + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
@@ -686,8 +688,27 @@
     "cmdErrorCreatingSignatureDigestEmpty": "Error trying to create signature. Digest is empty",
     "cmdErrorCreatingSignatureSignedDataEmpty": "Error trying to create signature. Signed data is empty",
     "cmdErrorCreatingSignatureSignatureEmpty": "Error trying to create signature. Signature is empty",
+    "cmdErrorComputingK12ChecksumGeneric": "Error trying to compute K12 checksum",
+    "cmdErrorComputingK12ChecksumEmpty": "Error trying to compute K12 checksum. Checksum is empty",
+    "cmdErrorComputingK12Checksum": "Error trying to compute K12 checksum: {errorDescription}",
+    "@cmdErrorComputingK12Checksum": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
     "cmdErrorCreatingSignature": "Error trying to create signature: {errorDescription}",
     "@cmdErrorCreatingSignature": {
+        "placeholders": {
+            "errorDescription": {
+                "type": "String"
+            }
+        }
+    },
+    "cmdErrorVerifyingSignatureGeneric": "Error trying to verify signature",
+    "cmdErrorVerifyingSignature": "Error trying to verify signature: {errorDescription}",
+    "@cmdErrorVerifyingSignature": {
         "placeholders": {
             "errorDescription": {
                 "type": "String"
@@ -851,7 +872,7 @@
     "dAppFeaturedApp": "Featured App",
     "dAppPopularApps": "Discover dApps",
     "dAppQubicApps": "Qubic Apps",
-    "assetButtonIssuerIdentity": "View Issuer",
+    "assetButtonIssuerIdentity": "View Issuer in Explorer",
     "networksTitle": "Networks",
     "networksButtonAddNetwork": "Add Network",
     "networksConfirmationDialogTitleDeleteNetwork": "Delete {networkName}?",
@@ -991,8 +1012,41 @@
             }
         }
     },
-    "settingsDappBrowserClearCache": "Clear Browser Cache",
-    "settingsDappBrowserClearCacheConfirmTitle": "Clear Browser Cache?",
+    "settingsDappBrowserClearCache": "Clear Browser Data",
+    "settingsDappBrowserClearCacheConfirmTitle": "Clear Browser Data?",
     "settingsDappBrowserClearCacheConfirmMessage": "This will clear cookies, cache, and browsing data for the dApp browser. You may be logged out of dApps.",
-    "settingsDappBrowserCacheCleared": "Browser cache cleared"
+    "settingsDappBrowserCacheCleared": "Browser data cleared",
+    "signVerifyMessageEnterMessage": "Enter message to sign",
+    "signVerifyMessageMessageLabel": "Message",
+    "signVerifyMessageSignTitle": "Sign Message",
+    "signVerifyMessageSignButton": "Sign",
+    "signVerifyMessageVerifyTitle": "Verify Message",
+    "signVerifyMessageVerifyButton": "Verify",
+    "signVerifyMessageOutputLabel": "Signed output (JSON)",
+    "signVerifyMessageVerifyInputLabel": "Signed message (JSON)",
+    "signVerifyMessageVerifyInputPlaceholder": "Paste JSON with identity, message, and signature fields",
+    "signVerifyMessageResultValid": "Valid Signature",
+    "signVerifyMessageResultInvalid": "Invalid Signature",
+    "signVerifyMessageErrorParse": "Invalid JSON format. Expected JSON with identity, message, and signature fields",
+    "signVerifyMessageErrorIdentity": "Invalid identity. Please check the value and try again.",
+    "signVerifyMessageErrorSignature": "Invalid signature format.",
+    "signVerifyMessageErrorChecksum": "Signature checksum verification failed.",
+    "signVerifyMessageErrorSign": "Failed to sign message. Please try again.",
+    "signVerifyMessageSettingsLabel": "Verify Message",
+    "signVerifyMessageAccountMenu": "Sign Message",
+    "transactionItemLabelSent": "Sent",
+    "transactionItemLabelReceived": "Received",
+    "addressLabelTokenIssuer": "{name} Issuer",
+    "@addressLabelTokenIssuer": {
+        "placeholders": {
+            "name": {
+                "type": "String"
+            }
+        }
+    },
+    "androidDeprecationDialogTitle": "Important: device update warning",
+    "androidDeprecationDialogMessageBefore": "Future updates will require Android 7.0 or higher. To continue receiving updates and ensure long-term wallet access, please ",
+    "androidDeprecationDialogMessageHighlight": "back up your private seeds or export your wallet vault",
+    "androidDeprecationDialogMessageAfter": " from Settings.",
+    "androidDeprecationDialogButton": "Got it"
 }

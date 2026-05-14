@@ -11,6 +11,7 @@ import 'package:qubic_wallet/components/change_foreground.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
+import 'package:qubic_wallet/helpers/android_deprecation_dialog.dart';
 import 'package:qubic_wallet/helpers/clipboard_helper.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/app_link/app_link_controller.dart';
@@ -57,7 +58,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   final AppLinkController appLinkController = AppLinkController();
 
   Timer? _autoLockTimer;
-  Timer? _backgroundTimer;
 
   bool wCDialogOpen = false; //Wallet Connect Dialog Open
 
@@ -65,6 +65,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused ||
         (UniversalPlatform.isDesktop && state == AppLifecycleState.hidden)) {
+      _timedController.stopFetchTimers();
       // Lock the app immediately if the timeout is 0 (Immediately)
       if (settingsStore.settings.autoLockTimeout == 0) {
         applicationStore.signOut();
@@ -77,11 +78,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
             applicationStore.signOut();
           },
         );
-        // Start the background timer
-        _backgroundTimer =
-            Timer(const Duration(seconds: Config.inactiveSecondsLimit), () {
-          _timedController.stopFetchTimers();
-        });
       }
     }
     // When the app is resumed
@@ -89,7 +85,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         (UniversalPlatform.isDesktop && state == AppLifecycleState.inactive)) {
       // Clear the clipboard if sensitive data was copied and the timer has expired
       ClipboardHelper.checkAndClearExpiredClipboard();
-      _backgroundTimer?.cancel();
       _timedController.restartFetchTimersIfNeeded();
       _autoLockTimer?.cancel();
       if (!applicationStore.isSignedIn && mounted) {
@@ -240,6 +235,11 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       if (!mounted) return;
       appLinkController.parseUriString(
           applicationStore.currentInboundUri!, context);
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      maybeShowAndroidDeprecationDialog(context);
     });
   }
 

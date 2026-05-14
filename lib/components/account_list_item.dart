@@ -19,6 +19,7 @@ import 'package:qubic_wallet/models/qubic_list_vm.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/assets.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/receive.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed.dart';
+import 'package:qubic_wallet/pages/main/wallet_contents/sign_message.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/reveal_seed/reveal_seed_warning_sheet.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/send.dart';
 import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_for_id.dart';
@@ -31,7 +32,7 @@ import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
 import 'package:qubic_wallet/styles/themed_controls.dart';
 
-enum CardItem { delete, rename, reveal, viewTransactions, viewInExplorer }
+enum CardItem { delete, rename, reveal, viewTransactions, viewInExplorer, signMessage }
 
 class AccountListItem extends StatefulWidget {
   final QubicListVm item;
@@ -50,6 +51,9 @@ class _AccountListItemState extends State<AccountListItem> {
 
   bool totalBalanceVisible = true;
   late ReactionDisposer _disposer;
+
+  static const double _menuIconSize = 20;
+  static const double _menuIconSpacing = 12;
 
   bool isItemWatchOnly() => widget.item.watchOnly;
 
@@ -224,6 +228,15 @@ class _AccountListItemState extends State<AccountListItem> {
                 pushToTransactionsScreen();
               }
 
+              if (menuItem == CardItem.signMessage) {
+                pushScreen(
+                  context,
+                  screen: SignMessageScreen(item: widget.item),
+                  withNavBar: false,
+                  pageTransitionAnimation: PageTransitionAnimation.cupertino,
+                );
+              }
+
               if (menuItem == CardItem.reveal) {
                 if (getIt<RootJailbreakFlagStore>()
                     .restrictFeatureIfDeviceCompromised()) {
@@ -265,25 +278,64 @@ class _AccountListItemState extends State<AccountListItem> {
             itemBuilder: (BuildContext context) => <PopupMenuEntry<CardItem>>[
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewTransactions,
-                    child: Text(l10n.accountButtonViewTransfer),
+                    child: Row(children: [
+                      const Icon(Icons.history, size: _menuIconSize),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.accountButtonViewTransfer),
+                    ]),
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.viewInExplorer,
-                    child: Text(l10n.accountButtonViewInExplorer),
+                    child: Row(children: [
+                      const Icon(Icons.explore_outlined, size: _menuIconSize),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.accountButtonViewInExplorer),
+                    ]),
                   ),
                   if (!isItemWatchOnly()) // Check if item is not watch-only
                     PopupMenuItem<CardItem>(
                       value: CardItem.reveal,
-                      child: Text(l10n.accountButtonRevealPrivateSeed),
+                      child: Row(children: [
+                        SvgPicture.asset(
+                          AppIcons.keyVertical,
+                          width: _menuIconSize,
+                          height: _menuIconSize,
+                          colorFilter: const ColorFilter.mode(
+                            LightThemeColors.primary,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                        const SizedBox(width: _menuIconSpacing),
+                        Text(l10n.accountButtonRevealPrivateSeed),
+                      ]),
+                    ),
+                  if (!isItemWatchOnly())
+                    PopupMenuItem<CardItem>(
+                      value: CardItem.signMessage,
+                      child: Row(children: [
+                        const Icon(Icons.draw_outlined, size: _menuIconSize),
+                        const SizedBox(width: _menuIconSpacing),
+                        Text(l10n.signVerifyMessageAccountMenu),
+                      ]),
                     ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.rename,
-                    child: Text(l10n.generalButtonRename),
+                    child: Row(children: [
+                      const Icon(Icons.edit_outlined, size: _menuIconSize),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.generalButtonRename),
+                    ]),
                   ),
                   PopupMenuItem<CardItem>(
                     value: CardItem.delete,
-                    child: Text(l10n.generalButtonDelete,
-                        style: const TextStyle(color: LightThemeColors.error)),
+                    child: Row(children: [
+                      const Icon(Icons.delete_outline,
+                          size: _menuIconSize, color: LightThemeColors.error),
+                      const SizedBox(width: _menuIconSpacing),
+                      Text(l10n.generalButtonDelete,
+                          style:
+                              const TextStyle(color: LightThemeColors.error)),
+                    ]),
                   ),
                 ]));
   }
@@ -445,6 +497,7 @@ class _AccountListItemState extends State<AccountListItem> {
                                   isItemWatchOnly()
                                       ? const Icon(
                                           Icons.remove_red_eye_rounded,
+                                          size: 18,
                                           color: LightThemeColors.color4,
                                         )
                                       : Container(),
@@ -492,9 +545,12 @@ class _AccountListItemState extends State<AccountListItem> {
                                   currencyName: l10n.generalLabelCurrencyQubic,
                                 ),
                                 Text(
-                                    CurrencyHelpers.formatToUsdCurrency(
-                                        (widget.item.amount ?? 0) *
-                                            (_appStore.marketInfo?.price ?? 0)),
+                                    widget.item.amount == null ||
+                                            _appStore.marketInfo?.price == null
+                                        ? "—"
+                                        : CurrencyHelpers.formatToUsdCurrency(
+                                            widget.item.amount! *
+                                                _appStore.marketInfo!.price!),
                                     style: TextStyles.sliverSmall),
                                 if (widget.item.assets.isNotEmpty)
                                   ThemedControls.spacerVerticalSmall(),

@@ -5,7 +5,7 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
-import 'package:qubic_wallet/resources/apis/archive/qubic_archive_api.dart';
+import 'package:qubic_wallet/resources/apis/query/qubic_query_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
@@ -23,7 +23,7 @@ class TimedController extends WidgetsBindingObserver {
       getIt<WalletConnectService>();
   final _liveApi = getIt<QubicLiveApi>();
   final QubicStatsApi _statsApi = getIt<QubicStatsApi>();
-  final QubicArchiveApi _archiveApi = getIt<QubicArchiveApi>();
+  final QubicQueryApi _queryApi = getIt<QubicQueryApi>();
 
   stopFetchTimers() {
     if (_fetchTimer != null) {
@@ -46,68 +46,69 @@ class TimedController extends WidgetsBindingObserver {
     }
   }
 
-// TODO: Refactor this function to remove side effects and separate concerns
-  /// Fetch balances assets and transactions from the network
-  /// Makes four calls (balances, network balances, network assets, network transactions
-  /// and updates the store with the results)
-  /// Will not make a call if there's a pending call
-  /// If any of the calls fail, it shows a snackbar with the error message
-  _getNetworkBalancesAndAssets() async {
+  /// Fetches network balances and assets in parallel.
+  /// Each fetch handles its own errors so one failing does not affect the other.
+  Future<void> _getNetworkBalancesAndAssets() async {
+    final List<String> myIds =
+        appStore.currentQubicIDs.map((e) => e.publicId).toList();
+
+    await Future.wait([
+      _fetchAndProcessBalances(myIds),
+      _fetchAndProcessAssets(myIds),
+    ]);
+  }
+
+  Future<void> _fetchAndProcessBalances(List<String> myIds) async {
     try {
-      List<String> myIds =
-          appStore.currentQubicIDs.map((e) => e.publicId).toList();
-
-      //Fetch network balances
-      _liveApi.getQubicBalances(myIds).then((balances) {
-        //_apiService.getNetworkBalances(myIds).then((balances) {
-        Map<String, int> changedIds = appStore.setAmounts(balances);
-        if (changedIds.isNotEmpty) {
-          Map<String, int> changedIdsWithSeed = {};
-
-          //Filter out only non WatchOnly accounts
-          for (var element in changedIds.entries) {
-            final account = appStore.findAccountById(element.key);
-            if (account != null && !account.watchOnly) {
-              changedIdsWithSeed[element.key] = element.value;
-            }
-          }
-          if (changedIdsWithSeed.isNotEmpty) {
-            _walletConnectService.triggerAmountChangedEvent(changedIdsWithSeed);
-          }
-          // Only sort if in balance mode since balance changes don't affect other sort orders
-          if (appStore.accountsSortingMode == AccountSortMode.balance) {
-            appStore.sortAccounts();
-          }
-        }
-      }, onError: (e) {
-        appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      });
-
-      //Fetch network assets
-      _liveApi.getCurrentAssets(myIds).then((assets) {
-        //_apiService.getCurrentAssets(myIds).then((assets) {
-        Map<String, List<QubicAssetDto>> changedIds =
-            appStore.setAssets(assets);
-
-        Map<String, List<QubicAssetDto>> changedIdsWithSeed = {};
+      final balances = await _liveApi.getQubicBalances(myIds);
+      final Map<String, int> changedIds = appStore.setAmounts(balances);
+      if (changedIds.isNotEmpty) {
+        final Map<String, int> changedIdsWithSeed = {};
 
         //Filter out only non WatchOnly accounts
-        for (var element in changedIds.entries) {
+        for (final element in changedIds.entries) {
           final account = appStore.findAccountById(element.key);
           if (account != null && !account.watchOnly) {
             changedIdsWithSeed[element.key] = element.value;
           }
         }
-
         if (changedIdsWithSeed.isNotEmpty) {
-          _walletConnectService
-              .triggerAssetAmountChangedEvent(changedIdsWithSeed);
+          _walletConnectService.triggerAmountChangedEvent(changedIdsWithSeed);
         }
-      }, onError: (e) {
-        appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      });
-    } on Exception catch (e) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+        // Only sort if in balance mode since balance changes don't affect other sort orders
+        if (appStore.accountsSortingMode == AccountSortMode.balance) {
+          appStore.sortAccounts();
+        }
+      }
+    } catch (e) {
+      final error = await ErrorHandler.handleError(e);
+      appStore.reportGlobalError(error.toString());
+    }
+  }
+
+  Future<void> _fetchAndProcessAssets(List<String> myIds) async {
+    try {
+      final assets = await _liveApi.getCurrentAssets(myIds);
+      final Map<String, List<QubicAssetDto>> changedIds =
+          appStore.setAssets(assets);
+
+      final Map<String, List<QubicAssetDto>> changedIdsWithSeed = {};
+
+      //Filter out only non WatchOnly accounts
+      for (final element in changedIds.entries) {
+        final account = appStore.findAccountById(element.key);
+        if (account != null && !account.watchOnly) {
+          changedIdsWithSeed[element.key] = element.value;
+        }
+      }
+
+      if (changedIdsWithSeed.isNotEmpty) {
+        _walletConnectService
+            .triggerAssetAmountChangedEvent(changedIdsWithSeed);
+      }
+    } catch (e) {
+      final error = await ErrorHandler.handleError(e);
+      appStore.reportGlobalError(error.toString());
     }
   }
 
@@ -118,28 +119,33 @@ class TimedController extends WidgetsBindingObserver {
     try {
       final marketInfo = await _statsApi.getMarketInfo();
       appStore.setMarketInfo(marketInfo);
+      lastFetchSlow = DateTime.now();
     } on AppError catch (e) {
-      appStore.reportGlobalError(e.message);
+      appStore.reportGlobalError(e.toString());
     }
   }
 
   /// Called by the main timer
   /// Fetches the current tick and the network balances and assets
   /// If the call fails, it shows a snackbar with the error message
-  fetchData() async {
+  Future<void> fetchData() async {
+    if (appStore.isLoading) return;
+    appStore.setLoading(true);
     try {
       //Fetch the ticks
       int tick = (await _liveApi.getCurrentTick()).tick;
       appStore.currentTick = tick;
-      int latestTickProcessed = (await _archiveApi.getLatestTickProcessed());
+      int latestTickProcessed = (await _queryApi.getLastProcessedTick());
       appStore.validatePendingTransactions(latestTickProcessed);
-      _getNetworkBalancesAndAssets();
+      await _getNetworkBalancesAndAssets();
       lastFetch = DateTime.now();
-    } on Exception catch (e) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
+    } on AppError catch (e) {
+      appStore.reportGlobalError(e.toString());
     } catch (e) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
+      final error = await ErrorHandler.handleError(e);
+      appStore.reportGlobalError(error.toString());
+    } finally {
+      appStore.setLoading(false);
     }
   }
 
@@ -148,19 +154,13 @@ class TimedController extends WidgetsBindingObserver {
   /// If the call fails, it shows a snackbar with the error message
   /// If the call succeeds, it updates the store with the results
 
-  fetchDataSlow() async {
-    try {
-      _getMarketInfo();
-      lastFetchSlow = DateTime.now();
-    } on Exception catch (e) {
-      appStore.reportGlobalError(e.toString().replaceAll("Exception: ", ""));
-      //_globalSnackBar.show(e.toString().replaceAll("Exception: ", ""));
-    }
+  Future<void> fetchDataSlow() async {
+    await _getMarketInfo();
   }
 
   /// Restart the fetching timer.
   /// If the timer is already running, it stops it and starts it again
-  interruptFetchTimer() async {
+  Future<void> interruptFetchTimer() async {
     _fetchTimer?.cancel();
 
     setupFetchTimer(true);
@@ -172,7 +172,7 @@ class TimedController extends WidgetsBindingObserver {
   }
 
   /// Setup the fetching timer
-  setupFetchTimer(bool makeInitialCall) async {
+  Future<void> setupFetchTimer(bool makeInitialCall) async {
     if (makeInitialCall) {
       await fetchData();
     }
@@ -183,7 +183,7 @@ class TimedController extends WidgetsBindingObserver {
   }
 
   /// Setup the slow fetching timer
-  setupSlowTimer(bool makeInitialCall) async {
+  Future<void> setupSlowTimer(bool makeInitialCall) async {
     if (makeInitialCall) {
       await fetchDataSlow();
     }

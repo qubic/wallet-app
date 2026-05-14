@@ -45,7 +45,8 @@ class StoredTransactionsForId extends StatelessWidget {
                           itemCount: storedTransactions.length,
                           itemBuilder: (context, index) {
                             return TransactionItem(
-                                item: storedTransactions[index]);
+                                item: storedTransactions[index],
+                                currentAccountId: item.publicId);
                           }));
             })
           ],

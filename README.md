@@ -95,13 +95,13 @@ Qubic Wallet interacts with the network using the following RPC endpoints:
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | **Live RPC**     | Sends transactions and retrieves the latest blockchain data in real-time (ticks, account balances, unconfirmed transactions). | https://qubic.github.io/integration/Partners/qubic-rpc-doc.html?urls.primaryName=Qubic%20RPC%20Live%20Tree    |
 | **Stats RPC**    | Provides network statistics, supply data, validator lists, and performance metrics.                                           | https://qubic.github.io/integration/Partners/qubic-rpc-doc.html?urls.primaryName=Qubic%20Stats%20API          |
-| **Archiver RPC** | Allows access to historical blockchain data — older ticks, past transactions, and archived account states.                    | https://qubic.github.io/integration/Partners/qubic-rpc-doc.html?urls.primaryName=Qubic%20RPC%20Archive%20Tree |
+| **Query RPC**    | Allows access to historical blockchain data — older ticks, past transactions, and archived account states.                    | https://qubic.github.io/integration/Partners/qubic-rpc-doc.html?urls.primaryName=Qubic%20RPC%20Archive%20Tree |
 
 The wallet automatically routes requests to the appropriate RPC type depending on the feature in use.  
 For example:
 - Sending a transaction → **Live RPC**
 - Viewing latest balances → **Live RPC**
-- Checking historical transactions → **Archiver RPC**
+- Checking historical transactions → **Query RPC**
 - Displaying market data → **Stats RPC**
 
 **RPC Security:** All communication is performed over TLS.  
@@ -153,8 +153,9 @@ There are currently no automated unit or integration tests.
 
 To build Qubic Wallet, you will need:
 
-* [Flutter SDK](https://flutter.dev/docs/get-started/install) (**3.27.1** or later)
+* [Flutter SDK](https://flutter.dev/docs/get-started/install) (**3.35.0** or later)
 * [Dart SDK](https://dart.dev/get-dart) (included with Flutter)
+* (Optional) [FVM](https://fvm.app) — the repo includes an `.fvmrc` pinning Flutter **3.38.3**, which is the version used for release builds
 * Platform-specific tools:
 
   * **Android:** Android Studio with Android SDK tools installed

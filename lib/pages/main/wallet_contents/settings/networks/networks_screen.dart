@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:qubic_wallet/components/confirmation_dialog.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/flutter_flow/theme_paddings.dart';
@@ -29,6 +29,12 @@ class NetworksScreen extends StatelessWidget {
     networkStore.removeNetwork(network);
   }
 
+  navigateToEdit(BuildContext context, NetworkModel network) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return AddNetworkScreen(network: network);
+    }));
+  }
+
   showRemoveDialog(BuildContext context, NetworkModel network) {
     final l10n = l10nOf(context);
     showDialog(
@@ -45,18 +51,6 @@ class NetworksScreen extends StatelessWidget {
           },
         );
       },
-    );
-  }
-
-  Widget buildEditButton(BuildContext context, NetworkModel network) {
-    return ThemedControls.iconButtonSquare(
-      onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return AddNetworkScreen(network: network);
-        }));
-      },
-      icon: const Icon(Icons.edit,
-          color: LightThemeColors.primary40, size: 20),
     );
   }
 
@@ -126,23 +120,12 @@ class NetworksScreen extends StatelessWidget {
                         ),
                         if (!isDefault) ...[
                           ThemedControls.spacerHorizontalSmall(),
-                          buildEditButton(context, network),
+                          _EditNetworkButton(
+                              onPressed: () => navigateToEdit(context, network)),
                           ThemedControls.spacerHorizontalSmall(),
-                          SizedBox(
-                            width: ButtonStyles.buttonHeight,
-                            height: ButtonStyles.buttonHeight,
-                            child: TextButton(
-                                style: TextButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(12)),
-                                    backgroundColor: LightThemeColors
-                                        .dangerBackgroundButton),
-                                onPressed: () =>
-                                    showRemoveDialog(context, network),
-                                child: SvgPicture.asset(AppIcons.close)),
-                          ),
+                          _DeleteNetworkButton(
+                              onPressed: () =>
+                                  showRemoveDialog(context, network)),
                         ]
                       ],
                     ),
@@ -150,13 +133,51 @@ class NetworksScreen extends StatelessWidget {
                     Row(
                       children: [
                         const Spacer(),
-                        buildEditButton(context, network),
+                        _EditNetworkButton(
+                            onPressed: () =>
+                                navigateToEdit(context, network)),
                       ],
                     ),
                 ],
               ));
             });
       }),
+    );
+  }
+}
+
+class _DeleteNetworkButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const _DeleteNetworkButton({required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: ButtonStyles.buttonHeight,
+      height: ButtonStyles.buttonHeight,
+      child: TextButton(
+          style: TextButton.styleFrom(
+              padding: EdgeInsets.zero,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12)),
+              backgroundColor: LightThemeColors.dangerBackgroundButton),
+          onPressed: onPressed,
+          child: SvgPicture.asset(AppIcons.close)),
+    );
+  }
+}
+
+class _EditNetworkButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  const _EditNetworkButton({required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ThemedControls.iconButtonSquare(
+      onPressed: onPressed,
+      icon: const Icon(Icons.edit, color: LightThemeColors.primary40, size: 20),
     );
   }
 }

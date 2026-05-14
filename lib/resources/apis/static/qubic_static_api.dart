@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
+import 'package:qubic_wallet/models/exchange_model.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
+import 'package:qubic_wallet/models/protocol_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 
@@ -51,6 +53,24 @@ class QubicStaticApi {
       return LabeledAddressesResponse.fromJson(response.data);
     } catch (error) {
       throw Exception('Failed to fetch labeled addresses data');
+    }
+  }
+
+  Future<ExchangesResponse> getExchanges() async {
+    try {
+      final response = await _dio.get(Config.exchanges);
+      return ExchangesResponse.fromJson(response.data);
+    } catch (error) {
+      throw Exception('Failed to fetch exchanges data');
+    }
+  }
+
+  Future<ProtocolResponse> getProtocol() async {
+    try {
+      final response = await _dio.get(Config.protocol);
+      return ProtocolResponse.fromJson(response.data);
+    } catch (error) {
+      throw Exception('Failed to fetch protocol data');
     }
   }
 }

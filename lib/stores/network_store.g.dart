@@ -96,6 +96,17 @@ mixin _$NetworkStore on _NetworkStore, Store {
   }
 
   @override
+  void updateNetwork(NetworkModel oldNetwork, NetworkModel updatedNetwork) {
+    final _$actionInfo = _$_NetworkStoreActionController.startAction(
+        name: '_NetworkStore.updateNetwork');
+    try {
+      return super.updateNetwork(oldNetwork, updatedNetwork);
+    } finally {
+      _$_NetworkStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 networks: ${networks},

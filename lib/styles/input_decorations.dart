@@ -71,6 +71,10 @@ abstract class ThemeInputDecorations {
     fillColor: LightThemeColors.inputFieldBg,
   );
 
+  static InputDecoration bigInputboxCompact = bigInputbox.copyWith(
+    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+  );
+
   static InputDecoration normalInputbox = InputDecoration(
     contentPadding:
         const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 10),

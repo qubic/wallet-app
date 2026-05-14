@@ -11,7 +11,8 @@ class QubicCmdResponse {
   bool? isValid;
   String? signedData; //For signRaw, signASCII, signUTF8
   String? digest; //For signRaw, signASCII, signUTF8
-  String? signature; //For signRaw, signASCII, signUTF8
+  String? signature; //For signRaw, signASCII, signUTF8, signMessage
+  String? checksum; //For computeK12Checksum
 
   QubicCmdResponse(
       {required this.status,
@@ -24,7 +25,8 @@ class QubicCmdResponse {
       this.isValid,
       this.signedData,
       this.digest,
-      this.signature});
+      this.signature,
+      this.checksum});
 
   factory QubicCmdResponse.fromJson(Map<String, dynamic> json) {
     List<QubicImportVaultSeed>? seeds;
@@ -49,7 +51,8 @@ class QubicCmdResponse {
         isValid: json.containsKey("isValid") ? json['isValid'] : null,
         signedData: json.containsKey("signedData") ? json['signedData'] : null,
         digest: json.containsKey("digest") ? json['digest'] : null,
-        signature: json.containsKey("signature") ? json['signature'] : null);
+        signature: json.containsKey("signature") ? json['signature'] : null,
+        checksum: json.containsKey("checksum") ? json['checksum'] : null);
   }
 
   Map<String, dynamic> toJson() {
@@ -63,6 +66,7 @@ class QubicCmdResponse {
     data['signedData'] = signedData;
     data['digest'] = digest;
     data['signature'] = signature;
+    data['checksum'] = checksum;
 
     return data;
   }

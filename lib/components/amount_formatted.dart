@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/currency_label.dart';
+import 'package:qubic_wallet/helpers/format_helpers.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
-import 'package:intl/intl.dart';
 
 class AmountFormatted extends StatelessWidget {
   final num? amount;
   final String currencyName;
   final bool isInHeader;
-  final NumberFormat numberFormat = NumberFormat.decimalPattern("en_US");
   late final TextStyle? labelStyle;
   late final TextStyle? textStyle;
   late final String? stringOverride;
@@ -36,7 +35,22 @@ class AmountFormatted extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (amount == null) {
-      return Container();
+      return Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.ideographic,
+          children: [
+            Text("${prefix ?? ""}—${suffix ?? ""}", style: textStyle),
+            const SizedBox(width: 6),
+            hideLabel
+                ? Container()
+                : Transform.translate(
+                    offset: Offset(labelHorizOffset, labelOffset),
+                    child: CurrencyLabel(
+                        currencyName: currencyName,
+                        isInHeader: isInHeader,
+                        style: labelStyle))
+          ]);
     }
 
     if (isInHeader) {
@@ -48,13 +62,11 @@ class AmountFormatted extends StatelessWidget {
             Text(
                 (prefix ?? "") +
                     (stringOverride == null
-                        ? numberFormat.format(
-                            amount!,
-                          )
+                        ? formatAmount(amount!)
                         : stringOverride!) +
                     (suffix ?? ""),
                 style: textStyle),
-            const SizedBox(width: 6, height: 6),
+            const SizedBox(width: 6),
             hideLabel
                 ? Container()
                 : Transform.translate(
@@ -73,13 +85,11 @@ class AmountFormatted extends StatelessWidget {
             Text(
                 (prefix ?? "") +
                     (stringOverride == null
-                        ? numberFormat.format(
-                            amount!,
-                          )
+                        ? formatAmount(amount!)
                         : stringOverride!) +
                     (suffix ?? ""),
                 style: textStyle),
-            const SizedBox(width: 6, height: 6),
+            const SizedBox(width: 6),
             hideLabel
                 ? Container()
                 : Transform.translate(
@@ -90,7 +100,5 @@ class AmountFormatted extends StatelessWidget {
                         style: labelStyle))
           ]);
     }
-
-    //return Text(numberFormat.format(amount!));
   }
 }
