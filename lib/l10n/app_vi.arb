@@ -257,7 +257,6 @@
     "accountSendLabelDestinationAddress": "Địa chỉ đích",
     "accountSendLabelAmount": "Số lượng",
     "accountSendButtonMax": "Tối đa",
-    "accountSendButtonMaxMinusOne": "Tối đa - 1",
     "accountSendSectionAdvanceOptionsTitle": "Tùy chọn nâng cao",
     "accountSendSectionInvalidDestinationAddress": "Địa chỉ đích không hợp lệ",
     "assetsLabelContractName": "Tên hợp đồng",

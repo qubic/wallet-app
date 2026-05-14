@@ -241,23 +241,6 @@ class _SendState extends State<Send> {
                                               (widget.item.amount).toString()));
                             }
                           }),
-                      (widget.item.amount != null && widget.item.amount! > 1)
-                          ? ThemedControls.transparentButtonSmall(
-                              text: l10n.accountSendButtonMaxMinusOne,
-                              onPressed: () {
-                                if (widget.item.amount == null) {
-                                  return;
-                                }
-                                if (widget.item.amount! > 1) {
-                                  amount.value = getInputFormatter()
-                                      .formatEditUpdate(
-                                          const TextEditingValue(text: ''),
-                                          TextEditingValue(
-                                              text: (widget.item.amount! - 1)
-                                                  .toString()));
-                                }
-                              })
-                          : Container()
                     ],
                   ),
                   FormBuilderTextField(

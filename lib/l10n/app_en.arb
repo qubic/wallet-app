@@ -263,7 +263,6 @@
     "accountSendLabelDestinationAddress": "Destination Address",
     "accountSendLabelAmount": "Amount",
     "accountSendButtonMax": "Max",
-    "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Advanced Options",
     "accountSendSectionInvalidDestinationAddress": "Invalid destination address",
     "assetsLabelContractName": "Contract Name",

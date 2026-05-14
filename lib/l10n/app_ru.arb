@@ -225,7 +225,6 @@
     "accountSendLabelDestinationAddress": "Адрес назначения",
     "accountSendLabelAmount": "Сумма",
     "accountSendButtonMax": "Максимум",
-    "accountSendButtonMaxMinusOne": "Максимум - 1",
     "accountSendSectionAdvanceOptionsTitle": "Дополнительные настройки",
     "assetsLabelContractName": "Имя контракта",
     "assetsLabelContractIndex": "Индекс контракта",
