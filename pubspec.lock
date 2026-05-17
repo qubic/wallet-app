@@ -1142,14 +1142,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.7.0"
-  msgpack_dart:
-    dependency: transitive
-    description:
-      name: msgpack_dart
-      sha256: c2d235ed01f364719b5296aecf43ac330f0d7bc865fa134d0d7910a40454dffb
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   nested:
     dependency: transitive
     description:
@@ -1407,21 +1399,21 @@ packages:
     source: hosted
     version: "2.2.3"
   reown_core:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: reown_core
-      sha256: "37e8bd16263400856592b58331ec61665bcc8814d4a2a1801a7f12caf3c4673d"
+      sha256: "171ce977b563b7b2fe0a17393517a4743ab758152d6c0c5158921a7ed3746326"
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.1.5"
   reown_sign:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       name: reown_sign
-      sha256: ae2e171b93ddaae2ce7db18a66647afc9680cf55f49e88d49a3c3df5d1eb2cde
+      sha256: eb24d5b201635b0adbe15182c4cd2f831642dde05f59f033dac8de3bd423495d
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.0"
+    version: "1.1.6"
   reown_walletkit:
     dependency: "direct main"
     description:
