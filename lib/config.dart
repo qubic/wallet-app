@@ -110,23 +110,23 @@ abstract class Config {
 
   static final qubicHelper = QubicHelperConfig(
       win64: QubicHelperConfigEntry(
-          filename: "qubic-helper-win-x64-3_1_2.exe",
+          filename: "qubic-helper-win-x64-3_1_3.exe",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.2/qubic-helper-win-x64-3_1_2.exe",
-          checksum: "8fbc722d1e79ee80c44b440e20010cfa"),
+              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.3/qubic-helper-win-x64-3_1_3.exe",
+          checksum: "1ac587676893bd1069cdf0c1d2a4d079"),
       linux64: QubicHelperConfigEntry(
-          filename: "qubic-helper-linux-x64-3_1_2",
+          filename: "qubic-helper-linux-x64-3_1_3",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.2/qubic-helper-linux-x64-3_1_2",
-          checksum: "b1f7c658ff81bdf9408f3bcaba3403fe"),
+              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.3/qubic-helper-linux-x64-3_1_3",
+          checksum: "f691896a86df0dacea8ac2d35fe18f71"),
       macOs64: QubicHelperConfigEntry(
-          filename: "qubic-helper-mac-x64-3_1_2",
+          filename: "qubic-helper-mac-x64-3_1_3",
           downloadPath:
-              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.2/qubic-helper-mac-x64-3_1_2",
-          checksum: "86c4661b7027c1c54c43935ede1e4292"));
+              "https://github.com/qubic/ts-library-wrapper/releases/download/v3.1.3/qubic-helper-mac-x64-3_1_3",
+          checksum: "b3038e61c9c04eb00cd5c9672be6acfe"));
 
   static const qubicJSAssetPath =
-      "assets/qubic_js/qubic-helper-html-3_1_2.html";
+      "assets/qubic_js/qubic-helper-html-3_1_3.html";
 
   // ---------------------------------------------------------------------------
   // WalletConnect
