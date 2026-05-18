@@ -225,7 +225,6 @@
     "accountSendLabelDestinationAddress": "Varış Adresi",
     "accountSendLabelAmount": "Miktar",
     "accountSendButtonMax": "Maksimum",
-    "accountSendButtonMaxMinusOne": "Maksimum - 1",
     "accountSendSectionAdvanceOptionsTitle": "Gelişmiş Seçenekler",
     "assetsLabelContractName": "Kontrakt Adı",
     "assetsLabelContractIndex": "Kontrakt İndeksi",

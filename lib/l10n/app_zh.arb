@@ -225,7 +225,6 @@
     "accountSendLabelDestinationAddress": "接收地址",
     "accountSendLabelAmount": "数量",
     "accountSendButtonMax": "Max",
-    "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "高级选项",
     "assetsLabelContractName": "合约名称",
     "assetsLabelContractIndex": "合约索引",

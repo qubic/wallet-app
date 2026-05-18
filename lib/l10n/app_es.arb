@@ -224,7 +224,6 @@
     "accountSendLabelDestinationAddress": "Dirección de Destino",
     "accountSendLabelAmount": "Cantidad",
     "accountSendButtonMax": "Max",
-    "accountSendButtonMaxMinusOne": "Max - 1",
     "accountSendSectionAdvanceOptionsTitle": "Opciones Avanzadas",
     "assetsLabelContractName": "Nombre del Contrato",
     "assetsLabelContractIndex": "Índice del Contrato",
