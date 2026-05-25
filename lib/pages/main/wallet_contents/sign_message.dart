@@ -126,6 +126,7 @@ class _SignMessageScreenState extends State<SignMessageScreen> {
               ThemedControls.spacerVerticalMini(),
               TextFormField(
                 controller: _messageController,
+                autofocus: true,
                 maxLines: 3,
                 decoration: ThemeInputDecorations.bigInputboxCompact.copyWith(
                   hintText: l10n.signVerifyMessageEnterMessage,
