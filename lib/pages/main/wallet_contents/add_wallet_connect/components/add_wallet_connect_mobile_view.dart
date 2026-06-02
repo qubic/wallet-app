@@ -76,7 +76,7 @@ class _AddWalletConnectMobileViewState
                     torchEnabled: false,
                   ),
                   onDetect: widget.onDetect,
-                  errorBuilder: (context, error, child) {
+                  errorBuilder: (context, error) {
                     return Material(
                       child: Center(
                         child: Padding(
