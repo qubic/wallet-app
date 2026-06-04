@@ -1047,5 +1047,15 @@
     "androidDeprecationDialogMessageBefore": "Future updates will require Android 7.0 or higher. To continue receiving updates and ensure long-term wallet access, please ",
     "androidDeprecationDialogMessageHighlight": "back up your private seeds or export your wallet vault",
     "androidDeprecationDialogMessageAfter": " from Settings.",
-    "androidDeprecationDialogButton": "Got it"
+    "androidDeprecationDialogButton": "Got it",
+    "updateRequiredTitle": "Update Required",
+    "updateRequiredMessage": "A new version of Qubic Wallet is required to continue. Please update to the latest version.",
+    "updateAvailableTitle": "Update Available",
+    "updateAvailableMessage": "A new version of Qubic Wallet is available with improvements and bug fixes.",
+    "updateButton": "Update Now",
+    "laterButton": "Remind Me Later",
+    "ignoreVersionButton": "Skip This Version",
+    "updateScreenCurrentVersion": "Current Version",
+    "updateScreenNewVersion": "New Version",
+    "updateScreenWhatsNew": "What's New"
 }
