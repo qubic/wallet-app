@@ -7,6 +7,7 @@ import 'package:qubic_wallet/models/qubic_send_many_transfer.dart';
 import 'package:qubic_wallet/models/qubic_sign_result.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
+import 'package:qubic_wallet/dtos/query_smart_contract_request.dart';
 import 'package:qubic_wallet/resources/qubic_cmd_utils.dart';
 import 'package:qubic_wallet/resources/qubic_js.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -221,6 +222,28 @@ class QubicCmd {
       return await qubicJs.publicKeyStringToBytes(publicKeyString);
 
       //return await qubicCmdUtils.publicKeyStringToBytes(publicKeyString);
+    }
+  }
+
+  /// Builds a querySmartContract request for a registered contract function.
+  Future<QuerySmartContractRequest> buildContractInput(
+      String functionName, String argsJson) async {
+    if (useJs) {
+      return await qubicJs.buildContractInput(functionName, argsJson);
+    } else {
+      return await qubicCmdUtils.buildContractInput(functionName, argsJson);
+    }
+  }
+
+  /// Decodes a querySmartContract response for a registered contract function.
+  Future<T> decodeContractOutput<T>(String functionName, String responseData,
+      T Function(Map<String, dynamic>) fromJson) async {
+    if (useJs) {
+      return await qubicJs.decodeContractOutput(
+          functionName, responseData, fromJson);
+    } else {
+      return await qubicCmdUtils.decodeContractOutput(
+          functionName, responseData, fromJson);
     }
   }
 }

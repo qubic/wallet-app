@@ -54,8 +54,7 @@ abstract class Config {
   static const liveApiPrefix = "/live/v1";
   static const currentTick = "$liveApiPrefix/tick-info";
   static const submitTransaction = "$liveApiPrefix/broadcast-transaction";
-  static addressQubicBalance(String address) =>
-      "$liveApiPrefix/balances/$address";
+  static const querySmartContract = "$liveApiPrefix/querySmartContract";
   static addressAssetsBalance(String address) =>
       "$liveApiPrefix/assets/$address/owned";
   static const assets = "$liveApiPrefix/assets/issuances";
@@ -126,7 +125,7 @@ abstract class Config {
           checksum: "b3038e61c9c04eb00cd5c9672be6acfe"));
 
   static const qubicJSAssetPath =
-      "assets/qubic_js/qubic-helper-html-3_1_3.html";
+      "assets/qubic_js/qubic-helper-html-3_2_0.html";
 
   // ---------------------------------------------------------------------------
   // WalletConnect
