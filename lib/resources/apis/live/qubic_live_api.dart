@@ -1,25 +1,17 @@
-import 'dart:convert';
 import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
-import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/balances16_response.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_tick_dto.dart';
 import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/query_smart_contract_request.dart';
+import 'package:qubic_wallet/helpers/qutil_balances_helper.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/token_response.dart';
-import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
+import 'package:qubic_wallet/smart_contracts/qutil_info.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
-
-/// Registered contract-function name for the QUTIL GetBalances16 procedure.
-const String _qUtilGetBalances16 = "qUtilGetBalances16";
-
-/// QUTIL GetBalances16 returns up to 16 balances per query call.
-const int _balancesBatchSize = 16;
 
 class QubicLiveApi {
   late Dio _dio;
@@ -55,8 +47,8 @@ class QubicLiveApi {
     }
   }
 
-  /// Read-only smart-contract query. Sends the encoded request produced by the
-  /// bridge and returns the base64 `responseData` for the bridge to decode.
+  /// Read-only smart-contract query. Sends the encoded request and returns the
+  /// base64 `responseData` for the caller to decode.
   Future<String> querySmartContract(QuerySmartContractRequest request) async {
     try {
       final response = await _dio.post(
@@ -70,34 +62,28 @@ class QubicLiveApi {
   }
 
   /// Fetches QU balances on-chain via the QUTIL `GetBalances16` procedure.
-  /// Encoding/decoding happens in the JS/CLI bridge ([QubicCmd]); only the
+  /// Encoding/decoding is pure Dart ([QutilBalancesHelper]); only the
   /// `querySmartContract` HTTP call lives here. [currentTick] stamps the
   /// returned balances' `validForTick`.
   Future<List<CurrentBalanceDto>> getQubicBalances(
       List<String> publicIds, int currentTick) async {
     if (publicIds.isEmpty) return [];
     try {
-      final cmd = getIt<QubicCmd>();
-
       final List<List<String>> batches = [];
-      for (var i = 0; i < publicIds.length; i += _balancesBatchSize) {
+      for (var i = 0; i < publicIds.length; i += QutilInfo.maxBalancesPerCall) {
         batches.add(publicIds.sublist(
-            i, min(i + _balancesBatchSize, publicIds.length)));
+            i, min(i + QutilInfo.maxBalancesPerCall, publicIds.length)));
       }
 
       final batchResults = await Future.wait(batches.map((batch) async {
-        final request = await cmd.buildContractInput(
-            _qUtilGetBalances16, jsonEncode({"publicKeys": batch}));
-
+        final request = QutilBalancesHelper.buildGetBalances16Request(batch);
         final responseData = await querySmartContract(request);
-
-        final decoded = await cmd.decodeContractOutput(
-            _qUtilGetBalances16, responseData, Balances16Response.fromJson);
+        final balances = QutilBalancesHelper.decodeGetBalances16(responseData);
 
         return List<CurrentBalanceDto>.generate(batch.length, (j) {
           return CurrentBalanceDto(
             id: batch[j],
-            balance: decoded.balances[j].toInt(),
+            balance: balances[j].toInt(),
             validForTick: currentTick,
             latestIncomingTransferTick: 0,
             latestOutgoingTransferTick: 0,

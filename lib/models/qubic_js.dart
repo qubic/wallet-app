@@ -48,10 +48,4 @@ abstract class QubicJSFunctions {
 
   // Qubic identity conversion function
   static const String publicKeyStringToBytes = 'publicKeyStringToBytes';
-
-  // Builds a querySmartContract request for a registered contract function
-  static const buildContractInput = "buildContractInput";
-
-  // Decodes a querySmartContract response for a registered contract function
-  static const decodeContractOutput = "decodeContractOutput";
 }

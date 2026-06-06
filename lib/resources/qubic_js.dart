@@ -18,7 +18,6 @@ import 'package:qubic_wallet/models/qubic_js.dart';
 import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
 import 'package:qubic_wallet/models/app_error.dart';
-import 'package:qubic_wallet/dtos/query_smart_contract_request.dart';
 
 /// A class that handles the secure storage of the wallet. The wallet is stored in the secure storage of the device
 /// The wallet password is encrypted using Argon2
@@ -606,51 +605,5 @@ class QubicJs {
       appLogger.e('Error converting public key string to bytes: $e');
       rethrow;
     }
-  }
-
-  /// Builds a querySmartContract request for a registered contract function.
-  Future<QuerySmartContractRequest> buildContractInput(
-      String functionName, String argsJson) async {
-    CallAsyncJavaScriptResult? result = await runFunction(
-        QubicJSFunctions.buildContractInput, [functionName, argsJson]);
-
-    if (result == null) {
-      throw const AppException(QubicJsErrors.jsReturnedNull,
-          'Contract input build returned empty result');
-    }
-    if (result.error != null) {
-      throw AppException(
-          QubicJsErrors.jsReturnedError, 'JS error: ${result.error}');
-    }
-    final Map<String, dynamic> data = json.decode(result.value);
-    if (data['status'] == 'error') {
-      throw AppException(
-          QubicJsErrors.jsReturnedError, data['error'] ?? 'Unknown error');
-    }
-    return QuerySmartContractRequest.fromJson(data);
-  }
-
-  /// Decodes a querySmartContract response for a registered contract function.
-  /// The caller supplies [fromJson] for the function's specific output model,
-  /// keeping this bridge generic while returning a typed result.
-  Future<T> decodeContractOutput<T>(String functionName, String responseData,
-      T Function(Map<String, dynamic>) fromJson) async {
-    CallAsyncJavaScriptResult? result = await runFunction(
-        QubicJSFunctions.decodeContractOutput, [functionName, responseData]);
-
-    if (result == null) {
-      throw const AppException(QubicJsErrors.jsReturnedNull,
-          'Contract output decode returned empty result');
-    }
-    if (result.error != null) {
-      throw AppException(
-          QubicJsErrors.jsReturnedError, 'JS error: ${result.error}');
-    }
-    final Map<String, dynamic> data = json.decode(result.value);
-    if (data['status'] == 'error') {
-      throw AppException(
-          QubicJsErrors.jsReturnedError, data['error'] ?? 'Unknown error');
-    }
-    return fromJson(data);
   }
 }

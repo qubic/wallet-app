@@ -21,7 +21,6 @@ import 'package:qubic_wallet/models/qubic_vault_export_seed.dart';
 import 'package:qubic_wallet/models/qublic_cmd_response.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/signed_transaction.dart';
-import 'package:qubic_wallet/dtos/query_smart_contract_request.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class QubicCmdUtilsResult {}
@@ -720,59 +719,5 @@ class QubicCmdUtils {
     }
 
     return response.isValid == true;
-  }
-
-  /// Builds a querySmartContract request via the CLI helper.
-  Future<QuerySmartContractRequest> buildContractInput(
-      String functionName, String argsJson) async {
-    await validateFileStreamSignature();
-    final p = await Process.run(await _getHelperFileFullPath(),
-        [QubicJSFunctions.buildContractInput, functionName, argsJson],
-        runInShell: true);
-
-    if (p.exitCode != 0) {
-      appLogger.e('Script execution failed with exit code ${p.exitCode}');
-      appLogger.e(p.stderr);
-      throw Exception('Failed to build contract input');
-    }
-    late dynamic parsedJson;
-    try {
-      parsedJson = jsonDecode(p.stdout.toString());
-    } catch (e) {
-      throw Exception('Failed to parse buildContractInput output');
-    }
-    final Map<String, dynamic> data = Map<String, dynamic>.from(parsedJson);
-    if (data['status'] == 'error') {
-      throw Exception(data['error'] ?? 'Failed to build contract input');
-    }
-    return QuerySmartContractRequest.fromJson(data);
-  }
-
-  /// Decodes a querySmartContract response via the CLI helper.
-  /// The caller supplies [fromJson] for the function's specific output model,
-  /// keeping this bridge generic while returning a typed result.
-  Future<T> decodeContractOutput<T>(String functionName, String responseData,
-      T Function(Map<String, dynamic>) fromJson) async {
-    await validateFileStreamSignature();
-    final p = await Process.run(await _getHelperFileFullPath(),
-        [QubicJSFunctions.decodeContractOutput, functionName, responseData],
-        runInShell: true);
-
-    if (p.exitCode != 0) {
-      appLogger.e('Script execution failed with exit code ${p.exitCode}');
-      appLogger.e(p.stderr);
-      throw Exception('Failed to decode contract output');
-    }
-    late dynamic parsedJson;
-    try {
-      parsedJson = jsonDecode(p.stdout.toString());
-    } catch (e) {
-      throw Exception('Failed to parse decodeContractOutput output');
-    }
-    final Map<String, dynamic> data = Map<String, dynamic>.from(parsedJson);
-    if (data['status'] == 'error') {
-      throw Exception(data['error'] ?? 'Failed to decode contract output');
-    }
-    return fromJson(data);
   }
 }
