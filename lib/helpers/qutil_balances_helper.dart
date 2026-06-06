@@ -23,8 +23,7 @@ class QutilBalancesHelper {
   /// query (a malformed id can only yield a wrong/zero balance, never moves QU).
   static Uint8List _identityToPublicKey(String identity) {
     if (identity.length != 60) {
-      throw ArgumentError(
-          'Identity must be 60 chars, got ${identity.length}: $identity');
+      throw ArgumentError('Identity must be 60 chars, got ${identity.length}');
     }
     final pk = Uint8List(QutilInfo.publicKeySize);
     for (var fragment = 0; fragment < 4; fragment++) {

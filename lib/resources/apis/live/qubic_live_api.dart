@@ -55,7 +55,7 @@ class QubicLiveApi {
         '${_networkStore.currentNetwork.rpcUrl}${Config.querySmartContract}',
         data: request.toJson(),
       );
-      return response.data["responseData"] as String;
+      return response.data["responseData"] as String? ?? '';
     } catch (error) {
       throw await ErrorHandler.handleError(error);
     }
@@ -80,7 +80,11 @@ class QubicLiveApi {
         final responseData = await querySmartContract(request);
         final balances = QutilBalancesHelper.decodeGetBalances16(responseData);
 
-        return List<CurrentBalanceDto>.generate(batch.length, (j) {
+        // Guard against a short/empty decode (e.g. a node returning fewer
+        // balances than requested): omit unbacked ids so they keep their
+        // last-known amount instead of throwing RangeError or showing a fake 0.
+        return List<CurrentBalanceDto>.generate(
+            min(batch.length, balances.length), (j) {
           return CurrentBalanceDto(
             id: batch[j],
             balance: balances[j].toInt(),
