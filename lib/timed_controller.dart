@@ -8,6 +8,7 @@ import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/resources/apis/query/qubic_query_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
+import 'package:qubic_wallet/resources/apis/aggregation/qubic_aggregation_api.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
@@ -24,6 +25,7 @@ class TimedController extends WidgetsBindingObserver {
   final _liveApi = getIt<QubicLiveApi>();
   final QubicStatsApi _statsApi = getIt<QubicStatsApi>();
   final QubicQueryApi _queryApi = getIt<QubicQueryApi>();
+  final QubicAggregationApi _aggregationApi = getIt<QubicAggregationApi>();
 
   stopFetchTimers() {
     if (_fetchTimer != null) {
@@ -88,7 +90,7 @@ class TimedController extends WidgetsBindingObserver {
 
   Future<void> _fetchAndProcessAssets(List<String> myIds) async {
     try {
-      final assets = await _liveApi.getCurrentAssets(myIds);
+      final assets = await _aggregationApi.getIdentitiesAssets(myIds);
       final Map<String, List<QubicAssetDto>> changedIds =
           appStore.setAssets(assets);
 

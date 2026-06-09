@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_tick_dto.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/models/token_response.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
@@ -52,23 +51,6 @@ class QubicLiveApi {
       ]);
       return List<CurrentBalanceDto>.from(
           response.map((e) => CurrentBalanceDto.fromJson(e.data["balance"])));
-    } catch (e) {
-      throw await ErrorHandler.handleError(e);
-    }
-  }
-
-  Future<List<QubicAssetDto>> getCurrentAssets(List<String> publicIds) async {
-    try {
-      final response = await Future.wait([
-        for (var address in publicIds)
-          _dio.get(
-              '${_networkStore.currentNetwork.rpcUrl}${Config.addressAssetsBalance(address)}')
-      ]);
-      return response
-          .where((e) => e.data["ownedAssets"].isNotEmpty)
-          .expand((e) => (e.data["ownedAssets"] as List)
-              .map((asset) => QubicAssetDto.fromJson(asset)))
-          .toList();
     } catch (e) {
       throw await ErrorHandler.handleError(e);
     }

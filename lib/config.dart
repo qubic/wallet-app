@@ -56,9 +56,15 @@ abstract class Config {
   static const submitTransaction = "$liveApiPrefix/broadcast-transaction";
   static addressQubicBalance(String address) =>
       "$liveApiPrefix/balances/$address";
-  static addressAssetsBalance(String address) =>
-      "$liveApiPrefix/assets/$address/owned";
   static const assets = "$liveApiPrefix/assets/issuances";
+
+  // ---------------------------------------------------------------------------
+  // RPC API Endpoints — Aggregation
+  // ---------------------------------------------------------------------------
+
+  static const aggregationApiPrefix = "/aggregation/v1";
+  static const getIdentitiesAssets =
+      "$aggregationApiPrefix/getIdentitiesAssets";
 
   // ---------------------------------------------------------------------------
   // RPC API Endpoints — Stats
