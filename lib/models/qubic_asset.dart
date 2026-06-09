@@ -5,15 +5,15 @@ import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 /// Carries only the fields the UI consumes: the owner, the managing contract,
 /// the owned unit count, and the issued-asset name/issuer (plus the tick used
 /// to pick the latest record when de-duplicating). Built from the aggregation
-/// endpoint via [QubicAssetDto.fromAggregation].
-class QubicAssetDto {
+/// endpoint via [QubicAsset.fromAggregation].
+class QubicAsset {
   final String ownerIdentity;
   final int managingContractIndex;
   int numberOfUnits;
   final IssuedAsset issuedAsset;
   final AssetInfo info;
 
-  QubicAssetDto({
+  QubicAsset({
     required this.ownerIdentity,
     required this.managingContractIndex,
     required this.numberOfUnits,
@@ -24,7 +24,7 @@ class QubicAssetDto {
   bool get isSmartContractShare =>
       issuedAsset.issuerIdentity == QxInfo.mainAssetIssuer;
 
-  factory QubicAssetDto.fromAggregation({
+  factory QubicAsset.fromAggregation({
     required String ownerIdentity,
     required String assetIssuer,
     required String assetName,
@@ -32,7 +32,7 @@ class QubicAssetDto {
     required String numberOfShares,
     required int tickNumber,
   }) {
-    return QubicAssetDto(
+    return QubicAsset(
       ownerIdentity: ownerIdentity,
       managingContractIndex: managingContractIndex,
       numberOfUnits: int.tryParse(numberOfShares) ?? 0,
@@ -54,7 +54,7 @@ class QubicAssetDto {
   }
 
   @override
-  bool operator ==(covariant QubicAssetDto other) {
+  bool operator ==(covariant QubicAsset other) {
     if (identical(this, other)) return true;
 
     return other.ownerIdentity == ownerIdentity &&

@@ -1,10 +1,10 @@
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/models/qubic_asset.dart';
 
 /// Typed models for the `/aggregation/v1/getIdentitiesAssets` response.
 ///
 /// Mirrors the web wallet's `api.aggregation.model.ts`
 /// (`IdentityAssetRecord` / `IdentityAssetEntry` / `IdentitiesAssetsResponse`).
-/// The mapping to the app's [QubicAssetDto] lives in
+/// The mapping to the app's [QubicAsset] lives in
 /// [IdentitiesAssetsResponse.toOwnedAssets] so it can be unit-tested without
 /// the network layer.
 class IdentityAssetRecord {
@@ -71,15 +71,15 @@ class IdentitiesAssetsResponse {
             const [],
       );
 
-  /// Flattens every identity's **ownership** records into [QubicAssetDto]s,
+  /// Flattens every identity's **ownership** records into [QubicAsset]s,
   /// keeping only records with a positive share count. Possessions are ignored
   /// (owned-only, matching the prior `/owned` behavior and Angular's primary
   /// `ownedAmount`).
-  List<QubicAssetDto> toOwnedAssets() {
-    final List<QubicAssetDto> assets = [];
+  List<QubicAsset> toOwnedAssets() {
+    final List<QubicAsset> assets = [];
     for (final entry in identityAssets) {
       for (final record in entry.ownerships) {
-        final asset = QubicAssetDto.fromAggregation(
+        final asset = QubicAsset.fromAggregation(
           ownerIdentity: entry.identity,
           assetIssuer: record.assetIssuer,
           assetName: record.assetName,

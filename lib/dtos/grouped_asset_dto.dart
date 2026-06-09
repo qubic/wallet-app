@@ -1,4 +1,4 @@
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/models/qubic_asset.dart';
 
 /// Represents a grouped asset (token) with all its managing contract contributions
 class GroupedAssetDto {
@@ -24,7 +24,7 @@ class GroupedAssetDto {
 class AssetContractContribution {
   final int managingContractIndex;
   final int numberOfUnits;
-  final QubicAssetDto sourceAsset;
+  final QubicAsset sourceAsset;
 
   AssetContractContribution({
     required this.managingContractIndex,

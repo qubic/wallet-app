@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/models/qubic_asset.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_send_assets_event.dart';
@@ -119,8 +119,7 @@ class WalletConnectService {
   }
 
   /// Builds a list of asset items for WalletConnect JSON format.
-  List<dynamic> _buildAssetsListForWalletConnect(
-      Iterable<QubicAssetDto> assets) {
+  List<dynamic> _buildAssetsListForWalletConnect(Iterable<QubicAsset> assets) {
     return assets.map((asset) => asset.toWalletConnectJson()).toList();
   }
 
@@ -193,9 +192,9 @@ class WalletConnectService {
   }
 
 //Triggers an token amount change event for the wallet connect clients
-//@param changedIDs Map<String, List<QubicAssetDto>> (key = publicId) , List ,containes changed token amounts
+//@param changedIDs Map<String, List<QubicAsset>> (key = publicId) , List ,containes changed token amounts
   void triggerAssetAmountChangedEvent(
-      Map<String, List<QubicAssetDto>> changedIDs) {
+      Map<String, List<QubicAsset>> changedIDs) {
     if (!shouldTriggerEvent()) {
       return;
     }

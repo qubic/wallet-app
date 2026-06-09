@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:hive/hive.dart';
 import 'package:mobx/mobx.dart';
 
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/models/qubic_asset.dart';
 import 'package:qubic_wallet/dtos/grouped_asset_dto.dart';
 
 @observable
@@ -19,7 +19,7 @@ class QubicListVm {
   late int? amountTick; //The tick when amount was valid for
 
   @observable
-  Map<String, QubicAssetDto> assets = {};
+  Map<String, QubicAsset> assets = {};
 
   @observable
   late bool? hasPendingTransaction;
@@ -28,7 +28,7 @@ class QubicListVm {
   late bool watchOnly;
 
   QubicListVm(String publicId, String name, this.amount, this.amountTick,
-      Map<String, QubicAssetDto>? assets, this.watchOnly) {
+      Map<String, QubicAsset>? assets, this.watchOnly) {
     _publicId = publicId.replaceAll(",", "_");
     _name = name.replaceAll(",", "_");
 
@@ -59,8 +59,8 @@ class QubicListVm {
   }
 
   /// Sets the number of shares (without mutation)
-  void setAssets(List<QubicAssetDto> newAssets) {
-    Map<String, QubicAssetDto> mergedAssets = {};
+  void setAssets(List<QubicAsset> newAssets) {
+    Map<String, QubicAsset> mergedAssets = {};
 
     for (int i = 0; i < newAssets.length; i++) {
       // Include issuer identity to distinguish tokens with same name but different issuers
@@ -75,15 +75,15 @@ class QubicListVm {
       }
     }
 
-    assets = Map<String, QubicAssetDto>.from(mergedAssets);
+    assets = Map<String, QubicAsset>.from(mergedAssets);
   }
 
-  Map<String, QubicAssetDto> getAssets() {
+  Map<String, QubicAsset> getAssets() {
     return assets;
   }
 
-  Map<String, QubicAssetDto> getClonedAssets() {
-    Map<String, QubicAssetDto> newShares = {};
+  Map<String, QubicAsset> getClonedAssets() {
+    Map<String, QubicAsset> newShares = {};
     assets.forEach((key, value) {
       newShares[key] = value;
     });
@@ -94,7 +94,7 @@ class QubicListVm {
   /// Assets are uniquely identified by the combination of issuer ID and asset name
   /// Contributions are sorted by number of units (highest first) for better UX
   List<GroupedAssetDto> getGroupedAssets() {
-    Map<String, List<QubicAssetDto>> groupedByToken = {};
+    Map<String, List<QubicAsset>> groupedByToken = {};
 
     // Group assets by token name AND issuer ID
     assets.forEach((key, asset) {
@@ -142,7 +142,7 @@ class QubicListVm {
         original.name,
         original.amount,
         original.amountTick,
-        Map<String, QubicAssetDto>.from(original.getClonedAssets()),
+        Map<String, QubicAsset>.from(original.getClonedAssets()),
         original.watchOnly);
   }
 }
@@ -157,8 +157,8 @@ class QubicListVmAdapter extends TypeAdapter<QubicListVm> {
     String name = reader.readString();
     int? amount = reader.read() as int?;
     int? amountTick = reader.read() as int?;
-    Map<String, QubicAssetDto> assets =
-        (reader.read() as Map).cast<String, QubicAssetDto>();
+    Map<String, QubicAsset> assets =
+        (reader.read() as Map).cast<String, QubicAsset>();
     bool watchOnly = reader.readBool();
 
     return QubicListVm(publicId, name, amount, amountTick, assets, watchOnly);

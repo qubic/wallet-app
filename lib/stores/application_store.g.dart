@@ -30,11 +30,11 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
           Computed<double>(() => super.totalAmountsInUSD,
               name: '_ApplicationStore.totalAmountsInUSD'))
       .value;
-  Computed<List<QubicAssetDto>>? _$totalSharesComputed;
+  Computed<List<QubicAsset>>? _$totalSharesComputed;
 
   @override
-  List<QubicAssetDto> get totalShares => (_$totalSharesComputed ??=
-          Computed<List<QubicAssetDto>>(() => super.totalShares,
+  List<QubicAsset> get totalShares => (_$totalSharesComputed ??=
+          Computed<List<QubicAsset>>(() => super.totalShares,
               name: '_ApplicationStore.totalShares'))
       .value;
 
@@ -335,7 +335,7 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
 
   @override
   Future<void> setBalancesAndAssets(
-      List<CurrentBalanceDto> balances, List<QubicAssetDto> assets) {
+      List<CurrentBalanceDto> balances, List<QubicAsset> assets) {
     return _$setBalancesAndAssetsAsyncAction
         .run(() => super.setBalancesAndAssets(balances, assets));
   }

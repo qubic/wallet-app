@@ -7,7 +7,7 @@ import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/market_info_dto.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/models/qubic_asset.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
 import 'package:qubic_wallet/models/qubic_id.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -193,12 +193,12 @@ abstract class _ApplicationStore with Store {
   MarketInfoDto? marketInfo;
 
   @computed
-  List<QubicAssetDto> get totalShares {
-    List<QubicAssetDto> shares = [];
-    List<QubicAssetDto> tokens = [];
+  List<QubicAsset> get totalShares {
+    List<QubicAsset> shares = [];
+    List<QubicAsset> tokens = [];
     for (final id in nonWatchOnlyAccounts) {
       id.assets.forEach((key, asset) {
-        QubicAssetDto temp = asset;
+        QubicAsset temp = asset;
 
         if (asset.isSmartContractShare) {
           int index = shares.indexWhere(
@@ -222,7 +222,7 @@ abstract class _ApplicationStore with Store {
       });
     }
 
-    List<QubicAssetDto> result = [];
+    List<QubicAsset> result = [];
     result.addAll(shares);
     result.addAll(tokens);
 
@@ -393,11 +393,11 @@ abstract class _ApplicationStore with Store {
 
   @action
   Future<void> setBalancesAndAssets(
-      List<CurrentBalanceDto> balances, List<QubicAssetDto> assets) async {
+      List<CurrentBalanceDto> balances, List<QubicAsset> assets) async {
     for (var i = 0; i < currentQubicIDs.length; i++) {
       CurrentBalanceDto? balance =
           balances.firstWhereOrNull((e) => e.id == currentQubicIDs[i].publicId);
-      List<QubicAssetDto> newAssets = assets
+      List<QubicAsset> newAssets = assets
           .where((e) => e.ownerIdentity == currentQubicIDs[i].publicId)
           .toList();
 
@@ -457,13 +457,12 @@ abstract class _ApplicationStore with Store {
 
   /// Sets the Assets for an account
   /// Returns the list of IDs whose assets have changed
-  /// as <PublicID, [QubicAssetDto]>
-  Map<String, List<QubicAssetDto>> setAssets(
-      List<QubicAssetDto> assetsForAllIDs) {
-    Map<String, List<QubicAssetDto>> changedIds = {};
+  /// as <PublicID, [QubicAsset]>
+  Map<String, List<QubicAsset>> setAssets(List<QubicAsset> assetsForAllIDs) {
+    Map<String, List<QubicAsset>> changedIds = {};
 
     for (var i = 0; i < currentQubicIDs.length; i++) {
-      List<QubicAssetDto> assetsForID = assetsForAllIDs
+      List<QubicAsset> assetsForID = assetsForAllIDs
           .where((e) => e.ownerIdentity == currentQubicIDs[i].publicId)
           .toList();
       for (var j = 0; j < assetsForID.length; j++) {

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/identities_assets_response.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/models/qubic_asset.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 import 'package:qubic_wallet/stores/network_store.dart';
@@ -22,8 +22,7 @@ class QubicAggregationApi {
     _dio = DioClient.getDio(baseUrl: _networkStore.currentNetwork.rpcUrl);
   }
 
-  Future<List<QubicAssetDto>> getIdentitiesAssets(
-      List<String> publicIds) async {
+  Future<List<QubicAsset>> getIdentitiesAssets(List<String> publicIds) async {
     if (publicIds.isEmpty) return [];
     try {
       final response = await _dio.post(
