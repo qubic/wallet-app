@@ -1,8 +1,7 @@
 /// Request payload for the RPC `querySmartContract` endpoint.
 ///
-/// Produced by `QutilBalancesHelper.buildGetBalances16Request` and sent as the POST
-/// body of [QubicLiveApi.querySmartContract]. Mirrors the RPC schema
-/// `{ contractIndex, inputType, inputSize, requestData(base64) }`.
+/// Sent as the POST body of [QubicLiveApi.querySmartContract]. Mirrors the RPC
+/// schema `{ contractIndex, inputType, inputSize, requestData(base64) }`.
 class QuerySmartContractRequest {
   final int contractIndex;
   final int inputType;
