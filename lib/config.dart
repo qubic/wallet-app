@@ -54,8 +54,7 @@ abstract class Config {
   static const liveApiPrefix = "/live/v1";
   static const currentTick = "$liveApiPrefix/tick-info";
   static const submitTransaction = "$liveApiPrefix/broadcast-transaction";
-  static addressQubicBalance(String address) =>
-      "$liveApiPrefix/balances/$address";
+  static const querySmartContract = "$liveApiPrefix/querySmartContract";
   static addressAssetsBalance(String address) =>
       "$liveApiPrefix/assets/$address/owned";
   static const assets = "$liveApiPrefix/assets/issuances";

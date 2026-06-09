@@ -21,20 +21,6 @@ class CurrentBalanceDto {
     required this.numberOfOutgoingTransfers,
   });
 
-  factory CurrentBalanceDto.fromJson(Map<String, dynamic> map) {
-    return CurrentBalanceDto(
-      id: map['id'],
-      balance: int.tryParse(map['balance']) ?? 0,
-      validForTick: map['validForTick'],
-      latestIncomingTransferTick: map['latestIncomingTransferTick'],
-      latestOutgoingTransferTick: map['latestOutgoingTransferTick'],
-      incomingAmount: map['incomingAmount'],
-      outgoingAmount: map['outgoingAmount'],
-      numberOfIncomingTransfers: map['numberOfIncomingTransfers'],
-      numberOfOutgoingTransfers: map['numberOfOutgoingTransfers'],
-    );
-  }
-
   @override
   String toString() {
     return 'CurrentBalanceDto(id: $id, balance: $balance, validForTick: $validForTick, latestIncomingTransferTick: $latestIncomingTransferTick, latestOutgoingTransferTick: $latestOutgoingTransferTick, incomingAmount: $incomingAmount, outgoingAmount: $outgoingAmount, numberOfIncomingTransfers: $numberOfIncomingTransfers, numberOfOutgoingTransfers: $numberOfOutgoingTransfers)';
