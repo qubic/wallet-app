@@ -392,38 +392,6 @@ abstract class _ApplicationStore with Store {
   }
 
   @action
-  Future<void> setBalancesAndAssets(
-      List<CurrentBalanceDto> balances, List<QubicAsset> assets) async {
-    for (var i = 0; i < currentQubicIDs.length; i++) {
-      CurrentBalanceDto? balance =
-          balances.firstWhereOrNull((e) => e.id == currentQubicIDs[i].publicId);
-      List<QubicAsset> newAssets = assets
-          .where((e) => e.ownerIdentity == currentQubicIDs[i].publicId)
-          .toList();
-
-      if ((newAssets.isNotEmpty) || (balance != null)) {
-        var item = QubicListVm.clone(currentQubicIDs[i]);
-
-        if (newAssets.isNotEmpty) {
-          item.setAssets(newAssets);
-        }
-        if (balance != null) {
-          if ((item.amountTick == null) ||
-              (item.amountTick! < balance.validForTick)) {
-            item.amountTick = balance.validForTick;
-            item.amount = balance.balance;
-          }
-        }
-
-        currentQubicIDs[i] = item;
-      }
-    }
-    ObservableList<QubicListVm> newList = ObservableList<QubicListVm>();
-    newList.addAll(currentQubicIDs);
-    currentQubicIDs = newList;
-  }
-
-  @action
 
   /// Sets the $QUBIC amount for an account
   /// Returns the  IDs whose amounts have changed <PublicID, newAmount>
