@@ -138,8 +138,8 @@ class QubicJs {
 
     // Check if controller was killed by iOS
     if (controller == null) {
-      throw const AppException(
-          QubicJsErrors.webViewControllerNull, 'WebView controller unavailable');
+      throw const AppException(QubicJsErrors.webViewControllerNull,
+          'WebView controller unavailable');
     }
 
     // Double-check that WebView is ready before executing
@@ -178,16 +178,16 @@ class QubicJs {
     } catch (e) {
       _pendingCalls.remove(callId);
       appLogger.e('WebView execution failed: $e');
-      throw AppException(QubicJsErrors.webViewExecutionFailed,
-          'WebView execution failed: $e');
+      throw AppException(
+          QubicJsErrors.webViewExecutionFailed, 'WebView execution failed: $e');
     }
 
     try {
       return await completer.future.timeout(_runFunctionTimeout);
     } on TimeoutException {
       _pendingCalls.remove(callId);
-      throw const AppException(QubicJsErrors.webViewExecutionFailed,
-          'WebView execution timed out');
+      throw const AppException(
+          QubicJsErrors.webViewExecutionFailed, 'WebView execution timed out');
     }
   }
 
@@ -453,8 +453,8 @@ class QubicJs {
   }
 
   Future<int> computeK12Checksum(String dataB64) async {
-    CallAsyncJavaScriptResult? result = await runFunction(
-        QubicJSFunctions.computeK12Checksum, [dataB64]);
+    CallAsyncJavaScriptResult? result =
+        await runFunction(QubicJSFunctions.computeK12Checksum, [dataB64]);
 
     if (result == null) {
       throw Exception(LocalizationManager

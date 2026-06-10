@@ -62,7 +62,8 @@ class TimedController extends WidgetsBindingObserver {
 
   Future<void> _fetchAndProcessBalances(List<String> myIds) async {
     try {
-      final balances = await _liveApi.getQubicBalances(myIds);
+      final balances =
+          await _liveApi.getQubicBalances(myIds, appStore.currentTick);
       final Map<String, int> changedIds = appStore.setAmounts(balances);
       if (changedIds.isNotEmpty) {
         final Map<String, int> changedIdsWithSeed = {};
