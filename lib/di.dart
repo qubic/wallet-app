@@ -7,6 +7,7 @@ import 'package:qubic_wallet/models/wallet_connect/wallet_connect_modals_control
 import 'package:qubic_wallet/resources/apis/query/qubic_query_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
+import 'package:qubic_wallet/resources/apis/aggregation/qubic_aggregation_api.dart';
 import 'package:qubic_wallet/resources/hive_storage.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/resources/secure_storage.dart';
@@ -32,6 +33,8 @@ Future<void> setupDI() async {
       QubicQueryApi(getIt<NetworkStore>()));
   getIt.registerSingleton<QubicLiveApi>(QubicLiveApi(getIt<NetworkStore>()));
   getIt.registerSingleton<QubicStatsApi>(QubicStatsApi(getIt<NetworkStore>()));
+  getIt.registerSingleton<QubicAggregationApi>(
+      QubicAggregationApi(getIt<NetworkStore>()));
   getIt.registerSingleton<QubicStaticApi>(QubicStaticApi());
 
   //Stores

@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
+import 'package:qubic_wallet/models/qubic_asset.dart';
 import 'package:qubic_wallet/models/app_error.dart';
 import 'package:qubic_wallet/resources/apis/query/qubic_query_api.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/apis/stats/qubic_stats_api.dart';
+import 'package:qubic_wallet/resources/apis/aggregation/qubic_aggregation_api.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 
@@ -24,6 +25,7 @@ class TimedController extends WidgetsBindingObserver {
   final _liveApi = getIt<QubicLiveApi>();
   final QubicStatsApi _statsApi = getIt<QubicStatsApi>();
   final QubicQueryApi _queryApi = getIt<QubicQueryApi>();
+  final QubicAggregationApi _aggregationApi = getIt<QubicAggregationApi>();
 
   stopFetchTimers() {
     if (_fetchTimer != null) {
@@ -89,11 +91,11 @@ class TimedController extends WidgetsBindingObserver {
 
   Future<void> _fetchAndProcessAssets(List<String> myIds) async {
     try {
-      final assets = await _liveApi.getCurrentAssets(myIds);
-      final Map<String, List<QubicAssetDto>> changedIds =
+      final assets = await _aggregationApi.getIdentitiesAssets(myIds);
+      final Map<String, List<QubicAsset>> changedIds =
           appStore.setAssets(assets);
 
-      final Map<String, List<QubicAssetDto>> changedIdsWithSeed = {};
+      final Map<String, List<QubicAsset>> changedIdsWithSeed = {};
 
       //Filter out only non WatchOnly accounts
       for (final element in changedIds.entries) {

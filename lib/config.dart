@@ -55,9 +55,15 @@ abstract class Config {
   static const currentTick = "$liveApiPrefix/tick-info";
   static const submitTransaction = "$liveApiPrefix/broadcast-transaction";
   static const querySmartContract = "$liveApiPrefix/querySmartContract";
-  static addressAssetsBalance(String address) =>
-      "$liveApiPrefix/assets/$address/owned";
   static const assets = "$liveApiPrefix/assets/issuances";
+
+  // ---------------------------------------------------------------------------
+  // RPC API Endpoints — Aggregation
+  // ---------------------------------------------------------------------------
+
+  static const aggregationApiPrefix = "/aggregation/v1";
+  static const getIdentitiesAssets =
+      "$aggregationApiPrefix/getIdentitiesAssets";
 
   // ---------------------------------------------------------------------------
   // RPC API Endpoints — Stats

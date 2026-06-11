@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/dtos/current_balance_dto.dart';
 import 'package:qubic_wallet/dtos/current_tick_dto.dart';
-import 'package:qubic_wallet/dtos/qubic_asset_dto.dart';
 import 'package:qubic_wallet/dtos/query_smart_contract_request.dart';
 import 'package:qubic_wallet/helpers/qutil_balances_helper.dart';
 import 'package:qubic_wallet/models/app_error.dart';
@@ -100,23 +99,6 @@ class QubicLiveApi {
       }));
 
       return batchResults.expand((e) => e).toList();
-    } catch (e) {
-      throw await ErrorHandler.handleError(e);
-    }
-  }
-
-  Future<List<QubicAssetDto>> getCurrentAssets(List<String> publicIds) async {
-    try {
-      final response = await Future.wait([
-        for (var address in publicIds)
-          _dio.get(
-              '${_networkStore.currentNetwork.rpcUrl}${Config.addressAssetsBalance(address)}')
-      ]);
-      return response
-          .where((e) => e.data["ownedAssets"].isNotEmpty)
-          .expand((e) => (e.data["ownedAssets"] as List)
-              .map((asset) => QubicAssetDto.fromJson(asset)))
-          .toList();
     } catch (e) {
       throw await ErrorHandler.handleError(e);
     }
