@@ -456,12 +456,14 @@ abstract class _ApplicationStore with Store {
             }
           }
           //Detect changes end
-
-          var item = QubicListVm.clone(currentQubicIDs[i]);
-          item.setAssets(assetsForID);
-          currentQubicIDs[i] = item;
         }
       }
+
+      // Runs once per account — clears assets even when assetsForID is empty
+      // (e.g. the account's last asset was sold/transferred).
+      var item = QubicListVm.clone(currentQubicIDs[i]);
+      item.setAssets(assetsForID);
+      currentQubicIDs[i] = item;
     }
     ObservableList<QubicListVm> newList = ObservableList<QubicListVm>();
     newList.addAll(currentQubicIDs);
