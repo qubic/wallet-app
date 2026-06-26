@@ -426,6 +426,7 @@ abstract class _ApplicationStore with Store {
   /// Sets the Assets for an account
   /// Returns the list of IDs whose assets have changed
   /// as <PublicID, [QubicAsset]>
+  @action
   Map<String, List<QubicAsset>> setAssets(List<QubicAsset> assetsForAllIDs) {
     Map<String, List<QubicAsset>> changedIds = {};
 
@@ -457,6 +458,13 @@ abstract class _ApplicationStore with Store {
           }
           //Detect changes end
         }
+      }
+
+      // A sold-to-zero account is invisible to the inner loop above (it iterates
+      // the fetched assets, of which there are none), so flag it here so the
+      // WalletConnect assetAmountChanged event still fires for it.
+      if (assetsForID.isEmpty && currentQubicIDs[i].assets.isNotEmpty) {
+        changedIds[currentQubicIDs[i].publicId] = [];
       }
 
       // Runs once per account — clears assets even when assetsForID is empty
