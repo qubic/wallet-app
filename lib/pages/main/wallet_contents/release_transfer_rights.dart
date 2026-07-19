@@ -60,7 +60,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   );
 
   List<bool> expanded = [false];
-  TargetTickTypeEnum targetTickType = defaultTargetTickType;
+  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.autoCurrentPlus5;
 
   // Selected contract indices
   int? selectedSourceContractIndex;

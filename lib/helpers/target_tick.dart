@@ -11,5 +11,3 @@ enum TargetTickTypeEnum {
   // A constructor for the enum
   const TargetTickTypeEnum(this.value);
 }
-
-TargetTickTypeEnum defaultTargetTickType = TargetTickTypeEnum.autoCurrentPlus5;

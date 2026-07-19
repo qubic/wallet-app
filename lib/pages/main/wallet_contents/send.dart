@@ -48,7 +48,7 @@ class _SendState extends State<Send> {
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   final WalletContentStore _walletContentStore = getIt<WalletContentStore>();
   String? transferError;
-  TargetTickTypeEnum targetTickType = defaultTargetTickType;
+  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.autoCurrentPlus5;
 
   final NumberFormat formatter = NumberFormat.decimalPatternDigits(
     locale: 'en_us',

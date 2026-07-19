@@ -53,7 +53,7 @@ class _TransferAssetState extends State<TransferAsset> {
   final QubicEcosystemStore _ecosystemStore = getIt<QubicEcosystemStore>();
   final WalletContentStore _walletContentStore = getIt<WalletContentStore>();
   String? transferError;
-  TargetTickTypeEnum targetTickType = defaultTargetTickType;
+  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.autoCurrentPlus5;
 
   final NumberFormat formatter = NumberFormat.decimalPatternDigits(
     locale: 'en_us',
