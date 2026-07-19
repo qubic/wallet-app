@@ -7,6 +7,7 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 
@@ -52,7 +53,25 @@ abstract class WalletContentStoreBase with Store {
   int get defaultTickOffset =>
       (remoteDefaultTickOffset != null && remoteDefaultTickOffset! >= 1)
           ? remoteDefaultTickOffset!
-          : 5;
+          : TargetTickTypeEnum.autoCurrentPlus5.value;
+
+  /// Dropdown preset used as the default selection on the send screens.
+  ///
+  /// Rounds [defaultTickOffset] UP to the nearest preset — never down — so the
+  /// lead time is never shorter than what was configured; caps at the largest
+  /// preset. (The WalletConnect path has no dropdown and uses [defaultTickOffset]
+  /// directly, honoring the exact value.)
+  TargetTickTypeEnum get defaultTargetTickType {
+    final offset = defaultTickOffset;
+    const presets = [
+      TargetTickTypeEnum.autoCurrentPlus5,
+      TargetTickTypeEnum.autoCurrentPlus10,
+      TargetTickTypeEnum.autoCurrentPlus20,
+      TargetTickTypeEnum.autoCurrentPlus40,
+    ];
+    return presets.firstWhere((t) => t.value >= offset,
+        orElse: () => TargetTickTypeEnum.autoCurrentPlus40);
+  }
 
   /// Cached app version for version constraint checks
   Version? _appVersion;

@@ -77,9 +77,7 @@ class _SendState extends State<Send> {
     knownQubicIDs = appStore.currentQubicIDs
         .where((account) => account.publicId != widget.item.publicId)
         .toList();
-    targetTickType = TargetTickTypeEnum.values.firstWhere(
-        (t) => t.value == _walletContentStore.defaultTickOffset,
-        orElse: () => TargetTickTypeEnum.autoCurrentPlus5);
+    targetTickType = _walletContentStore.defaultTargetTickType;
     super.initState();
   }
 

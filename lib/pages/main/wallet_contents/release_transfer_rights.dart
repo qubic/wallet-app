@@ -89,9 +89,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   @override
   void initState() {
     super.initState();
-    targetTickType = TargetTickTypeEnum.values.firstWhere(
-        (t) => t.value == _walletContentStore.defaultTickOffset,
-        orElse: () => TargetTickTypeEnum.autoCurrentPlus5);
+    targetTickType = _walletContentStore.defaultTargetTickType;
     _initializeFormData();
     // Re-initialize if smartContracts loads after this screen opens.
     _smartContractsReaction = reaction(
