@@ -5,6 +5,7 @@ import 'package:qubic_wallet/models/exchange_model.dart';
 import 'package:qubic_wallet/models/labeled_address_model.dart';
 import 'package:qubic_wallet/models/protocol_model.dart';
 import 'package:qubic_wallet/models/smart_contracts_response.dart';
+import 'package:qubic_wallet/models/wallet_app_config_model.dart';
 import 'package:qubic_wallet/services/dio_client.dart';
 
 class QubicStaticApi {
@@ -71,6 +72,15 @@ class QubicStaticApi {
       return ProtocolResponse.fromJson(response.data);
     } catch (error) {
       throw Exception('Failed to fetch protocol data');
+    }
+  }
+
+  Future<WalletAppConfigResponse> getWalletAppConfig() async {
+    try {
+      final response = await _dio.get(Config.walletAppConfig);
+      return WalletAppConfigResponse.fromJson(response.data);
+    } catch (error) {
+      throw Exception('Failed to fetch wallet app config');
     }
   }
 }

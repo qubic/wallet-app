@@ -95,6 +95,7 @@ class _WalletAppState extends State<WalletApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getIt<RootJailbreakFlagStore>().showSecurityWarningIfNeeded();
       getIt<WalletContentStore>().loadDapps();
+      getIt<WalletContentStore>().loadConfig();
     });
   }
 

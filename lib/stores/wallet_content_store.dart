@@ -42,6 +42,18 @@ abstract class WalletContentStoreBase with Store {
   @observable
   bool isLoading = false;
 
+  /// Raw `default_tick_offset` from the wallet-app config — null until loaded or
+  /// if absent. Deliberately NOT `@observable`: it is read imperatively in screen
+  /// `initState`, so no MobX reactivity (and no build_runner regen) is required.
+  int? remoteDefaultTickOffset;
+
+  /// Effective default tick offset for new transactions: the remote value when
+  /// present and valid (>= 1), otherwise the historical +5 fallback.
+  int get defaultTickOffset =>
+      (remoteDefaultTickOffset != null && remoteDefaultTickOffset! >= 1)
+          ? remoteDefaultTickOffset!
+          : 5;
+
   /// Cached app version for version constraint checks
   Version? _appVersion;
 
@@ -146,6 +158,20 @@ abstract class WalletContentStoreBase with Store {
       error = e.toString();
     } finally {
       isLoading = false;
+    }
+  }
+
+  /// Loads wallet-app runtime configuration. Not a MobX `@action`: it only
+  /// writes a non-observable field, so no reactivity or codegen is involved.
+  /// Failures are swallowed — callers fall back to compiled defaults.
+  Future<void> loadConfig() async {
+    try {
+      final response = await _staticApi.getWalletAppConfig();
+      remoteDefaultTickOffset = response.defaultTickOffset;
+      appLogger.i(
+          "Successfully loaded wallet app config (default_tick_offset: ${response.defaultTickOffset})");
+    } catch (e) {
+      appLogger.e("Failed to load wallet app config: ${e.toString()}");
     }
   }
 }
