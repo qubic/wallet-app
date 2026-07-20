@@ -60,22 +60,8 @@ class QubicListVm {
 
   /// Sets the number of shares (without mutation)
   void setAssets(List<QubicAsset> newAssets) {
-    Map<String, QubicAsset> mergedAssets = {};
-
-    for (int i = 0; i < newAssets.length; i++) {
-      // Include issuer identity to distinguish tokens with same name but different issuers
-      String name =
-          "${newAssets[i].issuedAsset.issuerIdentity}_${newAssets[i].issuedAsset.name}-${newAssets[i].managingContractIndex}";
-      if (mergedAssets.containsKey(name)) {
-        if (mergedAssets[name]!.info.tick < newAssets[i].info.tick) {
-          mergedAssets[name] = newAssets[i];
-        }
-      } else {
-        mergedAssets[name] = newAssets[i];
-      }
-    }
-
-    assets = Map<String, QubicAsset>.from(mergedAssets);
+    assets =
+        Map<String, QubicAsset>.from(QubicAsset.mergeByPosition(newAssets));
   }
 
   Map<String, QubicAsset> getAssets() {

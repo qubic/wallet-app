@@ -425,51 +425,45 @@ abstract class _ApplicationStore with Store {
 
   /// Sets the Assets for an account
   /// Returns the list of IDs whose assets have changed
-  /// as <PublicID, [QubicAsset]>
+  /// as <PublicID, [QubicAsset]>. An asset that vanished from the fetch
+  /// (fully sold/transferred away) is included with numberOfUnits == 0;
+  /// this map is forwarded verbatim to dApps via assetAmountChanged.
   @action
   Map<String, List<QubicAsset>> setAssets(List<QubicAsset> assetsForAllIDs) {
     Map<String, List<QubicAsset>> changedIds = {};
 
     for (var i = 0; i < currentQubicIDs.length; i++) {
-      List<QubicAsset> assetsForID = assetsForAllIDs
-          .where((e) => e.ownerIdentity == currentQubicIDs[i].publicId)
+      final account = currentQubicIDs[i];
+      final assetsForID = QubicAsset.mergeByPosition(
+              assetsForAllIDs.where((e) => e.ownerIdentity == account.publicId))
+          .values
           .toList();
-      for (var j = 0; j < assetsForID.length; j++) {
-        if (assetsForID[j].ownerIdentity == currentQubicIDs[i].publicId) {
-          // Detect changes start
-          var assetInfo = currentQubicIDs[i]
-              .assets
-              .values
-              .where((el) =>
-                  el.issuedAsset.name == assetsForID[j].issuedAsset.name &&
-                  el.managingContractIndex ==
-                      assetsForID[j].managingContractIndex &&
-                  el.issuedAsset.issuerIdentity ==
-                      assetsForID[j].issuedAsset.issuerIdentity)
-              .firstOrNull;
-          if (assetInfo != null) {
-            if (assetInfo.numberOfUnits != assetsForID[j].numberOfUnits) {
-              if (changedIds.containsKey(currentQubicIDs[i].publicId) ==
-                  false) {
-                changedIds[currentQubicIDs[i].publicId] = [];
-              }
-              changedIds[currentQubicIDs[i].publicId]!.add(assetsForID[j]);
-            }
-          }
-          //Detect changes end
+      final changed = <QubicAsset>[];
+
+      // Match each fetched asset against the previous holdings, consuming
+      // matches as we go; a changed unit count is reported with its new value.
+      final previousAssets = {
+        for (final asset in account.assets.values) asset.positionKey: asset
+      };
+      for (final asset in assetsForID) {
+        final previous = previousAssets.remove(asset.positionKey);
+        if (previous != null && previous.numberOfUnits != asset.numberOfUnits) {
+          changed.add(asset);
         }
       }
 
-      // A sold-to-zero account is invisible to the inner loop above (it iterates
-      // the fetched assets, of which there are none), so flag it here so the
-      // WalletConnect assetAmountChanged event still fires for it.
-      if (assetsForID.isEmpty && currentQubicIDs[i].assets.isNotEmpty) {
-        changedIds[currentQubicIDs[i].publicId] = [];
+      // Whatever was not consumed vanished from the fetch (sold/transferred
+      // away entirely) — report it with zero units so the WalletConnect
+      // assetAmountChanged event still fires for it.
+      changed.addAll(previousAssets.values.map((a) => a.withZeroUnits()));
+
+      if (changed.isNotEmpty) {
+        changedIds[account.publicId] = changed;
       }
 
       // Runs once per account — clears assets even when assetsForID is empty
       // (e.g. the account's last asset was sold/transferred).
-      var item = QubicListVm.clone(currentQubicIDs[i]);
+      var item = QubicListVm.clone(account);
       item.setAssets(assetsForID);
       currentQubicIDs[i] = item;
     }
