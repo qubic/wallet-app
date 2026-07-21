@@ -24,6 +24,33 @@ class QubicAsset {
   bool get isSmartContractShare =>
       issuedAsset.issuerIdentity == QxInfo.mainAssetIssuer;
 
+  /// Canonical identity of an asset position: issuer + name + managing
+  /// contract. Two [QubicAsset]s with the same key describe the same holding.
+  String get positionKey =>
+      '${issuedAsset.issuerIdentity}_${issuedAsset.name}-$managingContractIndex';
+
+  /// Dedupes [assets] by [positionKey]. The aggregation endpoint can return
+  /// the same position more than once; the record with the highest tick wins.
+  static Map<String, QubicAsset> mergeByPosition(Iterable<QubicAsset> assets) {
+    final merged = <String, QubicAsset>{};
+    for (final asset in assets) {
+      final existing = merged[asset.positionKey];
+      if (existing == null || existing.info.tick < asset.info.tick) {
+        merged[asset.positionKey] = asset;
+      }
+    }
+    return merged;
+  }
+
+  /// Copy representing this position after it was fully sold/transferred away.
+  QubicAsset withZeroUnits() => QubicAsset(
+        ownerIdentity: ownerIdentity,
+        managingContractIndex: managingContractIndex,
+        numberOfUnits: 0,
+        issuedAsset: issuedAsset,
+        info: info,
+      );
+
   factory QubicAsset.fromAggregation({
     required String ownerIdentity,
     required String assetIssuer,

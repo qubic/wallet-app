@@ -507,6 +507,17 @@ mixin _$ApplicationStore on _ApplicationStore, Store {
   }
 
   @override
+  Map<String, List<QubicAsset>> setAssets(List<QubicAsset> assetsForAllIDs) {
+    final _$actionInfo = _$_ApplicationStoreActionController.startAction(
+        name: '_ApplicationStore.setAssets');
+    try {
+      return super.setAssets(assetsForAllIDs);
+    } finally {
+      _$_ApplicationStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic initStoredTransactions() {
     final _$actionInfo = _$_ApplicationStoreActionController.startAction(
         name: '_ApplicationStore.initStoredTransactions');
