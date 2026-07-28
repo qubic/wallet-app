@@ -60,7 +60,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   );
 
   List<bool> expanded = [false];
-  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.autoCurrentPlus5;
+  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.automatic;
 
   // Selected contract indices
   int? selectedSourceContractIndex;
@@ -89,7 +89,6 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   @override
   void initState() {
     super.initState();
-    targetTickType = _walletContentStore.defaultTargetTickType;
     _initializeFormData();
     // Re-initialize if smartContracts loads after this screen opens.
     _smartContractsReaction = reaction(
@@ -687,7 +686,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       } else {
         // fetch latest tick
         int latestTick = (await _liveApi.getCurrentTick()).tick;
-        targetTick = latestTick + targetTickType.value;
+        targetTick = latestTick + _walletContentStore.offsetFor(targetTickType);
       }
 
       // Get contract address and procedure number from ecosystem store

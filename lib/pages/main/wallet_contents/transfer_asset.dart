@@ -53,7 +53,7 @@ class _TransferAssetState extends State<TransferAsset> {
   final QubicEcosystemStore _ecosystemStore = getIt<QubicEcosystemStore>();
   final WalletContentStore _walletContentStore = getIt<WalletContentStore>();
   String? transferError;
-  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.autoCurrentPlus5;
+  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.automatic;
 
   final NumberFormat formatter = NumberFormat.decimalPatternDigits(
     locale: 'en_us',
@@ -95,7 +95,6 @@ class _TransferAssetState extends State<TransferAsset> {
         .where((account) => account.publicId != widget.item.publicId)
         .toList();
 
-    targetTickType = _walletContentStore.defaultTargetTickType;
     super.initState();
   }
 
@@ -497,7 +496,7 @@ class _TransferAssetState extends State<TransferAsset> {
       } else {
         // fetch latest tick
         int latestTick = (await _liveApi.getCurrentTick()).tick;
-        targetTick = latestTick + targetTickType.value;
+        targetTick = latestTick + _walletContentStore.offsetFor(targetTickType);
       }
       if (!mounted) return;
       var result = await sendAssetTransferTransactionDialog(

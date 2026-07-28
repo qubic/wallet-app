@@ -337,8 +337,16 @@
     "transactionItemLabelConfirmedDate": "时间戳",
     "transactionItemLabelDetails": "交易详情",
     "sendItemLabelTargetTick": "目标刻度",
-    "sendItemLabelTargetTickAutomatic": "自动：当前刻度 + {addingTicks}",
+    "sendItemLabelTargetTickAutomatic": "当前刻度 + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
+        "placeholders": {
+            "addingTicks": {
+                "type": "int"
+            }
+        }
+    },
+    "sendItemLabelTargetTickAutomaticDefault": "自动 (+{addingTicks})",
+    "@sendItemLabelTargetTickAutomaticDefault": {
         "placeholders": {
             "addingTicks": {
                 "type": "int"

@@ -337,8 +337,16 @@
     "transactionItemLabelConfirmedDate": "Zaman damgası",
     "transactionItemLabelDetails": "İşlem Detayları",
     "sendItemLabelTargetTick": "Hedef Tick",
-    "sendItemLabelTargetTickAutomatic": "Otomatik olarak: Mevcut + {addingTicks}",
+    "sendItemLabelTargetTickAutomatic": "Mevcut + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
+        "placeholders": {
+            "addingTicks": {
+                "type": "int"
+            }
+        }
+    },
+    "sendItemLabelTargetTickAutomaticDefault": "Otomatik (+{addingTicks})",
+    "@sendItemLabelTargetTickAutomaticDefault": {
         "placeholders": {
             "addingTicks": {
                 "type": "int"

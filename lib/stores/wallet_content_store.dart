@@ -55,23 +55,14 @@ abstract class WalletContentStoreBase with Store {
           ? remoteDefaultTickOffset!
           : TargetTickTypeEnum.autoCurrentPlus5.value;
 
-  /// Dropdown preset used as the default selection on the send screens.
+  /// Tick offset a dropdown selection resolves to.
   ///
-  /// Rounds [defaultTickOffset] UP to the nearest preset — never down — so the
-  /// lead time is never shorter than what was configured; caps at the largest
-  /// preset. (The WalletConnect path has no dropdown and uses [defaultTickOffset]
-  /// directly, honoring the exact value.)
-  TargetTickTypeEnum get defaultTargetTickType {
-    final offset = defaultTickOffset;
-    const presets = [
-      TargetTickTypeEnum.autoCurrentPlus5,
-      TargetTickTypeEnum.autoCurrentPlus10,
-      TargetTickTypeEnum.autoCurrentPlus20,
-      TargetTickTypeEnum.autoCurrentPlus40,
-    ];
-    return presets.firstWhere((t) => t.value >= offset,
-        orElse: () => TargetTickTypeEnum.autoCurrentPlus40);
-  }
+  /// [TargetTickTypeEnum.automatic] uses the remotely configured
+  /// [defaultTickOffset] — the same value the WalletConnect path applies — so a
+  /// single config value produces the same target tick everywhere. Every other
+  /// preset uses its own fixed value.
+  int offsetFor(TargetTickTypeEnum type) =>
+      type == TargetTickTypeEnum.automatic ? defaultTickOffset : type.value;
 
   /// Cached app version for version constraint checks
   Version? _appVersion;
