@@ -336,8 +336,16 @@
     "transactionItemLabelConfirmedDate": "Метка времени",
     "transactionItemLabelDetails": "Детали транзакции",
     "sendItemLabelTargetTick": "На каком тике",
-    "sendItemLabelTargetTickAutomatic": "Автоматически: этот тик + {addingTicks}",
+    "sendItemLabelTargetTickAutomatic": "Текущий + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
+        "placeholders": {
+            "addingTicks": {
+                "type": "int"
+            }
+        }
+    },
+    "sendItemLabelTargetTickAutomaticDefault": "Автоматически (+{addingTicks})",
+    "@sendItemLabelTargetTickAutomaticDefault": {
         "placeholders": {
             "addingTicks": {
                 "type": "int"

@@ -30,6 +30,7 @@ abstract class Config {
   // Wallet-app specific endpoints
   static const dapps = "/wallet-app/dapps/dapps.json";
   static dappLocale(String locale) => "/wallet-app/dapps/locales/$locale.json";
+  static const walletAppConfig = "/wallet-app/config.json";
 
   // General/ecosystem endpoints (shared across Qubic ecosystem)
   static const smartContracts = "/general/data/smart_contracts.json";

@@ -7,6 +7,7 @@ import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/dtos/dapp_dto.dart';
 import 'package:qubic_wallet/helpers/app_logger.dart';
+import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/resources/apis/static/qubic_static_api.dart';
 
@@ -41,6 +42,27 @@ abstract class WalletContentStoreBase with Store {
 
   @observable
   bool isLoading = false;
+
+  /// Raw `default_tick_offset` from the wallet-app config — null until loaded or
+  /// if absent. Deliberately NOT `@observable`: it is read imperatively in screen
+  /// `initState`, so no MobX reactivity (and no build_runner regen) is required.
+  int? remoteDefaultTickOffset;
+
+  /// Effective default tick offset for new transactions: the remote value when
+  /// present and valid (>= 1), otherwise the historical +5 fallback.
+  int get defaultTickOffset =>
+      (remoteDefaultTickOffset != null && remoteDefaultTickOffset! >= 1)
+          ? remoteDefaultTickOffset!
+          : TargetTickTypeEnum.autoCurrentPlus5.value;
+
+  /// Tick offset a dropdown selection resolves to.
+  ///
+  /// [TargetTickTypeEnum.automatic] uses the remotely configured
+  /// [defaultTickOffset] — the same value the WalletConnect path applies — so a
+  /// single config value produces the same target tick everywhere. Every other
+  /// preset uses its own fixed value.
+  int offsetFor(TargetTickTypeEnum type) =>
+      type == TargetTickTypeEnum.automatic ? defaultTickOffset : type.value;
 
   /// Cached app version for version constraint checks
   Version? _appVersion;
@@ -146,6 +168,20 @@ abstract class WalletContentStoreBase with Store {
       error = e.toString();
     } finally {
       isLoading = false;
+    }
+  }
+
+  /// Loads wallet-app runtime configuration. Not a MobX `@action`: it only
+  /// writes a non-observable field, so no reactivity or codegen is involved.
+  /// Failures are swallowed — callers fall back to compiled defaults.
+  Future<void> loadConfig() async {
+    try {
+      final response = await _staticApi.getWalletAppConfig();
+      remoteDefaultTickOffset = response.defaultTickOffset;
+      appLogger.i(
+          "Successfully loaded wallet app config (default_tick_offset: ${response.defaultTickOffset})");
+    } catch (e) {
+      appLogger.e("Failed to load wallet app config: ${e.toString()}");
     }
   }
 }

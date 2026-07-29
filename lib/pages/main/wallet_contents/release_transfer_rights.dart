@@ -23,6 +23,7 @@ import 'package:qubic_wallet/smart_contracts/release_transfer_rights_info.dart';
 import 'package:mobx/mobx.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -48,6 +49,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   final _formKey = GlobalKey<FormBuilderState>();
   final ApplicationStore appStore = getIt<ApplicationStore>();
   final QubicEcosystemStore ecosystemStore = getIt<QubicEcosystemStore>();
+  final WalletContentStore _walletContentStore = getIt<WalletContentStore>();
   final _liveApi = getIt<QubicLiveApi>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
@@ -58,7 +60,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
   );
 
   List<bool> expanded = [false];
-  TargetTickTypeEnum targetTickType = defaultTargetTickType;
+  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.automatic;
 
   // Selected contract indices
   int? selectedSourceContractIndex;
@@ -684,7 +686,7 @@ class _ReleaseTransferRightsState extends State<ReleaseTransferRights> {
       } else {
         // fetch latest tick
         int latestTick = (await _liveApi.getCurrentTick()).tick;
-        targetTick = latestTick + targetTickType.value;
+        targetTick = latestTick + _walletContentStore.offsetFor(targetTickType);
       }
 
       // Get contract address and procedure number from ecosystem store
