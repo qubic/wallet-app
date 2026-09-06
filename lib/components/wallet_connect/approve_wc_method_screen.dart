@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:qubic_wallet/components/smart_contract_transfer_warning_sheet.dart';
 import 'package:qubic_wallet/components/wallet_connect/components/amount_value_header.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
@@ -180,7 +181,29 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     }
   }
 
+  bool get isPlainTransferToSmartContract {
+    final isTransferMethod = widget.method == WalletConnectMethod.sendQubic ||
+        widget.method == WalletConnectMethod.sendTransaction ||
+        widget.method == WalletConnectMethod.signTransaction;
+    return isTransferMethod &&
+        (widget.data.inputType ?? 0) == 0 &&
+        widget.data.toID != null &&
+        AddressUIHelper.isSmartContract(widget.data.toID!);
+  }
+
   onApprovalTap() async {
+    // Outside the try below: cancelling must not trigger the finally's redirectToDApp
+    if (isPlainTransferToSmartContract) {
+      final l10n = l10nOf(context);
+      final contractName =
+          AddressUIHelper.getLabel(context, widget.data.toID!) ??
+              l10n.wcSmartContractUnknown;
+      final proceed = await showSmartContractTransferWarning(context,
+          contractName: contractName, isDappRequest: true);
+      if (!proceed || !mounted) {
+        return;
+      }
+    }
     final navigator = Navigator.of(context);
     try {
       setState(() {

@@ -826,6 +826,23 @@
         }
     },
     "wcSmartContractWarningDescription": "Make sure you trust this DApp. By approving the transaction, you might authorise to transfer Qubics and/or assets",
+    "smartContractTransferWarningTitle": "The destination address is a smart contract",
+    "smartContractTransferWarningText": "It corresponds to the \"{contractName}\" smart contract. A plain transfer does not call the contract; the amount becomes part of its balance permanently and cannot be recovered. To interact with the contract, cancel and use its dApp.",
+    "@smartContractTransferWarningText": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            }
+        }
+    },
+    "smartContractTransferWarningTextDApp": "It corresponds to the \"{contractName}\" smart contract. A plain transfer does not call the contract; the amount becomes part of its balance permanently and cannot be recovered. If you expected this transfer to trigger an action on the contract, cancel it.",
+    "@smartContractTransferWarningTextDApp": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            }
+        }
+    },
     "wcAddConnection": "Add New Connection",
     "signBase64GenericError": "Error trying to sign base64 string: {errorDescription}",
     "@signBase64GenericError": {
