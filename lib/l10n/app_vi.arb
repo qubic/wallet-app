@@ -785,6 +785,9 @@
         }
     },
     "wcSmartContractWarningDescription": "Hãy đảm bảo bạn tin tưởng DApp này. Bằng cách chấp thuận giao dịch, bạn có thể ủy quyền chuyển Qubic và/hoặc tài sản",
+    "smartContractTransferWarningTitle": "Địa chỉ nhận là một hợp đồng thông minh",
+    "smartContractTransferWarningText": "Địa chỉ này thuộc về hợp đồng thông minh \"{contractName}\". Một giao dịch chuyển thông thường không gọi hợp đồng; số tiền sẽ vĩnh viễn trở thành một phần số dư của hợp đồng và không thể lấy lại. Để tương tác với hợp đồng, hãy hủy và sử dụng DApp của hợp đồng đó.",
+    "smartContractTransferWarningTextDApp": "Địa chỉ này thuộc về hợp đồng thông minh \"{contractName}\". Một giao dịch chuyển thông thường không gọi hợp đồng; số tiền sẽ vĩnh viễn trở thành một phần số dư của hợp đồng và không thể lấy lại. Nếu bạn mong đợi giao dịch chuyển này kích hoạt một hành động của hợp đồng, hãy hủy nó.",
     "wcAddConnection": "Thêm kết nối mới",
     "signBase64GenericError": "Lỗi khi cố gắng ký chuỗi base64: {errorDescription}",
     "@signBase64GenericError": {
