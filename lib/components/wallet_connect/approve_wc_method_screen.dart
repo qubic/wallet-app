@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:qubic_wallet/components/smart_contract_transfer_warning_sheet.dart';
 import 'package:qubic_wallet/components/wallet_connect/components/amount_value_header.dart';
 import 'package:qubic_wallet/config.dart';
 import 'package:qubic_wallet/di.dart';
@@ -13,6 +12,7 @@ import 'package:qubic_wallet/helpers/address_ui_helper.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/send_transaction.dart';
+import 'package:qubic_wallet/helpers/smart_contract_transfer_warning.dart';
 import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/app_localizations.dart';
