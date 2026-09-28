@@ -13,6 +13,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/send_transaction.dart';
+import 'package:qubic_wallet/helpers/smart_contract_transfer_warning.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -21,6 +22,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_f
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -386,6 +388,18 @@ class _SendState extends State<Send> {
       _formKey.currentState?.validate();
       return;
     }
+    if (!mounted) return;
+
+    final contractName =
+        getIt<QubicEcosystemStore>().getContractName(destinationID.text);
+    if (contractName != null) {
+      final proceed = await showSmartContractTransferWarning(context,
+          contractName: contractName, isDappRequest: false);
+      if (!proceed) {
+        return;
+      }
+    }
+
     if (!mounted) return;
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
