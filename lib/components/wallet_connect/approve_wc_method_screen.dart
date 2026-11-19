@@ -12,6 +12,7 @@ import 'package:qubic_wallet/helpers/address_ui_helper.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/send_transaction.dart';
+import 'package:qubic_wallet/helpers/smart_contract_transfer_warning.dart';
 import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
 import 'package:qubic_wallet/helpers/transaction_ui_helpers.dart';
 import 'package:qubic_wallet/l10n/app_localizations.dart';
@@ -27,6 +28,7 @@ import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -180,7 +182,28 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     }
   }
 
+  String? get smartContractRecipientName {
+    final toID = widget.data.toID;
+    if (toID == null) return null;
+    final isQubicTransfer = (widget.method == WalletConnectMethod.sendQubic ||
+            widget.method == WalletConnectMethod.sendTransaction ||
+            widget.method == WalletConnectMethod.signTransaction) &&
+        TransactionActionHelpers.isSimpleTransferTransaction(
+            widget.data.inputType ?? 0, widget.data.amount ?? 0);
+    if (!isQubicTransfer) return null;
+    return getIt<QubicEcosystemStore>().getContractName(toID);
+  }
+
   onApprovalTap() async {
+    // Outside the try below: cancelling must not trigger the finally's redirectToDApp
+    final contractName = smartContractRecipientName;
+    if (contractName != null) {
+      final proceed = await showSmartContractTransferWarning(context,
+          contractName: contractName, isDappRequest: true);
+      if (!proceed || !mounted) {
+        return;
+      }
+    }
     final navigator = Navigator.of(context);
     try {
       setState(() {
