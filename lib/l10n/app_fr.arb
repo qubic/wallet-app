@@ -769,6 +769,7 @@
     "smartContractTransferWarningTitle": "L'adresse de destination est un contrat intelligent",
     "smartContractTransferWarningText": "Elle correspond au contrat intelligent \"{contractName}\". Un simple transfert n'appelle pas le contrat ; le montant est définitivement ajouté à son solde et ne peut pas être récupéré. Pour interagir avec le contrat, annulez et utilisez sa DApp.",
     "smartContractTransferWarningTextDApp": "Elle correspond au contrat intelligent \"{contractName}\". Un simple transfert n'appelle pas le contrat ; le montant est définitivement ajouté à son solde et ne peut pas être récupéré. Si vous vous attendiez à ce que ce transfert déclenche une action du contrat, annulez-le.",
+    "smartContractAssetTransferWarningText": "Les parts seront transférées au contrat intelligent \"{contractName}\" et ne pourront très probablement pas être récupérées. Si vous ne vouliez pas les envoyer à ce contrat, annulez.",
     "wcApproveTransfer": "Approuver le transfert",
     "wcSendAssets": "Envoyer des actifs",
     "assetButtonIssuerIdentity": "Voir l'Émetteur dans l'Explorateur",

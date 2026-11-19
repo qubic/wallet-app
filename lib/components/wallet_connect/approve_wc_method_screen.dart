@@ -185,12 +185,13 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
   String? get smartContractRecipientName {
     final toID = widget.data.toID;
     if (toID == null) return null;
+    final isAssetTransfer = widget.method == WalletConnectMethod.sendAsset;
     final isQubicTransfer = (widget.method == WalletConnectMethod.sendQubic ||
             widget.method == WalletConnectMethod.sendTransaction ||
             widget.method == WalletConnectMethod.signTransaction) &&
         TransactionActionHelpers.isSimpleTransferTransaction(
             widget.data.inputType ?? 0, widget.data.amount ?? 0);
-    if (!isQubicTransfer) return null;
+    if (!isAssetTransfer && !isQubicTransfer) return null;
     return getIt<QubicEcosystemStore>().getContractName(toID);
   }
 
@@ -199,7 +200,9 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     final contractName = smartContractRecipientName;
     if (contractName != null) {
       final proceed = await showSmartContractTransferWarning(context,
-          contractName: contractName, isDappRequest: true);
+          contractName: contractName,
+          isDappRequest: true,
+          isAssetTransfer: widget.method == WalletConnectMethod.sendAsset);
       if (!proceed || !mounted) {
         return;
       }

@@ -843,6 +843,14 @@
             }
         }
     },
+    "smartContractAssetTransferWarningText": "The shares will be transferred to the \"{contractName}\" smart contract and most likely cannot be recovered. If you did not intend to send them to this contract, cancel.",
+    "@smartContractAssetTransferWarningText": {
+        "placeholders": {
+            "contractName": {
+                "type": "String"
+            }
+        }
+    },
     "wcAddConnection": "Add New Connection",
     "signBase64GenericError": "Error trying to sign base64 string: {errorDescription}",
     "@signBase64GenericError": {
