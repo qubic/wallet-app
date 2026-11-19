@@ -157,7 +157,7 @@ class QubicJs {
       appLogger.d("QubicJS: WebView is now ready");
     }
 
-    parameters = parameters.map((e) => e.replaceAll("'", "\\'")).toList();
+    final args = parameters.map(jsonEncode).join(', ');
     final callId = '${++_callIdCounter}';
     final completer = Completer<CallAsyncJavaScriptResult>();
     _pendingCalls[callId] = completer;
@@ -165,7 +165,7 @@ class QubicJs {
     final source = '''
 (async () => {
   try {
-    const v = await window.runBrowser('$functionName', '${parameters.join("','")}');
+    const v = await window.runBrowser(${jsonEncode(functionName)}, $args);
     window.flutter_inappwebview.callHandler('qubicResult', '$callId', 'ok', JSON.stringify(v === undefined ? null : v));
   } catch (e) {
     window.flutter_inappwebview.callHandler('qubicResult', '$callId', 'error', (e && e.toString) ? e.toString() : String(e));
@@ -198,11 +198,6 @@ class QubicJs {
       String assetIssuer,
       int numberOfUnits,
       int tick) async {
-    seed = seed.replaceAll("'", "\\'");
-    destinationId = destinationId.replaceAll("'", "\\'");
-    assetName = assetName.replaceAll("'", "\\'");
-    assetIssuer = assetIssuer.replaceAll("'", "\\'");
-
     CallAsyncJavaScriptResult? result =
         await runFunction(QubicJSFunctions.createTransactionAssetMove, [
       seed,
