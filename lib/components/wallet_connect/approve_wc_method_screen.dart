@@ -28,6 +28,7 @@ import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/services/wallet_connect_service.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
 import 'package:qubic_wallet/styles/app_icons.dart';
 import 'package:qubic_wallet/styles/button_styles.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
@@ -181,23 +182,22 @@ class _ApproveWcMethodScreenState extends State<ApproveWcMethodScreen> {
     }
   }
 
-  bool get isPlainTransferToSmartContract {
-    final isTransferMethod = widget.method == WalletConnectMethod.sendQubic ||
-        widget.method == WalletConnectMethod.sendTransaction ||
-        widget.method == WalletConnectMethod.signTransaction;
-    return isTransferMethod &&
-        (widget.data.inputType ?? 0) == 0 &&
-        widget.data.toID != null &&
-        AddressUIHelper.isSmartContract(widget.data.toID!);
+  String? get smartContractRecipientName {
+    final toID = widget.data.toID;
+    if (toID == null) return null;
+    final isQubicTransfer = (widget.method == WalletConnectMethod.sendQubic ||
+            widget.method == WalletConnectMethod.sendTransaction ||
+            widget.method == WalletConnectMethod.signTransaction) &&
+        TransactionActionHelpers.isSimpleTransferTransaction(
+            widget.data.inputType ?? 0, widget.data.amount ?? 0);
+    if (!isQubicTransfer) return null;
+    return getIt<QubicEcosystemStore>().getContractName(toID);
   }
 
   onApprovalTap() async {
     // Outside the try below: cancelling must not trigger the finally's redirectToDApp
-    if (isPlainTransferToSmartContract) {
-      final l10n = l10nOf(context);
-      final contractName =
-          AddressUIHelper.getLabel(context, widget.data.toID!) ??
-              l10n.wcSmartContractUnknown;
+    final contractName = smartContractRecipientName;
+    if (contractName != null) {
       final proceed = await showSmartContractTransferWarning(context,
           contractName: contractName, isDappRequest: true);
       if (!proceed || !mounted) {
