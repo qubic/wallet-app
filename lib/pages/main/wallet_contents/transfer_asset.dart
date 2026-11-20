@@ -24,6 +24,7 @@ import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/smart_contracts/qx_info.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
 import 'package:qubic_wallet/stores/qubic_ecosystem_store.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -50,8 +51,9 @@ class _TransferAssetState extends State<TransferAsset> {
   final GlobalKey<_TransferAssetState> widgetKey = GlobalKey();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
   final QubicEcosystemStore _ecosystemStore = getIt<QubicEcosystemStore>();
+  final WalletContentStore _walletContentStore = getIt<WalletContentStore>();
   String? transferError;
-  TargetTickTypeEnum targetTickType = defaultTargetTickType;
+  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.automatic;
 
   final NumberFormat formatter = NumberFormat.decimalPatternDigits(
     locale: 'en_us',
@@ -494,7 +496,7 @@ class _TransferAssetState extends State<TransferAsset> {
       } else {
         // fetch latest tick
         int latestTick = (await _liveApi.getCurrentTick()).tick;
-        targetTick = latestTick + targetTickType.value;
+        targetTick = latestTick + _walletContentStore.offsetFor(targetTickType);
       }
       if (!mounted) return;
       var result = await sendAssetTransferTransactionDialog(

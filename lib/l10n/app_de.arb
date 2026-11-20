@@ -337,8 +337,16 @@
     "transactionItemLabelConfirmedDate": "Zeitstempel",
     "transactionItemLabelDetails": "Transaktionsdetails",
     "sendItemLabelTargetTick": "Ziel-Tick",
-    "sendItemLabelTargetTickAutomatic": "Automatisch: Aktuell + {addingTicks}",
+    "sendItemLabelTargetTickAutomatic": "Aktuell + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
+        "placeholders": {
+            "addingTicks": {
+                "type": "int"
+            }
+        }
+    },
+    "sendItemLabelTargetTickAutomaticDefault": "Automatisch (+{addingTicks})",
+    "@sendItemLabelTargetTickAutomaticDefault": {
         "placeholders": {
             "addingTicks": {
                 "type": "int"

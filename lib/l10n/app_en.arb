@@ -382,8 +382,16 @@
     "transactionItemLabelConfirmedDate": "Timestamp",
     "transactionItemLabelDetails": "Transaction Details",
     "sendItemLabelTargetTick": "Target Tick",
-    "sendItemLabelTargetTickAutomatic": "Automatically: Current + {addingTicks}",
+    "sendItemLabelTargetTickAutomatic": "Current + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
+        "placeholders": {
+            "addingTicks": {
+                "type": "int"
+            }
+        }
+    },
+    "sendItemLabelTargetTickAutomaticDefault": "Automatic (+{addingTicks})",
+    "@sendItemLabelTargetTickAutomaticDefault": {
         "placeholders": {
             "addingTicks": {
                 "type": "int"

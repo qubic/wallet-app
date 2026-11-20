@@ -336,8 +336,16 @@
     "transactionItemLabelConfirmedDate": "Fecha y hora",
     "transactionItemLabelDetails": "Detalles de la Transacción",
     "sendItemLabelTargetTick": "Tick de Ejecución",
-    "sendItemLabelTargetTickAutomatic": "Automáticamente: Actual + {addingTicks}",
+    "sendItemLabelTargetTickAutomatic": "Actual + {addingTicks}",
     "@sendItemLabelTargetTickAutomatic": {
+        "placeholders": {
+            "addingTicks": {
+                "type": "int"
+            }
+        }
+    },
+    "sendItemLabelTargetTickAutomaticDefault": "Automático (+{addingTicks})",
+    "@sendItemLabelTargetTickAutomaticDefault": {
         "placeholders": {
             "addingTicks": {
                 "type": "int"

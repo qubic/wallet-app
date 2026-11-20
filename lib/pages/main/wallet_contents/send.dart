@@ -21,6 +21,7 @@ import 'package:qubic_wallet/pages/main/wallet_contents/transfers/transactions_f
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
 import 'package:qubic_wallet/resources/qubic_cmd.dart';
 import 'package:qubic_wallet/stores/application_store.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:qubic_wallet/styles/edge_insets.dart';
 import 'package:qubic_wallet/styles/input_decorations.dart';
 import 'package:qubic_wallet/styles/text_styles.dart';
@@ -45,8 +46,9 @@ class _SendState extends State<Send> {
   final QubicCmd qubicCmd = getIt<QubicCmd>();
   final TimedController _timedController = getIt<TimedController>();
   final GlobalSnackBar _globalSnackBar = getIt<GlobalSnackBar>();
+  final WalletContentStore _walletContentStore = getIt<WalletContentStore>();
   String? transferError;
-  TargetTickTypeEnum targetTickType = defaultTargetTickType;
+  TargetTickTypeEnum targetTickType = TargetTickTypeEnum.automatic;
 
   final NumberFormat formatter = NumberFormat.decimalPatternDigits(
     locale: 'en_us',
@@ -404,7 +406,7 @@ class _SendState extends State<Send> {
       } else {
         // fetch latest tick
         int latestTick = (await _liveApi.getCurrentTick()).tick;
-        targetTick = latestTick + targetTickType.value;
+        targetTick = latestTick + _walletContentStore.offsetFor(targetTickType);
       }
       if (!mounted) return;
       SignedTransaction? result = await sendTransactionDialog(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:qubic_wallet/components/wallet_connect/approve_wc_method_screen.dart';
 import 'package:qubic_wallet/di.dart';
 import 'package:qubic_wallet/helpers/global_snack_bar.dart';
-import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/helpers/transaction_actions_helpers.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/wallet_connect.dart';
@@ -15,6 +14,7 @@ import 'package:qubic_wallet/models/wallet_connect/request_sign_message_event.da
 import 'package:qubic_wallet/models/wallet_connect/request_sign_message_result.dart';
 import 'package:qubic_wallet/models/wallet_connect/request_sign_transaction_result.dart';
 import 'package:qubic_wallet/resources/apis/live/qubic_live_api.dart';
+import 'package:qubic_wallet/stores/wallet_content_store.dart';
 import 'package:reown_walletkit/reown_walletkit.dart';
 
 // Provides a unified place to handle WalletConnect modals
@@ -183,7 +183,7 @@ class WalletConnectModalsController {
         }
         return tick;
       } else {
-        return latestTick + defaultTargetTickType.value;
+        return latestTick + getIt.get<WalletContentStore>().defaultTickOffset;
       }
     } catch (e) {
       throw JsonRpcError(
