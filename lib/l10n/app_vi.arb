@@ -775,7 +775,6 @@
     "wcDisconnectAllConfirm": "Ngắt kết nối các ứng dụng sẽ xóa tất cả quyền truy cập vào ví của bạn",
     "wcDisconnect": "Ngắt kết nối",
     "wcDisconnectConfirm": "Ngắt kết nối ứng dụng này sẽ xóa quyền truy cập vào ví của bạn",
-    "wcSmartContractUnknown": "Không xác định",
     "wcSmartContractWarningTitle": "Giao dịch hợp đồng thông minh \"{smartContractName}\"",
     "@wcSmartContractWarningTitle": {
         "placeholders": {

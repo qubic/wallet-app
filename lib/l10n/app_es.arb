@@ -751,7 +751,6 @@
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Tipo de input",
     "wcErrorTickExpired": "El valor de tick está en el pasado",
-    "wcSmartContractUnknown": "Desconocido",
     "wcSmartContractWarningTitle": "Transacción de contrato inteligente \"{smartContractName}\"",
     "@wcSmartContractWarningTitle": {
         "placeholders": {

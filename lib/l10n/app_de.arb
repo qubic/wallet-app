@@ -759,7 +759,6 @@
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Eingabetyp",
     "wcErrorTickExpired": "Der Tick-Wert liegt bereits in der Vergangenheit",
-    "wcSmartContractUnknown": "Unbekannt",
     "wcSmartContractWarningTitle": "\"{smartContractName}\" Smart-Contract-Transaktion",
     "wcSmartContractWarningDescription": "Stelle sicher, dass du dieser DApp vertraust. Durch die Genehmigung der Transaktion kannst du möglicherweise die Übertragung von Qubics und/oder Vermögenswerten autorisieren",
     "smartContractTransferWarningTitle": "Die Zieladresse ist ein Smart Contract",

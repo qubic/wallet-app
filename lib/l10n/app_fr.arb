@@ -763,7 +763,6 @@
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Type d'entrée",
     "wcErrorTickExpired": "La valeur du tick est déjà dépassée",
-    "wcSmartContractUnknown": "Inconnu",
     "wcSmartContractWarningTitle": "Transaction de contrat intelligent \"{smartContractName}\"",
     "wcSmartContractWarningDescription": "Assurez-vous de faire confiance à cette DApp. En approuvant la transaction, vous pourriez autoriser le transfert de Qubics et/ou d'actifs",
     "smartContractTransferWarningTitle": "L'adresse de destination est un contrat intelligent",

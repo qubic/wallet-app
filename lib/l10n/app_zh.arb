@@ -759,7 +759,6 @@
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "輸入類型",
     "wcErrorTickExpired": "Tick 值已過期",
-    "wcSmartContractUnknown": "未知",
     "wcSmartContractWarningTitle": "\"{smartContractName}\" 智能合約交易",
     "wcSmartContractWarningDescription": "請確保您信任此 DApp。批准交易後，您可能會授權轉移 Qubics 和/或資產",
     "smartContractTransferWarningTitle": "目標地址是一個智能合約",

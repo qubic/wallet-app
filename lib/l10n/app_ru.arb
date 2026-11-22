@@ -759,7 +759,6 @@
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Тип ввода",
     "wcErrorTickExpired": "Значение тика уже в прошлом",
-    "wcSmartContractUnknown": "Неизвестно",
     "wcSmartContractWarningTitle": "Транзакция смарт-контракта \"{smartContractName}\"",
     "wcSmartContractWarningDescription": "Убедитесь, что вы доверяете этому DApp. Одобряя транзакцию, вы можете разрешить перевод Qubics и/или активов",
     "smartContractTransferWarningTitle": "Адрес получателя является смарт-контрактом",

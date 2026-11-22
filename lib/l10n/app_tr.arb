@@ -759,7 +759,6 @@
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Giriş Türü",
     "wcErrorTickExpired": "Tick değeri zaten geçmişte",
-    "wcSmartContractUnknown": "Bilinmiyor",
     "wcSmartContractWarningTitle": "\"{smartContractName}\" Akıllı Kontrat İşlemi",
     "wcSmartContractWarningDescription": "Bu DApp'e güvendiğinizden emin olun. İşlemi onaylayarak Qubics ve/veya varlıkların transferine izin verebilirsiniz",
     "smartContractTransferWarningTitle": "Hedef adres bir akıllı sözleşmedir",
