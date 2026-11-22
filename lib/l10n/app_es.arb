@@ -751,7 +751,6 @@
     "generalLabelPayload": "Payload",
     "generalLabelInputType": "Tipo de input",
     "wcErrorTickExpired": "El valor de tick está en el pasado",
-    "wcSmartContractUnknown": "Desconocido",
     "wcSmartContractWarningTitle": "Transacción de contrato inteligente \"{smartContractName}\"",
     "@wcSmartContractWarningTitle": {
         "placeholders": {
@@ -761,6 +760,10 @@
         }
     },
     "wcSmartContractWarningDescription": "Asegúrate que esta DApp es confiable. Al aprobar la transacción, podrías autorizar la transferencia de Qubics y/o otros activos",
+    "smartContractTransferWarningTitle": "La dirección de destino es un contrato inteligente",
+    "smartContractTransferWarningText": "Corresponde al contrato inteligente \"{contractName}\". Una transferencia simple no llama al contrato; el importe pasa a formar parte de su saldo de forma permanente y no se puede recuperar. Para interactuar con el contrato, cancela y usa su DApp.",
+    "smartContractTransferWarningTextDApp": "Corresponde al contrato inteligente \"{contractName}\". Una transferencia simple no llama al contrato; el importe pasa a formar parte de su saldo de forma permanente y no se puede recuperar. Si esperabas que esta transferencia activara una acción del contrato, cancélala.",
+    "smartContractAssetTransferWarningText": "Las acciones se transferirán al contrato inteligente \"{contractName}\" y lo más probable es que no se puedan recuperar. Si no pretendías enviarlas a este contrato, cancela.",
     "wcApproveTransfer": "Aprobar Transferencia",
     "wcSendAssets": "Enviar Activos",
     "assetButtonIssuerIdentity": "Ver Emisor en el Explorador",

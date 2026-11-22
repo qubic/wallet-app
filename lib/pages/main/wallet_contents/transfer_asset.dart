@@ -15,6 +15,7 @@ import 'package:qubic_wallet/helpers/global_snack_bar.dart';
 import 'package:qubic_wallet/helpers/id_validators.dart';
 import 'package:qubic_wallet/helpers/re_auth_dialog.dart';
 import 'package:qubic_wallet/helpers/send_transaction.dart';
+import 'package:qubic_wallet/helpers/smart_contract_transfer_warning.dart';
 import 'package:qubic_wallet/helpers/target_tick.dart';
 import 'package:qubic_wallet/l10n/l10n.dart';
 import 'package:qubic_wallet/models/qubic_list_vm.dart';
@@ -225,15 +226,14 @@ class _TransferAssetState extends State<TransferAsset> {
     final l10n = l10nOf(context);
 
     return ThemedControls.transparentButtonSmall(
-        text: l10n.accountSendButtonMax,
-        onPressed: () {
-          if (transferableUnits > 0) {
-            numberOfSharesCtrl.value = getInputFormatter(context)
-                .formatEditUpdate(
-                    const TextEditingValue(text: ''),
-                    TextEditingValue(text: (transferableUnits).toString()));
-          }
-        },
+      text: l10n.accountSendButtonMax,
+      onPressed: () {
+        if (transferableUnits > 0) {
+          numberOfSharesCtrl.value = getInputFormatter(context)
+              .formatEditUpdate(const TextEditingValue(text: ''),
+                  TextEditingValue(text: (transferableUnits).toString()));
+        }
+      },
     );
   }
 
@@ -274,8 +274,7 @@ class _TransferAssetState extends State<TransferAsset> {
         children: [
           Text(
               l10n.transferAssetLabelOwned(
-                  tokenName,
-                  formatter.format(transferableUnits)),
+                  tokenName, formatter.format(transferableUnits)),
               style: TextStyles.secondaryText),
         ]);
   }
@@ -329,8 +328,7 @@ class _TransferAssetState extends State<TransferAsset> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ThemedControls.pageHeader(
-                  headerText:
-                      l10n.transferAssetHeader(tokenName),
+                  headerText: l10n.transferAssetHeader(tokenName),
                   subheaderText: l10n.transferAssetSubHeader(widget.item.name)),
               ThemedControls.spacerVerticalNormal(),
               FormBuilder(
@@ -476,6 +474,19 @@ class _TransferAssetState extends State<TransferAsset> {
       _formKey.currentState?.validate();
       return;
     }
+    if (!mounted) return;
+
+    final contractName = _ecosystemStore.getContractName(destinationID.text);
+    if (contractName != null) {
+      final proceed = await showSmartContractTransferWarning(context,
+          contractName: contractName,
+          isDappRequest: false,
+          isAssetTransfer: true);
+      if (!proceed) {
+        return;
+      }
+    }
+
     if (!mounted) return;
     bool authenticated = await reAuthDialog(context);
     if (!authenticated) {
